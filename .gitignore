@@ -1,0 +1,13 @@
+node_modules/
+playwright-report/
+test-results/
+.DS_Store
+.cursor/
+
+# локальные черновики / снимки вне пайплайна
+_patch_ribbon.py
+_strip_bad_ribbon.py
+_serenity_home.html
+
+publish/index.html
+publish/svgset.svg

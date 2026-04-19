@@ -1,0 +1,1 @@
+window.SERENITY_FORM_ENDPOINT = "";

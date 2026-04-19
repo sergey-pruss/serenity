@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Serenity — статическое зеркало</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 2rem; line-height: 1.5; }
+    code, pre { font-family: ui-monospace, monospace; font-size: 0.9rem; }
+    pre { background: #1a1a1a; padding: 1rem 1.25rem; border-radius: 10px; overflow-x: auto; }
+    a { color: #a595ff; }
+    h1 { font-size: 1.35rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Статическое зеркало serenity.agency</h1>
+  <p>Вёрстка не собирается вручную: в <strong>publish/index.html</strong> — снимок с оригинала (Playwright). Для статики (<code>/_nuxt</code>, шрифты, favicon) подставляются полные URL на <code>serenity.agency</code>, без <code>&lt;base&gt;</code> — иначе Nuxt уводил бы на прод при открытии с localhost.</p>
+  <p>Выполните в корне репозитория:</p>
+  <pre>npm install
+npx playwright install chromium
+npm run capture:home
+npm run serve:publish</pre>
+  <p>После запуска откройте <a href="http://localhost:4174/">http://localhost:4174/</a> (порт <strong>4174</strong>, чтобы не пересекаться с частым <code>python3 -m http.server 4173</code>).</p>
+  <p>Если порт занят, задайте свой: <code>npx --yes serve publish -l 4175</code> или освободите порт: <code>lsof -nP -iTCP:4174 | grep LISTEN</code>.</p>
+  <p>Снять с локального Nuxt (и переписать URL в прод для деплоя):</p>
+  <pre>CAPTURE_URL=http://127.0.0.1:4333/ CAPTURE_REWRITE=1 npm run capture:home</pre>
+  <p>Предыдущая ручная вёрстка сохранена в <code>legacy/hand-built-index.html</code>.</p>
+</body>
+</html>

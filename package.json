@@ -1,0 +1,13 @@
+{
+  "name": "serenity_lanidng",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture:home": "node scripts/capture-home.mjs",
+    "fix:publish": "node scripts/fix-publish-assets.mjs",
+    "serve:publish": "npx --yes serve publish -l 4174"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}
