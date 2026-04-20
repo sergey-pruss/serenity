@@ -3,6 +3,10 @@ playwright-report/
 test-results/
 .DS_Store
 .cursor/
+dist/
+.astro/
+standalone/
+public/img/
 
 # локальные черновики / снимки вне пайплайна
 _patch_ribbon.py

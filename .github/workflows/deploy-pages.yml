@@ -32,13 +32,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Playwright Chromium
-        run: npx playwright install chromium
-
-      - name: Capture homepage from production
-        run: npm run capture:home
-        env:
-          CAPTURE_URL: https://serenity.agency/
+      - name: Build static site (Astro)
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: publish
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment

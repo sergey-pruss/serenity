@@ -1,0 +1,78 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import "../styles/home.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Serenity — маркетинговое агентство (статическая версия главной)." } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const manifestPath = path.join(process.cwd(), "public", "vendor", "manifest.json");
+let vendorSheets = [];
+try {
+  if (fs.existsSync(manifestPath)) {
+    const m = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    if (Array.isArray(m.stylesheets)) vendorSheets = m.stylesheets;
+  }
+} catch {
+  vendorSheets = [];
+}
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={canonical.href} />
+    {
+      vendorSheets.map((href) => (
+        <link rel="stylesheet" href={href} />
+      ))
+    }
+  </head>
+  <body class="home-body">
+    <a href="#home-main" class="home-skip">К содержанию</a>
+    <header class="home-site-header">
+      <strong class="logo">Serenity</strong>
+      <nav aria-label="Основное меню">
+        <a href="/case/all">Кейсы</a>
+        <a href="/services">Услуги</a>
+        <a href="/about">Агентство</a>
+        <a href="/blog">Блог</a>
+        <a href="/career/vacancy">Вакансии</a>
+        <a href="/contacts">Контакты</a>
+      </nav>
+    </header>
+    <main id="home-main">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  .home-skip {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .home-skip:focus {
+    left: 16px;
+    top: 16px;
+    width: auto;
+    height: auto;
+    padding: 8px 12px;
+    background: #ac9eff;
+    color: #0c0c0f;
+    border-radius: 6px;
+    z-index: 100;
+  }
+</style>
