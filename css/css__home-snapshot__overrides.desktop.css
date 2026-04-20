@@ -1,0 +1,27 @@
+/* Local visual adjustments for snapshot page */
+@media screen and (min-width: 769px) {
+  .more-case-wr.more-case-wr__main[data-v-27a87df0],
+  .more-case-wr.more-case-wr__main {
+    padding-top: 106px;
+  }
+
+  /* Show full hero video frame without vertical crop */
+  .video-block .video-iframe-wrapper[data-v-135dc442],
+  .video-block .video-iframe-wrapper,
+  .video-iframe-wrapper {
+    overflow: visible;
+  }
+
+  .video-block .video-iframe[data-v-135dc442],
+  .video-block .video-iframe,
+  .video-iframe {
+    object-fit: contain !important;
+    object-position: center center;
+  }
+
+  /* Increase spacing before "Мы любим маркетинг" section */
+  .live-marketing-block-wr[data-v-1c300291],
+  .live-marketing-block-wr {
+    margin-top: 72px;
+  }
+}
