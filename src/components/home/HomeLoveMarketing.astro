@@ -1,0 +1,47 @@
+---
+const items = [
+  {
+    title: "100+",
+    subtitle: "профессионалов",
+    description:
+      "Команда нашего маркетингового агентства — это опытные специалисты разных направлений маркетинга, которые стремятся к достижению комплексных результатов.",
+  },
+  {
+    title: "20",
+    subtitle: "лет работы",
+    description:
+      "Накопили огромный опыт развития проектов от стартапов до брендов федерального и международного уровня.",
+  },
+  {
+    title: "13+",
+    subtitle: "направлений маркетинга",
+    description: "В синергии эффективно решаем задачи от увеличению продаж до развития брендов.",
+  },
+];
+---
+<section class="live-marketing-block-wr" aria-labelledby="lm-title">
+  <div class="live-marketing-block">
+    <h2 id="lm-title" class="live-marketing-block__title">Мы любим маркетинг</h2>
+    <p class="live-marketing-block__subtitle">И каждый день с душой работаем над развитием бизнеса наших клиентов.</p>
+    <div class="live-marketing-block__content">
+      {
+        items.map((item) => (
+          <div class="live-marketing-block__card">
+            <div class="live-marketing-block__card-text">
+              <h3 class="live-marketing-block__card-title">{item.title}</h3>
+              <p class="live-marketing-block__card-subtitle">{item.subtitle}</p>
+            </div>
+            <div class="live-marketing-block__card-gradient" aria-hidden="true" />
+            <p class="live-marketing-block__card-description">{item.description}</p>
+          </div>
+        ))
+      }
+      <a class="live-marketing-block__content-link" href="/about">
+        Подробнее о нас{" "}
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M2.14551 2L8.22607 8.42719L1.96979 14.6835" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

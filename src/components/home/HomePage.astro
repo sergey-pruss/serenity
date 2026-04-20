@@ -1,0 +1,73 @@
+---
+import HomeMoreCases from "./HomeMoreCases.astro";
+import HomeLoveMarketing from "./HomeLoveMarketing.astro";
+
+const vimeoDesktop =
+  "https://player.vimeo.com/video/1075964730?background=1&autoplay=1&muted=1&controls=0&loop=1";
+const vimeoMobile =
+  "https://player.vimeo.com/video/1075964707?background=1&autoplay=1&muted=1&controls=0&loop=1";
+---
+
+<div class="page-container home-page">
+  <div class="background-gradient home-bg-dots" aria-hidden="true">
+    <img src="/img/gradient_dot.png" alt="" width="900" height="900" decoding="async" />
+    <img src="/img/gradient_dot.png" alt="" width="900" height="900" decoding="async" />
+  </div>
+
+  <section class="component-block" aria-labelledby="home-hero-title">
+    <h1 id="home-hero-title" class="title-block">Делаем маркетинг лучше</h1>
+    <p class="subtitle-block">За счет комплексного подхода к стратегии, брендингу и продвижению.</p>
+  </section>
+
+  <section class="component-block" aria-label="Видео о агентстве">
+    <div class="video-block">
+      <div class="video-iframe-wrapper video-frame--desktop">
+        <iframe
+          class="video-iframe"
+          title="Serenity — видео (desktop)"
+          src={vimeoDesktop}
+          allow="autoplay; fullscreen; picture-in-picture"
+          loading="eager"
+          fetchpriority="high"
+        ></iframe>
+      </div>
+      <div class="video-iframe-wrapper video-frame--mobile">
+        <iframe
+          class="video-iframe"
+          title="Serenity — видео (mobile)"
+          src={vimeoMobile}
+          allow="autoplay; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <HomeMoreCases />
+  <HomeLoveMarketing />
+
+  <footer class="home-footer-min">Статическая версия главной · формы и счётчики подключим позже</footer>
+</div>
+
+<script>
+  const root = document.querySelector(".home-bg-dots");
+  const imgs = root ? Array.from(root.querySelectorAll("img")) : [];
+  let raf = 0;
+
+  const paint = () => {
+    raf = 0;
+    const y = window.scrollY || 0;
+    const deg = y / 20;
+    for (const el of imgs) {
+      el.style.transform = `rotate(${deg}deg)`;
+    }
+  };
+
+  const onScroll = () => {
+    if (raf) return;
+    raf = window.requestAnimationFrame(paint);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  paint();
+</script>

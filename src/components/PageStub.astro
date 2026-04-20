@@ -1,0 +1,12 @@
+---
+interface Props {
+  title: string;
+  path: string;
+}
+const { title, path } = Astro.props;
+---
+<h1 class="page-title">{title}</h1>
+<p class="lead">Статическая версия сайта (Astro). URL сохранён: <code>{path}</code></p>
+<p class="note">
+  Здесь будет контент как на проде. Сейчас заглушка: без форм, без сторонних скриптов и без Nuxt.
+</p>

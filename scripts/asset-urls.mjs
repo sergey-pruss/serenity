@@ -86,7 +86,7 @@ export function injectMirrorDesktopNavFix(html) {
  * у футера снимаем фон из бандла (_nuxt css), иначе поверх градиента видна полоска #191a1b;
  * блок «Мы любим маркетинг»: в снимке с прода остаётся hover-CSS — разворачиваем и ссылку всегда видны.
  * Градиентные полоски под цифрами (.live-marketing-block__card-gradient) не скрываем — они часть дизайна.
- * Блок «Кейсы» после видео: на статике уменьшаем верхний отступ .more-case-wr (на проде 196px).
+ * Отступ «Кейсы» после видео не переопределяем — пусть действуют стили Nuxt (.more-case-wr / .more-case-wr__main), иначе ломается паритет с продом.
  */
 export function injectMirrorBandArtifactFix(html) {
   const css =
@@ -99,10 +99,7 @@ export function injectMirrorBandArtifactFix(html) {
     "@media screen and (max-width:768px){.live-marketing-block .live-marketing-block__content .live-marketing-block__card:last-of-type{padding-bottom:0!important}}" +
     "@media screen and (max-width:550px){.live-marketing-block .live-marketing-block__content .live-marketing-block__card:last-of-type{padding-bottom:58px!important}}" +
     ".live-marketing-block__content-link{opacity:1!important}" +
-    "@media screen and (max-width:578px){.live-marketing-block__content-link{display:inline-flex!important;align-items:center!important}}" +
-    ".more-case-wr{padding-top:64px!important}" +
-    "@media screen and (max-width:768px){.more-case-wr{padding-top:44px!important}}" +
-    "@media screen and (max-width:425px){.more-case-wr{padding-top:36px!important}}";
+    "@media screen and (max-width:578px){.live-marketing-block__content-link{display:inline-flex!important;align-items:center!important}}";
   const tag = `<style id="serenity-mirror-band" data-serenity-mirror="1">${css}</style>`;
   if (/\bid=["']serenity-mirror-band["']/.test(html)) {
     return html.replace(/<style\b[^>]*\bid=["']serenity-mirror-band["'][^>]*>[\s\S]*?<\/style>/i, tag);
