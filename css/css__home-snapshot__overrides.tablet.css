@@ -1,1 +1,78 @@
-/* Tablet overrides for iterative parity fixes. */
+/* Tablet / narrow-desktop overrides — aligned with snapshot bundle ≤1100px (621–1100). */
+@media screen and (max-width: 1100px) {
+  .navigation-menu {
+    display: none !important;
+  }
+
+  .menu-icon__wrapper.menu-icon__wrapper_main,
+  .menu-icon {
+    display: block !important;
+  }
+
+  /* Logo: desktop override is min-width 769px; keep img position for 768–1100 here */
+  .header__logo .header__logo-img {
+    position: relative;
+    top: 26px !important;
+    width: 132px !important;
+    height: auto;
+  }
+}
+
+/* Hero typography + media — matches bundle @media (max-width: 1100px); excludes ≤620 (mobile bundle rules). */
+@media screen and (max-width: 1100px) and (min-width: 621px) {
+  .main-heading-block .title-block[data-v-1a254476],
+  .main-heading-block .title-block {
+    max-width: 655px !important;
+    font-size: 56px !important;
+    margin-top: 175px !important;
+    line-height: 63px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .main-heading-block .subtitle-block[data-v-1a254476],
+  .main-heading-block .subtitle-block {
+    max-width: 380px !important;
+    font-size: 20px !important;
+    margin-top: 39px !important;
+    line-height: 27px !important;
+  }
+
+  .video-block[data-v-135dc442],
+  .video-block {
+    max-width: 548px !important;
+    height: 312px !important;
+    margin-top: 0 !important;
+    background: #000 !important;
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .video-iframe-wrapper[data-v-135dc442],
+  .video-iframe-wrapper {
+    transform: translateY(-92px) !important;
+  }
+}
+
+/* Cases block top padding — match bundle tiers (was flat 188px for all ≤1100). */
+@media screen and (max-width: 1100px) and (min-width: 769px) {
+  .more-case-wr.more-case-wr__main[data-v-27a87df0],
+  .more-case-wr.more-case-wr__main {
+    padding-top: 196px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .more-case-wr.more-case-wr__main[data-v-27a87df0],
+  .more-case-wr.more-case-wr__main {
+    padding-top: 130px !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .more-case-wr.more-case-wr__main[data-v-27a87df0],
+  .more-case-wr.more-case-wr__main {
+    padding-top: 110px !important;
+  }
+}
