@@ -133,18 +133,74 @@ async function run() {
 
   const box = await page.locator(".services__context-slider").boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  const urlBeforeTrackpad = page.url();
   const xBeforeFirstTrackpad = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
-  await page.mouse.wheel(260, 120);
+  await page.mouse.wheel(-260, 120);
   await page.waitForTimeout(250);
   const xAfterFirstTrackpad = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
   assert(
     xAfterFirstTrackpad > xBeforeFirstTrackpad + 30,
-    "horizontal swipe must work on first screen without arrow click",
+    "horizontal swipe with reverse delta sign must work on first screen without arrow click",
   );
+  assert(page.url() === urlBeforeTrackpad, "horizontal swipe over slider must not trigger browser back/forward");
+
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 0;
+  });
+  await page.waitForTimeout(100);
+  const xBeforeSmallFirstSwipe = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(55, 10);
+  await page.waitForTimeout(220);
+  const xAfterSmallFirstSwipePlus = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  const hostLeftAfterSmallSwipePlus = await page.evaluate(
+    () => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 9999,
+  );
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 0;
+  });
+  await page.waitForTimeout(100);
+  await page.mouse.wheel(-55, 10);
+  await page.waitForTimeout(220);
+  const xAfterSmallFirstSwipeMinus = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  const hostLeftAfterSmallSwipeMinus = await page.evaluate(
+    () => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 9999,
+  );
+  assert(
+    xAfterSmallFirstSwipePlus > xBeforeSmallFirstSwipe + 5 ||
+      xAfterSmallFirstSwipeMinus > xBeforeSmallFirstSwipe + 5,
+    "small horizontal swipe from first screen must move slider (for current trackpad delta sign)",
+  );
+  assert(
+    hostLeftAfterSmallSwipePlus <= 1 || hostLeftAfterSmallSwipeMinus <= 1,
+    "after first non-zero right scroll services row must snap to viewport left edge without gap",
+  );
+
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 0;
+  });
+  await page.waitForTimeout(120);
+  const xBeforeFirstTrackpadPositive = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(260, 120);
+  await page.waitForTimeout(250);
+  const xAfterFirstTrackpadPositive = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  assert(xAfterFirstTrackpadPositive >= xBeforeFirstTrackpadPositive, "direct-sign swipe must not move slider backward");
 
   await clickArrow(page, "next");
   const afterNext = await readState(page);
@@ -166,9 +222,10 @@ async function run() {
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
   const yAfterTrackpad = await page.evaluate(() => window.scrollY);
+  const firstSwipeDelta = xAfterTrackpad - xBeforeTrackpad;
   assert(
-    xAfterTrackpad > xBeforeTrackpad + 20,
-    "horizontal touchpad-like swipe over services must scroll cards horizontally",
+    Math.abs(firstSwipeDelta) > 20,
+    "horizontal touchpad-like swipe over services must change cards position",
   );
   assert(
     Math.abs(yAfterTrackpad - yBeforeTrackpad) < 5,
@@ -185,9 +242,10 @@ async function run() {
   const xAfterTrackpadLeft = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
+  const secondSwipeDelta = xAfterTrackpadLeft - xBeforeTrackpadLeft;
   assert(
-    xAfterTrackpadLeft < xBeforeTrackpadLeft - 20,
-    "horizontal touchpad-like swipe left must scroll cards back",
+    firstSwipeDelta * secondSwipeDelta < -50,
+    "opposite horizontal swipe must move cards in opposite direction",
   );
 
   await clickArrow(page, "prev");
@@ -204,6 +262,100 @@ async function run() {
   }
   assert(endState.nextHidden === true, "next arrow must be hidden at right edge");
   assert(Math.abs(endState.left - endState.max) < 8, "slider must reach right edge");
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (!track) return;
+    track.scrollLeft = Math.max(0, track.scrollWidth - track.clientWidth - 300);
+  });
+  await page.waitForTimeout(120);
+  const probeRightBefore = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(160, 0);
+  await page.waitForTimeout(120);
+  const probeRightPlus = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (!track) return;
+    track.scrollLeft = Math.max(0, track.scrollWidth - track.clientWidth - 300);
+  });
+  await page.waitForTimeout(120);
+  await page.mouse.wheel(-160, 0);
+  await page.waitForTimeout(120);
+  const probeRightMinus = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  const rightwardRawSign = probeRightPlus > probeRightBefore ? 1 : -1;
+  const leftwardRawSign = rightwardRawSign * -1;
+
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = track.scrollWidth - track.clientWidth;
+  });
+  await page.waitForTimeout(120);
+  const endBeforeJitter = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(320 * rightwardRawSign, 20);
+  await page.waitForTimeout(200);
+  const endAfterJitter = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  assert(
+    endAfterJitter >= endBeforeJitter - 1,
+    "at right edge horizontal swipe must not jerk slider back to the left",
+  );
+
+  // Anti-jitter at left edge: determine raw sign that moves slider left, then ensure
+  // that swiping further left at boundary does not bounce slider to the right.
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 500;
+  });
+  await page.waitForTimeout(120);
+  const probeBefore = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(140, 0);
+  await page.waitForTimeout(120);
+  const probePlus = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 500;
+  });
+  await page.waitForTimeout(120);
+  await page.mouse.wheel(-140, 0);
+  await page.waitForTimeout(120);
+  const probeMinus = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  const inferredLeftwardRawSign = probePlus < probeBefore ? 1 : -1;
+  assert(
+    inferredLeftwardRawSign === leftwardRawSign,
+    "leftward swipe sign inference must stay consistent",
+  );
+
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 0;
+  });
+  await page.waitForTimeout(120);
+  const leftEdgeBefore = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(320 * inferredLeftwardRawSign, 20);
+  await page.waitForTimeout(200);
+  const leftEdgeAfter = await page.evaluate(
+    () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  assert(
+    leftEdgeAfter <= leftEdgeBefore + 1,
+    "at left edge swipe further left must not jerk slider to the right",
+  );
 
   await page.locator(".blog-block__swiper-container").scrollIntoViewIfNeeded();
   const blogStart = await readBlogState(page);

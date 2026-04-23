@@ -2,6 +2,7 @@
 .services__context-slider.swiper-container[data-native-row="1"],
 .blog-block__swiper-container.swiper-container[data-native-row="1"] {
   overflow: hidden !important;
+  overscroll-behavior-x: contain;
   position: relative;
 }
 
