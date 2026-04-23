@@ -1,0 +1,42 @@
+/* Стабильный hero-glow и отключение анимаций точек — ближе к прод и к parity-скриншотам */
+.background-gradient img[data-v-6f8a040c],
+.background-gradient img {
+  opacity: 1 !important;
+  transition: none !important;
+  animation: none !important;
+  transform: rotate(2.1deg) !important;
+}
+
+/* Hero h1 typography pinned to serenity.agency computed style */
+.main-heading-block .title-block[data-v-1a254476],
+.main-heading-block .title-block {
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-stretch: 100% !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Blog slider arrows: visible on desktop only, like services behavior */
+.blog-block-mainstr .swiper-button-prev,
+.blog-block-mainstr .swiper-button-next {
+  display: none !important;
+}
+@media screen and (min-width: 1025px) {
+  .blog-block-mainstr .swiper-button-prev,
+  .blog-block-mainstr .swiper-button-next {
+    display: block !important;
+  }
+}
