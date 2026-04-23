@@ -107,11 +107,6 @@
       if (max - x <= EPS) {
         x = max;
       }
-      const startSnap = Math.max(6, Math.round(cardStep() * 0.18));
-      if (x <= startSnap) {
-        x = 0;
-        if (track.scrollLeft !== 0) track.scrollLeft = 0;
-      }
       const atStart = max <= EPS || x <= EPS;
       const atEnd = max <= EPS || x >= max - EPS;
       setArrowHidden(prevBtn, atStart);
@@ -120,6 +115,7 @@
     };
 
     let arrowAnimRaf = 0;
+    let wheelSignMode = 0; // 0 = unknown, 1 = direct, -1 = mirrored
     const stopArrowAnim = () => {
       if (!arrowAnimRaf) return;
       cancelAnimationFrame(arrowAnimRaf);
@@ -184,15 +180,33 @@
         const absY = Math.abs(event.deltaY);
         // Для тачпада допускаем диагональные жесты (Y-шум), если есть заметная X-компонента.
         const horizontalGesture =
-          (event.shiftKey && absY > 0.5) || (absX > 1.5 && !(absY > absX * 3.2));
+          (event.shiftKey && absY > 0.5) || (absX > 0.8 && !(absY > absX * 4.5));
         if (!horizontalGesture) return;
         const max = maxScroll();
-        if (max <= EPS) return;
-        const delta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
-        const next = Math.max(0, Math.min(max, track.scrollLeft + delta));
-        if (Math.abs(next - track.scrollLeft) < 0.1) return;
-        track.scrollLeft = next;
+        if (max <= EPS) {
+          event.preventDefault();
+          return;
+        }
+        const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
+        const current = track.scrollLeft;
+        const mappedDelta = wheelSignMode === -1 ? -rawDelta : rawDelta;
+        let next = Math.max(0, Math.min(max, current + mappedDelta));
+        // Знак тачпада калибруем только один раз у левого края.
+        // После калибровки НЕ зеркалим на краях, чтобы убрать дрожание.
+        if (Math.abs(next - current) < 0.1 && wheelSignMode === 0 && current <= EPS) {
+          const mirrored = Math.max(0, Math.min(max, current - rawDelta));
+          if (Math.abs(mirrored - current) >= 0.1) {
+            next = mirrored;
+            wheelSignMode = -1;
+          }
+        }
+        if (Math.abs(next - current) >= 0.1) {
+          if (wheelSignMode === 0) wheelSignMode = 1;
+          track.scrollLeft = next;
+        }
         updateArrows();
+        // Всегда гасим дефолт для горизонтального жеста внутри слайдера:
+        // это отключает back/forward swipe браузера на этом блоке.
         event.preventDefault();
       },
       { passive: false },
@@ -216,8 +230,9 @@
     let current = Math.max(0, Math.min(max, servicesTrack.scrollLeft || 0));
     if (current <= EPS) current = 0;
     if (max - current <= EPS) current = max;
-    // На старте ряд стоит по контентной линии, при сдвиге уходит к левому краю viewport.
-    const leftExpose = Math.min(sidePad, current);
+    // На старте ряд стоит по контентной линии, после первого же сдвига —
+    // сразу до левого края viewport без промежуточного "зазора".
+    const leftExpose = current > EPS ? sidePad : 0;
     // Справа без "гашения": постоянный вылет до края viewport во всех позициях.
     const rightExpose = sidePad;
     servicesHost.style.width = `calc(100% + ${leftExpose + rightExpose}px)`;
