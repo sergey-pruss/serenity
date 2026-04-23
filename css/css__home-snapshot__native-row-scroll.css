@@ -1,0 +1,137 @@
+/* Нативный горизонтальный ряд (Apple Store–style): скролл внутри .swiper-wrapper, стрелки в контейнере */
+.services__context-slider.swiper-container[data-native-row="1"],
+.blog-block__swiper-container.swiper-container[data-native-row="1"] {
+  overflow: hidden !important;
+  position: relative;
+}
+
+/* Не обрезаем hover-glow карточек услуг по вертикали */
+.services-unified[data-v-56f85d51],
+.services-unified {
+  overflow: visible !important;
+}
+
+/* Стрелки услуг: фиксированная геометрия и без анимаций, чтобы не было микродвижений. */
+.services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51],
+.services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51] {
+  display: block !important;
+  opacity: 1 !important;
+  transition: none !important;
+  pointer-events: auto !important;
+  z-index: 5;
+  top: 50% !important;
+  margin-top: 12px !important;
+  transform-origin: center center !important;
+}
+.services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51] {
+  transform: translate3d(0, -50%, 0) !important;
+}
+.services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51] {
+  transform: translate3d(0, -50%, 0) rotate(180deg) !important;
+}
+
+/* Дублируем без data-v, чтобы центрирование не ломалось при изменении разметки. */
+.services__context-slider .swiper-button-next,
+.services__context-slider .swiper-button-prev {
+  top: 50% !important;
+  margin-top: 12px !important;
+}
+
+/* Геометрия ряда услуг: без обрезки слева, вынос только вправо. */
+.services-unified .services__context-slider.swiper-container[data-native-row="1"] {
+  width: calc(100% + 78px);
+  max-width: none;
+  margin-left: 0;
+  margin-right: -78px;
+  box-sizing: border-box;
+}
+@media screen and (max-width: 1025px) {
+  .services-unified .services__context-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 55px);
+    margin-left: 0;
+    margin-right: -55px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .services-unified .services__context-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px);
+    margin-left: 0;
+    margin-right: -36px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .services-unified .services__context-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px);
+    margin-left: 0;
+    margin-right: -36px;
+  }
+}
+
+.services__context-wrapper[data-native-row="1"],
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"] {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+  overscroll-behavior: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Для услуг полностью отключаем ручной X-scroll: только стрелки */
+.services__context-wrapper[data-native-row="1"] {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+.services__context-wrapper[data-native-row="1"]::-webkit-scrollbar,
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"]::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.services__context-wrapper[data-native-row="1"] .services__slide,
+.services__context-wrapper[data-native-row="1"] .swiper-slide,
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Услуги: в конце оставляем правый отступ у последней карточки. */
+.services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+  margin-right: 78px !important;
+}
+@media screen and (max-width: 1025px) {
+  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+    margin-right: 55px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+    margin-right: 36px !important;
+  }
+}
+@media screen and (max-width: 450px) {
+  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+    margin-right: 36px !important;
+  }
+}
+
+/* Скрытие «лишних» стрелок, не ломая display из медиа-запросов */
+.services__context-slider .swiper-button-prev.is-row-hidden,
+.services__context-slider .swiper-button-next.is-row-hidden,
+.blog-block-mainstr .swiper-button-prev.is-row-hidden,
+.blog-block-mainstr .swiper-button-next.is-row-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
