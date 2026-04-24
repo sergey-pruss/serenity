@@ -4,6 +4,14 @@
  */
 (() => {
   const EPS = 2;
+  /**
+   * Единый знак направления для горизонтальных слайдеров (услуги, блог, «Наши клиенты»):
+   * колёсико, автоплей ленты клиентов, pointer-свайп. Не плодить отдельные «минусы» по файлу —
+   * иначе снова съезжает согласованность между блоками.
+   * +1: прямой знак; при обратной ощутимой прокрутке на вашей среде поставьте -1.
+   */
+  const HORIZ_SLIDER_SIGN = 1;
+  let globalWheelSignMode = 0; // 0 = unknown, 1 = direct, -1 = mirrored
   const getServicesSidePad = (w = window.innerWidth) => {
     if (w <= 450) return 36;
     if (w <= 768) return 36;
@@ -26,7 +34,15 @@
   };
 
   const initRow = (options) => {
-    const { host, track, slideSelector, buttonRoot, ensureButtons = false } = options;
+    const {
+      host,
+      track,
+      slideSelector,
+      buttonRoot,
+      ensureButtons = false,
+      fullBleed = false,
+      sidePadGetter = getServicesSidePad,
+    } = options;
     if (!host || !track) return;
     if (host.dataset.nativeRow === "1") return;
     host.dataset.nativeRow = "1";
@@ -49,6 +65,74 @@
     }
 
     const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+    const applyHostGeometry = () => {
+      if (!fullBleed) return;
+      const sidePad = sidePadGetter();
+      /* Правый «вылет» сетки: один раз на последнем слайде, до расчёта maxScroll. Иначе inline margin
+         из HTML / старые стили бьют по ширине трека, и отступ визуально не тянется. */
+      const lastSlide = track.querySelector(".swiper-slide:last-child");
+      if (lastSlide) {
+        lastSlide.style.setProperty("margin-right", `${sidePad}px`, "important");
+      }
+      const max = maxScroll();
+      let current = Math.max(0, Math.min(max, track.scrollLeft || 0));
+      if (current <= EPS) current = 0;
+      if (max - current <= EPS) current = max;
+      const leftExpose = sidePad;
+      const rightExpose = sidePad;
+      host.style.width = `calc(100% + ${leftExpose + rightExpose}px)`;
+      host.style.maxWidth = "none";
+      host.style.marginLeft = `-${leftExpose}px`;
+      host.style.marginRight = `-${rightExpose}px`;
+      host.style.boxSizing = "border-box";
+      track.style.boxSizing = "border-box";
+      track.style.paddingLeft = `${Math.max(0, sidePad - current)}px`;
+
+      if (prevBtn) {
+        prevBtn.style.left = `${leftExpose}px`;
+        prevBtn.style.right = "auto";
+      }
+      if (nextBtn) {
+        nextBtn.style.right = `${rightExpose}px`;
+        nextBtn.style.left = "auto";
+      }
+    };
+
+    /**
+     * Вертикаль стрелок: коробка по границам реальных плиток (статья: a.case, финальный CTA: a.blog-box),
+     * не по .swiper-wrapper — иначе 50% уезжает. Раньше CTA не учитывался, на последних экранах
+     * круги визуально смещались.
+     */
+    const syncArrowOverlayToTrack = () => {
+      const root = buttonRoot || host;
+      const wrap = root?.querySelector?.(".swiper-buttons");
+      if (!wrap || !track) return;
+      const br = root.getBoundingClientRect();
+      let minTop = Number.POSITIVE_INFINITY;
+      let maxBottom = Number.NEGATIVE_INFINITY;
+      slides.forEach((slide) => {
+        const card = slide.querySelector("a.case") || slide.querySelector("a.blog-box");
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        if (r.width < 1 || r.height < 1) return;
+        minTop = Math.min(minTop, r.top);
+        maxBottom = Math.max(maxBottom, r.bottom);
+      });
+      if (minTop === Number.POSITIVE_INFINITY) {
+        const tr = track.getBoundingClientRect();
+        minTop = tr.top;
+        maxBottom = tr.bottom;
+      }
+      const top = minTop - br.top;
+      const height = Math.max(0, maxBottom - minTop);
+      wrap.style.inset = "auto";
+      wrap.style.top = `${top}px`;
+      wrap.style.left = "0";
+      wrap.style.right = "0";
+      wrap.style.width = "100%";
+      wrap.style.height = `${height}px`;
+      wrap.style.bottom = "auto";
+    };
 
     /** Расстояние между соседними карточками (шаг по одной) */
     const cardStep = () => {
@@ -115,7 +199,6 @@
     };
 
     let arrowAnimRaf = 0;
-    let wheelSignMode = 0; // 0 = unknown, 1 = direct, -1 = mirrored
     const stopArrowAnim = () => {
       if (!arrowAnimRaf) return;
       cancelAnimationFrame(arrowAnimRaf);
@@ -157,7 +240,7 @@
       const n = cardsPerPage();
       const one = cardStep();
       const max = maxScroll();
-      const delta = dir * one * n;
+      const delta = HORIZ_SLIDER_SIGN * dir * one * n;
       const nextLeft = Math.max(0, Math.min(max, track.scrollLeft + delta));
       animateTo(nextLeft);
     };
@@ -189,21 +272,23 @@
         }
         const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
         const current = track.scrollLeft;
-        const mappedDelta = wheelSignMode === -1 ? -rawDelta : rawDelta;
+        const unmapped = globalWheelSignMode === -1 ? -rawDelta : rawDelta;
+        const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
         let next = Math.max(0, Math.min(max, current + mappedDelta));
         // Знак тачпада калибруем только один раз у левого края.
         // После калибровки НЕ зеркалим на краях, чтобы убрать дрожание.
-        if (Math.abs(next - current) < 0.1 && wheelSignMode === 0 && current <= EPS) {
+        if (Math.abs(next - current) < 0.1 && globalWheelSignMode === 0 && current <= EPS) {
           const mirrored = Math.max(0, Math.min(max, current - rawDelta));
           if (Math.abs(mirrored - current) >= 0.1) {
             next = mirrored;
-            wheelSignMode = -1;
+            globalWheelSignMode = -1;
           }
         }
         if (Math.abs(next - current) >= 0.1) {
-          if (wheelSignMode === 0) wheelSignMode = 1;
+          if (globalWheelSignMode === 0) globalWheelSignMode = 1;
           track.scrollLeft = next;
         }
+        applyHostGeometry();
         updateArrows();
         // Всегда гасим дефолт для горизонтального жеста внутри слайдера:
         // это отключает back/forward swipe браузера на этом блоке.
@@ -212,9 +297,22 @@
       { passive: false },
     );
 
+    let syncRaf = 0;
+    const scheduleSync = () => {
+      if (syncRaf) return;
+      syncRaf = requestAnimationFrame(() => {
+        syncRaf = 0;
+        applyHostGeometry();
+        syncArrowOverlayToTrack();
+        updateArrows();
+      });
+    };
     const relayout = () => {
+      applyHostGeometry();
+      syncArrowOverlayToTrack();
       updateArrows();
     };
+    track.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", relayout);
     window.addEventListener("load", relayout, { once: true });
     setTimeout(relayout, 0);
@@ -222,55 +320,12 @@
 
   const servicesHost = document.querySelector(".services__context-slider");
   const servicesTrack = servicesHost?.querySelector(".services__context-wrapper");
-  let servicesGeometryRaf = 0;
-  const applyServicesHostGeometry = () => {
-    if (!servicesHost || !servicesTrack) return;
-    const sidePad = getServicesSidePad();
-    const max = Math.max(0, servicesTrack.scrollWidth - servicesTrack.clientWidth);
-    let current = Math.max(0, Math.min(max, servicesTrack.scrollLeft || 0));
-    if (current <= EPS) current = 0;
-    if (max - current <= EPS) current = max;
-    // На старте ряд стоит по контентной линии, после первого же сдвига —
-    // сразу до левого края viewport без промежуточного "зазора".
-    const leftExpose = current > EPS ? sidePad : 0;
-    // Справа без "гашения": постоянный вылет до края viewport во всех позициях.
-    const rightExpose = sidePad;
-    servicesHost.style.width = `calc(100% + ${leftExpose + rightExpose}px)`;
-    servicesHost.style.maxWidth = "none";
-    servicesHost.style.marginLeft = `-${leftExpose}px`;
-    servicesHost.style.marginRight = `-${rightExpose}px`;
-    servicesHost.style.boxSizing = "border-box";
-
-    // Стрелки по горизонтали на "линии сайта":
-    // viewport-left + leftExpose и viewport-right - rightExpose.
-    const prevBtn = servicesHost.querySelector(".swiper-button-prev");
-    const nextBtn = servicesHost.querySelector(".swiper-button-next");
-    if (prevBtn) {
-      prevBtn.style.left = `${leftExpose}px`;
-      prevBtn.style.right = "auto";
-    }
-    if (nextBtn) {
-      nextBtn.style.right = `${rightExpose}px`;
-      nextBtn.style.left = "auto";
-    }
-  };
-
-  const scheduleServicesHostGeometry = () => {
-    if (servicesGeometryRaf) return;
-    servicesGeometryRaf = requestAnimationFrame(() => {
-      servicesGeometryRaf = 0;
-      applyServicesHostGeometry();
-    });
-  };
-
-  applyServicesHostGeometry();
-  window.addEventListener("resize", scheduleServicesHostGeometry);
-  servicesTrack?.addEventListener("scroll", scheduleServicesHostGeometry, { passive: true });
-
   initRow({
     host: servicesHost,
     track: servicesTrack,
     slideSelector: ".services__slide, .swiper-slide",
+    fullBleed: true,
+    sidePadGetter: getServicesSidePad,
   });
 
   const blogContainer = document.querySelector(".blog-block__swiper-container");
@@ -279,7 +334,191 @@
     host: blogContainer,
     track: blogTrack,
     slideSelector: ".swiper-slide",
-    buttonRoot: document.querySelector(".blog-block-mainstr"),
+    buttonRoot: blogContainer,
     ensureButtons: true,
+    fullBleed: true,
+    sidePadGetter: getServicesSidePad,
   });
+
+  /**
+   * «Наши клиенты» — аналог Swiper loop + freeMode + autoplay + mousewheel (гориз. колесо/тачпад),
+   * горизонтальный вайп (touch), пауза автоплея только при :hover на ленте с плашками
+   * (.swiper-container-clients-new), не на заголовок «Наши клиенты».
+   */
+  const initClientsStrip = () => {
+    const host = document.querySelector(".swiper-container-clients-new");
+    const track = document.querySelector(".clients-new__context-wrapper");
+    if (!host || !track) return;
+    if (host.dataset.clientsStrip === "1") return;
+    host.dataset.clientsStrip = "1";
+    host.classList.add("clients-strip");
+
+    const isRealClientLink = (href) => {
+      if (href == null) return false;
+      const h = String(href).trim();
+      if (!h || h === "#") return false;
+      if (h.startsWith("http://") || h.startsWith("https://")) return true;
+      if (h.startsWith("/") && h.length > 1) return true;
+      return false;
+    };
+
+    const markLinkSlides = () => {
+      for (const a of track.querySelectorAll("a.clients-new__slide")) {
+        a.classList.toggle("clients-new__slide--link", isRealClientLink(a.getAttribute("href")));
+      }
+    };
+    markLinkSlides();
+
+    track.style.transition = "none";
+    track.style.willChange = "transform";
+
+    const listSlides = () => [...track.querySelectorAll(".clients-new__slide")];
+
+    const measureLoopWidth = () => {
+      const list = listSlides();
+      const at0 = [];
+      list.forEach((el, i) => {
+        if (el.getAttribute("data-swiper-slide-index") === "0") at0.push(i);
+      });
+      if (at0.length < 2) return 0;
+      return Math.max(1, list[at0[1]].offsetLeft - list[at0[0]].offsetLeft);
+    };
+
+    let loopW = 0;
+    let x = 0;
+    let lastT = performance.now();
+    const autoPxPerSec = 58;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let touchActive = false;
+    let lastTouchX = 0;
+    let touchStartX = 0;
+    let blockLinkFromTouch = false;
+    /** Пауза только над лентой с плашками; заголовок «Наши клиенты» вне host — скролл не стопорим. */
+    const isPointerOverLogoStrip = () => {
+      try {
+        return host.matches(":hover");
+      } catch {
+        return false;
+      }
+    };
+
+    const wrap = (pos) => {
+      if (loopW <= 0) return pos;
+      return ((pos % loopW) + loopW) % loopW;
+    };
+
+    const refresh = () => {
+      const w = measureLoopWidth();
+      if (w <= 0) return;
+      if (loopW > 0) {
+        x = (x / loopW) * w;
+      }
+      loopW = w;
+      x = wrap(x);
+    };
+
+    refresh();
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(() => refresh()).observe(track);
+    }
+    window.addEventListener("load", refresh, { once: true });
+    window.addEventListener("resize", refresh);
+
+    host.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length !== 1) return;
+        touchActive = true;
+        blockLinkFromTouch = false;
+        const t = e.touches[0].clientX;
+        touchStartX = t;
+        lastTouchX = t;
+        lastT = performance.now();
+      },
+      { passive: true },
+    );
+
+    host.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!touchActive || e.touches.length !== 1 || loopW <= 0) return;
+        const t = e.touches[0].clientX;
+        if (Math.abs(t - touchStartX) > 5) {
+          blockLinkFromTouch = true;
+        }
+        const delta = t - lastTouchX;
+        lastTouchX = t;
+        x = wrap(x - delta * HORIZ_SLIDER_SIGN);
+        e.preventDefault();
+      },
+      { passive: false },
+    );
+
+    const endTouch = () => {
+      if (!touchActive) return;
+      touchActive = false;
+      lastT = performance.now();
+    };
+    host.addEventListener("touchend", endTouch, { passive: true });
+    host.addEventListener("touchcancel", endTouch, { passive: true });
+
+    host.addEventListener(
+      "click",
+      (e) => {
+        if (!blockLinkFromTouch) return;
+        e.preventDefault();
+        e.stopPropagation();
+        blockLinkFromTouch = false;
+      },
+      true,
+    );
+
+    host.addEventListener(
+      "wheel",
+      (event) => {
+        const absX = Math.abs(event.deltaX);
+        const absY = Math.abs(event.deltaY);
+        const horizontalGesture =
+          (event.shiftKey && absY > 0.5) || (absX > 0.8 && !(absY > absX * 4.5));
+        if (!horizontalGesture) return;
+        if (loopW <= 0) {
+          event.preventDefault();
+          return;
+        }
+        const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
+        const unmapped = globalWheelSignMode === -1 ? -rawDelta : rawDelta;
+        const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
+        let next = x + mappedDelta;
+        if (Math.abs(next - x) < 0.1 && globalWheelSignMode === 0 && (x % loopW) <= EPS) {
+          const mirrored = x - rawDelta;
+          if (Math.abs(mirrored - x) >= 0.1) {
+            next = mirrored;
+            globalWheelSignMode = -1;
+          }
+        }
+        if (Math.abs(next - x) >= 0.1) {
+          if (globalWheelSignMode === 0) globalWheelSignMode = 1;
+          x = wrap(next);
+        }
+        lastT = performance.now();
+        event.preventDefault();
+      },
+      { passive: false },
+    );
+
+    const tick = (now) => {
+      if (loopW > 0 && !reduceMotion.matches && !touchActive && !isPointerOverLogoStrip()) {
+        const dt = (now - lastT) / 1000;
+        lastT = now;
+        x = wrap(x + HORIZ_SLIDER_SIGN * autoPxPerSec * dt);
+      } else {
+        lastT = now;
+      }
+      track.style.transform = `translate3d(${-x}px, 0, 0)`;
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  initClientsStrip();
 })();

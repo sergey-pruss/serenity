@@ -6,6 +6,19 @@
   position: relative;
 }
 
+/* Дополнительный вертикальный буфер под glow карточек услуг внутри clip-контейнера. */
+.services__context-slider.swiper-container[data-native-row="1"] {
+  padding-top: 54px;
+  padding-bottom: 40px;
+  margin-top: 0;
+  margin-bottom: -40px;
+}
+
+/* Отделяем текстовый блок услуг от карточек фиксированным интервалом. */
+.services-section .services__context-slider.swiper-container[data-native-row="1"] {
+  margin-top: 0 !important;
+}
+
 /* Не обрезаем hover-glow карточек услуг по вертикали */
 .services-unified[data-v-56f85d51],
 .services-unified {
@@ -21,7 +34,7 @@
   pointer-events: auto !important;
   z-index: 5;
   top: 50% !important;
-  margin-top: 12px !important;
+  margin-top: 7px !important;
   transform-origin: center center !important;
 }
 .services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51] {
@@ -35,7 +48,53 @@
 .services__context-slider .swiper-button-next,
 .services__context-slider .swiper-button-prev {
   top: 50% !important;
-  margin-top: 12px !important;
+  margin-top: 7px !important;
+}
+
+/* Блог: стрелки привязываем к самому слайдеру, а не ко всему блоку. */
+.blog-block__swiper-container .swiper-buttons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+.blog-block__swiper-container .swiper-button-next,
+.blog-block__swiper-container .swiper-button-prev {
+  position: absolute;
+  top: 50% !important;
+  width: 52px;
+  height: 52px;
+  margin-top: 0 !important;
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: #fff;
+  opacity: 1 !important;
+  transition: none !important;
+  pointer-events: auto !important;
+  appearance: none;
+  -webkit-appearance: none;
+  z-index: 6;
+}
+.blog-block__swiper-container .swiper-button-prev {
+  left: 0;
+  right: auto;
+  transform: translate3d(0, -50%, 0) rotate(180deg) !important;
+}
+.blog-block__swiper-container .swiper-button-next {
+  right: 0;
+  left: auto;
+  transform: translate3d(0, -50%, 0) !important;
+}
+.blog-block__swiper-container .swiper-button-next svg,
+.blog-block__swiper-container .swiper-button-prev svg {
+  display: block;
+  margin: 0 auto;
 }
 
 /* Геометрия ряда услуг: без обрезки слева, вынос только вправо. */
@@ -91,6 +150,11 @@
 .services__context-wrapper[data-native-row="1"] {
   overflow-x: hidden !important;
   overflow-y: hidden !important;
+  /* Буфер под hover glow карточек, чтобы тень не резалась по Y. */
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: -40px;
+  margin-bottom: -40px;
 }
 
 .services__context-wrapper[data-native-row="1"]::-webkit-scrollbar,
@@ -107,22 +171,31 @@
   flex-shrink: 0;
 }
 
-/* Услуги: в конце оставляем правый отступ у последней карточки. */
-.services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+/* Услуги и блог: в конце ряда — правый отступ по сетке. Для блога дублируем без [data-native-row],
+   чтобы fallback работал, если трек ещё не размечен; в js/app.js тот же отступ ещё и задаётся с !important. */
+.services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
+.blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
   margin-right: 78px !important;
 }
 @media screen and (max-width: 1025px) {
-  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
+  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
     margin-right: 55px !important;
   }
 }
 @media screen and (max-width: 768px) {
-  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
+  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
     margin-right: 36px !important;
   }
 }
 @media screen and (max-width: 450px) {
-  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child {
+  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
+  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
     margin-right: 36px !important;
   }
 }
@@ -130,8 +203,8 @@
 /* Скрытие «лишних» стрелок, не ломая display из медиа-запросов */
 .services__context-slider .swiper-button-prev.is-row-hidden,
 .services__context-slider .swiper-button-next.is-row-hidden,
-.blog-block-mainstr .swiper-button-prev.is-row-hidden,
-.blog-block-mainstr .swiper-button-next.is-row-hidden {
+.blog-block__swiper-container .swiper-button-prev.is-row-hidden,
+.blog-block__swiper-container .swiper-button-next.is-row-hidden {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;

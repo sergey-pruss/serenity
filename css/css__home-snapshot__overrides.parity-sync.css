@@ -29,6 +29,178 @@
   text-rendering: optimizeLegibility;
 }
 
+/*
+  Вертикальный ритм главной: токены + классы .home-ledge (шапка → контент) и .home-between (отступ от предыдущей секции).
+  Сверка: node scripts/home-rhythm-measure.cjs
+*/
+:root {
+  --home-between: 112px;
+  --home-ledge: 54px;
+}
+@media screen and (max-width: 1024px) {
+  :root {
+    --home-between: 97px;
+  }
+}
+@media screen and (max-width: 425px) {
+  :root {
+    --home-between: 60px;
+  }
+}
+@media screen and (max-width: 768px) {
+  :root {
+    --home-ledge: 48px;
+  }
+}
+@media screen and (max-width: 480px) {
+  :root {
+    --home-ledge: 40px;
+  }
+}
+
+.home-ledge:not(.services__text) {
+  margin-bottom: var(--home-ledge) !important;
+}
+
+.services__text.home-ledge,
+.services__text.home-ledge[data-v-56f85d51] {
+  margin-bottom: 0 !important;
+  padding-bottom: var(--home-ledge) !important;
+}
+
+.cases-block__header.home-ledge,
+.cases-block__header.home-ledge[data-v-27a87df0] {
+  margin: 0 auto var(--home-ledge) !important;
+}
+
+.blog-block__header.home-ledge.home-between,
+.blog-block__header.home-ledge.home-between[data-v-25bf775d] {
+  max-width: 1570px;
+  width: 100% !important;
+  margin: var(--home-between) auto var(--home-ledge) !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 938px) {
+  .blog-block__header.home-ledge.home-between,
+  .blog-block__header.home-ledge.home-between[data-v-25bf775d] {
+    flex-direction: column;
+  }
+}
+
+.clients-new-section.home-between,
+.clients-new-section.home-between[data-v-08586076] {
+  padding-top: var(--home-between) !important;
+}
+
+.live-marketing-block-wr.home-between,
+.live-marketing-block-wr.home-between[data-v-1c300291] {
+  margin-top: var(--home-between) !important;
+}
+
+/* Кейсы → Услуги: пустой block-padding давал тот же 112/97/60, что и --home-between, но
+   визуально меньше пары «услуги → блог»: у .services-section снизу 66px padding, перед «Блог»
+   ещё --home-between. Сверяем, добавляя 66px к верху .services-unified. См. home-rhythm-measure. */
+.services-unified,
+.services-unified[data-v-56f85d51] {
+  padding-top: calc(var(--home-between) + 66px) !important;
+  box-sizing: border-box;
+}
+.services-unified [class*="block-padding"],
+.services-unified .block-padding {
+  padding: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+/* «Мы любим маркетинг»: h2+подзаголовок в .home-ledge--lm; отступ вниз — как у .home-ledge */
+.home-ledge--lm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  gap: 30px;
+}
+@media screen and (max-width: 1024px) {
+  .home-ledge--lm {
+    gap: 24px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .home-ledge--lm {
+    gap: 16px;
+  }
+}
+.live-marketing-block .home-ledge--lm .live-marketing-block__title,
+.live-marketing-block .home-ledge--lm .live-marketing-block__title[data-v-1c300291] {
+  margin: 0 !important;
+}
+.live-marketing-block .home-ledge--lm .live-marketing-block__subtitle,
+.live-marketing-block .home-ledge--lm .live-marketing-block__subtitle[data-v-1c300291] {
+  margin: 0 auto !important;
+}
+
+.component-block__top-element-big[data-v-1c300291],
+.component-block__top-element-big {
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.live-marketing-block[data-v-1c300291],
+.live-marketing-block {
+  margin-top: 0 !important;
+}
+
+/* «Наши клиенты»: бандл даёт cursor: ew-resize — сбрасываем; пауза по hover в app.js; вайп/wheel; ссылки — pointer + ореол как .services__card */
+.swiper-container-clients-new[data-v-08586076],
+.swiper-container-clients-new.clients-strip {
+  touch-action: none;
+  cursor: default !important;
+}
+.swiper-container-clients-new.clients-strip .clients-new__slide,
+.swiper-container-clients-new .clients-new__slide {
+  cursor: default !important;
+  position: relative;
+  z-index: 0;
+}
+/* transform на треке + composite-слой: в WebKit :hover/клик иногда уезжают на соседний слайд;
+   ссылки с кейсом поднимаем в стек, isolation: isolate (раньше) убран — в Safari дублировал баг. */
+.swiper-container-clients-new.clients-strip .clients-new__slide.clients-new__slide--link,
+.swiper-container-clients-new .clients-new__slide.clients-new__slide--link {
+  z-index: 2;
+  cursor: pointer !important;
+}
+.swiper-container-clients-new .clients-new__slide.clients-new__slide--link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: 0 4px 40px rgba(97, 0, 255, 0.4);
+  opacity: 0;
+  transition: 0.5s;
+}
+.swiper-container-clients-new .clients-new__slide.clients-new__slide--link:hover::after,
+.swiper-container-clients-new .clients-new__slide.clients-new__slide--link:focus-visible::after {
+  opacity: 1;
+}
+.swiper-container-clients-new .clients-new__slide.clients-new__slide--link img {
+  position: relative;
+  z-index: 1;
+}
+@media screen and (max-width: 550px) {
+  .swiper-container-clients-new .clients-new__slide.clients-new__slide--link::after {
+    border-radius: 22px;
+  }
+}
+
 /* Blog slider arrows: visible on desktop only, like services behavior */
 .blog-block-mainstr .swiper-button-prev,
 .blog-block-mainstr .swiper-button-next {
@@ -39,4 +211,30 @@
   .blog-block-mainstr .swiper-button-next {
     display: block !important;
   }
+}
+
+/*
+  Карточки блога: на проде Vue вешал .active по hover, подпись .case__subtitle (если не пустая) и тег
+  плавно появлялись, .case__top съезжал, превью увеличивалось — см. .case.active* в bundle.
+  В статике класса .active нет, дублируем те же стили на :hover для .more-blog-case.
+*/
+.more-blog-case:hover .case__top[data-v-410c06b6] {
+  transform: translateY(40px);
+}
+.more-blog-case:hover .case__top--static[data-v-410c06b6] {
+  transform: none;
+}
+.more-blog-case:hover .case__subtitle[data-v-410c06b6] {
+  opacity: 1;
+  transition: 1s;
+}
+.more-blog-case:hover .case__tag[data-v-410c06b6] {
+  opacity: 1;
+}
+.more-blog-case:hover .zoom .case__media--front[data-v-410c06b6] {
+  transform: scale(1.2);
+}
+/* Пустой подзаголовок — без лишнего кликабельного поля */
+.more-blog-case .case__subtitle:empty {
+  display: none;
 }
