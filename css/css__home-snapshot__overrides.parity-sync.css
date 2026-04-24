@@ -297,3 +297,84 @@
     bottom: 60px !important;
   }
 }
+
+.header.header--collapsed .navigation-menu,
+.header.header--collapsed .navigation-menu[data-v-e5e2adce] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Бургер как на оригинале: чуть прозрачный, на hover белый */
+.header.header--collapsed .menu-icon__wrapper,
+.header.header--collapsed .menu-icon__wrapper[data-v-e5e2adce] {
+  display: block !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  z-index: 130 !important;
+}
+
+.header.header--collapsed .menu-icon.show,
+.header.header--collapsed .menu-icon.show[data-v-e5e2adce] {
+  opacity: 0.72 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.header.header--collapsed .menu-icon.show:hover,
+.header.header--collapsed .menu-icon.show[data-v-e5e2adce]:hover {
+  opacity: 1 !important;
+}
+
+body.scroll-menu-open {
+  overflow: hidden !important;
+}
+
+/* Fullscreen menu from production new-static-menu */
+.header .menu-icon,
+.header .menu-icon[data-v-e5e2adce] {
+  cursor: pointer !important;
+}
+
+@media screen and (max-width: 1250px) {
+  .header .menu-icon__wrapper,
+  .header .menu-icon__wrapper[data-v-e5e2adce] {
+    display: block !important;
+  }
+}
+
+.header .new-static-menu.new-static-menu_main-str,
+.header .new-static-menu.new-static-menu_main-str[data-v-e5e2adce] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.header.active .new-static-menu.new-static-menu_main-str,
+.header.active .new-static-menu.new-static-menu_main-str.menu-screen-visible,
+.header.active .new-static-menu.new-static-menu_main-str[data-v-e5e2adce] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.header.active .header__top-line .navigation-menu,
+.header.active .header__top-line .navigation-menu[data-v-e5e2adce] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Убираем лишнюю линию от legacy footer в fullscreen-режиме */
+.header.active .footer.container,
+.header.active .footer.container.open,
+.header.active .footer.container[data-v-e5e2adce] {
+  border-top: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.header.active .footer.container:before,
+.header.active .footer.container.open:before,
+.header.active .footer.container[data-v-e5e2adce]:before {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}

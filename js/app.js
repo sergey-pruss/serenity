@@ -520,5 +520,78 @@
     requestAnimationFrame(tick);
   };
 
+  const initHeaderBurgerOnScroll = () => {
+    const header = document.querySelector("header.header");
+    const topLine = header?.querySelector(".header__top-line");
+    const menuIcon = header?.querySelector(".menu-icon");
+    const bodyApplication = header?.querySelector("#body.body-application");
+    const menuFooter = header?.querySelector(".footer.container");
+    const staticMenu = header?.querySelector(".new-static-menu.new-static-menu_main-str");
+    if (!header || !topLine || !menuIcon) return;
+
+    let collapsed = false;
+    const DESKTOP_BREAKPOINT = 1250;
+    const COLLAPSE_Y = 120;
+    const EXPAND_Y = 36;
+
+    const setOpen = (open) => {
+      header.classList.toggle("active", open);
+      menuIcon.classList.toggle("active", open);
+      topLine.classList.toggle("open", open);
+      bodyApplication?.classList.toggle("active", open);
+      bodyApplication?.classList.toggle("noactive", !open);
+      menuFooter?.classList.toggle("open", open);
+      staticMenu?.classList.toggle("menu-screen-visible", open);
+      if (open) {
+        topLine.classList.remove("hide");
+      } else if (collapsed) {
+        topLine.classList.add("hide");
+      }
+      document.body.classList.toggle("scroll-menu-open", open);
+    };
+
+    const closeMenu = () => setOpen(false);
+
+    const toggleMenu = () => {
+      const isAdaptive = window.innerWidth <= DESKTOP_BREAKPOINT;
+      if (!collapsed && !isAdaptive) return;
+      setOpen(!header.classList.contains("active"));
+    };
+
+    menuIcon.addEventListener("click", toggleMenu);
+    header.querySelectorAll(".navigation-new__list a, .navigation-new__button, .navigation-list a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    const applyState = (nextCollapsed) => {
+      if (collapsed === nextCollapsed) return;
+      collapsed = nextCollapsed;
+      header.classList.toggle("header--collapsed", collapsed);
+      topLine.classList.toggle("hide", collapsed);
+      menuIcon.classList.toggle("show", collapsed);
+      if (!collapsed) closeMenu();
+    };
+
+    const sync = () => {
+      if (window.innerWidth <= DESKTOP_BREAKPOINT) {
+        applyState(false);
+        return;
+      }
+      const y = window.scrollY || window.pageYOffset || 0;
+      if (!collapsed && y > COLLAPSE_Y) applyState(true);
+      if (collapsed && y < EXPAND_Y) applyState(false);
+      // Подстраховка под штатные классы bundle: если top-line уже скрыт, обязательно показываем бургер.
+      if (topLine.classList.contains("hide")) menuIcon.classList.add("show");
+    };
+
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
+  };
+
+  initHeaderBurgerOnScroll();
   initClientsStrip();
 })();
