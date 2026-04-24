@@ -238,3 +238,62 @@
 .more-blog-case .case__subtitle:empty {
   display: none;
 }
+
+/* Блок с цифрами: ссылка "Подробнее о нас" в ритме референса */
+.live-marketing-block__content-link,
+.live-marketing-block__content-link[data-v-1c300291] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ac9eff !important;
+  bottom: 52px !important;
+}
+
+.live-marketing-block__content-link svg,
+.live-marketing-block__content-link svg[data-v-1c300291] {
+  margin-left: 8px !important;
+}
+
+.live-marketing-block__content-link svg path,
+.live-marketing-block__content-link svg path[data-v-1c300291] {
+  stroke: #ac9eff !important;
+}
+
+.live-marketing-block__content-link:visited,
+.live-marketing-block__content-link:active,
+.live-marketing-block__content-link[data-v-1c300291]:visited,
+.live-marketing-block__content-link[data-v-1c300291]:active {
+  color: #ac9eff !important;
+}
+
+.live-marketing-block__content-link:visited svg path,
+.live-marketing-block__content-link:active svg path,
+.live-marketing-block__content-link:visited svg path[data-v-1c300291],
+.live-marketing-block__content-link:active svg path[data-v-1c300291] {
+  stroke: #ac9eff !important;
+}
+
+.live-marketing-block__content-link:hover,
+.live-marketing-block__content-link:focus,
+.live-marketing-block__content-link:focus-visible,
+.live-marketing-block__content-link[data-v-1c300291]:hover,
+.live-marketing-block__content-link[data-v-1c300291]:focus,
+.live-marketing-block__content-link[data-v-1c300291]:focus-visible {
+  color: #ffffff !important;
+}
+
+.live-marketing-block__content-link:hover svg path,
+.live-marketing-block__content-link:focus svg path,
+.live-marketing-block__content-link:focus-visible svg path,
+.live-marketing-block__content-link:hover svg path[data-v-1c300291],
+.live-marketing-block__content-link:focus svg path[data-v-1c300291],
+.live-marketing-block__content-link:focus-visible svg path[data-v-1c300291] {
+  stroke: #ffffff !important;
+}
+
+@media screen and (min-width: 1025px) {
+  .live-marketing-block__content-link,
+  .live-marketing-block__content-link[data-v-1c300291] {
+    bottom: 60px !important;
+  }
+}
