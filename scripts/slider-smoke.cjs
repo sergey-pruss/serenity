@@ -75,6 +75,56 @@ async function readBlogState(page) {
   });
 }
 
+async function readBlogArrowStyles(page) {
+  return page.evaluate(() => {
+    const root = document.querySelector(".blog-block__swiper-container");
+    const track = root?.querySelector(".swiper-wrapper");
+    const prev = root?.querySelector(".swiper-button-prev");
+    const next = root?.querySelector(".swiper-button-next");
+    if (!prev || !next || !track) return null;
+    const ps = getComputedStyle(prev);
+    const ns = getComputedStyle(next);
+    const rr = root.getBoundingClientRect();
+    const cards = track.querySelectorAll("a.case, a.blog-box");
+    let minT = Number.POSITIVE_INFINITY;
+    let maxB = Number.NEGATIVE_INFINITY;
+    cards.forEach((el) => {
+      const b = el.getBoundingClientRect();
+      if (b.width < 1 || b.height < 1) return;
+      minT = Math.min(minT, b.top);
+      maxB = Math.max(maxB, b.bottom);
+    });
+    const tr = track.getBoundingClientRect();
+    if (minT === Number.POSITIVE_INFINITY) {
+      minT = tr.top;
+      maxB = tr.bottom;
+    }
+    const trackCenterY = (minT + maxB) / 2;
+    const pr = prev.getBoundingClientRect();
+    const nr = next.getBoundingClientRect();
+    return {
+      prev: {
+        position: ps.position,
+        borderRadius: ps.borderRadius,
+        backgroundColor: ps.backgroundColor,
+        centerY: (pr.top + pr.bottom) / 2,
+        left: pr.left,
+      },
+      next: {
+        position: ns.position,
+        borderRadius: ns.borderRadius,
+        backgroundColor: ns.backgroundColor,
+        centerY: (nr.top + nr.bottom) / 2,
+        right: nr.right,
+      },
+      trackCenterY,
+      hostCenterY: (rr.top + rr.bottom) / 2,
+      hostLeft: rr.left,
+      hostRight: rr.right,
+    };
+  });
+}
+
 async function readNativeStyles(page) {
   return page.evaluate(() => {
     const servicesTrack = document.querySelector(".services__context-wrapper");
@@ -122,30 +172,74 @@ async function run() {
     nativeStyles.blog.scrollSnapType === "none",
     "blog row must not use scroll snap",
   );
+  assert(initialGeo.hostLeft <= 1, "services host must be full-bleed at viewport left edge");
   assert(initial.prevHidden === true, "prev arrow must be hidden at start");
   assert(initial.nextHidden === false, "next arrow must be visible at start");
   assert(initialGeo.step > 0, "services card step must be positive");
   assert(initialGeo.firstLeft > 20, "first services card must keep left start offset");
-  assert(
-    Math.abs(initialGeo.firstLeft - initialGeo.hostLeft) < 2,
-    "first services card must align with services host left edge at start",
-  );
 
   const box = await page.locator(".services__context-slider").boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  const detectSign = async (rawDeltaX) => {
+    await page.evaluate(() => {
+      const track = document.querySelector(".services__context-wrapper");
+      if (track) track.scrollLeft = 0;
+    });
+    await page.waitForTimeout(100);
+    const before = await page.evaluate(() => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0);
+    await page.mouse.wheel(rawDeltaX, 20);
+    await page.waitForTimeout(180);
+    const after = await page.evaluate(() => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0);
+    return after - before;
+  };
+  const plusDelta = await detectSign(120);
+  const minusDelta = await detectSign(-120);
+  const rightSign = plusDelta > 2 ? 1 : minusDelta > 2 ? -1 : 0;
+  assert(rightSign !== 0, "cannot detect rightward touchpad sign on first screen");
+
+  // Strict anti-jump check: start swipe must move left edge smoothly, no abrupt leap.
+  await page.evaluate(() => {
+    const track = document.querySelector(".services__context-wrapper");
+    if (track) track.scrollLeft = 0;
+  });
+  await page.waitForTimeout(100);
+  const hostLeftSamples = [];
+  hostLeftSamples.push(
+    await page.evaluate(() => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 0),
+  );
+  for (let i = 0; i < 6; i += 1) {
+    await page.mouse.wheel(16 * rightSign, 2);
+    await page.waitForTimeout(90);
+    hostLeftSamples.push(
+      await page.evaluate(() => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 0),
+    );
+  }
+  let maxStep = 0;
+  for (let i = 1; i < hostLeftSamples.length; i += 1) {
+    const step = Math.abs(hostLeftSamples[i] - hostLeftSamples[i - 1]);
+    if (step > maxStep) maxStep = step;
+    assert(hostLeftSamples[i] <= hostLeftSamples[i - 1] + 1, "left edge must move monotonically to viewport edge");
+  }
+  assert(maxStep < 55, "left edge transition must be smooth and not jump in one frame");
+  assert(hostLeftSamples[hostLeftSamples.length - 1] <= 1, "left edge must reach viewport after initial rightward gestures");
+
   const urlBeforeTrackpad = page.url();
   const xBeforeFirstTrackpad = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
-  await page.mouse.wheel(-260, 120);
+  await page.mouse.wheel(260 * rightSign, 120);
   await page.waitForTimeout(250);
   const xAfterFirstTrackpad = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+  );
+  const hostLeftAfterFirstTrackpad = await page.evaluate(
+    () => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 9999,
   );
   assert(
     xAfterFirstTrackpad > xBeforeFirstTrackpad + 30,
     "horizontal swipe with reverse delta sign must work on first screen without arrow click",
   );
+  assert(hostLeftAfterFirstTrackpad <= 1, "after first rightward scroll host must stay flush with viewport");
   assert(page.url() === urlBeforeTrackpad, "horizontal swipe over slider must not trigger browser back/forward");
 
   await page.evaluate(() => {
@@ -156,35 +250,25 @@ async function run() {
   const xBeforeSmallFirstSwipe = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
-  await page.mouse.wheel(55, 10);
+  await page.mouse.wheel(55 * rightSign, 10);
   await page.waitForTimeout(220);
   const xAfterSmallFirstSwipePlus = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
-  );
-  const hostLeftAfterSmallSwipePlus = await page.evaluate(
-    () => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 9999,
   );
   await page.evaluate(() => {
     const track = document.querySelector(".services__context-wrapper");
     if (track) track.scrollLeft = 0;
   });
   await page.waitForTimeout(100);
-  await page.mouse.wheel(-55, 10);
+  await page.mouse.wheel(-55 * rightSign, 10);
   await page.waitForTimeout(220);
   const xAfterSmallFirstSwipeMinus = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
-  );
-  const hostLeftAfterSmallSwipeMinus = await page.evaluate(
-    () => document.querySelector(".services__context-slider")?.getBoundingClientRect().left ?? 9999,
   );
   assert(
     xAfterSmallFirstSwipePlus > xBeforeSmallFirstSwipe + 5 ||
       xAfterSmallFirstSwipeMinus > xBeforeSmallFirstSwipe + 5,
     "small horizontal swipe from first screen must move slider (for current trackpad delta sign)",
-  );
-  assert(
-    hostLeftAfterSmallSwipePlus <= 1 || hostLeftAfterSmallSwipeMinus <= 1,
-    "after first non-zero right scroll services row must snap to viewport left edge without gap",
   );
 
   await page.evaluate(() => {
@@ -195,12 +279,34 @@ async function run() {
   const xBeforeFirstTrackpadPositive = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
-  await page.mouse.wheel(260, 120);
+  await page.mouse.wheel(-260 * rightSign, 120);
   await page.waitForTimeout(250);
   const xAfterFirstTrackpadPositive = await page.evaluate(
     () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
   );
   assert(xAfterFirstTrackpadPositive >= xBeforeFirstTrackpadPositive, "direct-sign swipe must not move slider backward");
+
+  await page.hover(".services__context-wrapper .swiper-slide:nth-child(2) .services__card");
+  await page.waitForTimeout(220);
+  const glow = await page.evaluate(() => {
+    const host = document.querySelector(".services__context-slider");
+    const wrap = document.querySelector(".services__context-wrapper");
+    const card = document.querySelector(".services__context-wrapper .swiper-slide:nth-child(2) .services__card");
+    if (!host || !wrap || !card) return null;
+    const hr = host.getBoundingClientRect();
+    const wr = wrap.getBoundingClientRect();
+    const cr = card.getBoundingClientRect();
+    const after = getComputedStyle(card, "::after");
+    return {
+      hostTopClearance: cr.top - hr.top,
+      wrapTopClearance: cr.top - wr.top,
+      afterOpacity: Number.parseFloat(after.opacity || "0"),
+    };
+  });
+  assert(glow, "cannot read services hover glow geometry");
+  assert(glow.hostTopClearance >= 40, "services host must provide top space for hover glow");
+  assert(glow.wrapTopClearance >= 40, "services track must provide top space for hover glow");
+  assert(glow.afterOpacity > 0.4, "services hover glow must be visible on hover");
 
   await clickArrow(page, "next");
   const afterNext = await readState(page);
@@ -359,7 +465,23 @@ async function run() {
 
   await page.locator(".blog-block__swiper-container").scrollIntoViewIfNeeded();
   const blogStart = await readBlogState(page);
+  const blogArrowStyles = await readBlogArrowStyles(page);
   assert(blogStart, "blog slider is not found");
+  assert(blogArrowStyles, "blog arrows are not found");
+  assert(blogArrowStyles.prev.position === "absolute", "blog prev arrow must be absolutely positioned");
+  assert(blogArrowStyles.next.position === "absolute", "blog next arrow must be absolutely positioned");
+  assert(blogArrowStyles.prev.borderRadius === "50%", "blog prev arrow must be circular");
+  assert(blogArrowStyles.next.borderRadius === "50%", "blog next arrow must be circular");
+  assert(
+    Math.abs(blogArrowStyles.prev.centerY - blogArrowStyles.trackCenterY) < 10,
+    "blog prev arrow must align with the row (track) center",
+  );
+  assert(
+    Math.abs(blogArrowStyles.next.centerY - blogArrowStyles.trackCenterY) < 10,
+    "blog next arrow must align with the row (track) center",
+  );
+  assert(blogArrowStyles.prev.left >= blogArrowStyles.hostLeft - 1, "blog prev arrow must not be clipped beyond host left edge");
+  assert(blogArrowStyles.next.right <= blogArrowStyles.hostRight + 1, "blog next arrow must not be clipped beyond host right edge");
   assert(blogStart.max > 0, "blog slider has no horizontal overflow");
   assert(blogStart.prevHidden === true, "blog prev arrow must be hidden at start");
   assert(blogStart.nextHidden === false, "blog next arrow must be visible at start");
