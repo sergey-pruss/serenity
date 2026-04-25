@@ -1,7 +1,7 @@
 /**
- * Поведение CTA «Оставить заявку» (header, меню, нижний .btns).
+ * Поведение CTA «Оставить заявку» (header, меню, нижний .btns) — только локальная панель, без popup на serenity.agency.
  * Запуск: npm run test:leave-cta
- * URL: env LEAVE_CTA_TEST_BASE_URL или http://127.0.0.1:18765/
+ * URL: env LEAVE_CTA_TEST_BASE_URL или http://127.0.0.1:8765/ (см. npm run dev)
  */
 const { chromium } = require("playwright");
 
@@ -9,42 +9,56 @@ const assert = (ok, msg) => {
   if (!ok) throw new Error(msg);
 };
 
-const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:18765/";
+const readSheet = async (page) =>
+  page.evaluate(() => {
+    const wrap = document.querySelector(".btns.white");
+    const modal = wrap?.nextElementSibling;
+    return {
+      bodyFlag: document.body.classList.contains("leave-cta-open"),
+      wrapActive: wrap?.classList.contains("active") ?? false,
+      modalActive: modal?.classList?.contains("active") ?? false,
+    };
+  });
+
+const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
 
 (async () => {
   const browser = await chromium.launch();
   try {
     {
       const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      let popupFired = false;
+      page.on("popup", () => {
+        popupFired = true;
+      });
       await page.goto(base, { waitUntil: "load", timeout: 60_000 });
       await page.waitForSelector("header.header", { state: "attached", timeout: 20_000 });
       await page.evaluate(() => window.scrollTo(0, 500));
       await page.waitForTimeout(400);
-
-      const [popup1] = await Promise.all([
-        page.waitForEvent("popup", { timeout: 15_000 }),
-        page.click("#body.body-application .application", { force: true }),
-      ]);
-      const u1 = popup1.url();
-      assert(u1.includes("serenity.agency") && u1.includes("contacts"), `Ожидался contacts, получено: ${u1}`);
-      await popup1.close();
+      await page.click("#body.body-application .application", { force: true });
+      await page.waitForTimeout(400);
+      const s = await readSheet(page);
+      assert(s.wrapActive && s.modalActive && s.bodyFlag, "Десктоп: после клика CTA — локальная панель .btns (active, leave-cta-open)");
+      assert(!popupFired, "Не должно открываться нового окна на внешний сайт");
     }
 
     {
       const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      let popupFired = false;
+      page.on("popup", () => {
+        popupFired = true;
+      });
       await page.goto(base, { waitUntil: "load", timeout: 60_000 });
       await page.waitForSelector("header .menu-icon", { state: "attached", timeout: 20_000 });
       await page.evaluate(() => window.scrollTo(0, 500));
       await page.waitForTimeout(400);
       await page.click("header .menu-icon", { force: true });
-      await page.waitForTimeout(400);
-      const [popup2] = await Promise.all([
-        page.waitForEvent("popup", { timeout: 15_000 }),
-        page.click("header button.navigation-new__button", { force: true }),
-      ]);
-      const u2 = popup2.url();
-      assert(u2.includes("serenity.agency") && u2.includes("contacts"), `Меню: ожидался contacts, получено: ${u2}`);
-      await popup2.close();
+      await page.waitForTimeout(500);
+      await page.click("header button.navigation-new__button", { force: true });
+      await page.waitForTimeout(500);
+      const s = await readSheet(page);
+      assert(s.wrapActive && s.modalActive && s.bodyFlag, "Полноэкранное меню: кнопка — локальная панель .btns");
+      assert(!popupFired, "Не должно открываться нового окна");
     }
 
     {
@@ -79,7 +93,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:18765/";
   } finally {
     await browser.close();
   }
-  console.log("ok: leave-request-cta (desktop popup, меню, моб. лист, Esc)");
+  console.log("ok: leave-request-cta (локальная панель, меню, моб. лист, Esc, без popup)");
 })().catch((e) => {
   console.error(e);
   process.exit(1);

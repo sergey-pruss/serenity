@@ -1,16 +1,10 @@
 /**
- * Кнопка «Оставить заявку» / нижняя панель действий — как на serenity.agency:
- * - десктоп: плавающий CTA в header + «Отправить заявку» в fullscreen-меню → форма на сайте агентства;
- * - ≤1024px: блок .btns.white + .btns__modal — открытие/закрытие нижнего листа (классы active, блюр).
+ * «Оставить заявку» — только локальное раскрытие нижнего листа (.btns + .btns__modal),
+ * без редиректов и window.open на внешний сайт.
  */
 (() => {
-  const LEAVE_REQUEST_URL = "https://serenity.agency/contacts";
-  /** Совпадает с max-width в bundle, где показывается .btns */
   const BOTTOM_BAR_MAX_WIDTH = 1024;
-
-  const openLeaveRequestPage = () => {
-    window.open(LEAVE_REQUEST_URL, "_blank", "noopener,noreferrer");
-  };
+  const BODY_FLAG = "leave-cta-open";
 
   const getBottomBar = () => {
     const wrap = document.querySelector(".btns.white");
@@ -26,6 +20,7 @@
   const setBottomSheetOpen = (open) => {
     const b = getBottomBar();
     if (!b) return;
+    document.body.classList.toggle(BODY_FLAG, open);
     b.wrap.classList.toggle("active", open);
     b.modal.classList.toggle("active", open);
   };
@@ -50,18 +45,27 @@
     el.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      openLeaveRequestPage();
+      setBottomSheetOpen(true);
     });
   };
 
-  /** Кнопка «Отправить заявку» внутри fullscreen-меню (не ссылки Telegram/WA). */
   const initFullscreenMenuButton = () => {
     const btn = document.querySelector("header button.navigation-new__button");
     if (!btn) return;
     btn.addEventListener("click", (e) => {
-      e.preventDefault();
       e.stopPropagation();
-      openLeaveRequestPage();
+      // closeMenu в app.js тоже сработает — панель откроем на следующем кадре, когда меню закроется
+      requestAnimationFrame(() => {
+        setBottomSheetOpen(true);
+      });
+    });
+  };
+
+  const initInModalInpageAction = () => {
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a.btns__inpage-action");
+      if (!a) return;
+      e.preventDefault();
     });
   };
 
@@ -72,7 +76,6 @@
     b.trigger.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      if (window.innerWidth > BOTTOM_BAR_MAX_WIDTH) return;
       toggleBottomSheet();
     });
 
@@ -80,8 +83,13 @@
       b.blur.addEventListener("click", () => setBottomSheetOpen(false));
     }
 
+    let lastW = window.innerWidth;
     window.addEventListener("resize", () => {
-      if (window.innerWidth > BOTTOM_BAR_MAX_WIDTH) setBottomSheetOpen(false);
+      const w = window.innerWidth;
+      if (lastW <= BOTTOM_BAR_MAX_WIDTH && w > BOTTOM_BAR_MAX_WIDTH) {
+        setBottomSheetOpen(false);
+      }
+      lastW = w;
     });
   };
 
@@ -97,6 +105,7 @@
   };
 
   const run = () => {
+    initInModalInpageAction();
     initHeaderFloatingCta();
     initFullscreenMenuButton();
     initBottomBar();
