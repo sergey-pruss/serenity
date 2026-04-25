@@ -13,17 +13,4 @@
     padding-top: 196px;
   }
 
-  /* Show full hero video frame without vertical crop */
-  .video-block .video-iframe-wrapper[data-v-135dc442],
-  .video-block .video-iframe-wrapper,
-  .video-iframe-wrapper {
-    overflow: visible;
-  }
-
-  .video-block .video-iframe[data-v-135dc442],
-  .video-block .video-iframe,
-  .video-iframe {
-    object-fit: contain !important;
-    object-position: center center;
-  }
 }
