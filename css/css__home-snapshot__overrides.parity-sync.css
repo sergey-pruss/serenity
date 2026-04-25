@@ -378,3 +378,74 @@ body.scroll-menu-open {
   opacity: 0 !important;
   visibility: hidden !important;
 }
+
+/* Hero video loading placeholder */
+.video-block[data-v-135dc442],
+.video-block {
+  background: #151516;
+  border-radius: 13px !important;
+  overflow: hidden !important;
+}
+
+.video-block.is-loading::before,
+.video-block.is-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.video-block.is-loading::before {
+  background:
+    radial-gradient(70% 65% at 10% 80%, rgba(172, 100, 255, 0.16), transparent 65%),
+    radial-gradient(70% 65% at 90% 20%, rgba(92, 122, 255, 0.17), transparent 65%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.12) 38%, rgba(255, 255, 255, 0.06) 52%);
+  background-size: 100% 100%, 100% 100%, 220% 100%;
+  animation: hero-video-shimmer 1.35s ease-in-out infinite;
+}
+
+.video-block.is-loading::after,
+.video-block.video-error::after {
+  content: none;
+}
+
+.video-block.video-ready .video-iframe {
+  opacity: 1;
+  transition: opacity 0.32s ease;
+}
+
+@keyframes hero-video-shimmer {
+  0% {
+    background-position:
+      0 0,
+      0 0,
+      130% 0;
+  }
+  100% {
+    background-position:
+      0 0,
+      0 0,
+      -30% 0;
+  }
+}
+
+/* Hero video framing fix: remove bundle vertical shift */
+.video-iframe-wrapper[data-v-135dc442],
+.video-iframe-wrapper {
+  transform: none !important;
+  overflow: hidden !important;
+  border-radius: inherit !important;
+}
+
+.video-iframe[data-v-135dc442],
+.video-iframe {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transform: translateZ(0) scale(1.002);
+  backface-visibility: hidden;
+}

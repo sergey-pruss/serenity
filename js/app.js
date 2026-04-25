@@ -592,6 +592,55 @@
     sync();
   };
 
+  const initHeroVideoLoading = () => {
+    const block = document.querySelector(".video-block");
+    const video = block?.querySelector("video.video-iframe");
+    if (!block || !video) return;
+
+    block.classList.add("is-loading");
+    const markReady = () => {
+      block.classList.remove("is-loading");
+      block.classList.remove("video-error");
+      block.classList.add("video-ready");
+    };
+    const markError = () => {
+      block.classList.remove("video-ready");
+      block.classList.add("video-error");
+      block.classList.add("is-loading");
+    };
+
+    if (video.readyState >= 2) {
+      markReady();
+      return;
+    }
+
+    video.addEventListener("loadeddata", markReady, { once: true });
+    video.addEventListener("canplay", markReady, { once: true });
+    video.addEventListener("playing", markReady, { once: true });
+    video.addEventListener("error", markError, { once: true });
+    video.addEventListener(
+      "loadedmetadata",
+      () => {
+        video.play().catch(() => {});
+      },
+      { once: true },
+    );
+
+    let checks = 0;
+    const timer = setInterval(() => {
+      checks += 1;
+      if (video.readyState >= 2 || !block.classList.contains("is-loading")) {
+        clearInterval(timer);
+        markReady();
+      } else if (checks >= 16) {
+        clearInterval(timer);
+        // Не держим вечный overlay: если видео долго буферится, показываем сам video-слой.
+        markReady();
+      }
+    }, 500);
+  };
+
   initHeaderBurgerOnScroll();
+  initHeroVideoLoading();
   initClientsStrip();
 })();
