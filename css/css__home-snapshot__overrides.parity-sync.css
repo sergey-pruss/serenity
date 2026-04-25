@@ -449,3 +449,29 @@ body.scroll-menu-open {
   transform: translateZ(0) scale(1.002);
   backface-visibility: hidden;
 }
+
+/* «Оставить заявку»: панель .btns скрыта в bundle при width > 1024 — показываем с body.leave-cta-open */
+body.leave-cta-open .btns.white,
+body.leave-cta-open .btns.white[data-v-23015bc0] {
+  display: block !important;
+  pointer-events: auto;
+  z-index: 200;
+  position: relative;
+}
+
+body.leave-cta-open .btns__box,
+body.leave-cta-open .btns__box[data-v-23015bc0] {
+  z-index: 201;
+}
+
+body.leave-cta-open .btns__modal,
+body.leave-cta-open .btns__modal[data-v-23015bc0] {
+  display: block !important;
+  pointer-events: auto;
+  z-index: 202;
+}
+
+body.leave-cta-open .btns.active .btns__blur,
+body.leave-cta-open .btns.active .btns__blur[data-v-23015bc0] {
+  z-index: 200;
+}
