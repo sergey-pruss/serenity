@@ -538,8 +538,12 @@
       header.classList.toggle("active", open);
       menuIcon.classList.toggle("active", open);
       topLine.classList.toggle("open", open);
-      bodyApplication?.classList.toggle("active", open);
-      bodyApplication?.classList.toggle("noactive", !open);
+      if (bodyApplication) {
+        bodyApplication.classList.toggle("active", open);
+        // Прод-логика: floating CTA виден в compressed-состоянии (scroll), скрыт на page-top.
+        // Класс noactive используем только когда header не collapsed.
+        bodyApplication.classList.toggle("noactive", !collapsed && !open);
+      }
       menuFooter?.classList.toggle("open", open);
       staticMenu?.classList.toggle("menu-screen-visible", open);
       if (open) {
@@ -570,8 +574,12 @@
       if (collapsed === nextCollapsed) return;
       collapsed = nextCollapsed;
       header.classList.toggle("header--collapsed", collapsed);
+      header.classList.toggle("page-top", !collapsed);
       topLine.classList.toggle("hide", collapsed);
       menuIcon.classList.toggle("show", collapsed);
+      if (bodyApplication && !header.classList.contains("active")) {
+        bodyApplication.classList.toggle("noactive", !collapsed);
+      }
       if (!collapsed) closeMenu();
     };
 
