@@ -6,6 +6,7 @@
     "dev": "node scripts/dev-server.cjs",
     "test:clients": "node scripts/verify-clients.cjs",
     "test:menu": "node scripts/verify-menu-screen.cjs",
+    "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs"
   },
   "devDependencies": {
