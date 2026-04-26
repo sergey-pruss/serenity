@@ -46,7 +46,17 @@
   const closeDesktopModal = () => {
     const modal = document.getElementById(DESKTOP_MODAL_ID);
     if (modal) modal.remove();
+    document.documentElement.classList.remove(DESKTOP_BODY_LOCK);
     document.body.classList.remove(DESKTOP_BODY_LOCK);
+  };
+
+  const syncDesktopModalScrollable = (modal) => {
+    if (!modal) return;
+    modal.classList.remove("is-scrollable");
+    requestAnimationFrame(() => {
+      const needsScroll = modal.scrollHeight > modal.clientHeight + 1;
+      modal.classList.toggle("is-scrollable", needsScroll);
+    });
   };
 
   const initDesktopFormBehavior = (modal) => {
@@ -61,13 +71,22 @@
         if (!group) return;
         group.classList.toggle("is-filled", String(control.value || "").trim().length > 0);
       };
+      const autosize = () => {
+        if (control.tagName !== "TEXTAREA") return;
+        const minHeight = parseFloat(getComputedStyle(control).minHeight) || 54;
+        control.style.height = "auto";
+        control.style.height = `${Math.max(control.scrollHeight, minHeight)}px`;
+        syncDesktopModalScrollable(modal);
+      };
       control.addEventListener("focus", () => control.closest(".form__group")?.classList.add("is-focused"));
       control.addEventListener("blur", () => control.closest(".form__group")?.classList.remove("is-focused"));
       control.addEventListener("input", () => {
         sync();
+        autosize();
         control.classList.remove("is-invalid");
       });
       sync();
+      autosize();
     });
 
     form.addEventListener("submit", (e) => {
@@ -90,6 +109,15 @@
       submit.style.setProperty("min-width", "200px", "important");
       submit.style.setProperty("height", "46px", "important");
       submit.style.setProperty("padding", "0 24px", "important");
+      const overlay = submit.querySelector(".btn__overlay");
+      const syncOverlayPosition = (e) => {
+        if (!overlay) return;
+        const rect = submit.getBoundingClientRect();
+        overlay.style.left = `${e.clientX - rect.left}px`;
+        overlay.style.top = `${e.clientY - rect.top}px`;
+      };
+      submit.addEventListener("pointerenter", syncOverlayPosition);
+      submit.addEventListener("pointermove", syncOverlayPosition);
     }
   };
 
@@ -108,7 +136,7 @@
         <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content">
           <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__meta">
             <h2 data-v-2ee28934="" data-v-5c138029="">Хочу работать с&nbsp;вами</h2>
-            <p data-v-2ee28934="" data-v-5c138029="" class="lead">Оставьте заявку, и мы в скором времени свяжемся с вами обсудить ваши задачи.</p>
+            <p data-v-2ee28934="" data-v-5c138029="" class="lead">Оставьте заявку, и мы в скором времени с вами свяжемся обсудить ваши задачи.</p>
           </div>
           <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
             <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
@@ -163,11 +191,12 @@
                 </svg>
               </button>
               <label data-v-8ad2fcbc="" class="privacy-check">
-                <input data-v-8ad2fcbc="" type="checkbox" class="privacy-check__control" />
+                <input data-v-8ad2fcbc="" type="checkbox" class="privacy-check__control" checked />
                 <span data-v-8ad2fcbc="" class="privacy-check__mask"></span>
                 <span data-v-8ad2fcbc="" class="privacy-check__text">Я даю согласие <a data-v-8ad2fcbc="" href="https://serenity.agency/privacy.pdf" target="_blank" rel="noopener noreferrer">на обработку персональных данных</a></span>
               </label>
             </div>
+            <div data-v-8ad2fcbc="" class="order-popup__form-scroll-spacer" aria-hidden="true"></div>
           </form>
         </div>
       </div>
@@ -179,7 +208,9 @@
     });
     initDesktopFormBehavior(modal);
     document.body.appendChild(modal);
+    document.documentElement.classList.add(DESKTOP_BODY_LOCK);
     document.body.classList.add(DESKTOP_BODY_LOCK);
+    syncDesktopModalScrollable(modal);
   };
 
   const initHeaderFloatingCta = () => {
