@@ -45,10 +45,11 @@
 
   const showThankYouScreen = (modal) => {
     if (!modal) return;
+    modal.classList.add("is-thank-you");
     modal.innerHTML = `
       <div class="modal-close order-popup__cross" data-v-2ee28934="" data-v-5c138029=""></div>
-      <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__inner" style="flex-direction:column;justify-content:flex-start;padding-top:80px;padding-bottom:60px;">
-        <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content" style="width:100%;max-width:100%;flex:none;">
+      <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__inner">
+        <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content">
           <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__meta">
             <h2 data-v-2ee28934="" data-v-5c138029="">Спасибо, наш новый друг!</h2>
             <p data-v-2ee28934="" data-v-5c138029="" class="lead">Уже рассматриваем вашу заявку всей командой. И совсем скоро с вами свяжемся. А пока давайте продолжим дружбу в социальных сетях:</p>

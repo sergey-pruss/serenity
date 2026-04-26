@@ -85,7 +85,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       );
       assert(formShape.htmlFlag, "Десктоп: при открытом popup должен ставиться lock-класс на html");
       assert(formShape.htmlOverflow === "hidden" && formShape.bodyOverflow === "hidden", "Десктоп: страница под popup должна быть заблокирована");
-      assert(formShape.modalOverflowY === "auto", "Десктоп: popup должен быть внутренним scroll-контейнером");
+      assert(formShape.modalOverflowY === "hidden", "Десктоп: popup без переполнения не должен показывать лишний scroll");
       assert(!formShape.modalIsScrollable, "Десктоп: в дефолтном состоянии popup не должен получать scroll-spacer");
       assert(
         formShape.modalScrollHeight <= formShape.modalClientHeight + 1,
