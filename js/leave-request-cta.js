@@ -43,6 +43,50 @@
     return true;
   };
 
+  const showThankYouScreen = (modal) => {
+    if (!modal) return;
+    modal.innerHTML = `
+      <div class="order-popup__thank-you" style="
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        text-align:center;padding:60px 40px;min-height:400px;gap:24px;
+      ">
+        <h2 style="font-size:clamp(28px,4vw,48px);font-weight:700;color:#fff;margin:0;line-height:1.2">
+          Спасибо, наш новый друг!
+        </h2>
+        <p style="font-size:16px;color:rgba(255,255,255,0.7);margin:0;max-width:420px;line-height:1.6">
+          Уже рассматриваем вашу заявку всей командой.<br>
+          И совсем скоро с вами свяжемся.<br>
+          А пока давайте продолжим дружбу в социальных сетях:
+        </p>
+        <div style="display:flex;gap:16px;margin-top:8px">
+          <a href="https://t.me/serenityagency" target="_blank" style="
+            width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.1);
+            display:flex;align-items:center;justify-content:center;text-decoration:none;
+            transition:background 0.2s;
+          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            <img src="/img/services/production/svg/telegram.svg" width="24" height="24" alt="Telegram">
+          </a>
+          <a href="https://vk.com/serenity_agency" target="_blank" style="
+            width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.1);
+            display:flex;align-items:center;justify-content:center;text-decoration:none;
+            transition:background 0.2s;
+          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            <img src="/img/services/production/svg/vk.svg" width="24" height="24" alt="ВКонтакте">
+          </a>
+          <a href="https://www.instagram.com/serenity.agency/" target="_blank" style="
+            width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.1);
+            display:flex;align-items:center;justify-content:center;text-decoration:none;
+            transition:background 0.2s;
+          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            <img src="/img/services/production/svg/insta.svg" width="24" height="24" alt="Instagram">
+          </a>
+        </div>
+      </div>
+    `;
+    // Автозакрытие через 15 секунд
+    setTimeout(() => closeDesktopModal(), 15000);
+  };
+
   const closeDesktopModal = () => {
     const modal = document.getElementById(DESKTOP_MODAL_ID);
     if (modal) modal.remove();
