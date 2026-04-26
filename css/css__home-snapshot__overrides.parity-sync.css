@@ -475,3 +475,150 @@ body.leave-cta-open .btns.active .btns__blur,
 body.leave-cta-open .btns.active .btns__blur[data-v-23015bc0] {
   z-index: 200;
 }
+
+/* Desktop order-popup (local static fallback) */
+body.order-popup-open {
+  overflow: hidden;
+}
+
+/* Desktop order-popup strict parity fixes (after switching to original DOM attrs) */
+.overlay-new {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 145;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: none;
+}
+body.order-popup-open .overlay-new {
+  display: block;
+}
+#desktop-order-popup.modal.order-popup {
+  background: rgb(29, 29, 31) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#desktop-order-popup .contact-form__messenger-links {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 34px !important;
+}
+
+#desktop-order-popup .contact-form__messenger[data-v-2ee28934] {
+  margin-top: 10px !important;
+}
+
+#desktop-order-popup .contact-form__messenger-links a {
+  width: 46px !important;
+  height: 46px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+}
+
+#desktop-order-popup .contact-form__messenger-links a img {
+  width: 46px !important;
+  height: 46px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+#desktop-order-popup .privacy-check__mask {
+  border-radius: 4px !important;
+}
+
+#desktop-order-popup .privacy-check__text a {
+  text-decoration: underline !important;
+}
+
+/* Submit button exact sizing/tone parity */
+#desktop-order-popup .form__submit.btn[data-v-111f0665] {
+  width: 250px !important;
+  flex: 0 0 250px !important;
+  min-width: 200px !important;
+  max-width: 250px !important;
+  height: 46px !important;
+  padding: 0 24px !important;
+  border-radius: 13px !important;
+  overflow: hidden !important;
+}
+
+#desktop-order-popup .form__submit.btn[data-v-111f0665]:hover {
+  color: rgb(226, 226, 226) !important;
+}
+
+#desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__text,
+#desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
+  color: rgb(226, 226, 226) !important;
+  stroke: rgb(226, 226, 226) !important;
+}
+
+#desktop-order-popup .form__submit.btn[data-v-111f0665]:active {
+  color: rgb(99, 99, 99) !important;
+}
+
+#desktop-order-popup .form__submit.btn[data-v-111f0665]:active .btn__text,
+#desktop-order-popup .form__submit.btn[data-v-111f0665]:active .btn__arrow path {
+  color: rgb(99, 99, 99) !important;
+  stroke: rgb(99, 99, 99) !important;
+}
+
+/* Remove overlay artifact on submit hover */
+#desktop-order-popup .form__submit .btn__overlay {
+  display: block !important;
+  background-color: #fff !important;
+}
+
+/* Column geometry parity for desktop popup */
+#desktop-order-popup .order-popup__inner[data-v-2ee28934] {
+  width: 80% !important;
+  min-height: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0 !important;
+}
+
+#desktop-order-popup .order-popup__content[data-v-2ee28934],
+#desktop-order-popup .form-wrap[data-v-8ad2fcbc] {
+  width: 50% !important;
+  max-width: 50% !important;
+  flex: 0 0 50% !important;
+}
+
+#desktop-order-popup .form-wrap[data-v-8ad2fcbc] {
+  margin-top: -25px !important;
+}
+
+#desktop-order-popup .form__grid[data-v-8ad2fcbc] {
+  display: flex !important;
+}
+
+#desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
+  width: 0 !important;
+  margin-left: 0 !important;
+  overflow: hidden !important;
+}
+
+#desktop-order-popup .privacy-check[data-v-8ad2fcbc] {
+  line-height: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  margin-top: 40px !important;
+}
+
+#desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
+  margin-bottom: 16.7px !important;
+}
+
+#desktop-order-popup .form__group.form__comments[data-v-8ad2fcbc] {
+  margin-bottom: 16.7px !important;
+}
+
+#desktop-order-popup .form__group.form__group--sub[data-v-8ad2fcbc] {
+  margin-top: 48px !important;
+}
