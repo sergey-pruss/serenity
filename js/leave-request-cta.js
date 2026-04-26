@@ -70,13 +70,8 @@
   };
 
   const closeDesktopModal = () => {
-    const scrollY = parseInt(document.body.style.top || "0") * -1;
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
     document.documentElement.classList.remove(DESKTOP_BODY_LOCK);
     document.body.classList.remove(DESKTOP_BODY_LOCK);
-    window.scrollTo(0, scrollY);
     const modal = document.getElementById(DESKTOP_MODAL_ID);
     if (modal) modal.remove();
   };
@@ -267,10 +262,6 @@
       if (e.target === modal) closeDesktopModal();
     });
     initDesktopFormBehavior(modal);
-    const scrollY = window.scrollY;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
     document.body.appendChild(modal);
     document.documentElement.classList.add(DESKTOP_BODY_LOCK);
     document.body.classList.add(DESKTOP_BODY_LOCK);
