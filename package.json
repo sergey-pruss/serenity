@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node scripts/dev-server.cjs",
     "test:clients": "node scripts/verify-clients.cjs",
+    "test:home-cases": "node scripts/verify-home-cases.cjs",
     "test:menu": "node scripts/verify-menu-screen.cjs",
     "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",
     "test:lead-api": "node scripts/verify-lead-api.mjs",
