@@ -45,10 +45,11 @@ export async function handleLeadRequest(request, env) {
     return json({ error: "Invalid request body" }, 400);
   }
 
-  const name    = (data.name    || "").trim();
-  const phone   = (data.phone   || "").trim();
-  const email   = (data.email   || "").trim();
-  const message = (data.message || "").trim();
+  const name    = (data.name                        || "").trim();
+  const phone   = (data.phone                       || "").trim();
+  const email   = (data.email                       || "").trim();
+  const message = (data.comments || data.message    || "").trim();
+  const source  = (data.source                      || "").trim();
 
   if (!name || !phone || !email) {
     return json({ error: "Заполните обязательные поля: имя, телефон, email" }, 422);
@@ -58,8 +59,8 @@ export async function handleLeadRequest(request, env) {
   }
 
   const results = await Promise.allSettled([
-    sendEmail(env, { name, phone, email, message }),
-    createAmoCRMLead(env, { name, phone, email, message }),
+    sendEmail(env, { name, phone, email, message, source }),
+    createAmoCRMLead(env, { name, phone, email, message, source }),
   ]);
 
   const emailOk = results[0].status === "fulfilled";
@@ -75,17 +76,15 @@ export async function handleLeadRequest(request, env) {
   return json({ success: true });
 }
 
-async function sendEmail(env, { name, phone, email, message }) {
+async function sendEmail(env, { name, phone, email, message, source }) {
   if (!env.RESEND_API_KEY) throw new Error("RESEND_API_KEY не задан");
 
   const html = `
-    <h2>Новая заявка с сайта serenity.agency</h2>
-    <table style="border-collapse:collapse;width:100%;font-family:sans-serif">
-      <tr><td style="padding:8px;font-weight:bold;color:#555">Имя</td><td style="padding:8px">${esc(name)}</td></tr>
-      <tr><td style="padding:8px;font-weight:bold;color:#555">Телефон</td><td style="padding:8px"><a href="tel:${esc(phone)}">${esc(phone)}</a></td></tr>
-      <tr><td style="padding:8px;font-weight:bold;color:#555">Email</td><td style="padding:8px"><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
-      ${message ? `<tr><td style="padding:8px;font-weight:bold;color:#555;vertical-align:top">Задача</td><td style="padding:8px">${esc(message)}</td></tr>` : ""}
-    </table>
+    <p><strong>Имя:</strong> ${esc(name)}</p>
+    <p><strong>Телефон:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>
+    <p><strong>Почта:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
+    ${message ? `<p><strong>Комментарий:</strong> ${esc(message)}</p>` : ""}
+    ${source  ? `<p><strong>Страница отправки заявки:</strong> <a href="${esc(source)}">${esc(source)}</a></p>` : ""}
   `;
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -154,7 +153,7 @@ async function amoRequest(env, path, body, retry = true) {
   return res;
 }
 
-async function createAmoCRMLead(env, { name, phone, email, message }) {
+async function createAmoCRMLead(env, { name, phone, email, message, source }) {
   if (!env.AMO_ACCESS_TOKEN || !env.AMO_SUBDOMAIN) {
     throw new Error("AMO_ACCESS_TOKEN или AMO_SUBDOMAIN не заданы");
   }
@@ -179,9 +178,15 @@ async function createAmoCRMLead(env, { name, phone, email, message }) {
   }
 
   // 2. Создаём лид
+  const leadCustomFields = [];
+  if (source && env.AMO_SOURCE_FIELD_ID) {
+    leadCustomFields.push({ field_id: Number(env.AMO_SOURCE_FIELD_ID), values: [{ value: source }] });
+  }
+
   const leadRes = await amoRequest(env, "/leads", [
     {
       name: `Заявка с сайта — ${name}`,
+      ...(leadCustomFields.length ? { custom_fields_values: leadCustomFields } : {}),
       _embedded: {
         contacts: contactId ? [{ id: contactId }] : [],
       },
@@ -192,13 +197,17 @@ async function createAmoCRMLead(env, { name, phone, email, message }) {
     throw new Error(`AmoCRM leads ${leadRes.status}: ${await leadRes.text()}`);
   }
 
-  // 3. Добавляем заметку с задачей
-  if (message) {
+  // 3. Добавляем заметку: задача + источник
+  const noteParts = [];
+  if (message) noteParts.push(`Задача: ${message}`);
+  if (source)  noteParts.push(`Источник: ${source}`);
+
+  if (noteParts.length) {
     const leadData = await leadRes.json();
     const leadId = leadData?._embedded?.leads?.[0]?.id;
     if (leadId) {
       await amoRequest(env, `/leads/${leadId}/notes`, [
-        { note_type: "common", params: { text: message } },
+        { note_type: "common", params: { text: noteParts.join("\n") } },
       ]);
     }
   }
