@@ -605,6 +605,9 @@
     const video = block?.querySelector("video.video-iframe");
     if (!block || !video) return;
 
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
     block.classList.add("is-loading");
     const markReady = () => {
       block.classList.remove("is-loading");
@@ -634,13 +637,21 @@
       { once: true },
     );
 
+    // Safari/Private mode fallback: autoplay can remain blocked until first gesture.
+    const tryPlayFromGesture = () => {
+      video.play().then(markReady).catch(() => {});
+    };
+    ["pointerdown", "touchstart", "keydown", "scroll"].forEach((evt) => {
+      window.addEventListener(evt, tryPlayFromGesture, { passive: true, once: true });
+    });
+
     let checks = 0;
     const timer = setInterval(() => {
       checks += 1;
       if (video.readyState >= 2 || !block.classList.contains("is-loading")) {
         clearInterval(timer);
         markReady();
-      } else if (checks >= 16) {
+      } else if (checks >= 8) {
         clearInterval(timer);
         // Не держим вечный overlay: если видео долго буферится, показываем сам video-слой.
         markReady();
