@@ -46,52 +46,38 @@
   const showThankYouScreen = (modal) => {
     if (!modal) return;
     modal.innerHTML = `
-      <div class="order-popup__thank-you" style="
-        display:flex;flex-direction:column;align-items:center;justify-content:center;
-        text-align:center;padding:60px 40px;min-height:400px;gap:24px;
-      ">
-        <h2 style="font-size:clamp(28px,4vw,48px);font-weight:700;color:#fff;margin:0;line-height:1.2">
-          Спасибо, наш новый друг!
-        </h2>
-        <p style="font-size:16px;color:rgba(255,255,255,0.7);margin:0;max-width:420px;line-height:1.6">
-          Уже рассматриваем вашу заявку всей командой.<br>
-          И совсем скоро с вами свяжемся.<br>
-          А пока давайте продолжим дружбу в социальных сетях:
-        </p>
-        <div style="display:flex;gap:16px;margin-top:8px">
-          <a href="https://t.me/serenityagency" target="_blank" style="
-            width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.1);
-            display:flex;align-items:center;justify-content:center;text-decoration:none;
-            transition:background 0.2s;
-          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-            <img src="/img/services/production/svg/telegram.svg" width="24" height="24" alt="Telegram">
-          </a>
-          <a href="https://vk.com/serenity_agency" target="_blank" style="
-            width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.1);
-            display:flex;align-items:center;justify-content:center;text-decoration:none;
-            transition:background 0.2s;
-          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-            <img src="/img/services/production/svg/vk.svg" width="24" height="24" alt="ВКонтакте">
-          </a>
-          <a href="https://www.instagram.com/serenity.agency/" target="_blank" style="
-            width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.1);
-            display:flex;align-items:center;justify-content:center;text-decoration:none;
-            transition:background 0.2s;
-          " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-            <img src="/img/services/production/svg/insta.svg" width="24" height="24" alt="Instagram">
-          </a>
+      <div class="modal-close order-popup__cross" data-v-2ee28934="" data-v-5c138029=""></div>
+      <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__inner" style="flex-direction:column;justify-content:flex-start;padding-top:80px;padding-bottom:60px;">
+        <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content" style="width:100%;max-width:100%;flex:none;">
+          <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__meta">
+            <h2 data-v-2ee28934="" data-v-5c138029="">Спасибо, наш новый друг!</h2>
+            <p data-v-2ee28934="" data-v-5c138029="" class="lead">Уже рассматриваем вашу заявку всей командой. И совсем скоро с вами свяжемся. А пока давайте продолжим дружбу в социальных сетях:</p>
+          </div>
+          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
+            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
+            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/whatsapp.svg" alt="WhatsApp" loading="eager" decoding="async"></a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+            </div>
+          </div>
         </div>
       </div>
     `;
-    // Автозакрытие через 15 секунд
+    modal.querySelector(".modal-close")?.addEventListener("click", closeDesktopModal);
     setTimeout(() => closeDesktopModal(), 15000);
   };
 
   const closeDesktopModal = () => {
-    const modal = document.getElementById(DESKTOP_MODAL_ID);
-    if (modal) modal.remove();
+    const scrollY = parseInt(document.body.style.top || "0") * -1;
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
     document.documentElement.classList.remove(DESKTOP_BODY_LOCK);
     document.body.classList.remove(DESKTOP_BODY_LOCK);
+    window.scrollTo(0, scrollY);
+    const modal = document.getElementById(DESKTOP_MODAL_ID);
+    if (modal) modal.remove();
   };
 
   const syncDesktopModalScrollable = (modal) => {
@@ -121,7 +107,7 @@
     });
 
     const result = await response.json().catch(() => ({}));
-    if (!response.ok || !result.ok) {
+    if (!response.ok || !result.success) {
       const error = new Error("lead_submit_failed");
       error.result = result;
       throw error;
@@ -172,17 +158,9 @@
         if (bad) invalid = true;
       });
       if (invalid) return;
-      setSubmitPending(submit, true);
-      try {
-        await submitLeadForm(form);
-        form.reset();
-        closeDesktopModal();
-      } catch (error) {
-        console.error(error);
-        form.classList.add("is-submit-error");
-      } finally {
-        setSubmitPending(submit, false);
-      }
+      const modalEl = document.getElementById(DESKTOP_MODAL_ID);
+      showThankYouScreen(modalEl);
+      submitLeadForm(form).catch((err) => console.error(err));
     });
 
     if (submit) {
@@ -288,6 +266,10 @@
       if (e.target === modal) closeDesktopModal();
     });
     initDesktopFormBehavior(modal);
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
     document.body.appendChild(modal);
     document.documentElement.classList.add(DESKTOP_BODY_LOCK);
     document.body.classList.add(DESKTOP_BODY_LOCK);

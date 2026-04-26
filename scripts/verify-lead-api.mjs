@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { handleLeadRequest } from "../src/lead-api.mjs";
 
+const originalFetch = globalThis.fetch;
+
 const formRequest = (fields) => {
   const data = new FormData();
   for (const [key, value] of Object.entries(fields)) data.set(key, value);
@@ -12,75 +14,126 @@ const formRequest = (fields) => {
 
 const json = async (response) => response.json();
 
+const withFetchMock = async (mock, run) => {
+  globalThis.fetch = mock;
+  try {
+    await run();
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+};
+
 {
-  const response = await handleLeadRequest(formRequest({ name: "", phone: "" }));
+  const response = await handleLeadRequest(formRequest({ name: "", phone: "", email: "" }), {});
   assert.equal(response.status, 422);
-  const body = await json(response);
-  assert.equal(body.ok, false);
-  assert.equal(body.errors.name, "Укажите имя");
-  assert.equal(body.errors.phone, "Укажите телефон");
+  assert.deepEqual(await json(response), { error: "Заполните обязательные поля: имя, телефон, email" });
 }
 
 {
-  const response = await handleLeadRequest(formRequest({ name: "Иван", phone: "+7 999 123-45-67", email: "bad-mail" }));
+  const response = await handleLeadRequest(formRequest({ name: "Иван", phone: "+7 999 123-45-67", email: "bad-mail" }), {});
   assert.equal(response.status, 422);
-  const body = await json(response);
-  assert.equal(body.errors.email, "Укажите корректный email");
+  assert.deepEqual(await json(response), { error: "Некорректный email" });
 }
 
 {
-  const response = await handleLeadRequest(formRequest({ name: "Spam", phone: "+79991234567", manager: "bot" }));
-  assert.equal(response.status, 200);
-  assert.deepEqual(await json(response), { ok: true, spam: true });
+  const response = await handleLeadRequest(formRequest({ name: "Иван", phone: "+7 999 123-45-67", email: "ivan@example.com" }), {});
+  assert.equal(response.status, 500);
+  assert.deepEqual(await json(response), { error: "Ошибка отправки. Пожалуйста, свяжитесь с нами напрямую." });
 }
 
-{
-  const response = await handleLeadRequest(formRequest({ name: "Иван", phone: "+7 999 123-45-67", email: "ivan@example.com" }));
-  assert.equal(response.status, 200);
-  const body = await json(response);
-  assert.equal(body.ok, true);
-  assert.equal(body.amo.skipped, true);
-  assert.equal(body.email.skipped, true);
-}
+await withFetchMock(
+  async (url, init) => {
+    if (url === "https://api.resend.com/emails") {
+      const body = JSON.parse(init.body);
+      assert.equal(body.reply_to, "ivan@example.com");
+      assert.match(body.html, /Страница отправки заявки/);
+      return Response.json({ id: "email_123" });
+    }
+    throw new Error(`Unexpected URL: ${url}`);
+  },
+  async () => {
+    const response = await handleLeadRequest(
+      formRequest({
+        name: "Иван",
+        phone: "+7 999 123-45-67",
+        email: "ivan@example.com",
+        comments: "Нужен сайт",
+        source: "https://serenity.test/#form",
+      }),
+      { RESEND_API_KEY: "resend-token" },
+    );
+    assert.equal(response.status, 200);
+    assert.deepEqual(await json(response), { success: true });
+  },
+);
 
-{
-  const calls = [];
-  const fakeFetch = async (url, init) => {
-    calls.push({ url, init });
-    return Response.json([{ id: 123 }]);
-  };
+await withFetchMock(
+  async (url, init) => {
+    if (url === "https://api.resend.com/emails") return Response.json({ id: "email_123" });
 
-  const response = await handleLeadRequest(
-    formRequest({ name: "Иван", phone: "+7 999 123-45-67", email: "ivan@example.com", comments: "Нужен сайт" }),
-    {
-      AMO_DOMAIN: "example.amocrm.ru",
-      AMO_ACCESS_TOKEN: "token",
-      AMO_PHONE_FIELD_ID: "111",
-      AMO_EMAIL_FIELD_ID: "222",
-    },
-    fakeFetch,
-  );
+    assert.ok(String(url).startsWith("https://serenity.amocrm.ru/api/v4/"));
+    const path = String(url).replace("https://serenity.amocrm.ru/api/v4", "");
+    const body = JSON.parse(init.body);
+    assert.equal(init.headers.Authorization, "Bearer amo-token");
 
-  assert.equal(response.status, 200);
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].url, "https://example.amocrm.ru/api/v4/leads/complex");
-  assert.equal(calls[0].init.headers.authorization, "Bearer token");
-  const payload = JSON.parse(calls[0].init.body);
-  assert.equal(payload[0]._embedded.contacts[0].custom_fields_values.length, 2);
-}
+    if (path === "/contacts") {
+      assert.equal(body[0].name, "Иван");
+      assert.equal(body[0].custom_fields_values.length, 2);
+      return Response.json({ _embedded: { contacts: [{ id: 321 }] } });
+    }
 
-{
-  const response = await handleLeadRequest(
-    formRequest({ name: "Иван", phone: "+7 999 123-45-67" }),
-    {
-      AMO_DOMAIN: "example.amocrm.ru",
-      AMO_ACCESS_TOKEN: "token",
-    },
-    async () => new Response("bad", { status: 500 }),
-  );
+    if (path === "/leads") {
+      assert.equal(body[0].name, "Заявка с сайта — Иван");
+      assert.deepEqual(body[0]._embedded.contacts, [{ id: 321 }]);
+      assert.equal(body[0].custom_fields_values[0].field_id, 555);
+      assert.equal(body[0].custom_fields_values[0].values[0].value, "https://serenity.test/#form");
+      return Response.json({ _embedded: { leads: [{ id: 654 }] } });
+    }
 
-  assert.equal(response.status, 502);
-  assert.equal((await json(response)).error, "lead_delivery_failed");
-}
+    if (path === "/leads/654/notes") {
+      assert.match(body[0].params.text, /Задача: Нужен сайт/);
+      assert.match(body[0].params.text, /Источник: https:\/\/serenity\.test\/#form/);
+      return Response.json({ _embedded: { notes: [{ id: 987 }] } });
+    }
+
+    throw new Error(`Unexpected AmoCRM path: ${path}`);
+  },
+  async () => {
+    const response = await handleLeadRequest(
+      formRequest({
+        name: "Иван",
+        phone: "+7 999 123-45-67",
+        email: "ivan@example.com",
+        comments: "Нужен сайт",
+        source: "https://serenity.test/#form",
+      }),
+      {
+        RESEND_API_KEY: "resend-token",
+        AMO_SUBDOMAIN: "serenity",
+        AMO_ACCESS_TOKEN: "amo-token",
+        AMO_SOURCE_FIELD_ID: "555",
+      },
+    );
+    assert.equal(response.status, 200);
+    assert.deepEqual(await json(response), { success: true });
+  },
+);
+
+await withFetchMock(
+  async () => new Response("bad", { status: 500 }),
+  async () => {
+    const response = await handleLeadRequest(
+      formRequest({ name: "Иван", phone: "+7 999 123-45-67", email: "ivan@example.com" }),
+      {
+        RESEND_API_KEY: "resend-token",
+        AMO_SUBDOMAIN: "serenity",
+        AMO_ACCESS_TOKEN: "amo-token",
+      },
+    );
+
+    assert.equal(response.status, 500);
+    assert.deepEqual(await json(response), { error: "Ошибка отправки. Пожалуйста, свяжитесь с нами напрямую." });
+  },
+);
 
 console.log("ok: lead-api");
