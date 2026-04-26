@@ -483,14 +483,6 @@ body.order-popup-open {
   overscroll-behavior: none !important;
 }
 
-html.order-popup-open {
-  height: 100% !important;
-}
-
-body.order-popup-open {
-  height: 100% !important;
-}
-
 /* Desktop order-popup strict parity fixes (after switching to original DOM attrs) */
 .overlay-new {
   position: fixed;

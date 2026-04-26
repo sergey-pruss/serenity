@@ -47,6 +47,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.waitForSelector("header.header", { state: "attached", timeout: 20_000 });
       await page.evaluate(() => window.scrollTo(0, 500));
       await page.waitForTimeout(400);
+      const pageScrollBeforeOpen = await page.evaluate(() => window.scrollY);
       await page.click("#body.body-application .application", { force: true });
       await page.waitForTimeout(400);
       const d = await readDesktopModal(page);
@@ -65,6 +66,8 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
           htmlFlag: document.documentElement.classList.contains("order-popup-open"),
           htmlOverflow: getComputedStyle(document.documentElement).overflow,
           bodyOverflow: getComputedStyle(document.body).overflow,
+          pageScrollY: window.scrollY,
+          bodyPosition: getComputedStyle(document.body).position,
           modalOverflowY: modal ? getComputedStyle(modal).overflowY : "",
           modalIsScrollable: modal?.classList.contains("is-scrollable") ?? false,
           modalClientHeight: modal?.clientHeight ?? 0,
@@ -85,6 +88,8 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       );
       assert(formShape.htmlFlag, "Десктоп: при открытом popup должен ставиться lock-класс на html");
       assert(formShape.htmlOverflow === "hidden" && formShape.bodyOverflow === "hidden", "Десктоп: страница под popup должна быть заблокирована");
+      assert(Math.abs(formShape.pageScrollY - pageScrollBeforeOpen) <= 30, "Десктоп: открытие popup не должно сбрасывать scrollY страницы");
+      assert(formShape.bodyPosition !== "fixed", "Десктоп: popup не должен фиксировать body через inline position=fixed");
       assert(formShape.modalOverflowY === "hidden", "Десктоп: popup без переполнения не должен показывать лишний scroll");
       assert(!formShape.modalIsScrollable, "Десктоп: в дефолтном состоянии popup не должен получать scroll-spacer");
       assert(
@@ -223,6 +228,8 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       assert(!closed.exists && !closed.bodyFlag, "Десктоп order-popup должен закрываться по Esc");
       const htmlUnlocked = await page.evaluate(() => !document.documentElement.classList.contains("order-popup-open"));
       assert(htmlUnlocked, "Десктоп: после закрытия popup lock-класс с html должен сниматься");
+      const pageScrollAfterClose = await page.evaluate(() => window.scrollY);
+      assert(Math.abs(pageScrollAfterClose - pageScrollBeforeOpen) <= 30, "Десктоп: закрытие popup не должно дергать scrollY страницы");
     }
 
     {
