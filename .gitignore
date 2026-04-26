@@ -15,3 +15,10 @@ _serenity_home.html
 
 publish/index.html
 publish/svgset.svg
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
