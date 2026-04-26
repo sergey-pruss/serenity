@@ -59,6 +59,33 @@
     });
   };
 
+  const setSubmitPending = (submit, pending) => {
+    if (!submit) return;
+    submit.disabled = pending;
+    submit.classList.toggle("is-pending", pending);
+    const text = submit.querySelector(".btn__text");
+    if (text) text.textContent = pending ? "Отправляем" : "Отправить";
+  };
+
+  const submitLeadForm = async (form) => {
+    const data = new FormData(form);
+    data.set("source", window.location.href);
+
+    const response = await fetch("/api/lead", {
+      method: "POST",
+      body: data,
+    });
+
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) {
+      const error = new Error("lead_submit_failed");
+      error.result = result;
+      throw error;
+    }
+
+    return result;
+  };
+
   const initDesktopFormBehavior = (modal) => {
     const form = modal.querySelector("form.order-popup__form");
     if (!form) return;
@@ -89,7 +116,7 @@
       autosize();
     });
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = form.querySelector('input[name="name"]');
       const phone = form.querySelector('input[name="phone"]');
@@ -101,7 +128,17 @@
         if (bad) invalid = true;
       });
       if (invalid) return;
-      closeDesktopModal();
+      setSubmitPending(submit, true);
+      try {
+        await submitLeadForm(form);
+        form.reset();
+        closeDesktopModal();
+      } catch (error) {
+        console.error(error);
+        form.classList.add("is-submit-error");
+      } finally {
+        setSubmitPending(submit, false);
+      }
     });
 
     if (submit) {

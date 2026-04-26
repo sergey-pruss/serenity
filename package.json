@@ -7,6 +7,7 @@
     "test:clients": "node scripts/verify-clients.cjs",
     "test:menu": "node scripts/verify-menu-screen.cjs",
     "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",
+    "test:lead-api": "node scripts/verify-lead-api.mjs",
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs"
   },
   "devDependencies": {
