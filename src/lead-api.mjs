@@ -96,7 +96,7 @@ async function sendEmail(env, { name, phone, email, message }) {
     },
     body: JSON.stringify({
       from: "Serenity <onboarding@resend.dev>",
-      to: ["mail@serenity.ru"],
+      to: ["sergeyprus@gmail.com"],
       reply_to: email,
       subject: `Новая заявка от ${name}`,
       html,
