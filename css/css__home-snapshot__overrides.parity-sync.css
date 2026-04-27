@@ -348,6 +348,25 @@ body.scroll-menu-open {
   }
 }
 
+@media screen and (min-width: 1025px) and (max-width: 1250px) {
+  .page-top.header.compressed .body-application,
+  .page-top.header.compressed .body-application[data-v-e5e2adce],
+  .compressed.header .body-application.noactive,
+  .compressed.header .body-application.noactive[data-v-e5e2adce] {
+    width: 240px !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+    top: 93.8vh !important;
+    right: 5% !important;
+    transform: translate3d(0, -20px, 0) !important;
+    z-index: 120 !important;
+  }
+}
+
 .header .new-static-menu.new-static-menu_main-str,
 .header .new-static-menu.new-static-menu_main-str[data-v-e5e2adce] {
   opacity: 0;
