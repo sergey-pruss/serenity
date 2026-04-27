@@ -59,6 +59,14 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
         const firstMessengerIcon = modal?.querySelector(".contact-form__messenger-links img");
         const linkRect = firstMessengerLink?.getBoundingClientRect();
         const iconRect = firstMessengerIcon?.getBoundingClientRect();
+        const rect = (el) => {
+          const r = el?.getBoundingClientRect();
+          return r ? { y: r.y, bottom: r.bottom, height: r.height } : null;
+        };
+        const modalRect = rect(modal);
+        const innerRect = rect(modal?.querySelector(".order-popup__inner"));
+        const formRect = rect(modal?.querySelector(".form-wrap"));
+        const messengerRect = rect(modal?.querySelector(".contact-form__messenger"));
         return {
           hasForm: !!modal?.querySelector("form.order-popup__form"),
           title: modal?.querySelector("h2")?.textContent?.trim() || "",
@@ -78,6 +86,9 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
           submitOpacity: modal ? getComputedStyle(modal.querySelector(".form__submit")).opacity : "",
           messengerLinkWidth: linkRect?.width ?? null,
           messengerIconWidth: iconRect?.width ?? null,
+          topPadding: modalRect && innerRect ? Math.round(innerRect.y - modalRect.y) : null,
+          formTopOffset: modalRect && formRect ? Math.round(formRect.y - modalRect.y) : null,
+          messengerBottomGap: modalRect && messengerRect ? Math.round(modalRect.bottom - messengerRect.bottom) : null,
         };
       });
       assert(formShape.hasForm, "Десктоп: в popup должна быть форма");
@@ -102,6 +113,18 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       assert(formShape.submitOpacity === "0.5", "Десктоп: кнопка отправки должна быть приглушена opacity=0.5");
       assert(formShape.messengerLinkWidth === 46, "Десктоп: messenger-ссылки должны быть видимыми 46px");
       assert(formShape.messengerIconWidth === 46, "Десктоп: messenger-иконки должны быть видимыми 46px");
+      assert(
+        formShape.topPadding >= 115 && formShape.topPadding <= 145,
+        `Десктоп: верхний отступ popup должен повторять оригинал (~130px), got ${formShape.topPadding}`,
+      );
+      assert(
+        formShape.formTopOffset >= 90 && formShape.formTopOffset <= 120,
+        `Десктоп: форма не должна уезжать к верхнему краю popup, got ${formShape.formTopOffset}`,
+      );
+      assert(
+        formShape.messengerBottomGap >= 220 && formShape.messengerBottomGap <= 260,
+        `Десктоп: мессенджеры должны оставаться в исходной нижней зоне, got ${formShape.messengerBottomGap}`,
+      );
       await page.hover("#desktop-order-popup .contact-form__messenger-links a");
       await page.waitForTimeout(500);
       const messengerHoverOpacity = await page.evaluate(() =>
