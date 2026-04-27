@@ -236,6 +236,25 @@
   margin-bottom: -40px;
 }
 
+/* Адаптив как в оригинале: на планшете/мобилке карточки листаются свайпом,
+   стрелки скрываются и не перекрывают жесты. */
+@media screen and (max-width: 1024px) {
+  .services__context-wrapper[data-native-row="1"],
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .services__context-slider .swiper-button-prev,
+  .services__context-slider .swiper-button-next,
+  .blog-block__swiper-container .swiper-button-prev,
+  .blog-block__swiper-container .swiper-button-next {
+    display: none !important;
+  }
+}
+
 .services__context-wrapper[data-native-row="1"]::-webkit-scrollbar,
 .blog-block__swiper-container .swiper-wrapper[data-native-row="1"]::-webkit-scrollbar {
   display: none;
