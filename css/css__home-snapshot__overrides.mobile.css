@@ -72,22 +72,12 @@
     z-index: 120;
   }
 
-  .header .new-static-menu .new-static-menu__logo {
-    display: block;
-    width: 100%;
-    margin-bottom: 12px;
-    flex: 0 0 auto;
-  }
-
-  .header .new-static-menu .new-static-menu__logo-link {
-    display: inline-block;
-    line-height: 0;
-  }
-
-  .header .new-static-menu .new-static-menu__logo-img {
-    width: 120px;
-    height: auto;
-    display: block;
+  /* Оверлей new-static-menu (120) перекрывал бургер (z-index 3) — крестик не кликался */
+  .header.active .menu-icon__wrapper,
+  .header.active .menu-icon__wrapper[data-v-e5e2adce],
+  .header.active .menu-icon,
+  .header.active .menu-icon[data-v-e5e2adce] {
+    z-index: 140 !important;
   }
 
   .header .new-static-menu .navigation-new,
@@ -96,8 +86,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    /* верх: под статус-бар; логотип в скролле, крестик остаётся в header */
-    padding-top: calc(44px + env(safe-area-inset-top, 0px));
+    padding-top: calc(88px + env(safe-area-inset-top, 0px));
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: calc(128px + env(safe-area-inset-bottom));
@@ -200,7 +189,7 @@
   .header .new-static-menu .header-burger-dual-phones__line {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 9px;
     text-decoration: none;
     color: #fff;
   }
@@ -261,13 +250,9 @@
 }
 
 @media screen and (max-width: 500px) {
-  .header .new-static-menu .new-static-menu__logo-img {
-    width: 97px;
-  }
-
   .header .new-static-menu .navigation-new,
   .header .new-static-menu .navigation-new[data-v-7050ddb2] {
-    padding-top: calc(40px + env(safe-area-inset-top, 0px));
+    padding-top: calc(82px + env(safe-area-inset-top, 0px));
     padding-left: 24px;
     padding-right: 24px;
     padding-bottom: calc(132px + env(safe-area-inset-bottom));
