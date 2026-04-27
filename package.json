@@ -8,6 +8,7 @@
     "test:home-cases": "node scripts/verify-home-cases.cjs",
     "test:menu": "node scripts/verify-menu-screen.cjs",
     "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",
+    "test:sliders": "node scripts/slider-smoke.cjs",
     "test:lead-api": "node scripts/verify-lead-api.mjs",
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs"
   },
