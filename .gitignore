@@ -9,6 +9,8 @@ dist/
 .astro/
 standalone/
 public/img/
+tmp/
+.wrangler/
 
 # локальные черновики / снимки вне пайплайна
 _patch_ribbon.py

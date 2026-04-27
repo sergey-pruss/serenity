@@ -634,6 +634,78 @@
     sync();
   };
 
+  /**
+   * Плавающий CTA на tablet/mobile: при скролле — фиксированный отступ 15px от низа viewport;
+   * у самого низа страницы — сдвиг вниз, чтобы нижний край CTA совпал с нижним краем иконок
+   * в footer `.footer-modern__social` (тот же «зазор до края», что и у соцблока).
+   */
+  const initAdaptiveFloatingCtaPosition = () => {
+    const cta = document.querySelector("#body.body-application");
+    if (!cta) return;
+
+    const isTabletOrMobile = () => window.matchMedia("(max-width: 1200px)").matches;
+    const getCtaVisualEl = () => cta.querySelector(".application, .footer__link") || cta;
+    const getFooterSocialIcon = () => {
+      const block = document.querySelector("footer.footer-modern .footer-modern__social");
+      return block?.querySelector("a");
+    };
+
+    let raf = 0;
+    const sync = () => {
+      raf = 0;
+      if (!isTabletOrMobile()) {
+        cta.style.removeProperty("bottom");
+        cta.style.removeProperty("transform");
+        return;
+      }
+      if (getComputedStyle(cta).display === "none" || getComputedStyle(cta).visibility === "hidden") {
+        return;
+      }
+      cta.style.setProperty("transform", "none", "important");
+
+      const measureEl = getCtaVisualEl();
+      const vv = window.visualViewport;
+      const vh = vv?.height ?? window.innerHeight;
+      const scrollBottom = (window.scrollY || 0) + vh;
+      const docBottom = document.documentElement?.scrollHeight ?? 0;
+      const atPageBottom = docBottom - scrollBottom <= 3;
+
+      const boxCta = cta.getBoundingClientRect();
+      const boxVis = measureEl.getBoundingClientRect();
+      // `bottom` в CSS — от нижнего края *внешнего* #body; визуальная кнопка (`.application`) может быть
+      // прижата выше/ниже внутри flex-контейнера — компенсируем разницей нижних граней.
+      const visOffset = boxCta.bottom - boxVis.bottom; // + если снаружи «ниже» плашки
+      const FLOAT_PX = 15;
+      if (!atPageBottom) {
+        cta.style.setProperty("bottom", `${FLOAT_PX + visOffset}px`, "important");
+        return;
+      }
+
+      const icon = getFooterSocialIcon();
+      if (!icon || icon.getClientRects().length === 0) {
+        cta.style.setProperty("bottom", `${FLOAT_PX + visOffset}px`, "important");
+        return;
+      }
+
+      const iconBottomFromViewportBottom = vh - icon.getBoundingClientRect().bottom;
+      const bottom = Math.max(0, iconBottomFromViewportBottom + visOffset);
+      cta.style.setProperty("bottom", `${bottom}px`, "important");
+    };
+
+    const schedule = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(sync);
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", schedule);
+      window.visualViewport.addEventListener("scroll", schedule);
+    }
+    schedule();
+  };
+
   const initHeaderCityPhoneSwitch = () => {
     const cityBlock = document.querySelector("header.header .navigation-new__citys");
     if (!cityBlock) return;
@@ -839,6 +911,7 @@
   };
 
   initHeaderBurgerOnScroll();
+  initAdaptiveFloatingCtaPosition();
   initFooterPhoneSwitch();
   initHeroVideoLoading();
   initClientsStrip();
