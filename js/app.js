@@ -531,6 +531,7 @@
 
     let collapsed = false;
     const DESKTOP_BREAKPOINT = 1250;
+    const SCROLL_COLLAPSE_BREAKPOINT = 1024;
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
 
@@ -584,7 +585,7 @@
     };
 
     const sync = () => {
-      if (window.innerWidth <= DESKTOP_BREAKPOINT) {
+      if (window.innerWidth <= SCROLL_COLLAPSE_BREAKPOINT) {
         applyState(false);
         return;
       }
