@@ -34,8 +34,8 @@
 /* Mobile (≤620px) — hero matches snapshot.bundle.css; loads after tablet. */
 @media screen and (max-width: 620px) {
   .header__logo .header__logo-img {
-    top: -21px !important;
-    width: 105px !important;
+    top: 0 !important;
+    width: 132px !important;
     height: auto;
   }
 
@@ -68,4 +68,10 @@
     transform: none !important;
   }
 
+}
+
+@media screen and (max-width: 500px) {
+  .header__logo .header__logo-img {
+    width: 97px !important;
+  }
 }
