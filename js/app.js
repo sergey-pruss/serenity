@@ -764,9 +764,24 @@
     }, 500);
   };
 
+  const initMorCasesSlider = () => {
+    if (window.innerWidth > 768) return;
+    const container = document.querySelector(".mor-cases-slider");
+    if (!container || container.dataset.morCasesInit === "1") return;
+    container.dataset.morCasesInit = "1";
+    new Swiper(container, {
+      direction: "horizontal",
+      slidesPerView: "auto",
+      freeMode: true,
+      spaceBetween: 20,
+      grabCursor: true,
+    });
+  };
+
   initHeaderBurgerOnScroll();
   initHeaderCityPhoneSwitch();
   initFooterPhoneSwitch();
   initHeroVideoLoading();
   initClientsStrip();
+  initMorCasesSlider();
 })();
