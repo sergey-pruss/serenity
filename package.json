@@ -10,6 +10,7 @@
     "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",
     "test:sliders": "node scripts/slider-smoke.cjs",
     "test:lead-api": "node scripts/verify-lead-api.mjs",
+    "test:floating-cta": "node scripts/verify-floating-cta.cjs",
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs"
   },
   "devDependencies": {
