@@ -643,6 +643,68 @@
     selectCity(cityItems.find((item) => item.classList.contains("selected"))?.textContent.trim() || "Петербург");
   };
 
+  const initFooterPhoneSwitch = () => {
+    const phones = {
+      "Петербург": {
+        text: "+7 (812) 602 50 44",
+        href: "tel:+78126025044",
+      },
+      "Москва": {
+        text: "+7 (495) 419 95 88",
+        href: "tel:+74954199588",
+      },
+    };
+
+    const bindSwitcher = ({ root, pickerSelector, phoneSelector, linkSelector, selectedClass }) => {
+      const phoneText = root.querySelector(phoneSelector);
+      const phoneLink = root.querySelector(linkSelector);
+      const cityItems = Array.from(root.querySelectorAll(pickerSelector));
+      if (!phoneText || !phoneLink || cityItems.length < 2) return;
+
+      const selectCity = (cityName) => {
+        const phone = phones[cityName] || phones["Петербург"];
+        phoneText.textContent = phone.text;
+        phoneLink.setAttribute("href", phone.href);
+        cityItems.forEach((item) => {
+          item.classList.toggle(selectedClass, item.textContent.trim() === cityName);
+        });
+      };
+
+      cityItems.forEach((item) => {
+        item.setAttribute("role", "button");
+        item.setAttribute("tabindex", "0");
+        item.addEventListener("click", () => selectCity(item.textContent.trim()));
+        item.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          selectCity(item.textContent.trim());
+        });
+      });
+
+      selectCity(cityItems.find((item) => item.classList.contains(selectedClass))?.textContent.trim() || "Петербург");
+    };
+
+    document.querySelectorAll(".footer-modern__contacts").forEach((root) => {
+      bindSwitcher({
+        root,
+        pickerSelector: ".footer-modern__city-selector a",
+        phoneSelector: ".footer-modern__phone",
+        linkSelector: "a:has(.footer-modern__phone)",
+        selectedClass: "selected",
+      });
+    });
+
+    document.querySelectorAll(".btns__option--extended").forEach((root) => {
+      bindSwitcher({
+        root,
+        pickerSelector: ".btns__picker span",
+        phoneSelector: ".btns__number",
+        linkSelector: "a",
+        selectedClass: "selected",
+      });
+    });
+  };
+
   const initHeroVideoLoading = () => {
     const block = document.querySelector(".video-block");
     const video = block?.querySelector("video.video-iframe");
@@ -704,6 +766,7 @@
 
   initHeaderBurgerOnScroll();
   initHeaderCityPhoneSwitch();
+  initFooterPhoneSwitch();
   initHeroVideoLoading();
   initClientsStrip();
 })();
