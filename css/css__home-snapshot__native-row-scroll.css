@@ -25,30 +25,44 @@
   overflow: visible !important;
 }
 
-/* Стрелки услуг: фиксированная геометрия и без анимаций, чтобы не было микродвижений. */
+/* Общая визуальная система стрелок для услуг и блога: одинаковая кнопка + одинаковая иконка */
 .services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51],
-.services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51] {
-  display: block !important;
+.services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51],
+.blog-block__swiper-container .swiper-button-next,
+.blog-block__swiper-container .swiper-button-prev {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-top: 0 !important;
+  box-sizing: border-box;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: #fff;
   opacity: 1 !important;
-  transition: none !important;
+  transition: opacity 0.2s ease !important;
   pointer-events: auto !important;
-  z-index: 5;
-  top: 50% !important;
-  margin-top: 7px !important;
-  transform-origin: center center !important;
+  appearance: none;
+  -webkit-appearance: none;
+  line-height: 0;
 }
 .services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51] {
   transform: translate3d(0, -50%, 0) !important;
 }
 .services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51] {
-  transform: translate3d(0, -50%, 0) rotate(180deg) !important;
+  transform: translate3d(0, -50%, 0) !important;
 }
 
-/* Дублируем без data-v, чтобы центрирование не ломалось при изменении разметки. */
+/* Позиционирование услуг */
 .services__context-slider .swiper-button-next,
 .services__context-slider .swiper-button-prev {
   top: 50% !important;
   margin-top: 7px !important;
+  z-index: 5;
+  transform-origin: center center !important;
 }
 
 /* Блог: стрелки привязываем к самому слайдеру, а не ко всему блоку. */
@@ -62,39 +76,104 @@
 .blog-block__swiper-container .swiper-button-prev {
   position: absolute;
   top: 50% !important;
-  width: 52px;
-  height: 52px;
-  margin-top: 0 !important;
-  box-sizing: border-box;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: transparent;
-  color: #fff;
-  opacity: 1 !important;
-  transition: none !important;
-  pointer-events: auto !important;
-  appearance: none;
-  -webkit-appearance: none;
   z-index: 6;
+}
+
+.services__context-slider :is(.swiper-button-prev, .swiper-button-next)::after,
+.blog-block__swiper-container :is(.swiper-button-prev, .swiper-button-next)::after,
+.clients-mainstr .swiper-buttons :is(.swiper-button-prev, .swiper-button-next)::after {
+  content: none !important;
+  display: none !important;
+}
+
+.services__context-slider :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus)::after,
+.blog-block__swiper-container :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus)::after,
+.clients-mainstr .swiper-buttons :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus)::after {
+  content: none !important;
+  display: none !important;
 }
 .blog-block__swiper-container .swiper-button-prev {
   left: 0;
   right: auto;
-  transform: translate3d(0, -50%, 0) rotate(180deg) !important;
+  transform: translate3d(0, -50%, 0) !important;
 }
 .blog-block__swiper-container .swiper-button-next {
   right: 0;
   left: auto;
   transform: translate3d(0, -50%, 0) !important;
 }
-.blog-block__swiper-container .swiper-button-next svg,
-.blog-block__swiper-container .swiper-button-prev svg {
+.clients-mainstr .swiper-buttons .swiper-button-prev,
+.clients-mainstr .swiper-buttons .swiper-button-next {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  opacity: 1 !important;
+  transition: opacity 0.2s ease !important;
+  transform: none !important;
+}
+
+.services__context-slider .swiper-button-prev,
+.blog-block__swiper-container .swiper-button-prev,
+.clients-mainstr .swiper-buttons .swiper-button-prev {
+  background-image: none !important;
+}
+
+.services__context-slider .swiper-button-next,
+.blog-block__swiper-container .swiper-button-next,
+.clients-mainstr .swiper-buttons .swiper-button-next {
+  background-image: none !important;
+}
+
+.services__context-slider .swiper-button-prev::before,
+.blog-block__swiper-container .swiper-button-prev::before,
+.clients-mainstr .swiper-buttons .swiper-button-prev::before,
+.services__context-slider .swiper-button-next::before,
+.blog-block__swiper-container .swiper-button-next::before,
+.clients-mainstr .swiper-buttons .swiper-button-next::before {
+  content: "";
   display: block;
-  margin: 0 auto;
+  width: 12px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 20px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.services__context-slider .swiper-button-prev::before,
+.blog-block__swiper-container .swiper-button-prev::before,
+.clients-mainstr .swiper-buttons .swiper-button-prev::before {
+  background-image: url("../img/slider-arrow-prev.svg?v=20260427b");
+}
+
+.services__context-slider .swiper-button-next::before,
+.blog-block__swiper-container .swiper-button-next::before,
+.clients-mainstr .swiper-buttons .swiper-button-next::before {
+  background-image: url("../img/slider-arrow-next.svg?v=20260427b");
+}
+
+.services__context-slider :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus-visible)::before,
+.blog-block__swiper-container :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus-visible)::before,
+.clients-mainstr .swiper-buttons :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus-visible)::before {
+  opacity: 1;
+}
+
+/* Bundle hover-правила используют shorthand background и сбрасывают image.
+   Возвращаем иконки в hover/focus состояниях явно, чтобы стрелка не пропадала. */
+.services__context-slider :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus),
+.blog-block__swiper-container :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus),
+.clients-mainstr .swiper-buttons :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus) {
+  background-image: none !important;
+}
+
+.services__context-slider .swiper-button-prev img,
+.services__context-slider .swiper-button-next img,
+.blog-block__swiper-container .swiper-button-prev img,
+.blog-block__swiper-container .swiper-button-next img,
+.clients-mainstr .swiper-buttons .swiper-button-prev img,
+.clients-mainstr .swiper-buttons .swiper-button-next img {
+  display: none !important;
 }
 
 /* Геометрия ряда услуг: без обрезки слева, вынос только вправо. */
