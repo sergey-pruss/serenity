@@ -103,19 +103,31 @@ async function readBlogArrowStyles(page) {
     const pr = prev.getBoundingClientRect();
     const nr = next.getBoundingClientRect();
     return {
+      counts: {
+        prev: root.querySelectorAll(".swiper-button-prev").length,
+        next: root.querySelectorAll(".swiper-button-next").length,
+      },
       prev: {
         position: ps.position,
         borderRadius: ps.borderRadius,
         backgroundColor: ps.backgroundColor,
+        borderTopWidth: ps.borderTopWidth,
+        afterContent: getComputedStyle(prev, "::after").content,
         centerY: (pr.top + pr.bottom) / 2,
         left: pr.left,
+        width: pr.width,
+        height: pr.height,
       },
       next: {
         position: ns.position,
         borderRadius: ns.borderRadius,
         backgroundColor: ns.backgroundColor,
+        borderTopWidth: ns.borderTopWidth,
+        afterContent: getComputedStyle(next, "::after").content,
         centerY: (nr.top + nr.bottom) / 2,
         right: nr.right,
+        width: nr.width,
+        height: nr.height,
       },
       trackCenterY,
       hostCenterY: (rr.top + rr.bottom) / 2,
@@ -468,10 +480,20 @@ async function run() {
   const blogArrowStyles = await readBlogArrowStyles(page);
   assert(blogStart, "blog slider is not found");
   assert(blogArrowStyles, "blog arrows are not found");
+  assert(blogArrowStyles.counts.prev === 1, "blog must have exactly one prev arrow");
+  assert(blogArrowStyles.counts.next === 1, "blog must have exactly one next arrow");
   assert(blogArrowStyles.prev.position === "absolute", "blog prev arrow must be absolutely positioned");
   assert(blogArrowStyles.next.position === "absolute", "blog next arrow must be absolutely positioned");
-  assert(blogArrowStyles.prev.borderRadius === "50%", "blog prev arrow must be circular");
-  assert(blogArrowStyles.next.borderRadius === "50%", "blog next arrow must be circular");
+  assert(blogArrowStyles.prev.borderRadius === "0px", "blog prev arrow must not be circular");
+  assert(blogArrowStyles.next.borderRadius === "0px", "blog next arrow must not be circular");
+  assert(blogArrowStyles.prev.borderTopWidth === "0px", "blog prev arrow must not have circle border");
+  assert(blogArrowStyles.next.borderTopWidth === "0px", "blog next arrow must not have circle border");
+  assert(blogArrowStyles.prev.afterContent === "none", "blog prev arrow must not render Swiper pseudo arrow");
+  assert(blogArrowStyles.next.afterContent === "none", "blog next arrow must not render Swiper pseudo arrow");
+  assert(blogArrowStyles.prev.width <= 14, "blog prev arrow must use compact bare-arrow width");
+  assert(blogArrowStyles.next.width <= 14, "blog next arrow must use compact bare-arrow width");
+  assert(blogArrowStyles.prev.height <= 22, "blog prev arrow must use compact bare-arrow height");
+  assert(blogArrowStyles.next.height <= 22, "blog next arrow must use compact bare-arrow height");
   assert(
     Math.abs(blogArrowStyles.prev.centerY - blogArrowStyles.trackCenterY) < 10,
     "blog prev arrow must align with the row (track) center",
@@ -503,4 +525,3 @@ run().catch((err) => {
   console.error(`slider-smoke: FAIL\n${err.stack || err.message}`);
   process.exit(1);
 });
-
