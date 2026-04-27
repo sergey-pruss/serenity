@@ -9,10 +9,10 @@
     display: block !important;
   }
 
-  /* Logo: desktop override is min-width 769px; keep img position for 768–1100 here */
+  /* Logo aligns with the burger on tablet/narrow desktop. */
   .header__logo .header__logo-img {
     position: relative;
-    top: 26px !important;
+    top: 0 !important;
     width: 132px !important;
     height: auto;
   }

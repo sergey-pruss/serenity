@@ -367,6 +367,13 @@ body.scroll-menu-open {
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .btns__item_open.opacited,
+  .btns__item_open.opacited[data-v-23015bc0] {
+    opacity: 1 !important;
+  }
+}
+
 .header .new-static-menu.new-static-menu_main-str,
 .header .new-static-menu.new-static-menu_main-str[data-v-e5e2adce] {
   opacity: 0;
