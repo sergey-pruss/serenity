@@ -573,7 +573,7 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover {
   /* Hover: усиленное фиолетовое свечение + плавное увеличение */
-  font-weight: 450 !important;
+  font-weight: 430 !important;
   text-shadow:
     0.01px 0 0 currentColor,
     -0.01px 0 0 currentColor;
@@ -591,7 +591,7 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover .icon path,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon path {
-  stroke-width: 1.95;
+  stroke-width: 1.9;
 }
 
 body.leave-cta-open .btns.active .btns__blur,
