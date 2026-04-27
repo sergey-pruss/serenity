@@ -84,6 +84,42 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
       assert(openState.navVisible, `[${width}] fullscreen-блок меню не виден`);
       assert(!openState.topMenuVisible, `[${width}] видно старое верхнее меню`);
 
+      const readMenuPhone = async () =>
+        page.evaluate(() => {
+          const cityBlock = document.querySelector("header.header .navigation-new__citys");
+          const selected = cityBlock?.querySelector(".btns__picker .selected");
+          const phone = cityBlock?.querySelector(".navigation-new__citys-number");
+          const link = cityBlock?.querySelector(".navigation-new__block-number");
+          return {
+            city: selected?.textContent?.trim() || "",
+            text: phone?.textContent?.trim() || "",
+            href: link?.getAttribute("href") || "",
+          };
+        });
+
+      const phoneBefore = await readMenuPhone();
+      assert(phoneBefore.city === "Петербург", `[${width}] по умолчанию должен быть выбран Петербург`);
+      assert(phoneBefore.text === "+7 (812) 602-50-44", `[${width}] номер Петербурга не совпадает: ${phoneBefore.text}`);
+      assert(phoneBefore.href === "tel:+78126025044", `[${width}] tel Петербурга не совпадает: ${phoneBefore.href}`);
+
+      await page
+        .locator("header.header .navigation-new__citys .btns__picker span")
+        .filter({ hasText: "Москва" })
+        .click();
+      const phoneMoscow = await readMenuPhone();
+      assert(phoneMoscow.city === "Москва", `[${width}] после клика должна быть выбрана Москва`);
+      assert(phoneMoscow.text === "+7 (495) 419-95-88", `[${width}] номер Москвы не совпадает: ${phoneMoscow.text}`);
+      assert(phoneMoscow.href === "tel:+74954199588", `[${width}] tel Москвы не совпадает: ${phoneMoscow.href}`);
+
+      await page
+        .locator("header.header .navigation-new__citys .btns__picker span")
+        .filter({ hasText: "Петербург" })
+        .press("Enter");
+      const phonePetersburg = await readMenuPhone();
+      assert(phonePetersburg.city === "Петербург", `[${width}] Enter должен вернуть Петербург`);
+      assert(phonePetersburg.text === "+7 (812) 602-50-44", `[${width}] номер Петербурга после возврата не совпадает`);
+      assert(phonePetersburg.href === "tel:+78126025044", `[${width}] tel Петербурга после возврата не совпадает`);
+
       await page.keyboard.press("Escape");
       await page.waitForTimeout(250);
       const closed = await page.evaluate(() => !document.querySelector("header.header")?.classList.contains("active"));
@@ -116,4 +152,3 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
   console.error(e);
   process.exitCode = 1;
 });
-
