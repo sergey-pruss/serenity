@@ -1,24 +1,5 @@
-.services__context-slider .swiper-button-prev,
-.services__context-slider .swiper-button-next,
-.blog-block__swiper-container .swiper-button-prev,
-.blog-block__swiper-container .swiper-button-next,
-.clients-mainstr .swiper-buttons .swiper-button-prev,
-.clients-mainstr .swiper-buttons .swiper-button-next {
-  width: 12px !important;
-  height: 20px !important;
-  min-width: 12px !important;
-  min-height: 20px !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  color: #fff !important;
-  padding: 0 !important;
-  margin-top: 0 !important;
-  cursor: pointer;
-}
-
+/* Не ломаем геометрию из native-row-scroll:
+   круглая кнопка + псевдоиконка задаются там и являются источником правды. */
 .services__context-slider .swiper-button-prev::after,
 .services__context-slider .swiper-button-next::after,
 .blog-block__swiper-container .swiper-button-prev::after,
@@ -29,32 +10,12 @@
   display: none !important;
 }
 
+/* Убираем дублирующий inline-svg, чтобы не было "двойной" стрелки поверх ::before. */
 .services__context-slider .swiper-button-prev svg,
 .services__context-slider .swiper-button-next svg,
 .blog-block__swiper-container .swiper-button-prev svg,
 .blog-block__swiper-container .swiper-button-next svg,
 .clients-mainstr .swiper-buttons .swiper-button-prev svg,
 .clients-mainstr .swiper-buttons .swiper-button-next svg {
-  display: block !important;
-  width: 12px !important;
-  height: 20px !important;
-}
-
-.services__context-slider .swiper-button-prev,
-.blog-block__swiper-container .swiper-button-prev {
-  transform: translateY(-50%) rotate(180deg) !important;
-}
-
-.services__context-slider .swiper-button-next,
-.blog-block__swiper-container .swiper-button-next {
-  transform: translateY(-50%) !important;
-}
-
-.clients-mainstr .swiper-buttons .swiper-button-prev,
-.clients-mainstr .swiper-buttons .swiper-button-next {
-  position: static !important;
-}
-
-.clients-mainstr .swiper-buttons .swiper-button-prev {
-  transform: rotate(180deg) !important;
+  display: none !important;
 }
