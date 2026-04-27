@@ -245,6 +245,13 @@
   color: #000 !important;
 }
 
+@media screen and (min-width: 1501px) {
+  .more-cases .more-cases__item > .case:nth-last-of-type(1),
+  .more-cases .more-cases__item > .case[data-v-c0adc676]:nth-last-of-type(1) {
+    display: none !important;
+  }
+}
+
 /* Блок с цифрами: ссылка "Подробнее о нас" в ритме референса */
 .live-marketing-block__content-link,
 .live-marketing-block__content-link[data-v-1c300291] {
