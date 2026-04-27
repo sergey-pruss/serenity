@@ -243,7 +243,9 @@
   .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] {
     overflow-x: auto !important;
     overflow-y: hidden !important;
-    touch-action: pan-x;
+    /* Не блокируем вертикальный жест страницы на мобильных:
+       pan-x вызывал «залипание» вертикального скролла внутри секций. */
+    touch-action: auto;
     -webkit-overflow-scrolling: touch;
   }
 
