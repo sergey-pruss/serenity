@@ -1,5 +1,33 @@
+/* Cases slider — mobile */
+@media (max-width: 768px) {
+  .mor-cases-slider-wrapper .mor-cases-slide {
+    width: 80vw !important;
+    height: 420px !important;
+    flex-shrink: 0;
+  }
+  .mor-cases-slider {
+    overflow: hidden;
+  }
+  .mor-cases-slider-wrapper {
+    overflow: visible;
+  }
+  .swiper-button-next,
+  .swiper-button-prev,
+  .more-cases__arrow,
+  [class*="arrow"],
+  [class*="nav-btn"] {
+    display: none !important;
+  }
+}
+
 /* Mobile (≤620px) — hero matches snapshot.bundle.css; loads after tablet. */
 @media screen and (max-width: 620px) {
+  .header__logo .header__logo-img {
+    top: -21px !important;
+    width: 105px !important;
+    height: auto;
+  }
+
   .main-heading-block .title-block[data-v-1a254476],
   .main-heading-block .title-block {
     max-width: 290px !important;
