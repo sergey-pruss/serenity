@@ -182,7 +182,7 @@
   .header .new-static-menu .header-burger-dual-phones {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 25px;
     width: 100%;
   }
 
