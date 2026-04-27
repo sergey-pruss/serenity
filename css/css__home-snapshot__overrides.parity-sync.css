@@ -201,18 +201,6 @@
   }
 }
 
-/* Blog slider arrows: visible on desktop only, like services behavior */
-.blog-block-mainstr .swiper-button-prev,
-.blog-block-mainstr .swiper-button-next {
-  display: none !important;
-}
-@media screen and (min-width: 1025px) {
-  .blog-block-mainstr .swiper-button-prev,
-  .blog-block-mainstr .swiper-button-next {
-    display: block !important;
-  }
-}
-
 /*
   Карточки блога: на проде Vue вешал .active по hover, подпись .case__subtitle (если не пустая) и тег
   плавно появлялись, .case__top съезжал, превью увеличивалось — см. .case.active* в bundle.
@@ -304,6 +292,17 @@
   stroke: #ffffff !important;
 }
 
+@media screen and (max-width: 768px) {
+  .live-marketing-block__content-link,
+  .live-marketing-block__content-link[data-v-1c300291] {
+    position: static !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin-top: 20px !important;
+  }
+}
+
 @media screen and (min-width: 1025px) {
   .live-marketing-block__content-link,
   .live-marketing-block__content-link[data-v-1c300291] {
@@ -368,9 +367,17 @@ body.scroll-menu-open {
     pointer-events: auto !important;
     position: fixed !important;
     top: 93.8vh !important;
-    right: 5% !important;
+    /* Фикс обрезания CTA справа на desktop-ширинах */
+    right: clamp(38px, 5vw, 78px) !important;
     transform: translate3d(0, -20px, 0) !important;
     z-index: 120 !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .compressed.header .body-application[data-v-e5e2adce],
+  .page-top.header.compressed .body-application[data-v-e5e2adce] {
+    right: 5% !important;
   }
 }
 
@@ -512,6 +519,79 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
   display: block !important;
   pointer-events: auto;
   z-index: 202;
+}
+
+/* CTA "Оставить заявку": скругление в ритме карточек кейсов/услуг */
+.btns__item-box[data-v-23015bc0],
+.btns__item-box[data-v-90a15ce0] {
+  border-radius: 30px !important;
+}
+
+/* Header/Footer CTA "Оставить заявку": заметно более округлая, как карточки */
+.buttonlink.footer__link.application.buttonlink--filled,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce],
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2],
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] {
+  border-radius: 30px !important;
+  /* Кнопка полностью белая, меняем только тон текста/иконки */
+  background-color: #fff !important;
+  border-color: #fff !important;
+  opacity: 1 !important;
+  color: #151516 !important;
+  font-weight: 400 !important;
+  text-shadow: 0 0 0 rgba(21, 21, 22, 0);
+  /* Фикс 1px-подрезания справа без сдвига позиции */
+  transform: translateY(-70%) translateZ(0) !important;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  will-change: transform, box-shadow;
+  box-shadow: 0 0 0 1px #fff;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.5s,
+    color 0.25s,
+    text-shadow 0.25s ease;
+}
+
+.buttonlink.footer__link.application.buttonlink--filled .icon,
+.buttonlink.footer__link.application.buttonlink--filled .icon path,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon path,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2] .icon,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2] .icon path,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon path {
+  stroke: #151516 !important;
+  stroke-width: 1.8;
+  transition:
+    stroke 0.25s ease,
+    stroke-width 0.25s ease;
+}
+
+.buttonlink.footer__link.application.buttonlink--filled:hover,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover {
+  /* Hover: усиленное фиолетовое свечение + плавное увеличение */
+  font-weight: 450 !important;
+  text-shadow:
+    0.01px 0 0 currentColor,
+    -0.01px 0 0 currentColor;
+  transform: translateY(-70%) translateZ(0) scale(1.04) !important;
+  box-shadow:
+    0 0 0 1px #fff,
+    0 10px 56px rgba(97, 0, 255, 0.58);
+}
+
+.buttonlink.footer__link.application.buttonlink--filled:hover .icon,
+.buttonlink.footer__link.application.buttonlink--filled:hover .icon path,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon path,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover .icon,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover .icon path,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon path {
+  stroke-width: 1.95;
 }
 
 body.leave-cta-open .btns.active .btns__blur,
