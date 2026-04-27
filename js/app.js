@@ -40,6 +40,7 @@
       slideSelector,
       buttonRoot,
       ensureButtons = false,
+      desktopArrowsOnly = false,
       fullBleed = false,
       sidePadGetter = getServicesSidePad,
     } = options;
@@ -53,7 +54,10 @@
 
     let prevBtn = host.querySelector(".swiper-button-prev") || buttonRoot?.querySelector?.(".swiper-button-prev");
     let nextBtn = host.querySelector(".swiper-button-next") || buttonRoot?.querySelector?.(".swiper-button-next");
-    if (ensureButtons && (!prevBtn || !nextBtn) && buttonRoot) {
+    const desktopArrowsMedia = window.matchMedia("(min-width: 1025px)");
+    const shouldShowArrows = () => !desktopArrowsOnly || desktopArrowsMedia.matches;
+    const ensureArrowButtons = () => {
+      if (!(ensureButtons && shouldShowArrows() && (!prevBtn || !nextBtn) && buttonRoot)) return;
       if (getComputedStyle(buttonRoot).position === "static") buttonRoot.style.position = "relative";
       const wrap = document.createElement("div");
       wrap.className = "swiper-buttons";
@@ -62,7 +66,8 @@
       wrap.appendChild(prevBtn);
       wrap.appendChild(nextBtn);
       buttonRoot.appendChild(wrap);
-    }
+    };
+    ensureArrowButtons();
 
     const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
     const applyHostGeometry = () => {
@@ -163,6 +168,25 @@
         button.removeAttribute("tabindex");
         button.setAttribute("aria-disabled", "false");
       }
+    };
+
+    const applyArrowVisibility = () => {
+      const visible = shouldShowArrows();
+      const buttons = [prevBtn, nextBtn];
+      buttons.forEach((button) => {
+        if (!button) return;
+        button.style.display = visible ? "" : "none";
+        button.style.pointerEvents = visible ? "" : "none";
+        button.setAttribute("aria-hidden", visible ? "false" : "true");
+        if (visible) {
+          button.removeAttribute("tabindex");
+          button.setAttribute("aria-disabled", "false");
+        } else {
+          button.setAttribute("tabindex", "-1");
+          button.setAttribute("aria-disabled", "true");
+        }
+      });
+      if (!visible) stopArrowAnim();
     };
 
     const syncSlides = () => {
@@ -308,12 +332,21 @@
       });
     };
     const relayout = () => {
+      ensureArrowButtons();
+      applyArrowVisibility();
       applyHostGeometry();
       syncArrowOverlayToTrack();
       updateArrows();
     };
     track.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", relayout);
+    if (desktopArrowsOnly) {
+      if (typeof desktopArrowsMedia.addEventListener === "function") {
+        desktopArrowsMedia.addEventListener("change", relayout);
+      } else if (typeof desktopArrowsMedia.addListener === "function") {
+        desktopArrowsMedia.addListener(relayout);
+      }
+    }
     window.addEventListener("load", relayout, { once: true });
     setTimeout(relayout, 0);
   };
@@ -324,6 +357,7 @@
     host: servicesHost,
     track: servicesTrack,
     slideSelector: ".services__slide, .swiper-slide",
+    desktopArrowsOnly: true,
     fullBleed: true,
     sidePadGetter: getServicesSidePad,
   });
@@ -336,6 +370,7 @@
     slideSelector: ".swiper-slide",
     buttonRoot: blogContainer,
     ensureButtons: true,
+    desktopArrowsOnly: true,
     fullBleed: true,
     sidePadGetter: getServicesSidePad,
   });
@@ -605,48 +640,71 @@
 
     const phoneLink = cityBlock.querySelector(".navigation-new__block-number");
     const phoneText = cityBlock.querySelector(".navigation-new__citys-number");
+    const cityPicker = cityBlock.querySelector(".btns__picker");
     const cityItems = Array.from(cityBlock.querySelectorAll(".btns__picker span"));
-    if (!phoneLink || !phoneText || cityItems.length < 2) return;
+    if (!phoneLink || !phoneText || !cityPicker || cityItems.length < 2) return;
 
     const phones = {
       "Петербург": {
-        text: "+7 (812) 602-50-44",
-        href: "tel:+78126025044",
+        text: "+7 (812) 210-97-87",
+        href: "tel:+78122109787",
+      },
+      "Санкт-Петербург": {
+        text: "+7 (812) 210-97-87",
+        href: "tel:+78122109787",
       },
       "Москва": {
-        text: "+7 (495) 419-95-88",
+        text: "+7 (495) 419 95 88",
         href: "tel:+74954199588",
       },
     };
 
-    const selectCity = (cityName) => {
-      const phone = phones[cityName] || phones["Петербург"];
+    const normalizeCityName = (rawCityName) => {
+      const cityName = String(rawCityName || "").trim();
+      const normalized = cityName.toLowerCase();
+      if (normalized.includes("моск")) return "Москва";
+      if (normalized.includes("санкт") || normalized.includes("петербург")) return "Санкт-Петербург";
+      return cityName;
+    };
+
+    const selectCity = (rawCityName) => {
+      const cityName = normalizeCityName(rawCityName);
+      const phone = phones[cityName] || phones["Санкт-Петербург"] || phones["Петербург"] || phones["Москва"];
       phoneText.textContent = phone.text;
       phoneLink.setAttribute("href", phone.href);
       cityItems.forEach((item) => {
-        item.classList.toggle("selected", item.textContent.trim() === cityName);
+        item.classList.toggle("selected", normalizeCityName(item.textContent) === cityName);
       });
     };
+
+    cityPicker.addEventListener("click", (event) => {
+      const cityItem = event.target instanceof Element ? event.target.closest("span") : null;
+      if (!cityItem || !cityPicker.contains(cityItem)) return;
+      selectCity(cityItem.textContent);
+    });
 
     cityItems.forEach((item) => {
       item.setAttribute("role", "button");
       item.setAttribute("tabindex", "0");
-      item.addEventListener("click", () => selectCity(item.textContent.trim()));
       item.addEventListener("keydown", (event) => {
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
-        selectCity(item.textContent.trim());
+        selectCity(item.textContent);
       });
     });
 
-    selectCity(cityItems.find((item) => item.classList.contains("selected"))?.textContent.trim() || "Петербург");
+    selectCity(cityItems.find((item) => item.classList.contains("selected"))?.textContent || "Москва");
   };
 
   const initFooterPhoneSwitch = () => {
     const phones = {
       "Петербург": {
-        text: "+7 (812) 602 50 44",
-        href: "tel:+78126025044",
+        text: "+7 (812) 210-97-87",
+        href: "tel:+78122109787",
+      },
+      "Санкт-Петербург": {
+        text: "+7 (812) 210-97-87",
+        href: "tel:+78122109787",
       },
       "Москва": {
         text: "+7 (495) 419 95 88",
@@ -661,7 +719,7 @@
       if (!phoneText || !phoneLink || cityItems.length < 2) return;
 
       const selectCity = (cityName) => {
-        const phone = phones[cityName] || phones["Петербург"];
+        const phone = phones[cityName] || phones["Санкт-Петербург"] || phones["Петербург"];
         phoneText.textContent = phone.text;
         phoneLink.setAttribute("href", phone.href);
         cityItems.forEach((item) => {
@@ -680,7 +738,9 @@
         });
       });
 
-      selectCity(cityItems.find((item) => item.classList.contains(selectedClass))?.textContent.trim() || "Петербург");
+      selectCity(
+        cityItems.find((item) => item.classList.contains(selectedClass))?.textContent.trim() || "Москва",
+      );
     };
 
     document.querySelectorAll(".footer-modern__contacts").forEach((root) => {
@@ -778,7 +838,6 @@
   };
 
   initHeaderBurgerOnScroll();
-  initHeaderCityPhoneSwitch();
   initFooterPhoneSwitch();
   initHeroVideoLoading();
   initClientsStrip();
