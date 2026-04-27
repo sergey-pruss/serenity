@@ -236,8 +236,7 @@
   margin-bottom: -40px;
 }
 
-/* Адаптив как в оригинале: на планшете/мобилке карточки листаются свайпом,
-   стрелки скрываются и не перекрывают жесты. */
+/* Адаптив как в оригинале: на планшете/мобилке карточки листаются свайпом. */
 @media screen and (max-width: 1024px) {
   .services__context-wrapper[data-native-row="1"],
   .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] {
@@ -249,11 +248,17 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  /* На tablet/mobile стрелки услуг и блога полностью отключены. */
+  .services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51],
+  .services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51],
   .services__context-slider .swiper-button-prev,
   .services__context-slider .swiper-button-next,
   .blog-block__swiper-container .swiper-button-prev,
   .blog-block__swiper-container .swiper-button-next {
     display: none !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 }
 
