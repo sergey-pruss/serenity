@@ -531,9 +531,11 @@
 
     let collapsed = false;
     const DESKTOP_BREAKPOINT = 1250;
-    const SCROLL_COLLAPSE_BREAKPOINT = 1024;
+    const FLOATING_CTA_BREAKPOINT = 1024;
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
+
+    const shouldShowFloatingCta = () => window.innerWidth > FLOATING_CTA_BREAKPOINT;
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);
@@ -542,8 +544,8 @@
       if (bodyApplication) {
         bodyApplication.classList.toggle("active", open);
         // Прод-логика: floating CTA виден в compressed-состоянии (scroll), скрыт на page-top.
-        // Класс noactive используем только когда header не collapsed.
-        bodyApplication.classList.toggle("noactive", !collapsed && !open);
+        // На tablet/mobile остается штатная нижняя CTA, поэтому desktop-floating CTA не показываем.
+        bodyApplication.classList.toggle("noactive", (!collapsed || !shouldShowFloatingCta()) && !open);
       }
       menuFooter?.classList.toggle("open", open);
       staticMenu?.classList.toggle("menu-screen-visible", open);
@@ -579,16 +581,12 @@
       topLine.classList.toggle("hide", collapsed);
       menuIcon.classList.toggle("show", collapsed);
       if (bodyApplication && !header.classList.contains("active")) {
-        bodyApplication.classList.toggle("noactive", !collapsed);
+        bodyApplication.classList.toggle("noactive", !collapsed || !shouldShowFloatingCta());
       }
       if (!collapsed) closeMenu();
     };
 
     const sync = () => {
-      if (window.innerWidth <= SCROLL_COLLAPSE_BREAKPOINT) {
-        applyState(false);
-        return;
-      }
       const y = window.scrollY || window.pageYOffset || 0;
       if (!collapsed && y > COLLAPSE_Y) applyState(true);
       if (collapsed && y < EXPAND_Y) applyState(false);
