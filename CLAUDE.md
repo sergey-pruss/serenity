@@ -12,6 +12,7 @@
 - Деплой: `npx wrangler deploy` из папки проекта
 - Wrangler уже авторизован локально
 - После каждой задачи: git add → git commit (на русском) → git push → npx wrangler deploy
+- Проверка **мобильной** вёрстки и меню — на стейджинге после деплоя (`serenity.sergeyprus.workers.dev`); локальный `npm run dev` не заменяет проверку на реальном URL с кэшем/CDN
 
 ## Архитектура
 - Статический сайт: index.html + css/ + js/ + img/

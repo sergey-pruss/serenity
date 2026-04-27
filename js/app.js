@@ -744,6 +744,7 @@
     };
 
     document.querySelectorAll(".footer-modern__contacts").forEach((root) => {
+      if (root.closest(".new-static-menu")) return;
       bindSwitcher({
         root,
         pickerSelector: ".footer-modern__city-selector a",

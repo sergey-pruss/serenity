@@ -409,8 +409,171 @@ body.scroll-menu-open {
   pointer-events: none !important;
 }
 
+/* Два tel в разметке бургера: на десктопе показываем обычный switcher, блок ниже — в overrides.mobile */
+.header .new-static-menu .header-burger-dual-phones {
+  display: none;
+}
+
 .header .navigation-new__citys .btns__picker span {
   cursor: pointer;
+}
+
+.header .navigation-new__citys .btns__picker,
+.header .navigation-new__citys .btns__picker[data-v-7050ddb2] {
+  margin-top: 10px !important;
+  gap: 28px !important;
+}
+
+.footer-modern .footer-modern__city-selector a:not(.selected):hover,
+.header .btns__modal[data-v-7050ddb2] .footer-modern__city-selector a:not(.selected):hover,
+.footer .cities__item:not(.current):hover {
+  color: #fff !important;
+  opacity: 1;
+}
+
+/* Footer row in burger: phone left, social block right */
+.header .btns__modal[data-v-7050ddb2] {
+  padding-bottom: 38px !important;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__contacts {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: max-content;
+  max-width: max-content;
+  margin-left: 6px;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__city-selector {
+  order: 2;
+  display: flex;
+  gap: 25px !important;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__phone {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__city-selector a {
+  font-size: 14px !important;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #969696 !important;
+  opacity: 1;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__city-selector a.selected {
+  font-size: 14px !important;
+  font-weight: 400;
+  color: #ffffff !important;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__request,
+.header .btns__modal[data-v-7050ddb2] .messenger-container {
+  display: none !important;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end !important;
+  row-gap: 6px;
+  column-gap: 25px;
+  width: max-content !important;
+  max-width: max-content !important;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social .social__header {
+  display: block !important;
+  flex: 0 0 100%;
+  margin: 0 0 10px;
+  font-size: 14px !important;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #969696;
+  text-align: right !important;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social > a {
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  flex: 0 0 40px;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0.7;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social > a svg {
+  width: 40px;
+  height: 40px;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social > a:hover {
+  opacity: 1;
+}
+
+@media screen and (max-width: 1200px) and (min-width: 769px) {
+  .header .btns__modal[data-v-7050ddb2] .footer-modern__social {
+    justify-content: flex-end !important;
+  }
+  .header .btns__modal[data-v-7050ddb2] .footer-modern__social .social__header {
+    text-align: right !important;
+  }
+}
+
+/* Keep burger right-side alignment while preserving footer social styles */
+.header .btns__modal[data-v-7050ddb2] {
+  justify-content: space-between;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social {
+  margin-left: auto;
+  margin-right: 6px;
+}
+
+/* Burger CTA buttons: same corner radius + hover feel as sticky CTA */
+.header .navigation-new__button[data-v-7050ddb2] {
+  height: 54px !important;
+  border-radius: 30px !important;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.5s,
+    color 0.25s,
+    text-shadow 0.25s ease !important;
+  will-change: transform, box-shadow;
+}
+
+.header .navigation-new__button[data-v-7050ddb2]:hover {
+  text-shadow:
+    0.01px 0 0 currentColor,
+    -0.01px 0 0 currentColor;
+  transform: translateZ(0) scale(1.04) !important;
+  box-shadow:
+    0 0 0 1px currentColor,
+    0 10px 56px rgba(97, 0, 255, 0.58);
 }
 
 /* Убираем лишнюю линию от legacy footer в fullscreen-режиме */
@@ -702,7 +865,7 @@ body.order-popup-open .overlay-new {
   max-width: 250px !important;
   height: 46px !important;
   padding: 0 24px !important;
-  border-radius: 13px !important;
+  border-radius: 30px !important;
   overflow: hidden !important;
   opacity: 0.5 !important;
 }
