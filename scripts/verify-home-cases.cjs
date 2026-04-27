@@ -67,9 +67,12 @@ const startStaticServer = (port) =>
       const card = (hrefPart) => {
         const link = cases.find((a) => (a.getAttribute("href") || "").includes(hrefPart));
         if (!link) return null;
+        const description = link.querySelector(".case__description");
         return {
           href: link.getAttribute("href"),
-          text: normalize(link.querySelector(".case__description")?.textContent || ""),
+          className: link.getAttribute("class") || "",
+          text: normalize(description?.textContent || ""),
+          descriptionColor: description ? getComputedStyle(description).color : "",
           image: link.querySelector(".case__media--front")?.getAttribute("src") || "",
           tags: Array.from(link.querySelectorAll(".case__tag")).map((tag) => normalize(tag.textContent || "")),
         };
@@ -89,6 +92,8 @@ const startStaticServer = (port) =>
     assert(result.vomoloko.image.includes("storage__ixkjBrB1pCELGeNMCtA8BgK78AYiofKaJhJch2zK.jpg"), "Во!Молоко: неверная картинка");
     assert(result.vomoloko.text.includes("дистрибьютера «Во!Молоко»"), "Во!Молоко: неверное описание");
     assert(result.vomoloko.tags.join("|") === "Продвижение|Брендинг|Сайт", `Во!Молоко: теги ${result.vomoloko.tags.join("|")}`);
+    assert(result.vomoloko.className.includes("dark-text"), `Во!Молоко: ожидается class dark-text, got ${result.vomoloko.className}`);
+    assert(result.vomoloko.descriptionColor === "rgb(0, 0, 0)", `Во!Молоко: текст должен быть чёрным, got ${result.vomoloko.descriptionColor}`);
     assert(result.skladno, "Не найдена карточка Складно");
     assert(result.skladno.image.includes("storage__qaCLQ6fqiMYmxsozvWrmZGiALhEHrhOemSYToCyR.jpg"), "Складно: неверная картинка");
     assert(result.skladno.text.includes("В 6 раз окупили вложения"), "Складно: неверное описание");

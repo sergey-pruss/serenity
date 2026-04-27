@@ -600,6 +600,49 @@
     sync();
   };
 
+  const initHeaderCityPhoneSwitch = () => {
+    const cityBlock = document.querySelector("header.header .navigation-new__citys");
+    if (!cityBlock) return;
+
+    const phoneLink = cityBlock.querySelector(".navigation-new__block-number");
+    const phoneText = cityBlock.querySelector(".navigation-new__citys-number");
+    const cityItems = Array.from(cityBlock.querySelectorAll(".btns__picker span"));
+    if (!phoneLink || !phoneText || cityItems.length < 2) return;
+
+    const phones = {
+      "Петербург": {
+        text: "+7 (812) 602-50-44",
+        href: "tel:+78126025044",
+      },
+      "Москва": {
+        text: "+7 (495) 419-95-88",
+        href: "tel:+74954199588",
+      },
+    };
+
+    const selectCity = (cityName) => {
+      const phone = phones[cityName] || phones["Петербург"];
+      phoneText.textContent = phone.text;
+      phoneLink.setAttribute("href", phone.href);
+      cityItems.forEach((item) => {
+        item.classList.toggle("selected", item.textContent.trim() === cityName);
+      });
+    };
+
+    cityItems.forEach((item) => {
+      item.setAttribute("role", "button");
+      item.setAttribute("tabindex", "0");
+      item.addEventListener("click", () => selectCity(item.textContent.trim()));
+      item.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        selectCity(item.textContent.trim());
+      });
+    });
+
+    selectCity(cityItems.find((item) => item.classList.contains("selected"))?.textContent.trim() || "Петербург");
+  };
+
   const initHeroVideoLoading = () => {
     const block = document.querySelector(".video-block");
     const video = block?.querySelector("video.video-iframe");
@@ -660,6 +703,7 @@
   };
 
   initHeaderBurgerOnScroll();
+  initHeaderCityPhoneSwitch();
   initHeroVideoLoading();
   initClientsStrip();
 })();

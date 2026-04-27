@@ -239,6 +239,12 @@
   display: none;
 }
 
+.case .dark-text .case__description[data-v-c0adc676],
+.case .dark-text .case__subtitle[data-v-c0adc676],
+.case .dark-text .case__tag[data-v-c0adc676] {
+  color: #000 !important;
+}
+
 /* Блок с цифрами: ссылка "Подробнее о нас" в ритме референса */
 .live-marketing-block__content-link,
 .live-marketing-block__content-link[data-v-1c300291] {
@@ -361,6 +367,10 @@ body.scroll-menu-open {
 .header.active .header__top-line .navigation-menu[data-v-e5e2adce] {
   opacity: 0 !important;
   pointer-events: none !important;
+}
+
+.header .navigation-new__citys .btns__picker span {
+  cursor: pointer;
 }
 
 /* Убираем лишнюю линию от legacy footer в fullscreen-режиме */
