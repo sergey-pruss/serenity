@@ -1,3 +1,14 @@
+/* «Оставить заявку» — кнопка внизу экрана на мобильном */
+@media (max-width: 768px) {
+  .btns {
+    display: block !important;
+  }
+  .btns__box {
+    right: 20px;
+    bottom: 20px;
+  }
+}
+
 /* Cases slider — mobile */
 @media (max-width: 768px) {
   .mor-cases-slider-wrapper .mor-cases-slide {
