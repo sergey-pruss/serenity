@@ -72,14 +72,35 @@
     z-index: 120;
   }
 
+  .header .new-static-menu .new-static-menu__logo {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+    flex: 0 0 auto;
+  }
+
+  .header .new-static-menu .new-static-menu__logo-link {
+    display: inline-block;
+    line-height: 0;
+  }
+
+  .header .new-static-menu .new-static-menu__logo-img {
+    width: 120px;
+    height: auto;
+    display: block;
+  }
+
   .header .new-static-menu .navigation-new,
   .header .new-static-menu .navigation-new[data-v-7050ddb2] {
     min-height: 100dvh;
-    padding-top: 102px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* верх: под статус-бар; логотип в скролле, крестик остаётся в header */
+    padding-top: calc(44px + env(safe-area-inset-top, 0px));
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: calc(128px + env(safe-area-inset-bottom));
-    align-items: stretch;
     box-sizing: border-box;
     overflow-y: auto;
   }
@@ -127,8 +148,8 @@
     align-items: flex-start;
     width: min(360px, 100%);
     gap: 12px;
-    margin-top: 34px;
-    margin-bottom: 22px;
+    margin-top: 49px;
+    margin-bottom: 37px;
   }
 
   .header .new-static-menu .navigation-new__button,
@@ -151,7 +172,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 14px;
+    gap: 29px;
   }
 
   .header .new-static-menu .btns__modal .footer-modern__contacts,
@@ -207,10 +228,11 @@
   .header .new-static-menu .btns__modal .footer-modern__social[data-v-ff4f3948] {
     margin-left: 0;
     margin-right: 0;
+    margin-top: 0;
     justify-content: flex-start !important;
     align-items: flex-start;
     text-align: left;
-    gap: 14px;
+    gap: 18px;
   }
 
   .header .new-static-menu .btns__modal .footer-modern__social .social__header,
@@ -218,12 +240,34 @@
     margin-bottom: 0;
     text-align: left !important;
   }
+
+  /* +30% к базовому размеру из parity-sync (40px) */
+  .header .new-static-menu .btns__modal .footer-modern__social > a,
+  .header .new-static-menu .btns__modal .footer-modern__social > a[data-v-ff4f3948] {
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    flex-basis: 52px;
+  }
+
+  .header .new-static-menu .btns__modal .footer-modern__social > a svg,
+  .header .new-static-menu .btns__modal .footer-modern__social > a svg[data-v-ff4f3948] {
+    width: 52px;
+    height: 52px;
+  }
 }
 
 @media screen and (max-width: 500px) {
+  .header .new-static-menu .new-static-menu__logo-img {
+    width: 97px;
+  }
+
   .header .new-static-menu .navigation-new,
   .header .new-static-menu .navigation-new[data-v-7050ddb2] {
-    padding-top: 98px;
+    padding-top: calc(40px + env(safe-area-inset-top, 0px));
     padding-left: 24px;
     padding-right: 24px;
     padding-bottom: calc(132px + env(safe-area-inset-bottom));
@@ -248,8 +292,8 @@
   .header .new-static-menu .navigation-new__buttons,
   .header .new-static-menu .navigation-new__buttons[data-v-7050ddb2] {
     width: 100%;
-    margin-top: 28px;
-    margin-bottom: 18px;
+    margin-top: 43px;
+    margin-bottom: 33px;
   }
 
   .header .new-static-menu .navigation-new__button,
@@ -273,20 +317,21 @@
     font-size: 36px;
   }
 
+  /* +30% к 38px (ниже было в узком брейкпоинте) */
   .header .new-static-menu .btns__modal .footer-modern__social > a,
   .header .new-static-menu .btns__modal .footer-modern__social > a[data-v-ff4f3948] {
-    width: 38px !important;
-    min-width: 38px !important;
-    max-width: 38px !important;
-    height: 38px !important;
-    min-height: 38px !important;
-    max-height: 38px !important;
-    flex-basis: 38px;
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    flex-basis: 50px;
   }
 
   .header .new-static-menu .btns__modal .footer-modern__social > a svg,
   .header .new-static-menu .btns__modal .footer-modern__social > a svg[data-v-ff4f3948] {
-    width: 38px;
-    height: 38px;
+    width: 50px;
+    height: 50px;
   }
 }

@@ -414,6 +414,11 @@ body.scroll-menu-open {
   display: none;
 }
 
+/* Логотип в оверлее — только в mobile (прокрутка), на широких экранах не дублируем */
+.header .new-static-menu .new-static-menu__logo {
+  display: none;
+}
+
 .header .navigation-new__citys .btns__picker span {
   cursor: pointer;
 }
