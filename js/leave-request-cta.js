@@ -7,6 +7,7 @@
   const BODY_FLAG = "leave-cta-open";
   const DESKTOP_MODAL_ID = "desktop-order-popup";
   const DESKTOP_BODY_LOCK = "order-popup-open";
+  const LEAD_API_FALLBACK = "https://serenity.sergeyprus.workers.dev/api/lead";
   let thankYouAutoCloseTimer = null;
 
   const isDesktop = () => window.innerWidth > BOTTOM_BAR_MAX_WIDTH;
@@ -107,23 +108,55 @@
     if (text) text.textContent = pending ? "Отправляем" : "Отправить";
   };
 
-  const submitLeadForm = async (form) => {
-    const data = new FormData(form);
-    data.set("source", window.location.href);
-
-    const response = await fetch("/api/lead", {
-      method: "POST",
-      body: data,
-    });
-
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok || !result.success) {
-      const error = new Error("lead_submit_failed");
-      error.result = result;
-      throw error;
+  const getLeadApiEndpoints = () => {
+    if (window.location.hostname === "static.serenity.agency") {
+      return [LEAD_API_FALLBACK, "/api/lead"];
     }
+    return ["/api/lead"];
+  };
 
-    return result;
+  const submitLeadForm = async (form) => {
+    let lastError = null;
+    for (const endpoint of getLeadApiEndpoints()) {
+      try {
+        const data = new FormData(form);
+        data.set("source", window.location.href);
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: data,
+        });
+        const result = await response.json().catch(() => ({}));
+        if (response.ok && result.success) return result;
+        const error = new Error("lead_submit_failed");
+        error.result = result;
+        error.status = response.status;
+        lastError = error;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    throw lastError || new Error("lead_submit_failed");
+  };
+
+  const ensureSubmitErrorNode = (form) => {
+    let node = form.querySelector(".form__submit-error");
+    if (!node) {
+      node = document.createElement("div");
+      node.className = "form__submit-error";
+      node.setAttribute("aria-live", "polite");
+      form.querySelector(".form__group--sub")?.appendChild(node);
+    }
+    return node;
+  };
+
+  const showSubmitError = (form, message) => {
+    const node = ensureSubmitErrorNode(form);
+    if (node) node.textContent = message;
+  };
+
+  const clearSubmitError = (form) => {
+    const node = form.querySelector(".form__submit-error");
+    if (node) node.textContent = "";
   };
 
   const initDesktopFormBehavior = (modal) => {
@@ -158,15 +191,27 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      clearSubmitError(form);
       const name = form.querySelector('input[name="name"]');
       const phone = form.querySelector('input[name="phone"]');
+      const email = form.querySelector('input[name="email"]');
       let invalid = false;
-      [name, phone].forEach((field) => {
-        if (!field) return;
-        const bad = String(field.value || "").trim().length < 2;
-        field.classList.toggle("is-invalid", bad);
+      if (name) {
+        const bad = String(name.value || "").trim().length < 2;
+        name.classList.toggle("is-invalid", bad);
         if (bad) invalid = true;
-      });
+      }
+      if (phone) {
+        const bad = String(phone.value || "").trim().length < 2;
+        phone.classList.toggle("is-invalid", bad);
+        if (bad) invalid = true;
+      }
+      if (email) {
+        const emailValue = String(email.value || "").trim();
+        const bad = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+        email.classList.toggle("is-invalid", bad);
+        if (bad) invalid = true;
+      }
       if (invalid) return;
       const modalEl = document.getElementById(DESKTOP_MODAL_ID);
       if (submit) setSubmitPending(submit, true);
@@ -175,6 +220,7 @@
         showThankYouScreen(modalEl);
       } catch (err) {
         console.error(err);
+        showSubmitError(form, "Ошибка отправки. Пожалуйста, свяжитесь с нами напрямую.");
       } finally {
         if (submit) setSubmitPending(submit, false);
       }

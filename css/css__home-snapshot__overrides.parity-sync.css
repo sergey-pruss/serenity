@@ -813,6 +813,14 @@ body.order-popup-open .overlay-new {
   height: 170px !important;
 }
 
+/* На мобайле в оригинале нет добавочного spacer при стартовом состоянии формы */
+@media (max-width: 768px) {
+  #desktop-order-popup.is-scrollable .order-popup__form-scroll-spacer {
+    flex-basis: 0 !important;
+    height: 0 !important;
+  }
+}
+
 @media (min-width: 1025px) {
   #desktop-order-popup .contact-form__messenger-links {
     display: flex !important;
@@ -1133,6 +1141,7 @@ body.order-popup-open .overlay-new {
     font-weight: 400 !important;
     letter-spacing: normal !important;
     color: #fff !important;
+    max-width: 260px !important;
     margin: 0 0 30px !important;
   }
 
@@ -1141,7 +1150,7 @@ body.order-popup-open .overlay-new {
     font-size: 18px !important;
     line-height: 1.6 !important;
     font-weight: 300 !important;
-    color: rgba(255, 255, 255, 0.55) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
     margin: 0 !important;
     max-width: none !important;
   }
@@ -1210,11 +1219,11 @@ body.order-popup-open .overlay-new {
     flex: none !important;
     height: 46px !important;
     padding: 0 24px !important;
-    border-radius: 13px !important;
+    border-radius: 30px !important;
     opacity: 0.5 !important;
     color: #fff !important;
     background: transparent !important;
-    border: none !important;
+    border: 1px solid #fff !important;
     box-shadow: none !important;
     display: flex !important;
     justify-content: space-between !important;
@@ -1246,6 +1255,15 @@ body.order-popup-open .overlay-new {
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
     color: #fff !important;
     stroke: #fff !important;
+  }
+
+  #desktop-order-popup .form__submit-error {
+    margin-top: -24px !important;
+    margin-bottom: 14px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    color: rgba(255, 120, 120, 0.95) !important;
+    min-height: 18px !important;
   }
 
   #desktop-order-popup .privacy-check[data-v-8ad2fcbc] {
