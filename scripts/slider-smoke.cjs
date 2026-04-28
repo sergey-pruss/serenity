@@ -484,16 +484,14 @@ async function run() {
   assert(blogArrowStyles.counts.next === 1, "blog must have exactly one next arrow");
   assert(blogArrowStyles.prev.position === "absolute", "blog prev arrow must be absolutely positioned");
   assert(blogArrowStyles.next.position === "absolute", "blog next arrow must be absolutely positioned");
-  assert(blogArrowStyles.prev.borderRadius === "0px", "blog prev arrow must not be circular");
-  assert(blogArrowStyles.next.borderRadius === "0px", "blog next arrow must not be circular");
-  assert(blogArrowStyles.prev.borderTopWidth === "0px", "blog prev arrow must not have circle border");
-  assert(blogArrowStyles.next.borderTopWidth === "0px", "blog next arrow must not have circle border");
+  assert(blogArrowStyles.prev.borderRadius !== "0px", "blog prev arrow must be circular (like services)");
+  assert(blogArrowStyles.next.borderRadius !== "0px", "blog next arrow must be circular (like services)");
   assert(blogArrowStyles.prev.afterContent === "none", "blog prev arrow must not render Swiper pseudo arrow");
   assert(blogArrowStyles.next.afterContent === "none", "blog next arrow must not render Swiper pseudo arrow");
-  assert(blogArrowStyles.prev.width <= 14, "blog prev arrow must use compact bare-arrow width");
-  assert(blogArrowStyles.next.width <= 14, "blog next arrow must use compact bare-arrow width");
-  assert(blogArrowStyles.prev.height <= 22, "blog prev arrow must use compact bare-arrow height");
-  assert(blogArrowStyles.next.height <= 22, "blog next arrow must use compact bare-arrow height");
+  assert(blogArrowStyles.prev.width >= 48, "blog prev arrow must use circle button width (~52px)");
+  assert(blogArrowStyles.next.width >= 48, "blog next arrow must use circle button width (~52px)");
+  assert(blogArrowStyles.prev.height >= 48, "blog prev arrow must use circle button height (~52px)");
+  assert(blogArrowStyles.next.height >= 48, "blog next arrow must use circle button height (~52px)");
   assert(
     Math.abs(blogArrowStyles.prev.centerY - blogArrowStyles.trackCenterY) < 10,
     "blog prev arrow must align with the row (track) center",
