@@ -479,17 +479,27 @@ body.order-popup-open .overlay-new {
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__overlay {
     width: 0 !important;
     height: 0 !important;
+    display: none !important;
   }
 
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover {
     color: #000 !important;
     opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__text,
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
     color: #000 !important;
     stroke: #000 !important;
+  }
+
+  /* На тач-устройствах hover-стейт приводит к «прыжку» кнопки после tap */
+  #desktop-order-popup .form__submit.btn[data-v-111f0665],
+  #desktop-order-popup .form__submit.btn[data-v-111f0665] .btn__text,
+  #desktop-order-popup .form__submit.btn[data-v-111f0665] .btn__arrow path {
+    transition: none !important;
   }
 
   #desktop-order-popup .form__submit-error {
