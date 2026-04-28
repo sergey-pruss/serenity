@@ -767,7 +767,7 @@
       });
     });
 
-    selectCity("Петербург");
+    selectCity("Москва");
   };
 
   const initFooterPhoneSwitch = () => {
@@ -812,14 +812,12 @@
         });
       });
 
-      selectCity("Петербург");
-      // Подстраховка: штатные инлайн-скрипты из снапшота могут позже перезаписать выбор на Москву.
-      setTimeout(() => selectCity("Петербург"), 0);
-      window.addEventListener("load", () => selectCity("Петербург"), { once: true });
+      selectCity("Москва");
+      setTimeout(() => selectCity("Москва"), 0);
+      window.addEventListener("load", () => selectCity("Москва"), { once: true });
     };
 
     document.querySelectorAll(".footer-modern__contacts").forEach((root) => {
-      if (root.closest(".new-static-menu")) return;
       bindSwitcher({
         root,
         pickerSelector: ".footer-modern__city-selector a",
@@ -919,5 +917,25 @@
   initHeroVideoLoading();
   initClientsStrip();
   initMorCasesSlider();
+
+  // #region agent log — hover debug
+  (() => {
+    const btn = document.querySelector('header button.navigation-new__button');
+    if (!btn) return;
+    const ep = 'http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556';
+    const hdr = {'Content-Type':'application/json','X-Debug-Session-Id':'60738a'};
+    const log = (msg, data, hyp) => fetch(ep,{method:'POST',headers:hdr,body:JSON.stringify({sessionId:'60738a',location:'app.js:hover-debug',message:msg,data,timestamp:Date.now(),hypothesisId:hyp})}).catch(()=>{});
+    const cs = window.getComputedStyle(btn);
+    log('initial-state', {transition:cs.transition, transform:cs.transform, boxShadow:cs.boxShadow, hoverMediaMatches: window.matchMedia('(hover:hover)').matches, touchMediaMatches: window.matchMedia('(hover:none)').matches}, 'B');
+    btn.addEventListener('mouseenter', () => {
+      const s = window.getComputedStyle(btn);
+      log('hover-computed', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow, color:s.color}, 'A');
+    });
+    btn.addEventListener('mouseleave', () => {
+      const s = window.getComputedStyle(btn);
+      log('unhover-computed', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'A');
+    });
+  })();
+  // #endregion
 
 })();
