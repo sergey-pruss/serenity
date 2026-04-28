@@ -560,6 +560,8 @@ body.scroll-menu-open {
   border-radius: 30px !important;
   transition: none !important;
   will-change: transform, box-shadow;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .header .navigation-new__button[data-v-7050ddb2]:hover {
@@ -570,6 +572,21 @@ body.scroll-menu-open {
 
 .header .navigation-new__button[data-v-7050ddb2]:active {
   transform: none !important;
+}
+
+/* Touch-устройства: убираем белую ::before заливку и colour-flip при тапе */
+@media (hover: none) {
+  .header .navigation-new__button[data-v-7050ddb2]::before {
+    transition: none !important;
+  }
+  .header .navigation-new__button[data-v-7050ddb2]:hover::before,
+  .header .navigation-new__button[data-v-7050ddb2]:active::before {
+    transform: scaleX(0) !important;
+  }
+  .header .navigation-new__button[data-v-7050ddb2]:hover,
+  .header .navigation-new__button[data-v-7050ddb2]:active {
+    color: #fff !important;
+  }
 }
 
 /* Убираем лишнюю линию от legacy footer в fullscreen-режиме */
@@ -681,16 +698,13 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 }
 
 /* CTA "Оставить заявку": скругление в ритме карточек кейсов/услуг */
-.btns__item-box[data-v-23015bc0],
-.btns__item-box[data-v-90a15ce0] {
+.btns__item-box[data-v-23015bc0] {
   border-radius: 30px !important;
 }
 
 /* Header/Footer CTA "Оставить заявку": заметно более округлая, как карточки */
 .buttonlink.footer__link.application.buttonlink--filled,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce],
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2],
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] {
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] {
   border-radius: 30px !important;
   /* Кнопка полностью белая, меняем только тон текста/иконки */
   background-color: #fff !important;
@@ -711,20 +725,14 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled .icon,
 .buttonlink.footer__link.application.buttonlink--filled .icon path,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon path,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2] .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2] .icon path,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon path {
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon path {
   stroke: #151516 !important;
   stroke-width: 1.8;
   transition: none !important;
 }
 
 .buttonlink.footer__link.application.buttonlink--filled:hover,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover {
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover {
   font-weight: 400 !important;
   text-shadow: 0 0 0 rgba(21, 21, 22, 0) !important;
   transform: translateY(-70%) translateZ(0) !important;
@@ -732,20 +740,14 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 }
 
 .buttonlink.footer__link.application.buttonlink--filled:active,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:active,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:active,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:active {
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:active {
   transform: translateY(-70%) translateZ(0) !important;
 }
 
 .buttonlink.footer__link.application.buttonlink--filled:hover .icon,
 .buttonlink.footer__link.application.buttonlink--filled:hover .icon path,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon path,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover .icon path,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon path {
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon path {
   stroke-width: 1.8 !important;
 }
 
