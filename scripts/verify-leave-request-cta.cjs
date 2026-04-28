@@ -82,7 +82,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
           modalScrollHeight: modal?.scrollHeight ?? 0,
           hasPrivacy: !!modal?.querySelector(".privacy-check"),
           privacyChecked: !!modal?.querySelector(".privacy-check__control")?.checked,
-          requiredCount: modal ? modal.querySelectorAll('input[name=\"name\"], input[name=\"phone\"]').length : 0,
+          requiredCount: modal ? modal.querySelectorAll('input[name=\"name\"], input[name=\"phone\"], input[name=\"email\"]').length : 0,
           submitOpacity: modal ? getComputedStyle(modal.querySelector(".form__submit")).opacity : "",
           messengerLinkWidth: linkRect?.width ?? null,
           messengerIconWidth: iconRect?.width ?? null,
@@ -109,7 +109,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       );
       assert(formShape.hasPrivacy, "Десктоп: должен быть блок согласия privacy-check");
       assert(formShape.privacyChecked, "Десктоп: чекбокс согласия должен быть отмечен как на оригинале");
-      assert(formShape.requiredCount === 2, "Десктоп: ожидаются поля name и phone");
+      assert(formShape.requiredCount === 3, "Десктоп: ожидаются поля name, phone и email");
       assert(formShape.submitOpacity === "0.5", "Десктоп: кнопка отправки должна быть приглушена opacity=0.5");
       assert(formShape.messengerLinkWidth === 46, "Десктоп: messenger-ссылки должны быть видимыми 46px");
       assert(formShape.messengerIconWidth === 46, "Десктоп: messenger-иконки должны быть видимыми 46px");
@@ -242,8 +242,9 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       const invalid = await page.evaluate(() => ({
         nameInvalid: !!document.querySelector('#desktop-order-popup input[name=\"name\"].is-invalid'),
         phoneInvalid: !!document.querySelector('#desktop-order-popup input[name=\"phone\"].is-invalid'),
+        emailInvalid: !!document.querySelector('#desktop-order-popup input[name=\"email\"].is-invalid'),
       }));
-      assert(invalid.nameInvalid && invalid.phoneInvalid, "Пустой submit должен подсветить обязательные поля");
+      assert(invalid.nameInvalid && invalid.phoneInvalid && invalid.emailInvalid, "Пустой submit должен подсветить обязательные поля");
       assert(!popupFired, "Не должно открываться нового окна на внешний сайт");
       await page.keyboard.press("Escape");
       await page.waitForTimeout(200);
@@ -338,6 +339,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.waitForTimeout(400);
       await page.fill('#desktop-order-popup input[name="name"]', "Тест");
       await page.fill('#desktop-order-popup input[name="phone"]', "+79990000000");
+      await page.fill('#desktop-order-popup input[name="email"]', "test@example.com");
       await page.click("#desktop-order-popup .form__submit", { force: true });
       await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
       const ty = await readThankYou(page);
@@ -375,6 +377,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.waitForTimeout(400);
       await page.fill('#desktop-order-popup input[name="name"]', "Мобайл");
       await page.fill('#desktop-order-popup input[name="phone"]', "+79991112233");
+      await page.fill('#desktop-order-popup input[name="email"]', "mobile@example.com");
       await page.click("#desktop-order-popup .form__submit", { force: true });
       await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
       const tyM = await readThankYou(page);
