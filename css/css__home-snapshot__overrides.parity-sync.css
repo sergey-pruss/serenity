@@ -989,6 +989,20 @@ body.order-popup-open .overlay-new {
   margin-top: 48px !important;
 }
 
+/* Плавающая подпись: как :focus/:placeholder-shown в bundle, плюс классы из leave-request-cta.js */
+#desktop-order-popup .form__group.is-focused .form__label[data-v-8ad2fcbc],
+#desktop-order-popup .form__group.is-filled .form__label[data-v-8ad2fcbc] {
+  transform: translate3d(0, -2em, 0) !important;
+  font-size: 0.625em !important;
+}
+
+@media (max-width: 425px) {
+  #desktop-order-popup .form__group.is-focused .form__label[data-v-8ad2fcbc],
+  #desktop-order-popup .form__group.is-filled .form__label[data-v-8ad2fcbc] {
+    font-size: 0.875em !important;
+  }
+}
+
 /* Модалка заявки на планшетах/мобайле: как .newModal в snapshot.bundle (без промежуточного нижнего листа) */
 @media (max-width: 1024px) {
   #desktop-order-popup.modal.order-popup {
@@ -1051,14 +1065,194 @@ body.order-popup-open .overlay-new {
 }
 
 @media (max-width: 425px) {
-  #desktop-order-popup.modal.order-popup {
-    padding: 70px 0 60px !important;
-  }
-
+  /* safe-area + узкий экран (перебивает только крестик; вертикальные отступы задаёт блок ≤768) */
   #desktop-order-popup .modal-close.order-popup__cross,
   #desktop-order-popup .modal-close[data-v-2ee28934] {
-    top: 3% !important;
+    top: calc(env(safe-area-inset-top, 0px) + 18px) !important;
     right: 7% !important;
     transform: none !important;
+  }
+}
+
+/* —— Итерация мобайл / «Спасибо»: паритет serenity.agency (скрины, полноэкран, подписи, кнопка, мессенджеры) —— */
+@media (max-width: 768px) {
+  #desktop-order-popup.modal.order-popup {
+    padding: calc(env(safe-area-inset-top, 0px) + 48px) 0 calc(env(safe-area-inset-bottom, 0px) + 24px) !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  #desktop-order-popup .order-popup__inner[data-v-2ee28934] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    gap: 28px !important;
+  }
+
+  #desktop-order-popup .order-popup__meta[data-v-2ee28934] {
+    margin-right: 0 !important;
+  }
+
+  #desktop-order-popup .order-popup__meta h2[data-v-2ee28934],
+  #desktop-order-popup .order-popup__meta h2 {
+    font-size: clamp(26px, 7vw, 32px) !important;
+    line-height: 1.12 !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.02em !important;
+    color: #fff !important;
+    margin: 0 0 14px !important;
+  }
+
+  #desktop-order-popup .order-popup__meta .lead[data-v-2ee28934],
+  #desktop-order-popup .order-popup__meta .lead {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    font-weight: 300 !important;
+    color: #8e8e93 !important;
+    margin: 0 !important;
+  }
+
+  #desktop-order-popup .contact-form__messenger[data-v-2ee28934] {
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+  }
+
+  #desktop-order-popup .contact-form__messenger-title[data-v-2ee28934] {
+    font-size: 17px !important;
+    margin-bottom: 16px !important;
+  }
+
+  #desktop-order-popup .contact-form__messenger-links {
+    gap: 12px !important;
+  }
+
+  #desktop-order-popup .contact-form__messenger-links a {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+    background: #2c2c2e !important;
+    opacity: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+
+  #desktop-order-popup .contact-form__messenger-links a img {
+    width: 24px !important;
+    height: 24px !important;
+    opacity: 0.9 !important;
+  }
+
+  /* Как на оригинале: только основная колонка полей */
+  #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
+    margin-bottom: 26px !important;
+  }
+
+  #desktop-order-popup .form__group.form__comments[data-v-8ad2fcbc] {
+    margin-bottom: 26px !important;
+  }
+
+  #desktop-order-popup .form__group--sub[data-v-8ad2fcbc] {
+    margin-top: 12px !important;
+  }
+
+  #desktop-order-popup .form__submit.btn[data-v-111f0665] {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: none !important;
+    height: 52px !important;
+    padding: 0 22px !important;
+    border-radius: 26px !important;
+    opacity: 1 !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.42) !important;
+    box-shadow: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  #desktop-order-popup .form__submit .btn__text[data-v-111f0665],
+  #desktop-order-popup .form__submit .btn__arrow {
+    color: #fff !important;
+  }
+
+  #desktop-order-popup .form__submit .btn__arrow path {
+    stroke: #fff !important;
+  }
+
+  /* Без «белой лужи» при тапе на тач-устройствах */
+  #desktop-order-popup .form__submit:hover .btn__overlay[data-v-111f0665],
+  #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__overlay {
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover {
+    color: #fff !important;
+    opacity: 1 !important;
+  }
+
+  #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__text,
+  #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
+    color: #fff !important;
+    stroke: #fff !important;
+  }
+
+  #desktop-order-popup .privacy-check[data-v-8ad2fcbc] {
+    height: auto !important;
+    min-height: 0 !important;
+    align-items: flex-start !important;
+    margin-top: 22px !important;
+    line-height: 1.45 !important;
+  }
+
+  #desktop-order-popup .privacy-check__text[data-v-8ad2fcbc],
+  #desktop-order-popup .privacy-check__text {
+    font-size: 13px !important;
+    color: #9a9a9c !important;
+  }
+
+  #desktop-order-popup.is-thank-you .order-popup__inner[data-v-2ee28934] {
+    padding-top: 8px !important;
+    padding-bottom: 32px !important;
+  }
+
+  #desktop-order-popup.is-thank-you .order-popup__meta h2[data-v-2ee28934],
+  #desktop-order-popup.is-thank-you .order-popup__meta h2 {
+    margin-bottom: 18px !important;
+  }
+
+  #desktop-order-popup.is-thank-you .order-popup__meta .lead[data-v-2ee28934],
+  #desktop-order-popup.is-thank-you .order-popup__meta .lead {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    color: #8e8e93 !important;
+  }
+
+  #desktop-order-popup.is-thank-you .contact-form__messenger[data-v-2ee28934] {
+    margin-top: 28px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  #desktop-order-popup .order-popup__inner[data-v-2ee28934] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 }
