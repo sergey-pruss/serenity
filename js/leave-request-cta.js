@@ -7,6 +7,7 @@
   const BODY_FLAG = "leave-cta-open";
   const DESKTOP_MODAL_ID = "desktop-order-popup";
   const DESKTOP_BODY_LOCK = "order-popup-open";
+  let thankYouAutoCloseTimer = null;
 
   const isDesktop = () => window.innerWidth > BOTTOM_BAR_MAX_WIDTH;
 
@@ -39,20 +40,25 @@
   const showThankYouScreen = (modal) => {
     if (!modal) return;
     modal.classList.add("is-thank-you");
+    /* Как на serenity.agency после submit: #form + form-success (не блок мессенджеров формы). */
     modal.innerHTML = `
-      <div class="modal-close order-popup__cross" data-v-2ee28934="" data-v-5c138029=""></div>
-      <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__inner">
-        <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content">
-          <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__meta">
-            <h2 data-v-2ee28934="" data-v-5c138029="">Спасибо, наш новый друг!</h2>
-            <p data-v-2ee28934="" data-v-5c138029="" class="lead">Уже рассматриваем вашу заявку всей командой. И совсем скоро с вами свяжемся. А пока давайте продолжим дружбу в социальных сетях:</p>
-          </div>
-          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
-            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
-            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/whatsapp.svg" alt="WhatsApp" loading="eager" decoding="async"></a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+      <div class="modal-close order-popup__cross" data-v-2ee28934="" aria-label="Закрыть"></div>
+      <div class="order-popup__inner" data-v-2ee28934="">
+        <div id="form" class="form-wrap" data-v-a1ad29aa="" data-v-2ee28934="">
+          <div id="form-success" class="form-success__inner" data-v-a1ad29aa="">
+            <div class="form-success__inner-wrap" data-v-a1ad29aa="">
+              <div class="form-success__message" data-v-a1ad29aa="">
+                <h2 class="form-success__title title" data-v-a1ad29aa="">Спасибо, наш новый друг!</h2>
+                <p data-v-a1ad29aa="">Уже рассматриваем вашу заявку всей командой.<br data-v-a1ad29aa="">
+                И&nbsp;совсем скоро с&nbsp;вами свяжемся.<br data-v-a1ad29aa="">
+                А&nbsp;пока давайте продолжим дружбу
+                в&nbsp;социальных сетях:</p>
+              </div>
+              <div class="social form-success__socials" data-v-a1ad29aa="">
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://t.me/serenityagency" aria-label="Telegram"><img data-v-a1ad29aa="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://vk.com/serenity.agency" aria-label="VK"><img data-v-a1ad29aa="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram"><img data-v-a1ad29aa="" src="img/services/production/svg/insta.svg" alt="Instagram" loading="eager" decoding="async"></a>
+              </div>
             </div>
           </div>
         </div>
@@ -60,11 +66,24 @@
     `;
     modal.querySelector(".modal-close")?.addEventListener("click", closeDesktopModal);
     modal.scrollTop = 0;
+    const formWrap = modal.querySelector("#form");
+    if (formWrap) {
+      const pad = 200;
+      formWrap.style.height = `${Math.max(Math.round(modal.clientHeight - pad), 320)}px`;
+    }
     requestAnimationFrame(() => syncDesktopModalScrollable(modal));
-    setTimeout(() => closeDesktopModal(), 15000);
+    if (thankYouAutoCloseTimer) clearTimeout(thankYouAutoCloseTimer);
+    thankYouAutoCloseTimer = setTimeout(() => {
+      thankYouAutoCloseTimer = null;
+      closeDesktopModal();
+    }, 15000);
   };
 
   const closeDesktopModal = () => {
+    if (thankYouAutoCloseTimer) {
+      clearTimeout(thankYouAutoCloseTimer);
+      thankYouAutoCloseTimer = null;
+    }
     document.documentElement.classList.remove(DESKTOP_BODY_LOCK);
     document.body.classList.remove(DESKTOP_BODY_LOCK);
     const modal = document.getElementById(DESKTOP_MODAL_ID);
@@ -221,7 +240,7 @@
                 </label>
                 <label data-v-8ad2fcbc="" class="form__group form__comments">
                   <textarea data-v-8ad2fcbc="" name="comments" rows="1" placeholder="Комментарий" autocomplete="off" class="form__control"></textarea>
-                  <span data-v-8ad2fcbc="" class="form__label">Опишите задачу</span>
+                  <span data-v-8ad2fcbc="" class="form__label">Комментарий</span>
                 </label>
                 <label data-v-8ad2fcbc="" class="form__group form__manager" style="display:none">
                   <input data-v-8ad2fcbc="" type="text" name="manager" class="form__control" />
