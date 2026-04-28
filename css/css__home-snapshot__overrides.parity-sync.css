@@ -263,6 +263,14 @@
   display: none;
 }
 
+/* Карточки кейсов/блога: фоновый цвет виден до загрузки изображения */
+.more-cases .case__media[data-v-c0adc676],
+.more-cases .case__media,
+.more-blog-case .case__media[data-v-410c06b6],
+.more-blog-case .case__media {
+  background-color: #1d1d1f;
+}
+
 /* Кейсы (desktop): в статике нет .active, дублируем reveal категорий на :hover как в проде */
 @media screen and (min-width: 1025px) and (hover: hover) {
   .more-cases .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
