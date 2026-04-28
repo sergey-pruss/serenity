@@ -414,7 +414,7 @@ body.order-popup-open .overlay-new {
   }
 
   #desktop-order-popup .contact-form__messenger-links a + a {
-    margin-left: 32px !important;
+    margin-left: 15px !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links a img {
@@ -452,13 +452,13 @@ body.order-popup-open .overlay-new {
     max-width: 100% !important;
     min-width: 0 !important;
     flex: none !important;
-    height: 46px !important;
+    height: 56px !important;
     padding: 0 24px !important;
     border-radius: 30px !important;
-    opacity: 0.5 !important;
-    color: #fff !important;
-    background: transparent !important;
-    border: 1px solid #fff !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    background: #fff !important;
+    border: none !important;
     box-shadow: none !important;
     display: flex !important;
     justify-content: space-between !important;
@@ -468,11 +468,11 @@ body.order-popup-open .overlay-new {
 
   #desktop-order-popup .form__submit .btn__text[data-v-111f0665],
   #desktop-order-popup .form__submit .btn__arrow {
-    color: #fff !important;
+    color: #000 !important;
   }
 
   #desktop-order-popup .form__submit .btn__arrow path {
-    stroke: #fff !important;
+    stroke: #000 !important;
   }
 
   #desktop-order-popup .form__submit:hover .btn__overlay[data-v-111f0665],
@@ -482,14 +482,14 @@ body.order-popup-open .overlay-new {
   }
 
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover {
-    color: #fff !important;
+    color: #000 !important;
     opacity: 1 !important;
   }
 
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__text,
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
-    color: #fff !important;
-    stroke: #fff !important;
+    color: #000 !important;
+    stroke: #000 !important;
   }
 
   #desktop-order-popup .form__submit-error {
