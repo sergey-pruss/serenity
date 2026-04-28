@@ -558,22 +558,18 @@ body.scroll-menu-open {
 .header .navigation-new__button[data-v-7050ddb2] {
   height: 54px !important;
   border-radius: 30px !important;
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.5s,
-    color 0.25s,
-    text-shadow 0.25s ease !important;
+  transition: none !important;
   will-change: transform, box-shadow;
 }
 
 .header .navigation-new__button[data-v-7050ddb2]:hover {
-  text-shadow:
-    0.01px 0 0 currentColor,
-    -0.01px 0 0 currentColor;
-  transform: translateZ(0) scale(1.04) !important;
-  box-shadow:
-    0 0 0 1px currentColor,
-    0 10px 56px rgba(97, 0, 255, 0.58);
+  text-shadow: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.header .navigation-new__button[data-v-7050ddb2]:active {
+  transform: none !important;
 }
 
 /* Убираем лишнюю линию от legacy footer в fullscreen-режиме */
@@ -709,11 +705,7 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
   -webkit-font-smoothing: antialiased;
   will-change: transform, box-shadow;
   box-shadow: 0 0 0 1px #fff;
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.5s,
-    color 0.25s,
-    text-shadow 0.25s ease;
+  transition: none !important;
 }
 
 .buttonlink.footer__link.application.buttonlink--filled .icon,
@@ -726,24 +718,24 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon path {
   stroke: #151516 !important;
   stroke-width: 1.8;
-  transition:
-    stroke 0.25s ease,
-    stroke-width 0.25s ease;
+  transition: none !important;
 }
 
 .buttonlink.footer__link.application.buttonlink--filled:hover,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover {
-  /* Hover: усиленное фиолетовое свечение + плавное увеличение */
-  font-weight: 430 !important;
-  text-shadow:
-    0.01px 0 0 currentColor,
-    -0.01px 0 0 currentColor;
-  transform: translateY(-70%) translateZ(0) scale(1.04) !important;
-  box-shadow:
-    0 0 0 1px #fff,
-    0 10px 56px rgba(97, 0, 255, 0.58);
+  font-weight: 400 !important;
+  text-shadow: 0 0 0 rgba(21, 21, 22, 0) !important;
+  transform: translateY(-70%) translateZ(0) !important;
+  box-shadow: 0 0 0 1px #fff !important;
+}
+
+.buttonlink.footer__link.application.buttonlink--filled:active,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:active,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:active,
+.buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:active {
+  transform: translateY(-70%) translateZ(0) !important;
 }
 
 .buttonlink.footer__link.application.buttonlink--filled:hover .icon,
@@ -754,7 +746,7 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover .icon path,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover .icon path {
-  stroke-width: 1.9;
+  stroke-width: 1.8 !important;
 }
 
 body.leave-cta-open .btns.active .btns__blur,
