@@ -173,7 +173,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       });
       assert(
         textareaGrowth.after.textareaHeight > textareaGrowth.before.textareaHeight + 40,
-        "Десктоп: textarea «Опишите задачу» должна расширяться под многострочный текст",
+        "Десктоп: textarea «Комментарий» должна расширяться под многострочный текст",
       );
       assert(
         textareaGrowth.after.submitTop > textareaGrowth.before.submitTop + 40,
