@@ -59,6 +59,8 @@
       </div>
     `;
     modal.querySelector(".modal-close")?.addEventListener("click", closeDesktopModal);
+    modal.scrollTop = 0;
+    requestAnimationFrame(() => syncDesktopModalScrollable(modal));
     setTimeout(() => closeDesktopModal(), 15000);
   };
 
@@ -148,8 +150,15 @@
       });
       if (invalid) return;
       const modalEl = document.getElementById(DESKTOP_MODAL_ID);
-      showThankYouScreen(modalEl);
-      submitLeadForm(form).catch((err) => console.error(err));
+      if (submit) setSubmitPending(submit, true);
+      try {
+        await submitLeadForm(form);
+        showThankYouScreen(modalEl);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        if (submit) setSubmitPending(submit, false);
+      }
     });
 
     if (submit && isDesktop()) {
