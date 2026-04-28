@@ -260,7 +260,7 @@
             <p data-v-2ee28934="" data-v-5c138029="" class="lead">Оставьте заявку, и мы в скором времени с вами свяжемся обсудить ваши задачи.</p>
           </div>
           <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
-            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Отправить форму заявки</div>
+            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
             <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
               <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
               <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/whatsapp.svg" alt="WhatsApp" loading="eager" decoding="async"></a>
@@ -269,6 +269,7 @@
           </div>
         </div>
         <div data-v-8ad2fcbc="" data-v-5c138029="" id="form" class="form-wrap" style="height: unset;">
+          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title contact-form__form-title">Отправить форму заявки</div>
           <form data-v-8ad2fcbc="" action="#" method="post" enctype="multipart/form-data" class="order-popup__form order-form form">
             <div data-v-8ad2fcbc="" class="form__grid">
               <div data-v-8ad2fcbc="" class="form__grid-item">
