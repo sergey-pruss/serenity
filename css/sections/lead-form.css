@@ -370,7 +370,7 @@ body.order-popup-open .overlay-new {
     font-weight: 400 !important;
     letter-spacing: normal !important;
     color: #fff !important;
-    max-width: 282px !important;
+    max-width: 260px !important;
     margin: 0 0 30px !important;
   }
 
@@ -381,7 +381,7 @@ body.order-popup-open .overlay-new {
     font-weight: 300 !important;
     color: rgba(255, 255, 255, 0.5) !important;
     margin: 0 !important;
-    max-width: 282px !important;
+    max-width: none !important;
   }
 
   #desktop-order-popup .contact-form__messenger[data-v-2ee28934] {
@@ -397,7 +397,6 @@ body.order-popup-open .overlay-new {
 
   #desktop-order-popup .contact-form__messenger-links {
     display: block !important;
-    line-height: 0 !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links a {
@@ -410,11 +409,6 @@ body.order-popup-open .overlay-new {
     min-width: 0 !important;
     min-height: 0 !important;
     margin: 0 !important;
-    vertical-align: top !important;
-  }
-
-  #desktop-order-popup .contact-form__messenger-links a + a {
-    margin-left: 32px !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links a img {
