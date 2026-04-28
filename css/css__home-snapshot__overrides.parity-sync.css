@@ -988,3 +988,77 @@ body.order-popup-open .overlay-new {
 #desktop-order-popup .form__group.form__group--sub[data-v-8ad2fcbc] {
   margin-top: 48px !important;
 }
+
+/* Модалка заявки на планшетах/мобайле: как .newModal в snapshot.bundle (без промежуточного нижнего листа) */
+@media (max-width: 1024px) {
+  #desktop-order-popup.modal.order-popup {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding: 76px 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #desktop-order-popup .order-popup__inner[data-v-2ee28934] {
+    width: 87% !important;
+    min-height: 0 !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 40px !important;
+    box-sizing: border-box !important;
+  }
+
+  #desktop-order-popup .order-popup__content[data-v-2ee28934],
+  #desktop-order-popup .form-wrap[data-v-8ad2fcbc] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  #desktop-order-popup .form-wrap[data-v-8ad2fcbc] {
+    margin-top: 0 !important;
+  }
+
+  #desktop-order-popup .order-popup__meta .lead {
+    max-width: none !important;
+  }
+
+  #desktop-order-popup .form__grid[data-v-8ad2fcbc] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #desktop-order-popup .form__grid-item[data-v-8ad2fcbc] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    overflow: visible !important;
+  }
+
+  #desktop-order-popup .form__submit.btn[data-v-111f0665] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+  }
+}
+
+@media (max-width: 425px) {
+  #desktop-order-popup.modal.order-popup {
+    padding: 70px 0 60px !important;
+  }
+
+  #desktop-order-popup .modal-close.order-popup__cross,
+  #desktop-order-popup .modal-close[data-v-2ee28934] {
+    top: 3% !important;
+    right: 7% !important;
+    transform: none !important;
+  }
+}

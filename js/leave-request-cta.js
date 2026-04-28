@@ -1,6 +1,6 @@
 /**
- * «Оставить заявку» — только локальное раскрытие нижнего листа (.btns + .btns__modal),
- * без редиректов и window.open на внешний сайт.
+ * «Оставить заявку» — локальная модалка #desktop-order-popup (как на оригинале),
+ * без редиректов и window.open на внешний сайт. Промежуточный нижний лист не используется.
  */
 (() => {
   const BOTTOM_BAR_MAX_WIDTH = 1024;
@@ -27,13 +27,6 @@
     document.body.classList.toggle(BODY_FLAG, open);
     b.wrap.classList.toggle("active", open);
     b.modal.classList.toggle("active", open);
-  };
-
-  const toggleBottomSheet = () => {
-    const b = getBottomBar();
-    if (!b) return;
-    const open = !b.wrap.classList.contains("active");
-    setBottomSheetOpen(open);
   };
 
   const closeBottomSheetIfOpen = () => {
@@ -159,7 +152,7 @@
       submitLeadForm(form).catch((err) => console.error(err));
     });
 
-    if (submit) {
+    if (submit && isDesktop()) {
       submit.style.setProperty("width", "250px", "important");
       submit.style.setProperty("min-width", "200px", "important");
       submit.style.setProperty("height", "46px", "important");
@@ -176,8 +169,7 @@
     }
   };
 
-  const openDesktopModal = () => {
-    if (!isDesktop()) return;
+  const openOrderModal = () => {
     if (document.getElementById(DESKTOP_MODAL_ID)) return;
 
     const modal = document.createElement("section");
@@ -274,8 +266,7 @@
     el.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      if (isDesktop()) openDesktopModal();
-      else setBottomSheetOpen(true);
+      openOrderModal();
     });
   };
 
@@ -285,10 +276,9 @@
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       e.preventDefault();
-      // closeMenu в app.js тоже сработает — модалку/панель откроем на следующем кадре
+      // closeMenu в app.js тоже сработает — модалку откроем на следующем кадре
       requestAnimationFrame(() => {
-        if (isDesktop()) openDesktopModal();
-        else setBottomSheetOpen(true);
+        openOrderModal();
       });
     });
   };
@@ -298,7 +288,7 @@
       const a = e.target.closest("a.btns__inpage-action");
       if (!a) return;
       e.preventDefault();
-      if (isDesktop()) openDesktopModal();
+      openOrderModal();
     });
   };
 
@@ -309,7 +299,7 @@
     b.trigger.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleBottomSheet();
+      openOrderModal();
     });
 
     if (b.blur) {
