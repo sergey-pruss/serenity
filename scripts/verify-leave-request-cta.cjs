@@ -1,7 +1,7 @@
 /**
  * Поведение CTA «Оставить заявку»:
  * - desktop: локальный order-popup,
- * - mobile: нижний .btns лист.
+ * - mobile: тот же #desktop-order-popup, без нижнего .btns листа.
  * Запуск: npm run test:leave-cta
  * URL: env LEAVE_CTA_TEST_BASE_URL или http://127.0.0.1:8765/ (см. npm run dev)
  */
@@ -277,47 +277,40 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
     {
       const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
       await page.goto(base, { waitUntil: "load", timeout: 60_000 });
-      await page.waitForSelector(".btns__item_open", { state: "attached", timeout: 20_000 });
-      await page.click(".btns__item_open", { force: true });
-      await page.waitForFunction(
-        () => {
-          const wrap = document.querySelector(".btns.white");
-          const modal = wrap?.nextElementSibling;
-          if (!wrap?.classList.contains("active") || !modal?.classList?.contains("active")) return false;
-          const t = getComputedStyle(modal).transform;
-          if (!t || t === "none") return true;
-          const p = t.match(/matrix\(([^)]+)\)/)?.[1]?.split(/,\s*/);
-          return p ? Math.abs(parseFloat(p[5]) || 0) < 2 : false;
-        },
-        { timeout: 2_000 },
-      );
-      const { wrapActive, modalActive, dy } = await page.evaluate(() => {
-        const wrap = document.querySelector(".btns.white");
-        const modal = wrap?.nextElementSibling;
-        const t = modal ? getComputedStyle(modal).transform : "none";
-        let f = 999;
-        if (t && t !== "none" && t.startsWith("matrix")) {
-          const p = t.match(/matrix\(([^)]+)\)/)?.[1]?.split(/,\s*/);
-          f = p ? Math.abs(parseFloat(p[5]) || 0) : 999;
-        }
-        return { wrapActive: wrap?.classList.contains("active"), modalActive: modal?.classList?.contains("active"), dy: f };
-      });
-      assert(wrapActive && modalActive, "После клика ожидались .btns.active и .btns__modal.active");
-      assert(dy < 2, `Модалка вверху: ожидался translateY(0), matrix[5]≈0, сейчас dy=${dy}`);
+      /* На ≤768px нижний .btns__item_open скрыт (display:none в index), CTA — плавающая кнопка в шапке после скролла */
+      await page.evaluate(() => window.scrollTo(0, 600));
+      await page.waitForTimeout(400);
+      await page.waitForSelector("#body.body-application .application", { state: "attached", timeout: 20_000 });
+      await page.click("#body.body-application .application", { force: true });
+      await page.waitForTimeout(400);
+      const m = await readDesktopModal(page);
+      const sheet = await readSheet(page);
+      assert(m.exists && m.bodyFlag, "Мобайл: после клика плавающего CTA ожидается #desktop-order-popup");
+      assert(!!(await page.evaluate(() => document.querySelector("#desktop-order-popup form.order-popup__form"))), "Мобайл: в popup должна быть форма");
+      assert(!sheet.bodyFlag && !sheet.wrapActive && !sheet.modalActive, "Нижний .btns лист не должен раскрываться");
 
       await page.keyboard.press("Escape");
       await page.waitForTimeout(200);
-      const closed = await page.evaluate(() => {
-        const wrap = document.querySelector(".btns.white");
-        const modal = wrap?.nextElementSibling;
-        return !wrap?.classList.contains("active") && !modal?.classList.contains("active");
-      });
-      assert(closed, "По Esc нижняя панель должна закрыться");
+      const afterEsc = await readDesktopModal(page);
+      assert(!afterEsc.exists && !afterEsc.bodyFlag, "По Esc мобильный order-popup должен закрываться");
     }
+
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(base, { waitUntil: "load", timeout: 60_000 });
+      await page.waitForSelector("header .menu-icon", { state: "attached", timeout: 20_000 });
+      await page.click("header .menu-icon", { force: true });
+      await page.waitForTimeout(500);
+      await page.click("header button.navigation-new__button", { force: true });
+      await page.waitForTimeout(500);
+      const m2 = await readDesktopModal(page);
+      assert(m2.exists && m2.bodyFlag, "Мобайл: «Отправить заявку» в меню открывает order-popup");
+    }
+
   } finally {
     await browser.close();
   }
-  console.log("ok: leave-request-cta (desktop order-popup, menu CTA, mobile sheet, Esc, no popup)");
+  console.log("ok: leave-request-cta (desktop + mobile order-popup, Esc, no popup)");
 })().catch((e) => {
   console.error(e);
   process.exit(1);
