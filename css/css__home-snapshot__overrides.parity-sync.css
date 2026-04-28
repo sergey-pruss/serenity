@@ -264,6 +264,17 @@
 }
 
 /* Карточки кейсов/блога: фоновый цвет виден до загрузки изображения */
+.more-cases .case[data-v-c0adc676],
+.more-cases .case,
+.more-cases .case > a[data-v-c0adc676],
+.more-cases .case > a,
+.more-blog-case[data-v-410c06b6],
+.more-blog-case,
+.more-blog-case > a[data-v-410c06b6],
+.more-blog-case > a {
+  background-color: #1d1d1f;
+}
+
 .more-cases .case__media[data-v-c0adc676],
 .more-cases .case__media,
 .more-blog-case .case__media[data-v-410c06b6],
