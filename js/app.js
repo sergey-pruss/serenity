@@ -920,21 +920,35 @@
 
   // #region agent log — hover debug
   (() => {
-    const btn = document.querySelector('header button.navigation-new__button');
-    if (!btn) return;
     const ep = 'http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556';
     const hdr = {'Content-Type':'application/json','X-Debug-Session-Id':'60738a'};
     const log = (msg, data, hyp) => fetch(ep,{method:'POST',headers:hdr,body:JSON.stringify({sessionId:'60738a',location:'app.js:hover-debug',message:msg,data,timestamp:Date.now(),hypothesisId:hyp})}).catch(()=>{});
-    const cs = window.getComputedStyle(btn);
-    log('initial-state', {transition:cs.transition, transform:cs.transform, boxShadow:cs.boxShadow, hoverMediaMatches: window.matchMedia('(hover:hover)').matches, touchMediaMatches: window.matchMedia('(hover:none)').matches}, 'B');
-    btn.addEventListener('mouseenter', () => {
-      const s = window.getComputedStyle(btn);
-      log('hover-computed', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow, color:s.color}, 'A');
-    });
-    btn.addEventListener('mouseleave', () => {
-      const s = window.getComputedStyle(btn);
-      log('unhover-computed', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'A');
-    });
+
+    // Floating CTA button (bottom-right)
+    const cta = document.querySelector('.btns__item-box');
+    if (cta) {
+      const cs = window.getComputedStyle(cta);
+      log('cta-initial', {transition:cs.transition, transform:cs.transform, boxShadow:cs.boxShadow, hoverDevice:window.matchMedia('(hover:hover)').matches}, 'A');
+      cta.addEventListener('mouseenter', () => {
+        const s = window.getComputedStyle(cta);
+        log('cta-hover', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'A');
+      });
+      cta.addEventListener('mouseleave', () => {
+        const s = window.getComputedStyle(cta);
+        log('cta-unhover', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'A');
+      });
+    }
+
+    // buttonlink inner element
+    const btn = document.querySelector('.buttonlink.footer__link.application.buttonlink--filled');
+    if (btn) {
+      const cs = window.getComputedStyle(btn);
+      log('btn-initial', {transition:cs.transition, transform:cs.transform, boxShadow:cs.boxShadow}, 'B');
+      btn.addEventListener('mouseenter', () => {
+        const s = window.getComputedStyle(btn);
+        log('btn-hover', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'B');
+      });
+    }
   })();
   // #endregion
 

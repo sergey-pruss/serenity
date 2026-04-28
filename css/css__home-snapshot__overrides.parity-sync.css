@@ -706,14 +706,12 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] {
   border-radius: 30px !important;
-  /* Кнопка полностью белая, меняем только тон текста/иконки */
   background-color: #fff !important;
   border-color: #fff !important;
   opacity: 1 !important;
   color: #151516 !important;
   font-weight: 400 !important;
   text-shadow: 0 0 0 rgba(21, 21, 22, 0);
-  /* Фикс 1px-подрезания справа без сдвига позиции */
   transform: translateY(-70%) translateZ(0) !important;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -731,24 +729,38 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
   transition: none !important;
 }
 
-.buttonlink.footer__link.application.buttonlink--filled:hover,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover {
-  font-weight: 400 !important;
-  text-shadow: 0 0 0 rgba(21, 21, 22, 0) !important;
-  transform: translateY(-70%) translateZ(0) !important;
-  box-shadow: 0 0 0 1px #fff !important;
+/* Hover-эффект только на десктопе (устройства с настоящим hover) */
+@media (hover: hover) {
+  .buttonlink.footer__link.application.buttonlink--filled,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] {
+    transition: transform 0.35s ease, box-shadow 0.5s !important;
+  }
+
+  .buttonlink.footer__link.application.buttonlink--filled .icon,
+  .buttonlink.footer__link.application.buttonlink--filled .icon path,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon path {
+    transition: stroke-width 0.25s ease !important;
+  }
+
+  .buttonlink.footer__link.application.buttonlink--filled:hover,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover {
+    transform: translateY(-70%) translateZ(0) scale(1.04) !important;
+    box-shadow: 0 0 0 1px #fff, 0 10px 56px rgba(97, 0, 255, 0.58) !important;
+  }
+
+  .buttonlink.footer__link.application.buttonlink--filled:hover .icon,
+  .buttonlink.footer__link.application.buttonlink--filled:hover .icon path,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon path {
+    stroke-width: 1.9 !important;
+  }
 }
 
+/* :active — без прыжка (тач и десктоп) */
 .buttonlink.footer__link.application.buttonlink--filled:active,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:active {
   transform: translateY(-70%) translateZ(0) !important;
-}
-
-.buttonlink.footer__link.application.buttonlink--filled:hover .icon,
-.buttonlink.footer__link.application.buttonlink--filled:hover .icon path,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon,
-.buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover .icon path {
-  stroke-width: 1.8 !important;
 }
 
 body.leave-cta-open .btns.active .btns__blur,
