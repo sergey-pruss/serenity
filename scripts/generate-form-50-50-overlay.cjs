@@ -45,9 +45,7 @@ async function openStagingForm(page) {
   await page.setViewportSize(VIEWPORT);
   await page.evaluate(() => window.scrollTo(0, 600));
   await page.waitForTimeout(600);
-  await page.evaluate(() => {
-    document.querySelector("#body.body-application .footer__link.application")?.click();
-  });
+  await page.locator("#body.body-application .footer__link.application").click({ force: true });
   await page.waitForSelector("#desktop-order-popup", { state: "visible", timeout: 25_000 });
   await page.waitForTimeout(500);
 }
