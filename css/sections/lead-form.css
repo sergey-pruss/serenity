@@ -76,6 +76,10 @@ body.order-popup-open .overlay-new {
   margin-top: 0 !important;
 }
 
+#desktop-order-popup .contact-form__form-title {
+  display: none !important;
+}
+
 #desktop-order-popup .contact-form__messenger-links a {
   width: 46px !important;
   height: 46px !important;
@@ -412,6 +416,11 @@ body.order-popup-open .overlay-new {
     font-size: 18px !important;
     line-height: 1.6 !important;
     margin-bottom: 25px !important;
+  }
+
+  #desktop-order-popup .contact-form__form-title {
+    display: block !important;
+    margin-bottom: 30px !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links {
