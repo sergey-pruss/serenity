@@ -67,27 +67,64 @@
     <link rel="stylesheet" href="css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
     <link
       rel="stylesheet"
-      href="css/css__home-snapshot__overrides.desktop.css?v=20260430"
+      href="css/css__home-snapshot__overrides.parity-sync.css?v=20260428b"
     />
+    <link rel="stylesheet" href="css/sections/header.css?v=20260428a" />
     <link
-      rel="stylesheet"
-      href="css/css__home-snapshot__overrides.tablet.css?v=20260424"
+      rel="preload"
+      href="css/sections/footer.css?v=20260428a"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript><link rel="stylesheet" href="css/sections/footer.css?v=20260428a" /></noscript>
+    <link rel="stylesheet" href="css/sections/burger-adaptive.css?v=20260428a" />
     <link
-      rel="stylesheet"
-      href="css/css__home-snapshot__overrides.parity-sync.css?v=20260428a"
+      rel="preload"
+      href="css/sections/lead-form.css?v=20260428b"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript><link rel="stylesheet" href="css/sections/lead-form.css?v=20260428b" /></noscript>
     <link
-      rel="stylesheet"
-      href="css/css__home-snapshot__overrides.mobile.css?v=20260428c"
+      rel="preload"
+      href="css/sections/leave-request-cta.css?v=20260428a"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript><link rel="stylesheet" href="css/sections/leave-request-cta.css?v=20260428a" /></noscript>
+    <link rel="stylesheet" href="css/sections/cases.css?v=20260428a" />
+    <link
+      rel="preload"
+      href="css/sections/services.css?v=20260428a"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="css/sections/services.css?v=20260428a" /></noscript>
+    <link
+      rel="preload"
+      href="css/sections/blog.css?v=20260428a"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="css/sections/blog.css?v=20260428a" /></noscript>
+    <link rel="stylesheet" href="css/sections/clients.css?v=20260428a" />
+    <link rel="stylesheet" href="css/sections/live-marketing.css?v=20260428a" />
+    <link rel="stylesheet" href="css/sections/hero.css?v=20260428a" />
     <link
       rel="stylesheet"
       href="css/css__home-snapshot__native-row-scroll.css?v=20260424"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" />
+    </noscript>
     <link rel="stylesheet" href="css/css__home-snapshot__slider-arrows.css?v=20260427" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
   </head>
   <body style="overflow: hidden auto">
     <div id="__nuxt">
@@ -372,8 +409,8 @@
                     muted=""
                     loop=""
                     playsinline=""
-                    preload="auto"
-                    src="img/video__home-hero.fhls-fastly_skyfire-4398.mp4"
+                    preload="none"
+                    data-src="img/video__home-hero.fhls-fastly_skyfire-4398.mp4"
                   ></video>
                 </div>
               </div>
@@ -2822,7 +2859,22 @@
         }
       }
     </style>
-    <script src="js/app.js?v=20260427j"></script>
+    <script src="js/counters.js?v=20260428a"></script>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PCM3QZ&"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+        title="gtm"
+      ></iframe>
+    </noscript>
+    <script src="js/modules/services-blog-rows.js?v=20260428a"></script>
+    <script src="js/modules/clients-strip.js?v=20260428a"></script>
+    <script src="js/modules/header-menu.js?v=20260428a"></script>
+    <script src="js/modules/hero-video.js?v=20260428a"></script>
+    <script src="js/modules/cases.js?v=20260428a"></script>
+    <script src="js/app.bootstrap.js?v=20260428a"></script>
     <script src="js/leave-request-cta.js?v=20260487"></script>
   </body>
 </html>
