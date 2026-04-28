@@ -307,10 +307,86 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       assert(m2.exists && m2.bodyFlag, "Мобайл: «Отправить заявку» в меню открывает order-popup");
     }
 
+    const readThankYou = async (page) =>
+      page.evaluate(() => {
+        const modal = document.querySelector("#desktop-order-popup.modal.order-popup");
+        const links = modal ? Array.from(modal.querySelectorAll(".form-success__socials a.social__link")) : [];
+        return {
+          isThankYou: modal?.classList.contains("is-thank-you") ?? false,
+          hasFormSuccess: !!modal?.querySelector("#form-success.form-success__inner"),
+          title: modal?.querySelector(".form-success__title")?.textContent?.trim() || "",
+          paragraphHasNbsp: /\u00a0/.test(modal?.querySelector(".form-success__message p")?.textContent || ""),
+          linkHrefs: links.map((a) => a.getAttribute("href")),
+          linkCount: links.length,
+        };
+      });
+
+    {
+      const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      await page.route("**/api/lead", (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ success: true }),
+        }),
+      );
+      await page.goto(base, { waitUntil: "load", timeout: 60_000 });
+      await page.waitForSelector("header.header", { state: "attached", timeout: 20_000 });
+      await page.evaluate(() => window.scrollTo(0, 500));
+      await page.waitForTimeout(400);
+      await page.click("#body.body-application .application", { force: true });
+      await page.waitForTimeout(400);
+      await page.fill('#desktop-order-popup input[name="name"]', "Тест");
+      await page.fill('#desktop-order-popup input[name="phone"]', "+79990000000");
+      await page.click("#desktop-order-popup .form__submit", { force: true });
+      await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
+      const ty = await readThankYou(page);
+      assert(ty.isThankYou, "Десктоп: после успешного submit модалка получает is-thank-you");
+      assert(ty.hasFormSuccess, "Десктоп: ожидается #form-success.form-success__inner");
+      assert(ty.title === "Спасибо, наш новый друг!", "Десктоп: заголовок экрана благодарности");
+      assert(ty.linkCount === 3, `Десктоп: три соцссылки как на оригинале, got ${ty.linkCount}`);
+      assert(
+        ty.linkHrefs[0] === "https://t.me/serenityagency" &&
+          ty.linkHrefs[1] === "https://vk.com/serenity.agency" &&
+          ty.linkHrefs[2] === "https://www.instagram.com/serenity.agency/",
+        `Десктоп: href соцсетей, got ${JSON.stringify(ty.linkHrefs)}`,
+      );
+      assert(ty.paragraphHasNbsp, "Десктоп: в тексте благодарности должны быть неразрывные пробелы (&nbsp;)");
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(200);
+      const closedTy = await readDesktopModal(page);
+      assert(!closedTy.exists, "Десктоп: экран «Спасибо» закрывается по Esc");
+    }
+
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.route("**/api/lead", (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ success: true }),
+        }),
+      );
+      await page.goto(base, { waitUntil: "load", timeout: 60_000 });
+      await page.evaluate(() => window.scrollTo(0, 600));
+      await page.waitForTimeout(400);
+      await page.waitForSelector("#body.body-application .application", { state: "attached", timeout: 20_000 });
+      await page.click("#body.body-application .application", { force: true });
+      await page.waitForTimeout(400);
+      await page.fill('#desktop-order-popup input[name="name"]', "Мобайл");
+      await page.fill('#desktop-order-popup input[name="phone"]', "+79991112233");
+      await page.click("#desktop-order-popup .form__submit", { force: true });
+      await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
+      const tyM = await readThankYou(page);
+      assert(tyM.isThankYou && tyM.hasFormSuccess, "Мобайл: экран благодарности после submit");
+      assert(tyM.title === "Спасибо, наш новый друг!", "Мобайл: заголовок экрана благодарности");
+      assert(tyM.linkCount === 3, `Мобайл: три соцссылки, got ${tyM.linkCount}`);
+    }
+
   } finally {
     await browser.close();
   }
-  console.log("ok: leave-request-cta (desktop + mobile order-popup, Esc, no popup)");
+  console.log("ok: leave-request-cta (popup, Esc, экран «Спасибо» после submit с моком /api/lead)");
 })().catch((e) => {
   console.error(e);
   process.exit(1);

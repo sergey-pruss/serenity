@@ -813,11 +813,13 @@ body.order-popup-open .overlay-new {
   height: 170px !important;
 }
 
-#desktop-order-popup .contact-form__messenger-links {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 34px !important;
+@media (min-width: 1025px) {
+  #desktop-order-popup .contact-form__messenger-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 34px !important;
+  }
 }
 
 #desktop-order-popup .order-popup__meta .lead {
@@ -948,20 +950,23 @@ body.order-popup-open .overlay-new {
   margin-top: 40px !important;
 }
 
+/* Экран «Спасибо»: разметка form-success как на serenity.agency */
 #desktop-order-popup.is-thank-you .order-popup__inner[data-v-2ee28934] {
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  padding: 80px 0 60px !important;
+  width: 80% !important;
+  margin: 0 auto !important;
+  min-height: calc(100vh - 200px) !important;
+  display: block !important;
 }
 
-#desktop-order-popup.is-thank-you .order-popup__content[data-v-2ee28934] {
-  width: 100% !important;
-  max-width: 100% !important;
-  flex: none !important;
+/* Высоту #form задаёт leave-request-cta.js (inline); !important height:100% ломал бы центрирование и visibility */
+#desktop-order-popup.is-thank-you #form.form-wrap[data-v-2ee28934] {
+  min-height: 320px !important;
+  box-sizing: border-box !important;
 }
 
-#desktop-order-popup.is-thank-you .order-popup__meta[data-v-2ee28934] {
-  margin-bottom: 32px !important;
+#desktop-order-popup.is-thank-you .form-success__inner[data-v-a1ad29aa] {
+  height: 100% !important;
+  position: relative !important;
 }
 
 #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
@@ -985,8 +990,10 @@ body.order-popup-open .overlay-new {
   resize: none !important;
 }
 
-#desktop-order-popup .form__group.form__group--sub[data-v-8ad2fcbc] {
-  margin-top: 48px !important;
+@media (min-width: 769px) {
+  #desktop-order-popup .form__group.form__group--sub[data-v-8ad2fcbc] {
+    margin-top: 48px !important;
+  }
 }
 
 /* Плавающая подпись: как :focus/:placeholder-shown в bundle, плюс классы из leave-request-cta.js */
@@ -1003,8 +1010,8 @@ body.order-popup-open .overlay-new {
   }
 }
 
-/* Модалка заявки на планшетах/мобайле: как .newModal в snapshot.bundle (без промежуточного нижнего листа) */
-@media (max-width: 1024px) {
+/* Планшет 769–1024: полноэкранная модалка без конфликта с мобильной вёрсткой ≤768 */
+@media (min-width: 769px) and (max-width: 1024px) {
   #desktop-order-popup.modal.order-popup {
     width: 100% !important;
     max-width: 100% !important;
@@ -1065,29 +1072,54 @@ body.order-popup-open .overlay-new {
 }
 
 @media (max-width: 425px) {
-  /* safe-area + узкий экран (перебивает только крестик; вертикальные отступы задаёт блок ≤768) */
+  /* Как .modal-close на serenity.agency (≈34px сверху) + safe-area */
   #desktop-order-popup .modal-close.order-popup__cross,
   #desktop-order-popup .modal-close[data-v-2ee28934] {
-    top: calc(env(safe-area-inset-top, 0px) + 18px) !important;
-    right: 7% !important;
+    top: calc(34px + env(safe-area-inset-top, 0px)) !important;
+    right: 10% !important;
     transform: none !important;
   }
 }
 
-/* —— Итерация мобайл / «Спасибо»: паритет serenity.agency (скрины, полноэкран, подписи, кнопка, мессенджеры) —— */
+/* Мобайл ≤768: паритет с getComputedStyle serenity.agency (форма + «Спасибо») */
 @media (max-width: 768px) {
   #desktop-order-popup.modal.order-popup {
-    padding: calc(env(safe-area-inset-top, 0px) + 48px) 0 calc(env(safe-area-inset-bottom, 0px) + 24px) !important;
-    align-items: stretch !important;
-    justify-content: flex-start !important;
+    background: rgb(25, 26, 27) !important;
+    padding-top: calc(80px + env(safe-area-inset-top, 0px)) !important;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    display: block !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    align-items: unset !important;
+    justify-content: unset !important;
+    max-height: none !important;
+    min-height: 100vh !important;
   }
 
   #desktop-order-popup .order-popup__inner[data-v-2ee28934] {
+    width: 80% !important;
+    max-width: 80% !important;
+    margin: 0 auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    gap: 50px !important;
+    flex-direction: column !important;
+    display: flex !important;
+    align-items: stretch !important;
+    min-height: 0 !important;
+  }
+
+  #desktop-order-popup .order-popup__content[data-v-2ee28934],
+  #desktop-order-popup .form-wrap[data-v-8ad2fcbc] {
     width: 100% !important;
     max-width: 100% !important;
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-    gap: 28px !important;
+    flex: none !important;
+  }
+
+  #desktop-order-popup .form-wrap[data-v-8ad2fcbc] {
+    margin-top: 0 !important;
   }
 
   #desktop-order-popup .order-popup__meta[data-v-2ee28934] {
@@ -1096,31 +1128,37 @@ body.order-popup-open .overlay-new {
 
   #desktop-order-popup .order-popup__meta h2[data-v-2ee28934],
   #desktop-order-popup .order-popup__meta h2 {
-    font-size: clamp(26px, 7vw, 32px) !important;
-    line-height: 1.12 !important;
+    font-size: 28px !important;
+    line-height: 1.3 !important;
     font-weight: 400 !important;
-    letter-spacing: -0.02em !important;
+    letter-spacing: normal !important;
     color: #fff !important;
-    margin: 0 0 14px !important;
+    margin: 0 0 30px !important;
   }
 
   #desktop-order-popup .order-popup__meta .lead[data-v-2ee28934],
   #desktop-order-popup .order-popup__meta .lead {
-    font-size: 15px !important;
-    line-height: 1.5 !important;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
     font-weight: 300 !important;
-    color: #8e8e93 !important;
+    color: rgba(255, 255, 255, 0.55) !important;
     margin: 0 !important;
+    max-width: none !important;
   }
 
   #desktop-order-popup .contact-form__messenger[data-v-2ee28934] {
-    margin-top: 4px !important;
-    margin-bottom: 0 !important;
+    margin-top: 50px !important;
+    margin-bottom: 40px !important;
   }
 
   #desktop-order-popup .contact-form__messenger-title[data-v-2ee28934] {
-    font-size: 17px !important;
-    margin-bottom: 16px !important;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 25px !important;
+  }
+
+  #desktop-order-popup .contact-form__messenger-links {
+    display: block !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links a {
@@ -1142,7 +1180,6 @@ body.order-popup-open .overlay-new {
     opacity: 1 !important;
   }
 
-  /* Как на оригинале: только основная колонка полей */
   #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
     display: none !important;
     width: 0 !important;
@@ -1153,33 +1190,36 @@ body.order-popup-open .overlay-new {
   }
 
   #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
-    margin-bottom: 26px !important;
+    margin-bottom: 16.7px !important;
   }
 
   #desktop-order-popup .form__group.form__comments[data-v-8ad2fcbc] {
-    margin-bottom: 26px !important;
+    margin-bottom: 16.7px !important;
   }
 
   #desktop-order-popup .form__group--sub[data-v-8ad2fcbc] {
-    margin-top: 12px !important;
+    position: relative !important;
+    top: unset !important;
+    margin-top: 64.5px !important;
   }
 
   #desktop-order-popup .form__submit.btn[data-v-111f0665] {
     width: 100% !important;
-    max-width: none !important;
+    max-width: 100% !important;
     min-width: 0 !important;
     flex: none !important;
-    height: 52px !important;
-    padding: 0 22px !important;
-    border-radius: 26px !important;
-    opacity: 1 !important;
+    height: 46px !important;
+    padding: 0 24px !important;
+    border-radius: 13px !important;
+    opacity: 0.5 !important;
     color: #fff !important;
     background: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.42) !important;
+    border: none !important;
     box-shadow: none !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
+    margin-bottom: 40px !important;
   }
 
   #desktop-order-popup .form__submit .btn__text[data-v-111f0665],
@@ -1191,7 +1231,6 @@ body.order-popup-open .overlay-new {
     stroke: #fff !important;
   }
 
-  /* Без «белой лужи» при тапе на тач-устройствах */
   #desktop-order-popup .form__submit:hover .btn__overlay[data-v-111f0665],
   #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover .btn__overlay {
     width: 0 !important;
@@ -1213,41 +1252,23 @@ body.order-popup-open .overlay-new {
     height: auto !important;
     min-height: 0 !important;
     align-items: flex-start !important;
-    margin-top: 22px !important;
-    line-height: 1.45 !important;
+    margin-top: 0 !important;
+    line-height: 1.35 !important;
   }
 
   #desktop-order-popup .privacy-check__text[data-v-8ad2fcbc],
   #desktop-order-popup .privacy-check__text {
-    font-size: 13px !important;
-    color: #9a9a9c !important;
+    font-size: 14px !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  /* «Спасибо»: центрирование из bundle (.form-success__inner-wrap) */
+  #desktop-order-popup.is-thank-you .form-success__socials img {
+    width: 46px !important;
+    height: auto !important;
   }
 
   #desktop-order-popup.is-thank-you .order-popup__inner[data-v-2ee28934] {
-    padding-top: 8px !important;
-    padding-bottom: 32px !important;
-  }
-
-  #desktop-order-popup.is-thank-you .order-popup__meta h2[data-v-2ee28934],
-  #desktop-order-popup.is-thank-you .order-popup__meta h2 {
-    margin-bottom: 18px !important;
-  }
-
-  #desktop-order-popup.is-thank-you .order-popup__meta .lead[data-v-2ee28934],
-  #desktop-order-popup.is-thank-you .order-popup__meta .lead {
-    font-size: 15px !important;
-    line-height: 1.5 !important;
-    color: #8e8e93 !important;
-  }
-
-  #desktop-order-popup.is-thank-you .contact-form__messenger[data-v-2ee28934] {
-    margin-top: 28px !important;
-  }
-}
-
-@media (max-width: 375px) {
-  #desktop-order-popup .order-popup__inner[data-v-2ee28934] {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    min-height: calc(100vh - 200px) !important;
   }
 }
