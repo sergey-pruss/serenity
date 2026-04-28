@@ -272,14 +272,14 @@
 .more-blog-case,
 .more-blog-case > a[data-v-410c06b6],
 .more-blog-case > a {
-  background-color: #1d1d1f;
+  background-color: #1d1d1f !important;
 }
 
 .more-cases .case__media[data-v-c0adc676],
 .more-cases .case__media,
 .more-blog-case .case__media[data-v-410c06b6],
 .more-blog-case .case__media {
-  background-color: #1d1d1f;
+  background-color: #1d1d1f !important;
 }
 
 /* Кейсы (desktop): в статике нет .active, дублируем reveal категорий на :hover как в проде */
