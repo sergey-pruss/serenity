@@ -27,9 +27,7 @@
 
 /* Общая визуальная система стрелок для услуг и блога: одинаковая кнопка + одинаковая иконка */
 .services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51],
-.services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51],
-.blog-block__swiper-container .swiper-button-next,
-.blog-block__swiper-container .swiper-button-prev {
+.services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51] {
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -77,6 +75,23 @@
   position: absolute;
   top: 50% !important;
   z-index: 6;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 20px;
+  min-width: 12px;
+  min-height: 20px;
+  padding: 0;
+  margin-top: 0 !important;
+  background: transparent;
+  color: #fff;
+  line-height: 0;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  z-index: 10;
+  border-radius: 0;
+  border: 0;
 }
 
 .services__context-slider :is(.swiper-button-prev, .swiper-button-next)::after,
