@@ -1,0 +1,30 @@
+/* Header section: logo geometry for desktop/tablet/mobile parity */
+@media screen and (min-width: 769px) {
+  .header__logo .header__logo-img {
+    position: relative;
+    top: 28px !important;
+    width: 132px !important;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .header__logo .header__logo-img {
+    position: relative;
+    top: 0 !important;
+    width: 132px !important;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1100px) {
+  .header__logo .header__logo-img {
+    top: 28px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .header__logo .header__logo-img {
+    width: 97px !important;
+  }
+}
