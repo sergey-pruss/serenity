@@ -368,10 +368,26 @@
   const initHeaderFloatingCta = () => {
     const el = document.querySelector("#body.body-application .footer__link.application");
     if (!el) return;
-    el.addEventListener("click", (e) => {
+    let openedByTouch = false;
+    const openFromCta = (e) => {
       e.preventDefault();
       e.stopPropagation();
       openOrderModal();
+    };
+    el.addEventListener(
+      "touchend",
+      (e) => {
+        openedByTouch = true;
+        openFromCta(e);
+      },
+      { passive: false },
+    );
+    el.addEventListener("click", (e) => {
+      if (openedByTouch) {
+        openedByTouch = false;
+        return;
+      }
+      openFromCta(e);
     });
   };
 

@@ -861,7 +861,7 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 }
 
 /* Тач-устройства: убираем tap-дергание CTA в адаптивах */
-@media screen and (max-width: 1200px) and (hover: none) {
+@media screen and (max-width: 1200px) {
   .buttonlink.footer__link.application.buttonlink--filled,
   .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce],
   .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2],
@@ -901,6 +901,26 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
     transform: translate3d(-50%, -50%, 0) scale(0) !important;
     opacity: 0 !important;
     transition: none !important;
+  }
+
+  /* Мобильный CTA открытия формы: без tap-прыжка перед открытием модалки */
+  .btns__item_open[data-v-23015bc0],
+  .btns__item_open[data-v-90a15ce0],
+  .btns__item-box[data-v-23015bc0],
+  .btns__item-box[data-v-90a15ce0],
+  .btns__item_open[data-v-23015bc0]:hover,
+  .btns__item_open[data-v-90a15ce0]:hover,
+  .btns__item_open[data-v-23015bc0]:active,
+  .btns__item_open[data-v-90a15ce0]:active,
+  .btns__item_open[data-v-23015bc0]:focus,
+  .btns__item_open[data-v-90a15ce0]:focus,
+  .btns__item_open[data-v-23015bc0]:focus-visible,
+  .btns__item_open[data-v-90a15ce0]:focus-visible {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
 }
 
