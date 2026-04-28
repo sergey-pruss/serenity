@@ -1123,28 +1123,23 @@ body.order-popup-open .overlay-new {
     margin-bottom: 16px !important;
   }
 
-  #desktop-order-popup .contact-form__messenger-links {
-    gap: 12px !important;
-  }
-
   #desktop-order-popup .contact-form__messenger-links a {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    border-radius: 12px !important;
-    background: #2c2c2e !important;
-    opacity: 1 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    background: none !important;
+    border-radius: 0 !important;
+    display: inline-block !important;
+    opacity: 0.5 !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
     margin: 0 !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links a img {
-    width: 24px !important;
-    height: 24px !important;
-    opacity: 0.9 !important;
+    width: 46px !important;
+    height: 46px !important;
+    display: block !important;
+    opacity: 1 !important;
   }
 
   /* Как на оригинале: только основная колонка полей */
