@@ -1,14 +1,18 @@
 /**
  * Обработка заявок с сайта serenity.agency
- * Отправляет письмо через Resend и создаёт лид в AmoCRM
+ * Отправляет письмо через Resend и создаёт лид в AmoCRM.
  *
  * Env secrets (wrangler secret put ...):
  *   RESEND_API_KEY   — ключ Resend
  *   AMO_SUBDOMAIN    — "serenity"
- *   AMO_ACCESS_TOKEN — OAuth2 access token AmoCRM
- *   AMO_REFRESH_TOKEN
+ *   AMO_ACCESS_TOKEN — OAuth2 access token AmoCRM (bootstrap/fallback)
+ *   AMO_REFRESH_TOKEN — refresh token AmoCRM (bootstrap/fallback)
  *   AMO_CLIENT_ID
  *   AMO_CLIENT_SECRET
+ *   AMO_REDIRECT_URI — должен совпадать с redirect_uri интеграции в Amo
+ *
+ * Optional binding:
+ *   AMO_TOKENS_KV (KV namespace) — хранение актуальных access/refresh токенов.
  */
 
 const CORS = {
@@ -87,19 +91,21 @@ async function sendEmail(env, { name, phone, email, message, source }) {
     ${source  ? `<p><strong>Страница отправки заявки:</strong> <a href="${esc(source)}">${esc(source)}</a></p>` : ""}
   `;
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const payload = {
+    from: "Serenity <onboarding@resend.dev>",
+    to: ["sergeyprus@gmail.com"],
+    reply_to: email,
+    subject: `Новая заявка от ${name}`,
+    html,
+  };
+
+  let res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      from: "Serenity <onboarding@resend.dev>",
-      to: ["sergeyprus@gmail.com"],
-      reply_to: email,
-      subject: `Новая заявка от ${name}`,
-      html,
-    }),
+    body: JSON.stringify(payload),
   });
 
   if (!res.ok) {
@@ -108,7 +114,58 @@ async function sendEmail(env, { name, phone, email, message, source }) {
   }
 }
 
-async function refreshAmoToken(env) {
+const AMO_KV_KEY = "amo_oauth_tokens";
+
+async function getAmoAuthState(env) {
+  const accessTokenFallback = env.AMO_ACCESS_TOKEN;
+  const refreshTokenFallback = env.AMO_REFRESH_TOKEN;
+  if (!env.AMO_TOKENS_KV) {
+    return {
+      accessToken: accessTokenFallback,
+      refreshToken: refreshTokenFallback,
+    };
+  }
+
+  try {
+    const raw = await env.AMO_TOKENS_KV.get(AMO_KV_KEY);
+    if (!raw) {
+      return {
+        accessToken: accessTokenFallback,
+        refreshToken: refreshTokenFallback,
+      };
+    }
+    const parsed = JSON.parse(raw);
+    return {
+      accessToken: parsed.accessToken || accessTokenFallback,
+      refreshToken: parsed.refreshToken || refreshTokenFallback,
+    };
+  } catch (e) {
+    console.error("AmoKV read error:", e);
+    return {
+      accessToken: accessTokenFallback,
+      refreshToken: refreshTokenFallback,
+    };
+  }
+}
+
+async function saveAmoAuthState(env, authState) {
+  if (!env.AMO_TOKENS_KV) return;
+  try {
+    await env.AMO_TOKENS_KV.put(
+      AMO_KV_KEY,
+      JSON.stringify({
+        accessToken: authState.accessToken,
+        refreshToken: authState.refreshToken,
+        updatedAt: Date.now(),
+      }),
+    );
+  } catch (e) {
+    console.error("AmoKV write error:", e);
+  }
+}
+
+async function refreshAmoToken(env, refreshToken) {
+  const redirectUri = env.AMO_REDIRECT_URI || "https://static.serenity.agency";
   const res = await fetch(`https://${env.AMO_SUBDOMAIN}.amocrm.ru/oauth2/access_token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -116,19 +173,22 @@ async function refreshAmoToken(env) {
       client_id: env.AMO_CLIENT_ID,
       client_secret: env.AMO_CLIENT_SECRET,
       grant_type: "refresh_token",
-      refresh_token: env.AMO_REFRESH_TOKEN,
-      redirect_uri: "https://serenity.sergeyprus.workers.dev",
+      refresh_token: refreshToken,
+      redirect_uri: redirectUri,
     }),
   });
   if (!res.ok) throw new Error(`AMO refresh ${res.status}: ${await res.text()}`);
   const d = await res.json();
-  return d.access_token;
+  return {
+    accessToken: d.access_token,
+    refreshToken: d.refresh_token || refreshToken,
+  };
 }
 
-async function amoRequest(env, path, body, retry = true) {
+async function amoRequest(env, authState, path, body, retry = true) {
   const base = `https://${env.AMO_SUBDOMAIN}.amocrm.ru/api/v4`;
   const headers = {
-    Authorization: `Bearer ${env.AMO_ACCESS_TOKEN}`,
+    Authorization: `Bearer ${authState.accessToken}`,
     "Content-Type": "application/json",
   };
 
@@ -140,9 +200,11 @@ async function amoRequest(env, path, body, retry = true) {
 
   // Если токен протух — пробуем обновить
   if (res.status === 401 && retry) {
-    const newToken = await refreshAmoToken(env);
-    env.AMO_ACCESS_TOKEN = newToken;
-    headers.Authorization = `Bearer ${newToken}`;
+    const nextAuth = await refreshAmoToken(env, authState.refreshToken);
+    authState.accessToken = nextAuth.accessToken;
+    authState.refreshToken = nextAuth.refreshToken;
+    await saveAmoAuthState(env, authState);
+    headers.Authorization = `Bearer ${authState.accessToken}`;
     res = await fetch(`${base}${path}`, {
       method: "POST",
       headers,
@@ -154,12 +216,16 @@ async function amoRequest(env, path, body, retry = true) {
 }
 
 async function createAmoCRMLead(env, { name, phone, email, message, source }) {
-  if (!env.AMO_ACCESS_TOKEN || !env.AMO_SUBDOMAIN) {
-    throw new Error("AMO_ACCESS_TOKEN или AMO_SUBDOMAIN не заданы");
+  if (!env.AMO_SUBDOMAIN || !env.AMO_CLIENT_ID || !env.AMO_CLIENT_SECRET) {
+    throw new Error("AMO_SUBDOMAIN/AMO_CLIENT_ID/AMO_CLIENT_SECRET не заданы");
+  }
+  const authState = await getAmoAuthState(env);
+  if (!authState.accessToken || !authState.refreshToken) {
+    throw new Error("AMO_ACCESS_TOKEN или AMO_REFRESH_TOKEN не заданы");
   }
 
   // 1. Создаём контакт
-  const contactRes = await amoRequest(env, "/contacts", [
+  const contactRes = await amoRequest(env, authState, "/contacts", [
     {
       name,
       custom_fields_values: [
@@ -183,7 +249,7 @@ async function createAmoCRMLead(env, { name, phone, email, message, source }) {
     leadCustomFields.push({ field_id: Number(env.AMO_SOURCE_FIELD_ID), values: [{ value: source }] });
   }
 
-  const leadRes = await amoRequest(env, "/leads", [
+  const leadRes = await amoRequest(env, authState, "/leads", [
     {
       name: `Заявка с сайта — ${name}`,
       ...(leadCustomFields.length ? { custom_fields_values: leadCustomFields } : {}),
@@ -206,7 +272,7 @@ async function createAmoCRMLead(env, { name, phone, email, message, source }) {
     const leadData = await leadRes.json();
     const leadId = leadData?._embedded?.leads?.[0]?.id;
     if (leadId) {
-      await amoRequest(env, `/leads/${leadId}/notes`, [
+      await amoRequest(env, authState, `/leads/${leadId}/notes`, [
         { note_type: "common", params: { text: noteParts.join("\n") } },
       ]);
     }

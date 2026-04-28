@@ -1,7 +1,47 @@
 /* Стабильный hero-glow и отключение анимаций точек — ближе к прод и к parity-скриншотам */
 @font-face {
+  font-family: MuseoSansCyrl;
+  src: url("../img/MuseoSansCyrl-100.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: MuseoSansCyrl;
+  src: url("../img/MuseoSansCyrl-300.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: MuseoSansCyrl;
+  src: url("../img/MuseoSansCyrl-500.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: MuseoSansCyrl;
+  src: url("../img/MuseoSansCyrl-700.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: MuseoSansCyrl;
+  src: url("../img/MuseoSansCyrl-900.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
   font-family: HeroNewRegular;
-  src: url("../img/fonts__HeroNew-Regular.woff") format("woff");
+  src: url("../img/HeroNew-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -9,7 +49,7 @@
 
 @font-face {
   font-family: HeroNewMedium;
-  src: url("../img/fonts__HeroNew-Medium.woff") format("woff");
+  src: url("../img/HeroNew-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -17,10 +57,28 @@
 
 @font-face {
   font-family: HeroNewBold;
-  src: url("../img/fonts__HeroNew-Bold.woff") format("woff");
+  src:
+    url("../img/HeroNew-Bold.woff2") format("woff2"),
+    url("../img/HeroNew-Bold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: FuturaPt;
+  src: url("../img/FuturaPTDemi.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: Pribambas;
+  src: url("../img/Pribambas-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: auto;
 }
 
 .background-gradient img[data-v-6f8a040c],
@@ -29,36 +87,6 @@
   transition: none !important;
   animation: none !important;
   transform: rotate(2.1deg) !important;
-}
-
-/* Hero h1 typography pinned to serenity.agency computed style */
-.main-heading-block .title-block[data-v-1a254476],
-.main-heading-block .title-block {
-  font-family:
-    MuseoSansCyrl,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    Ubuntu,
-    Cantarell,
-    "Noto Sans",
-    sans-serif !important;
-  font-weight: 400 !important;
-  font-style: normal !important;
-  font-stretch: 100% !important;
-  letter-spacing: normal !important;
-  text-transform: none !important;
-  -webkit-font-smoothing: auto !important;
-  -moz-osx-font-smoothing: auto !important;
-  text-rendering: auto !important;
-}
-
-.main-heading-block .subtitle-block[data-v-1a254476],
-.main-heading-block .subtitle-block {
-  -webkit-font-smoothing: auto !important;
-  -moz-osx-font-smoothing: auto !important;
-  text-rendering: auto !important;
 }
 
 /*

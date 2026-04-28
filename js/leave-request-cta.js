@@ -57,9 +57,16 @@
                 в&nbsp;социальных сетях:</p>
               </div>
               <div class="social form-success__socials" data-v-a1ad29aa="">
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://t.me/serenityagency" aria-label="Telegram"><img data-v-a1ad29aa="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://vk.com/serenity.agency" aria-label="VK"><img data-v-a1ad29aa="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram"><img data-v-a1ad29aa="" src="img/services/production/svg/insta.svg" alt="Instagram" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-a1ad29aa="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-a1ad29aa="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram">
+                  <svg width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Instagram">
+                    <rect x="0.5" y="1" width="45" height="45" rx="10" fill="white"></rect>
+                    <rect x="11.5" y="12" width="23" height="23" rx="7.5" stroke="#151516" stroke-width="2.4"></rect>
+                    <circle cx="23" cy="23.5" r="5.5" stroke="#151516" stroke-width="2.4"></circle>
+                    <circle cx="30.2" cy="15.8" r="1.8" fill="#151516"></circle>
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
@@ -125,6 +132,19 @@
     if (group) group.classList.toggle("error", invalid);
   };
 
+  const isConsentAccepted = (form) => {
+    const consent = form?.querySelector(".privacy-check__control");
+    return !consent || consent.checked;
+  };
+
+  const setConsentInvalidState = (form, invalid) => {
+    const consent = form?.querySelector(".privacy-check__control");
+    if (!consent) return;
+    const label = consent.closest(".privacy-check");
+    consent.classList.toggle("is-invalid", invalid);
+    if (label) label.classList.toggle("is-invalid", invalid);
+  };
+
   const syncSubmitAvailability = (form, submit) => {
     if (!form || !submit) return false;
     const requiredControls = [
@@ -132,18 +152,13 @@
       form.querySelector('input[name="phone"]'),
       form.querySelector('input[name="email"]'),
     ].filter(Boolean);
-    const valid = requiredControls.every((control) => validateControl(control));
+    const valid = requiredControls.every((control) => validateControl(control)) && isConsentAccepted(form);
     submit.classList.toggle("is-disabled", !valid);
     submit.setAttribute("aria-disabled", valid ? "false" : "true");
     return valid;
   };
 
-  const getLeadApiEndpoints = () => {
-    if (window.location.hostname === "static.serenity.agency") {
-      return [LEAD_API_FALLBACK, "/api/lead"];
-    }
-    return ["/api/lead"];
-  };
+  const getLeadApiEndpoints = () => ["/api/lead", LEAD_API_FALLBACK];
 
   const submitLeadForm = async (form) => {
     let lastError = null;
@@ -224,6 +239,18 @@
       autosize();
     });
 
+    const consent = form.querySelector(".privacy-check__control");
+    if (consent) {
+      consent.addEventListener("change", () => {
+        if (form.classList.contains("is-submitted")) {
+          setConsentInvalidState(form, !isConsentAccepted(form));
+        } else {
+          setConsentInvalidState(form, false);
+        }
+        syncSubmitAvailability(form, submit);
+      });
+    }
+
     syncSubmitAvailability(form, submit);
 
     form.addEventListener("submit", async (e) => {
@@ -240,8 +267,15 @@
         setControlInvalidState(control, bad);
         return bad;
       });
+      const invalidConsent = !isConsentAccepted(form);
+      setConsentInvalidState(form, invalidConsent);
       const canSubmit = syncSubmitAvailability(form, submit);
-      if (invalid || !canSubmit) return;
+      if (invalid || invalidConsent || !canSubmit) {
+        if (invalidConsent) {
+          showSubmitError(form, "Нужно согласие на обработку персональных данных.");
+        }
+        return;
+      }
       const modalEl = document.getElementById(DESKTOP_MODAL_ID);
       if (submit) setSubmitPending(submit, true);
       try {
@@ -293,8 +327,15 @@
             <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
             <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
               <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/whatsapp.svg" alt="WhatsApp" loading="eager" decoding="async"></a>
               <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram">
+                <svg data-v-2ee28934="" data-v-5c138029="" width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Instagram">
+                  <rect x="0.5" y="1" width="45" height="45" rx="10" fill="white"></rect>
+                  <rect x="11.5" y="12" width="23" height="23" rx="7.5" stroke="#151516" stroke-width="2.4"></rect>
+                  <circle cx="23" cy="23.5" r="5.5" stroke="#151516" stroke-width="2.4"></circle>
+                  <circle cx="30.2" cy="15.8" r="1.8" fill="#151516"></circle>
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -343,7 +384,7 @@
                 </svg>
               </button>
               <label data-v-8ad2fcbc="" class="privacy-check">
-                <input data-v-8ad2fcbc="" type="checkbox" class="privacy-check__control" checked />
+                <input data-v-8ad2fcbc="" type="checkbox" name="consent" value="1" required class="privacy-check__control" checked />
                 <span data-v-8ad2fcbc="" class="privacy-check__mask"></span>
                 <span data-v-8ad2fcbc="" class="privacy-check__text">Я даю согласие <a data-v-8ad2fcbc="" href="https://serenity.agency/privacy.pdf" target="_blank" rel="noopener noreferrer">на обработку персональных данных</a></span>
               </label>
