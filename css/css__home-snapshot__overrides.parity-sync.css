@@ -1,4 +1,28 @@
 /* Стабильный hero-glow и отключение анимаций точек — ближе к прод и к parity-скриншотам */
+@font-face {
+  font-family: HeroNewRegular;
+  src: url("../img/fonts__HeroNew-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HeroNewMedium;
+  src: url("../img/fonts__HeroNew-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HeroNewBold;
+  src: url("../img/fonts__HeroNew-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 .background-gradient img[data-v-6f8a040c],
 .background-gradient img {
   opacity: 1 !important;
@@ -25,8 +49,16 @@
   font-stretch: 100% !important;
   letter-spacing: normal !important;
   text-transform: none !important;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: auto !important;
+  -moz-osx-font-smoothing: auto !important;
+  text-rendering: auto !important;
+}
+
+.main-heading-block .subtitle-block[data-v-1a254476],
+.main-heading-block .subtitle-block {
+  -webkit-font-smoothing: auto !important;
+  -moz-osx-font-smoothing: auto !important;
+  text-rendering: auto !important;
 }
 
 /*
@@ -36,15 +68,18 @@
 :root {
   --home-between: 112px;
   --home-ledge: 54px;
+  --cases-ledge: 62px;
 }
 @media screen and (max-width: 1024px) {
   :root {
     --home-between: 97px;
+    --cases-ledge: 58px;
   }
 }
 @media screen and (max-width: 425px) {
   :root {
     --home-between: 60px;
+    --cases-ledge: 44px;
   }
 }
 @media screen and (max-width: 768px) {
@@ -70,7 +105,7 @@
 
 .cases-block__header.home-ledge,
 .cases-block__header.home-ledge[data-v-27a87df0] {
-  margin: 0 auto var(--home-ledge) !important;
+  margin: 0 auto var(--cases-ledge) !important;
 }
 
 .blog-block__header.home-ledge.home-between,
@@ -202,29 +237,91 @@
 }
 
 /*
-  Карточки блога: на проде Vue вешал .active по hover, подпись .case__subtitle (если не пустая) и тег
-  плавно появлялись, .case__top съезжал, превью увеличивалось — см. .case.active* в bundle.
-  В статике класса .active нет, дублируем те же стили на :hover для .more-blog-case.
+  Карточки блога: hover-анимации только на desktop (как на проде),
+  в адаптивах отключаются ниже отдельным reset-блоком.
 */
-.more-blog-case:hover .case__top[data-v-410c06b6] {
-  transform: translateY(40px);
-}
-.more-blog-case:hover .case__top--static[data-v-410c06b6] {
-  transform: none;
-}
-.more-blog-case:hover .case__subtitle[data-v-410c06b6] {
-  opacity: 1;
-  transition: 1s;
-}
-.more-blog-case:hover .case__tag[data-v-410c06b6] {
-  opacity: 1;
-}
-.more-blog-case:hover .zoom .case__media--front[data-v-410c06b6] {
-  transform: scale(1.2);
+@media screen and (min-width: 1025px) and (hover: hover) {
+  .more-blog-case:hover .case__top[data-v-410c06b6] {
+    transform: translateY(40px);
+  }
+  .more-blog-case:hover .case__top--static[data-v-410c06b6] {
+    transform: none;
+  }
+  .more-blog-case:hover .case__subtitle[data-v-410c06b6] {
+    opacity: 1;
+    transition: 1s;
+  }
+  .more-blog-case:hover .case__tag[data-v-410c06b6] {
+    opacity: 1;
+  }
+  .more-blog-case:hover .zoom .case__media--front[data-v-410c06b6] {
+    transform: scale(1.2);
+  }
 }
 /* Пустой подзаголовок — без лишнего кликабельного поля */
 .more-blog-case .case__subtitle:empty {
   display: none;
+}
+
+/* Кейсы (desktop): в статике нет .active, дублируем reveal категорий на :hover как в проде */
+@media screen and (min-width: 1025px) and (hover: hover) {
+  .more-cases .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
+    transform: translateY(40px);
+  }
+
+  .more-cases .case:hover .case__tag[data-v-c0adc676] {
+    opacity: 1;
+  }
+
+  .more-cases .case:hover.animation .case__tags[data-v-c0adc676] {
+    transition: 15s ease-out;
+    animation: tags-data-v-c0adc676 15s infinite;
+    position: absolute;
+    z-index: 1;
+  }
+}
+
+/* Адаптивы: отключаем hover-поведение карточек кейсов/услуг/блога */
+@media screen and (max-width: 1200px), (hover: none) {
+  /* Кейсы */
+  .more-cases .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
+    transform: none !important;
+  }
+  .more-cases .case:hover .case__tag[data-v-c0adc676] {
+    opacity: 0 !important;
+  }
+  .more-cases .case:hover .case__media img[data-v-c0adc676],
+  .more-cases .case:hover .zoom .case__media--front[data-v-c0adc676] {
+    transform: none !important;
+  }
+  .more-cases .case:hover .case__media.video img[data-v-c0adc676] {
+    opacity: 1 !important;
+  }
+
+  /* Услуги */
+  .services__card[data-v-56f85d51]:hover:after {
+    opacity: 0 !important;
+  }
+  .services__card .services__card-container:hover .services__card-price[data-v-56f85d51],
+  .services__card .services__card-container:hover .services__card-description-animation[data-v-56f85d51] {
+    transition: none !important;
+  }
+
+  /* Блог */
+  .more-blog-case:hover .case__top[data-v-410c06b6],
+  .more-blog-case:hover .case__top--static[data-v-410c06b6] {
+    transform: none !important;
+  }
+  .more-blog-case:hover .case__subtitle[data-v-410c06b6] {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+  .more-blog-case:hover .case__tag[data-v-410c06b6] {
+    opacity: 0 !important;
+  }
+  .more-blog-case:hover .zoom .case__media--front[data-v-410c06b6] {
+    transform: none !important;
+  }
 }
 
 .case .dark-text .case__description[data-v-c0adc676],
@@ -729,8 +826,8 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
   transition: none !important;
 }
 
-/* Hover-эффект только на десктопе (устройства с настоящим hover) */
-@media (hover: hover) {
+/* Hover-эффект только на desktop (в адаптивах отключен) */
+@media screen and (min-width: 1201px) and (hover: hover) {
   .buttonlink.footer__link.application.buttonlink--filled,
   .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] {
     transition: transform 0.35s ease, box-shadow 0.5s !important;
@@ -761,6 +858,50 @@ body.leave-cta-open .btns__modal[data-v-23015bc0] {
 .buttonlink.footer__link.application.buttonlink--filled:active,
 .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:active {
   transform: translateY(-70%) translateZ(0) !important;
+}
+
+/* Тач-устройства: убираем tap-дергание CTA в адаптивах */
+@media screen and (max-width: 1200px) and (hover: none) {
+  .buttonlink.footer__link.application.buttonlink--filled,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce],
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2],
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590],
+  .buttonlink.footer__link.application.buttonlink--filled .icon,
+  .buttonlink.footer__link.application.buttonlink--filled .icon path,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce] .icon path,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2] .icon,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2] .icon path,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590] .icon path,
+  .btns__item-box[data-v-23015bc0],
+  .btns__item_open[data-v-23015bc0],
+  .btns__item-box[data-v-90a15ce0],
+  .btns__item_open[data-v-90a15ce0] {
+    transition: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation;
+  }
+
+  .buttonlink.footer__link.application.buttonlink--filled:hover,
+  .buttonlink.footer__link.application.buttonlink--filled:active,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:hover,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-e5e2adce]:active,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:hover,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-6bd2b9b2]:active,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:hover,
+  .buttonlink.footer__link.application.buttonlink--filled[data-v-836ff590]:active {
+    transform: translateY(-70%) translateZ(0) !important;
+    box-shadow: 0 0 0 1px #fff !important;
+  }
+
+  .buttonlink.footer__link.application.buttonlink--filled .buttonlink__backplate[data-v-e5e2adce]:before,
+  .buttonlink.footer__link.application.buttonlink--filled .buttonlink__backplate[data-v-6bd2b9b2]:before,
+  .buttonlink.footer__link.application.buttonlink--filled .buttonlink__backplate[data-v-836ff590]:before {
+    transform: translate3d(-50%, -50%, 0) scale(0) !important;
+    opacity: 0 !important;
+    transition: none !important;
+  }
 }
 
 body.leave-cta-open .btns.active .btns__blur,
