@@ -11,7 +11,8 @@
     "test:sliders": "node scripts/slider-smoke.cjs",
     "test:lead-api": "node scripts/verify-lead-api.mjs",
     "test:floating-cta": "node scripts/verify-floating-cta.cjs",
-    "measure:rhythm": "node scripts/home-rhythm-measure.cjs"
+    "measure:rhythm": "node scripts/home-rhythm-measure.cjs",
+    "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs"
   },
   "devDependencies": {
     "playwright": "^1.50.0"

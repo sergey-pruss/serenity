@@ -1,7 +1,9 @@
 node_modules/
 playwright-report/
 test-results/
-compare/
+compare/*
+!compare/form-mobile-blend-50.png
+!compare/form-mobile-side-by-side.png
 .DS_Store
 .cursor/
 .claude/
