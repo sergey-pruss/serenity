@@ -920,35 +920,4 @@
   initClientsStrip();
   initMorCasesSlider();
 
-  // #region agent log — debug-722624
-  (() => {
-    const logoImg = document.querySelector('.header__logo .header__logo-img');
-    const logoSvg = document.querySelector('.header__logo svg');
-    const logoEl = logoImg || logoSvg;
-    const computed = logoEl ? window.getComputedStyle(logoEl) : null;
-    const headerCssLoaded = [...document.styleSheets].some(s => {
-      try { return s.href && s.href.includes('header.css'); } catch(e) { return false; }
-    });
-    fetch('http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '722624' },
-      body: JSON.stringify({
-        sessionId: '722624', hypothesisId: 'H-ABCD',
-        location: 'app.js:logo-debug',
-        message: 'logo debug',
-        data: {
-          hasImg: !!logoImg,
-          hasSvg: !!logoSvg,
-          activeEl: logoEl ? logoEl.tagName + '.' + logoEl.className : 'none',
-          computedTop: computed ? computed.top : 'N/A',
-          computedPosition: computed ? computed.position : 'N/A',
-          headerCssLoaded,
-          viewportWidth: window.innerWidth,
-          stylesheets: [...document.styleSheets].map(s => { try { return s.href || 'inline'; } catch(e) { return 'cross-origin'; } })
-        },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-  })();
-  // #endregion
 })();
