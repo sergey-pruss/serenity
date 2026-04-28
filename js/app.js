@@ -674,21 +674,23 @@
       const boxVis = measureEl.getBoundingClientRect();
       // `bottom` в CSS — от нижнего края *внешнего* #body; визуальная кнопка (`.application`) может быть
       // прижата выше/ниже внутри flex-контейнера — компенсируем разницей нижних граней.
-      const visOffset = boxCta.bottom - boxVis.bottom; // + если снаружи «ниже» плашки
+      // visOffset > 0: визуальная кнопка выше нижней грани контейнера (из-за translateY(-70%)).
+      // bottom-контейнера нужно уменьшить на visOffset, чтобы визуальная кнопка оказалась на нужной высоте.
+      const visOffset = boxCta.bottom - boxVis.bottom;
       const FLOAT_PX = 15;
       if (!atPageBottom) {
-        cta.style.setProperty("bottom", `${FLOAT_PX + visOffset}px`, "important");
+        cta.style.setProperty("bottom", `${FLOAT_PX - visOffset}px`, "important");
         return;
       }
 
       const icon = getFooterSocialIcon();
       if (!icon || icon.getClientRects().length === 0) {
-        cta.style.setProperty("bottom", `${FLOAT_PX + visOffset}px`, "important");
+        cta.style.setProperty("bottom", `${FLOAT_PX - visOffset}px`, "important");
         return;
       }
 
       const iconBottomFromViewportBottom = vh - icon.getBoundingClientRect().bottom;
-      const bottom = Math.max(0, iconBottomFromViewportBottom + visOffset);
+      const bottom = iconBottomFromViewportBottom - visOffset;
       cta.style.setProperty("bottom", `${bottom}px`, "important");
     };
 
@@ -718,12 +720,12 @@
 
     const phones = {
       "Петербург": {
-        text: "+7 (812) 210-97-87",
-        href: "tel:+78122109787",
+        text: "+7 (812) 602-50-44",
+        href: "tel:+78126025044",
       },
       "Санкт-Петербург": {
-        text: "+7 (812) 210-97-87",
-        href: "tel:+78122109787",
+        text: "+7 (812) 602-50-44",
+        href: "tel:+78126025044",
       },
       "Москва": {
         text: "+7 (495) 419 95 88",
@@ -765,18 +767,18 @@
       });
     });
 
-    selectCity(cityItems.find((item) => item.classList.contains("selected"))?.textContent || "Москва");
+    selectCity("Петербург");
   };
 
   const initFooterPhoneSwitch = () => {
     const phones = {
       "Петербург": {
-        text: "+7 (812) 210-97-87",
-        href: "tel:+78122109787",
+        text: "+7 (812) 602 50 44",
+        href: "tel:+78126025044",
       },
       "Санкт-Петербург": {
-        text: "+7 (812) 210-97-87",
-        href: "tel:+78122109787",
+        text: "+7 (812) 602 50 44",
+        href: "tel:+78126025044",
       },
       "Москва": {
         text: "+7 (495) 419 95 88",
@@ -810,9 +812,10 @@
         });
       });
 
-      selectCity(
-        cityItems.find((item) => item.classList.contains(selectedClass))?.textContent.trim() || "Москва",
-      );
+      selectCity("Петербург");
+      // Подстраховка: штатные инлайн-скрипты из снапшота могут позже перезаписать выбор на Москву.
+      setTimeout(() => selectCity("Петербург"), 0);
+      window.addEventListener("load", () => selectCity("Петербург"), { once: true });
     };
 
     document.querySelectorAll(".footer-modern__contacts").forEach((root) => {
