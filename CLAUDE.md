@@ -11,6 +11,7 @@
 - Платформа: Cloudflare Workers (wrangler.jsonc)
 - Деплой: `npx wrangler deploy` из папки проекта
 - Wrangler уже авторизован локально
+- Публикация после задачи: обязательно в двух местах — `static.serenity.agency` и Cloudflare Workers
 - После каждой задачи: git add → git commit (на русском) → git push → npx wrangler deploy
 - Проверка **мобильной** вёрстки и меню — на стейджинге после деплоя (`serenity.sergeyprus.workers.dev`); локальный `npm run dev` не заменяет проверку на реальном URL с кэшем/CDN
 
