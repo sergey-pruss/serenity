@@ -677,7 +677,7 @@
       // visOffset > 0: визуальная кнопка выше нижней грани контейнера (из-за translateY(-70%)).
       // bottom-контейнера нужно уменьшить на visOffset, чтобы визуальная кнопка оказалась на нужной высоте.
       const visOffset = boxCta.bottom - boxVis.bottom;
-      const FLOAT_PX = 15;
+      const FLOAT_PX = 20;
       if (!atPageBottom) {
         cta.style.setProperty("bottom", `${FLOAT_PX - visOffset}px`, "important");
         return;
@@ -922,33 +922,46 @@
   (() => {
     const ep = 'http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556';
     const hdr = {'Content-Type':'application/json','X-Debug-Session-Id':'60738a'};
-    const log = (msg, data, hyp) => fetch(ep,{method:'POST',headers:hdr,body:JSON.stringify({sessionId:'60738a',location:'app.js:hover-debug',message:msg,data,timestamp:Date.now(),hypothesisId:hyp})}).catch(()=>{});
+    const runId = `run-${Date.now()}`;
+    const log = (msg, data, hyp) => fetch(ep,{method:'POST',headers:hdr,body:JSON.stringify({sessionId:'60738a',runId,hypothesisId:hyp,location:'js/app.js:mobile-cta-debug',message:msg,data,timestamp:Date.now()})}).catch(()=>{});
 
-    // Floating CTA button (bottom-right)
-    const cta = document.querySelector('.btns__item-box');
-    if (cta) {
-      const cs = window.getComputedStyle(cta);
-      log('cta-initial', {transition:cs.transition, transform:cs.transform, boxShadow:cs.boxShadow, hoverDevice:window.matchMedia('(hover:hover)').matches}, 'A');
-      cta.addEventListener('mouseenter', () => {
-        const s = window.getComputedStyle(cta);
-        log('cta-hover', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'A');
-      });
-      cta.addEventListener('mouseleave', () => {
-        const s = window.getComputedStyle(cta);
-        log('cta-unhover', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'A');
-      });
-    }
+    const ctaWrap = document.querySelector('#body.body-application');
+    const ctaBtn = ctaWrap?.querySelector('.buttonlink.footer__link.application.buttonlink--filled');
+    if (!ctaWrap || !ctaBtn) return;
 
-    // buttonlink inner element
-    const btn = document.querySelector('.buttonlink.footer__link.application.buttonlink--filled');
-    if (btn) {
-      const cs = window.getComputedStyle(btn);
-      log('btn-initial', {transition:cs.transition, transform:cs.transform, boxShadow:cs.boxShadow}, 'B');
-      btn.addEventListener('mouseenter', () => {
-        const s = window.getComputedStyle(btn);
-        log('btn-hover', {transition:s.transition, transform:s.transform, boxShadow:s.boxShadow}, 'B');
-      });
-    }
+    const dump = (tag, hyp) => {
+      const wrapStyle = window.getComputedStyle(ctaWrap);
+      const btnStyle = window.getComputedStyle(ctaBtn);
+      const wrapBox = ctaWrap.getBoundingClientRect();
+      const btnBox = ctaBtn.getBoundingClientRect();
+      log(tag, {
+        width: window.innerWidth,
+        hoverNone: window.matchMedia('(hover:none)').matches,
+        wrapBottom: wrapStyle.bottom,
+        wrapTransform: wrapStyle.transform,
+        wrapTransition: wrapStyle.transition,
+        btnTransform: btnStyle.transform,
+        btnTransition: btnStyle.transition,
+        btnBoxTop: btnBox.top,
+        btnBoxBottom: btnBox.bottom,
+        wrapBoxTop: wrapBox.top,
+        wrapBoxBottom: wrapBox.bottom,
+      }, hyp);
+    };
+
+    dump('init', 'H1');
+    ctaBtn.addEventListener('touchstart', () => {
+      dump('touchstart', 'H2');
+      requestAnimationFrame(() => dump('touchstart-raf', 'H3'));
+    }, { passive: true });
+    ctaBtn.addEventListener('touchend', () => {
+      dump('touchend', 'H2');
+      requestAnimationFrame(() => dump('touchend-raf', 'H3'));
+    }, { passive: true });
+    ctaBtn.addEventListener('click', () => {
+      dump('click', 'H4');
+      requestAnimationFrame(() => dump('click-raf', 'H4'));
+    });
   })();
   // #endregion
 

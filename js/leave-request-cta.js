@@ -8,6 +8,7 @@
   const DESKTOP_MODAL_ID = "desktop-order-popup";
   const DESKTOP_BODY_LOCK = "order-popup-open";
   const LEAD_API_FALLBACK = "https://serenity.sergeyprus.workers.dev/api/lead";
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   let thankYouAutoCloseTimer = null;
 
   const isDesktop = () => window.innerWidth > BOTTOM_BAR_MAX_WIDTH;
@@ -108,6 +109,35 @@
     if (text) text.textContent = pending ? "Отправляем" : "Отправить";
   };
 
+  const validateControl = (control) => {
+    if (!control) return true;
+    const name = control.getAttribute("name");
+    const value = String(control.value || "").trim();
+    if (name === "name" || name === "phone") return value.length >= 2;
+    if (name === "email") return EMAIL_RE.test(value);
+    return true;
+  };
+
+  const setControlInvalidState = (control, invalid) => {
+    if (!control) return;
+    const group = control.closest(".form__group");
+    control.classList.toggle("is-invalid", invalid);
+    if (group) group.classList.toggle("error", invalid);
+  };
+
+  const syncSubmitAvailability = (form, submit) => {
+    if (!form || !submit) return false;
+    const requiredControls = [
+      form.querySelector('input[name="name"]'),
+      form.querySelector('input[name="phone"]'),
+      form.querySelector('input[name="email"]'),
+    ].filter(Boolean);
+    const valid = requiredControls.every((control) => validateControl(control));
+    submit.classList.toggle("is-disabled", !valid);
+    submit.setAttribute("aria-disabled", valid ? "false" : "true");
+    return valid;
+  };
+
   const getLeadApiEndpoints = () => {
     if (window.location.hostname === "static.serenity.agency") {
       return [LEAD_API_FALLBACK, "/api/lead"];
@@ -183,36 +213,35 @@
       control.addEventListener("input", () => {
         sync();
         autosize();
-        control.classList.remove("is-invalid");
+        if (form.classList.contains("is-submitted")) {
+          setControlInvalidState(control, !validateControl(control));
+        } else {
+          setControlInvalidState(control, false);
+        }
+        syncSubmitAvailability(form, submit);
       });
       sync();
       autosize();
     });
 
+    syncSubmitAvailability(form, submit);
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearSubmitError(form);
-      const name = form.querySelector('input[name="name"]');
-      const phone = form.querySelector('input[name="phone"]');
-      const email = form.querySelector('input[name="email"]');
-      let invalid = false;
-      if (name) {
-        const bad = String(name.value || "").trim().length < 2;
-        name.classList.toggle("is-invalid", bad);
-        if (bad) invalid = true;
-      }
-      if (phone) {
-        const bad = String(phone.value || "").trim().length < 2;
-        phone.classList.toggle("is-invalid", bad);
-        if (bad) invalid = true;
-      }
-      if (email) {
-        const emailValue = String(email.value || "").trim();
-        const bad = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
-        email.classList.toggle("is-invalid", bad);
-        if (bad) invalid = true;
-      }
-      if (invalid) return;
+      form.classList.add("is-submitted");
+      const requiredControls = [
+        form.querySelector('input[name="name"]'),
+        form.querySelector('input[name="phone"]'),
+        form.querySelector('input[name="email"]'),
+      ].filter(Boolean);
+      const invalid = requiredControls.some((control) => {
+        const bad = !validateControl(control);
+        setControlInvalidState(control, bad);
+        return bad;
+      });
+      const canSubmit = syncSubmitAvailability(form, submit);
+      if (invalid || !canSubmit) return;
       const modalEl = document.getElementById(DESKTOP_MODAL_ID);
       if (submit) setSubmitPending(submit, true);
       try {
@@ -223,6 +252,7 @@
         showSubmitError(form, "Ошибка отправки. Пожалуйста, свяжитесь с нами напрямую.");
       } finally {
         if (submit) setSubmitPending(submit, false);
+        syncSubmitAvailability(form, submit);
       }
     });
 

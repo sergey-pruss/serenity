@@ -117,6 +117,25 @@ body.order-popup-open .overlay-new {
   opacity: 0.5 !important;
 }
 
+@media (max-width: 768px) {
+  #desktop-order-popup .form__submit.btn[data-v-111f0665].is-disabled {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.26) !important;
+    color: rgba(255, 255, 255, 0.62) !important;
+    opacity: 0.62 !important;
+  }
+
+  #desktop-order-popup .form__submit.btn[data-v-111f0665].is-disabled .btn__text,
+  #desktop-order-popup .form__submit.btn[data-v-111f0665].is-disabled .btn__arrow path {
+    color: rgba(255, 255, 255, 0.62) !important;
+    stroke: rgba(255, 255, 255, 0.62) !important;
+  }
+
+  #desktop-order-popup .form__submit.btn[data-v-111f0665].is-disabled .btn__overlay {
+    display: none !important;
+  }
+}
+
 #desktop-order-popup .form__submit.btn[data-v-111f0665]:hover {
   color: #000 !important;
   opacity: 1 !important;
