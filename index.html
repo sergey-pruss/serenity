@@ -64,8 +64,7 @@
     />
     <link rel="canonical" href="https://static.serenity.agency/" />
     <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-    <link rel="preload" as="image" href="img/video__home-hero-poster.jpg" />
-    <link rel="preload" as="image" href="img/video__home-hero-strip-1.jpg" />
+    <link rel="preload" as="video" href="img/video__home-hero-lite.mp4" fetchpriority="high" />
     <link
       rel="preload"
       as="font"
@@ -90,7 +89,7 @@
     <link rel="stylesheet" href="css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
     <link
       rel="stylesheet"
-      href="css/css__home-snapshot__overrides.parity-sync.css?v=20260429x"
+      href="css/css__home-snapshot__overrides.parity-sync.css?v=20260429y"
     />
     <link rel="stylesheet" href="css/sections/header.css?v=20260428a" />
     <link
@@ -365,35 +364,17 @@
                 class="video-block is-loading"
                 data-v-135dc442=""
               >
-                <div class="hero-video-strip" aria-hidden="true">
-                  <img
-                    fetchpriority="high"
-                    decoding="async"
-                    src="img/video__home-hero-strip-1.jpg"
-                    alt=""
-                  />
-                  <img
-                    decoding="async"
-                    src="img/video__home-hero-strip-2.jpg"
-                    alt=""
-                  />
-                  <img
-                    decoding="async"
-                    src="img/video__home-hero-strip-3.jpg"
-                    alt=""
-                  />
-                </div>
                 <div class="video-iframe-wrapper" data-v-135dc442="">
                   <video
                     class="video-iframe"
-                    poster="img/video__home-hero-poster.jpg"
                     data-hero-full="img/video__home-hero.fhls-fastly_skyfire-4398.mp4"
                     data-hero-lite="img/video__home-hero-lite.mp4"
+                    fetchpriority="high"
                     autoplay=""
                     muted=""
                     loop=""
                     playsinline=""
-                    preload="metadata"
+                    preload="auto"
                   >
                     <source
                       src="img/video__home-hero-lite.mp4"
@@ -2611,7 +2592,7 @@
 
     <div class="overlay-new" data-v-2ee28934=""></div>
     <link rel="stylesheet" href="css/sections/footer-burger-chrome.css?v=20260429w" />
-    <script defer src="js/app.js?v=20260429n"></script>
+    <script defer src="js/app.js?v=20260429o"></script>
     <noscript>
       <iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-PCM3QZ&"
