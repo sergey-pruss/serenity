@@ -46,6 +46,8 @@ const indexPath = path.join(root, "index.html");
     "nbsp после предлога «в» (кейс Складно и др.)"
   );
 
+  assert(html.includes("ym(30205029"), "Яндекс.Метрика (ym init) в index.html");
+
   const footMatch = html.match(/<footer[\s\S]*?<\/footer>/i);
   assert(footMatch, "footer block");
   const footerHtml = footMatch[0];

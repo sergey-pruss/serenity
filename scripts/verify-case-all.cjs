@@ -71,6 +71,10 @@ const startStaticServer = (port) =>
   });
 
 (async () => {
+  const caseAllIndexPath = path.join(root, "case", "all", "index.html");
+  const caseAllTemplate = fs.readFileSync(caseAllIndexPath, "utf8");
+  assert(caseAllTemplate.includes("ym(30205029"), "case/all/index.html — Яндекс.Метрика");
+
   const payload = JSON.parse(fs.readFileSync(path.join(root, "json/cases-all.json"), "utf8"));
   const cases = payload.cases || [];
   const total = cases.length;

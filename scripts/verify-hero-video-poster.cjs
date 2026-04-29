@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Проверяет: web MP4 героя, слой обложки hero-video-poster-layer, preload в index.html.
+ * Проверяет: web MP4 героя, слой обложки hero-video-poster-layer и отложенную загрузку hero video.
  */
 const fs = require("fs");
 const path = require("path");
@@ -51,12 +51,12 @@ if (!html.includes('rel="preload" as="image" href="img/video__home-hero-poster.j
   console.error("В index.html нет preload постера героя");
   process.exit(1);
 }
-if (!html.includes('rel="preload" as="video" href="img/video__home-hero-web.mp4"')) {
-  console.error("В index.html нет preload web MP4 героя");
+if (html.includes('rel="preload" as="video" href="img/video__home-hero-web.mp4"')) {
+  console.error("Уберите preload as=video у hero — видео должно грузиться отложенно");
   process.exit(1);
 }
-if (!html.includes('src="img/video__home-hero-web.mp4"')) {
-  console.error("В index.html нет <source> с video__home-hero-web.mp4");
+if (!html.includes('data-src="img/video__home-hero-web.mp4"')) {
+  console.error("В index.html у hero нет <source data-src> с video__home-hero-web.mp4");
   process.exit(1);
 }
 if (html.includes("data-hero-lite")) {

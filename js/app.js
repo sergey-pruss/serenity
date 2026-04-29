@@ -4,6 +4,7 @@
  */
 (() => {
   const EPS = 2;
+  const ROW_ARROWS_MIN_WIDTH = 981;
   /**
    * Единый знак направления для горизонтальных слайдеров (услуги, блог, «Наши клиенты»):
    * колёсико, автоплей ленты клиентов, pointer-свайп. Не плодить отдельные «минусы» по файлу —
@@ -86,7 +87,7 @@
 
     let prevBtn = host.querySelector(".swiper-button-prev") || buttonRoot?.querySelector?.(".swiper-button-prev");
     let nextBtn = host.querySelector(".swiper-button-next") || buttonRoot?.querySelector?.(".swiper-button-next");
-    const desktopArrowsMedia = window.matchMedia("(min-width: 1025px)");
+    const desktopArrowsMedia = window.matchMedia(`(min-width: ${ROW_ARROWS_MIN_WIDTH}px)`);
     const shouldShowArrows = () => !desktopArrowsOnly || desktopArrowsMedia.matches;
     const ensureArrowButtons = () => {
       if (!(ensureButtons && shouldShowArrows() && (!prevBtn || !nextBtn) && buttonRoot)) return;
@@ -826,7 +827,7 @@
         attachCityPickerListeners(cityItems, (el) => el.textContent, setSharedFooterCity);
       });
 
-      runAfterDomReady(() => setSharedFooterCity("Петербург"));
+      runAfterDomReady(() => setSharedFooterCity("Москва"));
     }
 
     const bindSwitcher = ({ root, pickerSelector, phoneSelector, linkSelector, selectedClass }) => {
@@ -846,7 +847,7 @@
       };
 
       attachCityPickerListeners(cityItems, (el) => el.textContent.trim(), selectCity);
-      runAfterDomReady(() => selectCity("Петербург"));
+      runAfterDomReady(() => selectCity("Москва"));
     };
 
     document.querySelectorAll(".btns__option--extended").forEach((root) => {
@@ -881,14 +882,21 @@
     };
 
     const bindPlaybackGuards = () => {
-      if (video.readyState >= 2) {
-        markReady();
-      } else {
-        video.addEventListener("loadeddata", markReady, { once: true });
-        video.addEventListener("canplay", markReady, { once: true });
-        video.addEventListener("playing", markReady, { once: true });
-        video.addEventListener("error", markError, { once: true });
-      }
+      video.addEventListener(
+        "playing",
+        () => {
+          if (video.currentTime > 0 || video.readyState >= 2) markReady();
+        },
+        { once: true },
+      );
+      video.addEventListener(
+        "timeupdate",
+        () => {
+          if (video.currentTime > 0) markReady();
+        },
+        { once: true },
+      );
+      video.addEventListener("error", markError, { once: true });
       video.addEventListener(
         "loadedmetadata",
         () => {
@@ -897,21 +905,48 @@
         { once: true },
       );
     };
+    const source = video.querySelector("source[data-src]");
+    const hydrateVideoSource = () => {
+      if (!source || video.dataset.heroHydrated === "1") return;
+      const src = source.getAttribute("data-src") || "";
+      if (!src) return;
+      source.setAttribute("src", src);
+      source.removeAttribute("data-src");
+      video.dataset.heroHydrated = "1";
+      video.load();
+    };
+
+    const scheduleHydration = () => {
+      // Стартуем сразу после первичной отрисовки, чтобы постер не "зависал" на экране.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          hydrateVideoSource();
+        });
+      });
+      // Подстраховка: даже если rAF не отработал вовремя.
+      setTimeout(hydrateVideoSource, 250);
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(hydrateVideoSource, { timeout: 1000 });
+      }
+    };
 
     bindPlaybackGuards();
+    scheduleHydration();
 
     // Safari/Private mode fallback: autoplay can remain blocked until first gesture.
     const tryPlayFromGesture = () => {
+      hydrateVideoSource();
       video.play().then(markReady).catch(() => {});
     };
-    ["pointerdown", "touchstart", "keydown", "scroll"].forEach((evt) => {
+    ["pointerdown", "touchstart", "keydown", "scroll", "mousemove"].forEach((evt) => {
       window.addEventListener(evt, tryPlayFromGesture, { passive: true, once: true });
     });
 
     let checks = 0;
     const timer = setInterval(() => {
       checks += 1;
-      if (video.readyState >= 2 || !block.classList.contains("is-loading")) {
+      const started = !video.paused && video.currentTime > 0;
+      if (started || !block.classList.contains("is-loading")) {
         clearInterval(timer);
         markReady();
       } else if (checks >= 120) {
@@ -920,6 +955,43 @@
         markReady();
       }
     }, 500);
+  };
+
+  const initDeferredCaseVideos = () => {
+    const videos = Array.from(document.querySelectorAll("video.case__media--video[data-lazy-video='1']"));
+    if (videos.length === 0) return;
+
+    const hydrateVideo = (video) => {
+      if (!video || video.dataset.lazyLoaded === "1") return;
+      const source = video.querySelector("source[data-src]");
+      if (!source) return;
+      const src = source.getAttribute("data-src") || "";
+      if (!src) return;
+      source.setAttribute("src", src);
+      source.removeAttribute("data-src");
+      video.dataset.lazyLoaded = "1";
+      video.load();
+      video.play().catch(() => {});
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      videos.forEach(hydrateVideo);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const video = entry.target;
+          hydrateVideo(video);
+          io.unobserve(video);
+        });
+      },
+      { rootMargin: "200px 0px", threshold: 0.1 },
+    );
+
+    videos.forEach((video) => io.observe(video));
   };
 
   const initMorCasesSlider = () => {
@@ -940,6 +1012,7 @@
   initAdaptiveFloatingCtaPosition();
   initFooterPhoneSwitch();
   initHeroVideoLoading();
+  initDeferredCaseVideos();
   initClientsLogoFallbacks();
   initClientsStrip();
   initMorCasesSlider();
