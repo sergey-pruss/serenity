@@ -51,6 +51,7 @@
         "Видеопрадакшен"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "/img/storage__WLXF5HzKVQUYRIDLQ7zOSRVDwZw17ziScjgTQABI.jpg"
@@ -68,6 +69,7 @@
         "strategiya"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "/img/storage__fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
@@ -87,6 +89,7 @@
         "strategiya"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/JdKeaOWg6ErhKqPicV92KRbf7U75W0mdSuUWt6jp.webp"
@@ -106,6 +109,7 @@
         "strategiya"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "/img/storage__AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5.webp"
@@ -127,6 +131,7 @@
         "pr"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/Cyu9NZfssUe4ZsPOZ4TL93kVfwXlrc8E9hweu3ea.webp"
@@ -146,6 +151,7 @@
         "strategiya"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/ENs29q17mYvrc2hz44CMY8TNHjlkxWpWodADk9Eb.webp"
@@ -165,6 +171,7 @@
         "pr"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "video",
         "poster": "/img/storage__eEn5z5K1VqnFurjwT6vHFhSyHwKolEzUF41JawC9.jpg",
@@ -183,6 +190,7 @@
         "strategiya"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/X6YOpGtu2BPzPh4tOjFvDqj8KUKACkNZqvZUnbhd.webp"
@@ -198,6 +206,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/n1GHOPNU4sc4VT3jItPCNK16ePZxu9K33TtbNp1G.webp"
@@ -217,6 +226,7 @@
         "strategiya"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/J6m3rdo35hk51oGHPk5ZvwLRTnXWCebvPi9qNYGs.png"
@@ -236,6 +246,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "/img/storage__gxMhco4GICqvNHFrpJgfjadii3akfWNphHHA44Zr.jpg"
@@ -255,6 +266,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "video",
         "poster": "/img/storage__chL4LbnmmiU2maPGxKZgbFOkCsbzoA5kgg4YSpUh.jpg",
@@ -275,6 +287,7 @@
         "sites"
       ],
       "linkClass": "dark-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "/img/storage__ixkjBrB1pCELGeNMCtA8BgK78AYiofKaJhJch2zK.jpg"
@@ -296,6 +309,7 @@
         "strategiya"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "/img/storage__qaCLQ6fqiMYmxsozvWrmZGiALhEHrhOemSYToCyR.jpg"
@@ -315,6 +329,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "video",
         "poster": "https://serenity.agency/storage/omenJLrtzpcr02LEG0JYGCJQ1PYvsTHFqS29l7Tf.jpg",
@@ -335,6 +350,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/monjD8slTBetrDRuKm90SURPDpC68W1nkpDUGCaG.jpg"
@@ -354,6 +370,7 @@
         "strategiya"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/ZgG9T2kx4Ytdec3tzZ9WNRL05ejKctQORIImpms8.jpg"
@@ -369,6 +386,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/UuXRgjN2uXvOOVSvoQaYZy4GCrdliYYcxQSKpHLc.png"
@@ -386,6 +404,7 @@
         "brending"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/5J2OiJoXlgzbSyYrW0PxCN9xvymrgsIcjDs7Nu9z.jpg"
@@ -403,6 +422,7 @@
         "sales"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/em4UnhQpWcu0lhnEI8tLHeXwzPW5kqlTFGsN7QVu.png"
@@ -418,6 +438,7 @@
         "sites"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/mxtH2frM5FDBEexvB4tApxyQOKIvCMG9yf07M1Pj.jpg"
@@ -433,6 +454,7 @@
         "pr"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "video",
         "poster": "https://serenity.agency/storage/lDxDl0LzIC3ene47rKLEvE2AJ7vOv0VB1v7wEhY4.jpg",
@@ -449,6 +471,7 @@
         "brending"
       ],
       "linkClass": "dark-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/1bSFsD5i81i9VqaqRTHTfxOiWwknvQBhwxgpozLZ.jpg"
@@ -466,6 +489,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/6tgUlCXw9GYFJKLap2A7PXdotuSKa5prNUpuwnX9.jpg"

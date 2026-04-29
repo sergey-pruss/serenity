@@ -70,6 +70,7 @@ function parseAnimation(animationContent) {
       tags,
       tagCodes,
       linkClass,
+      isResource: Number(item.foreign_resource) === 1,
       media:
         anim.kind === "video" && anim.video
           ? {
