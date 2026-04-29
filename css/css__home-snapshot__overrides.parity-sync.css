@@ -783,10 +783,10 @@ body.scroll-menu-open {
   visibility: hidden !important;
 }
 
-/* Hero video: сразу видимый тёмный блок (bundle держал opacity:0 до конца анимации — «пустота»). */
+/* Hero video: фон как у карточек услуг/блога (#1d1d1f), блок сразу видимый (bundle раньше давал opacity:0). */
 .video-block[data-v-135dc442],
 .video-block {
-  background: #0b0b0c;
+  background: #1d1d1f !important;
   border-radius: 13px !important;
   overflow: hidden !important;
   opacity: 1 !important;
@@ -802,7 +802,7 @@ body.scroll-menu-open {
   border-radius: inherit;
   overflow: hidden;
   pointer-events: none;
-  background: #080809;
+  background: #1d1d1f;
 }
 
 /* Лёгкий индикатор «скоро видео» — поверх тёмного фона и кадров. */
@@ -966,7 +966,7 @@ body.scroll-menu-open {
   transform: none !important;
   overflow: hidden !important;
   border-radius: inherit !important;
-  background: #070708;
+  background: #1d1d1f;
 }
 
 .video-iframe[data-v-135dc442],
@@ -980,7 +980,7 @@ body.scroll-menu-open {
   object-position: center;
   transform: translateZ(0) scale(1.002);
   backface-visibility: hidden;
-  background-color: #070708;
+  background-color: #1d1d1f;
 }
 
 /* «Оставить заявку»: панель .btns скрыта в bundle при width > 1024 — показываем с body.leave-cta-open */
