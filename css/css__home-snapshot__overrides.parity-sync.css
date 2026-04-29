@@ -1784,7 +1784,12 @@ body.order-popup-open .overlay-new {
 .case a.dark-text,
 .case a.dark-text .case__media,
 .case a.dark-text .case__media.video {
-  background-color: #e8e8ea;
+  background-color: #e8e8ea !important;
+}
+
+.case a.dark-text .case__media--front,
+.case a.dark-text .case__media--video {
+  filter: brightness(1.12);
 }
 
 .case-all-pagination {

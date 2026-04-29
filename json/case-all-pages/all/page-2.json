@@ -49,6 +49,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/nSk2RxnqvxvD5WQkwI0xJDHDbAGWqD5sGVRkS0xi.jpg"
@@ -64,6 +65,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/ipBFndC9AdAHMtWFeAA1jF2KhbKUMMCkZD1d2XFw.jpg"
@@ -79,6 +81,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/qqywTx4bdU4fAGD26LToCb2S4JZSXpvgASiW44nq.jpg"
@@ -98,6 +101,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/M3ONz5TGOBWVPsqlK5vUawaC6xb5EQROaR9feKp2.jpg"
@@ -113,6 +117,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/MNJPVYZdw70N2LqeZxwzfkV0FHuK7wKTAR9F3dYM.jpg"
@@ -128,6 +133,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/A73kCstCQ28DptWo6lg0bWJIwp8J2C0cRSPXKTFJ.jpg"
@@ -145,6 +151,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "video",
         "poster": "https://serenity.agency/storage/vIPEujjDwnUUk1fIB2sNEpOImN6jaNOiQgRrWcTu.jpg",
@@ -161,6 +168,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/mIUTeTsZ6qJ1uDyFK20iR7mugfbSgGwp0z99ofZA.jpg"
@@ -176,6 +184,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/uUUtNgG5FMLRaTgpfHOA2HJThPNqilljZ5inKV6h.jpg"
@@ -191,6 +200,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/okj5hOEHgh9429X3v5sBi7MDA8qRBrtU4KR0VnnL.jpg"
@@ -208,6 +218,7 @@
         "brending"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/w8ugkLNrVqCQvEcea9SkYVuPRXEJmToFRzFrgfkI.jpg"
@@ -225,6 +236,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/nLmH0QMDkMTl35L702U8N29cSV59cSqeLfPLM2rY.jpg"
@@ -240,6 +252,7 @@
         "brending"
       ],
       "linkClass": "dark-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/Knm3IJZZr5gbUo45D58aeCr8NP6eEel8LubHDjkx.jpg"
@@ -259,6 +272,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "video",
         "poster": "https://serenity.agency/storage/HbC4EO97JZt8OalYGsRHcFczrSySJNPMRpLfahDJ.jpg",
@@ -275,6 +289,7 @@
         "brending"
       ],
       "linkClass": "dark-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/uq077gPHqUqosH3x5B3ultQEEtu0pdfeTdadZk31.jpg"
@@ -294,6 +309,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/x9jwIVSkRFUQWMTPWzUUf83JBX8hAUipfetHUvFg.jpg"
@@ -315,6 +331,7 @@
         "strategiya"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg"
@@ -330,6 +347,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/aHI3eGuOBXftFT3cDINGSM1L8f7Esie2WdS7Uwcg.jpg"
@@ -351,6 +369,7 @@
         "sites"
       ],
       "linkClass": "dark-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
@@ -370,6 +389,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "video",
         "poster": "https://serenity.agency/storage/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
@@ -386,6 +406,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/WHYXEmTp3iMZPYmCweZWWZcsRHoGbMIb1OPSL1AN.jpg"
@@ -401,6 +422,7 @@
         "pr"
       ],
       "linkClass": "white-text",
+      "isResource": false,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/ZwwafKonw2mF33eMU7t2VU1jrqnTYc48wXqwqPLj.jpg"
@@ -416,6 +438,7 @@
         "brending"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/kPFFvqcQczz3MlvdoVu98NvXvKmJHdhqC2aHfZqO.jpg"
@@ -431,6 +454,7 @@
         "sites"
       ],
       "linkClass": "white-text",
+      "isResource": true,
       "media": {
         "kind": "picture",
         "image": "https://serenity.agency/storage/FLvw4cYZp4XPtVC2pBIQ06SnNc7yd9V4AiK8cjC3.jpg"
