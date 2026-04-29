@@ -86,6 +86,17 @@
 
     /** Калибровка deltaX тачпада только для этого ряда (раньше был общий global — сбивал соседние слайдеры). */
     let wheelSignMode = 0;
+    /** Пока картинки/шрифты не дорисовали ширину, maxScroll скачет — старая калибровка -1 даёт «обратный» скролл. */
+    let prevMaxScrollForWheel = 0;
+    const observeScrollRangeChange = () => {
+      const max = maxScroll();
+      if (prevMaxScrollForWheel > 0) {
+        if (max > prevMaxScrollForWheel + 80 || (max > prevMaxScrollForWheel * 1.38 && prevMaxScrollForWheel > 50)) {
+          wheelSignMode = 0;
+        }
+      }
+      prevMaxScrollForWheel = Math.max(prevMaxScrollForWheel, max);
+    };
 
     let prevBtn = host.querySelector(".swiper-button-prev") || buttonRoot?.querySelector?.(".swiper-button-prev");
     let nextBtn = host.querySelector(".swiper-button-next") || buttonRoot?.querySelector?.(".swiper-button-next");
@@ -329,6 +340,7 @@
           event.preventDefault();
           return;
         }
+        observeScrollRangeChange();
         const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
         const current = track.scrollLeft;
         const unmapped = wheelSignMode === -1 ? -rawDelta : rawDelta;
@@ -336,7 +348,13 @@
         let next = Math.max(0, Math.min(max, current + mappedDelta));
         // Знак тачпада калибруем только один раз у левого края.
         // После калибровки НЕ зеркалим на краях, чтобы убрать дрожание.
-        if (Math.abs(next - current) < 0.1 && wheelSignMode === 0 && current <= EPS) {
+        const minMaxForMirrorProbe = Math.max(100, track.clientWidth * 0.14);
+        if (
+          Math.abs(next - current) < 0.1 &&
+          wheelSignMode === 0 &&
+          current <= EPS &&
+          max >= minMaxForMirrorProbe
+        ) {
           const mirrored = Math.max(0, Math.min(max, current - rawDelta));
           if (Math.abs(mirrored - current) >= 0.1) {
             next = mirrored;
@@ -372,6 +390,7 @@
       applyHostGeometry();
       syncArrowOverlayToTrack();
       updateArrows();
+      observeScrollRangeChange();
     };
     track.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", relayout);
@@ -482,10 +501,14 @@
     const refresh = () => {
       const w = measureLoopWidth();
       if (w <= 0) return;
+      const oldLoopW = loopW;
       if (loopW > 0) {
         x = (x / loopW) * w;
       }
       loopW = w;
+      if (oldLoopW > 0 && (w > oldLoopW + 80 || (w > oldLoopW * 1.38 && oldLoopW > 60))) {
+        clientsWheelSignMode = 0;
+      }
       x = wrap(x);
     };
 
@@ -561,7 +584,13 @@
         const unmapped = clientsWheelSignMode === -1 ? -rawDelta : rawDelta;
         const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
         let next = x + mappedDelta;
-        if (Math.abs(next - x) < 0.1 && clientsWheelSignMode === 0 && (x % loopW) <= EPS) {
+        const minLoopForMirrorProbe = Math.max(140, host.clientWidth * 0.18);
+        if (
+          Math.abs(next - x) < 0.1 &&
+          clientsWheelSignMode === 0 &&
+          (x % loopW) <= EPS &&
+          loopW >= minLoopForMirrorProbe
+        ) {
           const mirrored = x - rawDelta;
           if (Math.abs(mirrored - x) >= 0.1) {
             next = mirrored;
