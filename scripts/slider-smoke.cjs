@@ -357,6 +357,31 @@ async function run() {
   assert(glow.wrapTopClearance >= 22, "services track must provide top space for hover glow");
   assert(glow.afterOpacity > 0.4, "services hover glow must be visible on hover");
 
+  const imgGlow = await page.evaluate(() => {
+    const card = document.querySelector(
+      ".services__context-wrapper .swiper-slide:nth-child(2) .services__card",
+    );
+    const imgWr = card?.querySelector(".services__card-img-wr");
+    if (!card || !imgWr) return null;
+    const r = imgWr.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return null;
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  });
+  assert(imgGlow, "second services card must have .services__card-img-wr for hover test");
+  await page.mouse.move(imgGlow.x, imgGlow.y);
+  await page.waitForTimeout(220);
+  const glowOverImg = await page.evaluate(() => {
+    const card = document.querySelector(
+      ".services__context-wrapper .swiper-slide:nth-child(2) .services__card",
+    );
+    if (!card) return null;
+    return Number.parseFloat(getComputedStyle(card, "::after").opacity || "0");
+  });
+  assert(
+    glowOverImg > 0.4,
+    "services hover glow must be visible when pointer is over the image area (not only title)",
+  );
+
   await clickArrow(page, "next");
   const afterNext = await readState(page);
   const afterNextGeo = await readGeometry(page);
