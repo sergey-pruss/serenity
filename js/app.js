@@ -727,35 +727,6 @@
       cta.style.setProperty("bottom", `${bottom}px`, "important");
     };
 
-    const dbgLogFloatingHoverLayout = () => {
-      const visual = getCtaVisualEl();
-      if (!visual || !isTabletOrMobile()) return;
-      const boxCta = cta.getBoundingClientRect();
-      const boxVis = visual.getBoundingClientRect();
-      const visOffset = boxCta.bottom - boxVis.bottom;
-      // #region agent log
-      fetch("http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "8e45b7" },
-        body: JSON.stringify({
-          sessionId: "8e45b7",
-          hypothesisId: "H2",
-          location: "app.js:initAdaptiveFloatingCtaPosition",
-          message: "floating_cta_layout_after_sync_hook",
-          data: {
-            iw: window.innerWidth,
-            visOffset,
-            bottomInline: cta.style.bottom || null,
-            ctaTf: getComputedStyle(cta).transform,
-            visualTf: getComputedStyle(visual).transform,
-          },
-          timestamp: Date.now(),
-          runId: "pre-fix",
-        }),
-      }).catch(() => {});
-      // #endregion
-    };
-
     const schedule = () => {
       if (raf) return;
       raf = requestAnimationFrame(sync);
@@ -770,18 +741,14 @@
     schedule();
 
     const visualForHover = getCtaVisualEl();
-    // #region agent log
     visualForHover?.addEventListener("pointerenter", () => {
       sync();
-      dbgLogFloatingHoverLayout();
     });
     visualForHover?.addEventListener("pointerleave", () => {
       requestAnimationFrame(() => {
         sync();
-        dbgLogFloatingHoverLayout();
       });
     });
-    // #endregion
   };
 
   const initFooterPhoneSwitch = () => {
