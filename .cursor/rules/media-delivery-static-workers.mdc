@@ -1,0 +1,18 @@
+---
+description: Безопасная загрузка медиа на static/workers
+alwaysApply: true
+---
+
+# Медиа для карточек кейсов
+
+- Для `static.serenity.agency` и `*.workers.dev` не использовать `/cdn-cgi/image/...` в `srcset`.
+- Причина: на этих хостах путь может отдавать `404`, что ломает превью карточек.
+- Для карточек кейсов использовать прямые локальные URL из `img/storage__*`.
+- Если нужен ресайз/CDN-трансформации, сначала проверить доступность `curl -I <host>/cdn-cgi/image/...` и только потом включать.
+- После изменений обязательно проверять:
+  - `npm run test:case-all`
+  - визуально `case/all` на `https://static.serenity.agency`, `https://serenity.agency` и `https://serenity.sergeyprus.workers.dev`.
+
+## Кэш CSS/JS
+
+- После правок в `css/css__home-snapshot__overrides.parity-sync.css` (и связанных стилей) **обязательно поднять** query `?v=` в ссылках на стили в `case/all/index.html`, `html/index.layout.html`, `index.html`, затем `npm run build:cases`, иначе браузер/CDN могут продолжать отдавать **старый** CSS по прежнему URL.
