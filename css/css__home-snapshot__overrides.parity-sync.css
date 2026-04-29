@@ -666,8 +666,7 @@ body.scroll-menu-open {
   color: #ffffff !important;
 }
 
-.header .btns__modal[data-v-7050ddb2] .footer-modern__request,
-.header .btns__modal[data-v-7050ddb2] .messenger-container {
+.header .btns__modal[data-v-7050ddb2] .footer-modern__request {
   display: none !important;
 }
 
