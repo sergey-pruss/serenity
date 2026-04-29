@@ -903,10 +903,34 @@ body.scroll-menu-open {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  z-index: 4;
+  z-index: 5;
   pointer-events: none;
   border-radius: inherit;
   background-color: transparent;
+}
+
+/*
+ * WebKit: слой <video> может «светиться» белым поверх фона даже при opacity:0 — прослойка цвета обёртки
+ * между видео (z-index 2) и обложкой (5), чтобы не было белого прямоугольника до первого кадра.
+ */
+.video-iframe-wrapper[data-v-135dc442]::before,
+.video-iframe-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  background: inherit;
+  pointer-events: none;
+}
+
+.video-block.video-ready .video-iframe-wrapper[data-v-135dc442]::before,
+.video-block.video-ready .video-iframe-wrapper::before {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0s linear 0.2s;
 }
 
 .video-block:not(.video-ready) .video-iframe[data-v-135dc442],
