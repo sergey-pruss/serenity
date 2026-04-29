@@ -903,22 +903,147 @@
       block.classList.add("is-loading");
     };
 
-    if (video.readyState >= 2) {
-      markReady();
-      return;
-    }
+    const fullSrc = video.dataset.heroFull?.trim();
+    const liteSrc = video.dataset.heroLite?.trim();
+    const useLiteFirst = Boolean(fullSrc && liteSrc);
 
-    video.addEventListener("loadeddata", markReady, { once: true });
-    video.addEventListener("canplay", markReady, { once: true });
-    video.addEventListener("playing", markReady, { once: true });
-    video.addEventListener("error", markError, { once: true });
-    video.addEventListener(
-      "loadedmetadata",
-      () => {
-        video.play().catch(() => {});
-      },
-      { once: true },
-    );
+    const bindPlaybackGuards = () => {
+      if (video.readyState >= 2) {
+        markReady();
+      } else {
+        video.addEventListener("loadeddata", markReady, { once: true });
+        video.addEventListener("canplay", markReady, { once: true });
+        video.addEventListener("playing", markReady, { once: true });
+        video.addEventListener("error", markError, { once: true });
+      }
+      video.addEventListener(
+        "loadedmetadata",
+        () => {
+          video.play().catch(() => {});
+        },
+        { once: true },
+      );
+    };
+
+    bindPlaybackGuards();
+
+    if (useLiteFirst) {
+      const prefetch = document.createElement("video");
+      prefetch.muted = true;
+      prefetch.defaultMuted = true;
+      prefetch.preload = "auto";
+      prefetch.playsInline = true;
+      prefetch.setAttribute("playsinline", "");
+      prefetch.setAttribute("aria-hidden", "true");
+      prefetch.style.cssText =
+        "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;";
+      prefetch.src = fullSrc;
+      document.body.appendChild(prefetch);
+
+      const disposePrefetch = () => {
+        if (!prefetch.parentNode) return;
+        prefetch.pause();
+        prefetch.removeAttribute("src");
+        prefetch.load();
+        prefetch.remove();
+      };
+
+      let prefetchFallbackTimer = 0;
+      const onPrefetchProgress = () => {
+        if (video.dataset.heroUpgraded === "1") return;
+        try {
+          const d = prefetch.duration;
+          if (!d || !Number.isFinite(d) || d < 0.5) return;
+          const b = prefetch.buffered;
+          if (!b || b.length === 0) return;
+          const end = b.end(b.length - 1);
+          if (end / d >= 0.14 || end >= 2.8) {
+            upgradeToFull();
+          }
+        } catch (_) {}
+      };
+
+      const clearPrefetchMonitors = () => {
+        if (prefetchFallbackTimer) {
+          window.clearTimeout(prefetchFallbackTimer);
+          prefetchFallbackTimer = 0;
+        }
+        prefetch.removeEventListener("progress", onPrefetchProgress);
+      };
+
+      const upgradeToFull = () => {
+        if (video.dataset.heroUpgraded === "1") return;
+        video.dataset.heroUpgraded = "1";
+        clearPrefetchMonitors();
+        const t = video.currentTime || 0;
+        while (video.firstChild) video.removeChild(video.firstChild);
+        video.removeAttribute("src");
+        video.src = fullSrc;
+        video.load();
+        const resume = () => {
+          try {
+            const dur = Number.isFinite(video.duration) ? video.duration : 0;
+            if (dur > 0.15 && t > 0.02) {
+              video.currentTime = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
+            }
+          } catch (_) {}
+          video.play().catch(() => {});
+        };
+        const onFullError = () => {
+          video.dataset.heroUpgraded = "0";
+          video.removeAttribute("src");
+          while (video.firstChild) video.removeChild(video.firstChild);
+          const s = document.createElement("source");
+          s.src = liteSrc;
+          s.type = "video/mp4";
+          video.appendChild(s);
+          video.load();
+          block.classList.remove("video-error");
+          block.classList.add("is-loading");
+          const resumeLite = () => {
+            try {
+              const dur = Number.isFinite(video.duration) ? video.duration : 0;
+              if (dur > 0.15 && t > 0.02) {
+                video.currentTime = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
+              }
+            } catch (_) {}
+            video.play().catch(() => {});
+            markReady();
+          };
+          video.addEventListener("loadeddata", resumeLite, { once: true });
+          video.addEventListener("error", markError, { once: true });
+          video.addEventListener("loadedmetadata", () => video.play().catch(() => {}), { once: true });
+        };
+        video.addEventListener("loadeddata", resume, { once: true });
+        video.addEventListener("error", onFullError, { once: true });
+        disposePrefetch();
+      };
+
+      prefetch.addEventListener("canplaythrough", () => upgradeToFull(), { once: true });
+      prefetch.addEventListener("progress", onPrefetchProgress);
+      prefetch.addEventListener(
+        "error",
+        () => {
+          clearPrefetchMonitors();
+          disposePrefetch();
+        },
+        { once: true },
+      );
+
+      prefetchFallbackTimer = window.setTimeout(() => {
+        prefetchFallbackTimer = 0;
+        prefetch.removeEventListener("progress", onPrefetchProgress);
+        if (video.dataset.heroUpgraded === "1") {
+          disposePrefetch();
+          return;
+        }
+        if (prefetch.readyState >= 2) {
+          upgradeToFull();
+        } else {
+          disposePrefetch();
+        }
+      }, 90000);
+    }
 
     // Safari/Private mode fallback: autoplay can remain blocked until first gesture.
     const tryPlayFromGesture = () => {
