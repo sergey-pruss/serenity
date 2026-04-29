@@ -36,6 +36,51 @@
                         <changefreq>weekly</changefreq>
                         <priority>1.0</priority>
                     </url><url>
+                        <loc>https://serenity.agency/case/all</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/2</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/3</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/category/brending</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/category/brending/2</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/category/pr</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/category/sites</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/category/sites/2</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
+                        <loc>https://serenity.agency/case/all/category/strategiya</loc>
+                        <lastmod>2026-04-29T12:00:00.000000Z</lastmod>
+                        <changefreq>weekly</changefreq>
+                        <priority>1.0</priority>
+                    </url><url>
                         <loc>https://serenity.agency/contacts</loc>
                         <lastmod>2025-11-14T14:11:04.000000Z</lastmod>
                         <changefreq>weekly</changefreq>
