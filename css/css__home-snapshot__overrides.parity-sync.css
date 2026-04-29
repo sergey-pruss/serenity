@@ -857,6 +857,11 @@ body.scroll-menu-open {
   opacity: 0.55;
 }
 
+/* До первого кадра показываем постер — не затемняем градиентом */
+.video-block:not(.video-ready).is-loading::before {
+  opacity: 0 !important;
+}
+
 /*
  * WebKit рисует слой <video> поверх псевдоэлементов .video-iframe-wrapper → «белый экран»
  * до первого кадра и при video.load() при смене на full. Маска на самом .video-block
@@ -879,7 +884,6 @@ body.scroll-menu-open {
     visibility 0s linear 0.09s;
 }
 
-.video-block:not(.video-ready)::after,
 .video-block.hero-video-upgrading::after,
 .video-block.is-loading.video-ready::after {
   opacity: 1;
@@ -888,31 +892,59 @@ body.scroll-menu-open {
   transition: none;
 }
 
-/* Пока нет кадра видео — не показываем белый слой плеера / постер Safari. */
+/*
+ * Слой обложки поверх фона блока (#1d1d1f); <video> скрыт до первого кадра — без «картинка → тёмный экран».
+ */
+.hero-video-poster-layer[data-v-135dc442],
+.hero-video-poster-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  background-color: transparent;
+}
+
 .video-block:not(.video-ready) .video-iframe[data-v-135dc442],
 .video-block:not(.video-ready) .video-iframe {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.video-block.video-ready .hero-video-poster-layer[data-v-135dc442],
+.video-block.video-ready .hero-video-poster-layer {
   opacity: 0;
   visibility: hidden;
+  transition:
+    opacity 0.22s ease,
+    visibility 0s linear 0.22s;
 }
 
 .video-block.video-ready .video-iframe[data-v-135dc442],
 .video-block.video-ready .video-iframe {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.14s ease;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: opacity 0.18s ease;
 }
 
 /* Hero video framing fix: remove bundle vertical shift */
 .video-iframe-wrapper[data-v-135dc442],
 .video-iframe-wrapper {
+  position: relative;
   transform: none !important;
   overflow: hidden !important;
   border-radius: inherit !important;
-  background: #1d1d1f;
+  background: #1d1d1f !important;
 }
 
 .video-iframe[data-v-135dc442],
 .video-iframe {
+  position: relative;
+  z-index: 2;
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
