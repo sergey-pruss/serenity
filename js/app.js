@@ -924,7 +924,7 @@
           const b = prefetch.buffered;
           if (!b || b.length === 0) return;
           const end = b.end(b.length - 1);
-          if (end / d >= 0.14 || end >= 2.8) {
+          if (end / d >= 0.1 || end >= 2) {
             upgradeToFull();
           }
         } catch (_) {}
@@ -946,9 +946,7 @@
         block.classList.add("hero-video-upgrading");
         const unmaskAfterFrame = () => {
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              block.classList.remove("hero-video-upgrading");
-            });
+            block.classList.remove("hero-video-upgrading");
           });
         };
         while (video.firstChild) video.removeChild(video.firstChild);
@@ -956,6 +954,7 @@
         video.src = fullSrc;
         video.load();
         const resume = () => {
+          disposePrefetch();
           const startPlay = () => {
             video.play().then(unmaskAfterFrame).catch(unmaskAfterFrame);
           };
@@ -978,6 +977,7 @@
           }
         };
         const onFullError = () => {
+          disposePrefetch();
           block.classList.remove("hero-video-upgrading");
           video.dataset.heroUpgraded = "0";
           video.removeAttribute("src");
@@ -1018,10 +1018,8 @@
         };
         video.addEventListener("loadeddata", resume, { once: true });
         video.addEventListener("error", onFullError, { once: true });
-        disposePrefetch();
       };
 
-      prefetch.addEventListener("canplaythrough", () => upgradeToFull(), { once: true });
       prefetch.addEventListener("progress", onPrefetchProgress);
       prefetch.addEventListener(
         "error",
