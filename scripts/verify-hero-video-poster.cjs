@@ -56,6 +56,10 @@ if (!html.includes('class="hero-video-strip"')) {
   console.error("В index.html нет блока hero-video-strip");
   process.exit(1);
 }
+if (!html.includes('class="video-block is-loading"')) {
+  console.error("В index.html у героя нет начального класса is-loading (ранний тёмный плейсхолдер)");
+  process.exit(1);
+}
 if (!html.includes('rel="preload" as="image" href="img/video__home-hero-strip-1.jpg"')) {
   console.error("В index.html нет preload первого кадра strip");
   process.exit(1);
