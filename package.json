@@ -3,7 +3,7 @@
   "private": true,
   "description": "Static home snapshot; dev tools for layout tests",
   "scripts": {
-    "build:html": "node scripts/assemble-html.cjs build",
+    "build:html": "node scripts/assemble-html.cjs build && node scripts/typography-nbsp.cjs",
     "dev": "node scripts/dev-server.cjs",
     "test:clients": "node scripts/verify-clients.cjs",
     "test:home-cases": "node scripts/verify-home-cases.cjs",
