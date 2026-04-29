@@ -1,0 +1,440 @@
+{
+  "filterCode": "",
+  "currentPage": 2,
+  "totalPages": 3,
+  "perPage": 24,
+  "totalItems": 62,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/case/all/"
+    },
+    {
+      "code": "pr",
+      "label": "Продвижение",
+      "totalPages": 1,
+      "href": "/case/all/category/pr/"
+    },
+    {
+      "code": "brending",
+      "label": "Брендинг",
+      "totalPages": 2,
+      "href": "/case/all/category/brending/"
+    },
+    {
+      "code": "sites",
+      "label": "Сайт",
+      "totalPages": 2,
+      "href": "/case/all/category/sites/"
+    },
+    {
+      "code": "strategiya",
+      "label": "Стратегия",
+      "totalPages": 1,
+      "href": "/case/all/category/strategiya/"
+    }
+  ],
+  "cases": [
+    {
+      "href": "https://www.behance.net/gallery/179526211/Schaefer-Fliesen-brand-identity-and-website",
+      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "tags": [
+        "Брендинг",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/nSk2RxnqvxvD5WQkwI0xJDHDbAGWqD5sGVRkS0xi.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/aquanika",
+      "description": "Обновление эко-бренда Акваника в соцсетях",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/ipBFndC9AdAHMtWFeAA1jF2KhbKUMMCkZD1d2XFw.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/149412307/vrand-identity-Osnova",
+      "description": "Нейминг, стиль, упаковка и фотопродакшн для бренда косметики Osnova",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/qqywTx4bdU4fAGD26LToCb2S4JZSXpvgASiW44nq.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/bez-ramok",
+      "description": "Создали пакет франшизы с нуля для арт-центра «Без рамок»",
+      "tags": [
+        "Стратегия",
+        "Брендинг",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "strategiya",
+        "brending",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/M3ONz5TGOBWVPsqlK5vUawaC6xb5EQROaR9feKp2.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/138614981/Big-Buyer",
+      "description": "Интернет-магазин для продажи косметики и одежды из Кореи",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/MNJPVYZdw70N2LqeZxwzfkV0FHuK7wKTAR9F3dYM.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/sunseeker",
+      "description": "Снизили стоимость целевой заявки в 6 раз для Sunseeker",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/A73kCstCQ28DptWo6lg0bWJIwp8J2C0cRSPXKTFJ.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/176670567/Brand-identity-for-Banded-Bodies",
+      "description": "Брендинг и сайт для косметики Banded Bodies",
+      "tags": [
+        "Сайт",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "sites",
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/vIPEujjDwnUUk1fIB2sNEpOImN6jaNOiQgRrWcTu.jpg",
+        "videoSrc": "https://serenity.agency/storage/Z5DRfhD6mMz1PaLGG8KQ6cYsQV7PawPLPdgm1ugC.mp4"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/182050605/Brand-identity-Trading-Desk",
+      "description": "Айдентика для сообщества предпринимателей и трейдеров",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/mIUTeTsZ6qJ1uDyFK20iR7mugfbSgGwp0z99ofZA.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/klyuchevskoe-2",
+      "description": "Упаковали бренд молочных продуктов «Ключевское»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/uUUtNgG5FMLRaTgpfHOA2HJThPNqilljZ5inKV6h.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/global-jet",
+      "description": "Премиальный сайт для авиаменеджера Global Jet",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/okj5hOEHgh9429X3v5sBi7MDA8qRBrtU4KR0VnnL.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/jistory",
+      "description": "Стратегия, нейминг и стиль для сети магазинов одежды Jistory",
+      "tags": [
+        "Стратегия",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "strategiya",
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/w8ugkLNrVqCQvEcea9SkYVuPRXEJmToFRzFrgfkI.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/149426781/Brand-idetity-website-for-ERP-system-AXLE",
+      "description": "Нейминг, стиль и сайт для ERP-системы AXLE",
+      "tags": [
+        "Сайт",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "sites",
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/nLmH0QMDkMTl35L702U8N29cSV59cSqeLfPLM2rY.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/115303125/severstal-h-misis",
+      "description": "Стикерпак для HR-программы «Северстали»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/Knm3IJZZr5gbUo45D58aeCr8NP6eEel8LubHDjkx.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/gio-welness",
+      "description": "Снизили стоимость заявки в 2,5 раза для Gio Wellness",
+      "tags": [
+        "Брендинг",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/HbC4EO97JZt8OalYGsRHcFczrSySJNPMRpLfahDJ.jpg",
+        "videoSrc": "https://serenity.agency/storage/unWqAVcgtLnSshOUoI4DVOvaRefe63px7bSslaO5.mp4"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/106188383/X-Clinic",
+      "description": "Фирменный стиль для клиники интегративной медицины X-Clinic",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/uq077gPHqUqosH3x5B3ultQEEtu0pdfeTdadZk31.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/i-pupi",
+      "description": "Брендинг и продвижение для производителя сумок I PUPI",
+      "tags": [
+        "Брендинг",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/x9jwIVSkRFUQWMTPWzUUf83JBX8hAUipfetHUvFg.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/school",
+      "description": "Создали и успешно запустили образовательный проект «Школа Serenity»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/133401991/Creon-Group",
+      "description": "Редизайн корпоративного сайта для Creon Group",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/aHI3eGuOBXftFT3cDINGSM1L8f7Esie2WdS7Uwcg.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/kaskad",
+      "description": "Снизили стоимость заявки в 20 раз для завода «Каскад»",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Продажи",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "sales",
+        "sites"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/digitale",
+      "description": "Собрали 1700 участников на бизнес-конференцию Digitale «Счастье»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
+        "videoSrc": "https://serenity.agency/storage/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/zamorkove-2",
+      "description": "Новая айдентика для бренда фермерских продуктов «Заморковье»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/WHYXEmTp3iMZPYmCweZWWZcsRHoGbMIb1OPSL1AN.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/good-wood",
+      "description": "Комплексное продвижение бизнес-конференций для Good Wood",
+      "tags": [
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/ZwwafKonw2mF33eMU7t2VU1jrqnTYc48wXqwqPLj.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/83703153/Citta-Darte",
+      "description": "Фотосъемка для бренда одежды",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/kPFFvqcQczz3MlvdoVu98NvXvKmJHdhqC2aHfZqO.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/138701085/konsaltingovoe-bjuro-ANG",
+      "description": "Лендинг для консалтингового бюро ANG",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/FLvw4cYZp4XPtVC2pBIQ06SnNc7yd9V4AiK8cjC3.jpg"
+      }
+    }
+  ]
+}

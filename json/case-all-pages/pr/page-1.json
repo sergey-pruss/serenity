@@ -1,0 +1,471 @@
+{
+  "filterCode": "pr",
+  "currentPage": 1,
+  "totalPages": 1,
+  "perPage": 24,
+  "totalItems": 23,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/case/all/"
+    },
+    {
+      "code": "pr",
+      "label": "Продвижение",
+      "totalPages": 1,
+      "href": "/case/all/category/pr/"
+    },
+    {
+      "code": "brending",
+      "label": "Брендинг",
+      "totalPages": 2,
+      "href": "/case/all/category/brending/"
+    },
+    {
+      "code": "sites",
+      "label": "Сайт",
+      "totalPages": 2,
+      "href": "/case/all/category/sites/"
+    },
+    {
+      "code": "strategiya",
+      "label": "Стратегия",
+      "totalPages": 1,
+      "href": "/case/all/category/strategiya/"
+    }
+  ],
+  "cases": [
+    {
+      "href": "https://serenity.agency/case/darkrain-store",
+      "description": "С 2018 развиваем интернет-магазин и реализуем комплексное продвижение бренда украшений Darkrain",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Видеопрадакшен"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "Видеопрадакшен"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "/img/storage__WLXF5HzKVQUYRIDLQ7zOSRVDwZw17ziScjgTQABI.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/boca",
+      "description": "Увеличили продажи с помощью инструментов контекстной и георекламы",
+      "tags": [
+        "Продвижение",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "/img/storage__fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/minisklad",
+      "description": "Создали новый фирменный стиль и увеличили количество обращений на 500%",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/JdKeaOWg6ErhKqPicV92KRbf7U75W0mdSuUWt6jp.webp"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/grandmed",
+      "description": "Комплексное продвижение медицинского холдинга",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "/img/storage__AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5.webp"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/sytnie-ugodia",
+      "description": "Комплексный маркетинг для производителя мяса",
+      "tags": [
+        "Брендинг",
+        "Сайты",
+        "Стратегия",
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites",
+        "strategiya",
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/Cyu9NZfssUe4ZsPOZ4TL93kVfwXlrc8E9hweu3ea.webp"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/evrostroj",
+      "description": "На 30% увеличили число конверсий для «Евростроя»",
+      "tags": [
+        "Стратегия",
+        "Брендинг",
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "strategiya",
+        "brending",
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "/img/storage__eEn5z5K1VqnFurjwT6vHFhSyHwKolEzUF41JawC9.jpg",
+        "videoSrc": "/img/storage__nDqkUf1hDrQnNiY9gPZNrfEY3Vwgcw86y3AlcK51.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/commcloud",
+      "description": "Продвижение нового IT-продукта на российском рынке",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/J6m3rdo35hk51oGHPk5ZvwLRTnXWCebvPi9qNYGs.png"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/orange",
+      "description": "Вывели международного интегратора IT-сервисов Orange в digital в России",
+      "tags": [
+        "Стратегия",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "strategiya",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "/img/storage__gxMhco4GICqvNHFrpJgfjadii3akfWNphHHA44Zr.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/cromi",
+      "description": "Новый бренд и сайт  для дистрибьютора звукового оборудования Cromi",
+      "tags": [
+        "Стратегия",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "strategiya",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "/img/storage__chL4LbnmmiU2maPGxKZgbFOkCsbzoA5kgg4YSpUh.jpg",
+        "videoSrc": "/img/storage__ij7e8Ec8XMQfEsHTcwnqEDv8vkZrgZzwoDCFyK1l.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/vomoloko",
+      "description": "Обновили образ бренда и привлекли покупателей для дистрибьютера «Во!Молоко»",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "sites"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "/img/storage__ixkjBrB1pCELGeNMCtA8BgK78AYiofKaJhJch2zK.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/skladno-internet-magazin-mebeli",
+      "description": "В 6 раз окупили вложения в маркетинг для «Складно»",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Сайт",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "/img/storage__qaCLQ6fqiMYmxsozvWrmZGiALhEHrhOemSYToCyR.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/askonamed",
+      "description": "Привлекли новых клиентов с помощью комплексного digital-продвижения для Askonamed",
+      "tags": [
+        "Стратегия",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "strategiya",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/monjD8slTBetrDRuKm90SURPDpC68W1nkpDUGCaG.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/toofli",
+      "description": "Привлекли 10 000 подписчиков в Instagram для бренда Toofli",
+      "tags": [
+        "Продвижение",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/5J2OiJoXlgzbSyYrW0PxCN9xvymrgsIcjDs7Nu9z.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/kompozit",
+      "description": "Увеличили ROMI на 576% для клиники пластической хирургии «Композит»",
+      "tags": [
+        "Продвижение",
+        "Продажи"
+      ],
+      "tagCodes": [
+        "pr",
+        "sales"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/em4UnhQpWcu0lhnEI8tLHeXwzPW5kqlTFGsN7QVu.png"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/awm-trade",
+      "description": "В 3 раза увеличили посещаемость сайта AWM-Trade",
+      "tags": [
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/lDxDl0LzIC3ene47rKLEvE2AJ7vOv0VB1v7wEhY4.jpg",
+        "videoSrc": "https://serenity.agency/storage/JvHEwVo90cKSykhbEldlJUAqEJpqZF0tlUgUc2R1.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/gio-welness",
+      "description": "Снизили стоимость заявки в 2,5 раза для Gio Wellness",
+      "tags": [
+        "Брендинг",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/HbC4EO97JZt8OalYGsRHcFczrSySJNPMRpLfahDJ.jpg",
+        "videoSrc": "https://serenity.agency/storage/unWqAVcgtLnSshOUoI4DVOvaRefe63px7bSslaO5.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/i-pupi",
+      "description": "Брендинг и продвижение для производителя сумок I PUPI",
+      "tags": [
+        "Брендинг",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/x9jwIVSkRFUQWMTPWzUUf83JBX8hAUipfetHUvFg.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/school",
+      "description": "Создали и успешно запустили образовательный проект «Школа Serenity»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/kaskad",
+      "description": "Снизили стоимость заявки в 20 раз для завода «Каскад»",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Продажи",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "sales",
+        "sites"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/digitale",
+      "description": "Собрали 1700 участников на бизнес-конференцию Digitale «Счастье»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
+        "videoSrc": "https://serenity.agency/storage/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/good-wood",
+      "description": "Комплексное продвижение бизнес-конференций для Good Wood",
+      "tags": [
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/ZwwafKonw2mF33eMU7t2VU1jrqnTYc48wXqwqPLj.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/mosplitka",
+      "description": "На 37% снизили стоимость обращения для «Мосплитки»",
+      "tags": [
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/SzZkZq1XRnRO5CSijdpRociZN2dsqbixQyxCD5o5.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/havoline",
+      "description": "Разработали и реализовали маркетинговую стратегию для Havoline",
+      "tags": [
+        "Продвижение",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/qz8RLM07vxpU8Cu3xiGwERlXHdzz0Rpmz8rKiLL2.jpg"
+      }
+    }
+  ]
+}

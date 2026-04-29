@@ -1,0 +1,298 @@
+{
+  "filterCode": "brending",
+  "currentPage": 2,
+  "totalPages": 2,
+  "perPage": 24,
+  "totalItems": 39,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/case/all/"
+    },
+    {
+      "code": "pr",
+      "label": "Продвижение",
+      "totalPages": 1,
+      "href": "/case/all/category/pr/"
+    },
+    {
+      "code": "brending",
+      "label": "Брендинг",
+      "totalPages": 2,
+      "href": "/case/all/category/brending/"
+    },
+    {
+      "code": "sites",
+      "label": "Сайт",
+      "totalPages": 2,
+      "href": "/case/all/category/sites/"
+    },
+    {
+      "code": "strategiya",
+      "label": "Стратегия",
+      "totalPages": 1,
+      "href": "/case/all/category/strategiya/"
+    }
+  ],
+  "cases": [
+    {
+      "href": "https://www.behance.net/gallery/115303125/severstal-h-misis",
+      "description": "Стикерпак для HR-программы «Северстали»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/Knm3IJZZr5gbUo45D58aeCr8NP6eEel8LubHDjkx.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/gio-welness",
+      "description": "Снизили стоимость заявки в 2,5 раза для Gio Wellness",
+      "tags": [
+        "Брендинг",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/HbC4EO97JZt8OalYGsRHcFczrSySJNPMRpLfahDJ.jpg",
+        "videoSrc": "https://serenity.agency/storage/unWqAVcgtLnSshOUoI4DVOvaRefe63px7bSslaO5.mp4"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/106188383/X-Clinic",
+      "description": "Фирменный стиль для клиники интегративной медицины X-Clinic",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/uq077gPHqUqosH3x5B3ultQEEtu0pdfeTdadZk31.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/i-pupi",
+      "description": "Брендинг и продвижение для производителя сумок I PUPI",
+      "tags": [
+        "Брендинг",
+        "Продвижение",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "pr",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/x9jwIVSkRFUQWMTPWzUUf83JBX8hAUipfetHUvFg.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/school",
+      "description": "Создали и успешно запустили образовательный проект «Школа Serenity»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/kaskad",
+      "description": "Снизили стоимость заявки в 20 раз для завода «Каскад»",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Продажи",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "sales",
+        "sites"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/digitale",
+      "description": "Собрали 1700 участников на бизнес-конференцию Digitale «Счастье»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
+        "videoSrc": "https://serenity.agency/storage/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/zamorkove-2",
+      "description": "Новая айдентика для бренда фермерских продуктов «Заморковье»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/WHYXEmTp3iMZPYmCweZWWZcsRHoGbMIb1OPSL1AN.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/83703153/Citta-Darte",
+      "description": "Фотосъемка для бренда одежды",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/kPFFvqcQczz3MlvdoVu98NvXvKmJHdhqC2aHfZqO.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/159946399/Undress-Me",
+      "description": "Фотопродакшн для нижнего белья Undress me",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/yzHit4R5NocHlbxPQxzenYqIns9TchaosBpaQUvP.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/120326701/alfa-lizing",
+      "description": "Разработали 430 баннеров для «Альфа-лизинга»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/SGdoATpR5Rf2JwVgSKO1rf7CR5QvL1AuAQmMnpKg.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/120324041/Happy-Life",
+      "description": "Фирменный стиль для студии загара Happy Life",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/IpELI2tcfFjUmoVJRjTAezn4g1m9eCkHSD7QbY9e.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/92974215/okna-evropy",
+      "description": "Фирменный стиль для производителя «Окна Европы»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/E1dGaGuehPRD2JCEA6GZDhwKQTYAnQmBBgaBiuZY.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/83999415/Digesta",
+      "description": "Сайт и фотосъемка для личного бренда",
+      "tags": [
+        "Брендинг",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/schaeferfliesen",
+      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "tags": [
+        "Брендинг",
+        "Сайты",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
+      }
+    }
+  ]
+}
