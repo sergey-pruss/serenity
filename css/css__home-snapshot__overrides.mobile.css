@@ -322,3 +322,16 @@
     height: 50px;
   }
 }
+
+/* Услуги: зазор заголовок → абзац как у блога: 8px margin-top + top:5px у .blog-block__header-subtitle в bundle */
+@media screen and (max-width: 550px) {
+  .services-section_main-structure .services__title[data-v-56f85d51],
+  .isNewContent .services__title[data-v-56f85d51] {
+    margin-bottom: 0 !important;
+  }
+
+  .services-section_main-structure .services__description[data-v-56f85d51],
+  .isNewContent .services__description[data-v-56f85d51] {
+    margin-top: 13px !important;
+  }
+}
