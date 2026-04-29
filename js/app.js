@@ -948,13 +948,26 @@
         video.src = fullSrc;
         video.load();
         const resume = () => {
+          const startPlay = () => {
+            video.play().catch(() => {});
+          };
           try {
             const dur = Number.isFinite(video.duration) ? video.duration : 0;
             if (dur > 0.15 && t > 0.02) {
-              video.currentTime = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
+              const target = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
+              const onSeeked = () => startPlay();
+              video.addEventListener("seeked", onSeeked, { once: true });
+              video.currentTime = target;
+              if (!video.seeking) {
+                video.removeEventListener("seeked", onSeeked);
+                startPlay();
+              }
+            } else {
+              startPlay();
             }
-          } catch (_) {}
-          video.play().catch(() => {});
+          } catch (_) {
+            startPlay();
+          }
         };
         const onFullError = () => {
           video.dataset.heroUpgraded = "0";
@@ -968,14 +981,27 @@
           block.classList.remove("video-error");
           block.classList.add("is-loading");
           const resumeLite = () => {
+            const startPlay = () => {
+              video.play().catch(() => {});
+              markReady();
+            };
             try {
               const dur = Number.isFinite(video.duration) ? video.duration : 0;
               if (dur > 0.15 && t > 0.02) {
-                video.currentTime = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
+                const target = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
+                const onSeeked = () => startPlay();
+                video.addEventListener("seeked", onSeeked, { once: true });
+                video.currentTime = target;
+                if (!video.seeking) {
+                  video.removeEventListener("seeked", onSeeked);
+                  startPlay();
+                }
+              } else {
+                startPlay();
               }
-            } catch (_) {}
-            video.play().catch(() => {});
-            markReady();
+            } catch (_) {
+              startPlay();
+            }
           };
           video.addEventListener("loadeddata", resumeLite, { once: true });
           video.addEventListener("error", markError, { once: true });
@@ -1028,7 +1054,7 @@
         markReady();
       } else if (checks >= 120) {
         clearInterval(timer);
-        // Через ~60 с снимаем оверлей: у `<video>` есть poster до первого кадра.
+        // Через ~60 с снимаем оверлей (редкий зависший decode).
         markReady();
       }
     }, 500);
