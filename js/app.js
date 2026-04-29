@@ -19,6 +19,39 @@
     return 78;
   };
 
+  /** Текстовая подпись до загрузки логотипа; alt без «function String()»; eager + fetchPriority. */
+  const initClientsLogoFallbacks = () => {
+    const host = document.querySelector(".swiper-container-clients-new");
+    if (!host || host.dataset.clientLogoFallback === "1") return;
+    host.dataset.clientLogoFallback = "1";
+    const labelFromSrc = (src) => {
+      if (!src) return "Партнёр Serenity";
+      if (src.includes("di6OvWVv")) return "Volvo Penta";
+      if (src.includes("bR5c6wK4")) return "Orange";
+      return "Партнёр Serenity";
+    };
+    for (const slide of host.querySelectorAll(".clients-new__slide")) {
+      const img = slide.querySelector("img");
+      if (!img || slide.querySelector(".clients-new__label")) continue;
+      const name = labelFromSrc(img.getAttribute("src") || "");
+      img.alt = `Логотип: ${name}`;
+      img.loading = "eager";
+      if ("fetchPriority" in img) img.fetchPriority = "high";
+      const span = document.createElement("span");
+      span.className = "clients-new__label";
+      span.setAttribute("aria-hidden", "true");
+      span.textContent = name;
+      slide.insertBefore(span, img);
+      const markLoaded = () => {
+        if (img.naturalWidth > 0) img.classList.add("is-loaded");
+      };
+      if (img.complete && img.naturalWidth > 0) markLoaded();
+      else {
+        img.addEventListener("load", markLoaded, { once: true });
+      }
+    }
+  };
+
   const makeArrow = (type) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -896,6 +929,7 @@
   initAdaptiveFloatingCtaPosition();
   initFooterPhoneSwitch();
   initHeroVideoLoading();
+  initClientsLogoFallbacks();
   initClientsStrip();
   initMorCasesSlider();
 
