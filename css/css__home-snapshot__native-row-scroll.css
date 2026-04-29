@@ -6,8 +6,8 @@
   position: relative;
 }
 
-/* Вертикальный буфер под glow карточек + зазор «шапка → ряд» как у услуг:
-   .services__text padding-bottom (--home-ledge) + padding-top слайдера. */
+/* Вертикальный буфер под glow карточек + зазор «шапка → ряд»:
+   padding-top слайдера — половина прежнего (--home-ledge и +5px у блога). */
 .services__context-slider.swiper-container[data-native-row="1"],
 .blog-block__swiper-container.swiper-container[data-native-row="1"] {
   padding-bottom: 40px;
@@ -16,12 +16,12 @@
 }
 
 .services__context-slider.swiper-container[data-native-row="1"] {
-  padding-top: var(--home-ledge);
+  padding-top: calc(var(--home-ledge) / 2);
 }
 
-/* Подзаголовок блога в bundle со сдвигом top:5px — компенсируем, чтобы визуально совпало с «Услуги». */
+/* Как у услуг, плюс половина бывшей +5px из-за top у подзаголовка блога. */
 .blog-block__swiper-container.swiper-container[data-native-row="1"] {
-  padding-top: calc(var(--home-ledge) + 5px);
+  padding-top: calc((var(--home-ledge) + 5px) / 2);
 }
 
 /* Отделяем текстовый блок услуг от карточек фиксированным интервалом. */
