@@ -727,6 +727,35 @@
       cta.style.setProperty("bottom", `${bottom}px`, "important");
     };
 
+    const dbgLogFloatingHoverLayout = () => {
+      const visual = getCtaVisualEl();
+      if (!visual || !isTabletOrMobile()) return;
+      const boxCta = cta.getBoundingClientRect();
+      const boxVis = visual.getBoundingClientRect();
+      const visOffset = boxCta.bottom - boxVis.bottom;
+      // #region agent log
+      fetch("http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "8e45b7" },
+        body: JSON.stringify({
+          sessionId: "8e45b7",
+          hypothesisId: "H2",
+          location: "app.js:initAdaptiveFloatingCtaPosition",
+          message: "floating_cta_layout_after_sync_hook",
+          data: {
+            iw: window.innerWidth,
+            visOffset,
+            bottomInline: cta.style.bottom || null,
+            ctaTf: getComputedStyle(cta).transform,
+            visualTf: getComputedStyle(visual).transform,
+          },
+          timestamp: Date.now(),
+          runId: "pre-fix",
+        }),
+      }).catch(() => {});
+      // #endregion
+    };
+
     const schedule = () => {
       if (raf) return;
       raf = requestAnimationFrame(sync);
@@ -739,6 +768,20 @@
       window.visualViewport.addEventListener("scroll", schedule);
     }
     schedule();
+
+    const visualForHover = getCtaVisualEl();
+    // #region agent log
+    visualForHover?.addEventListener("pointerenter", () => {
+      sync();
+      dbgLogFloatingHoverLayout();
+    });
+    visualForHover?.addEventListener("pointerleave", () => {
+      requestAnimationFrame(() => {
+        sync();
+        dbgLogFloatingHoverLayout();
+      });
+    });
+    // #endregion
   };
 
   const initFooterPhoneSwitch = () => {
@@ -870,10 +913,6 @@
       block.classList.add("is-loading");
     };
 
-    const fullSrc = video.dataset.heroFull?.trim();
-    const liteSrc = video.dataset.heroLite?.trim();
-    const useLiteFirst = Boolean(fullSrc && liteSrc);
-
     const bindPlaybackGuards = () => {
       if (video.readyState >= 2) {
         markReady();
@@ -893,263 +932,6 @@
     };
 
     bindPlaybackGuards();
-
-    if (useLiteFirst) {
-      const prefetch = document.createElement("video");
-      prefetch.muted = true;
-      prefetch.defaultMuted = true;
-      prefetch.preload = "auto";
-      prefetch.playsInline = true;
-      prefetch.setAttribute("playsinline", "");
-      prefetch.setAttribute("aria-hidden", "true");
-      prefetch.style.cssText =
-        "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;";
-      document.body.appendChild(prefetch);
-
-      /** @returns {"slow"|"medium"|"fast"} */
-      const heroNetTier = () => {
-        try {
-          const c = navigator.connection;
-          if (!c) return "medium";
-          if (c.saveData) return "slow";
-          const t = c.effectiveType;
-          if (t === "slow-2g" || t === "2g") return "slow";
-          if (t === "3g") return "medium";
-          if (typeof c.downlink === "number" && c.downlink > 0 && c.downlink < 1.15) return "medium";
-          if (typeof c.rtt === "number" && c.rtt > 0) {
-            if (c.rtt > 1400) return "slow";
-            if (c.rtt > 650) return "medium";
-          }
-          return "fast";
-        } catch (_) {
-          return "medium";
-        }
-      };
-
-      const heroNetMode = heroNetTier();
-      const fullBufferThreshold = () => {
-        if (heroNetMode === "slow") return { frac: 0.36, sec: 9 };
-        if (heroNetMode === "medium") return { frac: 0.2, sec: 4.5 };
-        return { frac: 0.1, sec: 2 };
-      };
-
-      const disposePrefetch = () => {
-        if (!prefetch.parentNode) return;
-        prefetch.pause();
-        prefetch.removeAttribute("src");
-        prefetch.load();
-        prefetch.remove();
-      };
-
-      let prefetchArmed = false;
-      let prefetchFallbackTimer = 0;
-      let armFallbackTimer = 0;
-
-      function upgradeToFull() {
-        if (video.dataset.heroUpgraded === "1") return;
-        video.dataset.heroUpgraded = "1";
-        clearPrefetchMonitors();
-        block.classList.add("hero-video-upgrading");
-        /* Маска уже есть — фиксируем время без дрейфа кадра во время load() */
-        let t = 0;
-        try {
-          if (!video.paused) {
-            video.pause();
-          }
-          t = Number(video.currentTime) || 0;
-        } catch (_) {
-          t = 0;
-        }
-        const unmaskAfterPainted = () => {
-          const done = () => {
-            requestAnimationFrame(() => {
-              block.classList.remove("hero-video-upgrading");
-            });
-          };
-          try {
-            if (typeof video.requestVideoFrameCallback === "function") {
-              video.requestVideoFrameCallback(() => done());
-            } else {
-              done();
-            }
-          } catch (_) {
-            done();
-          }
-        };
-        while (video.firstChild) video.removeChild(video.firstChild);
-        video.removeAttribute("src");
-        video.src = fullSrc;
-        video.load();
-        const resume = () => {
-          disposePrefetch();
-          const startPlay = () => {
-            video
-              .play()
-              .then(() => unmaskAfterPainted())
-              .catch(() => unmaskAfterPainted());
-          };
-          const applySeekThenPlay = () => {
-            try {
-              const dur = Number.isFinite(video.duration) ? video.duration : 0;
-              if (dur > 0.15 && t > 0.02) {
-                const target = Math.min(Math.max(t, 0), Math.max(dur - 0.04, 0));
-                const onSeeked = () => startPlay();
-                video.addEventListener("seeked", onSeeked, { once: true });
-                try {
-                  if (typeof video.fastSeek === "function") {
-                    video.fastSeek(target);
-                  } else {
-                    video.currentTime = target;
-                  }
-                } catch (_) {
-                  video.currentTime = target;
-                }
-                if (!video.seeking) {
-                  video.removeEventListener("seeked", onSeeked);
-                  startPlay();
-                }
-              } else {
-                startPlay();
-              }
-            } catch (_) {
-              startPlay();
-            }
-          };
-          applySeekThenPlay();
-        };
-        const onFullError = () => {
-          disposePrefetch();
-          block.classList.remove("hero-video-upgrading");
-          video.dataset.heroUpgraded = "0";
-          video.removeAttribute("src");
-          while (video.firstChild) video.removeChild(video.firstChild);
-          const s = document.createElement("source");
-          s.src = liteSrc;
-          s.type = "video/mp4";
-          video.appendChild(s);
-          video.load();
-          block.classList.remove("video-error");
-          block.classList.add("is-loading");
-          const resumeLite = () => {
-            const startPlay = () => {
-              video.play().catch(() => {});
-              markReady();
-            };
-            const applySeekThenPlay = () => {
-              try {
-                const dur = Number.isFinite(video.duration) ? video.duration : 0;
-                if (dur > 0.15 && t > 0.02) {
-                  const target = Math.min(Math.max(t, 0), Math.max(dur - 0.04, 0));
-                  const onSeeked = () => startPlay();
-                  video.addEventListener("seeked", onSeeked, { once: true });
-                  try {
-                    if (typeof video.fastSeek === "function") {
-                      video.fastSeek(target);
-                    } else {
-                      video.currentTime = target;
-                    }
-                  } catch (_) {
-                    video.currentTime = target;
-                  }
-                  if (!video.seeking) {
-                    video.removeEventListener("seeked", onSeeked);
-                    startPlay();
-                  }
-                } else {
-                  startPlay();
-                }
-              } catch (_) {
-                startPlay();
-              }
-            };
-            applySeekThenPlay();
-          };
-          video.addEventListener("loadeddata", resumeLite, { once: true });
-          video.addEventListener("error", markError, { once: true });
-          video.addEventListener("loadedmetadata", () => video.play().catch(() => {}), { once: true });
-        };
-        video.addEventListener("loadeddata", resume, { once: true });
-        video.addEventListener("error", onFullError, { once: true });
-      }
-
-      function onPrefetchProgress() {
-        if (video.dataset.heroUpgraded === "1" || !prefetchArmed) return;
-        try {
-          const d = prefetch.duration;
-          if (!d || !Number.isFinite(d) || d < 0.5) return;
-          const b = prefetch.buffered;
-          if (!b || b.length === 0) return;
-          const end = b.end(b.length - 1);
-          const { frac, sec } = fullBufferThreshold();
-          if (end / d >= frac || end >= sec) {
-            upgradeToFull();
-          }
-        } catch (_) {}
-      }
-
-      function clearPrefetchMonitors() {
-        if (prefetchFallbackTimer) {
-          window.clearTimeout(prefetchFallbackTimer);
-          prefetchFallbackTimer = 0;
-        }
-        if (armFallbackTimer) {
-          window.clearTimeout(armFallbackTimer);
-          armFallbackTimer = 0;
-        }
-        prefetch.removeEventListener("progress", onPrefetchProgress);
-      }
-
-      const attachPrefetchNetworkHandlers = () => {
-        prefetch.addEventListener("progress", onPrefetchProgress);
-        prefetch.addEventListener(
-          "error",
-          () => {
-            clearPrefetchMonitors();
-            disposePrefetch();
-          },
-          { once: true },
-        );
-        prefetchFallbackTimer = window.setTimeout(() => {
-          prefetchFallbackTimer = 0;
-          prefetch.removeEventListener("progress", onPrefetchProgress);
-          if (video.dataset.heroUpgraded === "1") {
-            disposePrefetch();
-            return;
-          }
-          if (prefetch.readyState >= 2) {
-            upgradeToFull();
-          } else {
-            disposePrefetch();
-          }
-        }, 90000);
-      };
-
-      const armFullPrefetch = () => {
-        if (prefetchArmed) return;
-        prefetchArmed = true;
-        if (armFallbackTimer) {
-          window.clearTimeout(armFallbackTimer);
-          armFallbackTimer = 0;
-        }
-        prefetch.src = fullSrc;
-        attachPrefetchNetworkHandlers();
-      };
-
-      video.addEventListener("playing", armFullPrefetch, { once: true });
-      /* Пока нет playing — не трогаем full, чтобы lite не делил канал с тяжёлым MP4 */
-      armFallbackTimer = window.setTimeout(() => {
-        armFallbackTimer = 0;
-        armFullPrefetch();
-      }, 8000);
-
-      queueMicrotask(() => {
-        try {
-          if (!prefetchArmed && !video.paused && video.readyState >= 2) {
-            armFullPrefetch();
-          }
-        } catch (_) {}
-      });
-    }
 
     // Safari/Private mode fallback: autoplay can remain blocked until first gesture.
     const tryPlayFromGesture = () => {

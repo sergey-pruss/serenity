@@ -253,6 +253,26 @@
 
     syncSubmitAvailability(form, submit);
 
+    // #region agent log
+    fetch("http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "8e45b7" },
+      body: JSON.stringify({
+        sessionId: "8e45b7",
+        hypothesisId: "H3",
+        location: "leave-request-cta.js:initDesktopFormBehavior",
+        message: "modal_submit_overlay_branch",
+        data: {
+          isDesktop: isDesktop(),
+          iw: window.innerWidth,
+          overlayJsAttached: !!isDesktop(),
+        },
+        timestamp: Date.now(),
+        runId: "pre-fix",
+      }),
+    }).catch(() => {});
+    // #endregion
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearSubmitError(form);
@@ -502,4 +522,56 @@
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
   else run();
+
+  // #region agent log
+  (() => {
+    const ENDPOINT = "http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556";
+    const send = (hypothesisId, location, message, data) => {
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "8e45b7" },
+        body: JSON.stringify({
+          sessionId: "8e45b7",
+          hypothesisId,
+          location,
+          message,
+          data,
+          timestamp: Date.now(),
+          runId: "pre-fix",
+        }),
+      }).catch(() => {});
+    };
+    const attach = () => {
+      send("H4", "leave-request-cta.js:dbg_cta", "media_snapshot", {
+        iw: window.innerWidth,
+        hoverHover: window.matchMedia("(hover: hover)").matches,
+        pointerCoarse: window.matchMedia("(pointer: coarse)").matches,
+      });
+      const floatBtn = document.querySelector("#body.body-application .footer__link.application");
+      if (floatBtn) {
+        floatBtn.addEventListener("pointerenter", () => {
+          const cs = getComputedStyle(floatBtn);
+          send("H1", "leave-request-cta.js:dbg_cta", "floating_cta_pointerenter", {
+            iw: window.innerWidth,
+            hoverHover: window.matchMedia("(hover: hover)").matches,
+            transform: cs.transform,
+            opacity: cs.opacity,
+          });
+        });
+      }
+      const bottomOpen = document.querySelector(".btns__item_open");
+      if (bottomOpen) {
+        bottomOpen.addEventListener("pointerenter", () => {
+          send("H5", "leave-request-cta.js:dbg_cta", "bottom_btns_pointerenter", {
+            iw: window.innerWidth,
+            tf: getComputedStyle(bottomOpen).transform,
+            transition: getComputedStyle(bottomOpen).transition,
+          });
+        });
+      }
+    };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", attach);
+    else attach();
+  })();
+  // #endregion
 })();
