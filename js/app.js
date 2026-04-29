@@ -84,20 +84,6 @@
     const slides = Array.from(track.querySelectorAll(slideSelector));
     if (slides.length === 0) return;
 
-    /** Калибровка deltaX тачпада только для этого ряда (раньше был общий global — сбивал соседние слайдеры). */
-    let wheelSignMode = 0;
-    /** Пока картинки/шрифты не дорисовали ширину, maxScroll скачет — старая калибровка -1 даёт «обратный» скролл. */
-    let prevMaxScrollForWheel = 0;
-    const observeScrollRangeChange = () => {
-      const max = maxScroll();
-      if (prevMaxScrollForWheel > 0) {
-        if (max > prevMaxScrollForWheel + 80 || (max > prevMaxScrollForWheel * 1.38 && prevMaxScrollForWheel > 50)) {
-          wheelSignMode = 0;
-        }
-      }
-      prevMaxScrollForWheel = Math.max(prevMaxScrollForWheel, max);
-    };
-
     let prevBtn = host.querySelector(".swiper-button-prev") || buttonRoot?.querySelector?.(".swiper-button-prev");
     let nextBtn = host.querySelector(".swiper-button-next") || buttonRoot?.querySelector?.(".swiper-button-next");
     const desktopArrowsMedia = window.matchMedia("(min-width: 1025px)");
@@ -340,29 +326,11 @@
           event.preventDefault();
           return;
         }
-        observeScrollRangeChange();
         const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
         const current = track.scrollLeft;
-        const unmapped = wheelSignMode === -1 ? -rawDelta : rawDelta;
-        const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
-        let next = Math.max(0, Math.min(max, current + mappedDelta));
-        // Знак тачпада калибруем только один раз у левого края.
-        // После калибровки НЕ зеркалим на краях, чтобы убрать дрожание.
-        const minMaxForMirrorProbe = Math.max(100, track.clientWidth * 0.14);
-        if (
-          Math.abs(next - current) < 0.1 &&
-          wheelSignMode === 0 &&
-          current <= EPS &&
-          max >= minMaxForMirrorProbe
-        ) {
-          const mirrored = Math.max(0, Math.min(max, current - rawDelta));
-          if (Math.abs(mirrored - current) >= 0.1) {
-            next = mirrored;
-            wheelSignMode = -1;
-          }
-        }
+        const mappedDelta = rawDelta * HORIZ_SLIDER_SIGN;
+        const next = Math.max(0, Math.min(max, current + mappedDelta));
         if (Math.abs(next - current) >= 0.1) {
-          if (wheelSignMode === 0) wheelSignMode = 1;
           track.scrollLeft = next;
         }
         applyHostGeometry();
@@ -390,7 +358,6 @@
       applyHostGeometry();
       syncArrowOverlayToTrack();
       updateArrows();
-      observeScrollRangeChange();
     };
     track.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", relayout);

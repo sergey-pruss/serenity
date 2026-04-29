@@ -544,6 +544,27 @@ async function run() {
   assert(blogStart.nextHidden === false, "blog next arrow must be visible at start");
   assert(blogStart.step > 0, "blog card step must be positive");
 
+  await page.evaluate(() => {
+    const track = document.querySelector(".blog-block__swiper-container .swiper-wrapper");
+    if (track) track.scrollLeft = 0;
+  });
+  await page.waitForTimeout(100);
+  const blogBox = await page.locator(".blog-block__swiper-container").boundingBox();
+  assert(blogBox, "blog host bounding box");
+  await page.mouse.move(blogBox.x + blogBox.width / 2, blogBox.y + blogBox.height / 2);
+  const blogWheelBefore = await page.evaluate(
+    () => document.querySelector(".blog-block__swiper-container .swiper-wrapper")?.scrollLeft ?? 0,
+  );
+  await page.mouse.wheel(90 * rightSign, 12);
+  await page.waitForTimeout(200);
+  const blogWheelAfter = await page.evaluate(
+    () => document.querySelector(".blog-block__swiper-container .swiper-wrapper")?.scrollLeft ?? 0,
+  );
+  assert(
+    blogWheelAfter > blogWheelBefore + 4,
+    "blog row trackpad wheel must move in same direction as services (no inverted sign)",
+  );
+
   await clickBlogArrow(page, "next");
   const blogAfterNext = await readBlogState(page);
   assert(blogAfterNext.left > blogStart.left + 10, "blog next arrow must move slider");

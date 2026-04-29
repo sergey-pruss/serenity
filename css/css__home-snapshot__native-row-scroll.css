@@ -69,7 +69,7 @@
 .services__context-slider .swiper-button-prev {
   top: 50% !important;
   margin-top: 7px !important;
-  z-index: 5;
+  z-index: 41;
   transform-origin: center center !important;
 }
 
@@ -78,13 +78,15 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 6;
+  /* Выше карточек (ссылки .case), иначе в Safari клик по «>» уходит в карточку под кнопкой. */
+  z-index: 40;
+  isolation: isolate;
 }
 .blog-block__swiper-container .swiper-button-next,
 .blog-block__swiper-container .swiper-button-prev {
   position: absolute;
   top: 50% !important;
-  z-index: 10;
+  z-index: 41;
   display: flex !important;
   align-items: center;
   justify-content: center;
