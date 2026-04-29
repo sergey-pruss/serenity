@@ -566,11 +566,11 @@
 
     let collapsed = false;
     const DESKTOP_BREAKPOINT = 1250;
-    const FLOATING_CTA_BREAKPOINT = 1024;
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
 
-    const shouldShowFloatingCta = () => window.innerWidth > FLOATING_CTA_BREAKPOINT;
+    /* Плавающий CTA в шапке после скролла — и на мобайле (≤1024), иначе блок скрыт через .noactive и форма не открывается с плавающей кнопки. */
+    const shouldShowFloatingCta = () => true;
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);
@@ -677,7 +677,7 @@
       // visOffset > 0: визуальная кнопка выше нижней грани контейнера (из-за translateY(-70%)).
       // bottom-контейнера нужно уменьшить на visOffset, чтобы визуальная кнопка оказалась на нужной высоте.
       const visOffset = boxCta.bottom - boxVis.bottom;
-      const FLOAT_PX = 20;
+      const FLOAT_PX = 15;
       if (!atPageBottom) {
         cta.style.setProperty("bottom", `${FLOAT_PX - visOffset}px`, "important");
         return;
@@ -917,52 +917,5 @@
   initHeroVideoLoading();
   initClientsStrip();
   initMorCasesSlider();
-
-  // #region agent log — hover debug
-  (() => {
-    const ep = 'http://127.0.0.1:7857/ingest/dc0a0bff-7c3e-422d-852a-4c89fec35556';
-    const hdr = {'Content-Type':'application/json','X-Debug-Session-Id':'60738a'};
-    const runId = `run-${Date.now()}`;
-    const log = (msg, data, hyp) => fetch(ep,{method:'POST',headers:hdr,body:JSON.stringify({sessionId:'60738a',runId,hypothesisId:hyp,location:'js/app.js:mobile-cta-debug',message:msg,data,timestamp:Date.now()})}).catch(()=>{});
-
-    const ctaWrap = document.querySelector('#body.body-application');
-    const ctaBtn = ctaWrap?.querySelector('.buttonlink.footer__link.application.buttonlink--filled');
-    if (!ctaWrap || !ctaBtn) return;
-
-    const dump = (tag, hyp) => {
-      const wrapStyle = window.getComputedStyle(ctaWrap);
-      const btnStyle = window.getComputedStyle(ctaBtn);
-      const wrapBox = ctaWrap.getBoundingClientRect();
-      const btnBox = ctaBtn.getBoundingClientRect();
-      log(tag, {
-        width: window.innerWidth,
-        hoverNone: window.matchMedia('(hover:none)').matches,
-        wrapBottom: wrapStyle.bottom,
-        wrapTransform: wrapStyle.transform,
-        wrapTransition: wrapStyle.transition,
-        btnTransform: btnStyle.transform,
-        btnTransition: btnStyle.transition,
-        btnBoxTop: btnBox.top,
-        btnBoxBottom: btnBox.bottom,
-        wrapBoxTop: wrapBox.top,
-        wrapBoxBottom: wrapBox.bottom,
-      }, hyp);
-    };
-
-    dump('init', 'H1');
-    ctaBtn.addEventListener('touchstart', () => {
-      dump('touchstart', 'H2');
-      requestAnimationFrame(() => dump('touchstart-raf', 'H3'));
-    }, { passive: true });
-    ctaBtn.addEventListener('touchend', () => {
-      dump('touchend', 'H2');
-      requestAnimationFrame(() => dump('touchend-raf', 'H3'));
-    }, { passive: true });
-    ctaBtn.addEventListener('click', () => {
-      dump('click', 'H4');
-      requestAnimationFrame(() => dump('click-raf', 'H4'));
-    });
-  })();
-  // #endregion
 
 })();

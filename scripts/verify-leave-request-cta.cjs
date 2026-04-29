@@ -32,6 +32,11 @@ const readDesktopModal = async (page) =>
     };
   });
 
+/** На узкой вьюпорте синтетический mouse-click Playwright не всегда даёт цепочку как у тапа; `el.click()` стабильно вызывает обработчик leave-request-cta. */
+const clickFloatingCtaProgrammatic = async (page) => {
+  await page.locator("#body.body-application .footer__link.application").evaluate((el) => el.click());
+};
+
 const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
 
 (async () => {
@@ -111,6 +116,21 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       assert(formShape.privacyChecked, "Десктоп: чекбокс согласия должен быть отмечен как на оригинале");
       assert(formShape.requiredCount === 3, "Десктоп: ожидаются поля name, phone и email");
       assert(formShape.submitOpacity === "0.5", "Десктоп: кнопка отправки должна быть приглушена opacity=0.5");
+      const messengerHrefs = await page.evaluate(() =>
+        Array.from(document.querySelectorAll("#desktop-order-popup .contact-form__messenger-links a")).map((a) =>
+          a.getAttribute("href"),
+        ),
+      );
+      assert(
+        messengerHrefs[0] === "https://t.me/Serenity_Agency_bot" &&
+          messengerHrefs[1] === "https://wa.me/15557164521" &&
+          messengerHrefs[2] === "https://vk.me/serenity.agency",
+        `Десктоп: в форме три способа связи TG, WA, VK (без Instagram), got ${JSON.stringify(messengerHrefs)}`,
+      );
+      assert(
+        !messengerHrefs.some((h) => h && h.toLowerCase().includes("instagram")),
+        `Десктоп: Instagram не должен быть в «Общаться в мессенджере», got ${JSON.stringify(messengerHrefs)}`,
+      );
       assert(formShape.messengerLinkWidth === 46, "Десктоп: messenger-ссылки должны быть видимыми 46px");
       assert(formShape.messengerIconWidth === 46, "Десктоп: messenger-иконки должны быть видимыми 46px");
       assert(
@@ -282,12 +302,23 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.evaluate(() => window.scrollTo(0, 600));
       await page.waitForTimeout(400);
       await page.waitForSelector("#body.body-application .application", { state: "attached", timeout: 20_000 });
-      await page.click("#body.body-application .application", { force: true });
+      await clickFloatingCtaProgrammatic(page);
       await page.waitForTimeout(400);
       const m = await readDesktopModal(page);
       const sheet = await readSheet(page);
       assert(m.exists && m.bodyFlag, "Мобайл: после клика плавающего CTA ожидается #desktop-order-popup");
       assert(!!(await page.evaluate(() => document.querySelector("#desktop-order-popup form.order-popup__form"))), "Мобайл: в popup должна быть форма");
+      const mobMessenger = await page.evaluate(() =>
+        Array.from(document.querySelectorAll("#desktop-order-popup .contact-form__messenger-links a")).map((a) =>
+          a.getAttribute("href"),
+        ),
+      );
+      assert(
+        mobMessenger.length === 3 &&
+          mobMessenger[1] === "https://wa.me/15557164521" &&
+          !mobMessenger.some((h) => h && h.toLowerCase().includes("instagram")),
+        `Мобайл: в форме TG, WA, VK без Instagram, got ${JSON.stringify(mobMessenger)}`,
+      );
       assert(!sheet.bodyFlag && !sheet.wrapActive && !sheet.modalActive, "Нижний .btns лист не должен раскрываться");
 
       await page.keyboard.press("Escape");
@@ -348,10 +379,10 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       assert(ty.title === "Спасибо, наш новый друг!", "Десктоп: заголовок экрана благодарности");
       assert(ty.linkCount === 3, `Десктоп: три соцссылки как на оригинале, got ${ty.linkCount}`);
       assert(
-        ty.linkHrefs[0] === "https://t.me/serenityagency" &&
-          ty.linkHrefs[1] === "https://vk.com/serenity.agency" &&
+        ty.linkHrefs[0] === "https://t.me/Serenity_Agency_bot" &&
+          ty.linkHrefs[1] === "https://vk.me/serenity.agency" &&
           ty.linkHrefs[2] === "https://www.instagram.com/serenity.agency/",
-        `Десктоп: href соцсетей, got ${JSON.stringify(ty.linkHrefs)}`,
+        `Десктоп: href соцсетей на экране «Спасибо» (TG, VK, Insta), got ${JSON.stringify(ty.linkHrefs)}`,
       );
       assert(ty.paragraphHasNbsp, "Десктоп: в тексте благодарности должны быть неразрывные пробелы (&nbsp;)");
       await page.keyboard.press("Escape");
@@ -373,7 +404,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.evaluate(() => window.scrollTo(0, 600));
       await page.waitForTimeout(400);
       await page.waitForSelector("#body.body-application .application", { state: "attached", timeout: 20_000 });
-      await page.click("#body.body-application .application", { force: true });
+      await clickFloatingCtaProgrammatic(page);
       await page.waitForTimeout(400);
       await page.fill('#desktop-order-popup input[name="name"]', "Мобайл");
       await page.fill('#desktop-order-popup input[name="phone"]', "+79991112233");
@@ -384,6 +415,12 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       assert(tyM.isThankYou && tyM.hasFormSuccess, "Мобайл: экран благодарности после submit");
       assert(tyM.title === "Спасибо, наш новый друг!", "Мобайл: заголовок экрана благодарности");
       assert(tyM.linkCount === 3, `Мобайл: три соцссылки, got ${tyM.linkCount}`);
+      assert(
+        tyM.linkHrefs[0] === "https://t.me/Serenity_Agency_bot" &&
+          tyM.linkHrefs[1] === "https://vk.me/serenity.agency" &&
+          tyM.linkHrefs[2] === "https://www.instagram.com/serenity.agency/",
+        `Мобайл: на «Спасибо» только TG, VK, Insta, got ${JSON.stringify(tyM.linkHrefs)}`,
+      );
     }
 
   } finally {
