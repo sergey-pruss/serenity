@@ -16,6 +16,7 @@
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs",
     "test:services-blog-gap": "node scripts/verify-services-blog-card-gap.cjs",
     "test:readability-slow": "node scripts/verify-readability-slow-network.cjs",
+    "test:hero-poster": "node scripts/verify-hero-video-poster.cjs",
     "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs"
   },
   "devDependencies": {

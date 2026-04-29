@@ -907,9 +907,9 @@
       if (video.readyState >= 2 || !block.classList.contains("is-loading")) {
         clearInterval(timer);
         markReady();
-      } else if (checks >= 8) {
+      } else if (checks >= 120) {
         clearInterval(timer);
-        // Не держим вечный overlay: если видео долго буферится, показываем сам video-слой.
+        // Через ~60 с снимаем оверлей: у `<video>` есть poster до первого кадра.
         markReady();
       }
     }, 500);
