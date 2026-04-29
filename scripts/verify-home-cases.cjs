@@ -7,6 +7,7 @@ const path = require("path");
 const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..");
+const { stripSerenitySnapshotPrefix } = require("./strip-serenity-snapshot-prefix.cjs");
 const mimes = {
   ".html": "text/html; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
@@ -34,7 +35,7 @@ const assert = (ok, message) => {
 const startStaticServer = (port) =>
   new Promise((resolve, reject) => {
     const server = http.createServer((req, res) => {
-      let u = (req.url || "/").split("?")[0];
+      let u = stripSerenitySnapshotPrefix((req.url || "/").split("?")[0]);
       if (u === "/") u = "/index.html";
       const file = path.join(root, u.replace(/^\//, ""));
       if (!file.startsWith(root) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {

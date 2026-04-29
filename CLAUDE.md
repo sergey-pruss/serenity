@@ -34,7 +34,8 @@
 
 ## Архитектура
 - Статический сайт в репозитории: index.html + css/ + js/ + img/ + json/
-- На сервере `168.222.142.141`: каталог `/var/www/static` — источник файлов для **static** и для **serenity.agency** (роутинг в Nginx, см. `nginx/routing.conf`, прод-версия отражена в `nginx/serenity-router.live.conf`)
+- На прод-домене **публичные URL** статики нового сайта только с префиксом **`/_sa/`** (на диске те же каталоги под `/var/www/static/css|js|img|json`). Корневые `/css`, `/js`, `/img`, `/json` не занимаем — иначе ломается выдача темы WordPress на legacy-страницах.
+- На сервере `168.222.142.141`: каталог `/var/www/static` — источник файлов для **static** и для **serenity.agency** (роутинг в Nginx, см. `nginx/routing.conf`, прод: `nginx/serenity-router.live.conf`; превью static: `nginx/static.serenity.agency.live.conf`)
 - Worker: `src/worker.mjs` — стейджинг: статика через ASSETS, API через `/api/*`
 - API форм: src/lead-api.mjs — обработка заявок
 

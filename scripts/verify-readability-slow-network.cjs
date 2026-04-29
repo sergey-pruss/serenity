@@ -19,7 +19,7 @@ async function run() {
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
 
-  await page.route("**/img/**", async (route) => {
+  await page.route("**/_sa/img/**", async (route) => {
     await new Promise((r) => setTimeout(r, 400));
     await route.continue();
   });

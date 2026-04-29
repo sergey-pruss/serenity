@@ -1,7 +1,7 @@
 /* Стабильный hero-glow и отключение анимаций точек — ближе к прод и к parity-скриншотам */
 @font-face {
   font-family: MuseoSansCyrl;
-  src: url("../img/MuseoSansCyrl-100.woff") format("woff");
+  src: url("../_sa/img/MuseoSansCyrl-100.woff") format("woff");
   font-weight: 100;
   font-style: normal;
   font-display: swap;
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: MuseoSansCyrl;
-  src: url("../img/MuseoSansCyrl-300.woff") format("woff");
+  src: url("../_sa/img/MuseoSansCyrl-300.woff") format("woff");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: MuseoSansCyrl;
-  src: url("../img/MuseoSansCyrl-500.woff") format("woff");
+  src: url("../_sa/img/MuseoSansCyrl-500.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -25,7 +25,7 @@
 
 @font-face {
   font-family: MuseoSansCyrl;
-  src: url("../img/MuseoSansCyrl-700.woff") format("woff");
+  src: url("../_sa/img/MuseoSansCyrl-700.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -33,7 +33,7 @@
 
 @font-face {
   font-family: MuseoSansCyrl;
-  src: url("../img/MuseoSansCyrl-900.woff") format("woff");
+  src: url("../_sa/img/MuseoSansCyrl-900.woff") format("woff");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -41,7 +41,7 @@
 
 @font-face {
   font-family: HeroNewRegular;
-  src: url("../img/HeroNew-Regular.woff") format("woff");
+  src: url("../_sa/img/HeroNew-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -49,7 +49,7 @@
 
 @font-face {
   font-family: HeroNewMedium;
-  src: url("../img/HeroNew-Medium.woff") format("woff");
+  src: url("../_sa/img/HeroNew-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -58,8 +58,8 @@
 @font-face {
   font-family: HeroNewBold;
   src:
-    url("../img/HeroNew-Bold.woff2") format("woff2"),
-    url("../img/HeroNew-Bold.woff") format("woff");
+    url("../_sa/img/HeroNew-Bold.woff2") format("woff2"),
+    url("../_sa/img/HeroNew-Bold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -67,7 +67,7 @@
 
 @font-face {
   font-family: FuturaPt;
-  src: url("../img/FuturaPTDemi.woff") format("woff");
+  src: url("../_sa/img/FuturaPTDemi.woff") format("woff");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -75,7 +75,7 @@
 
 @font-face {
   font-family: Pribambas;
-  src: url("../img/Pribambas-Regular.woff") format("woff");
+  src: url("../_sa/img/Pribambas-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -87,8 +87,8 @@
   font-style: normal;
   font-weight: 700;
   src:
-    url("../img/HeroNew-Bold.woff2") format("woff2"),
-    url("../img/HeroNew-Bold.woff") format("woff");
+    url("../_sa/img/HeroNew-Bold.woff2") format("woff2"),
+    url("../_sa/img/HeroNew-Bold.woff") format("woff");
   font-display: swap;
 }
 

@@ -2170,7 +2170,7 @@ body {
   padding: 100px 0;
   display: flex;
   align-items: center;
-  background: url(/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
+  background: url(/_sa/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
   background-size: cover;
 }
 .main-cases__wording {
@@ -2187,7 +2187,7 @@ body {
   margin-bottom: 0.25em;
 }
 .main-cases__bg {
-  background: url(/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
+  background: url(/_sa/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
   background-size: cover;
   z-index: -1;
   position: absolute;
@@ -2286,7 +2286,7 @@ body {
 }
 .main__blog {
   height: 100vh;
-  background: #fff url(/img/svg/waves.svg) no-repeat 50%;
+  background: #fff url(/_sa/img/svg/waves.svg) no-repeat 50%;
   position: relative;
   background-size: cover;
 }
@@ -2319,7 +2319,7 @@ body {
   display: none;
 }
 .main-blog {
-  background: #fff url(/img/svg/waves.svg) no-repeat 50%;
+  background: #fff url(/_sa/img/svg/waves.svg) no-repeat 50%;
   background-size: cover;
   color: #000;
   z-index: 9;
@@ -2518,7 +2518,7 @@ body {
   position: relative;
 }
 .case-changeworld {
-  background: url(/img/cases/changeworld/changeworld_bg.jpg) top no-repeat;
+  background: url(/_sa/img/cases/changeworld/changeworld_bg.jpg) top no-repeat;
   background-size: cover;
 }
 .grid {
@@ -3387,7 +3387,7 @@ body {
   padding-bottom: 60px;
 }
 .case-comments__item {
-  background: url(/img/svg/quotes.svg) 0 0 no-repeat;
+  background: url(/_sa/img/svg/quotes.svg) 0 0 no-repeat;
   padding: 45px 0 60px;
   width: 50% !important;
   height: auto !important;
@@ -3464,7 +3464,7 @@ body {
   color: #fff;
 }
 .brand-strategy-bg {
-  background: url(/img/services/bs/bs_bg.jpg) top no-repeat;
+  background: url(/_sa/img/services/bs/bs_bg.jpg) top no-repeat;
   background-size: cover;
 }
 .area-header {
@@ -4069,7 +4069,7 @@ body {
   color: inherit;
 }
 .blog-cards-bg {
-  background: url(/img/blog/cards/cards-bg.jpg) 50% no-repeat;
+  background: url(/_sa/img/blog/cards/cards-bg.jpg) 50% no-repeat;
   background-size: cover;
 }
 .team_area_header {
@@ -5676,7 +5676,7 @@ h3 + .article-section__info {
   content: "";
   display: inline-block;
   position: relative;
-  background: url(/img/svg/link-arrow-white.svg) 50% no-repeat;
+  background: url(/_sa/img/svg/link-arrow-white.svg) 50% no-repeat;
   background-size: cover;
   height: 100%;
   width: 15px;
@@ -5841,7 +5841,7 @@ h3 + .article-section__info {
   padding-top: 185px;
   padding-bottom: 475px;
   background-position: 50%;
-  background-image: url(/img/services/team_bg.jpg);
+  background-image: url(/_sa/img/services/team_bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -9256,7 +9256,7 @@ h3 + .article-section__info {
     align-items: center;
     height: 100vh;
     display: flex;
-    background: url(/img/main-header.jpg) no-repeat 20%;
+    background: url(/_sa/img/main-header.jpg) no-repeat 20%;
     background-size: cover;
   }
   .video-slide p {
@@ -12229,7 +12229,7 @@ h3 + .article-section__info {
   padding: 120px 0 96px;
   background-repeat: no-repeat;
   background-position: right top 26px;
-  background-image: url(/img/cases/gj/task-bg.png);
+  background-image: url(/_sa/img/cases/gj/task-bg.png);
   overflow: hidden;
 }
 .gj-about__title {
@@ -12416,7 +12416,7 @@ h3 + .article-section__info {
 }
 .gj-site-rent__screen {
   padding: 38px;
-  background-image: url(/img/cases/gj/white-ipad.png);
+  background-image: url(/_sa/img/cases/gj/white-ipad.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -14214,7 +14214,7 @@ h3 + .article-section__info {
 }
 .klyuch__marketing-photo {
   height: 100vh;
-  background-image: url(/img/cases/klyuch/marketing.jpg);
+  background-image: url(/_sa/img/cases/klyuch/marketing.jpg);
   display: flex;
   align-items: center;
   background-size: cover;
@@ -14306,7 +14306,7 @@ h3 + .article-section__info {
   position: relative;
 }
 .klyuch__firm-style-box-milk:before {
-  background-image: url(/img/cases/klyuch/milk-yel.png);
+  background-image: url(/_sa/img/cases/klyuch/milk-yel.png);
   right: -20vw;
 }
 .klyuch__firm-style-box-milk:after,
@@ -14320,7 +14320,7 @@ h3 + .article-section__info {
   background-size: 100%;
 }
 .klyuch__firm-style-box-milk:after {
-  background-image: url(/img/cases/klyuch/milk-blue.png);
+  background-image: url(/_sa/img/cases/klyuch/milk-blue.png);
   right: -40vw;
 }
 .klyuch__firm-style-ipad {
@@ -14407,7 +14407,7 @@ h3 + .article-section__info {
   font-size: 22px;
 }
 .klyuch__site-photo {
-  background: url(/img/cases/klyuch/site-back.jpg);
+  background: url(/_sa/img/cases/klyuch/site-back.jpg);
   background-size: cover;
   height: 100vh;
   background-position: 50%;
@@ -16577,7 +16577,7 @@ h3 + .article-section__info {
 }
 .a-cases-school {
   padding-bottom: 355px;
-  background-image: url(/img/about/case_school_bg.png);
+  background-image: url(/_sa/img/about/case_school_bg.png);
   background-repeat: no-repeat;
   background-position: 100% 100%;
   background-size: 58%;
@@ -28516,7 +28516,7 @@ body {
   padding: 100px 0;
   display: flex;
   align-items: center;
-  background: url(/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
+  background: url(/_sa/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
   background-size: cover;
 }
 .main-cases__wording {
@@ -28533,7 +28533,7 @@ body {
   margin-bottom: 0.25em;
 }
 .main-cases__bg {
-  background: url(/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
+  background: url(/_sa/img/svg/waves_cases.svg) no-repeat 50% #191a1b;
   background-size: cover;
   z-index: -1;
   position: absolute;
@@ -28632,7 +28632,7 @@ body {
 }
 .main__blog {
   height: 100vh;
-  background: #fff url(/img/svg/waves.svg) no-repeat 50%;
+  background: #fff url(/_sa/img/svg/waves.svg) no-repeat 50%;
   position: relative;
   background-size: cover;
 }
@@ -28665,7 +28665,7 @@ body {
   display: none;
 }
 .main-blog {
-  background: #fff url(/img/svg/waves.svg) no-repeat 50%;
+  background: #fff url(/_sa/img/svg/waves.svg) no-repeat 50%;
   background-size: cover;
   color: #000;
   z-index: 9;
@@ -28864,7 +28864,7 @@ body {
   position: relative;
 }
 .case-changeworld {
-  background: url(/img/cases/changeworld/changeworld_bg.jpg) top no-repeat;
+  background: url(/_sa/img/cases/changeworld/changeworld_bg.jpg) top no-repeat;
   background-size: cover;
 }
 .grid {
@@ -29733,7 +29733,7 @@ body {
   padding-bottom: 60px;
 }
 .case-comments__item {
-  background: url(/img/svg/quotes.svg) 0 0 no-repeat;
+  background: url(/_sa/img/svg/quotes.svg) 0 0 no-repeat;
   padding: 45px 0 60px;
   width: 50% !important;
   height: auto !important;
@@ -29810,7 +29810,7 @@ body {
   color: #fff;
 }
 .brand-strategy-bg {
-  background: url(/img/services/bs/bs_bg.jpg) top no-repeat;
+  background: url(/_sa/img/services/bs/bs_bg.jpg) top no-repeat;
   background-size: cover;
 }
 .area-header {
@@ -30415,7 +30415,7 @@ body {
   color: inherit;
 }
 .blog-cards-bg {
-  background: url(/img/blog/cards/cards-bg.jpg) 50% no-repeat;
+  background: url(/_sa/img/blog/cards/cards-bg.jpg) 50% no-repeat;
   background-size: cover;
 }
 .team_area_header {
@@ -32022,7 +32022,7 @@ h3 + .article-section__info {
   content: "";
   display: inline-block;
   position: relative;
-  background: url(/img/svg/link-arrow-white.svg) 50% no-repeat;
+  background: url(/_sa/img/svg/link-arrow-white.svg) 50% no-repeat;
   background-size: cover;
   height: 100%;
   width: 15px;
@@ -32187,7 +32187,7 @@ h3 + .article-section__info {
   padding-top: 185px;
   padding-bottom: 475px;
   background-position: 50%;
-  background-image: url(/img/services/team_bg.jpg);
+  background-image: url(/_sa/img/services/team_bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -35602,7 +35602,7 @@ h3 + .article-section__info {
     align-items: center;
     height: 100vh;
     display: flex;
-    background: url(/img/main-header.jpg) no-repeat 20%;
+    background: url(/_sa/img/main-header.jpg) no-repeat 20%;
     background-size: cover;
   }
   .video-slide p {
@@ -38575,7 +38575,7 @@ h3 + .article-section__info {
   padding: 120px 0 96px;
   background-repeat: no-repeat;
   background-position: right top 26px;
-  background-image: url(/img/cases/gj/task-bg.png);
+  background-image: url(/_sa/img/cases/gj/task-bg.png);
   overflow: hidden;
 }
 .gj-about__title {
@@ -38762,7 +38762,7 @@ h3 + .article-section__info {
 }
 .gj-site-rent__screen {
   padding: 38px;
-  background-image: url(/img/cases/gj/white-ipad.png);
+  background-image: url(/_sa/img/cases/gj/white-ipad.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -40560,7 +40560,7 @@ h3 + .article-section__info {
 }
 .klyuch__marketing-photo {
   height: 100vh;
-  background-image: url(/img/cases/klyuch/marketing.jpg);
+  background-image: url(/_sa/img/cases/klyuch/marketing.jpg);
   display: flex;
   align-items: center;
   background-size: cover;
@@ -40652,7 +40652,7 @@ h3 + .article-section__info {
   position: relative;
 }
 .klyuch__firm-style-box-milk:before {
-  background-image: url(/img/cases/klyuch/milk-yel.png);
+  background-image: url(/_sa/img/cases/klyuch/milk-yel.png);
   right: -20vw;
 }
 .klyuch__firm-style-box-milk:after,
@@ -40666,7 +40666,7 @@ h3 + .article-section__info {
   background-size: 100%;
 }
 .klyuch__firm-style-box-milk:after {
-  background-image: url(/img/cases/klyuch/milk-blue.png);
+  background-image: url(/_sa/img/cases/klyuch/milk-blue.png);
   right: -40vw;
 }
 .klyuch__firm-style-ipad {
@@ -40753,7 +40753,7 @@ h3 + .article-section__info {
   font-size: 22px;
 }
 .klyuch__site-photo {
-  background: url(/img/cases/klyuch/site-back.jpg);
+  background: url(/_sa/img/cases/klyuch/site-back.jpg);
   background-size: cover;
   height: 100vh;
   background-position: 50%;
@@ -42923,7 +42923,7 @@ h3 + .article-section__info {
 }
 .a-cases-school {
   padding-bottom: 355px;
-  background-image: url(/img/about/case_school_bg.png);
+  background-image: url(/_sa/img/about/case_school_bg.png);
   background-repeat: no-repeat;
   background-position: 100% 100%;
   background-size: 58%;
@@ -53540,7 +53540,7 @@ body {
   left: 0;
 }
 .mor-cases-slider-wrapper .mor-cases-slide_link[data-v-38965faa] {
-  background-image: url(../img/video__lastBlogGif.gif);
+  background-image: url(../_sa/img/video__lastBlogGif.gif);
   box-shadow: 0 0 10.91093px 0 rgba(0, 0, 0, 0.15);
   justify-content: center;
 }
@@ -57280,7 +57280,7 @@ body.loading[data-v-27a87df0] {
   clear: none;
 }
 .team_header_bg[data-v-ff05d1fe] {
-  background-image: url(/img/team/team_header.jpg);
+  background-image: url(/_sa/img/team/team_header.jpg);
   position: relative;
   overflow: hidden;
 }
@@ -57307,7 +57307,7 @@ body.loading[data-v-27a87df0] {
 }
 @media (max-width: 667px) {
   .team_header_bg[data-v-ff05d1fe] {
-    background: url(/img/team/team_header.jpg) top no-repeat;
+    background: url(/_sa/img/team/team_header.jpg) top no-repeat;
     background-size: cover;
   }
   .blog-header__video[data-v-ff05d1fe] {
@@ -57942,7 +57942,7 @@ html {
   z-index: 1;
 }
 .cases-bacgkround[data-v-682de319] {
-  background: url(/_nuxt/img/bg2.8f2dbac.png) no-repeat;
+  background: url(/_nuxt/_sa/img/bg2.8f2dbac.png) no-repeat;
   background-size: cover;
 }
 .page-constructor-cases__bg[data-v-682de319]:after {
@@ -58055,7 +58055,7 @@ html {
 .external-link[data-v-682de319]:after {
   content: "";
   display: inline-block;
-  background: url(/img/svg/external.svg) no-repeat 0 5px;
+  background: url(/_sa/img/svg/external.svg) no-repeat 0 5px;
   width: 15px;
   margin-left: 15px;
   height: 1em;
