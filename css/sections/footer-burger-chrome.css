@@ -51,10 +51,10 @@
   color: #ffffff !important;
 }
 
-.footer-modern .footer-modern__request,
-.footer-modern .messenger-container {
-  display: none !important;
-}
+/* Не скрывать .footer-modern__request / .messenger-container здесь: родитель
+   — только <footer class="footer-modern"> внизу страницы; бургер без этого
+   родителя не матчится. Скрытие мессенджера в бургере — parity-sync
+   (.header .btns__modal …). */
 
 .footer-modern .footer-modern__social {
   position: absolute;
