@@ -1,10 +1,10 @@
 /**
  * Смоук-тест: «Наши клиенты» — автодрейф transform, реакция на горизонтальный wheel.
- * Запуск: SLIDER_TEST_URL=http://127.0.0.1:4322/ node scripts/clients-strip-smoke.cjs
+ * Запуск: SLIDER_TEST_URL=http://127.0.0.1:8765/ node scripts/clients-strip-smoke.cjs
  */
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:4322/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
 
 function assert(cond, message) {
   if (!cond) throw new Error(message);

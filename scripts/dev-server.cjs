@@ -6,8 +6,20 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { spawnSync } = require("child_process");
 
 const root = path.resolve(__dirname, "..");
+
+{
+  const r = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (r.status !== 0) {
+    console.error(r.stderr || r.stdout || "assemble-html failed");
+    process.exit(1);
+  }
+}
 const mimes = {
   ".html": "text/html; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
