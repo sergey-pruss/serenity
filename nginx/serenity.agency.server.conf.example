@@ -37,6 +37,13 @@ server {
         access_log off;
     }
 
+    location = /sitemap.xml {
+        alias /var/www/static/sitemap.xml;
+        default_type application/xml;
+        charset utf-8;
+        access_log off;
+    }
+
     location ^~ /css/ {
         try_files $uri =404;
     }
