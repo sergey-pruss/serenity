@@ -1,6 +1,6 @@
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:4322/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
 const VIEWPORT = { width: 1366, height: 900 };
 
 function assert(cond, message) {
@@ -208,6 +208,42 @@ async function run() {
   const minusDelta = await detectSign(-120);
   const rightSign = plusDelta > 2 ? 1 : minusDelta > 2 ? -1 : 0;
   assert(rightSign !== 0, "cannot detect rightward touchpad sign on first screen");
+
+  {
+    const pageEarly = await browser.newPage({ viewport: VIEWPORT });
+    pageEarly.on("pageerror", (err) => errors.push(`[early-slider] ${String(err)}`));
+    await pageEarly.goto(URL, { waitUntil: "domcontentloaded", timeout: 120000 });
+    await pageEarly.waitForTimeout(120);
+    await pageEarly.locator(".services__context-slider").scrollIntoViewIfNeeded();
+    const earlyMax = await pageEarly.evaluate(() => {
+      const track = document.querySelector(".services__context-wrapper");
+      if (!track) return 0;
+      return Math.max(0, track.scrollWidth - track.clientWidth);
+    });
+    if (earlyMax > 70) {
+      const boxEarly = await pageEarly.locator(".services__context-slider").boundingBox();
+      assert(boxEarly, "early services slider box");
+      await pageEarly.mouse.move(boxEarly.x + boxEarly.width / 2, boxEarly.y + boxEarly.height / 2);
+      await pageEarly.evaluate(() => {
+        const track = document.querySelector(".services__context-wrapper");
+        if (track) track.scrollLeft = 0;
+      });
+      await pageEarly.waitForTimeout(80);
+      const beforeE = await pageEarly.evaluate(
+        () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+      );
+      await pageEarly.mouse.wheel(120 * rightSign, 18);
+      await pageEarly.waitForTimeout(220);
+      const afterE = await pageEarly.evaluate(
+        () => document.querySelector(".services__context-wrapper")?.scrollLeft ?? 0,
+      );
+      assert(
+        afterE > beforeE + 5,
+        "early-load wheel on services row must move in same direction as calibrated rightSign",
+      );
+    }
+    await pageEarly.close();
+  }
 
   // Strict anti-jump check: start swipe must move left edge smoothly, no abrupt leap.
   await page.evaluate(() => {
