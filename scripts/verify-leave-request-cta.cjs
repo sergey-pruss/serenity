@@ -319,6 +319,12 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
           !mobMessenger.some((h) => h && h.toLowerCase().includes("instagram")),
         `Мобайл: в форме TG, WA, VK без Instagram, got ${JSON.stringify(mobMessenger)}`,
       );
+      const mobMessengerOpacity = await page.evaluate(() =>
+        parseFloat(
+          getComputedStyle(document.querySelector("#desktop-order-popup .contact-form__messenger-links a")).opacity,
+        ),
+      );
+      assert(mobMessengerOpacity > 0.99, `Мобайл: иконки мессенджеров по умолчанию без затемнения, opacity=${mobMessengerOpacity}`);
       assert(!sheet.bodyFlag && !sheet.wrapActive && !sheet.modalActive, "Нижний .btns лист не должен раскрываться");
 
       await page.keyboard.press("Escape");
