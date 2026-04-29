@@ -1,5 +1,5 @@
 {
-  "name": "serenity_lanidng",
+  "name": "serenity-landing",
   "private": true,
   "description": "Static home snapshot; dev tools for layout tests",
   "scripts": {

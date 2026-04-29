@@ -769,10 +769,33 @@
       return phones[raw] ? raw : "Петербург";
     };
 
+    const resolveCityKey = (rawLabel) => {
+      const cityKey = canonicalCityKey(rawLabel);
+      return phones[cityKey] ? cityKey : "Петербург";
+    };
+
+    const attachCityPickerListeners = (items, getLabel, onPick) => {
+      items.forEach((item) => {
+        item.setAttribute("role", "button");
+        item.setAttribute("tabindex", "0");
+        item.addEventListener("click", () => onPick(getLabel(item)));
+        item.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onPick(getLabel(item));
+        });
+      });
+    };
+
+    const runAfterDomReady = (fn) => {
+      fn();
+      window.addEventListener("load", fn, { once: true });
+    };
+
     const footerRoots = Array.from(document.querySelectorAll(".footer-modern__contacts"));
     if (footerRoots.length > 0) {
       const applyCityToFooterRoot = (root, cityKey) => {
-        const key = phones[cityKey] ? cityKey : "Петербург";
+        const key = resolveCityKey(cityKey);
         const phone = phones[key];
         const phoneText = root.querySelector(".footer-modern__phone");
         const phoneLink = root.querySelector("a:has(.footer-modern__phone)");
@@ -787,30 +810,17 @@
       };
 
       const setSharedFooterCity = (rawLabel) => {
-        const cityKey = canonicalCityKey(rawLabel);
-        const key = phones[cityKey] ? cityKey : "Петербург";
+        const key = resolveCityKey(rawLabel);
         footerRoots.forEach((root) => applyCityToFooterRoot(root, key));
       };
 
       footerRoots.forEach((root) => {
         const cityItems = Array.from(root.querySelectorAll(".footer-modern__city-selector a"));
         if (cityItems.length < 2) return;
-        cityItems.forEach((item) => {
-          item.setAttribute("role", "button");
-          item.setAttribute("tabindex", "0");
-          item.addEventListener("click", () => setSharedFooterCity(item.textContent));
-          item.addEventListener("keydown", (event) => {
-            if (event.key !== "Enter" && event.key !== " ") return;
-            event.preventDefault();
-            setSharedFooterCity(item.textContent);
-          });
-        });
+        attachCityPickerListeners(cityItems, (el) => el.textContent, setSharedFooterCity);
       });
 
-      const defaultCity = "Петербург";
-      setSharedFooterCity(defaultCity);
-      setTimeout(() => setSharedFooterCity(defaultCity), 0);
-      window.addEventListener("load", () => setSharedFooterCity(defaultCity), { once: true });
+      runAfterDomReady(() => setSharedFooterCity("Петербург"));
     }
 
     const bindSwitcher = ({ root, pickerSelector, phoneSelector, linkSelector, selectedClass }) => {
@@ -819,30 +829,18 @@
       const cityItems = Array.from(root.querySelectorAll(pickerSelector));
       if (!phoneText || !phoneLink || cityItems.length < 2) return;
 
-      const selectCity = (cityName) => {
-        const phone = phones[cityName] || phones["Санкт-Петербург"] || phones["Петербург"];
+      const selectCity = (rawLabel) => {
+        const key = resolveCityKey(rawLabel);
+        const phone = phones[key];
         phoneText.textContent = phone.text;
         phoneLink.setAttribute("href", phone.href);
         cityItems.forEach((item) => {
-          item.classList.toggle(selectedClass, item.textContent.trim() === cityName);
+          item.classList.toggle(selectedClass, canonicalCityKey(item.textContent) === key);
         });
       };
 
-      cityItems.forEach((item) => {
-        item.setAttribute("role", "button");
-        item.setAttribute("tabindex", "0");
-        item.addEventListener("click", () => selectCity(item.textContent.trim()));
-        item.addEventListener("keydown", (event) => {
-          if (event.key !== "Enter" && event.key !== " ") return;
-          event.preventDefault();
-          selectCity(item.textContent.trim());
-        });
-      });
-
-      const defaultCity = "Петербург";
-      selectCity(defaultCity);
-      setTimeout(() => selectCity(defaultCity), 0);
-      window.addEventListener("load", () => selectCity(defaultCity), { once: true });
+      attachCityPickerListeners(cityItems, (el) => el.textContent.trim(), selectCity);
+      runAfterDomReady(() => selectCity("Петербург"));
     };
 
     document.querySelectorAll(".btns__option--extended").forEach((root) => {
