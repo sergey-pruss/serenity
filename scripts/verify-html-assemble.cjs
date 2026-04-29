@@ -1,0 +1,41 @@
+/**
+ * Проверка: index.html собран без «висячих» маркеров и содержит ключевые секции главной.
+ * Запуск: npm run test:html-assemble
+ */
+const fs = require("fs");
+const path = require("path");
+const { spawnSync } = require("child_process");
+
+const assert = (ok, msg) => {
+  if (!ok) throw new Error(msg);
+};
+
+const root = path.resolve(__dirname, "..");
+const indexPath = path.join(root, "index.html");
+
+(() => {
+  const r = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  assert(r.status === 0, `build:html failed: ${r.stderr || r.stdout}`);
+
+  const html = fs.readFileSync(indexPath, "utf8");
+  assert(!html.includes("<!-- @partial"), "В index.html остались незаменённые маркеры @partial");
+
+  assert(html.includes('class="header page-top'), "header (page-top)");
+  assert(html.includes("services-section_main-structure"), "services-section_main-structure");
+  assert(html.includes("blog-block-mainstr"), "blog-block-mainstr");
+  assert(html.includes("clients-wrapper_main-structure"), "clients-wrapper_main-structure");
+  assert(html.includes("live-marketing-block-wr"), "live-marketing-block-wr");
+  assert(html.includes("footer-modern"), "footer-modern");
+  assert(html.includes("footer-burger-chrome.css"), "подключён footer-burger-chrome.css");
+
+  const footMatch = html.match(/<footer[\s\S]*?<\/footer>/i);
+  assert(footMatch, "footer block");
+  const footerHtml = footMatch[0];
+  const sendDup = /class="footer-modern__request"[^>]*>[\s\S]*?Отправить заявку/.test(footerHtml);
+  assert(!sendDup, "в <footer> не должно быть дубля «Отправить заявку» рядом с телефоном");
+
+  console.log("verify-html-assemble: ok");
+})();
