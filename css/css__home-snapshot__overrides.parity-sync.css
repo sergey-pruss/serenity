@@ -806,6 +806,12 @@ body.scroll-menu-open {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 2;
+}
+
+.video-block.is-loading .video-iframe-wrapper {
+  position: relative;
+  z-index: 0;
 }
 
 .video-block.is-loading::before {
