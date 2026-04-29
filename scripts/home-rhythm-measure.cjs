@@ -36,10 +36,10 @@ async function readComputed(page) {
     const ch = document.querySelector(".cases-block__header.home-ledge");
     if (ch) add("Кейсы", "margin-bottom", "cases header", parseFloat(getComputedStyle(ch).marginBottom));
 
-    const bh = document.querySelector(".blog-block__header.home-ledge");
+    const bh = document.querySelector(".blog-block-mainstr .services__text.home-ledge");
     if (bh) {
-      add("Блог (низ шапки)", "margin-bottom", "blog header", parseFloat(getComputedStyle(bh).marginBottom));
-      add("Блог (сверху сек.)", "margin-top", "blog header", parseFloat(getComputedStyle(bh).marginTop));
+      add("Блог (низ шапки)", "padding-bottom", "blog services__text", parseFloat(getComputedStyle(bh).paddingBottom));
+      add("Блог (сверху сек.)", "margin-top", "blog services__text", parseFloat(getComputedStyle(bh).marginTop));
     }
 
     const cn = document.querySelector(".clients-new.home-ledge");

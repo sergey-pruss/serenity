@@ -18,8 +18,8 @@ function assert(cond, message) {
 
 async function measureServicesGap(page) {
   return page.evaluate(() => {
-    const title = document.querySelector(".services__title");
-    const desc = document.querySelector(".services__description");
+    const title = document.querySelector(".services-section .services__title");
+    const desc = document.querySelector(".services-section .services__description");
     const bottomEl = document.querySelector(
       ".services__context-wrapper .swiper-slide, .services__context-wrapper .services__slide",
     );
@@ -32,8 +32,8 @@ async function measureServicesGap(page) {
 
 async function measureBlogGap(page) {
   return page.evaluate(() => {
-    const title = document.querySelector(".blog-block__header-title");
-    const sub = document.querySelector(".blog-block__header-subtitle");
+    const title = document.querySelector(".blog-block-mainstr .services__title");
+    const sub = document.querySelector(".blog-block-mainstr .services__description");
     const bottomEl = document.querySelector(".blog-block__swiper-container .swiper-slide");
     if (!title || !sub || !bottomEl) return { ok: false, gap: null, reason: "missing node" };
     const y = Math.max(title.getBoundingClientRect().bottom, sub.getBoundingClientRect().bottom);
@@ -47,12 +47,12 @@ async function measureTitleToSubtextGap(page, section) {
   return page.evaluate((sec) => {
     const title =
       sec === "services"
-        ? document.querySelector(".services__title")
-        : document.querySelector(".blog-block__header-title");
+        ? document.querySelector(".services-section .services__title")
+        : document.querySelector(".blog-block-mainstr .services__title");
     const sub =
       sec === "services"
-        ? document.querySelector(".services__description")
-        : document.querySelector(".blog-block__header-subtitle");
+        ? document.querySelector(".services-section .services__description")
+        : document.querySelector(".blog-block-mainstr .services__description");
     if (!title || !sub) return { ok: false, gap: null, reason: "missing node" };
     const gap = sub.getBoundingClientRect().top - title.getBoundingClientRect().bottom;
     return { ok: true, gap: Math.round(gap * 100) / 100 };

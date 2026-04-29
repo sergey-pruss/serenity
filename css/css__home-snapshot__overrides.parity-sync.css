@@ -142,24 +142,54 @@
   padding-bottom: var(--home-ledge) !important;
 }
 
+/* Горизонтальные поля блока «Блог» — как у .services-unified (секция «Услуги»). */
+.blog-block-mainstr[data-v-25bf775d],
+.blog-block-mainstr {
+  padding-left: 78px !important;
+  padding-right: 78px !important;
+  box-sizing: border-box;
+}
+@media screen and (max-width: 1025px) {
+  .blog-block-mainstr[data-v-25bf775d],
+  .blog-block-mainstr {
+    padding-left: 55px !important;
+    padding-right: 55px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .blog-block-mainstr[data-v-25bf775d],
+  .blog-block-mainstr {
+    padding-left: 36px !important;
+    padding-right: 36px !important;
+  }
+}
+
 .cases-block__header.home-ledge,
 .cases-block__header.home-ledge[data-v-27a87df0] {
   margin: 0 auto var(--cases-ledge) !important;
 }
 
-.blog-block__header.home-ledge.home-between,
-.blog-block__header.home-ledge.home-between[data-v-25bf775d] {
+.blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
   max-width: 1570px;
   width: 100% !important;
-  margin: var(--home-between) auto var(--home-ledge) !important;
+  margin: var(--home-between) auto 0 !important;
   display: flex;
   justify-content: space-between;
 }
 
 @media screen and (max-width: 938px) {
-  .blog-block__header.home-ledge.home-between,
-  .blog-block__header.home-ledge.home-between[data-v-25bf775d] {
+  .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+  .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
     flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  /* Как у .services-unified на узком экране — без отдельной обёртки с padding. */
+  .blog-block-mainstr .services__title[data-v-56f85d51],
+  .blog-block-mainstr .services__description[data-v-56f85d51] {
+    text-align: left;
   }
 }
 
