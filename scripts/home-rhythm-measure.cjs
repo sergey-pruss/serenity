@@ -1,12 +1,14 @@
 /**
  * Проверяет, что фактические отступы .home-ledge / .home-between совпадают с :root
  * (--home-ledge, --home-between) для всех маркеров, без getBoundingClientRect.
+ * Исключение: при viewport ≤768 у .clients-new-section.home-between padding-top = --home-between + 15px
+ * (css__home-snapshot__overrides.mobile.css).
  *
- * SLIDER_TEST_URL=http://127.0.0.1:4322/ node scripts/home-rhythm-measure.cjs
+ * SLIDER_TEST_URL=http://127.0.0.1:8765/ node scripts/home-rhythm-measure.cjs
  */
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:4322/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
 
 function assert(cond, message) {
   if (!cond) throw new Error(message);
@@ -78,10 +80,16 @@ async function run() {
     const { lede, between, casesLedge } = data.expected;
     const lmSubtitleMb = w > 1024 ? 90 : w > 550 ? 60 : 42;
     for (const it of data.items) {
-      if (it.name === "Блог (сверху сек.)" || it.name === "PT секции клиентов" || it.name === "MT live-блок") {
+      if (it.name === "Блог (сверху сек.)" || it.name === "MT live-блок") {
         assert(
           between != null && Math.abs(it.valuePx - between) < 0.5,
           `${w}px ${it.name}: got ${it.valuePx}, want --home-between ${between}`,
+        );
+      } else if (it.name === "PT секции клиентов") {
+        const wantPt = w <= 768 ? between + 15 : between;
+        assert(
+          between != null && Math.abs(it.valuePx - wantPt) < 0.5,
+          `${w}px ${it.name}: got ${it.valuePx}, want ${wantPt} (--home-between${w <= 768 ? " + 15px моб." : ""})`,
         );
       } else if (it.name === "Кейсы") {
         assert(

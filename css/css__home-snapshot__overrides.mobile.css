@@ -335,3 +335,11 @@
     margin-top: 13px !important;
   }
 }
+
+/* «Наши клиенты»: +15px к верхнему отступу секции перед заголовком (мобильный скрин) */
+@media screen and (max-width: 768px) {
+  .clients-new-section.home-between[data-v-08586076],
+  .clients-new-section.home-between {
+    padding-top: calc(var(--home-between) + 15px) !important;
+  }
+}
