@@ -1,0 +1,68 @@
+# /etc/nginx/sites-available/serenity.agency
+#
+# Example production vhost for progressive migration:
+# - NEW pages are served from local static root
+# - all other pages are proxied to LEGACY origin
+
+upstream serenity_legacy_origin {
+    server 80.78.246.207:80;
+    keepalive 32;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name serenity.agency www.serenity.agency;
+
+    return 301 https://serenity.agency$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name serenity.agency www.serenity.agency;
+
+    # Set real certificate paths on host
+    ssl_certificate     /etc/letsencrypt/live/serenity.agency/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/serenity.agency/privkey.pem;
+
+    root /var/www/static;
+    index index.html;
+
+    # Основной домен: разрешить индексацию (в корне репозитория robots.txt всё ещё закрывает превью)
+    location = /robots.txt {
+        alias /var/www/static/robots.production.txt;
+        default_type text/plain;
+        access_log off;
+    }
+
+    # Keep API on legacy until explicitly migrated
+    location ^~ /api/ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://serenity_legacy_origin;
+    }
+
+    error_page 419 = @legacy_proxy;
+
+    location / {
+        if ($is_new_page = 0) {
+            return 419;
+        }
+        try_files $uri $uri/ =404;
+    }
+
+    location @legacy_proxy {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 30s;
+        proxy_connect_timeout 10s;
+        proxy_pass http://serenity_legacy_origin;
+    }
+}
