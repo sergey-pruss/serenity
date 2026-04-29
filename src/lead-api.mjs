@@ -92,8 +92,8 @@ async function sendEmail(env, { name, phone, email, message, source }) {
   `;
 
   const payload = {
-    from: "Serenity <onboarding@resend.dev>",
-    to: ["sergeyprus@gmail.com"],
+    from: "Serenity <hello@send.serenity.agency>",
+    to: ["mail@serenity.ru"],
     reply_to: email,
     subject: `Новая заявка от ${name}`,
     html,
