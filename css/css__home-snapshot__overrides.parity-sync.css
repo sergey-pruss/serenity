@@ -805,8 +805,7 @@ body.scroll-menu-open {
   transform: none !important;
 }
 
-.video-block.is-loading::before,
-.video-block.is-loading::after {
+.video-block.is-loading::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -829,9 +828,33 @@ body.scroll-menu-open {
   opacity: 0.55;
 }
 
-.video-block.is-loading::after,
-.video-block.video-error::after {
-  content: none;
+/*
+ * WebKit рисует слой <video> поверх псевдоэлементов .video-iframe-wrapper → «белый экран»
+ * до первого кадра и при video.load() при смене на full. Маска на самом .video-block
+ * с z-index выше градиента закрывает плеер до готовности кадра.
+ */
+.video-block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  border-radius: inherit;
+  /* Совпадает с фоном блока (на mobile overrides — #000) */
+  background: inherit;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.34s ease,
+    visibility 0s linear 0.34s;
+}
+
+.video-block:not(.video-ready)::after,
+.video-block.hero-video-upgrading::after,
+.video-block.is-loading.video-ready::after {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.22s ease;
 }
 
 /* Пока нет кадра видео — не показываем белый слой плеера / постер Safari. */

@@ -943,13 +943,21 @@
         video.dataset.heroUpgraded = "1";
         clearPrefetchMonitors();
         const t = video.currentTime || 0;
+        block.classList.add("hero-video-upgrading");
+        const unmaskAfterFrame = () => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              block.classList.remove("hero-video-upgrading");
+            });
+          });
+        };
         while (video.firstChild) video.removeChild(video.firstChild);
         video.removeAttribute("src");
         video.src = fullSrc;
         video.load();
         const resume = () => {
           const startPlay = () => {
-            video.play().catch(() => {});
+            video.play().then(unmaskAfterFrame).catch(unmaskAfterFrame);
           };
           try {
             const dur = Number.isFinite(video.duration) ? video.duration : 0;
@@ -970,6 +978,7 @@
           }
         };
         const onFullError = () => {
+          block.classList.remove("hero-video-upgrading");
           video.dataset.heroUpgraded = "0";
           video.removeAttribute("src");
           while (video.firstChild) video.removeChild(video.firstChild);
