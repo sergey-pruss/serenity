@@ -1,4 +1,25 @@
 User-agent: *
-Allow: /
+
+Disallow: /cgi-bin
+Disallow: /wp-
+Disallow: /wp/
+Disallow: *&s=
+Disallow: /author/
+Disallow: /users/
+Disallow: /nova/
+Disallow: /blog-new/
+Disallow: */trackback
+Disallow: */feed
+Disallow: */rss
+Disallow: */embed
+Disallow: *services/$
+Disallow: *?*
+Disallow: /xmlrpc.php
+Disallow: *utm*=
+Disallow: *openstat=
+
+Allow: */uploads
+
+Clean-param: &utm&get&amo
 
 Sitemap: https://serenity.agency/sitemap.xml

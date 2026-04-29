@@ -1,2 +1,3 @@
+# Превью-домен static.serenity.agency (общий деплой в /var/www/static). Основной домен serenity.agency отдаёт robots.production.txt через Nginx.
 User-agent: *
 Disallow: /
