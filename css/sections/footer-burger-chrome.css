@@ -1,7 +1,6 @@
-/* Нижний блок страницы (footer.footer-modern) + плашка .body-application в compressed-header.
-   Селекторы только через footer.footer-modern — без совпадения с кусками меню в шапке. */
+/* Вынесено из index: футер в бургере, нижняя панель, .body-application */
 
-footer.footer-modern .footer-modern__contacts {
+.footer-modern .footer-modern__contacts {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -10,28 +9,28 @@ footer.footer-modern .footer-modern__contacts {
   max-width: max-content !important;
 }
 
-footer.footer-modern .footer-modern__container {
+.footer-modern .footer-modern__container {
   margin-top: 30px;
 }
 
-footer.footer-modern .footer-modern__contacts > a {
+.footer-modern .footer-modern__contacts > a {
   order: 1;
 }
 
-footer.footer-modern .footer-modern__city-selector {
+.footer-modern .footer-modern__city-selector {
   order: 2;
   display: flex;
   gap: 25px !important;
 }
 
-footer.footer-modern .footer-modern__phone {
+.footer-modern .footer-modern__phone {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
   color: #ffffff;
 }
 
-footer.footer-modern .footer-modern__city-selector a {
+.footer-modern .footer-modern__city-selector a {
   font-size: 14px !important;
   font-weight: 300;
   line-height: 1.4;
@@ -42,17 +41,22 @@ footer.footer-modern .footer-modern__city-selector a {
   padding-right: 0 !important;
 }
 
-footer.footer-modern .footer-modern__city-selector a + a {
+.footer-modern .footer-modern__city-selector a + a {
   margin-left: 0 !important;
 }
 
-footer.footer-modern .footer-modern__city-selector a.selected {
+.footer-modern .footer-modern__city-selector a.selected {
   font-size: 14px !important;
   font-weight: 400;
   color: #ffffff !important;
 }
 
-footer.footer-modern .footer-modern__social {
+.footer-modern .footer-modern__request,
+.footer-modern .messenger-container {
+  display: none !important;
+}
+
+.footer-modern .footer-modern__social {
   position: absolute;
   left: 50%;
   bottom: 46px;
@@ -67,7 +71,7 @@ footer.footer-modern .footer-modern__social {
   max-width: none !important;
 }
 
-footer.footer-modern .footer-modern__social .social__header {
+.footer-modern .footer-modern__social .social__header {
   display: block !important;
   flex: 0 0 100%;
   margin: 0 0 10px;
@@ -78,7 +82,7 @@ footer.footer-modern .footer-modern__social .social__header {
   text-align: center !important;
 }
 
-footer.footer-modern .footer-modern__social > a {
+.footer-modern .footer-modern__social > a {
   width: 40px !important;
   min-width: 40px !important;
   max-width: 40px !important;
@@ -97,12 +101,12 @@ footer.footer-modern .footer-modern__social > a {
   opacity: 0.7;
 }
 
-footer.footer-modern .footer-modern__social > a svg {
+.footer-modern .footer-modern__social > a svg {
   width: 40px;
   height: 40px;
 }
 
-footer.footer-modern .footer-modern__social > a:hover {
+.footer-modern .footer-modern__social > a:hover {
   opacity: 1;
 }
 
@@ -112,18 +116,18 @@ footer.footer-modern .footer-modern__social > a:hover {
     display: none !important;
   }
 
-  footer.footer-modern .footer-modern__contacts {
+  .footer-modern .footer-modern__contacts {
     display: none !important;
   }
 
-  footer.footer-modern .footer-modern__social {
+  .footer-modern .footer-modern__social {
     left: 8%;
     bottom: 16px;
     transform: none;
     justify-content: flex-start !important;
   }
 
-  footer.footer-modern .footer-modern__social .social__header {
+  .footer-modern .footer-modern__social .social__header {
     text-align: left !important;
   }
 
@@ -154,18 +158,18 @@ footer.footer-modern .footer-modern__social > a:hover {
     display: none !important;
   }
 
-  footer.footer-modern .footer-modern__contacts {
+  .footer-modern .footer-modern__contacts {
     display: none !important;
   }
 
-  footer.footer-modern .footer-modern__social {
+  .footer-modern .footer-modern__social {
     left: 8%;
     bottom: 16px;
     transform: none;
     justify-content: flex-start !important;
   }
 
-  footer.footer-modern .footer-modern__social .social__header {
+  .footer-modern .footer-modern__social .social__header {
     text-align: left !important;
   }
 
@@ -197,6 +201,9 @@ footer.footer-modern .footer-modern__social > a:hover {
 @media screen and (min-width: 1024px) {
   .compressed.header .body-application[data-v-e5e2adce] {
     display: flex !important;
+  }
+
+  .compressed.header .body-application[data-v-e5e2adce] {
     top: auto;
     right: 5%;
     bottom: 16px;
