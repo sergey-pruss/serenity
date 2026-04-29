@@ -316,8 +316,9 @@ async function run() {
     };
   });
   assert(glow, "cannot read services hover glow geometry");
-  assert(glow.hostTopClearance >= 40, "services host must provide top space for hover glow");
-  assert(glow.wrapTopClearance >= 40, "services track must provide top space for hover glow");
+  /* padding-top слайдера услуг — половина --home-ledge: порог зазора под glow тоже снижен. */
+  assert(glow.hostTopClearance >= 22, "services host must provide top space for hover glow");
+  assert(glow.wrapTopClearance >= 22, "services track must provide top space for hover glow");
   assert(glow.afterOpacity > 0.4, "services hover glow must be visible on hover");
 
   await clickArrow(page, "next");
