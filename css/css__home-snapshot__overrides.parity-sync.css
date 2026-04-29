@@ -4,7 +4,7 @@
   src: url("../img/MuseoSansCyrl-100.woff") format("woff");
   font-weight: 100;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -12,7 +12,7 @@
   src: url("../img/MuseoSansCyrl-300.woff") format("woff");
   font-weight: 300;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -20,7 +20,7 @@
   src: url("../img/MuseoSansCyrl-500.woff") format("woff");
   font-weight: 500;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -28,7 +28,7 @@
   src: url("../img/MuseoSansCyrl-700.woff") format("woff");
   font-weight: 700;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -36,7 +36,7 @@
   src: url("../img/MuseoSansCyrl-900.woff") format("woff");
   font-weight: 900;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -70,7 +70,7 @@
   src: url("../img/FuturaPTDemi.woff") format("woff");
   font-weight: 300;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
 }
 
 @font-face {
@@ -78,7 +78,18 @@
   src: url("../img/Pribambas-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
+}
+
+/* Имя из бандла Nuxt без font-display; подменяем локальными файлами — текст не ждёт шрифт. */
+@font-face {
+  font-family: "Hero New";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url("../img/HeroNew-Bold.woff2") format("woff2"),
+    url("../img/HeroNew-Bold.woff") format("woff");
+  font-display: swap;
 }
 
 .background-gradient img[data-v-6f8a040c],
@@ -273,6 +284,33 @@
   position: relative;
   z-index: 1;
 }
+
+/* Подпись до загрузки логотипа; скрываем после img.is-loaded (ставит app.js). */
+.swiper-container-clients-new .clients-new__slide img {
+  position: relative;
+  z-index: 1;
+}
+.swiper-container-clients-new .clients-new__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.92);
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.swiper-container-clients-new .clients-new__slide:has(img.is-loaded) .clients-new__label {
+  opacity: 0;
+}
+
 @media screen and (max-width: 550px) {
   .swiper-container-clients-new .clients-new__slide.clients-new__slide--link::after {
     border-radius: 22px;
@@ -571,16 +609,6 @@ body.scroll-menu-open {
 /* Два tel в разметке бургера: на десктопе показываем обычный switcher, блок ниже — в overrides.mobile */
 .header .new-static-menu .header-burger-dual-phones {
   display: none;
-}
-
-.header .navigation-new__citys .btns__picker span {
-  cursor: pointer;
-}
-
-.header .navigation-new__citys .btns__picker,
-.header .navigation-new__citys .btns__picker[data-v-7050ddb2] {
-  margin-top: 10px !important;
-  gap: 28px !important;
 }
 
 .footer-modern .footer-modern__city-selector a:not(.selected):hover,
