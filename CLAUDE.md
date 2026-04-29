@@ -15,13 +15,14 @@
 1. Сборка при изменении шаблонов/кейсов (если задача затрагивает HTML или данные кейсов):
    - `npm run build:html` (или минимально нужные скрипты из `package.json`)
 2. Тесты перед выкладкой:
-   - `npm run test:layout-smoke`
+   - `npm run test:layout-smoke` (включает проверку gzip в `nginx/serenity-router.live.conf`)
    - `npm run test:routing-config`
    - при правках кейсов: `npm run test:case-all`
 3. Выгрузка статики на сервер (**обновляет и static, и базу для serenity.agency**, т.к. общий `root`):
    - `bash deploy.sh` → rsync в `/var/www/static/` на `168.222.142.141`
-4. Если менялся **маршрутизатор** (`nginx/routing.conf`):
-   - `bash scripts/deploy-routing.sh` (на сервере `nginx -t` и только потом reload)
+4. Nginx на сервере (**только если менялось**):
+   - **маршрутизатор** `nginx/routing.conf` → `bash scripts/deploy-routing.sh` (`nginx -t`, затем reload)
+   - **продовый vhost** `nginx/serenity-router.live.conf` → залить как `/etc/nginx/sites-available/serenity-router`, затем `nginx -t` и reload
 5. Cloudflare Workers (**отдельный шаг**, те же файлы как ASSETS):
    - `npx wrangler deploy` (конфиг `wrangler.jsonc`)
 6. Git:
