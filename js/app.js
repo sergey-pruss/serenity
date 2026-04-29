@@ -11,7 +11,6 @@
    * +1: прямой знак; при обратной ощутимой прокрутке на вашей среде поставьте -1.
    */
   const HORIZ_SLIDER_SIGN = 1;
-  let globalWheelSignMode = 0; // 0 = unknown, 1 = direct, -1 = mirrored
   const getServicesSidePad = (w = window.innerWidth) => {
     if (w <= 450) return 36;
     if (w <= 768) return 36;
@@ -84,6 +83,9 @@
 
     const slides = Array.from(track.querySelectorAll(slideSelector));
     if (slides.length === 0) return;
+
+    /** Калибровка deltaX тачпада только для этого ряда (раньше был общий global — сбивал соседние слайдеры). */
+    let wheelSignMode = 0;
 
     let prevBtn = host.querySelector(".swiper-button-prev") || buttonRoot?.querySelector?.(".swiper-button-prev");
     let nextBtn = host.querySelector(".swiper-button-next") || buttonRoot?.querySelector?.(".swiper-button-next");
@@ -329,20 +331,20 @@
         }
         const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
         const current = track.scrollLeft;
-        const unmapped = globalWheelSignMode === -1 ? -rawDelta : rawDelta;
+        const unmapped = wheelSignMode === -1 ? -rawDelta : rawDelta;
         const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
         let next = Math.max(0, Math.min(max, current + mappedDelta));
         // Знак тачпада калибруем только один раз у левого края.
         // После калибровки НЕ зеркалим на краях, чтобы убрать дрожание.
-        if (Math.abs(next - current) < 0.1 && globalWheelSignMode === 0 && current <= EPS) {
+        if (Math.abs(next - current) < 0.1 && wheelSignMode === 0 && current <= EPS) {
           const mirrored = Math.max(0, Math.min(max, current - rawDelta));
           if (Math.abs(mirrored - current) >= 0.1) {
             next = mirrored;
-            globalWheelSignMode = -1;
+            wheelSignMode = -1;
           }
         }
         if (Math.abs(next - current) >= 0.1) {
-          if (globalWheelSignMode === 0) globalWheelSignMode = 1;
+          if (wheelSignMode === 0) wheelSignMode = 1;
           track.scrollLeft = next;
         }
         applyHostGeometry();
@@ -420,6 +422,8 @@
     if (host.dataset.clientsStrip === "1") return;
     host.dataset.clientsStrip = "1";
     host.classList.add("clients-strip");
+
+    let clientsWheelSignMode = 0;
 
     const isRealClientLink = (href) => {
       if (href == null) return false;
@@ -554,18 +558,18 @@
           return;
         }
         const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
-        const unmapped = globalWheelSignMode === -1 ? -rawDelta : rawDelta;
+        const unmapped = clientsWheelSignMode === -1 ? -rawDelta : rawDelta;
         const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
         let next = x + mappedDelta;
-        if (Math.abs(next - x) < 0.1 && globalWheelSignMode === 0 && (x % loopW) <= EPS) {
+        if (Math.abs(next - x) < 0.1 && clientsWheelSignMode === 0 && (x % loopW) <= EPS) {
           const mirrored = x - rawDelta;
           if (Math.abs(mirrored - x) >= 0.1) {
             next = mirrored;
-            globalWheelSignMode = -1;
+            clientsWheelSignMode = -1;
           }
         }
         if (Math.abs(next - x) >= 0.1) {
-          if (globalWheelSignMode === 0) globalWheelSignMode = 1;
+          if (clientsWheelSignMode === 0) clientsWheelSignMode = 1;
           x = wrap(next);
         }
         lastT = performance.now();
