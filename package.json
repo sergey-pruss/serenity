@@ -12,6 +12,7 @@
     "test:lead-api": "node scripts/verify-lead-api.mjs",
     "test:floating-cta": "node scripts/verify-floating-cta.cjs",
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs",
+    "test:services-blog-gap": "node scripts/verify-services-blog-card-gap.cjs",
     "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs"
   },
   "devDependencies": {
