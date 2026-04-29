@@ -708,68 +708,6 @@
     schedule();
   };
 
-  const initHeaderCityPhoneSwitch = () => {
-    const cityBlock = document.querySelector("header.header .navigation-new__citys");
-    if (!cityBlock) return;
-
-    const phoneLink = cityBlock.querySelector(".navigation-new__block-number");
-    const phoneText = cityBlock.querySelector(".navigation-new__citys-number");
-    const cityPicker = cityBlock.querySelector(".btns__picker");
-    const cityItems = Array.from(cityBlock.querySelectorAll(".btns__picker span"));
-    if (!phoneLink || !phoneText || !cityPicker || cityItems.length < 2) return;
-
-    const phones = {
-      "Петербург": {
-        text: "+7 (812) 602-50-44",
-        href: "tel:+78126025044",
-      },
-      "Санкт-Петербург": {
-        text: "+7 (812) 602-50-44",
-        href: "tel:+78126025044",
-      },
-      "Москва": {
-        text: "+7 (495) 419 95 88",
-        href: "tel:+74954199588",
-      },
-    };
-
-    const normalizeCityName = (rawCityName) => {
-      const cityName = String(rawCityName || "").trim();
-      const normalized = cityName.toLowerCase();
-      if (normalized.includes("моск")) return "Москва";
-      if (normalized.includes("санкт") || normalized.includes("петербург")) return "Санкт-Петербург";
-      return cityName;
-    };
-
-    const selectCity = (rawCityName) => {
-      const cityName = normalizeCityName(rawCityName);
-      const phone = phones[cityName] || phones["Санкт-Петербург"] || phones["Петербург"] || phones["Москва"];
-      phoneText.textContent = phone.text;
-      phoneLink.setAttribute("href", phone.href);
-      cityItems.forEach((item) => {
-        item.classList.toggle("selected", normalizeCityName(item.textContent) === cityName);
-      });
-    };
-
-    cityPicker.addEventListener("click", (event) => {
-      const cityItem = event.target instanceof Element ? event.target.closest("span") : null;
-      if (!cityItem || !cityPicker.contains(cityItem)) return;
-      selectCity(cityItem.textContent);
-    });
-
-    cityItems.forEach((item) => {
-      item.setAttribute("role", "button");
-      item.setAttribute("tabindex", "0");
-      item.addEventListener("keydown", (event) => {
-        if (event.key !== "Enter" && event.key !== " ") return;
-        event.preventDefault();
-        selectCity(item.textContent);
-      });
-    });
-
-    selectCity("Москва");
-  };
-
   const initFooterPhoneSwitch = () => {
     const phones = {
       "Петербург": {
@@ -785,6 +723,58 @@
         href: "tel:+74954199588",
       },
     };
+
+    const canonicalCityKey = (label) => {
+      const t = String(label || "").trim().toLowerCase();
+      if (t.includes("моск")) return "Москва";
+      if (t.includes("санкт") || t.includes("петербург")) return "Петербург";
+      const raw = String(label || "").trim();
+      return phones[raw] ? raw : "Петербург";
+    };
+
+    const footerRoots = Array.from(document.querySelectorAll(".footer-modern__contacts"));
+    if (footerRoots.length > 0) {
+      const applyCityToFooterRoot = (root, cityKey) => {
+        const key = phones[cityKey] ? cityKey : "Петербург";
+        const phone = phones[key];
+        const phoneText = root.querySelector(".footer-modern__phone");
+        const phoneLink = root.querySelector("a:has(.footer-modern__phone)");
+        const cityItems = Array.from(root.querySelectorAll(".footer-modern__city-selector a"));
+        if (!phoneText || !phoneLink || cityItems.length < 2) return;
+        phoneText.textContent = phone.text;
+        phoneLink.setAttribute("href", phone.href);
+        cityItems.forEach((item) => {
+          const itemKey = canonicalCityKey(item.textContent);
+          item.classList.toggle("selected", itemKey === key);
+        });
+      };
+
+      const setSharedFooterCity = (rawLabel) => {
+        const cityKey = canonicalCityKey(rawLabel);
+        const key = phones[cityKey] ? cityKey : "Петербург";
+        footerRoots.forEach((root) => applyCityToFooterRoot(root, key));
+      };
+
+      footerRoots.forEach((root) => {
+        const cityItems = Array.from(root.querySelectorAll(".footer-modern__city-selector a"));
+        if (cityItems.length < 2) return;
+        cityItems.forEach((item) => {
+          item.setAttribute("role", "button");
+          item.setAttribute("tabindex", "0");
+          item.addEventListener("click", () => setSharedFooterCity(item.textContent));
+          item.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
+            setSharedFooterCity(item.textContent);
+          });
+        });
+      });
+
+      const defaultCity = "Петербург";
+      setSharedFooterCity(defaultCity);
+      setTimeout(() => setSharedFooterCity(defaultCity), 0);
+      window.addEventListener("load", () => setSharedFooterCity(defaultCity), { once: true });
+    }
 
     const bindSwitcher = ({ root, pickerSelector, phoneSelector, linkSelector, selectedClass }) => {
       const phoneText = root.querySelector(phoneSelector);
@@ -812,20 +802,11 @@
         });
       });
 
-      selectCity("Москва");
-      setTimeout(() => selectCity("Москва"), 0);
-      window.addEventListener("load", () => selectCity("Москва"), { once: true });
+      const defaultCity = "Петербург";
+      selectCity(defaultCity);
+      setTimeout(() => selectCity(defaultCity), 0);
+      window.addEventListener("load", () => selectCity(defaultCity), { once: true });
     };
-
-    document.querySelectorAll(".footer-modern__contacts").forEach((root) => {
-      bindSwitcher({
-        root,
-        pickerSelector: ".footer-modern__city-selector a",
-        phoneSelector: ".footer-modern__phone",
-        linkSelector: "a:has(.footer-modern__phone)",
-        selectedClass: "selected",
-      });
-    });
 
     document.querySelectorAll(".btns__option--extended").forEach((root) => {
       bindSwitcher({

@@ -55,7 +55,7 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
 
       const readFooterPhone = async () =>
         page.evaluate(() => {
-          const footer = document.querySelector(".footer-modern__contacts");
+          const footer = document.querySelector("footer.footer-modern .footer-modern__contacts");
           const selected = footer?.querySelector(".footer-modern__city-selector .selected");
           const phone = footer?.querySelector(".footer-modern__phone");
           const link = phone?.closest("a");
@@ -72,7 +72,8 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
       assert(footerBefore.href === "tel:+78126025044", `[${width}] ссылка телефона в футере должна быть tel, сейчас: ${footerBefore.href}`);
 
       await page.evaluate(() => {
-        Array.from(document.querySelectorAll(".footer-modern__city-selector a"))
+        const root = document.querySelector("footer.footer-modern");
+        Array.from(root?.querySelectorAll(".footer-modern__city-selector a") || [])
           .find((item) => item.textContent.trim() === "Москва")
           ?.click();
       });
@@ -114,39 +115,50 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
 
       const readMenuPhone = async () =>
         page.evaluate(() => {
-          const cityBlock = document.querySelector("header.header .navigation-new__citys");
-          const selected = cityBlock?.querySelector(".btns__picker .selected");
-          const phone = cityBlock?.querySelector(".navigation-new__citys-number");
-          const link = cityBlock?.querySelector(".navigation-new__block-number");
+          const cityBlock = document.querySelector('header.header [data-burger-menu-contacts="1"]');
+          const selected = cityBlock?.querySelector(".footer-modern__city-selector a.selected");
+          const phone = cityBlock?.querySelector(".footer-modern__phone");
+          const link = phone?.closest("a");
           return {
             city: selected?.textContent?.trim() || "",
-            text: phone?.textContent?.trim() || "",
+            text: phone?.textContent?.trim().replace(/\s+/g, " ") || "",
             href: link?.getAttribute("href") || "",
           };
         });
 
       const phoneBefore = await readMenuPhone();
-      assert(phoneBefore.city === "Петербург", `[${width}] по умолчанию должен быть выбран Петербург`);
-      assert(phoneBefore.text === "+7 (812) 602-50-44", `[${width}] номер Петербурга не совпадает: ${phoneBefore.text}`);
-      assert(phoneBefore.href === "tel:+78126025044", `[${width}] tel Петербурга не совпадает: ${phoneBefore.href}`);
+      assert(phoneBefore.city === "Москва", `[${width}] бургер должен повторять город футера (Москва): ${phoneBefore.city}`);
+      assert(phoneBefore.text === "+7 (495) 419 95 88", `[${width}] номер в бургере должен совпадать с футером: ${phoneBefore.text}`);
+      assert(phoneBefore.href === "tel:+74954199588", `[${width}] tel в бургере должен совпадать с футером: ${phoneBefore.href}`);
 
-      await page
-        .locator("header.header .navigation-new__citys .btns__picker span")
-        .filter({ hasText: "Москва" })
-        .click();
+      await page.evaluate(() => {
+        const root = document.querySelector('header.header [data-burger-menu-contacts="1"]');
+        Array.from(root?.querySelectorAll(".footer-modern__city-selector a") || [])
+          .find((a) => a.textContent.trim() === "Москва")
+          ?.click();
+      });
       const phoneMoscow = await readMenuPhone();
       assert(phoneMoscow.city === "Москва", `[${width}] после клика должна быть выбрана Москва`);
-      assert(phoneMoscow.text === "+7 (495) 419-95-88", `[${width}] номер Москвы не совпадает: ${phoneMoscow.text}`);
+      assert(phoneMoscow.text === "+7 (495) 419 95 88", `[${width}] номер Москвы не совпадает: ${phoneMoscow.text}`);
       assert(phoneMoscow.href === "tel:+74954199588", `[${width}] tel Москвы не совпадает: ${phoneMoscow.href}`);
+      const footerAfterMenuMoscow = await readFooterPhone();
+      assert(footerAfterMenuMoscow.city === "Москва", `[${width}] футер должен синхронизироваться с бургером (Москва)`);
 
-      await page
-        .locator("header.header .navigation-new__citys .btns__picker span")
-        .filter({ hasText: "Петербург" })
-        .press("Enter");
+      await page.evaluate(() => {
+        const root = document.querySelector('header.header [data-burger-menu-contacts="1"]');
+        const p = Array.from(root?.querySelectorAll(".footer-modern__city-selector a") || []).find(
+          (a) => a.textContent.trim() === "Петербург",
+        );
+        if (!p) return;
+        p.focus();
+        p.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+      });
       const phonePetersburg = await readMenuPhone();
       assert(phonePetersburg.city === "Петербург", `[${width}] Enter должен вернуть Петербург`);
-      assert(phonePetersburg.text === "+7 (812) 602-50-44", `[${width}] номер Петербурга после возврата не совпадает`);
+      assert(phonePetersburg.text === "+7 (812) 602 50 44", `[${width}] номер Петербурга после возврата не совпадает`);
       assert(phonePetersburg.href === "tel:+78126025044", `[${width}] tel Петербурга после возврата не совпадает`);
+      const footerAfterMenuSpb = await readFooterPhone();
+      assert(footerAfterMenuSpb.city === "Петербург", `[${width}] футер должен синхронизироваться с бургером (Петербург)`);
 
       const readBottomPhone = async () =>
         page.evaluate(() => {
