@@ -1,0 +1,259 @@
+{
+  "filterCode": "",
+  "currentPage": 3,
+  "totalPages": 3,
+  "perPage": 24,
+  "totalItems": 62,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/case/all/"
+    },
+    {
+      "code": "pr",
+      "label": "Продвижение",
+      "totalPages": 1,
+      "href": "/case/all/category/pr/"
+    },
+    {
+      "code": "brending",
+      "label": "Брендинг",
+      "totalPages": 2,
+      "href": "/case/all/category/brending/"
+    },
+    {
+      "code": "sites",
+      "label": "Сайт",
+      "totalPages": 2,
+      "href": "/case/all/category/sites/"
+    },
+    {
+      "code": "strategiya",
+      "label": "Стратегия",
+      "totalPages": 1,
+      "href": "/case/all/category/strategiya/"
+    }
+  ],
+  "cases": [
+    {
+      "href": "https://serenity.agency/case/petrovka",
+      "description": "Новое позиционирование и стратегия для «Клиники на Петровке»",
+      "tags": [
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/TdqEmgHdPDFnVdKLgOi2QCoWEwhm7i8rEARTF0xi.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/voice",
+      "description": "Сайт на Tilda для бренда премиальных акустических систем Voice",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/ElJ1Bqb5kamTH0RtFNvrXs9sKYtbbG1IEKswi3U3.png"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/mosplitka",
+      "description": "На 37% снизили стоимость обращения для «Мосплитки»",
+      "tags": [
+        "Продвижение"
+      ],
+      "tagCodes": [
+        "pr"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/SzZkZq1XRnRO5CSijdpRociZN2dsqbixQyxCD5o5.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/159946399/Undress-Me",
+      "description": "Фотопродакшн для нижнего белья Undress me",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/yzHit4R5NocHlbxPQxzenYqIns9TchaosBpaQUvP.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/120326701/alfa-lizing",
+      "description": "Разработали 430 баннеров для «Альфа-лизинга»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/SGdoATpR5Rf2JwVgSKO1rf7CR5QvL1AuAQmMnpKg.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/108074109/restoran-russkaja-rybalka",
+      "description": "Разработали сайт для ресторана «Русская рыбалка»",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/KFM6nkM5bt8Xv49S4BJWYg01pa4cX3KmFB5VhAWV.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/120324041/Happy-Life",
+      "description": "Фирменный стиль для студии загара Happy Life",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/IpELI2tcfFjUmoVJRjTAezn4g1m9eCkHSD7QbY9e.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/138703289/biznes-klub-FOIL",
+      "description": "Лендинг для бизнес-клуба Foil",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/65eSk7kYdJxqoXts82BH7HrNyNRFZUPhDaEY0CzB.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/146231613/Concept-landing-Hartens-for-Ozon",
+      "description": "Промо страница для телевизоров от Ozon",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/BDyDVFKGLdnlfOR0lQvPvdshebS4bSEBdDoGXfrl.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/92974215/okna-evropy",
+      "description": "Фирменный стиль для производителя «Окна Европы»",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/E1dGaGuehPRD2JCEA6GZDhwKQTYAnQmBBgaBiuZY.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/havoline",
+      "description": "Разработали и реализовали маркетинговую стратегию для Havoline",
+      "tags": [
+        "Продвижение",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/qz8RLM07vxpU8Cu3xiGwERlXHdzz0Rpmz8rKiLL2.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/82766431/Gym-Meal",
+      "description": "Дизайн сайта для сервиса доставки питания Gym Meal",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/USYLZZdaEqEvhDcNodPUidPL0AEZdZJ9uDNAvlqm.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/83999415/Digesta",
+      "description": "Сайт и фотосъемка для личного бренда",
+      "tags": [
+        "Брендинг",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/schaeferfliesen",
+      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "tags": [
+        "Брендинг",
+        "Сайты",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
+      }
+    }
+  ]
+}

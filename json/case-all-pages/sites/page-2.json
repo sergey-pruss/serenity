@@ -1,0 +1,208 @@
+{
+  "filterCode": "sites",
+  "currentPage": 2,
+  "totalPages": 2,
+  "perPage": 24,
+  "totalItems": 34,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/case/all/"
+    },
+    {
+      "code": "pr",
+      "label": "Продвижение",
+      "totalPages": 1,
+      "href": "/case/all/category/pr/"
+    },
+    {
+      "code": "brending",
+      "label": "Брендинг",
+      "totalPages": 2,
+      "href": "/case/all/category/brending/"
+    },
+    {
+      "code": "sites",
+      "label": "Сайт",
+      "totalPages": 2,
+      "href": "/case/all/category/sites/"
+    },
+    {
+      "code": "strategiya",
+      "label": "Стратегия",
+      "totalPages": 1,
+      "href": "/case/all/category/strategiya/"
+    }
+  ],
+  "cases": [
+    {
+      "href": "https://serenity.agency/case/kaskad",
+      "description": "Снизили стоимость заявки в 20 раз для завода «Каскад»",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Продажи",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "sales",
+        "sites"
+      ],
+      "linkClass": "dark-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/digitale",
+      "description": "Собрали 1700 участников на бизнес-конференцию Digitale «Счастье»",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "brending"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "video",
+        "poster": "https://serenity.agency/storage/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
+        "videoSrc": "https://serenity.agency/storage/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/138701085/konsaltingovoe-bjuro-ANG",
+      "description": "Лендинг для консалтингового бюро ANG",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/FLvw4cYZp4XPtVC2pBIQ06SnNc7yd9V4AiK8cjC3.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/voice",
+      "description": "Сайт на Tilda для бренда премиальных акустических систем Voice",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/ElJ1Bqb5kamTH0RtFNvrXs9sKYtbbG1IEKswi3U3.png"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/108074109/restoran-russkaja-rybalka",
+      "description": "Разработали сайт для ресторана «Русская рыбалка»",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/KFM6nkM5bt8Xv49S4BJWYg01pa4cX3KmFB5VhAWV.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/138703289/biznes-klub-FOIL",
+      "description": "Лендинг для бизнес-клуба Foil",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/65eSk7kYdJxqoXts82BH7HrNyNRFZUPhDaEY0CzB.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/146231613/Concept-landing-Hartens-for-Ozon",
+      "description": "Промо страница для телевизоров от Ozon",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/BDyDVFKGLdnlfOR0lQvPvdshebS4bSEBdDoGXfrl.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/82766431/Gym-Meal",
+      "description": "Дизайн сайта для сервиса доставки питания Gym Meal",
+      "tags": [
+        "Сайт"
+      ],
+      "tagCodes": [
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/USYLZZdaEqEvhDcNodPUidPL0AEZdZJ9uDNAvlqm.jpg"
+      }
+    },
+    {
+      "href": "https://www.behance.net/gallery/83999415/Digesta",
+      "description": "Сайт и фотосъемка для личного бренда",
+      "tags": [
+        "Брендинг",
+        "Сайт"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/schaeferfliesen",
+      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "tags": [
+        "Брендинг",
+        "Сайты",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
+      }
+    }
+  ]
+}
