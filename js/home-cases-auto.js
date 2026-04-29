@@ -75,7 +75,7 @@
     </div>`;
   };
 
-  fetch("/json/cases-all.json", { cache: "no-cache", credentials: "same-origin" })
+  fetch("/_sa/json/cases-all.json", { cache: "no-cache", credentials: "same-origin" })
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
       if (!data || !Array.isArray(data.cases) || data.cases.length === 0) return;

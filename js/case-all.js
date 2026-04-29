@@ -177,7 +177,7 @@
   const folder = route.filterCode || "all";
   let payload = null;
   try {
-    const res = await fetch(`/json/case-all-pages/${encodeURIComponent(folder)}/page-${route.page}.json`, {
+    const res = await fetch(`/_sa/json/case-all-pages/${encodeURIComponent(folder)}/page-${route.page}.json`, {
       credentials: "same-origin",
       cache: "no-cache",
     });

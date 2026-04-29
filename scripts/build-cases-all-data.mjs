@@ -21,7 +21,7 @@ function storageUrl(filename) {
   if (!filename) return "";
   const localPath = path.join(process.cwd(), "img", `storage__${filename}`);
   if (fs.existsSync(localPath)) {
-    return `/img/storage__${filename}`;
+    return `/_sa/img/storage__${filename}`;
   }
   return `https://serenity.agency/storage/${filename}`;
 }

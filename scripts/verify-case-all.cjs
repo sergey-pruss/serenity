@@ -7,9 +7,10 @@ const path = require("path");
 const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..");
+const { stripSerenitySnapshotPrefix } = require("./strip-serenity-snapshot-prefix.cjs");
 
 function resolveStaticFile(urlPath) {
-  let p = urlPath.split("?")[0];
+  let p = stripSerenitySnapshotPrefix(urlPath.split("?")[0]);
   if (!p || p === "/") return path.join(root, "index.html");
   if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
   const rel = p.replace(/^\/+/, "");

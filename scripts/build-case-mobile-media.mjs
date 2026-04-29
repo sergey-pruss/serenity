@@ -8,8 +8,15 @@ const casesPath = path.join(root, "json", "cases-all.json");
 const MOBILE_MAX_WIDTH = 820;
 const MOBILE_SUFFIX = "__m";
 
+/** Публичный URL `/_sa/img/...` → путь на диске `img/...` */
+function urlPathOnDisk(url) {
+  let rel = url.replace(/^\//, "");
+  if (rel.startsWith("_sa/")) rel = rel.slice(4);
+  return rel;
+}
+
 function getMobileVariantPath(url) {
-  if (!url || !url.startsWith("/img/")) return "";
+  if (!url || !url.startsWith("/_sa/img/")) return "";
   const ext = path.extname(url);
   const base = url.slice(0, -ext.length);
   return `${base}${MOBILE_SUFFIX}${ext}`;
@@ -24,13 +31,13 @@ function collectImageUrls(payload) {
       urls.add(c.media.image);
     }
   }
-  return Array.from(urls).filter((u) => u.startsWith("/img/storage__"));
+  return Array.from(urls).filter((u) => u.startsWith("/_sa/img/storage__"));
 }
 
 async function buildOneVariant(sourceUrl) {
-  const sourcePath = path.join(root, sourceUrl.replace(/^\//, ""));
+  const sourcePath = path.join(root, urlPathOnDisk(sourceUrl));
   const targetUrl = getMobileVariantPath(sourceUrl);
-  const targetPath = path.join(root, targetUrl.replace(/^\//, ""));
+  const targetPath = path.join(root, urlPathOnDisk(targetUrl));
   if (!fs.existsSync(sourcePath)) return { built: false, skipped: true, reason: "source-missing" };
 
   const sourceStat = fs.statSync(sourcePath);

@@ -170,13 +170,13 @@
 .services__context-slider .swiper-button-prev::before,
 .blog-block__swiper-container .swiper-button-prev::before,
 .clients-mainstr .swiper-buttons .swiper-button-prev::before {
-  background-image: url("../img/slider-arrow-prev.svg?v=20260427b");
+  background-image: url("../_sa/img/slider-arrow-prev.svg?v=20260427b");
 }
 
 .services__context-slider .swiper-button-next::before,
 .blog-block__swiper-container .swiper-button-next::before,
 .clients-mainstr .swiper-buttons .swiper-button-next::before {
-  background-image: url("../img/slider-arrow-next.svg?v=20260427b");
+  background-image: url("../_sa/img/slider-arrow-next.svg?v=20260427b");
 }
 
 .services__context-slider :is(.swiper-button-prev, .swiper-button-next):is(:hover, :focus-visible)::before,

@@ -7,6 +7,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
+const { stripSerenitySnapshotPrefix } = require("./strip-serenity-snapshot-prefix.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -59,7 +60,7 @@ const noCache = {
 
 /** `/case/all`, `/case/all/` → `case/all/index.html` */
 function resolveStaticFile(urlPath) {
-  let p = urlPath.split("?")[0];
+  let p = stripSerenitySnapshotPrefix(urlPath.split("?")[0]);
   if (!p || p === "/") return path.join(root, "index.html");
   if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
   const rel = p.replace(/^\/+/, "");
