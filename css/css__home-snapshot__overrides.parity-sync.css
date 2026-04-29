@@ -1388,7 +1388,7 @@ body.order-popup-open .overlay-new {
     background: none !important;
     border-radius: 0 !important;
     display: inline-block !important;
-    opacity: 0.5 !important;
+    opacity: 1 !important;
     width: auto !important;
     height: auto !important;
     min-width: 0 !important;
