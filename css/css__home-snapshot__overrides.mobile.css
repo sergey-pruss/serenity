@@ -55,6 +55,11 @@
     transform: none !important;
   }
 
+  .video-iframe-wrapper[data-v-135dc442],
+  .video-iframe-wrapper {
+    background: #000 !important;
+  }
+
 }
 
 @media screen and (max-width: 500px) {
