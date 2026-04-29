@@ -5,11 +5,11 @@
  * у блога margin-bottom шапки — снаружи, поэтому сравниваем не низ border-box контейнеров,
  * а низ контентных строк.
  *
- * SLIDER_TEST_URL=http://127.0.0.1:4322/ node scripts/verify-services-blog-card-gap.cjs
+ * SLIDER_TEST_URL=http://127.0.0.1:8765/ node scripts/verify-services-blog-card-gap.cjs
  */
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:4322/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
 const TOL = 2.5;
 
 function assert(cond, message) {
@@ -42,10 +42,27 @@ async function measureBlogGap(page) {
   });
 }
 
+/** Вертикальный зазор от низа заголовка до верха подписи (как у колонки «Блог»). */
+async function measureTitleToSubtextGap(page, section) {
+  return page.evaluate((sec) => {
+    const title =
+      sec === "services"
+        ? document.querySelector(".services__title")
+        : document.querySelector(".blog-block__header-title");
+    const sub =
+      sec === "services"
+        ? document.querySelector(".services__description")
+        : document.querySelector(".blog-block__header-subtitle");
+    if (!title || !sub) return { ok: false, gap: null, reason: "missing node" };
+    const gap = sub.getBoundingClientRect().top - title.getBoundingClientRect().bottom;
+    return { ok: true, gap: Math.round(gap * 100) / 100 };
+  }, section);
+}
+
 async function run() {
   const browser = await chromium.launch({ headless: true });
   const errors = [];
-  const widths = [1440, 1200, 1000, 768, 480];
+  const widths = [1440, 1200, 1000, 768, 550, 480];
 
   for (const w of widths) {
     const page = await browser.newPage({ viewport: { width: w, height: 1100 } });
@@ -70,6 +87,22 @@ async function run() {
       diff <= TOL,
       `${w}px зазор шапка→карточка: услуги ${services.gap}px, блог ${blog.gap}px, Δ=${diff} (допуск ${TOL})`,
     );
+
+    if (w <= 550) {
+      await page.locator(".services-section").scrollIntoViewIfNeeded();
+      await page.waitForTimeout(250);
+      const sHead = await measureTitleToSubtextGap(page, "services");
+      await page.locator(".blog-block-mainstr").scrollIntoViewIfNeeded();
+      await page.waitForTimeout(250);
+      const bHead = await measureTitleToSubtextGap(page, "blog");
+      assert(sHead.ok, `${w}px услуги заголовок→текст: ${sHead.reason}`);
+      assert(bHead.ok, `${w}px блог заголовок→текст: ${bHead.reason}`);
+      const headDiff = Math.abs(sHead.gap - bHead.gap);
+      assert(
+        headDiff <= TOL,
+        `${w}px зазор заголовок→подпись: услуги ${sHead.gap}px, блог ${bHead.gap}px, Δ=${headDiff} (допуск ${TOL})`,
+      );
+    }
 
     await page.close();
   }
