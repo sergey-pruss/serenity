@@ -13,7 +13,7 @@ const FILTERS = [
   { code: "", label: "Все" },
   { code: "pr", label: "Продвижение" },
   { code: "brending", label: "Брендинг" },
-  { code: "sites", label: "Сайт" },
+  { code: "sites", label: "Сайты" },
   { code: "strategiya", label: "Стратегия" },
 ];
 

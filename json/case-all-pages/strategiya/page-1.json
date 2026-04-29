@@ -25,7 +25,7 @@
     },
     {
       "code": "sites",
-      "label": "Сайт",
+      "label": "Сайты",
       "totalPages": 2,
       "href": "/case/all/category/sites/"
     },
@@ -72,7 +72,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/JdKeaOWg6ErhKqPicV92KRbf7U75W0mdSuUWt6jp.webp"
+        "image": "/img/storage__JdKeaOWg6ErhKqPicV92KRbf7U75W0mdSuUWt6jp.webp"
       }
     },
     {
@@ -114,7 +114,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/Cyu9NZfssUe4ZsPOZ4TL93kVfwXlrc8E9hweu3ea.webp"
+        "image": "/img/storage__Cyu9NZfssUe4ZsPOZ4TL93kVfwXlrc8E9hweu3ea.webp"
       }
     },
     {
@@ -134,7 +134,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/ENs29q17mYvrc2hz44CMY8TNHjlkxWpWodADk9Eb.webp"
+        "image": "/img/storage__ENs29q17mYvrc2hz44CMY8TNHjlkxWpWodADk9Eb.webp"
       }
     },
     {
@@ -173,7 +173,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/X6YOpGtu2BPzPh4tOjFvDqj8KUKACkNZqvZUnbhd.webp"
+        "image": "/img/storage__X6YOpGtu2BPzPh4tOjFvDqj8KUKACkNZqvZUnbhd.webp"
       }
     },
     {
@@ -193,7 +193,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/J6m3rdo35hk51oGHPk5ZvwLRTnXWCebvPi9qNYGs.png"
+        "image": "/img/storage__J6m3rdo35hk51oGHPk5ZvwLRTnXWCebvPi9qNYGs.png"
       }
     },
     {
@@ -276,8 +276,8 @@
       "isResource": false,
       "media": {
         "kind": "video",
-        "poster": "https://serenity.agency/storage/omenJLrtzpcr02LEG0JYGCJQ1PYvsTHFqS29l7Tf.jpg",
-        "videoSrc": "https://serenity.agency/storage/YLaTiBuwJ0QqqSddxBKdY67Gp5gx6Hbwo20di76j.mp4"
+        "poster": "/img/storage__omenJLrtzpcr02LEG0JYGCJQ1PYvsTHFqS29l7Tf.jpg",
+        "videoSrc": "/img/storage__YLaTiBuwJ0QqqSddxBKdY67Gp5gx6Hbwo20di76j.mp4"
       }
     },
     {
@@ -297,7 +297,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/monjD8slTBetrDRuKm90SURPDpC68W1nkpDUGCaG.jpg"
+        "image": "/img/storage__monjD8slTBetrDRuKm90SURPDpC68W1nkpDUGCaG.jpg"
       }
     },
     {
@@ -317,7 +317,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/ZgG9T2kx4Ytdec3tzZ9WNRL05ejKctQORIImpms8.jpg"
+        "image": "/img/storage__ZgG9T2kx4Ytdec3tzZ9WNRL05ejKctQORIImpms8.jpg"
       }
     },
     {
@@ -337,7 +337,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/M3ONz5TGOBWVPsqlK5vUawaC6xb5EQROaR9feKp2.jpg"
+        "image": "/img/storage__M3ONz5TGOBWVPsqlK5vUawaC6xb5EQROaR9feKp2.jpg"
       }
     },
     {
@@ -355,7 +355,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/w8ugkLNrVqCQvEcea9SkYVuPRXEJmToFRzFrgfkI.jpg"
+        "image": "/img/storage__w8ugkLNrVqCQvEcea9SkYVuPRXEJmToFRzFrgfkI.jpg"
       }
     },
     {
@@ -377,7 +377,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg"
+        "image": "/img/storage__zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg"
       }
     },
     {
@@ -393,7 +393,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/TdqEmgHdPDFnVdKLgOi2QCoWEwhm7i8rEARTF0xi.jpg"
+        "image": "/img/storage__TdqEmgHdPDFnVdKLgOi2QCoWEwhm7i8rEARTF0xi.jpg"
       }
     },
     {
@@ -411,7 +411,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/qz8RLM07vxpU8Cu3xiGwERlXHdzz0Rpmz8rKiLL2.jpg"
+        "image": "/img/storage__qz8RLM07vxpU8Cu3xiGwERlXHdzz0Rpmz8rKiLL2.jpg"
       }
     },
     {
@@ -431,7 +431,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
+        "image": "/img/storage__566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
       }
     }
   ]

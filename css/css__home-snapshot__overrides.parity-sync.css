@@ -1748,7 +1748,7 @@ body.order-popup-open .overlay-new {
 .case-all-more-case-wr .categories .categories__link.div-exact-active[data-v-682de319],
 .case-all-more-case-wr .categories .categories__link.categories__link_active-ONE[data-v-682de319] {
   color: #fff !important;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
   opacity: 1;
 }
 
@@ -1787,9 +1787,85 @@ body.order-popup-open .overlay-new {
   background-color: #e8e8ea !important;
 }
 
+.case.case--dark-card,
+.case.case--dark-card .case__media,
+.case.case--dark-card .case__media.video {
+  background-color: #e8e8ea !important;
+}
+
+.case.case--dark-card[data-v-c0adc676],
+.case.case--dark-card[data-v-c0adc676] > a.dark-text[data-v-c0adc676] {
+  background: #e8e8ea !important;
+  background-image: none !important;
+}
+
+.case.case--dark-card[data-v-c0adc676] > a.dark-text[data-v-c0adc676]::before,
+.case.case--dark-card[data-v-c0adc676] > a.dark-text[data-v-c0adc676]::after {
+  background: #e8e8ea !important;
+  background-image: none !important;
+}
+
+.case a.dark-text::before,
+.case a.dark-text::after {
+  background-color: #e8e8ea !important;
+}
+
 .case a.dark-text .case__media--front,
 .case a.dark-text .case__media--video {
   filter: brightness(1.12);
+}
+
+/* Behance/внешний ресурс: фикс видимости и позиции иконки (внизу слева карточки). */
+.case .case__external-link[data-v-c0adc676] {
+  display: none;
+  position: absolute;
+  left: 20px !important;
+  bottom: 20px !important;
+  right: auto !important;
+  top: auto !important;
+  width: 44px;
+  height: 44px;
+  z-index: 3;
+}
+
+.case .case--resource .case__external-link[data-v-c0adc676] {
+  display: block !important;
+}
+
+.case .white-text .case__external-link[data-v-c0adc676] svg path {
+  fill: #fff !important;
+}
+
+.case .white-text .case__external-link[data-v-c0adc676] svg rect {
+  stroke: #fff !important;
+}
+
+/* Убираем белые кромки по периметру превью на всех брейкпоинтах. */
+.case-all-root .case .case__media {
+  overflow: hidden;
+}
+
+.case-all-root .case .case__media--front {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transform-origin: center;
+}
+
+/* Для светлых dark-card (например X-Clinic) немного сильнее кроп, чтобы скрыть белые кромки. */
+.case-all-root .case.case--dark-card .case__media--front {
+  transform: scale(1.08);
+}
+
+@media (min-width: 900px) {
+  .case-all-root .case .case__media--front {
+    transform: scale(1.03);
+  }
+
+  .case-all-root .case.case--dark-card .case__media--front {
+    transform: scale(1.06);
+  }
 }
 
 .case-all-pagination {

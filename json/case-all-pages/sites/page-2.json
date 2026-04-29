@@ -25,7 +25,7 @@
     },
     {
       "code": "sites",
-      "label": "Сайт",
+      "label": "Сайты",
       "totalPages": 2,
       "href": "/case/all/category/sites/"
     },
@@ -56,7 +56,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
+        "image": "/img/storage__UpFSxesBk94YHDT6Dpg9FIq3VmSAel7n0r48yYUB.jpg"
       }
     },
     {
@@ -76,8 +76,8 @@
       "isResource": false,
       "media": {
         "kind": "video",
-        "poster": "https://serenity.agency/storage/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
-        "videoSrc": "https://serenity.agency/storage/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
+        "poster": "/img/storage__vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
+        "videoSrc": "/img/storage__VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
       }
     },
     {
@@ -93,7 +93,7 @@
       "isResource": true,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/FLvw4cYZp4XPtVC2pBIQ06SnNc7yd9V4AiK8cjC3.jpg"
+        "image": "/img/storage__FLvw4cYZp4XPtVC2pBIQ06SnNc7yd9V4AiK8cjC3.jpg"
       }
     },
     {
@@ -109,7 +109,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/ElJ1Bqb5kamTH0RtFNvrXs9sKYtbbG1IEKswi3U3.png"
+        "image": "/img/storage__ElJ1Bqb5kamTH0RtFNvrXs9sKYtbbG1IEKswi3U3.png"
       }
     },
     {
@@ -125,7 +125,7 @@
       "isResource": true,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/KFM6nkM5bt8Xv49S4BJWYg01pa4cX3KmFB5VhAWV.jpg"
+        "image": "/img/storage__KFM6nkM5bt8Xv49S4BJWYg01pa4cX3KmFB5VhAWV.jpg"
       }
     },
     {
@@ -141,7 +141,7 @@
       "isResource": true,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/65eSk7kYdJxqoXts82BH7HrNyNRFZUPhDaEY0CzB.jpg"
+        "image": "/img/storage__65eSk7kYdJxqoXts82BH7HrNyNRFZUPhDaEY0CzB.jpg"
       }
     },
     {
@@ -157,7 +157,7 @@
       "isResource": true,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/BDyDVFKGLdnlfOR0lQvPvdshebS4bSEBdDoGXfrl.jpg"
+        "image": "/img/storage__BDyDVFKGLdnlfOR0lQvPvdshebS4bSEBdDoGXfrl.jpg"
       }
     },
     {
@@ -173,7 +173,7 @@
       "isResource": true,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/USYLZZdaEqEvhDcNodPUidPL0AEZdZJ9uDNAvlqm.jpg"
+        "image": "/img/storage__USYLZZdaEqEvhDcNodPUidPL0AEZdZJ9uDNAvlqm.jpg"
       }
     },
     {
@@ -191,7 +191,7 @@
       "isResource": true,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
+        "image": "/img/storage__h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
       }
     },
     {
@@ -211,7 +211,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
+        "image": "/img/storage__566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
       }
     }
   ]
