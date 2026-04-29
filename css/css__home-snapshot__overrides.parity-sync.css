@@ -792,12 +792,15 @@ body.scroll-menu-open {
   visibility: hidden !important;
 }
 
-/* Hero video loading placeholder */
+/* Hero video: сразу видимый тёмный блок (bundle держал opacity:0 до конца анимации — «пустота»). */
 .video-block[data-v-135dc442],
 .video-block {
-  background: #151516;
+  background: #0b0b0c;
   border-radius: 13px !important;
   overflow: hidden !important;
+  opacity: 1 !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 /* Три кадра из ролика — цикл, пока не готов <video> (без «белого экрана»). */
@@ -808,7 +811,43 @@ body.scroll-menu-open {
   border-radius: inherit;
   overflow: hidden;
   pointer-events: none;
-  background: #0c0c0d;
+  background: #080809;
+}
+
+/* Лёгкий индикатор «скоро видео» — поверх тёмного фона и кадров. */
+.hero-video-strip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    14px 0 0 rgba(255, 255, 255, 0.5),
+    28px 0 0 rgba(255, 255, 255, 0.28);
+  z-index: 5;
+  transform: translateX(-50%);
+  animation: hero-video-preload-dots 1.05s ease-in-out infinite;
+}
+
+@keyframes hero-video-preload-dots {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px);
+  }
+}
+
+.video-block.video-ready .hero-video-strip::after {
+  opacity: 0;
+  visibility: hidden;
+  animation: none;
 }
 
 .hero-video-strip img {
@@ -901,23 +940,14 @@ body.scroll-menu-open {
   z-index: 0;
 }
 
+/* Только тёмный цветной ореол — без светлой полосы шиммера (она выглядела как белая плашка). */
 .video-block.is-loading::before {
   background:
-    radial-gradient(70% 65% at 10% 80%, rgba(172, 100, 255, 0.16), transparent 65%),
-    radial-gradient(70% 65% at 90% 20%, rgba(92, 122, 255, 0.17), transparent 65%),
-    linear-gradient(120deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.12) 38%, rgba(255, 255, 255, 0.06) 52%);
-  background-size: 100% 100%, 100% 100%, 220% 100%;
-  animation: hero-video-shimmer 1.35s ease-in-out infinite;
-}
-
-/* Поверх кадров — только тёмный ореол, без светлой «полосы» (она читалась как белый экран). */
-.video-block.is-loading:has(.hero-video-strip)::before {
-  background:
-    radial-gradient(70% 65% at 10% 80%, rgba(172, 100, 255, 0.14), transparent 68%),
-    radial-gradient(70% 65% at 90% 22%, rgba(92, 122, 255, 0.14), transparent 68%);
+    radial-gradient(70% 65% at 10% 80%, rgba(172, 100, 255, 0.16), transparent 68%),
+    radial-gradient(70% 65% at 90% 22%, rgba(92, 122, 255, 0.16), transparent 68%);
   background-size: 100% 100%;
   animation: none;
-  opacity: 0.45;
+  opacity: 0.55;
 }
 
 .video-block.is-loading::after,
@@ -925,31 +955,18 @@ body.scroll-menu-open {
   content: none;
 }
 
-/* Пока нет кадра видео — не показываем белый слой плеера (strip + poster у <video>). */
+/* Пока нет кадра видео — не показываем белый слой плеера / постер Safari. */
 .video-block:not(.video-ready) .video-iframe[data-v-135dc442],
 .video-block:not(.video-ready) .video-iframe {
   opacity: 0;
+  visibility: hidden;
 }
 
 .video-block.video-ready .video-iframe[data-v-135dc442],
 .video-block.video-ready .video-iframe {
   opacity: 1;
+  visibility: visible;
   transition: opacity 0.32s ease;
-}
-
-@keyframes hero-video-shimmer {
-  0% {
-    background-position:
-      0 0,
-      0 0,
-      130% 0;
-  }
-  100% {
-    background-position:
-      0 0,
-      0 0,
-      -30% 0;
-  }
 }
 
 /* Hero video framing fix: remove bundle vertical shift */
@@ -958,6 +975,7 @@ body.scroll-menu-open {
   transform: none !important;
   overflow: hidden !important;
   border-radius: inherit !important;
+  background: #070708;
 }
 
 .video-iframe[data-v-135dc442],
@@ -971,6 +989,7 @@ body.scroll-menu-open {
   object-position: center;
   transform: translateZ(0) scale(1.002);
   backface-visibility: hidden;
+  background-color: #070708;
 }
 
 /* «Оставить заявку»: панель .btns скрыта в bundle при width > 1024 — показываем с body.leave-cta-open */
