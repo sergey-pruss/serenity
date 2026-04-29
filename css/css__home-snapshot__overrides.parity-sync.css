@@ -843,9 +843,10 @@ body.scroll-menu-open {
   background: inherit;
   opacity: 0;
   visibility: hidden;
+  /* Короткое снятие маски после full — долгий fade выглядел как «зависший» переход */
   transition:
-    opacity 0.34s ease,
-    visibility 0s linear 0.34s;
+    opacity 0.09s ease,
+    visibility 0s linear 0.09s;
 }
 
 .video-block:not(.video-ready)::after,
@@ -853,7 +854,8 @@ body.scroll-menu-open {
 .video-block.is-loading.video-ready::after {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.22s ease;
+  /* Появление маски без анимации — сразу тёмный слой */
+  transition: none;
 }
 
 /* Пока нет кадра видео — не показываем белый слой плеера / постер Safari. */
@@ -867,7 +869,7 @@ body.scroll-menu-open {
 .video-block.video-ready .video-iframe {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.32s ease;
+  transition: opacity 0.14s ease;
 }
 
 /* Hero video framing fix: remove bundle vertical shift */
