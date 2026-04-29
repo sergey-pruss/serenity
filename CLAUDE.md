@@ -4,20 +4,37 @@
 - Агентство: Serenity (serenity.agency)
 - Репозиторий: https://github.com/sergey-pruss/serenity
 - Папка проекта: ~/Documents/GitHub/serenity
-- Продакшн: https://serenity.agency (старый WordPress, не трогать)
-- Стейджинг: https://serenity.sergeyprus.workers.dev (Cloudflare Workers)
+- Деплой статики (HTML/CSS/JS/img/json): общий каталог на новом сервере `/var/www/static` (IP `168.222.142.141`)
+- Превью-домен (тот же артефакт): https://static.serenity.agency
+- Основной домен (Nginx-router + статика + прокси на legacy WordPress где страницы ещё не перенесены): https://serenity.agency
+- Стейджинг Worker (тот же репозиторий как ASSETS): https://serenity.sergeyprus.workers.dev (Cloudflare Workers)
 
-## Деплой
-- Платформа: Cloudflare Workers (wrangler.jsonc)
-- Деплой: `npx wrangler deploy` из папки проекта
-- Wrangler уже авторизован локально
-- Публикация после задачи: обязательно в двух местах — `static.serenity.agency` и Cloudflare Workers
-- После каждой задачи: git add → git commit (на русском) → git push → npx wrangler deploy
-- Проверка **мобильной** вёрстки и меню — на стейджинге после деплоя (`serenity.sergeyprus.workers.dev`); локальный `npm run dev` не заменяет проверку на реальном URL с кэшем/CDN
+## Деплой (обязательный порядок)
+Все три URL должны получать **одну и ту же** статику из репозитория; различаются только окружение (Nginx / Worker) и кэш.
+
+1. Сборка при изменении шаблонов/кейсов (если задача затрагивает HTML или данные кейсов):
+   - `npm run build:html` (или минимально нужные скрипты из `package.json`)
+2. Тесты перед выкладкой:
+   - `npm run test:layout-smoke`
+   - `npm run test:routing-config`
+   - при правках кейсов: `npm run test:case-all`
+3. Выгрузка статики на сервер (**обновляет и static, и базу для serenity.agency**, т.к. общий `root`):
+   - `bash deploy.sh` → rsync в `/var/www/static/` на `168.222.142.141`
+4. Если менялся **маршрутизатор** (`nginx/routing.conf`):
+   - `bash scripts/deploy-routing.sh` (на сервере `nginx -t` и только потом reload)
+5. Cloudflare Workers (**отдельный шаг**, те же файлы как ASSETS):
+   - `npx wrangler deploy` (конфиг `wrangler.jsonc`)
+6. Git:
+   - `git add` → commit сообщение **на русском** → `git push`
+
+Проверка после деплоя на реальных URL (не только локально): главная и `/case/all/` на **https://serenity.agency**, превью на **https://static.serenity.agency**, стейджинг на **https://serenity.sergeyprus.workers.dev**; формы/API — по задаче (`/api/lead` на Worker).
+
+Локальный `npm run dev` не заменяет проверку на продакшен-URL с кэшем/CDN.
 
 ## Архитектура
-- Статический сайт: index.html + css/ + js/ + img/
-- Worker: src/worker.mjs — роутинг (статика через ASSETS, API через /api/*)
+- Статический сайт в репозитории: index.html + css/ + js/ + img/ + json/
+- На сервере `168.222.142.141`: каталог `/var/www/static` — источник файлов для **static** и для **serenity.agency** (роутинг в Nginx, см. `nginx/routing.conf`, прод-версия отражена в `nginx/serenity-router.live.conf`)
+- Worker: `src/worker.mjs` — стейджинг: статика через ASSETS, API через `/api/*`
 - API форм: src/lead-api.mjs — обработка заявок
 
 ## Интеграции (секреты в Cloudflare Workers)

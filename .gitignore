@@ -5,7 +5,12 @@ compare/*
 !compare/form-mobile-blend-50.png
 !compare/form-mobile-side-by-side.png
 .DS_Store
-.cursor/
+# Cursor: версионируем только общие правила в `.cursor/rules/*.mdc`;
+# локальные служебные файлы (логи отладки и т.п.) не коммитим.
+.cursor/*
+!.cursor/rules/
+.cursor/rules/*
+!.cursor/rules/*.mdc
 .claude/
 dist/
 .astro/
