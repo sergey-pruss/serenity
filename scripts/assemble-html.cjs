@@ -23,6 +23,9 @@ const outPath = path.join(root, "index.html");
 /** Только один перевод строки после маркера (не \s* — иначе съедаются отступы следующей строки) */
 const MARKER_RE = /<!--\s*@partial\s+([\w-]+)\s*-->(?:\r?\n)?/g;
 
+/** Partials вне extract: один файл — счётчики (GTM + Я.Метрика), подключаются из index.layout.html */
+const EXTRA_PARTIALS = ["analytics-counters"];
+
 /** 1-based inclusive line ranges → partial file (без .html) */
 const EXTRACT_PARTIALS = {
   header: [122, 310],
@@ -95,6 +98,13 @@ function loadPartials() {
     }
     map.set(name, fs.readFileSync(p, "utf8"));
   }
+  for (const name of EXTRA_PARTIALS) {
+    const p = path.join(partialsDir, `${name}.html`);
+    if (!fs.existsSync(p)) {
+      throw new Error(`Missing partial: ${p}`);
+    }
+    map.set(name, fs.readFileSync(p, "utf8"));
+  }
   return map;
 }
 
@@ -104,7 +114,9 @@ function assertLayoutMarkersKnown(layout, partialNames) {
   let m;
   while ((m = markerRe.exec(layout))) {
     if (!partialNames.has(m[1])) {
-      throw new Error(`В index.layout.html маркер @partial ${m[1]} — нет такого ключа в EXTRACT_PARTIALS / на диске`);
+      throw new Error(
+        `В index.layout.html маркер @partial ${m[1]} — нет такого partial (EXTRACT_PARTIALS / EXTRA_PARTIALS / файл на диске)`,
+      );
     }
   }
 }

@@ -3,7 +3,7 @@
   "private": true,
   "description": "Static home snapshot; dev tools for layout tests",
   "scripts": {
-    "build:cases": "node scripts/build-cases-all-data.mjs && node scripts/build-case-all-pages.mjs && node scripts/build-case-mobile-media.mjs",
+    "build:cases": "node scripts/build-cases-all-data.mjs && node scripts/sync-analytics-into-case-all.mjs && node scripts/build-case-all-pages.mjs && node scripts/build-case-mobile-media.mjs",
     "build:html": "npm run build:cases && node scripts/assemble-html.cjs build && node scripts/typography-nbsp.cjs",
     "dev": "node scripts/dev-server.cjs",
     "test:clients": "node scripts/verify-clients.cjs",
@@ -26,6 +26,7 @@
     "test:services-blog-gap": "node scripts/verify-services-blog-card-gap.cjs",
     "test:readability-slow": "node scripts/verify-readability-slow-network.cjs",
     "test:hero-poster": "node scripts/verify-hero-video-poster.cjs",
+    "test:post-deploy-smoke": "node scripts/post-deploy-smoke.cjs",
     "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs"
   },
   "devDependencies": {
