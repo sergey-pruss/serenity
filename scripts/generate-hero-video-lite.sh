@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Лёгкий герой для первого кадра на медленных каналах: -movflags +faststart обязателен.
+# Ещё меньше файл: заменить scale на -2:360 и/или -crf 32 (качество ниже).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IN="$ROOT/img/video__home-hero.fhls-fastly_skyfire-4398.mp4"
