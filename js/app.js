@@ -949,12 +949,32 @@
         if (video.dataset.heroUpgraded === "1") return;
         video.dataset.heroUpgraded = "1";
         clearPrefetchMonitors();
-        const t = video.currentTime || 0;
         block.classList.add("hero-video-upgrading");
-        const unmaskAfterFrame = () => {
-          requestAnimationFrame(() => {
-            block.classList.remove("hero-video-upgrading");
-          });
+        /* Маска уже есть — фиксируем время без дрейфа кадра во время load() */
+        let t = 0;
+        try {
+          if (!video.paused) {
+            video.pause();
+          }
+          t = Number(video.currentTime) || 0;
+        } catch (_) {
+          t = 0;
+        }
+        const unmaskAfterPainted = () => {
+          const done = () => {
+            requestAnimationFrame(() => {
+              block.classList.remove("hero-video-upgrading");
+            });
+          };
+          try {
+            if (typeof video.requestVideoFrameCallback === "function") {
+              video.requestVideoFrameCallback(() => done());
+            } else {
+              done();
+            }
+          } catch (_) {
+            done();
+          }
         };
         while (video.firstChild) video.removeChild(video.firstChild);
         video.removeAttribute("src");
@@ -963,25 +983,39 @@
         const resume = () => {
           disposePrefetch();
           const startPlay = () => {
-            video.play().then(unmaskAfterFrame).catch(unmaskAfterFrame);
+            video
+              .play()
+              .then(() => unmaskAfterPainted())
+              .catch(() => unmaskAfterPainted());
           };
-          try {
-            const dur = Number.isFinite(video.duration) ? video.duration : 0;
-            if (dur > 0.15 && t > 0.02) {
-              const target = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
-              const onSeeked = () => startPlay();
-              video.addEventListener("seeked", onSeeked, { once: true });
-              video.currentTime = target;
-              if (!video.seeking) {
-                video.removeEventListener("seeked", onSeeked);
+          const applySeekThenPlay = () => {
+            try {
+              const dur = Number.isFinite(video.duration) ? video.duration : 0;
+              if (dur > 0.15 && t > 0.02) {
+                const target = Math.min(Math.max(t, 0), Math.max(dur - 0.04, 0));
+                const onSeeked = () => startPlay();
+                video.addEventListener("seeked", onSeeked, { once: true });
+                try {
+                  if (typeof video.fastSeek === "function") {
+                    video.fastSeek(target);
+                  } else {
+                    video.currentTime = target;
+                  }
+                } catch (_) {
+                  video.currentTime = target;
+                }
+                if (!video.seeking) {
+                  video.removeEventListener("seeked", onSeeked);
+                  startPlay();
+                }
+              } else {
                 startPlay();
               }
-            } else {
+            } catch (_) {
               startPlay();
             }
-          } catch (_) {
-            startPlay();
-          }
+          };
+          applySeekThenPlay();
         };
         const onFullError = () => {
           disposePrefetch();
@@ -1001,23 +1035,34 @@
               video.play().catch(() => {});
               markReady();
             };
-            try {
-              const dur = Number.isFinite(video.duration) ? video.duration : 0;
-              if (dur > 0.15 && t > 0.02) {
-                const target = Math.min(Math.max(t, 0), Math.max(dur - 0.08, 0));
-                const onSeeked = () => startPlay();
-                video.addEventListener("seeked", onSeeked, { once: true });
-                video.currentTime = target;
-                if (!video.seeking) {
-                  video.removeEventListener("seeked", onSeeked);
+            const applySeekThenPlay = () => {
+              try {
+                const dur = Number.isFinite(video.duration) ? video.duration : 0;
+                if (dur > 0.15 && t > 0.02) {
+                  const target = Math.min(Math.max(t, 0), Math.max(dur - 0.04, 0));
+                  const onSeeked = () => startPlay();
+                  video.addEventListener("seeked", onSeeked, { once: true });
+                  try {
+                    if (typeof video.fastSeek === "function") {
+                      video.fastSeek(target);
+                    } else {
+                      video.currentTime = target;
+                    }
+                  } catch (_) {
+                    video.currentTime = target;
+                  }
+                  if (!video.seeking) {
+                    video.removeEventListener("seeked", onSeeked);
+                    startPlay();
+                  }
+                } else {
                   startPlay();
                 }
-              } else {
+              } catch (_) {
                 startPlay();
               }
-            } catch (_) {
-              startPlay();
-            }
+            };
+            applySeekThenPlay();
           };
           video.addEventListener("loadeddata", resumeLite, { once: true });
           video.addEventListener("error", markError, { once: true });
