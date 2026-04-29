@@ -52,6 +52,25 @@ if (!html.includes('src="img/video__home-hero-lite.mp4"')) {
   console.error("В index.html нет <source> с лёгким видео героя");
   process.exit(1);
 }
+if (!html.includes('class="hero-video-strip"')) {
+  console.error("В index.html нет блока hero-video-strip");
+  process.exit(1);
+}
+if (!html.includes('rel="preload" as="image" href="img/video__home-hero-strip-1.jpg"')) {
+  console.error("В index.html нет preload первого кадра strip");
+  process.exit(1);
+}
+for (const n of [1, 2, 3]) {
+  const p = path.join(root, "img", `video__home-hero-strip-${n}.jpg`);
+  if (!fs.existsSync(p)) {
+    console.error("Нет файла strip:", p);
+    process.exit(1);
+  }
+  if (fs.statSync(p).size < 1500) {
+    console.error("Strip слишком маленький:", p);
+    process.exit(1);
+  }
+}
 
-console.log("hero poster + lite OK");
+console.log("hero poster + lite + strip OK");
 process.exit(0);
