@@ -17,8 +17,13 @@ async function readComputed(page) {
     const root = getComputedStyle(document.documentElement);
     const expLedge = parseFloat(root.getPropertyValue("--home-ledge").replace("px", "").trim()) || null;
     const expBetween = parseFloat(root.getPropertyValue("--home-between").replace("px", "").trim()) || null;
+    const expCasesLedge =
+      parseFloat(root.getPropertyValue("--cases-ledge").replace("px", "").trim()) || null;
 
-    const out = { expected: { lede: expLedge, between: expBetween }, items: [] };
+    const out = {
+      expected: { lede: expLedge, between: expBetween, casesLedge: expCasesLedge },
+      items: [],
+    };
     const add = (name, prop, from, px) => {
       out.items.push({ name, prop, from, valuePx: Math.round((px || 0) * 100) / 100 });
     };
@@ -38,8 +43,15 @@ async function readComputed(page) {
     const cn = document.querySelector(".clients-new.home-ledge");
     if (cn) add("Наши клиенты", "margin-bottom", "clients-new", parseFloat(getComputedStyle(cn).marginBottom));
 
-    const lm = document.querySelector(".home-ledge--lm.home-ledge");
-    if (lm) add("Мы любим маркетинг", "margin-bottom", "ledge-lm", parseFloat(getComputedStyle(lm).marginBottom));
+    const lmSub = document.querySelector(".live-marketing-block .live-marketing-block__subtitle");
+    if (lmSub) {
+      add(
+        "Мы любим маркетинг (подпись)",
+        "margin-bottom",
+        "live-marketing subtitle",
+        parseFloat(getComputedStyle(lmSub).marginBottom),
+      );
+    }
 
     const cs = document.querySelector(".clients-new-section.home-between");
     if (cs) add("PT секции клиентов", "padding-top", "clients-new-section", parseFloat(getComputedStyle(cs).paddingTop));
@@ -63,12 +75,23 @@ async function run() {
     const data = await readComputed(page);
     console.log(`--- ${w}px`, JSON.stringify(data, null, 2));
 
-    const { lede, between } = data.expected;
+    const { lede, between, casesLedge } = data.expected;
+    const lmSubtitleMb = w > 1024 ? 90 : w > 550 ? 60 : 42;
     for (const it of data.items) {
       if (it.name === "Блог (сверху сек.)" || it.name === "PT секции клиентов" || it.name === "MT live-блок") {
         assert(
           between != null && Math.abs(it.valuePx - between) < 0.5,
           `${w}px ${it.name}: got ${it.valuePx}, want --home-between ${between}`,
+        );
+      } else if (it.name === "Кейсы") {
+        assert(
+          casesLedge != null && Math.abs(it.valuePx - casesLedge) < 0.5,
+          `${w}px ${it.name}: got ${it.valuePx}, want --cases-ledge ${casesLedge}`,
+        );
+      } else if (it.name === "Мы любим маркетинг (подпись)") {
+        assert(
+          Math.abs(it.valuePx - lmSubtitleMb) < 0.5,
+          `${w}px ${it.name}: got ${it.valuePx}, want ${lmSubtitleMb} (как в оригинале Nuxt)`,
         );
       } else {
         assert(

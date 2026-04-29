@@ -179,7 +179,10 @@
   overflow: hidden;
 }
 
-/* «Мы любим маркетинг»: h2+подзаголовок в .home-ledge--lm; отступ вниз — как у .home-ledge */
+/* «Мы любим маркетинг»: h2+подзаголовок в .home-ledge--lm; зазор до тёмного блока — как в оригинале (margin снизу у подписи). */
+.live-marketing-block .home-ledge.home-ledge--lm {
+  margin-bottom: 0 !important;
+}
 .home-ledge--lm {
   display: flex;
   flex-direction: column;
@@ -204,7 +207,19 @@
 }
 .live-marketing-block .home-ledge--lm .live-marketing-block__subtitle,
 .live-marketing-block .home-ledge--lm .live-marketing-block__subtitle[data-v-1c300291] {
-  margin: 0 auto !important;
+  margin: 0 auto 90px !important;
+}
+@media screen and (max-width: 1024px) {
+  .live-marketing-block .home-ledge--lm .live-marketing-block__subtitle,
+  .live-marketing-block .home-ledge--lm .live-marketing-block__subtitle[data-v-1c300291] {
+    margin: 0 auto 60px !important;
+  }
+}
+@media screen and (max-width: 550px) {
+  .live-marketing-block .home-ledge--lm .live-marketing-block__subtitle,
+  .live-marketing-block .home-ledge--lm .live-marketing-block__subtitle[data-v-1c300291] {
+    margin: 0 auto 42px !important;
+  }
 }
 
 .component-block__top-element-big[data-v-1c300291],
