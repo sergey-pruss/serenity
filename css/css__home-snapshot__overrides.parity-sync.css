@@ -800,6 +800,93 @@ body.scroll-menu-open {
   overflow: hidden !important;
 }
 
+/* Три кадра из ролика — цикл, пока не готов <video> (без «белого экрана»). */
+.hero-video-strip {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0c0c0d;
+}
+
+.hero-video-strip img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(0);
+}
+
+.hero-video-strip img:nth-child(1) {
+  animation: heroStripA 9s ease-in-out infinite;
+}
+
+.hero-video-strip img:nth-child(2) {
+  animation: heroStripB 9s ease-in-out infinite;
+}
+
+.hero-video-strip img:nth-child(3) {
+  animation: heroStripC 9s ease-in-out infinite;
+}
+
+.video-block.video-ready .hero-video-strip {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.34s ease,
+    visibility 0s linear 0.34s;
+}
+
+.video-block.video-ready .hero-video-strip img {
+  animation: none;
+}
+
+@keyframes heroStripA {
+  0%,
+  28% {
+    opacity: 1;
+  }
+  33%,
+  97% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes heroStripB {
+  0%,
+  30% {
+    opacity: 0;
+  }
+  33%,
+  61% {
+    opacity: 1;
+  }
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes heroStripC {
+  0%,
+  63% {
+    opacity: 0;
+  }
+  66%,
+  95% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .video-block.is-loading::before,
 .video-block.is-loading::after {
   content: "";
@@ -823,11 +910,28 @@ body.scroll-menu-open {
   animation: hero-video-shimmer 1.35s ease-in-out infinite;
 }
 
+/* Поверх кадров — только тёмный ореол, без светлой «полосы» (она читалась как белый экран). */
+.video-block.is-loading:has(.hero-video-strip)::before {
+  background:
+    radial-gradient(70% 65% at 10% 80%, rgba(172, 100, 255, 0.14), transparent 68%),
+    radial-gradient(70% 65% at 90% 22%, rgba(92, 122, 255, 0.14), transparent 68%);
+  background-size: 100% 100%;
+  animation: none;
+  opacity: 0.45;
+}
+
 .video-block.is-loading::after,
 .video-block.video-error::after {
   content: none;
 }
 
+/* Пока нет кадра видео — не показываем белый слой плеера (strip + poster у <video>). */
+.video-block:not(.video-ready) .video-iframe[data-v-135dc442],
+.video-block:not(.video-ready) .video-iframe {
+  opacity: 0;
+}
+
+.video-block.video-ready .video-iframe[data-v-135dc442],
 .video-block.video-ready .video-iframe {
   opacity: 1;
   transition: opacity 0.32s ease;
