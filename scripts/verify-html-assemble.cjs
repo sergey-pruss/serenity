@@ -18,7 +18,13 @@ const indexPath = path.join(root, "index.html");
     cwd: root,
     encoding: "utf8",
   });
-  assert(r.status === 0, `build:html failed: ${r.stderr || r.stdout}`);
+  assert(r.status === 0, `assemble-html failed: ${r.stderr || r.stdout}`);
+
+  const rTypo = spawnSync(process.execPath, [path.join(root, "scripts", "typography-nbsp.cjs")], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  assert(rTypo.status === 0, `typography-nbsp failed: ${rTypo.stderr || rTypo.stdout}`);
 
   const html = fs.readFileSync(indexPath, "utf8");
   assert(!html.includes("<!-- @partial"), "В index.html остались незаменённые маркеры @partial");
@@ -30,6 +36,15 @@ const indexPath = path.join(root, "index.html");
   assert(html.includes("live-marketing-block-wr"), "live-marketing-block-wr");
   assert(html.includes("footer-modern"), "footer-modern");
   assert(html.includes("footer-burger-chrome.css"), "подключён footer-burger-chrome.css");
+
+  assert(
+    html.includes('data-typography-nbsp="1"'),
+    "после сборки должна быть типографика (data-typography-nbsp)"
+  );
+  assert(
+    html.includes("в&nbsp;маркетинг"),
+    "nbsp после предлога «в» (кейс Складно и др.)"
+  );
 
   const footMatch = html.match(/<footer[\s\S]*?<\/footer>/i);
   assert(footMatch, "footer block");
