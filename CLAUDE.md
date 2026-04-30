@@ -26,6 +26,7 @@
 4. Nginx на сервере (**только если менялось**):
    - **маршрутизатор** `nginx/routing.conf` → `bash scripts/deploy-routing.sh` (`nginx -t`, затем reload)
    - **продовый vhost** `nginx/serenity-router.live.conf` → залить как `/etc/nginx/sites-available/serenity-router`, затем `nginx -t` и reload
+   - **превью static.serenity.agency** (`nginx/static.serenity.agency.live.conf`) → `bash scripts/deploy-static-vhost.sh` (по умолчанию копирует в `/etc/nginx/sites-available/static`). Если по адресу `/docs/team-handbook.html` открывается **главная**, на диске нет `docs/` после деплоя **или** на сервере старый vhost без `location ^~ /docs/` (тогда `try_files` уходит в `/index.html`).
 5. Cloudflare Workers (**отдельный шаг**, те же файлы как ASSETS):
    - `npx wrangler deploy` (конфиг `wrangler.jsonc`)
 6. Git:
@@ -40,7 +41,7 @@
 - Проверить, что в CSS нет путей `../_sa/...` внутри `url(...)`; для статики использовать относительные пути от CSS, например `../img/...`.
 - При жалобах на «пропали стрелки/старое поведение» сначала подозревать кэш immutable-ассетов и сверять `?v=` в итоговом `index.html`.
 - Ручные проверки по конкретной задаче и контекст прод-URL — в **`docs/team-handbook.html`**.
-- Опционально после выкладки: `npm run test:post-deploy-smoke` (Playwright по трём origin, если настроена сеть) — не заменяет обязательные тесты из раздела «Деплой» выше.
+- Опционально после выкладки: `npm run test:post-deploy-smoke` (Playwright по трём origin + проверка `/docs/team-handbook.html` по fetch, если настроена сеть) — не заменяет обязательные тесты из раздела «Деплой» выше.
 
 ## Архитектура
 - Статический сайт в репозитории: index.html + css/ + js/ + img/ + json/
