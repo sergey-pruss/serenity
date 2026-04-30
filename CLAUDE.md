@@ -4,6 +4,7 @@
 
 ## Контекст
 - Справочник для команды (поверхности, маршруты, SEO, деплой): **`docs/team-handbook.html`** — после `bash deploy.sh` по URL: `https://serenity.agency/docs/team-handbook.html`, `https://static.serenity.agency/docs/team-handbook.html`, `https://serenity.sergeyprus.workers.dev/docs/team-handbook.html`. Каталог `/docs/` закрыт от индексации (см. `robots.production.txt`, `X-Robots-Tag` в vhost/Worker). На **serenity.agency** путь `/docs/*` должен считаться «новой» статикой в **`nginx/routing.conf`** (`~^/docs/` → `is_new_page=1`); иначе запрос уйдёт на legacy и может дать **500**. Выкладка карты: **`bash scripts/deploy-routing.sh`**. Дополнительно рекомендуется актуальный **`nginx/serenity-router.live.conf`** с `location ^~ /docs/` (заголовки кэша/noindex) и зеркало для превью в **`nginx/static.serenity.agency.live.conf`**. Worker: после правок **`wrangler.jsonc`** — **`npx wrangler deploy`**.
+- **`/robots.txt` и `/sitemap.xml`:** в **`nginx/routing.conf`** помечены как статика (`is_new_page=1`), иначе снова отдаётся WordPress без **`Disallow: /docs/`**. После правок — **`bash scripts/deploy-routing.sh`** и **`bash deploy.sh`** (на диске нужны актуальные **`robots.production.txt`** и дублирующий корневой **`robots.txt`**). На **static.serenity.agency** превью — **`robots.static-preview.txt`** через vhost.
 - Агентство: Serenity (serenity.agency)
 - Репозиторий: https://github.com/sergey-pruss/serenity
 - Папка проекта: ~/Documents/GitHub/serenity

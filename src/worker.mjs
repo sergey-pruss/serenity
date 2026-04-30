@@ -23,7 +23,7 @@ export default {
       return handleLeadRequest(request, env);
     }
 
-    /** Как nginx `location = /robots.txt` → `robots.production.txt`, а не корневой `robots.txt` (превью). */
+    /** Как nginx `location = /robots.txt` → `robots.production.txt` (канон продакшена). */
     if (url.pathname === "/robots.txt") {
       const prodRobotsUrl = new URL("/robots.production.txt", url.origin);
       return env.ASSETS.fetch(new Request(prodRobotsUrl, request));
