@@ -5,12 +5,13 @@
 ## Контекст
 
 - Справочник для команды (URL, SEO, аналитика): **`docs/team-handbook.html`** — полный нарратив без дублирования регламента деплоя (**см. [`AGENTS.md`](AGENTS.md)**).
-- Каталог **`/docs/`** закрыт от индексации (см. `robots.production.txt`, `X-Robots-Tag` в vhost/Worker). На **serenity.agency** префикс **`/docs/*`** в **`nginx/routing.conf`** должен быть помечен как новая статика (`~^/docs/` → `is_new_page=1`); иначе запрос уйдёт на legacy (**500**, Nuxt и т.п.). Публичная выдача файлов после деплоя — с диска **`/var/www/static/docs/`** через Nginx (**что выполнить на сервере — [`AGENTS.md`](AGENTS.md)**).
+- Каталог **`/docs/`** закрыт от индексации (см. `robots.production.txt`, `X-Robots-Tag` в vhost/Worker). На **serenity.agency** префикс **`/docs`** в **`nginx/routing.conf`** должен быть помечен как новая статика (`~^/docs(/|$)` → `is_new_page=1`); иначе запрос уйдёт на legacy (**500**, Nuxt и т.п.). Публичная выдача файлов после деплоя — с диска **`/var/www/static/docs/`** через Nginx (**что выполнить на сервере — [`AGENTS.md`](AGENTS.md)**).
 - **`/robots.txt` и `/sitemap.xml`:** в **`nginx/routing.conf`** помечены как новая статика (`is_new_page=1`). Иначе снова отдаётся WordPress без строки **`Disallow: /docs/`**. На диске должны быть **`robots.production.txt`** и корневой **`robots.txt`** из репозитория; на **static.serenity.agency** превью — **`robots.static-preview.txt`** через vhost. **Порядок выкладки — [`AGENTS.md`](AGENTS.md)**.
 - Агентство: Serenity (serenity.agency)
 - Репозиторий: https://github.com/sergey-pruss/serenity
 - Папка проекта: ~/Documents/GitHub/serenity
-- Деплой статики (HTML/CSS/JS/img/json): общий каталог **`/var/www/static`** на **том же хосте**, что и прод‑Nginx (IP **`168.222.142.141`**); **`docs/`** — те же статические файлы, не отдельный приложенческий сервер.
+- **Новый сервер (единственная цель выкладки из репо):** каталог **`/var/www/static`** и Nginx на хосте **`168.222.142.141`**. Сюда же указывает **`deploy.sh`** и скрипты vhost/routing. **`docs/`** — обычные статические файлы в этом дереве.
+- **Legacy WordPress** — отдельный upstream (см. `nginx/serenity-router.live.conf`); с него этот репозиторий **ничего не деплоит**, только проксирует часть URL с **нового** сервера.
 - Превью-домен (тот же артефакт): https://static.serenity.agency
 - Основной домен (Nginx-router + статика + прокси на legacy WordPress где страницы ещё не перенесены): https://serenity.agency
 - Стейджинг Worker (тот же репозиторий как ASSETS): https://serenity.sergeyprus.workers.dev (Cloudflare Workers)
