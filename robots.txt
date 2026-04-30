@@ -1,3 +1,4 @@
+# Превью static: этот файл отдаётся как /robots.txt с диска. На serenity.agency nginx подменяет ответ на robots.production.txt.
 # Preview/staging host only (static). Production site: https://serenity.agency/
 User-agent: *
 Disallow: /
