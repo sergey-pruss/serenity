@@ -3,7 +3,7 @@
 **Обязательные правила для агентов и единый краткий перечень требований — в корневом [`AGENTS.md`](AGENTS.md).** Здесь — детальный порядок работ, деплоя, конфигурации и интеграций без дублирования того файла как «источника истины».
 
 ## Контекст
-- Справочник для команды (поверхности, маршруты, SEO, деплой): **`docs/team-handbook.html`** — открыть локально или выложить копию на static для шаринга по URL.
+- Справочник для команды (поверхности, маршруты, SEO, деплой): **`docs/team-handbook.html`** — в репозитории и по URL после `bash deploy.sh`: `https://serenity.agency/docs/team-handbook.html`, `https://static.serenity.agency/docs/team-handbook.html`, `https://serenity.sergeyprus.workers.dev/docs/team-handbook.html`. Каталог `/docs/` закрыт от индексации (см. `robots.production.txt`, заголовок `X-Robots-Tag` в `nginx/serenity-router.live.conf` и `src/worker.mjs`). Чтобы `/docs/` открывался на основном домене, в проде должен быть актуальный vhost из `nginx/serenity-router.live.conf` (залить в `/etc/nginx/sites-available/serenity-router`, `nginx -t`, reload) — это **не** `scripts/deploy-routing.sh` (тот только для `nginx/routing.conf`).
 - Агентство: Serenity (serenity.agency)
 - Репозиторий: https://github.com/sergey-pruss/serenity
 - Папка проекта: ~/Documents/GitHub/serenity
@@ -31,7 +31,7 @@
 6. Git:
    - `git add` → commit сообщение **на русском** → `git push`
 
-Проверка после деплоя на реальных URL (не только локально): главная и `/case/all/` на **https://serenity.agency**, превью на **https://static.serenity.agency**, стейджинг на **https://serenity.sergeyprus.workers.dev**; формы/API — по задаче (`/api/lead` на Worker).
+Проверка после деплоя на реальных URL (не только локально): главная и `/case/all/` на **https://serenity.agency**, превью на **https://static.serenity.agency**, стейджинг на **https://serenity.sergeyprus.workers.dev**; формы и `/api/*` — по окружению и задаче (на `serenity.agency` см. `nginx/serenity-router.live.conf`; на Worker — `src/worker.mjs`).
 
 Локальный `npm run dev` не заменяет проверку на продакшен-URL с кэшем/CDN.
 
