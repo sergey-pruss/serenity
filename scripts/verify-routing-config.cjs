@@ -32,6 +32,7 @@ assert(
   /~\^\/case\/all\/category\/\[\^\/\]\+\/\[0-9\]\+\/index\\\.html\$\s+1;/.test(content),
   "Missing /case/all/category/{code}/{page}/index.html rule."
 );
+assert(/~\^\/docs\/\s+1;/.test(content), "Missing /docs/ static rule (team handbook and other docs).");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 
