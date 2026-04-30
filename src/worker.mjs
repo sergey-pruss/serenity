@@ -23,6 +23,17 @@ export default {
       return handleLeadRequest(request, env);
     }
 
+    if (url.pathname === "/docs" || url.pathname.startsWith("/docs/")) {
+      const res = await env.ASSETS.fetch(request);
+      const headers = new Headers(res.headers);
+      headers.set("X-Robots-Tag", "noindex, nofollow");
+      return new Response(res.body, {
+        status: res.status,
+        statusText: res.statusText,
+        headers,
+      });
+    }
+
     return env.ASSETS.fetch(request);
   },
 };

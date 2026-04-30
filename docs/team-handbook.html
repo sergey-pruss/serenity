@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>Serenity — структура проекта, URL и проверки</title>
     <style>
       :root {
@@ -498,8 +499,14 @@
       </section>
 
       <footer>
-        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — можно открыть локально или положить на
-        static для шаринга по URL. Обновляйте блок «Снимок документа» при существенных изменениях архитектуры.
+        Файл в репозитории: <span class="mono">docs/team-handbook.html</span>. После <code>bash deploy.sh</code> тот же
+        файл доступен как
+        <a href="https://serenity.agency/docs/team-handbook.html"><span class="mono">https://serenity.agency/docs/team-handbook.html</span></a>,
+        <a href="https://static.serenity.agency/docs/team-handbook.html"><span class="mono">https://static.serenity.agency/docs/team-handbook.html</span></a>,
+        на Worker —
+        <a href="https://serenity.sergeyprus.workers.dev/docs/team-handbook.html"><span class="mono">https://serenity.sergeyprus.workers.dev/docs/team-handbook.html</span></a>. Каталог <span class="mono">/docs/</span> закрыт от индексации (<span class="mono">robots.production.txt</span>,
+        заголовок <span class="mono">X-Robots-Tag</span> для прод-домена и Worker). Обновляйте блок «Снимок документа» при
+        существенных изменениях архитектуры.
       </footer>
     </div>
   </body>

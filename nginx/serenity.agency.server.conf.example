@@ -81,6 +81,13 @@ server {
         proxy_pass https://serenity_legacy_origin;
     }
 
+    location ^~ /docs/ {
+        expires -1;
+        add_header Cache-Control "no-cache, max-age=0, must-revalidate";
+        add_header X-Robots-Tag "noindex, nofollow" always;
+        try_files $uri $uri/ =404;
+    }
+
     error_page 419 = @legacy_proxy;
 
     location / {
