@@ -5,4 +5,4 @@ alwaysApply: true
 
 # Правила агента
 
-**Полный регламент в корне:** [`AGENTS.md`](AGENTS.md). Архитектура и интеграции — [`CLAUDE.md`](CLAUDE.md). Человекочитаемый нарратив URL/SEO — [`docs/team-handbook.html`](docs/team-handbook.html).
+**Полный регламент в корне:** [`AGENTS.md`](AGENTS.md). Человекочитаемый нарратив URL/SEO — [`docs/team-handbook.html`](docs/team-handbook.html).

@@ -2,15 +2,13 @@
 
 **Этот файл — единственный источник регламента:** тесты, выкладка, три поверхности, кэш, CSS, кейсы, коммиты. Не дублируйте полные чеклисты в других местах — достаточно ссылки сюда.
 
-**Архитектура, IP сервера, интеграции (Resend, AmoCRM), структура CSS/JS —** [`CLAUDE.md`](CLAUDE.md).
-
 **URL, роутинг, SEO и аналитика простым языком (нарратив без полного регламента деплоя) —** [`docs/team-handbook.html`](docs/team-handbook.html).
 
 ---
 
 ## Только новый сервер (статический контур)
 
-Все шаги выкладки из этого регламента относятся **только к новому серверу** со статикой и Nginx-роутером (IP и роль — в [`CLAUDE.md`](CLAUDE.md), раздел контекст/архитектура): **`bash deploy.sh`**, **`bash scripts/deploy-routing.sh`**, **`bash scripts/deploy-serenity-router-vhost.sh`**, **`bash scripts/deploy-static-vhost.sh`** работают с **этой** машиной и каталогом **`/var/www/static`** (плюс конфиги Nginx на ней).
+Все шаги выкладки из этого регламента относятся **только к новому серверу** со статикой и Nginx-роутером: **`bash deploy.sh`**, **`bash scripts/deploy-routing.sh`**, **`bash scripts/deploy-serenity-router-vhost.sh`**, **`bash scripts/deploy-static-vhost.sh`** работают с **этой** машиной и каталогом **`/var/www/static`** (плюс конфиги Nginx на ней).
 
 **Старый основной хост WordPress (legacy)** из этого репозитория **не трогаем**: туда нет `rsync`, нет деплоя темы/плагинов и правок PHP. Он участвует в схеме только как **upstream за прокси** в конфиге Nginx **на новом** сервере — менять эту границу можно только осознанно (файлы в `nginx/`, тесты, выкладка на **новый** сервер).
 
@@ -20,7 +18,7 @@
 
 Прод-сайт живёт на **отдельной машине** с Nginx и каталогом `/var/www/static`. Изменения в git **никак не затрагивают** её, пока кто‑то с доступом по SSH не выполнит **`bash deploy.sh`** и при необходимости скрипты Nginx (см. таблицу ниже).
 
-Если **`https://serenity.agency/robots.txt`** выглядит как правила **WordPress**, поиск **`Disallow: /docs/`** ничего не находит — запрос почти наверняка уходит в **legacy** (прокси на отдельный WordPress‑хост), а не в файлы статики **нового** сервера из репо. То же самое с **`/docs/team-handbook.html`**, если там **500**, страница **Nuxt** или другая ошибка legacy: нужны **актуальные файлы на диске** и **активированная маршрутизация/nginx** под префикс `/docs/` (см. [`CLAUDE.md`](CLAUDE.md), контекст маршрутизации).
+Если **`https://serenity.agency/robots.txt`** выглядит как правила **WordPress**, поиск **`Disallow: /docs/`** ничего не находит — запрос почти наверняка уходит в **legacy** (прокси на отдельный WordPress‑хост), а не в файлы статики **нового** сервера из репо. То же самое с **`/docs/team-handbook.html`**, если там **500**, страница **Nuxt** или другая ошибка legacy: нужны **актуальные файлы на диске** и **активированная маршрутизация/nginx** под префикс `/docs/`.
 
 **Это не блокируют правила Cursor** — их можно менять через файлы в [`.cursor/rules/`](.cursor/rules/); они лишь подсказывают агенту читать этот регламент. Реальное ограничение — **отсутствие выкладки на сервер**, а не IDE.
 
@@ -74,7 +72,35 @@
 | **`nginx/static.serenity.agency.live.conf`** | `deploy-static-vhost.sh` |
 | Worker / конфиг Wrangler | `npx wrangler deploy` |
 
-Подробности маршрутизации **`/robots.txt`**, **`/docs/`** и legacy — **[`CLAUDE.md`](CLAUDE.md)** и **[`docs/team-handbook.html`](docs/team-handbook.html)**.
+Подробности маршрутизации **`/robots.txt`**, **`/docs/`** и legacy — **[`docs/team-handbook.html`](docs/team-handbook.html)**.
+
+---
+
+## Архитектура и интеграции
+
+- Агентство: Serenity (serenity.agency).
+- Репозиторий: https://github.com/sergey-pruss/serenity.
+- Папка проекта: `~/Documents/GitHub/serenity`.
+- Новый сервер статического контура: `168.222.142.141`, каталог: `/var/www/static`.
+- Legacy WordPress: отдельный upstream, из этого репозитория не деплоится (только проксируется Nginx-роутером на новом сервере).
+- Прод-URL: `https://serenity.agency`.
+- Статик-превью: `https://static.serenity.agency`.
+- Worker staging (ASSETS): `https://serenity.sergeyprus.workers.dev`.
+- Статика нового сайта в проде должна идти через префикс `/_sa/`; корневые `/css`, `/js`, `/img`, `/json` под legacy не занимаем.
+- Основной обработчик Worker: `src/worker.mjs`; API формы: `src/lead-api.mjs`.
+
+### Интеграции (секреты в Cloudflare Workers)
+
+- Resend (`RESEND_API_KEY`), текущий email-приемник: `sergeyprus@gmail.com`.
+- AmoCRM: `serenity.amocrm.ru` (`AMO_ACCESS_TOKEN`, `AMO_REFRESH_TOKEN`, `AMO_CLIENT_ID`, `AMO_CLIENT_SECRET`, `AMO_SUBDOMAIN=serenity`).
+- Домен Resend: `send.serenity.agency` (верификация может быть pending).
+
+### Форма заявки
+
+- Кнопка "Оставить заявку" открывает модал `#desktop-order-popup`.
+- `POST /api/lead` отправляет email (Resend) и создаёт лид в AmoCRM.
+- После успешной отправки показывается "Спасибо, наш новый друг!" и автозакрытие через 15 секунд.
+- Поля: `name`, `phone`, `email`, `message`, `source`.
 
 ---
 
