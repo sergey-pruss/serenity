@@ -1,10 +1,8 @@
 ---
-description: Короткий указатель на обязательные правила задач и деплоя
+description: Указатель на единый регламент репозитория
 alwaysApply: true
 ---
 
-# Обязательные правила для агента
+# Правила агента
 
-**Полный перечень в корне репозитория:** `AGENTS.md` (единый источник). Детальный деплой и архитектура — `CLAUDE.md`. URL / SEO / аналитика — `docs/team-handbook.html`.
-
-Кратко: тесты на задачу; оригинал serenity.agency; pixel-perfect без выдумок; коммиты на русском; три поверхности — `deploy.sh` + `wrangler deploy`; при смене `nginx/routing.conf` — `scripts/deploy-routing.sh`; правки immutable CSS/JS — `?v=` в `html/index.layout.html` и `npm run build:html` (для связанных кейсов — см. AGENTS § кэш); в CSS не использовать `url("../_sa/...")`, только корректные относительные пути от CSS; после выкладки опционально `npm run test:post-deploy-smoke`.
+**Полный регламент в корне:** [`AGENTS.md`](AGENTS.md). Архитектура и интеграции — [`CLAUDE.md`](CLAUDE.md). Человекочитаемый нарратив URL/SEO — [`docs/team-handbook.html`](docs/team-handbook.html).
