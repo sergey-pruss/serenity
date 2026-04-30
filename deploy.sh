@@ -5,6 +5,7 @@ rsync -avz \
   --exclude='.git' \
   --exclude='node_modules' \
   --exclude='.wrangler' \
+  --exclude='artifacts' \
   --exclude='wrangler.toml' \
   --exclude='deploy.sh' \
   ./ root@168.222.142.141:/var/www/static/
