@@ -67,8 +67,8 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
         });
 
       const footerBefore = await readFooterPhone();
-      assert(footerBefore.city === "Петербург", `[${width}] в футере по умолчанию должен быть Петербург`);
-      assert(footerBefore.text === "+7 (812) 602 50 44", `[${width}] номер Петербурга в футере не совпадает`);
+      assert(footerBefore.city === "Санкт-Петербург", `[${width}] в футере по умолчанию должен быть Санкт-Петербург`);
+      assert(footerBefore.text === "+7 (812) 602 50 44", `[${width}] номер Санкт-Петербурга в футере не совпадает`);
       assert(footerBefore.href === "tel:+78126025044", `[${width}] ссылка телефона в футере должна быть tel, сейчас: ${footerBefore.href}`);
 
       await page.evaluate(() => {
@@ -147,18 +147,18 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
       await page.evaluate(() => {
         const root = document.querySelector('header.header [data-burger-menu-contacts="1"]');
         const p = Array.from(root?.querySelectorAll(".footer-modern__city-selector a") || []).find(
-          (a) => a.textContent.trim() === "Петербург",
+          (a) => a.textContent.trim() === "Санкт-Петербург",
         );
         if (!p) return;
         p.focus();
         p.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
       });
       const phonePetersburg = await readMenuPhone();
-      assert(phonePetersburg.city === "Петербург", `[${width}] Enter должен вернуть Петербург`);
-      assert(phonePetersburg.text === "+7 (812) 602 50 44", `[${width}] номер Петербурга после возврата не совпадает`);
-      assert(phonePetersburg.href === "tel:+78126025044", `[${width}] tel Петербурга после возврата не совпадает`);
+      assert(phonePetersburg.city === "Санкт-Петербург", `[${width}] Enter должен вернуть Санкт-Петербург`);
+      assert(phonePetersburg.text === "+7 (812) 602 50 44", `[${width}] номер Санкт-Петербурга после возврата не совпадает`);
+      assert(phonePetersburg.href === "tel:+78126025044", `[${width}] tel Санкт-Петербурга после возврата не совпадает`);
       const footerAfterMenuSpb = await readFooterPhone();
-      assert(footerAfterMenuSpb.city === "Петербург", `[${width}] футер должен синхронизироваться с бургером (Петербург)`);
+      assert(footerAfterMenuSpb.city === "Санкт-Петербург", `[${width}] футер должен синхронизироваться с бургером (Санкт-Петербург)`);
 
       const readBottomPhone = async () =>
         page.evaluate(() => {
@@ -174,9 +174,9 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
         });
 
       const bottomBefore = await readBottomPhone();
-      assert(bottomBefore.city === "Петербург", `[${width}] в нижнем блоке по умолчанию должен быть Петербург`);
-      assert(bottomBefore.text === "+7 (812) 602 50 44", `[${width}] нижний номер Петербурга не совпадает`);
-      assert(bottomBefore.href === "tel:+78126025044", `[${width}] нижняя ссылка Петербурга должна быть tel`);
+      assert(bottomBefore.city === "Санкт-Петербург", `[${width}] в нижнем блоке по умолчанию должен быть Санкт-Петербург`);
+      assert(bottomBefore.text === "+7 (812) 602 50 44", `[${width}] нижний номер Санкт-Петербурга не совпадает`);
+      assert(bottomBefore.href === "tel:+78126025044", `[${width}] нижняя ссылка Санкт-Петербурга должна быть tel`);
 
       await page.evaluate(() => {
         Array.from(document.querySelectorAll(".btns__option--extended .btns__picker span"))
