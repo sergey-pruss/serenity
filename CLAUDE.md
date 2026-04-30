@@ -7,7 +7,7 @@
 - Агентство: Serenity (serenity.agency)
 - Репозиторий: https://github.com/sergey-pruss/serenity
 - Папка проекта: ~/Documents/GitHub/serenity
-- Деплой статики (HTML/CSS/JS/img/json): общий каталог на новом сервере `/var/www/static` (IP `168.222.142.141`)
+- Деплой статики (HTML/CSS/JS/img/json): общий каталог `/var/www/static` на **том же хосте**, что и прод‑Nginx (IP `168.222.142.141`); `docs/` — те же статические файлы, не отдельный приложенческий сервер.
 - Превью-домен (тот же артефакт): https://static.serenity.agency
 - Основной домен (Nginx-router + статика + прокси на legacy WordPress где страницы ещё не перенесены): https://serenity.agency
 - Стейджинг Worker (тот же репозиторий как ASSETS): https://serenity.sergeyprus.workers.dev (Cloudflare Workers)

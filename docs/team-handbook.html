@@ -541,6 +541,16 @@
               <td>Раскатка по секциям — через добавление правил в map (в конфиге есть закомментированные примеры).</td>
             </tr>
             <tr>
+              <td><code>/docs/…</code> (справочник и др.)</td>
+              <td><span class="pill-new">Новая статика</span></td>
+              <td>
+                Обычный HTML из репозитория (<span class="mono">docs/…</span> → после деплоя
+                <span class="mono">/var/www/static/docs/…</span>), тот же артефакт, что и остальной сайт. Отдаёт Nginx на
+                <strong>том же хосте</strong>, что и основной домен; отдельного приложения или «сервера Nuxt» под этим
+                путём нет.
+              </td>
+            </tr>
+            <tr>
               <td><code>/_sa/…</code></td>
               <td><span class="pill-new">Новая статика</span></td>
               <td>Отдельный <code>location</code> в Nginx: не зависит от map страницы.</td>
@@ -552,6 +562,17 @@
             </tr>
           </tbody>
         </table>
+        <p class="note" id="docs-vs-legacy-errors">
+          Если по адресу <code>/docs/…</code> вместо файла видна типичная страница ошибки legacy (WordPress или Nuxt
+          «Server error» и т.п.), запрос, скорее всего, <strong>не</strong> попал в статический
+          <code>root</code>: убедитесь, что на сервер выкладывались актуальные файлы (<code>bash deploy.sh</code>),
+          в карте <code>nginx/routing.conf</code> для префикса задано <code>~^/docs/</code> и после правок выполнен
+          <code>bash scripts/deploy-routing.sh</code>; в продовом vhost нужен блок
+          <code>location ^~ /docs/</code> в <span class="mono">nginx/serenity-router.live.conf</span> (подробности — в
+          <span class="mono">CLAUDE.md</span>). Та же симптоматика на <strong>корне</strong>
+          <span class="mono">serenity.agency</span> связана с маршрутизацией/legacy, но не доказывает отдельно проблему
+          выдачи <code>/docs/</code>.
+        </p>
       </section>
 
       <section id="legacy-wp-sa">
@@ -668,8 +689,12 @@
       </section>
 
       <footer>
-        Файл в репозитории: <span class="mono">docs/team-handbook.html</span>. После <code>bash deploy.sh</code> тот же
-        файл доступен как
+        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — не приложение Nuxt и не отдельный
+        бэкенд: это статический HTML из того же дерева деплоя, что и остальной сайт (после
+        <code>bash deploy.sh</code> путь на диске <span class="mono">/var/www/static/docs/…</span>, раздаёт Nginx на том
+        же хосте, что и основной домен при корректной конфигурации). Публичные URL этого файла действуют, когда маршрут
+        действительно ведёт в статику (<a href="#docs-vs-legacy-errors">раздел про <span class="mono">/docs/</span> и
+          ошибки legacy</a>):
         <a href="https://serenity.agency/docs/team-handbook.html"><span class="mono">https://serenity.agency/docs/team-handbook.html</span></a>,
         <a href="https://static.serenity.agency/docs/team-handbook.html"><span class="mono">https://static.serenity.agency/docs/team-handbook.html</span></a>,
         на Worker —
