@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Serenity — структура проекта, URL и проверки</title>
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --card: #fff;
+        --text: #1a1d21;
+        --muted: #5c6570;
+        --border: #d8dee6;
+        --accent: #1e5a8c;
+        --new: #0d6b4f;
+        --legacy: #8b4513;
+        --code: #f0f3f7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        color: var(--text);
+        background: var(--bg);
+      }
+      .wrap {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+      header {
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: 1.65rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+        max-width: 720px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: var(--code);
+        color: var(--muted);
+        margin-top: 12px;
+      }
+      nav.toc {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 28px;
+      }
+      nav.toc strong {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+      }
+      nav.toc a {
+        color: var(--accent);
+        text-decoration: none;
+        display: block;
+        padding: 3px 0;
+        font-size: 0.9rem;
+      }
+      nav.toc a:hover {
+        text-decoration: underline;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 22px 22px 18px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-size: 1.15rem;
+        margin: 0 0 14px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      h3 {
+        font-size: 1rem;
+        margin: 18px 0 8px;
+      }
+      p {
+        margin: 0 0 12px;
+        color: var(--text);
+      }
+      ul {
+        margin: 8px 0 12px;
+        padding-left: 1.2em;
+        color: var(--text);
+      }
+      li {
+        margin-bottom: 6px;
+      }
+      code,
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.88em;
+        background: var(--code);
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      pre {
+        background: #1a1d21;
+        color: #e8eaed;
+        padding: 14px 16px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        margin: 12px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        margin: 12px 0;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #eef2f6;
+        font-weight: 600;
+      }
+      .pill-new {
+        color: #fff;
+        background: var(--new);
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .pill-legacy {
+        color: #fff;
+        background: var(--legacy);
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 10px;
+        margin: 16px 0;
+      }
+      .flow-box {
+        flex: 1 1 140px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        background: #fafbfc;
+        min-height: 72px;
+      }
+      .flow-box strong {
+        display: block;
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+      .flow-arrow {
+        align-self: center;
+        font-size: 1.4rem;
+        color: var(--muted);
+        flex: 0 0 auto;
+      }
+      .note {
+        font-size: 0.88rem;
+        color: var(--muted);
+        border-left: 3px solid var(--accent);
+        padding-left: 12px;
+        margin: 14px 0;
+      }
+      footer {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 32px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        section,
+        nav.toc {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Serenity: что это, как устроено, куда ходят URL</h1>
+        <p class="subtitle">
+          Один репозиторий со статическим снимком нового сайта (главная и перенесённые страницы). Прод постепенно
+          переводится с WordPress на эту статику через Nginx — без конфликта путей с темой WP.
+        </p>
+        <span class="badge">Снимок документа · апрель 2026</span>
+      </header>
+
+      <nav class="toc">
+        <strong>Содержание</strong>
+        <a href="#why">Зачем проект</a>
+        <a href="#agents-rules">Правила работы (кратко для команды и агентов)</a>
+        <a href="#surfaces">Три поверхности и один артефакт</a>
+        <a href="#flow">Как проходит запрос</a>
+        <a href="#routing">Распределение URL: новое vs старое</a>
+        <a href="#sa-prefix">Префикс /_sa/</a>
+        <a href="#deploy">Деплой и порядок команд</a>
+        <a href="#seo">Индексация, robots, sitemap</a>
+        <a href="#analytics">Счётчики и аналитика</a>
+        <a href="#verify">Как проверить, что всё живо</a>
+      </nav>
+
+      <section id="why">
+        <h2>Зачем это нужно</h2>
+        <p>
+          <strong>Цель:</strong> быстро отдавать перенесённые страницы как статический HTML/CSS/JS с одного каталога на
+          сервере, не ломая старый сайт на WordPress там, где страницы ещё не перенесены.
+        </p>
+        <p>
+          <strong>Источник правды по вёрстке:</strong> прод <code>https://serenity.agency</code> (и оригинал дизайна
+          там же, где он зафиксирован в задаче).
+        </p>
+        <ul>
+          <li>Новые страницы — из репозитория → сборка → <code>/var/www/static</code> → три URL получают один и тот же набор файлов.</li>
+          <li>Legacy (WP) остаётся за прокси для всех путей, которые ещё не переключены в карте маршрутизации.</li>
+        </ul>
+      </section>
+
+      <section id="agents-rules">
+        <h2>Правила работы (кратко для команды и агентов)</h2>
+        <p>
+          Этот файл объясняет маршрутизацию и инфраструктуру. Ниже — «человеческий» конспект обязательного регламента
+          задач без юридического тона; полный авторитетный текст — в корне репозитория.
+        </p>
+        <ul>
+          <li>
+            Перед принятием задачи нужны осмысленные автоматические проверки; одноразовые тесты под задачу удаляют после того, как результат зафиксирован в истории версий.
+          </li>
+          <li>Внешний вид и контент сверять с живым продом serenity.agency; копировать пиксель в пиксель, не добавлять от себя.</li>
+          <li>В описаниях коммитов использовать русский язык.</li>
+          <li>
+            После готовности выкладывать один и тот же собранный набор файлов на сервер через <code>deploy.sh</code>, затем отдельно на Worker через <code>wrangler deploy</code>. Если правили файл маршрутизации Nginx, не забыть сценарий выкладки routing (см. <code>CLAUDE.md</code>).
+          </li>
+          <li>
+            Стили и скрипты с долгим кэшем живут под <code>/_sa/</code>: если их трогали, обновить маркер версии в запросах (<code>?v=…</code> в шаблоне) и заново собрать HTML так, как принято в репозитории.
+          </li>
+          <li>
+            Внутри таблиц стилей пути к картинкам и шрифтам задают относительно самого файла CSS; обход через «двойной» <code>/_sa/</code> даёт ошибки загрузки.
+          </li>
+          <li>Дополнительно по карточкам кейсов и CDN — см. конспект в <code>AGENTS.md</code>.</li>
+          <li>По желанию после выхода на прод можно прогнать <code>npm run test:post-deploy-smoke</code>, если среде доступен интернет.</li>
+        </ul>
+        <p class="note">
+          <strong>Полный текст обязательных правил для агента:</strong>
+          файл <span class="mono">AGENTS.md</span> в корне этого репозитория на GitHub. Операции, домены и интеграции подробно — в <span class="mono">CLAUDE.md</span>; разделы ниже описывают URL, индексирование и аналитику.
+        </p>
+      </section>
+
+      <section id="surfaces">
+        <h2>Три поверхности и один артефакт</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>URL</th>
+              <th>Назначение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>https://serenity.agency</code></td>
+              <td>Основной домен: Nginx отдаёт новую статику по правилам карты + прокси на legacy для остального. Путь <code>/api/*</code> в продовом vhost (<code>nginx/serenity-router.live.conf</code>) сейчас уходит на legacy origin, а не на Worker.</td>
+            </tr>
+            <tr>
+              <td><code>https://static.serenity.agency</code></td>
+              <td>Превью того же <code>root</code> (удобно проверять чистую статику).</td>
+            </tr>
+            <tr>
+              <td><code>https://serenity.sergeyprus.workers.dev</code></td>
+              <td>Cloudflare Worker: те же файлы как ASSETS; API форм и т.п. — по путям <code>/api/*</code> на Worker.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          На сервере каталог <code>/var/www/static</code> общий для основного домена и static-поддомена — после
+          <code>deploy.sh</code> обновляются оба.
+        </p>
+      </section>
+
+      <section id="flow">
+        <h2>Как проходит запрос (упрощённо)</h2>
+        <div class="flow">
+          <div class="flow-box">
+            <strong>Клиент</strong>
+            GET <code>/path</code>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-box">
+            <strong>Nginx (serenity.agency)</strong>
+            Смотрит URI: карта <code>nginx/routing.conf</code> → «новая страница» или «legacy».
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-box">
+            <strong>Новое</strong>
+            Файлы из <code>/var/www/static</code> (<code>try_files</code>).
+          </div>
+        </div>
+        <div class="flow" style="margin-top: 8px">
+          <div class="flow-box" style="flex: 1 1 100%">
+            <strong>Отдельно: всё под <code>/_sa/</code></strong>
+            Статика нового сайта (CSS, JS, картинки, JSON) — всегда с диска static, с длинным кэшем (immutable). Не
+            пересекается с корневыми путями WordPress (<code>/css</code>, <code>/js</code> у WP не трогаем).
+          </div>
+        </div>
+        <div class="flow" style="margin-top: 8px">
+          <div class="flow-box" style="flex: 1 1 100%">
+            <strong>Legacy</strong>
+            Если путь не помечен как «новый», запрос уходит на старый origin (WordPress) через HTTPS-прокси — контент
+            блога, отдельные кейсы и т.д.
+          </div>
+        </div>
+      </section>
+
+      <section id="routing">
+        <h2>Распределение URL: новое vs старое</h2>
+        <p>
+          Логика задана в репозитории в файле <code>nginx/routing.conf</code> (map <code>$is_new_page</code>). Ниже —
+          смысл правил на человеческом языке; точные регулярные выражения смотри в файле.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Примеры путей</th>
+              <th>Куда</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>/</code></td>
+              <td><span class="pill-new">Новая статика</span></td>
+              <td>Главная из репозитория.</td>
+            </tr>
+            <tr>
+              <td>
+                <code>/case/all</code>, <code>/case/all/2</code>, <code>/case/all/category/…</code> (включая пагинацию
+                и категории по шаблонам из конфига)
+              </td>
+              <td><span class="pill-new">Новая статика</span></td>
+              <td>Каталог кейсов и фильтры — только новый контур.</td>
+            </tr>
+            <tr>
+              <td><code>/case/…</code> (одиночный кейс), <code>/case/all/…</code> где второй сегмент — не число и не <code>category</code> по правилам карты</td>
+              <td><span class="pill-legacy">Legacy WP</span></td>
+              <td>Отдельные страницы кейсов пока остаются на старом сайте.</td>
+            </tr>
+            <tr>
+              <td><code>/blog</code>, <code>/services</code>, прочие разделы (пока не включены в map как «1»)</td>
+              <td><span class="pill-legacy">Legacy WP</span></td>
+              <td>Раскатка по секциям — через добавление правил в map (в конфиге есть закомментированные примеры).</td>
+            </tr>
+            <tr>
+              <td><code>/_sa/…</code></td>
+              <td><span class="pill-new">Новая статика</span></td>
+              <td>Отдельный <code>location</code> в Nginx: не зависит от map страницы.</td>
+            </tr>
+            <tr>
+              <td><code>/api/…</code> на основном домене</td>
+              <td>Прокси на legacy (см. vhost)</td>
+              <td>На Worker-стейдже API может обрабатываться иначе — см. <code>src/worker.mjs</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="sa-prefix">
+        <h2>Почему именно <code>/_sa/</code></h2>
+        <ul>
+          <li>WordPress тема продолжает отдавать свои ресурсы с корня (<code>/css</code>, <code>/js</code>, <code>/img</code>…).</li>
+          <li>Новый сайт выносит публичные ассеты под <code>/_sa/</code>, чтобы не пересечься с WP и не сломать legacy-страницы.</li>
+          <li>В CSS внутри <code>url()</code> пути к картинкам/шрифтам — <strong>относительно файла CSS</strong> (например <code>../img/…</code>), а не <code>../_sa/…</code> (иначе браузер соберёт <code>/_sa/_sa/…</code> и получит 404).</li>
+        </ul>
+      </section>
+
+      <section id="deploy">
+        <h2>Деплой: порядок (кратко)</h2>
+        <ol>
+          <li>При изменении HTML/кейсов: <code>npm run build:html</code></li>
+          <li>Тесты: <code>npm run test:layout-smoke</code>, <code>npm run test:routing-config</code>; при кейсах — <code>npm run test:case-all</code></li>
+          <li>Сервер: <code>bash deploy.sh</code> → rsync в <code>/var/www/static</code></li>
+          <li>При изменении Nginx: см. <code>CLAUDE.md</code> (routing / vhost)</li>
+          <li>Worker: <code>npx wrangler deploy</code></li>
+          <li>Git: коммит с сообщением на русском, <code>git push</code></li>
+        </ol>
+        <p class="note">
+          После правок CSS/JS под immutable: поднять <code>?v=</code> в <code>html/index.layout.html</code> и снова
+          собрать HTML — иначе клиенты могут долго видеть старые бандлы.
+        </p>
+      </section>
+
+      <section id="seo">
+        <h2>Индексация, robots, sitemap</h2>
+        <h3>HTML (новые страницы)</h3>
+        <p>
+          В шаблоне <code>html/index.layout.html</code> для страниц сборки сейчас стоит
+          <code>&lt;meta name="robots" content="noyaca" /&gt;</code> — буквально так, как закоммичено в репозитории.
+          Это нестандартное значение для <code>meta robots</code>; трактовку для поисковиков здесь не задаём — при смене
+          SEO-стратегии правят шаблон и пересобирают.
+        </p>
+        <h3><code>robots.txt</code></h3>
+        <p>
+          На проде (см. <code>nginx/serenity-router.live.conf</code>) отдаётся файл из статики:
+          <code>robots.production.txt</code> как <code>/robots.txt</code>. Внутри указан Sitemap:
+          <code>https://serenity.agency/sitemap.xml</code>.
+        </p>
+        <h3><code>sitemap.xml</code></h3>
+        <p>
+          Отдаётся со статического деплоя (тот же vhost), а не из WordPress — чтобы новые маршруты вроде
+          <code>/case/all/…</code> попадали в карту сайта из репозитория.
+        </p>
+      </section>
+
+      <section id="analytics">
+        <h2>Счётчики и аналитика (снимок)</h2>
+        <p>
+          Подключаемый фрагмент: <code>html/partials/analytics-counters.html</code> — вставляется в сборку главной и
+          синхронизируется в страницы <code>case/all</code> скриптом сборки (см. <code>scripts/sync-analytics-into-case-all.mjs</code>).
+        </p>
+        <p><strong>Сейчас в partial:</strong> Яндекс.Метрика, счётчик <code>30205029</code> (инициализация через <code>mc.yandex.ru/metrika/tag.js</code>).</p>
+        <p class="note">Проверка «счётчик жив»: сеть в DevTools, срабатывание <code>ym(…)</code>, при необходимости отчёт в Метрике.</p>
+      </section>
+
+      <section id="verify">
+        <h2>Как проверить, что всё корректно</h2>
+        <p>Автоматические проверки в репозитории (запуск локально / в CI):</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Команда</th>
+              <th>Зачем</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>npm run test:layout-smoke</code></td>
+              <td>Сборка HTML, кейсы, CTA, gzip-директивы, префикс <code>/_sa/</code> в конфиге.</td>
+            </tr>
+            <tr>
+              <td><code>npm run test:routing-config</code></td>
+              <td>Согласованность правил маршрутизации.</td>
+            </tr>
+            <tr>
+              <td><code>npm run test:case-all</code></td>
+              <td>После правок каталога кейсов.</td>
+            </tr>
+            <tr>
+              <td><code>npm run test:post-deploy-smoke</code></td>
+              <td>Опционально после выкладки: быстрый обход трёх origin в Playwright (если настроен доступ в сеть).</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          После деплоя полезно вручную открыть те страницы, которые менялись в задаче, на
+          <code>serenity.agency</code>, <code>static.serenity.agency</code> и при необходимости на Worker — с учётом
+          кэша CDN/браузера (жёсткое обновление).
+        </p>
+        <p class="note">
+          Полный регламент команд и интеграций — в <code>CLAUDE.md</code> и <code>AGENTS.md</code> в корне репозитория.
+        </p>
+      </section>
+
+      <footer>
+        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — можно открыть локально или положить на
+        static для шаринга по URL. Обновляйте блок «Снимок документа» при существенных изменениях архитектуры.
+      </footer>
+    </div>
+  </body>
+</html>
