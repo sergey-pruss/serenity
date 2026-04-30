@@ -754,10 +754,6 @@
 
   const initFooterPhoneSwitch = () => {
     const phones = {
-      "Петербург": {
-        text: "+7 (812) 602 50 44",
-        href: "tel:+78126025044",
-      },
       "Санкт-Петербург": {
         text: "+7 (812) 602 50 44",
         href: "tel:+78126025044",
@@ -771,14 +767,14 @@
     const canonicalCityKey = (label) => {
       const t = String(label || "").trim().toLowerCase();
       if (t.includes("моск")) return "Москва";
-      if (t.includes("санкт") || t.includes("петербург")) return "Петербург";
+      if (t.includes("санкт") || t.includes("петербург")) return "Санкт-Петербург";
       const raw = String(label || "").trim();
-      return phones[raw] ? raw : "Петербург";
+      return phones[raw] ? raw : "Санкт-Петербург";
     };
 
     const resolveCityKey = (rawLabel) => {
       const cityKey = canonicalCityKey(rawLabel);
-      return phones[cityKey] ? cityKey : "Петербург";
+      return phones[cityKey] ? cityKey : "Санкт-Петербург";
     };
 
     const attachCityPickerListeners = (items, getLabel, onPick) => {
@@ -827,7 +823,7 @@
         attachCityPickerListeners(cityItems, (el) => el.textContent, setSharedFooterCity);
       });
 
-      runAfterDomReady(() => setSharedFooterCity("Москва"));
+      runAfterDomReady(() => setSharedFooterCity("Санкт-Петербург"));
     }
 
     const bindSwitcher = ({ root, pickerSelector, phoneSelector, linkSelector, selectedClass }) => {
@@ -847,7 +843,7 @@
       };
 
       attachCityPickerListeners(cityItems, (el) => el.textContent.trim(), selectCity);
-      runAfterDomReady(() => selectCity("Москва"));
+      runAfterDomReady(() => selectCity("Санкт-Петербург"));
     };
 
     document.querySelectorAll(".btns__option--extended").forEach((root) => {
