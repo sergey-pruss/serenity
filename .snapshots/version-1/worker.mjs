@@ -29,23 +29,6 @@ export default {
       return handleLeadRequest(request, env);
     }
 
-    /** Как nginx `location = /robots.txt` → `robots.production.txt` (канон продакшена). */
-    if (url.pathname === "/robots.txt") {
-      const prodRobotsUrl = new URL("/robots.production.txt", url.origin);
-      return env.ASSETS.fetch(new Request(prodRobotsUrl, request));
-    }
-
-    if (url.pathname === "/docs" || url.pathname.startsWith("/docs/")) {
-      const res = await env.ASSETS.fetch(request);
-      const headers = new Headers(res.headers);
-      headers.set("X-Robots-Tag", "noindex, nofollow");
-      return new Response(res.body, {
-        status: res.status,
-        statusText: res.statusText,
-        headers,
-      });
-    }
-
     return env.ASSETS.fetch(request);
   },
 };

@@ -1,0 +1,29 @@
+<svg width="712" height="516" viewBox="0 0 712 516" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Devices / Apple / iPad Air 4">
+<g id="Device Surround" filter="url(#filter0_dd)">
+<path d="M37.7842 513C17.7869 513 1.5758 496.803 1.5758 476.822L1.57578 38.7512C1.57578 18.7706 17.7868 2.57305 37.7842 2.57305L673.793 2.57302C693.79 2.57302 710.001 18.7705 710.001 38.7512L710.001 476.822C710.001 496.802 693.79 513 673.793 513L37.7842 513Z" fill="#3A4245"/>
+</g>
+<path id="Device BG" d="M37.7808 509.852C19.5223 509.852 4.72089 495.063 4.72088 476.82L4.72087 38.7495C4.72086 20.5063 19.5223 5.71727 37.7807 5.71727L673.789 5.71724C692.048 5.71724 706.849 20.5063 706.849 38.7495L706.849 476.82C706.849 495.063 692.048 509.852 673.789 509.852L37.7808 509.852Z" fill="#121515"/>
+<g id="Device Buttons">
+<path id="Volume Up" fill-rule="evenodd" clip-rule="evenodd" d="M57.4612 2.57043C57.4612 1.70173 57.715 0.997498 58.028 0.997498L85.2315 0.997496C85.5445 0.997496 85.7982 1.70172 85.7982 2.57043L57.4612 2.57043Z" fill="#121515"/>
+<path id="Volume Down" fill-rule="evenodd" clip-rule="evenodd" d="M91.3082 2.57043C91.3082 1.70173 91.569 0.997498 91.8907 0.997498L119.85 0.997496C120.172 0.997496 120.432 1.70172 120.432 2.57043L91.3082 2.57043Z" fill="#121515"/>
+<path id="Power" fill-rule="evenodd" clip-rule="evenodd" d="M1.57581 87.5123C0.706356 87.5123 0.00152751 87.0756 0.00152746 86.537L0.00152337 39.7256C0.00152332 39.187 0.706352 38.7504 1.5758 38.7504L1.57581 87.5123Z" fill="#121515"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_dd" x="0.0900608" y="1.83017" width="711.397" height="513.398" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="0.371429"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.0823529 0 0 0 0 0.25098 0 0 0 0.14 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="0.742857"/>
+<feGaussianBlur stdDeviation="0.742857"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.0823529 0 0 0 0 0.25098 0 0 0 0.05 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow" result="effect2_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow" result="shape"/>
+</filter>
+</defs>
+</svg>
