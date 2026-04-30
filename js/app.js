@@ -823,7 +823,8 @@
         attachCityPickerListeners(cityItems, (el) => el.textContent, setSharedFooterCity);
       });
 
-      runAfterDomReady(() => setSharedFooterCity("Санкт-Петербург"));
+      // Продуктовый дефолт города в переключателе телефонов — Москва (не менять без явного ТЗ).
+      runAfterDomReady(() => setSharedFooterCity("Москва"));
     }
 
     const bindSwitcher = ({ root, pickerSelector, phoneSelector, linkSelector, selectedClass }) => {
@@ -843,7 +844,7 @@
       };
 
       attachCityPickerListeners(cityItems, (el) => el.textContent.trim(), selectCity);
-      runAfterDomReady(() => selectCity("Санкт-Петербург"));
+      runAfterDomReady(() => selectCity("Москва"));
     };
 
     document.querySelectorAll(".btns__option--extended").forEach((root) => {

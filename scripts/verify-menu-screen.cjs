@@ -67,9 +67,9 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
         });
 
       const footerBefore = await readFooterPhone();
-      assert(footerBefore.city === "Санкт-Петербург", `[${width}] в футере по умолчанию должен быть Санкт-Петербург`);
-      assert(footerBefore.text === "+7 (812) 602 50 44", `[${width}] номер Санкт-Петербурга в футере не совпадает`);
-      assert(footerBefore.href === "tel:+78126025044", `[${width}] ссылка телефона в футере должна быть tel, сейчас: ${footerBefore.href}`);
+      assert(footerBefore.city === "Москва", `[${width}] в футере по умолчанию должна быть Москва`);
+      assert(footerBefore.text === "+7 (495) 419 95 88", `[${width}] номер Москвы в футере по умолчанию не совпадает`);
+      assert(footerBefore.href === "tel:+74954199588", `[${width}] ссылка телефона в футере должна быть tel, сейчас: ${footerBefore.href}`);
 
       await page.evaluate(() => {
         const root = document.querySelector("footer.footer-modern");
@@ -174,9 +174,9 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
         });
 
       const bottomBefore = await readBottomPhone();
-      assert(bottomBefore.city === "Санкт-Петербург", `[${width}] в нижнем блоке по умолчанию должен быть Санкт-Петербург`);
-      assert(bottomBefore.text === "+7 (812) 602 50 44", `[${width}] нижний номер Санкт-Петербурга не совпадает`);
-      assert(bottomBefore.href === "tel:+78126025044", `[${width}] нижняя ссылка Санкт-Петербурга должна быть tel`);
+      assert(bottomBefore.city === "Москва", `[${width}] в нижнем блоке по умолчанию должна быть Москва`);
+      assert(bottomBefore.text === "+7 (495) 419 95 88", `[${width}] нижний номер Москвы по умолчанию не совпадает`);
+      assert(bottomBefore.href === "tel:+74954199588", `[${width}] нижняя ссылка Москвы по умолчанию должна быть tel`);
 
       await page.evaluate(() => {
         Array.from(document.querySelectorAll(".btns__option--extended .btns__picker span"))

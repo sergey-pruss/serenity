@@ -117,8 +117,8 @@ async function checkUrl(browser, url) {
     assert(checks.arrows.prevIcon.includes("slider-arrow-prev"), "prev arrow icon is missing");
     assert(checks.arrows.nextIcon.includes("slider-arrow-next"), "next arrow icon is missing");
     assert(
-      checks.city.selectedText.includes("Санкт-Петербург"),
-      `default city is not Санкт-Петербург: "${checks.city.selectedText}"`,
+      checks.city.selectedText.toLowerCase().includes("моск"),
+      `default city is not Москва: "${checks.city.selectedText}"`,
     );
     assert(!checks.scripts.appVersion || checks.scripts.appVersion.includes("?v="), "app.js is loaded without cache-busting query");
     assert(badAssetResponses.length === 0, `404/5xx for _sa assets: ${badAssetResponses.join(" | ")}`);
