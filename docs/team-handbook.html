@@ -566,9 +566,11 @@
           Если по адресу <code>/docs/…</code> вместо файла видна типичная страница ошибки legacy (WordPress или Nuxt
           «Server error» и т.п.), запрос, скорее всего, <strong>не</strong> попал в статический
           <code>root</code>: убедитесь, что на сервер выкладывались актуальные файлы (<code>bash deploy.sh</code>),
-          в карте <code>nginx/routing.conf</code> для префикса задано <code>~^/docs/</code> и после правок выполнен
-          <code>bash scripts/deploy-routing.sh</code>; в продовом vhost нужен блок
-          <code>location ^~ /docs/</code> в <span class="mono">nginx/serenity-router.live.conf</span> (подробности — в
+          в карте <code>nginx/routing.conf</code> для префикса задано <code>~^/docs(/|$)</code> и после правок выполнен
+          <code>bash scripts/deploy-routing.sh</code>; для продового vhost после изменений <span class="mono">nginx/serenity-router.live.conf</span>
+          выполните <code>bash scripts/deploy-serenity-router-vhost.sh</code> (выложит в <code>/etc/nginx/sites-available/serenity-router</code>,
+          затем проверка и reload); нужен блок
+          <code>location ^~ /docs/</code> в этом файле (подробности — в
           <span class="mono">CLAUDE.md</span>). Та же симптоматика на <strong>корне</strong>
           <span class="mono">serenity.agency</span> связана с маршрутизацией/legacy, но не доказывает отдельно проблему
           выдачи <code>/docs/</code>.
@@ -601,7 +603,7 @@
             <strong>Только</strong> при изменении файла <span class="mono">nginx/routing.conf</span>: <span class="mono">bash scripts/deploy-routing.sh</span> на сервере (проверка <span class="mono">nginx -t</span>, reload). Это не то же самое, что правки продового vhost.
           </li>
           <li>
-            При правках <span class="mono">nginx/serenity-router.live.conf</span> (или других vhost): выложить актуальный файл в конфигурацию Nginx на сервере, выполнить <span class="mono">nginx -t</span> и reload — шаги в <span class="mono">CLAUDE.md</span>.
+            При правках продового <span class="mono">nginx/serenity-router.live.conf</span>: <span class="mono">bash scripts/deploy-serenity-router-vhost.sh</span> → <span class="mono">/etc/nginx/sites-available/serenity-router</span> (или вручную, затем <span class="mono">nginx -t</span> и reload) — детали в <span class="mono">CLAUDE.md</span>. Другие vhost — по инструкциям там же.
           </li>
           <li>Cloudflare Worker: <span class="mono">npx wrangler deploy</span> (тот же артефакт как ASSETS).</li>
           <li>Git: коммит с сообщением на русском, без force-push; затем push.</li>
