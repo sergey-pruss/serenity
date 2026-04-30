@@ -274,7 +274,7 @@
           <li>Внешний вид и контент сверять с живым продом serenity.agency; копировать пиксель в пиксель, не добавлять от себя.</li>
           <li>В описаниях коммитов использовать русский язык.</li>
           <li>
-            После готовности выкладывать один и тот же собранный набор файлов на сервер через <code>deploy.sh</code>, затем отдельно на Worker через <code>wrangler deploy</code>. Если правили файл маршрутизации Nginx, не забыть сценарий выкладки routing (см. <code>CLAUDE.md</code>).
+            После готовности выкладывать статику на сервер по регламенту в файле <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a> (<span class="mono">deploy.sh</span>, при смене <span class="mono">nginx/routing.conf</span> и vhost — отдельные шаги оттуда же), отдельно на Worker через <span class="mono">wrangler deploy</span>.
           </li>
           <li>
             Стили и скрипты с долгим кэшем живут под <code>/_sa/</code>: если их трогали, обновить маркер версии в запросах (<code>?v=…</code> в шаблоне) и заново собрать HTML так, как принято в репозитории.
@@ -286,8 +286,9 @@
           <li>По желанию после выхода на прод можно прогнать <code>npm run test:post-deploy-smoke</code>, если среде доступен интернет.</li>
         </ul>
         <p class="note">
-          <strong>Полный текст обязательных правил для агента:</strong>
-          файл <span class="mono">AGENTS.md</span> в корне этого репозитория на GitHub. Операции, домены и интеграции подробно — в <span class="mono">CLAUDE.md</span>; разделы ниже описывают URL, индексирование и аналитику.
+          <strong>Единый регламент агентов и выкладки:</strong>
+          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
+          Контекст инфраструктуры и интеграций — в <span class="mono">CLAUDE.md</span>; ниже — URL, индексирование и аналитика без дублирования полного чеклиста деплоя.
         </p>
       </section>
 
@@ -411,7 +412,7 @@
             <tr>
               <td>Продовый vhost, gzip, заголовки</td>
               <td><span class="mono">nginx/serenity-router.live.conf</span> и др.</td>
-              <td>Выкладка на сервер вручную (<span class="mono">CLAUDE.md</span>); <span class="mono">test:nginx-compression</span> где применимо</td>
+              <td>Выкладка конфигов по <span class="mono">AGENTS.md</span>; <span class="mono">test:nginx-compression</span> где применимо</td>
               <td>Нет</td>
             </tr>
             <tr>
@@ -570,8 +571,9 @@
           <code>bash scripts/deploy-routing.sh</code>; для продового vhost после изменений <span class="mono">nginx/serenity-router.live.conf</span>
           выполните <code>bash scripts/deploy-serenity-router-vhost.sh</code> (выложит в <code>/etc/nginx/sites-available/serenity-router</code>,
           затем проверка и reload); нужен блок
-          <code>location ^~ /docs/</code> в этом файле (подробности — в
-          <span class="mono">CLAUDE.md</span>). Та же симптоматика на <strong>корне</strong>
+          <code>location ^~ /docs/</code> в этом файле — полный порядок выкладки в
+          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>
+          (<span class="mono">CLAUDE.md</span> — архитектура и контекст). Та же симптоматика на <strong>корне</strong>
           <span class="mono">serenity.agency</span> связана с маршрутизацией/legacy, но не доказывает отдельно проблему
           выдачи <code>/docs/</code>.
         </p>
@@ -587,29 +589,19 @@
           <li>Новый сайт выносит публичные ассеты под <code>/_sa/</code>, чтобы не пересечься с WP и не ломать legacy-страницы.</li>
           <li>В CSS внутри <code>url()</code> пути к картинкам/шрифтам — <strong>относительно файла CSS</strong> (например <code>../img/…</code>), а не <code>../_sa/…</code> (иначе браузер соберёт <code>/_sa/_sa/…</code> и получит 404).</li>
         </ul>
-        <p class="note">Детали см. <span class="mono">CLAUDE.md</span> / <span class="mono">AGENTS.md</span>.</p>
+        <p class="note">Регламент выкладки — <span class="mono">AGENTS.md</span>; архитектура и интеграции — <span class="mono">CLAUDE.md</span>.</p>
       </section>
 
       <section id="release-deploy">
         <h2>Релиз и порядок выкладки</h2>
-        <p>Краткий чеклист (полный порядок — <span class="mono">AGENTS.md</span> и <span class="mono">CLAUDE.md</span>):</p>
-        <ol>
-          <li>При изменении шаблонов или кейсов: собрать фронт (<span class="mono">npm run build:html</span> и при необходимости отдельные шаги из <span class="mono">package.json</span>).</li>
-          <li>
-            Тесты перед выкладкой: минимум <span class="mono">npm run test:layout-smoke</span>, <span class="mono">npm run test:routing-config</span>; при работе с кейсами — <span class="mono">npm run test:case-all</span> (полный перечень смотрите в корневых правилах репозитория).
-          </li>
-          <li>Статика на сервер: <span class="mono">bash deploy.sh</span> → rsync в <span class="mono">/var/www/static</span> (обновляет и основной домен, и <span class="mono">static.serenity.agency</span>).</li>
-          <li>
-            <strong>Только</strong> при изменении файла <span class="mono">nginx/routing.conf</span>: <span class="mono">bash scripts/deploy-routing.sh</span> на сервере (проверка <span class="mono">nginx -t</span>, reload). Это не то же самое, что правки продового vhost.
-          </li>
-          <li>
-            При правках продового <span class="mono">nginx/serenity-router.live.conf</span>: <span class="mono">bash scripts/deploy-serenity-router-vhost.sh</span> → <span class="mono">/etc/nginx/sites-available/serenity-router</span> (или вручную, затем <span class="mono">nginx -t</span> и reload) — детали в <span class="mono">CLAUDE.md</span>. Другие vhost — по инструкциям там же.
-          </li>
-          <li>Cloudflare Worker: <span class="mono">npx wrangler deploy</span> (тот же артефакт как ASSETS).</li>
-          <li>Git: коммит с сообщением на русском, без force-push; затем push.</li>
-        </ol>
+        <p>
+          Единый пошаговый регламент (сборка, тесты, <span class="mono">deploy.sh</span>, когда вызывать
+          <span class="mono">deploy-routing.sh</span>, vhost-скрипты, Worker) описан только в файле
+          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>
+          в корне репозитория. Здесь — пояснения по URL и SEO ниже по тексту справочника.
+        </p>
         <p class="note">
-          После правок CSS/JS под immutable: поднять <code>?v=</code> в <code>html/index.layout.html</code> и снова собрать HTML — иначе клиенты долго увидят старые бандлы (см. раздел <a href="#playbook-cache">Playbook: кэш</a>).
+          Детали immutable-кэша <code>?v=</code> и связка с сборкой HTML — см. <a href="#playbook-cache">Playbook: кэш</a> и пункты внутри <span class="mono">AGENTS.md</span>.
         </p>
       </section>
 
@@ -630,6 +622,12 @@
           SEO-стратегии правят шаблон и пересобирают.
         </p>
         <h3><code>robots.txt</code> и sitemap на проде</h3>
+        <p class="note">
+          Если вы открыли <span class="mono">robots.txt</span> у основного домена и в нём нет
+          <code>Disallow: /docs/</code>, текст похож на WordPress — вы смотрите ответ legacy, а не файлы статики из
+          репозитория; выполните выкладку по регламенту в файле
+          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
+        </p>
         <p>
           В продовом vhost (<code>nginx/serenity-router.live.conf</code>) для <code>/robots.txt</code> задан
           <code>alias</code> на <code>robots.production.txt</code> (после <code>deploy.sh</code> оба файла лежат в статике). В

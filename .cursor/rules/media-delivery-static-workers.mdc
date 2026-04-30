@@ -1,20 +1,6 @@
 ---
-description: Медиа карточек кейсов и кэш CSS/JS для case/all
+description: Медиа кейсов — указатель на AGENTS.md
 alwaysApply: true
 ---
 
-# Медиа карточек кейсов
-
-**Общие правила агентов и деплоя — `AGENTS.md`.** Здесь — уточнения по превью кейсов и кэшу стилей.
-
-## Медиа для карточек кейсов
-
-- Для `static.serenity.agency` и `*.workers.dev` не использовать `/cdn-cgi/image/...` в `srcset` без проверки `curl -I` на нужном хосту (может быть 404 → ломанные превью).
-- Для карточек кейсов — прямые локальные URL вида `/_sa/img/storage__*`.
-- После изменений обязательно: `npm run test:case-all` и визуально `case/all` на трёх поверхностях (см. `AGENTS.md`).
-
-## Кэш CSS/JS (кейсы)
-
-- После правок в `css/css__home-snapshot__overrides.parity-sync.css` (и связанных стилях): поднять `?v=` в ссылках на стили в `case/all/index.html`, `html/index.layout.html`, `index.html`, затем `npm run build:cases`.
-- JS под `/_sa/js/*.js`: после правок — `?v=` в `html/index.layout.html` и `npm run build:html` (как в `AGENTS.md`).
-- Внутри CSS в `url()`: только относительные пути наподобие `../img/...`, не `../_sa/...`.
+Карточки кейсов, `srcset`, кэш стилей `case/all` и пути в `url()` для CSS — **см.** [`AGENTS.md`](AGENTS.md) (**§ медиа**, **§ кэш**, **§ пути в CSS**).
