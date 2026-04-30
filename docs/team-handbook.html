@@ -197,6 +197,16 @@
         padding-left: 12px;
         margin: 14px 0;
       }
+      .ok-note {
+        font-size: 0.88rem;
+        color: var(--text);
+        border-left: 3px solid var(--new);
+        padding-left: 12px;
+        margin: 14px 0;
+        background: #f0faf6;
+        padding: 12px 12px 12px 14px;
+        border-radius: 0 8px 8px 0;
+      }
       footer {
         font-size: 0.85rem;
         color: var(--muted);
@@ -223,7 +233,7 @@
           Один репозиторий со статическим снимком нового сайта (главная и перенесённые страницы). Прод постепенно
           переводится с WordPress на эту статику через Nginx — без конфликта путей с темой WP.
         </p>
-        <span class="badge">Снимок документа · апрель 2026</span>
+        <span class="badge">Снимок документа · 30 апреля 2026</span>
       </header>
 
       <nav class="toc">
@@ -274,7 +284,7 @@
           <li>Внешний вид и контент сверять с живым продом serenity.agency; копировать пиксель в пиксель, не добавлять от себя.</li>
           <li>В описаниях коммитов использовать русский язык.</li>
           <li>
-            После готовности выкладывать статику на сервер по регламенту в файле <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a> (<span class="mono">deploy.sh</span>, при смене <span class="mono">nginx/routing.conf</span> и vhost — отдельные шаги оттуда же), отдельно на Worker через <span class="mono">wrangler deploy</span>.
+            После готовности выкладывать статику на <strong>новый сервер</strong> статического контура (IP и роль — в <span class="mono">CLAUDE.md</span>) по регламенту <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>: <span class="mono">deploy.sh</span>, при смене <span class="mono">nginx/routing.conf</span> и vhost — скрипты оттуда же; старый WordPress-хост из репозитория <strong>не деплоим</strong>. Worker — отдельно: <span class="mono">npx wrangler deploy</span>.
           </li>
           <li>
             Стили и скрипты с долгим кэшем живут под <code>/_sa/</code>: если их трогали, обновить маркер версии в запросах (<code>?v=…</code> в шаблоне) и заново собрать HTML так, как принято в репозитории.
@@ -563,19 +573,23 @@
             </tr>
           </tbody>
         </table>
+        <p class="ok-note" id="docs-prod-status">
+          <strong>Сейчас на проде:</strong> при выкладке по <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>
+          (<span class="mono">deploy.sh</span>, <span class="mono">deploy-routing.sh</span>, <span class="mono">deploy-serenity-router-vhost.sh</span>)
+          страница <a href="https://serenity.agency/docs/team-handbook.html"><span class="mono">/docs/team-handbook.html</span></a>
+          на <span class="mono">serenity.agency</span> отдаётся как статический HTML с нового сервера (не Nuxt и не отдельное приложение).
+          В <span class="mono">robots.txt</span> основного домена при той же конфигурации должна быть строка
+          <span class="mono">Disallow: /docs/</span> (файл <span class="mono">robots.production.txt</span> или fallback из корня репо).
+        </p>
         <p class="note" id="docs-vs-legacy-errors">
-          Если по адресу <code>/docs/…</code> вместо файла видна типичная страница ошибки legacy (WordPress или Nuxt
-          «Server error» и т.п.), запрос, скорее всего, <strong>не</strong> попал в статический
-          <code>root</code>: убедитесь, что на сервер выкладывались актуальные файлы (<code>bash deploy.sh</code>),
-          в карте <code>nginx/routing.conf</code> для префикса задано <code>~^/docs(/|$)</code> и после правок выполнен
-          <code>bash scripts/deploy-routing.sh</code>; для продового vhost после изменений <span class="mono">nginx/serenity-router.live.conf</span>
-          выполните <code>bash scripts/deploy-serenity-router-vhost.sh</code> (выложит в <code>/etc/nginx/sites-available/serenity-router</code>,
-          затем проверка и reload); нужен блок
-          <code>location ^~ /docs/</code> в этом файле — полный порядок выкладки в
-          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>
-          (<span class="mono">CLAUDE.md</span> — архитектура и контекст). Та же симптоматика на <strong>корне</strong>
-          <span class="mono">serenity.agency</span> связана с маршрутизацией/legacy, но не доказывает отдельно проблему
-          выдачи <code>/docs/</code>.
+          <strong>Если снова сломалось:</strong> по <code>/docs/…</code> вместо файла видна ошибка legacy (WordPress, Nuxt
+          «Server error» и т.п.) или в <span class="mono">robots.txt</span> нет <code>Disallow: /docs/</code> — запрос ушёл не в статический
+          <code>root</code>. Проверьте актуальные файлы (<code>bash deploy.sh</code>), карту
+          <code>nginx/routing.conf</code> (<code>~^/docs(/|$)</code> и <code>deploy-routing.sh</code>), vhost
+          <span class="mono">nginx/serenity-router.live.conf</span> (<code>bash scripts/deploy-serenity-router-vhost.sh</code>,
+          блок <code>location ^~ /docs/</code>). Полный чеклист — в
+          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
+          Ошибка на <strong>корне</strong> <span class="mono">serenity.agency</span> может быть связана с legacy отдельно от <code>/docs/</code>.
         </p>
       </section>
 
@@ -622,11 +636,13 @@
           SEO-стратегии правят шаблон и пересобирают.
         </p>
         <h3><code>robots.txt</code> и sitemap на проде</h3>
+        <p class="ok-note">
+          <strong>Ожидаемое состояние после выкладки:</strong> на <span class="mono">https://serenity.agency/robots.txt</span> — правила из
+          <span class="mono">robots.production.txt</span>, включая <span class="mono">Disallow: /docs/</span>, а не короткий набор директив только от WordPress.
+        </p>
         <p class="note">
-          Если вы открыли <span class="mono">robots.txt</span> у основного домена и в нём нет
-          <code>Disallow: /docs/</code>, текст похож на WordPress — вы смотрите ответ legacy, а не файлы статики из
-          репозитория; выполните выкладку по регламенту в файле
-          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
+          Если в ответе нет <code>Disallow: /docs/</code> и текст как у старого WP — ответ всё ещё с legacy; повторите шаги из
+          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a> (статика, <span class="mono">deploy-routing.sh</span>, vhost с <span class="mono">location = /robots.txt</span>).
         </p>
         <p>
           В продовом vhost (<code>nginx/serenity-router.live.conf</code>) для <code>/robots.txt</code> задан
@@ -678,7 +694,11 @@
             </tr>
             <tr>
               <td><code>npm run test:post-deploy-smoke</code></td>
-              <td>Опционально после выкладки: быстрый обход трёх origin в Playwright (если настроен доступ в сеть).</td>
+              <td>Опционально после выкладки: обход трёх origin в Playwright + проверка <span class="mono">/docs/team-handbook.html</span> по содержимому (нужен интернет).</td>
+            </tr>
+            <tr>
+              <td>Вручную</td>
+              <td>Открыть <span class="mono">/docs/team-handbook.html</span> и <span class="mono">/robots.txt</span> на <span class="mono">serenity.agency</span> после деплоя; в robots должна быть строка <span class="mono">Disallow: /docs/</span>.</td>
             </tr>
           </tbody>
         </table>
@@ -693,18 +713,17 @@
       </section>
 
       <footer>
-        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — не приложение Nuxt и не отдельный
-        бэкенд: это статический HTML из того же дерева деплоя, что и остальной сайт (после
-        <code>bash deploy.sh</code> путь на диске <span class="mono">/var/www/static/docs/…</span>, раздаёт Nginx на том
-        же хосте, что и основной домен при корректной конфигурации). Публичные URL этого файла действуют, когда маршрут
-        действительно ведёт в статику (<a href="#docs-vs-legacy-errors">раздел про <span class="mono">/docs/</span> и
-          ошибки legacy</a>):
+        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — статический HTML из дерева деплоя (после
+        <code>bash deploy.sh</code> на диске <span class="mono">/var/www/static/docs/…</span> на <strong>новом сервере</strong> статики;
+        отдельного Nuxt/приложения под этим URL нет). Публичные ссылки:
         <a href="https://serenity.agency/docs/team-handbook.html"><span class="mono">https://serenity.agency/docs/team-handbook.html</span></a>,
         <a href="https://static.serenity.agency/docs/team-handbook.html"><span class="mono">https://static.serenity.agency/docs/team-handbook.html</span></a>,
-        на Worker —
-        <a href="https://serenity.sergeyprus.workers.dev/docs/team-handbook.html"><span class="mono">https://serenity.sergeyprus.workers.dev/docs/team-handbook.html</span></a>. Каталог <span class="mono">/docs/</span> закрыт от индексации (<span class="mono">robots.production.txt</span>,
-        заголовок <span class="mono">X-Robots-Tag</span> для прод-домена и Worker). Обновляйте блок «Снимок документа» при
-        существенных изменениях архитектуры.
+        Worker —
+        <a href="https://serenity.sergeyprus.workers.dev/docs/team-handbook.html"><span class="mono">https://serenity.sergeyprus.workers.dev/docs/team-handbook.html</span></a>
+        (последний — после <span class="mono">npx wrangler deploy</span>). Статус выдачи на проде и типичные сбои —
+        <a href="#docs-prod-status">блок «Сейчас на проде»</a> и <a href="#docs-vs-legacy-errors">«Если снова сломалось»</a>.
+        Каталог <span class="mono">/docs/</span> закрыт от индексации (<span class="mono">robots.production.txt</span>,
+        <span class="mono">X-Robots-Tag</span>). Обновляйте дату в «Снимок документа» при существенных правках текста.
       </footer>
     </div>
   </body>
