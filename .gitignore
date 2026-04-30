@@ -17,6 +17,7 @@ dist/
 standalone/
 public/img/
 tmp/
+artifacts/
 .wrangler/
 
 # Локальная symlink-папка: видимый вход в Canvas Cursor (создаётся вручную или скриптом, не коммитим).
