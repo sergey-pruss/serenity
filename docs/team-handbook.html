@@ -284,7 +284,7 @@
           <li>Внешний вид и контент сверять с живым продом serenity.agency; копировать пиксель в пиксель, не добавлять от себя.</li>
           <li>В описаниях коммитов использовать русский язык.</li>
           <li>
-            После готовности выкладывать статику на <strong>новый сервер</strong> статического контура (IP и роль — в <span class="mono">CLAUDE.md</span>) по регламенту <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>: <span class="mono">deploy.sh</span>, при смене <span class="mono">nginx/routing.conf</span> и vhost — скрипты оттуда же; старый WordPress-хост из репозитория <strong>не деплоим</strong>. Worker — отдельно: <span class="mono">npx wrangler deploy</span>.
+            После готовности выкладывать статику на <strong>новый сервер</strong> статического контура (IP и роль — в <span class="mono">AGENTS.md</span>) по регламенту <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>: <span class="mono">deploy.sh</span>, при смене <span class="mono">nginx/routing.conf</span> и vhost — скрипты оттуда же; старый WordPress-хост из репозитория <strong>не деплоим</strong>. Worker — отдельно: <span class="mono">npx wrangler deploy</span>.
           </li>
           <li>
             Стили и скрипты с долгим кэшем живут под <code>/_sa/</code>: если их трогали, обновить маркер версии в запросах (<code>?v=…</code> в шаблоне) и заново собрать HTML так, как принято в репозитории.
@@ -298,7 +298,7 @@
         <p class="note">
           <strong>Единый регламент агентов и выкладки:</strong>
           <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
-          Контекст инфраструктуры и интеграций — в <span class="mono">CLAUDE.md</span>; ниже — URL, индексирование и аналитика без дублирования полного чеклиста деплоя.
+          Контекст инфраструктуры, интеграций и регламент команд — в <span class="mono">AGENTS.md</span>; ниже — URL, индексирование и аналитика без дублирования полного чеклиста деплоя.
         </p>
       </section>
 
@@ -315,11 +315,11 @@
             <strong>Не совпадает с продом:</strong> нет Nginx-карты маршрутов и прокси на WordPress — локально вы не увидите legacy-страницы по тем же правилам, что на <span class="mono">serenity.agency</span>. Заголовки ответа у дев-сервера — <span class="mono">no-store</span> (удобно для разработки); на проде HTML и часть путей кэшируются иначе.
           </li>
           <li>
-            <strong>Форма заявки (<span class="mono">POST /api/lead</span>):</strong> на стейджинге Worker (<span class="mono">*.workers.dev</span>) запрос обрабатывает Worker (<span class="mono">src/worker.mjs</span> → <span class="mono">lead-api.mjs</span>). На основном домене в продовом vhost (<span class="mono">nginx/serenity-router.live.conf</span>) весь префикс <span class="mono">/api/</span> проксируется на legacy origin — поведение формы там зависит от того, что отвечает старый контур, а не Worker. Для проверки интеграций с Resend/Amo ориентируйтесь на окружение из <span class="mono">CLAUDE.md</span> и фактическую конфигурацию vhost.
+            <strong>Форма заявки (<span class="mono">POST /api/lead</span>):</strong> на стейджинге Worker (<span class="mono">*.workers.dev</span>) запрос обрабатывает Worker (<span class="mono">src/worker.mjs</span> → <span class="mono">lead-api.mjs</span>). На основном домене в продовом vhost (<span class="mono">nginx/serenity-router.live.conf</span>) весь префикс <span class="mono">/api/</span> проксируется на legacy origin — поведение формы там зависит от того, что отвечает старый контур, а не Worker. Для проверки интеграций с Resend/Amo ориентируйтесь на окружение из <span class="mono">AGENTS.md</span> и фактическую конфигурацию vhost.
           </li>
         </ul>
         <p class="note">
-          Локальный <span class="mono">npm run dev</span> не заменяет проверку на реальных URL с CDN/кэшем — см. <span class="mono">CLAUDE.md</span>.
+          Локальный <span class="mono">npm run dev</span> не заменяет проверку на реальных URL с CDN/кэшем — см. <span class="mono">AGENTS.md</span>.
         </p>
       </section>
 
@@ -360,7 +360,7 @@
         </p>
         <ul>
           <li>
-            <span class="mono">serenity.agency</span> — основной сайт: Nginx подмешивает новую статику из <span class="mono">/var/www/static</span> по карте маршрутов и проксирует остальное на legacy WordPress. IP сервера статики и порядок выкладки — в <span class="mono">CLAUDE.md</span> (сейчас <span class="mono">168.222.142.141</span>, каталог <span class="mono">/var/www/static</span>).
+            <span class="mono">serenity.agency</span> — основной сайт: Nginx подмешивает новую статику из <span class="mono">/var/www/static</span> по карте маршрутов и проксирует остальное на legacy WordPress. IP сервера статики и порядок выкладки — в <span class="mono">AGENTS.md</span> (сейчас <span class="mono">168.222.142.141</span>, каталог <span class="mono">/var/www/static</span>).
           </li>
           <li>
             <span class="mono">static.serenity.agency</span> — тот же дисковый <span class="mono">root</span>, удобно смотреть «чистую» статику без смешения с поведением основного vhost.
@@ -370,7 +370,7 @@
           </li>
         </ul>
         <p class="note">
-          Записи DNS у регистратора направляют домены на Cloudflare или на сервер согласно вашей схеме; детали зон здесь не дублируем — при сомнениях смотрите операционный гайд <span class="mono">CLAUDE.md</span>.
+          Записи DNS у регистратора направляют домены на Cloudflare или на сервер согласно вашей схеме; детали зон здесь не дублируем — при сомнениях смотрите операционный гайд <span class="mono">AGENTS.md</span>.
         </p>
       </section>
 
@@ -457,7 +457,7 @@
         </ul>
         <h3>Resend и AmoCRM</h3>
         <p>
-          Заявка с формы уходит письмом через Resend и создаёт лид в AmoCRM (<span class="mono">serenity.amocrm.ru</span>) — см. <span class="mono">CLAUDE.md</span>. При компрометации или плановой смене паролей интеграции — выпустить новые токены в Amo, обновить секреты в Worker и при необходимости содержимое KV; конкретные сроки ротации задаёт регламент команды, не репозиторий.
+          Заявка с формы уходит письмом через Resend и создаёт лид в AmoCRM (<span class="mono">serenity.amocrm.ru</span>) — см. <span class="mono">AGENTS.md</span>. При компрометации или плановой смене паролей интеграции — выпустить новые токены в Amo, обновить секреты в Worker и при необходимости содержимое KV; конкретные сроки ротации задаёт регламент команды, не репозиторий.
         </p>
       </section>
 
@@ -603,7 +603,7 @@
           <li>Новый сайт выносит публичные ассеты под <code>/_sa/</code>, чтобы не пересечься с WP и не ломать legacy-страницы.</li>
           <li>В CSS внутри <code>url()</code> пути к картинкам/шрифтам — <strong>относительно файла CSS</strong> (например <code>../img/…</code>), а не <code>../_sa/…</code> (иначе браузер соберёт <code>/_sa/_sa/…</code> и получит 404).</li>
         </ul>
-        <p class="note">Регламент выкладки — <span class="mono">AGENTS.md</span>; архитектура и интеграции — <span class="mono">CLAUDE.md</span>.</p>
+        <p class="note">Регламент выкладки, архитектура и интеграции — <span class="mono">AGENTS.md</span>.</p>
       </section>
 
       <section id="release-deploy">
@@ -708,7 +708,7 @@
           кэша CDN/браузера (жёсткое обновление).
         </p>
         <p class="note">
-          Полный регламент команд и интеграций — в <code>CLAUDE.md</code> и <code>AGENTS.md</code> в корне репозитория.
+          Полный регламент команд, архитектуры и интеграций — в <code>AGENTS.md</code> в корне репозитория.
         </p>
       </section>
 

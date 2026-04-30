@@ -77,5 +77,5 @@ npm run test:post-deploy-smoke
 ## Документация
 
 - Правила для задач и выкладки: `AGENTS.md`
-- Архитектура и интеграции: `CLAUDE.md`
-- Командный handbook: https://serenity.agency/docs/team-handbook.html (доступ в Слаке)
+- Архитектура и интеграции: `AGENTS.md`
+- Командный handbook: `docs/team-handbook.html` (публичный URL: https://serenity.agency/docs/team-handbook.html)
