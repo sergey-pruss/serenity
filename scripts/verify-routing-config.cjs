@@ -36,4 +36,11 @@ assert(/~\^\/docs\/\s+1;/.test(content), "Missing /docs/ static rule (team handb
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 
+const robotsProdPath = path.join(__dirname, "..", "robots.production.txt");
+const robotsProd = fs.readFileSync(robotsProdPath, "utf8");
+assert(
+  /^Disallow:\s*\/docs\/\s*$/m.test(robotsProd),
+  "robots.production.txt must include \"Disallow: /docs/\" (prod nginx aliases this file for /robots.txt)."
+);
+
 console.log("OK: routing config baseline rules are present.");
