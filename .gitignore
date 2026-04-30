@@ -19,6 +19,9 @@ public/img/
 tmp/
 .wrangler/
 
+# Локальная symlink-папка: видимый вход в Canvas Cursor (создаётся вручную или скриптом, не коммитим).
+canvas-cursor
+
 # локальные черновики / снимки вне пайплайна
 _patch_ribbon.py
 _strip_bad_ribbon.py
