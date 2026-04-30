@@ -1,4 +1,29 @@
-# Превью static: этот файл отдаётся как /robots.txt с диска. На serenity.agency nginx подменяет ответ на robots.production.txt.
-# Preview/staging host only (static). Production site: https://serenity.agency/
+# Должно совпадать с robots.production.txt (обновляйте оба). Нужен для try_files на serenity.agency,
+# если на сервере ещё нет location = /robots.txt → alias robots.production.txt.
+# static.serenity.agency отдаёт robots.static-preview.txt (см. nginx/static.serenity.agency.live.conf).
 User-agent: *
-Disallow: /
+
+Disallow: /docs/
+Disallow: /cgi-bin
+Disallow: /wp-
+Disallow: /wp/
+Disallow: *&s=
+Disallow: /author/
+Disallow: /users/
+Disallow: /nova/
+Disallow: /blog-new/
+Disallow: */trackback
+Disallow: */feed
+Disallow: */rss
+Disallow: */embed
+Disallow: *services/$
+Disallow: *?*
+Disallow: /xmlrpc.php
+Disallow: *utm*=
+Disallow: *openstat=
+
+Allow: */uploads
+
+Clean-param: &utm&get&amo
+
+Sitemap: https://serenity.agency/sitemap.xml

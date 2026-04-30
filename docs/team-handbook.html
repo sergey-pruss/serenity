@@ -629,9 +629,13 @@
         </p>
         <h3><code>robots.txt</code> и sitemap на проде</h3>
         <p>
-          В продовом vhost (<code>nginx/serenity-router.live.conf</code>) как <code>/robots.txt</code> отдаётся файл из репозитория
-          <code>robots.production.txt</code> (после деплоя он лежит в статике). Внутри указан Sitemap:
-          <code>https://serenity.agency/sitemap.xml</code>. Правила для краулеров по путям (в т.ч. закрытие <code>/docs/</code>) смотрите в этом же <code>robots.production.txt</code> и в заголовках vhost / Worker.
+          В продовом vhost (<code>nginx/serenity-router.live.conf</code>) для <code>/robots.txt</code> задан
+          <code>alias</code> на <code>robots.production.txt</code> (после <code>deploy.sh</code> оба файла лежат в статике). В
+          <code>nginx/routing.conf</code> пути <code>/robots.txt</code> и <code>/sitemap.xml</code> помечены как «новая» статика
+          (<code>is_new_page=1</code>), чтобы при устаревшем vhost не уходить на WordPress и не терять строку
+          <code>Disallow: /docs/</code>. Корневой <code>robots.txt</code> в репозитории дублирует правила продакшена для
+          этого fallback. На <code>static.serenity.agency</code> превью отдаёт <code>robots.static-preview.txt</code> (только
+          <code>Disallow: /</code>), см. <code>nginx/static.serenity.agency.live.conf</code>.
         </p>
         <p>
           <code>sitemap.xml</code> отдаётся со статического деплоя, а не из WordPress — чтобы новые маршруты вроде
