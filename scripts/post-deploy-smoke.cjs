@@ -12,8 +12,33 @@ const URLS = process.env.SMOKE_URLS
 
 const VIEWPORT = { width: 1366, height: 900 };
 
+const HANDBOOK_PATH = "/docs/team-handbook.html";
+/** Уникальный маркер страницы handbook (не главная index.html). */
+const HANDBOOK_MARKER = "Serenity — структура проекта, URL и проверки";
+/** Типичный <title> главной — если он в ответе по /docs/…, nginx отдал SPA-fallback. */
+const MAIN_INDEX_TITLE_SNIPPET = "Маркетинговое агентство Serenity. Профессиональные";
+
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+async function checkHandbookDeployedAtOrigins() {
+  const origins = [...new Set(URLS.map((u) => new URL(u).origin))];
+  for (const origin of origins) {
+    const url = `${origin}${HANDBOOK_PATH}`;
+    const res = await fetch(url, { redirect: "follow" });
+    const text = await res.text();
+    assert(res.ok, `handbook ${url}: HTTP ${res.status}`);
+    assert(
+      text.includes(HANDBOOK_MARKER),
+      `handbook ${url}: нет маркера справочника — часто значит нет файла на диске и nginx отдал /index.html; сделайте bash deploy.sh и при необходимости bash scripts/deploy-static-vhost.sh`
+    );
+    assert(
+      !text.includes(MAIN_INDEX_TITLE_SNIPPET),
+      `handbook ${url}: пришла главная index.html вместо handbook (проверьте deploy.sh и vhost static с location ^~ /docs/)`
+    );
+    console.log(`OK handbook ${url}`);
+  }
 }
 
 async function checkUrl(browser, url) {
@@ -112,6 +137,7 @@ async function run() {
     for (const url of URLS) {
       await checkUrl(browser, url);
     }
+    await checkHandbookDeployedAtOrigins();
     console.log("post-deploy-smoke: OK");
   } finally {
     await browser.close();
