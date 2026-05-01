@@ -7,12 +7,16 @@ const fs = require("fs");
 const path = require("path");
 
 const sitePath = path.join(__dirname, "..", "nginx", "serenity-router.live.conf");
+const snapshotIncPath = path.join(__dirname, "..", "nginx", "serenity-router-snapshot.inc");
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-const content = fs.readFileSync(sitePath, "utf8");
+const content =
+  fs.readFileSync(sitePath, "utf8") +
+  "\n" +
+  fs.readFileSync(snapshotIncPath, "utf8");
 
 assert(/\bgzip\s+on\s*;/.test(content), "serenity-router.live.conf: ожидалось gzip on;");
 assert(/\bgzip_vary\s+on\s*;/.test(content), "serenity-router.live.conf: ожидалось gzip_vary on;");
@@ -32,4 +36,4 @@ assert(
   "serenity-router.live.conf: не указывайте text/html внутри gzip_types …; (дубль с дефолтом gzip в http{})"
 );
 
-console.log("OK: nginx gzip directives present in serenity-router.live.conf");
+console.log("OK: nginx gzip directives present in serenity-router.live.conf + serenity-router-snapshot.inc");

@@ -1,36 +1,5 @@
-# /etc/nginx/sites-available/serenity.agency
-#
-# Example production vhost for progressive migration:
-# - NEW pages are served from local static root
-# - all other pages are proxied to LEGACY origin
-
-# Прокси на legacy по HTTPS (порт 443), иначе WordPress отвечает 301 на https://serenity.agency/... и циклит на edge.
-upstream serenity_legacy_origin {
-    server 80.78.246.207:443;
-    keepalive 16;
-}
-
-server {
-    listen 80;
-    listen [::]:80;
-    server_name serenity.agency www.serenity.agency;
-
-    return 301 https://serenity.agency$request_uri;
-}
-
-# Основной HTTPS — один server на :443 (два блока с [::]:443 дают duplicate listen) + default_server.
-server {
-    listen 443 ssl http2 default_server;
-    listen [::]:443 ssl http2 default_server;
-    server_name serenity.agency www.serenity.agency;
-
-    # Set real certificate paths on host
-    ssl_certificate     /etc/letsencrypt/live/serenity.agency/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/serenity.agency/privkey.pem;
-
-    if ($host = www.serenity.agency) {
-        return 301 https://serenity.agency$request_uri;
-    }
+# Включается в serenity-router.live.conf дважды (HTTPS и HTTP).
+# HTTP не делает 301 на https://serenity.agency — иначе Yandex CDN при origin по HTTP получает «cdn loop detected».
 
     root /var/www/static;
     index index.html;
@@ -53,7 +22,6 @@ server {
         application/rss+xml
         image/svg+xml;
 
-    # Основной домен: канонический robots продакшена (корневой robots.txt — копия для try_files-fallback, см. routing.conf)
     location = /robots.txt {
         alias /var/www/static/robots.production.txt;
         default_type text/plain;
@@ -73,7 +41,6 @@ server {
         add_header Cache-Control "public, max-age=31536000, immutable";
     }
 
-    # Keep API on legacy until explicitly migrated
     location ^~ /api/ {
         proxy_http_version 1.1;
         proxy_set_header Host $host;
@@ -110,11 +77,14 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Accept-Encoding "";
         proxy_read_timeout 30s;
         proxy_connect_timeout 10s;
         proxy_ssl_server_name on;
         proxy_ssl_name serenity.agency;
         proxy_ssl_verify off;
+        sub_filter_once off;
+        sub_filter '<a href="/case/all"' '<a href="/case/all/"';
+        sub_filter '</body>' '<script>(function(){function normalize(href){if(href==="/case/all"||href==="https://serenity.agency/case/all"||href==="http://serenity.agency/case/all")return"/case/all/";if(href==="/"||href==="https://serenity.agency/"||href==="http://serenity.agency/"||href==="https://serenity.agency"||href==="http://serenity.agency")return"/";return"";}document.addEventListener("click",function(e){var t=e.target;var a=t&&t.closest?t.closest("a[href]"):null;if(!a)return;var target=normalize(a.getAttribute("href"));if(!target)return;e.preventDefault();window.location.assign(target);},true);})();</script></body>';
         proxy_pass https://serenity_legacy_origin;
     }
-}
