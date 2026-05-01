@@ -18,6 +18,8 @@ standalone/
 public/img/
 tmp/
 artifacts/
+# Локальные снимки миграции / baseline (не коммитим повторно)
+.snapshots/
 .wrangler/
 
 # локальные черновики / снимки вне пайплайна
