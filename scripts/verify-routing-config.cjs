@@ -42,6 +42,21 @@ assert(/~\^\/services\/production\/index\\\.html\$\s+1;/.test(content), "Missing
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 
+const routerVhostPath = path.join(__dirname, "..", "nginx", "serenity-router.live.conf");
+const routerVhost = fs.readFileSync(routerVhostPath, "utf8");
+assert(
+  !/\bserver_name\s+serenity\.agency\s+www\.serenity\.agency\s*;/.test(routerVhost),
+  "serenity-router.live.conf: www must not share the canonical production server block."
+);
+assert(
+  /\bserver_name\s+serenity\.agency\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing canonical serenity.agency server block."
+);
+assert(
+  /\bserver_name\s+www\.serenity\.agency\s*;[\s\S]*?\breturn\s+301\s+https:\/\/serenity\.agency\$request_uri\s*;/.test(routerVhost),
+  "serenity-router.live.conf: www.serenity.agency must redirect to https://serenity.agency$request_uri."
+);
+
 const robotsProdPath = path.join(__dirname, "..", "robots.production.txt");
 const robotsProd = fs.readFileSync(robotsProdPath, "utf8");
 assert(
