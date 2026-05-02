@@ -1,0 +1,176 @@
+{
+  "filterCode": "podcast",
+  "currentPage": 1,
+  "totalPages": 1,
+  "perPage": 24,
+  "totalItems": 6,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/blog/"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life/"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case/"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 3,
+      "href": "/blog/article/"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast/"
+    }
+  ],
+  "posts": [
+    {
+      "href": "/blog/article/maksim-spiridonov-vzglyad-ceo-na-marketing-i-razvitie-produkta/",
+      "description": "Максим Спиридонов. Взгляд CEO на маркетинг и развитие продукта",
+      "subtitle": "9 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/4rd77wPh8GwqYEMfMCSxb3AHwrCFEEEaKtxSDbAB.webp"
+      }
+    },
+    {
+      "href": "/blog/article/unisender-tsennost-brenda-cherez-produktovyj-podhod/",
+      "description": "Unisender: ценность бренда через продуктовый подход",
+      "subtitle": "8 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/4OKhXLGFMWItU2VRf6DzRBpsRvOlEQ8SCFSU38WA.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/serenity-kak-stroim-uspeshnyj-marketing-ot-sotrudnika-do-klienta/",
+      "description": "Serenity: Как строим успешный маркетинг — от сотрудника до клиента",
+      "subtitle": "7 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/3IHrfdwO12TCeLIT21fsrOGzw0uR2NgxYETYiyzf.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/ashan-tsifrovye-tehnologii-i-razvitie-klientotsentrichnosti/",
+      "description": "Ашан: цифровые технологии и развитие клиентоцентричности",
+      "subtitle": "6 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/nvM2te3oS8H9gtT5uGEf4gqjin9PJsfmZQKgZnNQ.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/flowwow-nishevye-marketplejsy-protiv-gigantov/",
+      "description": "Flowwow: нишевые маркетплейсы против гигантов",
+      "subtitle": "5 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/1uRoMZmmwNnyFRoAcnMRklGDm4C8w2FuZDAd4P6s.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.mave.digital/ep-2",
+      "description": "Какие 10% в маркетинге приносят 90% результатов?",
+      "subtitle": "Игорь Манн в подкасте «Мышеловка».",
+      "tags": [
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/Gq8atSD9iDUptVPxHxvc8wkn1EN7AWNbS3gDJLJE.jpg"
+      }
+    }
+  ]
+}

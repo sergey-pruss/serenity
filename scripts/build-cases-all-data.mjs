@@ -17,13 +17,16 @@ const FILTERS = [
   { code: "strategiya", label: "Стратегия" },
 ];
 
-function storageUrl(filename) {
+/** Карточки кейсов — из img/case/ (заполняется scripts/sync-case-images.mjs), иначе прод. */
+function caseMediaUrl(filename) {
   if (!filename) return "";
-  const localPath = path.join(process.cwd(), "img", `storage__${filename}`);
-  if (fs.existsSync(localPath)) {
-    return `/_sa/img/storage__${filename}`;
+  const safe = path.basename(String(filename));
+  if (!safe) return "";
+  const p = path.join(process.cwd(), "img", "case", safe);
+  if (fs.existsSync(p)) {
+    return `/_sa/img/case/${safe}`;
   }
-  return `https://serenity.agency/storage/${filename}`;
+  return `https://serenity.agency/storage/${safe}`;
 }
 
 function parseAnimation(animationContent) {
@@ -75,12 +78,12 @@ function parseAnimation(animationContent) {
         anim.kind === "video" && anim.video
           ? {
               kind: "video",
-              poster: storageUrl(anim.frontImage),
-              videoSrc: storageUrl(anim.video),
+              poster: caseMediaUrl(anim.frontImage),
+              videoSrc: caseMediaUrl(anim.video),
             }
           : {
               kind: "picture",
-              image: storageUrl(anim.frontImage),
+              image: caseMediaUrl(anim.frontImage),
             },
     };
   });

@@ -31,7 +31,7 @@ function collectImageUrls(payload) {
       urls.add(c.media.image);
     }
   }
-  return Array.from(urls).filter((u) => u.startsWith("/_sa/img/storage__"));
+  return Array.from(urls).filter((u) => u.startsWith("/_sa/img/case/"));
 }
 
 async function buildOneVariant(sourceUrl) {
