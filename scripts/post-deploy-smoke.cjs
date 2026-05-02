@@ -13,6 +13,8 @@ const URLS = process.env.SMOKE_URLS
 const VIEWPORT = { width: 1366, height: 900 };
 
 const HANDBOOK_PATH = "/docs/team-handbook.html";
+/** На превью static иногда стоит gate (401 без учёток в CI) — не валим весь smoke. */
+const STATIC_PREVIEW_HOST = "static.serenity.agency";
 /** Уникальный маркер страницы handbook (не главная index.html). */
 const HANDBOOK_MARKER = "Serenity — структура проекта, URL и проверки";
 /** Типичный <title> главной — если он в ответе по /docs/…, nginx отдал SPA-fallback. */
@@ -27,6 +29,13 @@ async function checkHandbookDeployedAtOrigins() {
   for (const origin of origins) {
     const url = `${origin}${HANDBOOK_PATH}`;
     const res = await fetch(url, { redirect: "follow" });
+    const host = new URL(url).hostname;
+    if (res.status === 401 && host === STATIC_PREVIEW_HOST) {
+      console.log(
+        `SKIP handbook ${url}: HTTP 401 на static-превью (gate). Полная проверка /docs/ — npm run test:post-deploy-smoke`,
+      );
+      continue;
+    }
     const text = await res.text();
     assert(res.ok, `handbook ${url}: HTTP ${res.status}`);
     assert(

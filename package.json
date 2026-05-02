@@ -22,12 +22,14 @@
     "test:typography-nbsp": "node scripts/verify-typography-nbsp.cjs",
     "typography:nbsp": "node scripts/typography-nbsp.cjs",
     "test:docs-handbook-local": "node scripts/verify-docs-handbook-local.cjs",
-    "test:layout-smoke": "npm run test:html-assemble && npm run test:clients && npm run test:home-cases && npm run test:case-all && npm run test:floating-cta && npm run test:nginx-compression && npm run test:snapshot-prefix && npm run test:docs-handbook-local",
+    "test:yandex-cdn-static": "node scripts/verify-yandex-cdn-static-runbook.cjs",
+    "test:layout-smoke": "npm run test:html-assemble && npm run test:clients && npm run test:home-cases && npm run test:case-all && npm run test:floating-cta && npm run test:nginx-compression && npm run test:snapshot-prefix && npm run test:docs-handbook-local && npm run test:yandex-cdn-static",
     "measure:rhythm": "node scripts/home-rhythm-measure.cjs",
     "test:services-blog-gap": "node scripts/verify-services-blog-card-gap.cjs",
     "test:readability-slow": "node scripts/verify-readability-slow-network.cjs",
     "test:hero-poster": "node scripts/verify-hero-video-poster.cjs",
     "test:post-deploy-smoke": "node scripts/post-deploy-smoke.cjs",
+    "test:post-deploy-smoke-static": "SMOKE_URLS=https://static.serenity.agency/ node scripts/post-deploy-smoke.cjs",
     "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs"
   },
   "devDependencies": {
