@@ -63,17 +63,36 @@
     />
     <link rel="canonical" href="https://serenity.agency/" />
     <link rel="icon" type="image/x-icon" href="/_sa/img/favicon.ico" />
+    <style>
+      @media screen and (max-width: 620px) {
+        .component-block[data-v-135dc442] {
+          display: none !important;
+        }
+        .main-heading-block + .component-block[data-v-135dc442] + div[data-v-6f8a040c] {
+          margin-top: -30px !important;
+        }
+      }
+    </style>
     <link rel="preload" as="image" href="/_sa/img/video__home-hero-poster.jpg" fetchpriority="high" />
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
     <link
       rel="stylesheet"
       href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260430fontfix"
     />
-    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260428a" />
     <link
-      rel="stylesheet"
-      href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m"
+      rel="preload"
+      href="/_sa/css/sections/header.css?v=20260428a"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript><link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260428a" /></noscript>
+    <link
+      rel="preload"
+      href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260430o"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260430o" /></noscript>
     <link
       rel="preload"
       href="/_sa/css/sections/lead-form.css?v=20260429b"
@@ -82,9 +101,12 @@
     />
     <noscript><link rel="stylesheet" href="/_sa/css/sections/lead-form.css?v=20260429b" /></noscript>
     <link
-      rel="stylesheet"
+      rel="preload"
       href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260430d"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260430d" /></noscript>
     <link
       rel="preload"
       href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"
@@ -94,7 +116,13 @@
     <noscript>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" />
     </noscript>
-    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260427" />
+    <link
+      rel="preload"
+      href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260427"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260427" /></noscript>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
   </head>
   <body style="overflow: hidden auto">
@@ -354,7 +382,7 @@
                   />
                   <video
                     class="video-iframe"
-                    fetchpriority="high"
+                    fetchpriority="auto"
                     autoplay=""
                     muted=""
                     loop=""
@@ -362,6 +390,7 @@
                     preload="none"
                   >
                     <source
+                      data-src-mobile="/_sa/img/video__home-hero-lite.mp4"
                       data-src="/_sa/img/video__home-hero-web.mp4"
                       type="video/mp4"
                     />
@@ -601,7 +630,7 @@
                             <img fetchpriority="high" decoding="async"
                               data-v-c0adc676=""
                               src="/_sa/img/storage__WLXF5HzKVQUYRIDLQ7zOSRVDwZw17ziScjgTQABI.jpg"
-                              loading="eager"
+                              loading="lazy"
                               class="case__media--front"
                              alt="" />
                           </div>
@@ -628,7 +657,9 @@
                             <img fetchpriority="high" decoding="async"
                               data-v-c0adc676=""
                               src="/_sa/img/storage__fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
-                              loading="eager"
+                              srcset="/_sa/img/storage__fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs__m.webp 480w, /_sa/img/storage__fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp 900w"
+                              sizes="(max-width: 768px) 88vw, 50vw"
+                              loading="lazy"
                               class="case__media--front"
                              alt="" />
                           </div>
@@ -656,7 +687,9 @@
                             <img fetchpriority="high" decoding="async"
                               data-v-c0adc676=""
                               src="/_sa/img/storage__AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5.webp"
-                              loading="eager"
+                              srcset="/_sa/img/storage__AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5__m.webp 480w, /_sa/img/storage__AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5.webp 900w"
+                              sizes="(max-width: 768px) 88vw, 50vw"
+                              loading="lazy"
                               class="case__media--front"
                              alt="" />
                           </div>
@@ -2563,10 +2596,16 @@
     </div>
 
     <div class="overlay-new" data-v-2ee28934=""></div>
-    <link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260429w" />
+    <link
+      rel="preload"
+      href="/_sa/css/sections/footer-burger-chrome.css?v=20260429w"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260429w" /></noscript>
     <script defer src="/_sa/js/nav-active.js?v=20260430a"></script>
     <script defer src="/_sa/js/home-cases-auto.js?v=20260430f"></script>
-    <script defer src="/_sa/js/app.js?v=20260430j"></script>
+    <script defer src="/_sa/js/app.js?v=20260430m"></script>
     <!-- Яндекс.Метрика -->
     <script type="text/javascript">
       (function (m, e, t, r, i, k, a) {

@@ -411,6 +411,7 @@
     host.classList.add("clients-strip");
 
     let clientsWheelSignMode = 0;
+    let isStripVisible = true;
 
     const isRealClientLink = (href) => {
       if (href == null) return false;
@@ -575,8 +576,26 @@
       { passive: false },
     );
 
+    if ("IntersectionObserver" in window) {
+      const stripIo = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          isStripVisible = Boolean(entry?.isIntersecting);
+        },
+        { root: null, threshold: 0.01 },
+      );
+      stripIo.observe(host);
+    }
+
     const tick = (now) => {
-      if (loopW > 0 && !reduceMotion.matches && !touchActive && !isPointerOverLogoStrip()) {
+      if (
+        loopW > 0 &&
+        !document.hidden &&
+        isStripVisible &&
+        !reduceMotion.matches &&
+        !touchActive &&
+        !isPointerOverLogoStrip()
+      ) {
         const dt = (now - lastT) / 1000;
         lastT = now;
         x = wrap(x + HORIZ_SLIDER_SIGN * autoPxPerSec * dt);
@@ -867,6 +886,7 @@
     video.defaultMuted = true;
     video.playsInline = true;
     block.classList.add("is-loading");
+    const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
     const markReady = () => {
       block.classList.remove("is-loading");
       block.classList.remove("video-error");
@@ -903,29 +923,53 @@
       );
     };
     const source = video.querySelector("source[data-src]");
+    const shouldUseMobileLiteVideo = () => {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      const saveData = Boolean(connection?.saveData);
+      const slowNetwork = /(^2g$|^slow-2g$|^3g$)/i.test(String(connection?.effectiveType || ""));
+      return isMobileViewport || saveData || slowNetwork;
+    };
     const hydrateVideoSource = () => {
       if (!source || video.dataset.heroHydrated === "1") return;
-      const src = source.getAttribute("data-src") || "";
+      const src = shouldUseMobileLiteVideo()
+        ? source.getAttribute("data-src-mobile") || source.getAttribute("data-src") || ""
+        : source.getAttribute("data-src") || "";
       if (!src) return;
       source.setAttribute("src", src);
       source.removeAttribute("data-src");
+      source.removeAttribute("data-src-mobile");
       video.dataset.heroHydrated = "1";
       video.load();
     };
 
+    let hydrationScheduled = false;
     const scheduleHydration = () => {
-      // Стартуем сразу после первичной отрисовки, чтобы постер не "зависал" на экране.
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          hydrateVideoSource();
-        });
-      });
-      // Подстраховка: даже если rAF не отработал вовремя.
-      setTimeout(hydrateVideoSource, 250);
+      if (hydrationScheduled) return;
+      hydrationScheduled = true;
+      // Даем отрисоваться первому экрану и только потом гидрируем видео.
+      setTimeout(hydrateVideoSource, 900);
       if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(hydrateVideoSource, { timeout: 1000 });
+        window.requestIdleCallback(hydrateVideoSource, { timeout: 1600 });
+      }
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            hydrateVideoSource();
+            io.disconnect();
+          },
+          { rootMargin: "120px 0px", threshold: 0.01 },
+        );
+        io.observe(block);
       }
     };
+
+    if (isMobileViewport) {
+      // На мобильном оставляем только постер: так нет деградации качества и меньше сетевой нагрузки.
+      block.classList.add("video-mobile-disabled");
+      block.classList.remove("is-loading");
+      return;
+    }
 
     bindPlaybackGuards();
     scheduleHydration();
@@ -957,6 +1001,12 @@
   const initDeferredCaseVideos = () => {
     const videos = Array.from(document.querySelectorAll("video.case__media--video[data-lazy-video='1']"));
     if (videos.length === 0) return;
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const saveData = Boolean(connection?.saveData);
+    const slowNetwork = /(^2g$|^slow-2g$|^3g$)/i.test(String(connection?.effectiveType || ""));
+    const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+    const allowHydration = !(saveData || (isMobileViewport && slowNetwork));
+    if (!allowHydration) return;
 
     const hydrateVideo = (video) => {
       if (!video || video.dataset.lazyLoaded === "1") return;

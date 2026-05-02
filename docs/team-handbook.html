@@ -363,7 +363,7 @@
             <span class="mono">serenity.agency</span> — основной сайт: Nginx подмешивает новую статику из <span class="mono">/var/www/static</span> по карте маршрутов и проксирует остальное на legacy WordPress. IP сервера статики и порядок выкладки — в <span class="mono">AGENTS.md</span> (сейчас <span class="mono">168.222.142.141</span>, каталог <span class="mono">/var/www/static</span>).
           </li>
           <li>
-            <span class="mono">static.serenity.agency</span> — тот же дисковый <span class="mono">root</span>, удобно смотреть «чистую» статику без смешения с поведением основного vhost. Если домен включён через Yandex Cloud CDN, параметры origin/Host/SNI и rollback описаны в <a href="yandex-cdn-static-runbook.md"><span class="mono">docs/yandex-cdn-static-runbook.md</span></a>.
+            <span class="mono">static.serenity.agency</span> — тот же дисковый <span class="mono">root</span>, удобно смотреть «чистую» статику без смешения с поведением основного vhost.
           </li>
           <li>
             <span class="mono">serenity.sergeyprus.workers.dev</span> — Cloudflare Worker с привязкой <span class="mono">ASSETS</span> к файлам репозитория; для путей <span class="mono">/api/*</span> Worker выполняется первым (<span class="mono">wrangler.jsonc</span>, <span class="mono">run_worker_first</span>).
@@ -691,10 +691,6 @@
             <tr>
               <td><code>npm run test:case-all</code></td>
               <td>После правок каталога кейсов.</td>
-            </tr>
-            <tr>
-              <td><code>npm run test:yandex-cdn-static</code></td>
-              <td>Проверяет runbook Yandex Cloud CDN для <span class="mono">static.serenity.agency</span> и контракт origin-vhost: Host/SNI, preview robots, immutable-кэш.</td>
             </tr>
             <tr>
               <td><code>npm run test:post-deploy-smoke</code></td>
