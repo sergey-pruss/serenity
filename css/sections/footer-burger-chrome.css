@@ -121,7 +121,7 @@
   }
 
   .footer-modern .footer-modern__social {
-    left: 8%;
+    left: var(--page-gutter-x);
     bottom: 16px;
     transform: none;
     justify-content: flex-start !important;
@@ -134,7 +134,7 @@
   .compressed.header .body-application[data-v-e5e2adce] {
     display: flex !important;
     top: auto;
-    right: 5%;
+    right: var(--page-gutter-x);
     bottom: 12px;
     transform: none !important;
   }
@@ -163,7 +163,7 @@
   }
 
   .footer-modern .footer-modern__social {
-    left: 8%;
+    left: var(--page-gutter-x);
     bottom: 16px;
     transform: none;
     justify-content: flex-start !important;
@@ -176,7 +176,7 @@
   .compressed.header .body-application[data-v-e5e2adce] {
     display: flex !important;
     top: auto;
-    right: 5%;
+    right: var(--page-gutter-x);
     bottom: 16px;
     transform: none !important;
   }
@@ -205,7 +205,7 @@
 
   .compressed.header .body-application[data-v-e5e2adce] {
     top: auto;
-    right: 5%;
+    right: var(--page-gutter-x);
     bottom: 16px;
     transform: none;
   }
