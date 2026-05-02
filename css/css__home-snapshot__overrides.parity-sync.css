@@ -653,6 +653,23 @@ body.scroll-menu-open {
   }
 }
 
+/* Широкий десктоп: бандл тушит CTA через .page-top.header .body-application до скролла — показываем сразу. */
+@media screen and (min-width: 1251px) {
+  .page-top.header.compressed .body-application[data-v-e5e2adce] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    width: 240px !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    position: fixed !important;
+    top: auto !important;
+    right: var(--page-gutter-x) !important;
+    transform: translate3d(0, -20px, 0) !important;
+    z-index: 120 !important;
+  }
+}
+
 @media screen and (min-width: 1025px) {
   .compressed.header .body-application[data-v-e5e2adce],
   .page-top.header.compressed .body-application[data-v-e5e2adce] {
@@ -664,6 +681,12 @@ body.scroll-menu-open {
   .btns__item_open.opacited,
   .btns__item_open.opacited[data-v-23015bc0] {
     opacity: 1 !important;
+  }
+
+  .page-top.header.compressed .body-application[data-v-e5e2adce] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 }
 
