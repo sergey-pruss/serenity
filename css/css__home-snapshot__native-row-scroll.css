@@ -340,3 +340,37 @@
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+/* «Наши клиенты»: нативный горизонтальный scroll на треке (как блог/услуги) — инерция тача без JS-transform */
+.swiper-container-clients-new[data-clients-strip="1"] {
+  overflow: hidden !important;
+  overscroll-behavior-x: contain;
+  position: relative;
+  touch-action: auto !important;
+}
+.swiper-container-clients-new[data-clients-strip="1"] .clients-new__context-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+  overscroll-behavior-x: contain;
+  touch-action: auto !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transform: none !important;
+  transition: none !important;
+}
+.swiper-container-clients-new[data-clients-strip="1"] .clients-new__context-wrapper::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide {
+  flex-shrink: 0;
+}

@@ -215,6 +215,40 @@
   padding-top: var(--home-between) !important;
 }
 
+/* Один горизонтальный ритм с «Блог» (.blog-block-mainstr): на узле склеены .clients-wrapper и
+   .clients-mainstr; бандл задаёт им разные брейкпоинты (например 55px до 425px против 36px с 768px
+   у блога) — заголовок «Наши клиенты» оказывается правее «Блог». */
+.clients-wrapper.clients-mainstr[data-v-08586076],
+.clients-wrapper.clients-mainstr {
+  padding-left: var(--page-gutter-x) !important;
+  padding-right: var(--page-gutter-x) !important;
+  box-sizing: border-box !important;
+}
+
+/*
+  «Наши клиенты»: на адаптиве (как у «Блог») — заголовок по левому краю; на min-width 1367 бандл держит
+  центрирование секции через flex на .clients-wrapper.
+*/
+@media screen and (max-width: 1366px) {
+  .clients-mainstr .clients-new[data-v-08586076],
+  .clients-mainstr .clients-new {
+    justify-content: flex-start !important;
+  }
+
+  .clients-mainstr .clients-new__title[data-v-08586076],
+  .clients-mainstr .clients-new__title {
+    text-align: left !important;
+  }
+
+  .clients-mainstr .clients-new__title_center[data-v-08586076],
+  .clients-mainstr .clients-new__title_center {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
 .live-marketing-block-wr.home-between,
 .live-marketing-block-wr.home-between[data-v-1c300291] {
   margin-top: var(--home-between) !important;
@@ -293,10 +327,9 @@
   margin-top: 0 !important;
 }
 
-/* «Наши клиенты»: бандл даёт cursor: ew-resize — сбрасываем; пауза по hover в app.js; вайп/wheel; ссылки — pointer + ореол как .services__card */
+/* «Наши клиенты»: бандл даёт cursor: ew-resize — сбрасываем; нативный scroll на треке — touch-action в native-row-scroll */
 .swiper-container-clients-new[data-v-08586076],
 .swiper-container-clients-new.clients-strip {
-  touch-action: none;
   cursor: default !important;
 }
 .swiper-container-clients-new.clients-strip .clients-new__slide,
@@ -305,7 +338,7 @@
   position: relative;
   z-index: 0;
 }
-/* transform на треке + composite-слой: в WebKit :hover/клик иногда уезжают на соседний слайд;
+/* Нативный scroll на треке; z-index: в WebKit :hover/клик иногда уезжают на соседний слайд;
    ссылки с кейсом поднимаем в стек, isolation: isolate (раньше) убран — в Safari дублировал баг. */
 .swiper-container-clients-new.clients-strip .clients-new__slide.clients-new__slide--link,
 .swiper-container-clients-new .clients-new__slide.clients-new__slide--link {
@@ -679,17 +712,28 @@ body.scroll-menu-open {
 }
 
 @media screen and (max-width: 1250px) {
+  /*
+    Бургер в бандле: position:absolute; right:0 — в WebKit часто визуально «в край» экрана.
+    Отступ задаём на самой иконке (как у .menu-icon_case) + safe-area; padding обёртки убран,
+    чтобы не дублировать inset.
+  */
   .menu-icon__wrapper[data-v-e5e2adce],
   .menu-icon__wrapper_main[data-v-e5e2adce] {
     width: 100% !important;
     max-width: none !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding-left: var(--page-gutter-x) !important;
-    padding-right: var(--page-gutter-x) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     box-sizing: border-box !important;
     display: flex !important;
     justify-content: flex-end !important;
+  }
+
+  .header .menu-icon[data-v-e5e2adce],
+  .header .menu-icon {
+    right: calc(var(--page-gutter-x) + env(safe-area-inset-right, 0px)) !important;
+    left: auto !important;
   }
 }
 

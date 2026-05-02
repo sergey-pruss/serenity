@@ -25,13 +25,9 @@ const noCache = {
   Expires: "0",
 };
 
-const readTranslateM41 = (page) =>
-  page.locator(".clients-new__context-wrapper").evaluate((el) => {
-    const t = getComputedStyle(el).transform;
-    if (!t || t === "none") return 0;
-    const m = new DOMMatrix(t);
-    return m.m41;
-  });
+/** Положение ленты: нативный scrollLeft на треке (раньше — m41 transform). */
+const readStripPosition = (page) =>
+  page.locator(".clients-new__context-wrapper").evaluate((el) => el.scrollLeft);
 
 const assert = (ok, msg) => {
   if (!ok) throw new Error(msg);
@@ -78,9 +74,12 @@ const startStaticServer = (port) =>
       if (el) el.scrollIntoView({ block: "center", behavior: "instant" });
     });
     await page.waitForTimeout(800);
-    if ((await readTranslateM41(page)) === 0) {
+    if ((await readStripPosition(page)) === 0) {
       await page.waitForTimeout(800);
     }
+    /* Курсор по умолчанию может оказаться над лентой (пауза автоплея) — уводим в угол. */
+    await page.mouse.move(16, 16);
+    await page.waitForTimeout(200);
 
     // 1) Курсор над заголовком — лента должна смещаться (автоплей)
     const title = page.locator(".clients-new__title");
@@ -88,37 +87,37 @@ const startStaticServer = (port) =>
     const tBox = await title.boundingBox();
     assert(tBox, "h2 .clients-new__title not visible / no box");
     await page.mouse.move(tBox.x + tBox.width / 2, tBox.y + tBox.height / 2);
-    await page.waitForTimeout(50);
-    const x0 = await readTranslateM41(page);
-    await page.waitForTimeout(450);
-    const x1 = await readTranslateM41(page);
+    await page.waitForTimeout(200);
+    const x0 = await readStripPosition(page);
+    await page.waitForTimeout(500);
+    const x1 = await readStripPosition(page);
     const dTitle = Math.abs(x1 - x0);
-    assert(dTitle > 2, `Ожидается движение ленты при hover на заголовок (m41 d=${dTitle})`);
+    assert(dTitle > 2, `Ожидается движение ленты при hover на заголовок (scrollLeft d=${dTitle})`);
 
-    // 2) Курсор внутри .swiper-container-clients-new — пауза (transform не меняется)
+    // 2) Курсор внутри .swiper-container-clients-new — пауза (scrollLeft не меняется)
     const host = page.locator(".swiper-container-clients-new");
     await host.waitFor({ state: "visible" });
     const hBox = await host.boundingBox();
     assert(hBox, "no box for .swiper-container-clients-new");
     await page.mouse.move(hBox.x + Math.min(hBox.width * 0.5, 200), hBox.y + hBox.height / 2);
     await page.waitForTimeout(80);
-    const x2 = await readTranslateM41(page);
+    const x2 = await readStripPosition(page);
     await page.waitForTimeout(550);
-    const x3 = await readTranslateM41(page);
+    const x3 = await readStripPosition(page);
     const dHost = Math.abs(x3 - x2);
     assert(
       dHost < 0.6,
-      `Ожидается пауза на ленте (hover на .swiper-container-clients-new), m41 d=${dHost}`,
+      `Ожидается пауза на ленте (hover на .swiper-container-clients-new), scrollLeft d=${dHost}`,
     );
 
     // 3) Снова на заголовок — движение возобновляется
     await page.mouse.move(tBox.x + tBox.width / 2, tBox.y + tBox.height / 2);
     await page.waitForTimeout(50);
-    const x4 = await readTranslateM41(page);
+    const x4 = await readStripPosition(page);
     await page.waitForTimeout(400);
-    const x5 = await readTranslateM41(page);
+    const x5 = await readStripPosition(page);
     const dBack = Math.abs(x5 - x4);
-    assert(dBack > 1, `Ожидается движение после ухода с ленты (m41 d=${dBack})`);
+    assert(dBack > 1, `Ожидается движение после ухода с ленты (scrollLeft d=${dBack})`);
 
     // 4) Volvo: href, класс, клик ведёт на /case/…volvo (ждём пока автолента подвезёт карточку в вьюпорт)
     await page.waitForFunction(

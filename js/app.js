@@ -398,9 +398,9 @@
   });
 
   /**
-   * «Наши клиенты» — аналог Swiper loop + freeMode + autoplay + mousewheel (гориз. колесо/тачпад),
-   * горизонтальный вайп (touch), пауза автоплея только при :hover на ленте с плашками
-   * (.swiper-container-clients-new), не на заголовок «Наши клиенты».
+   * «Наши клиенты» — тройной дубль слайдов + нативный горизонтальный scroll на треке (как услуги/блог):
+   * инерция тача из браузера, без transform/touchmove с preventDefault. Автодрейф scrollLeft,
+   * колесо/тачпад, пауза автоплея при :hover только на .swiper-container-clients-new.
    */
   const initClientsStrip = () => {
     const host = document.querySelector(".swiper-container-clients-new");
@@ -410,8 +410,12 @@
     host.dataset.clientsStrip = "1";
     host.classList.add("clients-strip");
 
-    let clientsWheelSignMode = 0;
     let isStripVisible = true;
+    let autoAdvancing = false;
+    let normalizing = false;
+    let layoutSnap = false;
+    let lastUserScroll = 0;
+    const USER_SCROLL_IDLE_MS = 480;
 
     const isRealClientLink = (href) => {
       if (href == null) return false;
@@ -429,8 +433,9 @@
     };
     markLinkSlides();
 
+    track.style.removeProperty("will-change");
+    track.style.removeProperty("transform");
     track.style.transition = "none";
-    track.style.willChange = "transform";
 
     const listSlides = () => [...track.querySelectorAll(".clients-new__slide")];
 
@@ -445,15 +450,13 @@
     };
 
     let loopW = 0;
-    let x = 0;
     let lastT = performance.now();
     const autoPxPerSec = 58;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let touchActive = false;
-    let lastTouchX = 0;
-    let touchStartX = 0;
-    let blockLinkFromTouch = false;
-    /** Пауза только над лентой с плашками; заголовок «Наши клиенты» вне host — скролл не стопорим. */
+    let pointerMoved = false;
+    let blockLinkFromGesture = false;
+    let gestureStartX = 0;
+
     const isPointerOverLogoStrip = () => {
       try {
         return host.matches(":hover");
@@ -462,77 +465,129 @@
       }
     };
 
-    const wrap = (pos) => {
-      if (loopW <= 0) return pos;
-      return ((pos % loopW) + loopW) % loopW;
+    const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+
+    const normalizeLoop = () => {
+      if (normalizing || loopW <= 0) return;
+      const slides = listSlides();
+      if (listSlides().length < 13) return;
+      const sl = track.scrollLeft;
+      const maxSl = maxScroll();
+      const lw = loopW;
+      if (sl < lw * 0.28) {
+        normalizing = true;
+        track.scrollLeft = sl + lw;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            normalizing = false;
+          });
+        });
+      } else if (maxSl > 0 && sl > maxSl - lw * 0.28) {
+        normalizing = true;
+        track.scrollLeft = sl - lw;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            normalizing = false;
+          });
+        });
+      }
+    };
+
+    const snapToMiddleBlock = () => {
+      const slides = listSlides();
+      if (slides.length < 13) return;
+      const mid = slides[12];
+      if (!mid) return;
+      layoutSnap = true;
+      track.scrollLeft = mid.offsetLeft;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          layoutSnap = false;
+        });
+      });
     };
 
     const refresh = () => {
       const w = measureLoopWidth();
       if (w <= 0) return;
-      const oldLoopW = loopW;
-      if (loopW > 0) {
-        x = (x / loopW) * w;
-      }
       loopW = w;
-      if (oldLoopW > 0 && (w > oldLoopW + 80 || (w > oldLoopW * 1.38 && oldLoopW > 60))) {
-        clientsWheelSignMode = 0;
-      }
-      x = wrap(x);
     };
 
     refresh();
+    snapToMiddleBlock();
     if (typeof ResizeObserver !== "undefined") {
-      new ResizeObserver(() => refresh()).observe(track);
+      new ResizeObserver(() => {
+        refresh();
+        requestAnimationFrame(() => {
+          normalizeLoop();
+        });
+      }).observe(track);
     }
-    window.addEventListener("load", refresh, { once: true });
-    window.addEventListener("resize", refresh);
+    window.addEventListener("load", () => {
+      refresh();
+      snapToMiddleBlock();
+      normalizeLoop();
+    }, { once: true });
+    window.addEventListener("resize", () => {
+      refresh();
+      requestAnimationFrame(() => normalizeLoop());
+    });
+
+    let scrollRaf = 0;
+    const onTrackScroll = () => {
+      if (!autoAdvancing && !normalizing && !layoutSnap) {
+        lastUserScroll = performance.now();
+      }
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        scrollRaf = 0;
+        if (!normalizing) normalizeLoop();
+      });
+    };
+    track.addEventListener("scroll", onTrackScroll, { passive: true });
 
     host.addEventListener(
-      "touchstart",
+      "pointerdown",
       (e) => {
-        if (e.touches.length !== 1) return;
-        touchActive = true;
-        blockLinkFromTouch = false;
-        const t = e.touches[0].clientX;
-        touchStartX = t;
-        lastTouchX = t;
-        lastT = performance.now();
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        gestureStartX = e.clientX;
+        pointerMoved = false;
+        blockLinkFromGesture = false;
       },
       { passive: true },
     );
-
     host.addEventListener(
-      "touchmove",
+      "pointermove",
       (e) => {
-        if (!touchActive || e.touches.length !== 1 || loopW <= 0) return;
-        const t = e.touches[0].clientX;
-        if (Math.abs(t - touchStartX) > 5) {
-          blockLinkFromTouch = true;
-        }
-        const delta = t - lastTouchX;
-        lastTouchX = t;
-        x = wrap(x - delta * HORIZ_SLIDER_SIGN);
-        e.preventDefault();
+        if (Math.abs(e.clientX - gestureStartX) > 10) pointerMoved = true;
       },
-      { passive: false },
+      { passive: true },
     );
-
-    const endTouch = () => {
-      if (!touchActive) return;
-      touchActive = false;
-      lastT = performance.now();
-    };
-    host.addEventListener("touchend", endTouch, { passive: true });
-    host.addEventListener("touchcancel", endTouch, { passive: true });
-
+    host.addEventListener(
+      "pointerup",
+      () => {
+        blockLinkFromGesture = pointerMoved;
+        pointerMoved = false;
+      },
+      { passive: true },
+    );
+    host.addEventListener(
+      "pointercancel",
+      () => {
+        blockLinkFromGesture = pointerMoved;
+        pointerMoved = false;
+      },
+      { passive: true },
+    );
     host.addEventListener(
       "click",
       (e) => {
-        if (!blockLinkFromTouch) return;
+        if (!blockLinkFromGesture) return;
+        const a = e.target.closest?.("a.clients-new__slide--link");
+        if (!a || !host.contains(a)) return;
         e.preventDefault();
         e.stopPropagation();
-        blockLinkFromTouch = false;
+        blockLinkFromGesture = false;
       },
       true,
     );
@@ -545,32 +600,21 @@
         const horizontalGesture =
           (event.shiftKey && absY > 0.5) || (absX > 0.8 && !(absY > absX * 4.5));
         if (!horizontalGesture) return;
-        if (loopW <= 0) {
+        const max = maxScroll();
+        if (loopW <= 0 || max <= EPS) {
           event.preventDefault();
           return;
         }
         const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
-        const unmapped = clientsWheelSignMode === -1 ? -rawDelta : rawDelta;
-        const mappedDelta = unmapped * HORIZ_SLIDER_SIGN;
-        let next = x + mappedDelta;
-        const minLoopForMirrorProbe = Math.max(140, host.clientWidth * 0.18);
-        if (
-          Math.abs(next - x) < 0.1 &&
-          clientsWheelSignMode === 0 &&
-          (x % loopW) <= EPS &&
-          loopW >= minLoopForMirrorProbe
-        ) {
-          const mirrored = x - rawDelta;
-          if (Math.abs(mirrored - x) >= 0.1) {
-            next = mirrored;
-            clientsWheelSignMode = -1;
-          }
-        }
-        if (Math.abs(next - x) >= 0.1) {
-          if (clientsWheelSignMode === 0) clientsWheelSignMode = 1;
-          x = wrap(next);
+        const mappedDelta = rawDelta * HORIZ_SLIDER_SIGN;
+        const cur = track.scrollLeft;
+        const next = Math.max(0, Math.min(max, cur + mappedDelta));
+        if (Math.abs(next - cur) >= 0.1) {
+          track.scrollLeft = next;
+          normalizeLoop();
         }
         lastT = performance.now();
+        lastUserScroll = performance.now();
         event.preventDefault();
       },
       { passive: false },
@@ -588,21 +632,31 @@
     }
 
     const tick = (now) => {
-      if (
+      const userIdle = now - lastUserScroll >= USER_SCROLL_IDLE_MS;
+      const shouldAuto =
         loopW > 0 &&
+        maxScroll() > EPS &&
         !document.hidden &&
         isStripVisible &&
         !reduceMotion.matches &&
-        !touchActive &&
-        !isPointerOverLogoStrip()
-      ) {
+        userIdle &&
+        !isPointerOverLogoStrip() &&
+        !normalizing;
+
+      if (shouldAuto) {
         const dt = (now - lastT) / 1000;
         lastT = now;
-        x = wrap(x + HORIZ_SLIDER_SIGN * autoPxPerSec * dt);
+        autoAdvancing = true;
+        track.scrollLeft += HORIZ_SLIDER_SIGN * autoPxPerSec * dt;
+        normalizeLoop();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            autoAdvancing = false;
+          });
+        });
       } else {
         lastT = now;
       }
-      track.style.transform = `translate3d(${-x}px, 0, 0)`;
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
