@@ -28,6 +28,30 @@ const root = path.resolve(__dirname, "..");
     console.error(rp.stderr || rp.stdout || "build-case-all-pages failed");
     process.exit(1);
   }
+  const rb = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-data.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (rb.status !== 0) {
+    console.error(rb.stderr || rb.stdout || "build-blog-data failed");
+    process.exit(1);
+  }
+  const rba = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-article-pages.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (rba.status !== 0) {
+    console.error(rba.stderr || rba.stdout || "build-blog-article-pages failed");
+    process.exit(1);
+  }
+  const rbp = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-pages.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (rbp.status !== 0) {
+    console.error(rbp.stderr || rbp.stdout || "build-blog-pages failed");
+    process.exit(1);
+  }
   const r = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {
     cwd: root,
     encoding: "utf8",
@@ -50,6 +74,7 @@ const mimes = {
   ".ico": "image/x-icon",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
+  ".mp4": "video/mp4",
 };
 
 const noCache = {
@@ -112,7 +137,7 @@ const tryListen = (port) => {
       console.log(`(порт 8765 занят, поднят ${port} — открой этот URL)`);
     }
     console.log(
-      `http://127.0.0.1:${port}/  — главная; http://127.0.0.1:${port}/case/all/ — список кейсов`,
+      `http://127.0.0.1:${port}/  — главная; http://127.0.0.1:${port}/case/all/ — кейсы; http://127.0.0.1:${port}/blog/ — блог`,
     );
     console.log(
       `Стили/скрипты: ссылки вида /_sa/css/... отдаются из css/... (см. strip-serenity-snapshot-prefix.cjs). Если страница без CSS — перезапусти этот процесс.`,

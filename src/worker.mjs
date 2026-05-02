@@ -18,6 +18,9 @@ export default {
     if (url.pathname === "/case/all") {
       return Response.redirect(new URL("/case/all/", url.origin), 308);
     }
+    if (url.pathname === "/blog") {
+      return Response.redirect(new URL("/blog/", url.origin), 308);
+    }
     if (url.pathname === "/services") {
       return Response.redirect(new URL("/services/", url.origin), 308);
     }

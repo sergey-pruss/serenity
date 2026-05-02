@@ -1,0 +1,407 @@
+{
+  "filterCode": "",
+  "currentPage": 3,
+  "totalPages": 3,
+  "perPage": 24,
+  "totalItems": 66,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/blog/"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life/"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case/"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 3,
+      "href": "/blog/article/"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast/"
+    }
+  ],
+  "posts": [
+    {
+      "href": "https://serenity.mave.digital/ep-1",
+      "description": "Важность команды и культуры в кризисное время",
+      "subtitle": "Обсуждают Сергей Прусс и Екатерина Русакова в подкасте «Мышеловка».",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.jpg"
+      }
+    },
+    {
+      "href": "https://vc.ru/marketing/495512-perevesti-nelzya-adaptirovat-ili-pochemu-kontent-prosto-perevedennyi-na-drugoi-yazyk-ne-rabotaet",
+      "description": "«Перевести нельзя адаптировать»",
+      "subtitle": "Или почему контент, просто переведенный на другой язык, не работает.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/1jX9u2xjUxeWdype49GVhnhlmyNbDWUWigbSn8X7.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/brending-i-biznes/",
+      "description": "Брендинг и бизнес",
+      "subtitle": "Лиза Румянцева о работе с клиентами, команде и личном опыте в Serenity.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/HndAl3a0vt6OfisGqh3QQyXS33kMKkju7V6d0T5b.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/sajt-na-konstruktore-protiv-polnotsennogo-sajta-kto-kogo/",
+      "description": "Сайт на конструкторе против полноценного сайта. Кто кого?",
+      "subtitle": "Поможем разобраться, что и когда лучше подойдет.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/CXrZv1eEn2uQohiWxWaFoRp5SOhU8yOiafh7TphS.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-sdelat-brend-kotoryj-polyubyat-klienty/",
+      "description": "Как сделать бренд, который полюбят клиенты?",
+      "subtitle": "Рассказывает Елизавета Румянцева, лидер направлений «Брендинг» и «Веб-дизайн».",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/7wRtXlXNInnhnfmV0C6SrYC4fyeSJSME9eho89Lg.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/brending-i-performance-marketing-pochemu-odno-bez-drugogo-sliv-byudzheta/",
+      "description": "Performance-маркетинг и брендинг",
+      "subtitle": "Почему одно без другого — слив бюджета?",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/yPxxY1Sk9fxG73td4yGPSZMQTJxZifOXbKb5p98H.jpg"
+      }
+    },
+    {
+      "href": "https://vc.ru/marketing/513260-kak-protivostoyat-toksichnym-kommunikaciyam-vystraivaem-zdorovoe-partnerstvo-bez-manipulyacii",
+      "description": "Как противостоять токсичным коммуникациям",
+      "subtitle": "Выстраиваем здоровое партнерство без манипуляций.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/rMqYwwbvGgrQdDBfARLw39JkaYkmKvqVPquD2XqW.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/gde-publikovat-kontent-chtoby-prodvigatsya/",
+      "description": "Где публиковать контент, чтобы продвигаться",
+      "subtitle": "В одной статье собрали основные площадки, где можно размещать информационные материалы с пользой для вашей компании",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/TRrqOSSESFPYr7DfKJVk2PDusgEgNWVQuawjwJrH.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/seo-ili-kontekstnaya-reklama-chto-vybrat/",
+      "description": "SEO или контекстная реклама — что выбрать?",
+      "subtitle": "Как работают эти способы продвижения, сколько стоят и в каких случаях что лучше выбрать — разбираемся с Тиграном Арутюняном, тимлидером SEO-направления в Serenity.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/BQr3bAppjAqG0UfcD6DESNF04qO8Iu0bLMu3qC1b.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/strategiya-v-targete-5-shagov-k-zapusku-reklamnoj-kampanii/",
+      "description": "Стратегия в таргете: 5 шагов к запуску рекламной кампании",
+      "subtitle": "Рассказывает Олег Дробыш — лидер направления «Таргет».",
+      "tags": [
+        "Статьи",
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "statyi",
+        "keisy"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/rh1u7ZQWjB09Uk4SDRGgSBgKgjFSAj7MYwwXioqa.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/liderstvo-ko-vsem-prihodit/",
+      "description": "Лидерство ко всем приходит",
+      "subtitle": "О личном росте, командном сотрудничестве и взаимном вдохновении на развитие рассказала лидер контекстной рекламы — Юлия Панецкая.",
+      "tags": [
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/pALu3dFhaVdCIWx64kFpNEaQrxFoungjZfb2ie8j.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/sergej-pruss-pro-silnyj-marketing-i-kontseptsiyu/",
+      "description": "Сергей Прусс: из чего состоит сильный маркетинг",
+      "subtitle": "Рассказываем о разном восприятии маркетинга и кто несет ответственность за полноценное развитие бизнеса.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/MZrOAHDi14fxVPTJKnvHTmH3lif4XXx6vVsIZTFj.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/pochemu-digital-agentstva-otpravlyayut-kommercheskie-predlozheniya-a-ne-prajs-list/",
+      "description": "Почему digital-агентства отправляют коммерческие предложения, а не прайс-лист",
+      "subtitle": "Как время влияет на качество услуг и результаты.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/z1z5T9pJ0tFhJyoDVsncmY5cPXvT3CPIIHudl3oS.jpg"
+      }
+    },
+    {
+      "href": "https://vc.ru/marketing/311103-9-sposobov-bystro-i-boleznenno-zavalit-lyuboi-dizain-proekt",
+      "description": "Как быстро и болезненно завалить любой дизайн-проект?",
+      "subtitle": "Наш тим-лидер маркетологов — Илья Тчанцев, насчитал как минимум 9 способов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/gOOxtrdzfjdTSyAP6syEWnfpS6Nb8Ma0NhSn52Cv.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/adaptatsiya-v-serenity/",
+      "description": "Адаптация в Serenity",
+      "subtitle": "Мы в Serenity придаем большое значение процессу адаптации. Мы открыты и честны, поэтому написали эту статью, чтобы подробно рассказать о том, что ждет вас в начале работы.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/ocruoRPFuFJVjt797dJb6nQhpPoh1mlHNnuwAirT.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/ot-prodzhekta-do-lidera-za-god/",
+      "description": "От проджекта до лидера за год",
+      "subtitle": "О самоорганизации, личной ответственности и работе в мотивированной команде рассказала Екатерина Русакова.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/3rWBDqcTBdzrEX1NAfTLmSv103Y5245GRh1f3RYj.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/intervyu-serenity-sergei-pruss-samoorganizatsiya/",
+      "description": "Сергей Прусс о самоорганизации в Serenity",
+      "subtitle": "Как «бирюзовый» подход работает в ведении проектов, найме, корпоративной культуре и как влияет на результаты.",
+      "tags": [
+        "Статьи",
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "statyi",
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+      "description": "Как мы превратили работу в игру",
+      "subtitle": "Руководитель агентства Serenity Сергей Прусс поделился экспериментом над корпоративной культурой, который мы проводим в своей компании.",
+      "tags": [
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/0UPPnQUrMuOKwkNt0H6SBuIwtvTbKhmHo8WBjwJp.webp"
+      }
+    }
+  ]
+}

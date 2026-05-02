@@ -8,7 +8,6 @@ Disallow: *&s=
 Disallow: /author/
 Disallow: /users/
 Disallow: /nova/
-Disallow: /blog-new/
 Disallow: */trackback
 Disallow: */feed
 Disallow: */rss

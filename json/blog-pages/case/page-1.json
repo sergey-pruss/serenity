@@ -1,0 +1,107 @@
+{
+  "filterCode": "case",
+  "currentPage": 1,
+  "totalPages": 1,
+  "perPage": 24,
+  "totalItems": 3,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/blog/"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life/"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case/"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 3,
+      "href": "/blog/article/"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast/"
+    }
+  ],
+  "posts": [
+    {
+      "href": "/blog/case/neiming-kak-sozdayutsya-silnye-brendi/",
+      "description": "Нейминг: как создаются сильные бренды",
+      "subtitle": "Наш креативный копирайтер Илья Полторацкий рассказал, как выглядит процесс нейминга на открытых креативных встречах, и описал методы разработки нового имени.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/omsd7rIxegBTRB7YRFzTMENsGad2YdfLr6ByqrkM.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/prodakshn-stoit-li-ono-togo/",
+      "description": "Продакшн: стоит ли оно того?",
+      "subtitle": "Разбираемся, какие работы входят в понятие «продакшн» и сколько это стоит.",
+      "tags": [
+        "Статьи",
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "statyi",
+        "keisy"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/Mti8ntS3wtY0DjuKbVrQQg3oSZ5rHEOFWkoh0GwV.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/strategiya-v-targete-5-shagov-k-zapusku-reklamnoj-kampanii/",
+      "description": "Стратегия в таргете: 5 шагов к запуску рекламной кампании",
+      "subtitle": "Рассказывает Олег Дробыш — лидер направления «Таргет».",
+      "tags": [
+        "Статьи",
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "statyi",
+        "keisy"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/rh1u7ZQWjB09Uk4SDRGgSBgKgjFSAj7MYwwXioqa.jpg"
+      }
+    }
+  ]
+}

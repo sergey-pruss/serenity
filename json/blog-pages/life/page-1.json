@@ -1,0 +1,276 @@
+{
+  "filterCode": "life",
+  "currentPage": 1,
+  "totalPages": 1,
+  "perPage": 24,
+  "totalItems": 11,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/blog/"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life/"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case/"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 3,
+      "href": "/blog/article/"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast/"
+    }
+  ],
+  "posts": [
+    {
+      "href": "/blog/article/sekrety-uspeshnogo-kejsa-ot-tim-lidera-akkauntov-serenity/",
+      "description": "Секреты успешного кейса от тим-лидера аккаунтов Serenity",
+      "subtitle": "Как строить доверие к клиентам и достигать результатов.",
+      "tags": [
+        "Статьи",
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "article",
+        "life"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/2xIPVhE3Dn9NbeCXNQDcuDN9qn07h7li9U3adMT5.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/timlider-arhitektor-komandy/",
+      "description": "Тимлидер — архитектор команды",
+      "subtitle": "Валерия Леонова о вдохновляющем лидерстве и создании эффективной команды.",
+      "tags": [
+        "Статьи",
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "article",
+        "life"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/UIF0Qyex9i9Su3P3nFcAyKeZvkSS6gxKBRjw5eA4.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/prodzhekt-menedzher-svyazuyushhaya-energiya-proekta/",
+      "description": "Проджект-менеджер — связующая энергия проекта",
+      "subtitle": "Настя Попова рассказывает, как собрать команду мечты.",
+      "tags": [
+        "Статьи",
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "statyi",
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/M99VkdyMXQIKJX0CFY8yi3GMX991Txoo8tm87zRH.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/trendy-kontekstnoj-reklamy-2024-chem-nas-udivil-yandeks-direkt/",
+      "description": "Тренды контекстной рекламы 2024: чем нас удивил Яндекс Директ",
+      "subtitle": "Рассматриваем новинки Яндекс Директа и какие результаты они способны приносить на фоне существующих рекламных кампаний.",
+      "tags": [
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/09HNu8CgoRfKl5IU9ZI2DgYESksIzb3D6r9HO5jt.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/motivatsiya-ili-sopernichestvo/",
+      "description": "Мотивация или соперничество?",
+      "subtitle": "Как 20 раз в день слышать «нет» и не опускать руки.",
+      "tags": [
+        "Статьи",
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "statyi",
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/9oFGQ99Mkoo3zZZyzaHbWrElQGgSlnr6lzsSMV9e.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.mave.digital/ep-1",
+      "description": "Важность команды и культуры в кризисное время",
+      "subtitle": "Обсуждают Сергей Прусс и Екатерина Русакова в подкасте «Мышеловка».",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/brending-i-biznes/",
+      "description": "Брендинг и бизнес",
+      "subtitle": "Лиза Румянцева о работе с клиентами, команде и личном опыте в Serenity.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/HndAl3a0vt6OfisGqh3QQyXS33kMKkju7V6d0T5b.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/liderstvo-ko-vsem-prihodit/",
+      "description": "Лидерство ко всем приходит",
+      "subtitle": "О личном росте, командном сотрудничестве и взаимном вдохновении на развитие рассказала лидер контекстной рекламы — Юлия Панецкая.",
+      "tags": [
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/pALu3dFhaVdCIWx64kFpNEaQrxFoungjZfb2ie8j.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/ot-prodzhekta-do-lidera-za-god/",
+      "description": "От проджекта до лидера за год",
+      "subtitle": "О самоорганизации, личной ответственности и работе в мотивированной команде рассказала Екатерина Русакова.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/3rWBDqcTBdzrEX1NAfTLmSv103Y5245GRh1f3RYj.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/intervyu-serenity-sergei-pruss-samoorganizatsiya/",
+      "description": "Сергей Прусс о самоорганизации в Serenity",
+      "subtitle": "Как «бирюзовый» подход работает в ведении проектов, найме, корпоративной культуре и как влияет на результаты.",
+      "tags": [
+        "Статьи",
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "statyi",
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+      "description": "Как мы превратили работу в игру",
+      "subtitle": "Руководитель агентства Serenity Сергей Прусс поделился экспериментом над корпоративной культурой, который мы проводим в своей компании.",
+      "tags": [
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/0UPPnQUrMuOKwkNt0H6SBuIwtvTbKhmHo8WBjwJp.webp"
+      }
+    }
+  ]
+}

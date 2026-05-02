@@ -1,0 +1,533 @@
+{
+  "filterCode": "",
+  "currentPage": 1,
+  "totalPages": 3,
+  "perPage": 24,
+  "totalItems": 66,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 3,
+      "href": "/blog/"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life/"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case/"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 3,
+      "href": "/blog/article/"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast/"
+    }
+  ],
+  "posts": [
+    {
+      "href": "/blog/article/geo-seo-kak-ne-popast-v-lovushku-trendov-i-ne-slit-byudzhet/",
+      "description": "GEO: как не попасть в ловушку трендов и не слить бюджет",
+      "subtitle": "Механики, ограничения и условия эффективного продвижения в AI-поиске",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/2c90ZsktwnulhdYmqcyYhovKfI3rlTcUWjIFPDnT.webp"
+      }
+    },
+    {
+      "href": "/blog/article/rabota-s-auditoriej-konkurentov-cherez-vk-reklamu-parsing-i-sms-kanaly/",
+      "description": "Работа с аудиторией конкурентов через VK Рекламу, парсинг и SMS-каналы",
+      "subtitle": "",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/HvnbMEsTcvsvxf15HTuhBT6yObhnIQxcfdPP3i6k.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kak-privlekat-auditoriyu-konkurentov-cherez-yandeks-direkt/",
+      "description": "Как привлекать аудиторию конкурентов через Яндекс Директ",
+      "subtitle": "",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/J0EX1CGpblUqb2f2bhGaKSnVK6Zmmf0gSiHSDksY.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kak-optimizirovat-izobrazheniya-na-sajte/",
+      "description": "Как оптимизировать изображения на сайте",
+      "subtitle": "О влиянии картинок на скорость загрузки сайта, пользовательское поведение и улучшение SEO-показателей.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/7ghVzOIfc86UwRPhHBVEW5rCMIn4UmBhKSVJ5JCg.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kak-oformlyat-stati-na-sajte-tak-chtoby-ih-chitali/",
+      "description": "Как оформлять статьи на сайте так, чтобы их читали",
+      "subtitle": "Рассказываем о важных нюансах структуры, SEO-оптимизации и верстки.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/7BzTXRHMBYwo8hfBnHANzuwCkMpEE41hcdkWHXzK.webp"
+      }
+    },
+    {
+      "href": "/blog/article/produktovyj-ux-analiz-kak-nahodit-tochki-poteri-konversii-i-prevrashhat-trafik-v-prodazhi/",
+      "description": "Продуктовый UX-анализ: как находить точки потери конверсии и превращать трафик в продажи",
+      "subtitle": "",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/Zb86uL90gVnahODsBbhi8leq61P28cxq6bA4HD7Y.webp"
+      }
+    },
+    {
+      "href": "/blog/article/produktovaya-analitika-cherez-glubinnye-ux-ui-intervyu/",
+      "description": "Продуктовая аналитика через глубинные UX/UI-интервью",
+      "subtitle": "Как бизнесу находить точки роста, повышать конверсию и ускорять принятие решений.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/FpLmTDkCl8sbTQbahDAe9sbcOHCkBjVBWjp7DfLU.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kontekstnaya-reklama-dlya-b2b-v-2026-godu-kak-privlekat-lidy/",
+      "description": "Контекстная реклама для B2B в 2026 году: как привлекать лиды",
+      "subtitle": "Как выстроить системный подход к B2B-контексту в условиях высокой конкуренции и сложного поведения аудитории, чтобы получать стабильный поток качественных лидов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/Y7RPRjfXHu0BWKHp6BPBatoagQy2KblJSebGRwLC.webp"
+      }
+    },
+    {
+      "href": "/blog/article/pochemu-vashemu-biznesu-nuzhna-reklama-vo-vkontakte-i-pochemu-effektivnee-ee-delegirovat-professionalam/",
+      "description": "Почему вашему бизнесу нужна реклама во ВКонтакте и почему эффективнее ее делегировать профессионалам",
+      "subtitle": "Честный взгляд изнутри от руководителя отдела таргетированной рекламы.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/KXulxM9r2B8L7SqmZXVW3LkZ9nmhn5VUdGG3dBn2.webp"
+      }
+    },
+    {
+      "href": "/blog/article/maksim-spiridonov-vzglyad-ceo-na-marketing-i-razvitie-produkta/",
+      "description": "Максим Спиридонов. Взгляд CEO на маркетинг и развитие продукта",
+      "subtitle": "9 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/4rd77wPh8GwqYEMfMCSxb3AHwrCFEEEaKtxSDbAB.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kak-uvelichit-trafik-sajta/",
+      "description": "Как увеличить трафик сайта?",
+      "subtitle": "Как повысить посещаемость сайта в Яндексе и Google: инструменты, которые работают.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/9eHVMlF9O6FJCDlX9qaudoGE8DGJVzJToi7Pm6ll.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/sekrety-uspeshnogo-kejsa-ot-tim-lidera-akkauntov-serenity/",
+      "description": "Секреты успешного кейса от тим-лидера аккаунтов Serenity",
+      "subtitle": "Как строить доверие к клиентам и достигать результатов.",
+      "tags": [
+        "Статьи",
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "article",
+        "life"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/2xIPVhE3Dn9NbeCXNQDcuDN9qn07h7li9U3adMT5.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-prodvigat-magazin-vkontakte-s-nulya/",
+      "description": "Как продвигать магазин ВКонтакте с нуля",
+      "subtitle": "Платные и бесплатные методы продвижения товаров.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/ToUzrLhNFIeMzbT5CuXwms6tjplk8exPibvwTEXW.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/target-vk-v-2025-godu-chto-nuzhno-uchest-chtoby-ispolzovat-byudzhet-na-maksimum/",
+      "description": "Таргет ВК в 2025 году: что нужно учесть, чтобы использовать бюджет на максимум",
+      "subtitle": "Делимся обзором на рекламный кабинет ВК, правилами размещения рекламы, а также как анализировать результаты и отслеживать эффективность.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/syZGRfJ9opAzx53wOTY6Gz8MVHAZl9qfRs4zLlsX.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/unisender-tsennost-brenda-cherez-produktovyj-podhod/",
+      "description": "Unisender: ценность бренда через продуктовый подход",
+      "subtitle": "8 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
+      "tags": [
+        "Статьи",
+        "Подкаст"
+      ],
+      "tagCodes": [
+        "article",
+        "podcast"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "podcast"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/4OKhXLGFMWItU2VRf6DzRBpsRvOlEQ8SCFSU38WA.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-rabotaet-targetirovannaya-reklama-v-telegram-sekrety-uspeha/",
+      "description": "Как работает таргетированная реклама в телеграм: секреты успеха",
+      "subtitle": "Таргетированная реклама в Telegram: ключевые аспекты и полезные советы.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kgFdVih8krC1uO29Az5RdIEzQxcvZsIZjU7Hdr8t.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-sozdat-kachestvennyj-tekst-dlya-sajta-prakticheskoe-rukovodstvo/",
+      "description": "Как создать качественный текст для сайта: практическое руководство",
+      "subtitle": "Ключевые аспекты создания успешного контента для вашего сайта.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/neYl4zQ41JcMmkTEGRM3ozTS1WNpz0jKYf9llilJ.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/razrabotka-dizajna-brenda-ot-idei-do-realizatsii/",
+      "description": "Разработка дизайна бренда: от идеи до реализации",
+      "subtitle": "Рассматриваем стратегический подход к созданию успешного облика бренда.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/H0fGsYzEthpEzyog4PUFKARB06jTWCm3jtKA2ZM3.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/prodvizhenie-sajta-statyami-ekspertnyj-kontent-kotoryj-rabotaet/",
+      "description": "Продвижение сайта статьями: экспертный контент, который работает",
+      "subtitle": "Как продвигать сайт с помощью статей: критерии качества текста, юзабилити и оптимизация.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/T0t2iRg3ujDBa6tonZBtHr7TE5JFoAj12RWfilI2.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kontent-dlya-sajta-strategiya-i-prakticheskie-sovety-ot-serenity/",
+      "description": "Контент для сайта: стратегия и практические советы от Serenity",
+      "subtitle": "Меня зовут Валерия Леонова, я тимлид контента в компании Serenity. Сегодня хочу поделиться нашим подходом к ведению блогов клиентов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/bly8NePBhtnJJIWkkV0Hwvgo2HSuByfuQq3Obdub.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/timlider-arhitektor-komandy/",
+      "description": "Тимлидер — архитектор команды",
+      "subtitle": "Валерия Леонова о вдохновляющем лидерстве и создании эффективной команды.",
+      "tags": [
+        "Статьи",
+        "Наша Жизнь"
+      ],
+      "tagCodes": [
+        "article",
+        "life"
+      ],
+      "tagCodesNorm": [
+        "article",
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/UIF0Qyex9i9Su3P3nFcAyKeZvkSS6gxKBRjw5eA4.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/seo-pri-pereezde-sajta-kak-ne-poteryat-pozitsii-i-trafik/",
+      "description": "SEO при переезде сайта: как не потерять позиции и трафик",
+      "subtitle": "SEO-переезд сайта — советы и стратегии для безопасного переезда вашего сайта без потери драгоценного трафика и высоких позиций в поисковой выдаче.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/0lS3eurRQYeVMArhIe1qxldqRyNrq7iVOgAp1QG3.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-pridumat-nazvanie-brenda/",
+      "description": "Как придумать название бренда",
+      "subtitle": "Рассказываем, зачем нужен нейминг и как мы подходим к его созданию.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kompleksnyj-seo-audit-sajta-zachem-kogda-i-iz-chego-sostoit/",
+      "description": "Комплексный SEO-аудит сайта: зачем, когда и из чего состоит",
+      "subtitle": "Успешное SEO-продвижение: почему аудит сайта — необходимость, а не опция.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/Mg3PVvezisXKgUba4CiQdztzYD58HBKyCWMVbcfm.jpg"
+      }
+    }
+  ]
+}
