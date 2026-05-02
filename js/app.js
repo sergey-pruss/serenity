@@ -404,7 +404,7 @@
    */
   const initClientsStrip = () => {
     const host = document.querySelector(".swiper-container-clients-new");
-    const track = document.querySelector(".clients-new__context-wrapper");
+    const track = host ? host.querySelector(".clients-new__context-wrapper") : null;
     if (!host || !track) return;
     if (host.dataset.clientsStrip === "1") return;
     host.dataset.clientsStrip = "1";
@@ -676,7 +676,7 @@
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
 
-    /* Плавающий CTA в шапке после скролла — и на мобайле (≤1024), иначе блок скрыт через .noactive и форма не открывается с плавающей кнопки. */
+    /* Плавающий CTA в шапке — показываем сразу (раньше скрывали на page-top через .noactive + CSS .page-top). */
     const shouldShowFloatingCta = () => true;
 
     const setOpen = (open) => {
@@ -685,9 +685,7 @@
       topLine.classList.toggle("open", open);
       if (bodyApplication) {
         bodyApplication.classList.toggle("active", open);
-        // Прод-логика: floating CTA виден в compressed-состоянии (scroll), скрыт на page-top.
-        // На tablet/mobile остается штатная нижняя CTA, поэтому desktop-floating CTA не показываем.
-        bodyApplication.classList.toggle("noactive", (!collapsed || !shouldShowFloatingCta()) && !open);
+        bodyApplication.classList.toggle("noactive", !shouldShowFloatingCta() && !open);
       }
       menuFooter?.classList.toggle("open", open);
       staticMenu?.classList.toggle("menu-screen-visible", open);
@@ -722,9 +720,6 @@
       header.classList.toggle("page-top", !collapsed);
       topLine.classList.toggle("hide", collapsed);
       menuIcon.classList.toggle("show", collapsed);
-      if (bodyApplication && !header.classList.contains("active")) {
-        bodyApplication.classList.toggle("noactive", !collapsed || !shouldShowFloatingCta());
-      }
       if (!collapsed) closeMenu();
     };
 
@@ -734,6 +729,9 @@
       if (collapsed && y < EXPAND_Y) applyState(false);
       // Подстраховка под штатные классы bundle: если top-line уже скрыт, обязательно показываем бургер.
       if (topLine.classList.contains("hide")) menuIcon.classList.add("show");
+      if (bodyApplication && !header.classList.contains("active")) {
+        bodyApplication.classList.toggle("noactive", !shouldShowFloatingCta());
+      }
     };
 
     window.addEventListener("scroll", sync, { passive: true });
