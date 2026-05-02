@@ -39,34 +39,8 @@ assert(/~\^\/services\/\?\$\s+1;/.test(content), "Missing /services/ static rule
 assert(/~\^\/services\/index\\\.html\$\s+1;/.test(content), "Missing /services/index.html static rule.");
 assert(/~\^\/services\/production\/\?\$\s+1;/.test(content), "Missing /services/production/ static rule.");
 assert(/~\^\/services\/production\/index\\\.html\$\s+1;/.test(content), "Missing /services/production/index.html static rule.");
-assert(/~\^\/blog\/\?\$\s+1;/.test(content), "Missing exact /blog/ listing rule.");
-assert(/~\^\/blog\/index\\\.html\$\s+1;/.test(content), "Missing /blog/index.html rule.");
-assert(/~\^\/blog\/\[0-9\]\+\/\?\$\s+1;/.test(content), "Missing /blog/{page} listing rule.");
-assert(/~\^\/blog\/\[0-9\]\+\/index\\\.html\$\s+1;/.test(content), "Missing /blog/{page}/index.html rule.");
-assert(
-  /~\^\/blog\/\(life\|case\|article\|podcast\)\/\?\$\s+1;/.test(content),
-  "Missing /blog/{filter} listing rule."
-);
-assert(
-  /~\^\/blog\/\(life\|case\|article\|podcast\)\/index\\\.html\$\s+1;/.test(content),
-  "Missing /blog/{filter}/index.html rule."
-);
-assert(
-  /~\^\/blog\/\(life\|case\|article\|podcast\)\/\[0-9\]\+\/\?\$\s+1;/.test(content),
-  "Missing /blog/{filter}/{page} rule."
-);
-assert(
-  /~\^\/blog\/\(life\|case\|article\|podcast\)\/\[0-9\]\+\/index\\\.html\$\s+1;/.test(content),
-  "Missing /blog/{filter}/{page}/index.html rule."
-);
-assert(
-  /~\^\/blog\/article\/\[\^\/\]\*\[a-zA-Z\]\[\^\/\]\*\/\?\$\s+1;/.test(content),
-  "Missing static blog article /blog/article/{slug}/ rule."
-);
-assert(
-  /~\^\/blog\/article\/\[\^\/\]\*\[a-zA-Z\]\[\^\/\]\*\/index\\\.html\$\s+1;/.test(content),
-  "Missing static blog article /blog/article/{slug}/index.html rule."
-);
+/* На основном домене /blog не мапится на новую статику — остаётся WordPress; статический блог — static + локально. */
+assert(!/~\^\/blog\//.test(content), "Blog must not be routed to new static on serenity.agency (use legacy; preview on static host).");
 assert(!/~\^\/blog\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule: /blog($|/) would catch article URLs.");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
