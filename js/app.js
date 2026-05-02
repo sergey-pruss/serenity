@@ -622,8 +622,8 @@
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
 
-    /* Плавающий CTA в шапке после скролла — и на мобайле (≤1024), иначе блок скрыт через .noactive и форма не открывается с плавающей кнопки. */
-    const shouldShowFloatingCta = () => true;
+    // CTA должен быть доступен сразу при загрузке страницы на всех брейкпоинтах.
+    if (bodyApplication) bodyApplication.classList.remove("noactive");
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);
@@ -631,9 +631,7 @@
       topLine.classList.toggle("open", open);
       if (bodyApplication) {
         bodyApplication.classList.toggle("active", open);
-        // Прод-логика: floating CTA виден в compressed-состоянии (scroll), скрыт на page-top.
-        // На tablet/mobile остается штатная нижняя CTA, поэтому desktop-floating CTA не показываем.
-        bodyApplication.classList.toggle("noactive", (!collapsed || !shouldShowFloatingCta()) && !open);
+        bodyApplication.classList.remove("noactive");
       }
       menuFooter?.classList.toggle("open", open);
       staticMenu?.classList.toggle("menu-screen-visible", open);
@@ -669,7 +667,7 @@
       topLine.classList.toggle("hide", collapsed);
       menuIcon.classList.toggle("show", collapsed);
       if (bodyApplication && !header.classList.contains("active")) {
-        bodyApplication.classList.toggle("noactive", !collapsed || !shouldShowFloatingCta());
+        bodyApplication.classList.remove("noactive");
       }
       if (!collapsed) closeMenu();
     };
