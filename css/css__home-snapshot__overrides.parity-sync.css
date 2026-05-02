@@ -108,6 +108,13 @@
   --home-between: 112px;
   --home-ledge: 54px;
   --cases-ledge: 62px;
+  /* Горизонталь как у .services-unified / секций: один ритм для контента, футера и плавающей CTA */
+  --page-gutter-x: 78px;
+}
+@media screen and (max-width: 1025px) {
+  :root {
+    --page-gutter-x: 55px;
+  }
 }
 @media screen and (max-width: 1024px) {
   :root {
@@ -123,6 +130,7 @@
 }
 @media screen and (max-width: 768px) {
   :root {
+    --page-gutter-x: 36px;
     --home-ledge: 48px;
   }
 }
@@ -162,6 +170,15 @@
     padding-left: 36px !important;
     padding-right: 36px !important;
   }
+}
+
+/* Как .services-unified .services__text: горизонтальные поля только у обёртки .blog-block-mainstr.
+   Иначе bundle даёт .services__text padding 0 57px (≤1160px), а ряд карточек с fullBleed
+   выравнивается по одной сетке с услугами — заголовок «Блог» оказывается правее первой карточки. */
+.blog-block-mainstr .services__text[data-v-56f85d51] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: content-box;
 }
 
 .cases-block__header.home-ledge,
@@ -596,8 +613,8 @@ body.scroll-menu-open {
     pointer-events: auto !important;
     position: fixed !important;
     top: 93.8vh !important;
-    /* Фикс обрезания CTA справа на desktop-ширинах */
-    right: clamp(38px, 5vw, 78px) !important;
+    /* Один ритм с контентом (--page-gutter-x) */
+    right: var(--page-gutter-x) !important;
     transform: translate3d(0, -20px, 0) !important;
     z-index: 120 !important;
   }
@@ -606,7 +623,7 @@ body.scroll-menu-open {
 @media screen and (min-width: 1025px) {
   .compressed.header .body-application[data-v-e5e2adce],
   .page-top.header.compressed .body-application[data-v-e5e2adce] {
-    right: 5% !important;
+    right: var(--page-gutter-x) !important;
   }
 }
 
@@ -641,6 +658,52 @@ body.scroll-menu-open {
 /* Два tel в разметке бургера: на десктопе показываем обычный switcher, блок ниже — в overrides.mobile */
 .header .new-static-menu .header-burger-dual-phones {
   display: none;
+}
+
+/* ≤1200: футер на всю ширину; горизонталь задаёт только абсолютный блок (left), не padding —
+   у abspos left:0 считается от края padding-box, не от контента, и «Следите за нами» прилипало к экрану. */
+@media screen and (max-width: 1200px) {
+  .footer-modern__container[data-v-ff4f3948] {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Одна вертикаль с лого / услугами / кейсами: боковые поля = --page-gutter-x */
+.header__top-line[data-v-e5e2adce] {
+  padding-left: var(--page-gutter-x) !important;
+  padding-right: var(--page-gutter-x) !important;
+}
+
+@media screen and (max-width: 1250px) {
+  .menu-icon__wrapper[data-v-e5e2adce],
+  .menu-icon__wrapper_main[data-v-e5e2adce] {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-gutter-x) !important;
+    padding-right: var(--page-gutter-x) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+  }
+}
+
+/* Список кейсов: вместо width: calc(100% - 156px) — полная ширина и тот же gutter, что у шапки */
+@media screen and (max-width: 1400px) {
+  .more-case-wr .page__container[data-v-27a87df0] {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-gutter-x) !important;
+    padding-right: var(--page-gutter-x) !important;
+    box-sizing: border-box !important;
+  }
 }
 
 .footer-modern .footer-modern__city-selector a:not(.selected):hover,

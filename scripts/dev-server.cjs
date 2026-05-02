@@ -115,6 +115,9 @@ const tryListen = (port) => {
       `http://127.0.0.1:${port}/  — главная; http://127.0.0.1:${port}/case/all/ — список кейсов`,
     );
     console.log(
+      `Стили/скрипты: ссылки вида /_sa/css/... отдаются из css/... (см. strip-serenity-snapshot-prefix.cjs). Если страница без CSS — перезапусти этот процесс.`,
+    );
+    console.log(
       `(no-store; если старый сервер оставили на 8765 — закрой тот терминал или: lsof -ti:8765 | xargs kill)`,
     );
   });

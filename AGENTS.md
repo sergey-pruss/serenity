@@ -129,6 +129,7 @@
 
 - После правок этих файлов **повысить** **`?v=`** в **`html/index.layout.html`** и выполнить **`npm run build:html`**, иначе клиенты сохранят старые бандлы.
 - Если затронуты оверлей/стили **`case/all`** (в т.ч. **`css/css__home-snapshot__overrides.parity-sync.css`**): синхронно поднять `?v=` в соответствующих HTML (**`case/all/index.html`**, **`index.html`**, шаблон) и выполнить **`npm run build:cases`**.
+- На **`static.serenity.agency`** перед origin стоит Yandex CDN: HTML на edge кэшируется **5 минут** (`--cache-expiration-time-default 300`), ассеты `/_sa/*` — по `Cache-Control: immutable` с origin, ключ кэша учитывает `?v=` (`--query-params-whitelist v`). Origin для **`index.html`** отдаёт **`no-cache, must-revalidate`** без **`no-store`**, иначе CDN не сможет хранить ответ на edge. После **`bash deploy.sh`** скрипт сам запускает **`yc cdn cache purge`** для ресурса CDN; без `yc` в PATH HTML обновится по истечении edge-TTL (~5 мин). Ручной сброс при необходимости: **`yc cdn cache purge --resource-id bc8r7ufcvyine32nhiun --path '/*'`**. Смена vhost превью: **`bash scripts/deploy-static-vhost.sh`**.
 
 ---
 
