@@ -20,6 +20,14 @@
 
 /* Mobile (≤620px) — hero matches snapshot.bundle.css; loads after tablet. */
 @media screen and (max-width: 620px) {
+  .component-block[data-v-135dc442] {
+    display: none !important;
+  }
+
+  .main-heading-block + .component-block[data-v-135dc442] + div[data-v-6f8a040c] {
+    margin-top: -30px !important;
+  }
+
   .header__logo .header__logo-img {
     top: 0 !important;
     width: 132px !important;
