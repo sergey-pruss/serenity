@@ -1,5 +1,5 @@
 /**
- * Смоук-тест: «Наши клиенты» — автодрейф transform, реакция на горизонтальный wheel.
+ * Смоук-тест: «Наши клиенты» — автодрейф scrollLeft, реакция на горизонтальный wheel.
  * Запуск: SLIDER_TEST_URL=http://127.0.0.1:8765/ node scripts/clients-strip-smoke.cjs
  */
 const { chromium } = require("playwright");
@@ -15,32 +15,21 @@ async function readStrip(page) {
     const host = document.querySelector(".swiper-container-clients-new");
     const track = document.querySelector(".clients-new__context-wrapper");
     if (!host || !track) return null;
-    const tr = track.style.transform;
     const cur = getComputedStyle(host).cursor;
     return {
       hasStrip: host.classList.contains("clients-strip"),
       hasClientsStrip: host.dataset.clientsStrip === "1",
-      transform: tr || getComputedStyle(track).transform,
+      scrollLeft: track.scrollLeft,
       cursor: cur,
     };
   });
 }
 
-async function readTransformMatrix(page) {
+async function readScrollLeft(page) {
   return page.evaluate(() => {
     const track = document.querySelector(".clients-new__context-wrapper");
     if (!track) return null;
-    const t = track.style.transform || getComputedStyle(track).transform;
-    const m = t.match(/matrix\(([^)]+)\)/) || t.match(/matrix3d\(([^)]+)\)/);
-    if (m) {
-      const parts = m[1].split(/\s*,\s*/).map(Number);
-      return { raw: t, x: parts[4] != null ? parts[4] : 0, y: parts[5] != null ? parts[5] : 0 };
-    }
-    if (t && t.includes("translate3d")) {
-      const mm = t.match(/translate3d\((-?[0-9.]+)px/);
-      return { raw: t, x: mm ? parseFloat(mm[1]) : 0, y: 0 };
-    }
-    return { raw: t || "", x: 0, y: 0 };
+    return { raw: "scrollLeft", x: track.scrollLeft, y: 0 };
   });
 }
 
@@ -60,23 +49,23 @@ async function run() {
   assert(a.hasClientsStrip === true, "host must be initialized (data-clients-strip)");
   assert(typeof a.cursor === "string", `cursor must be a string, got ${a.cursor}`);
 
-  const t0 = await readTransformMatrix(page);
-  assert(t0, "transform read failed");
+  const t0 = await readScrollLeft(page);
+  assert(t0, "scrollLeft read failed");
   await page.waitForTimeout(1400);
-  const t1 = await readTransformMatrix(page);
-  assert(t1, "transform read failed 2");
+  const t1 = await readScrollLeft(page);
+  assert(t1, "scrollLeft read failed 2");
   const dx = Math.abs((t1.x || 0) - (t0.x || 0));
-  assert(dx > 3, `autoscroll: transform X should move (|Δ|=${dx}): ${t0.raw} -> ${t1.raw}`);
+  assert(dx > 3, `autoscroll: scrollLeft should move (|Δ|=${dx}): ${t0.x} -> ${t1.x}`);
 
-  const beforeWheel = (await readTransformMatrix(page)).x || 0;
+  const beforeWheel = (await readScrollLeft(page)).x || 0;
   await page.mouse.move(200, 200);
   await page.locator(".swiper-container-clients-new").hover();
   await page.mouse.wheel(80, 0);
   await page.waitForTimeout(200);
-  const afterWheel = (await readTransformMatrix(page)).x || 0;
+  const afterWheel = (await readScrollLeft(page)).x || 0;
   assert(
     Math.abs(afterWheel - beforeWheel) > 1,
-    "horizontal wheel over clients strip should change transform",
+    "horizontal wheel over clients strip should change scrollLeft",
   );
 
   assert(errors.length === 0, `page errors: ${errors.join("; ")}`);
