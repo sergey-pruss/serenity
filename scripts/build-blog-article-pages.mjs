@@ -92,7 +92,7 @@ function escapeXml(s) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogHeroMetaFullWidth" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogHeroNoBackFullBleed" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogCaptionStripDline" />
 `;
 
@@ -425,7 +425,6 @@ function renderBlogArticlePageTop({
   const catHref = String(metaCategoryHref || "/blog/article/").trim() || "/blog/article/";
   const metaParts =
     `<p class="blog-article-page-top__meta" data-v-27a87df0="">` +
-    `<a href="/blog/" class="blog-article-page-top__meta-link blog-article-page-top__meta-back">←&nbsp;Назад к блогу</a>` +
     `<a href="${escapeXml(catHref)}" class="blog-article-page-top__meta-link">${escapeXml(catLabel)}</a>` +
     (datePublished
       ? `<span class="blog-article-page-top__meta-date">${escapeXml(datePublished)}</span>`

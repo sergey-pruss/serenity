@@ -9,7 +9,7 @@
  * Верх статьи (сборка `build-blog-article-pages.mjs`):
  *   .blog-article-page-top
  *     .page-container.nuxt.case-all-page + .background-gradient (как case/all)
- *     .case-all-heading-line.blog-article-page-top__heading — .blog-article-page-top__meta / __meta-back / __meta-link / __meta-date,
+ *     .case-all-heading-line.blog-article-page-top__heading — .blog-article-page-top__meta / __meta-link / __meta-date,
  *     h1.cases-block__header-title.case-all-heading-title, .blog-article-page-top__lead (опционально)
  *   У `.blog-article-page-top__heading` псевдоэлемент ::after — линия cyan→magenta; зазоры как у прежнего героя.
  *
@@ -231,7 +231,7 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   flex-wrap: wrap;
   gap: 0;
   margin: 0 0 28px;
-  /* Полная ширина колонки героя: иначе при display:none у «Назад к блогу» flex-ряд сжимается по контенту и тянет за собой ширину лида и ::after. */
+  /* Полная ширина колонки героя (ряд рубрика + дата не должен сужать flex-колонку с заголовком и линией). */
   box-sizing: border-box;
   width: 100%;
   max-width: none;
@@ -260,14 +260,6 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-/* «Назад к блогу» — тот же бабл, что у .meta-link; чуть шире по padding, зазор до рубрики */
-.blog-article-page-top .blog-article-page-top__meta-link.blog-article-page-top__meta-back {
-  margin: 0 14px 0 0;
-  min-width: 108px;
-  padding-left: 22px;
-  padding-right: 22px;
-}
-
 .blog-article-page-top .blog-article-page-top__meta-link:hover,
 .blog-article-page-top .blog-article-page-top__meta-link:focus-visible {
   color: #fff;
@@ -292,7 +284,9 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   font-size: 70px;
   line-height: 1.1;
   font-weight: 600;
-  max-width: min(100%, calc(100vw - 20vw));
+  /* Не calc(100vw − …): при gutter на колонке даёт лишнее сужение и «полку» справа на мобиле. */
+  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
   margin: 15px 0 var(--blog-article-hero-title-mb);
 }
@@ -345,9 +339,12 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   html:has(.blog-article-page-top)
     .blog-article-page-top
     .case-all-more-case-wr.more-case-wr__main
-    .page__container {
-    padding-left: 0;
-    padding-right: 0;
+    .page__container[data-v-27a87df0] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -580,7 +577,6 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
 
   .blog-article-page-top .blog-article-page-top__lead {
     font-size: clamp(0.84375rem, calc((0.75rem + 1.35vw) * 0.75), 1.5rem);
-    /* На мобиле лид и линия — на всю ширину колонки героя (не узже H1), в т.ч. когда «Назад к блогу» скрыт. */
     max-width: none;
     width: 100%;
   }
