@@ -6,6 +6,8 @@
  * Опциональная обёртка для «одного куска» HTML: `.sa-blog-prose` внутри `.article-section__info` или `.text-content`.
  *
  * Иллюстрация + подпись: `<figure class="sa-blog-media">` + `img` + `figcaption.sa-blog-media__caption` — те же отступы, что у `figure` ниже.
+ *
+ * Медиа в колонке: `sa-blog-body-media` (ширина как у WP-видео) и `sa-blog-body-media--text` (ширина текста, JSON `blogBodyMediaLayout`: `"text"`).
  */
 
 /* Легаси WP: span с color внутри заголовка секции — иначе блок ниже с [style*="#000"] красит подпись в цвет тела. */
@@ -159,6 +161,38 @@
   min-width: 560px;
 }
 
+/* Таблица в широком блоке медиа: без второго вертикального поля; шире колонки текста. */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media > .blog-article-table-scroll,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media > .blog-article-table-scroll,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media > .blog-article-table-scroll {
+  margin: 0;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media table,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media table,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media table {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-table-dashed th,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-table-dashed td,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-table-dashed th,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-table-dashed td,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-table-dashed th,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-table-dashed td {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media .blog-article-table-scroll .sa-blog-table-dashed,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media .blog-article-table-scroll .sa-blog-table-dashed,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media .blog-article-table-scroll .sa-blog-table-dashed {
+  min-width: 720px;
+}
+
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section figure,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section figure.sa-blog-media,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose figure,
@@ -256,18 +290,44 @@
 }
 
 /*
- * WordPress `[video]`: легаси inline `width:640px`. Родитель `.article-section__info` — max-width 733px,
- * поэтому проценты от «100%» не дают ширину по экрану: задаём min(vw, px) явно; высота — auto (пропорции ролика).
- * Блок цитаты `.article-section__info--sub` под видео не трогаем — ширина как у колонки статьи (blog-article-figma.css).
+ * Медиа в теле: `.sa-blog-body-media` (вшивает build-blog-article-pages.mjs).
+ * По умолчанию — ширина как у встроенного видео WP; с модификатором `.sa-blog-body-media--text`
+ * (JSON `blogBodyMediaLayout`: `"text"`) — ширина колонки текста (733px, как .article-section__info).
  */
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media {
+  margin-top: 10px;
+  display: block;
+  box-sizing: border-box;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media:not(.sa-blog-body-media--text),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video:not(.sa-blog-body-media--text),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video:not(.sa-blog-body-media--text) {
   --sa-blog-wp-video-width: min(78vw, 1040px);
   width: var(--sa-blog-wp-video-width) !important;
   max-width: var(--sa-blog-wp-video-width) !important;
-  margin-left: 0 !important;
-  margin-right: auto !important;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--text,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text {
+  width: 100% !important;
+  max-width: 733px !important;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media img,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media img,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media img {
   display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video video,
@@ -279,13 +339,22 @@
 }
 
 @media screen and (max-width: 767px) {
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media:not(.sa-blog-body-media--text),
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video:not(.sa-blog-body-media--text),
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video:not(.sa-blog-body-media--text) {
     --sa-blog-wp-video-width: 100%;
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--text,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text {
+    max-width: 100% !important;
   }
 }
 
