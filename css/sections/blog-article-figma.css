@@ -550,22 +550,22 @@ section.blog-header.darktheme > .row > .area-header,
     padding-top: 4px;
   }
 
-  /* Основной текст тела (мобайл): от 17px каскад −20% → 17×0.512. */
+  /* Основной текст тела (мобайл): от 17px каскад −20% → 17×0.4096. */
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info p,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info li {
-    font-size: calc(17px * 0.512);
+    font-size: calc(17px * 0.4096);
     font-weight: 100;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section p {
-    font-size: calc(17px * 0.512);
+    font-size: calc(17px * 0.4096);
     font-weight: 100;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list {
-    font-size: calc(17px * 0.512);
+    font-size: calc(17px * 0.4096);
     font-weight: 100;
   }
 
