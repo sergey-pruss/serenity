@@ -5,9 +5,9 @@
  *
  * Опциональная обёртка для «одного куска» HTML: `.sa-blog-prose` внутри `.article-section__info` или `.text-content`.
  *
- * Иллюстрация + подпись: `<figure class="sa-blog-media">` + `img` + `figcaption.sa-blog-media__caption` — те же отступы, что у `figure` ниже.
+ * Иллюстрация + подпись: `<figure class="sa-blog-media">` + `img` + `figcaption.sa-blog-media__caption`, либо WP `.wp-caption > p.sa-blog-media__caption` — те же отступы, что у `figure` ниже; у `.sa-blog-media__caption` начертание как у текста статьи (`font-weight: 100`).
  *
- * Медиа в колонке: обёртка `div.sa-blog-body-media`; картинки — `p.sa-blog-body-media`. Нулевые вертикальные margin только у `div`, иначе перебивается `p + p` (blog-article-figma.css). `--text` — JSON `blogBodyMediaLayout`: `"text"`.
+ * Медиа в колонке: обёртка `div.sa-blog-body-media`; картинки — `p.sa-blog-body-media`, при необходимости — `figure` с теми же классами. Второй класс ширины: `--wide` (широкий блок; в старых HTML ещё встречается `--bleed`, те же правила) или `--content` / `--text` (см. blog-article-body-media-markup.mjs).
  */
 
 /* Легаси WP: span с color внутри заголовка секции — иначе блок ниже с [style*="#000"] красит подпись в цвет тела. */
@@ -220,7 +220,9 @@
 
 /* WP: подпись сразу под <img> в .wp-caption — зазор между низом картинки и текстом подписи. */
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption > .wp-caption-text,
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption > .wp-caption-text {
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption > .wp-caption-text,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption > .sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption > .sa-blog-media__caption {
   margin-top: 16px;
 }
 
@@ -236,7 +238,15 @@
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p:has(img) + p:has(> em:only-child),
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p:has(img) + p:has(> small:only-child),
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> em:only-child),
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> small:only-child) {
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption > .sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption > .sa-blog-media__caption {
   /*
    * Зазор под картинкой до подписи: фиксированные px, не --home-ledge (он только у «Читайте ещё» / главной).
    * 16px — как у .wp-caption-text выше; 0.5em давало ~8px и «липло» к img.
@@ -249,6 +259,59 @@
   font-style: normal;
   color: rgba(255, 255, 255, 0.55);
   text-align: left;
+}
+
+/* Канонический класс подписи — Museo 100, как основной текст статьи (не 300 у .wp-caption-text). */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section figcaption.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figcaption.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption > .sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption > .sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-media__caption {
+  font-weight: 100;
+}
+
+/*
+ * Подпись по классу: перебивает общие правила `p` из blog-article-figma.css (19px / --blog-article-body-line-height),
+ * сборка вешает `sa-blog-media__caption` в scripts/blog-article-body-caption-markup.mjs.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-media__caption {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: left;
+}
+
+/*
+ * Подпись сразу после широкого `p.sa-blog-body-media--wide` / `--bleed`: та же горизонталь, что у широкого блока
+ * (иначе абзац подписи остаётся в колонке 733px и «сужается» относительно картинки).
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media--bleed + p:has(> em:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media--bleed + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media--wide + p:has(> em:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media--wide + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media--bleed + p:has(> em:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media--bleed + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media--wide + p:has(> em:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media--wide + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media--bleed + p:has(> em:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media--bleed + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media--wide + p:has(> em:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media--wide + p:has(> small:only-child),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media--bleed + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media--wide + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media--bleed + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media--wide + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media--bleed + p.sa-blog-media__caption,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media--wide + p.sa-blog-media__caption {
+  max-width: min(calc(100vw - 2 * var(--blog-article-gutter, 78px)), 1040px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* WP часто оборачивает подпись в <em><small> — без сброса курсив и ~80% кегля */
@@ -267,7 +330,17 @@
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p:has(img) + p:has(> em:only-child) em,
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p:has(img) + p:has(> em:only-child) i,
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> em:only-child) em,
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> em:only-child) i {
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> em:only-child) i,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption .sa-blog-media__caption em,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption .sa-blog-media__caption i,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption .sa-blog-media__caption em,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption .sa-blog-media__caption i,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-media__caption em,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-media__caption i,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-media__caption em,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-media__caption i,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-media__caption em,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-media__caption i {
   font-style: normal;
 }
 
@@ -282,7 +355,12 @@
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p:has(img) + p:has(> small:only-child) small,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info figure:has(img) + p:has(> small:only-child) small,
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p:has(img) + p:has(> small:only-child) small,
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> small:only-child) small {
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> small:only-child) small,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .wp-caption .sa-blog-media__caption small,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .wp-caption .sa-blog-media__caption small,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-media__caption small,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-media__caption small,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-media__caption small {
   font-size: inherit;
 }
 
@@ -295,8 +373,7 @@
 
 /*
  * Медиа в теле: `.sa-blog-body-media` (вшивает build-blog-article-pages.mjs).
- * По умолчанию — ширина как у встроенного видео WP; с модификатором `.sa-blog-body-media--text`
- * (JSON `blogBodyMediaLayout`: `"text"`) — ширина колонки текста (733px, как .article-section__info).
+ * Ширина: `.sa-blog-body-media--wide` (и легаси `.sa-blog-body-media--bleed`) — блок с отступами как у сетки (`100vw` минус боковые gutter, max 1040px); `.sa-blog-body-media--text` / `--content` — колонка текста (733px).
  * Только div-обёртка с margin 0 — у `p.sa-blog-body-media` вертикаль ритмит `p + p` в blog-article-figma.css.
  */
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media,
@@ -310,19 +387,28 @@
   margin-right: auto !important;
 }
 
-.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media:not(.sa-blog-body-media--text),
-.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
-.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video:not(.sa-blog-body-media--text),
-.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video:not(.sa-blog-body-media--text) {
-  --sa-blog-wp-video-width: min(78vw, 1040px);
-  width: var(--sa-blog-wp-video-width) !important;
-  max-width: var(--sa-blog-wp-video-width) !important;
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--bleed,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--bleed,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--bleed,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--wide,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--wide,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--wide,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video.sa-blog-body-media--bleed,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video.sa-blog-body-media--bleed,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video.sa-blog-body-media--wide,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video.sa-blog-body-media--wide {
+  --sa-blog-body-bleed-w: min(calc(100vw - 2 * var(--blog-article-gutter, 78px)), 1040px);
+  --sa-blog-wp-video-width: var(--sa-blog-body-bleed-w);
+  width: var(--sa-blog-body-bleed-w) !important;
+  max-width: var(--sa-blog-body-bleed-w) !important;
 }
 
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--text,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text,
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text {
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--content,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--content,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--content {
   width: 100% !important;
   max-width: 733px !important;
 }
@@ -336,6 +422,15 @@
   height: auto;
 }
 
+/*
+ * Абзац только с <img> (без других элементов-наследников): у родителя line-height тела даёт «пустую» строку над/под блоком картинки.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media:not(:has(> *:not(img))),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media:not(:has(> *:not(img))),
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media:not(:has(> *:not(img))) {
+  line-height: 0;
+}
+
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video video,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video video {
   width: 100% !important;
@@ -345,11 +440,17 @@
 }
 
 @media screen and (max-width: 767px) {
-  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media:not(.sa-blog-body-media--text),
-  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
-  .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media:not(.sa-blog-body-media--text),
-  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video:not(.sa-blog-body-media--text),
-  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video:not(.sa-blog-body-media--text) {
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--bleed,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--bleed,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--bleed,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--wide,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--wide,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--wide,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video.sa-blog-body-media--bleed,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video.sa-blog-body-media--bleed,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video.sa-blog-body-media--wide,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video.sa-blog-body-media--wide {
+    --sa-blog-body-bleed-w: 100%;
     --sa-blog-wp-video-width: 100%;
     width: 100% !important;
     max-width: 100% !important;
@@ -359,7 +460,10 @@
 
   .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--text,
   .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text,
-  .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text {
+  .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--text,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--content,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--content,
+  .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media.sa-blog-body-media--content {
     max-width: 100% !important;
   }
 }
@@ -419,67 +523,6 @@
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose [style*="color:black"],
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose [style*="color:black"] {
   color: var(--blog-article-body-color) !important;
-}
-
-/*
- * «Как придумать название бренда»: иллюстрации шире колонки текста (~733px).
- * Часть картинок в `<p>` с подписью после `<br>` не получает `sa-blog-body-media` при сборке — ловим по canonical.
- */
-@media screen and (min-width: 768px) {
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    > .row:has(.article-section__info p > img:first-child) {
-    overflow-x: visible;
-  }
-
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section.text-content:has(.article-section__info p > img:first-child),
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section__info:has(p > img:first-child),
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section__info:has(p > img:first-child)
-    > div {
-    overflow-x: visible;
-  }
-
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section__info
-    p:has(> img:first-child),
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section__info
-    p.sa-blog-body-media:not(.sa-blog-body-media--text) {
-    box-sizing: border-box;
-    --sa-naming-article-illu-w: min(calc(100vw - 2 * var(--blog-article-gutter)), 1180px);
-    width: var(--sa-naming-article-illu-w) !important;
-    max-width: var(--sa-naming-article-illu-w) !important;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section__info
-    p:has(> img:first-child),
-  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
-    .blog-article-page-top
-    ~ section.lighttheme.article_section_l
-    .article-section__info
-    p.sa-blog-body-media:not(.sa-blog-body-media--text) {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
 }
 
 /* Мобайл: цитаты и таблицы в масштабе тела (как у figma: ×0.7 затем +15% = ×0.805 от 19px / 18px). */

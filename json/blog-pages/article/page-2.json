@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 58,
+  "totalItems": 57,
   "filters": [
     {
       "code": "",
@@ -433,26 +433,6 @@
       }
     },
     {
-      "href": "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
-      "description": "SEO в YouTube — почему стоит заняться оптимизацией видео?",
-      "subtitle": "YouTube — не только самый популярный видеохостинг, но и вторая поисковая система в мире после Google.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/lkLjGG5YIDh15r1daknsD1mcGbBJOjbe2FdVPcf7.jpg"
-      }
-    },
-    {
       "href": "/blog/article/kak-pravilno-pisat-seo-teksty/",
       "description": "Как правильно писать SEO-тексты",
       "subtitle": "Рассказываем, на что нужно обратить внимание при формировании и написании текста, чтобы он обязательно попал в топ выдачи поисковиков.",
@@ -530,6 +510,26 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/7wRtXlXNInnhnfmV0C6SrYC4fyeSJSME9eho89Lg.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/brending-i-performance-marketing-pochemu-odno-bez-drugogo-sliv-byudzheta/",
+      "description": "Performance-маркетинг и брендинг",
+      "subtitle": "Почему одно без другого — слив бюджета?",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/yPxxY1Sk9fxG73td4yGPSZMQTJxZifOXbKb5p98H.jpg"
       }
     }
   ]

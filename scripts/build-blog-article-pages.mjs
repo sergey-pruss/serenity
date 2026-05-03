@@ -25,10 +25,8 @@ import path from "path";
 import { createRequire } from "module";
 import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html.mjs";
 import { applyBlogArticleBodyListMarkup } from "./blog-article-body-list-markup.mjs";
-import {
-  applyBlogArticleBodyMediaMarkup,
-  applyBlogArticleBodyWideMediaByTokens,
-} from "./blog-article-body-media-markup.mjs";
+import { applyBlogArticleBodyMediaMarkup } from "./blog-article-body-media-markup.mjs";
+import { applyBlogArticleMediaCaptionMarkup } from "./blog-article-body-caption-markup.mjs";
 import { applyBlogArticleStageHeadingMarkup } from "./blog-article-stage-heading-markup.mjs";
 import { normalizeBlogMetaDescription } from "./normalize-blog-meta-description.mjs";
 
@@ -93,8 +91,8 @@ function escapeXml(s) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503hideMetaBackMobile" />
-    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503vkAuditoriyaNarrowIllu" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogReadMoreFooterGap" />
+    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogReadMoreFooterGap" />
 `;
 
 function stripBlogListingJsonPreload(html) {
@@ -773,10 +771,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   bodyForArticle = applyBlogArticleBodyMediaMarkup(bodyForArticle, {
     blogBodyMediaLayout: data.blogBodyMediaLayout,
   });
-  bodyForArticle = applyBlogArticleBodyWideMediaByTokens(
-    bodyForArticle,
-    data.blogBodyMediaWideFilenameTokens
-  );
+  bodyForArticle = applyBlogArticleMediaCaptionMarkup(bodyForArticle);
   const spec = extractAndStripSpecialistMention(bodyForArticle);
   bodyForArticle = spec.html;
   bodyForArticle = bodyForArticle.replace(/<section\s+class="darktheme"[^>]*>\s*<\/section>\s*/gi, "");

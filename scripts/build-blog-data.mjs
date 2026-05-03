@@ -9,6 +9,12 @@ import path from "path";
 
 const API_BASE = "https://serenity.agency/api/blog";
 
+/** Убраны с сайта, но ещё могут приходить из CMS — не попадают в ленту и JSON. */
+const EXCLUDED_BLOG_HREFS = new Set([
+  "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
+  "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+]);
+
 const FILTERS = [
   { code: "", label: "Все" },
   { code: "life", label: "Наша жизнь" },
@@ -204,7 +210,9 @@ function parseAnimation(animationContent) {
     };
   }).filter((p) => {
     const h = p.href != null ? String(p.href).trim() : "";
-    return h.length > 0;
+    if (!h.length) return false;
+    if (EXCLUDED_BLOG_HREFS.has(canonBlogHref(h))) return false;
+    return true;
   });
 
   posts = applyBlogCardOverrides(posts, root);
