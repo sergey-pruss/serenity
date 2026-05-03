@@ -58,9 +58,8 @@ async function run() {
   assert(dx > 3, `autoscroll: scrollLeft should move (|Δ|=${dx}): ${t0.x} -> ${t1.x}`);
 
   const beforeWheel = (await readScrollLeft(page)).x || 0;
-  await page.mouse.move(200, 200);
-  await page.locator(".swiper-container-clients-new").hover();
-  await page.mouse.wheel(80, 0);
+  await page.locator(".clients-new__context-wrapper").hover();
+  await page.mouse.wheel(120, 0);
   await page.waitForTimeout(200);
   const afterWheel = (await readScrollLeft(page)).x || 0;
   assert(
