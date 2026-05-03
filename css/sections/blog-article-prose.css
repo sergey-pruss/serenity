@@ -280,13 +280,13 @@
 @media screen and (max-width: 767px) {
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section blockquote,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose blockquote {
-    font-size: calc(18px * 0.64);
+    font-size: calc(18px * 0.512);
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info table,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose table,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose table {
-    font-size: calc(16px * 0.64);
+    font-size: calc(16px * 0.512);
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .alignleft,
