@@ -643,7 +643,6 @@
     const topLine = header?.querySelector(".header__top-line");
     const menuIcon = header?.querySelector(".menu-icon");
     const bodyApplication = header?.querySelector("#body.body-application");
-    const menuFooter = header?.querySelector(".footer.container");
     const staticMenu = header?.querySelector(".new-static-menu.new-static-menu_main-str");
     if (!header || !topLine || !menuIcon) return;
 
@@ -663,7 +662,6 @@
         bodyApplication.classList.toggle("active", open);
         bodyApplication.classList.toggle("noactive", !shouldShowFloatingCta() && !open);
       }
-      menuFooter?.classList.toggle("open", open);
       staticMenu?.classList.toggle("menu-screen-visible", open);
       if (open) {
         topLine.classList.remove("hide");
