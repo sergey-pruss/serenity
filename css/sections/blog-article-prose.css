@@ -312,19 +312,6 @@
 }
 
 @media screen and (max-width: 767px) {
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section blockquote,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose blockquote {
-    font-size: clamp(13px, 3.5vw, 14px);
-    line-height: 1.26;
-  }
-
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info table,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose table,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose table {
-    font-size: clamp(12.25px, 3.35vw, 13px);
-    line-height: 1.26;
-  }
-
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .alignleft,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .alignright,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .alignleft,
