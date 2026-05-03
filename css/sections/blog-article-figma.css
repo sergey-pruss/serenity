@@ -377,8 +377,15 @@ section.blog-header.darktheme > .row > .area-header,
   padding-bottom: clamp(48px, 6vw, 72px);
 }
 
-/* Зазор под линией до первого заголовка тела — padding (надёжнее margin у ::after, без схлопывания) */
-.blog-header.darktheme + section.lighttheme.article_section_l {
+/*
+ * Зазор под градиентной линией до первого блока тела — var(--blog-article-hero-after-line).
+ * Селектор «герой + секция» не подходит: в статике между `</section>` и первой секцией тела часто есть `<!-- -->` (Vue),
+ * узел комментария разрывает соседний `+`. Первая секция тела — любая .article_section_l после героя, которая не «вторая и далее».
+ */
+.blog-header.darktheme
+  ~ section.lighttheme.article_section_l:not(
+    .blog-header.darktheme ~ section.lighttheme.article_section_l ~ section.lighttheme.article_section_l
+  ) {
   padding-top: var(--blog-article-hero-after-line);
 }
 
