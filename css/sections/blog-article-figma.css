@@ -569,15 +569,18 @@ section.blog-header.darktheme > .row > .area-header,
     font-weight: 100;
   }
 
-  /* «Читайте ещё» — тот же масштаб и вес, что у H2 в теле (.section-info__title.h2), не как абзац */
+  /*
+   * «Читайте ещё»: заголовок секции и карточки — как в листинге / на главном блоке блога,
+   * без дополнительного −25% (уменьшение кегля только у тела статьи выше).
+   */
   html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title[data-v-56f85d51],
   html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
     font-family: MuseoSansCyrl, sans-serif !important;
-    font-size: clamp(15.75px, 3.75vw, 21px) !important;
+    font-size: clamp(21px, 5vw, 28px) !important;
     line-height: 1.22 !important;
     font-weight: 500 !important;
     letter-spacing: 0 !important;
-    margin-bottom: clamp(10.5px, 2.625vw, 16.5px) !important;
+    margin-bottom: clamp(14px, 3.5vw, 22px) !important;
     text-align: left !important;
   }
 
@@ -590,7 +593,7 @@ section.blog-header.darktheme > .row > .area-header,
     .blog-read-more
     .more-blog-case
     .case__description.case__description--static[data-v-c0adc676] {
-    font-size: calc(15px * 0.75) !important;
+    font-size: 15px !important;
     line-height: 1.32 !important;
   }
 
@@ -625,12 +628,12 @@ section.blog-header.darktheme > .row > .area-header,
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__name {
-    font-size: calc(14px * 0.75);
+    font-size: 14px;
     margin-top: 8px;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__title {
-    font-size: calc(12px * 0.75);
+    font-size: 12px;
     margin-top: 4px;
   }
 }
