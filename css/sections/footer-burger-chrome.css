@@ -198,13 +198,15 @@
   }
 }
 
-/*
- * Только «узкий» десктоп до 1250px: широкий экран (≥1251) позиционирует CTA в parity-sync
- * (top: auto + translate), без bottom — иначе bottom:16px отсюда тянул кнопку к низу вьюпорта.
- */
-@media screen and (min-width: 1024px) and (max-width: 1250px) {
+@media screen and (min-width: 1024px) {
   .compressed.header .body-application[data-v-e5e2adce] {
     display: flex !important;
+  }
+
+  .compressed.header .body-application[data-v-e5e2adce] {
+    top: auto;
     right: var(--page-gutter-x);
+    bottom: 16px;
+    transform: none;
   }
 }
