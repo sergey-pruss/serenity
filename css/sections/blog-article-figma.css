@@ -154,17 +154,6 @@ body.case-all-body:has(.blog-article-page-top) .scroll-container.case-all-scroll
 body.case-all-body:has(.blog-article-page-top) footer.footer-modern,
 body.case-all-body:has(.blog-article-page-top) .footer-modern[data-v-ff4f3948] {
   background-color: transparent !important;
-  /*
-   * На /case/all верхний padding футера (50–90px в бандле) сочетается с сеткой кейсов.
-   * У статьи зазор уже даёт секция «Читайте ещё» (margin-bottom) — не суммировать с padding футера.
-   */
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-body.case-all-body:has(.blog-article-page-top) .footer-modern__container[data-v-ff4f3948] {
-  padding-top: clamp(22px, 2.8vw, 36px) !important;
-  padding-bottom: clamp(22px, 2.8vw, 40px) !important;
 }
 
 /*
@@ -1250,7 +1239,7 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   background: transparent !important;
   background-color: transparent !important;
   padding-top: clamp(2rem, 5vw, 4rem);
-  /* Зазор до футера: padding-top у .footer-modern__container (см. body…footer выше); внешний margin не нужен — дублировал пустоту. */
+  /* Внешний margin до футера не нужен — вертикальные отступы футера как у /blog и главной (css__home-snapshot__snapshot.bundle.css). */
   margin-bottom: 0;
 }
 

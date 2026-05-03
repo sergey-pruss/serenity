@@ -30,33 +30,33 @@ const EXTRA_PARTIALS = ["analytics-counters"];
 
 /** 1-based inclusive line ranges → partial file (без .html) */
 const EXTRACT_PARTIALS = {
-  header: [122, 310],
-  "page-main-top": [311, 868],
-  "section-services": [869, 1491],
-  "section-blog": [1492, 1855],
-  "section-clients": [1856, 2255],
-  "section-about": [2257, 2395],
-  "footer-modern": [2396, 2477],
-  "page-microdata": [2479, 2494],
-  "floating-contact-bar": [2496, 2609],
+  header: [132, 260],
+  "page-main-top": [261, 836],
+  "section-services": [837, 1454],
+  "section-blog": [1455, 1811],
+  "section-clients": [1812, 2211],
+  "section-about": [2213, 2350],
+  "footer-modern": [2351, 2407],
+  "page-microdata": [2409, 2424],
+  "floating-contact-bar": [2426, 2539],
 };
 
 /** Куски текущего index.html для layout: [fromLine, toLine] inclusive, 1-based */
 const LAYOUT_SLICES = [
-  [1, 121],
+  [1, 131],
   "header",
   "page-main-top",
   "section-services",
   "section-blog",
   "section-clients",
-  [2256, 2256],
+  [2212, 2212],
   "section-about",
   "footer-modern",
-  [2478, 2478],
+  [2408, 2408],
   "page-microdata",
-  [2495, 2495],
+  [2425, 2425],
   "floating-contact-bar",
-  [2610, 2629],
+  [2540, 2588],
 ];
 
 function readLines(filePath) {

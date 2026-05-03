@@ -937,22 +937,6 @@ body.scroll-menu-open {
   }
 }
 
-/* Убираем лишнюю линию от legacy footer в fullscreen-режиме */
-.header.active .footer.container,
-.header.active .footer.container.open,
-.header.active .footer.container[data-v-e5e2adce] {
-  border-top: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-.header.active .footer.container:before,
-.header.active .footer.container.open:before,
-.header.active .footer.container[data-v-e5e2adce]:before {
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
 /* Hero video: фон как у карточек услуг/блога (#1d1d1f), блок сразу видимый (bundle раньше давал opacity:0). */
 .video-block[data-v-135dc442],
 .video-block {

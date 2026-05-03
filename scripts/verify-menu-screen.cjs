@@ -88,7 +88,7 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
       const openState = await page.evaluate(() => {
         const h = document.querySelector("header.header");
         const staticMenu = h?.querySelector(".new-static-menu.new-static-menu_main-str");
-        const footer = h?.querySelector(".footer.container");
+        const menuContacts = h?.querySelector('[data-burger-menu-contacts="1"]');
         const modal = h?.querySelector(".new-static-menu .btns__modal");
         const topMenu = h?.querySelector(".header__top-line .navigation-menu");
         const navLinks = h ? h.querySelectorAll(".navigation-new__list a").length : 0;
@@ -100,7 +100,7 @@ const breakpoints = [1365, 1200, 1024, 900, 768, 600, 500, 390];
           active: Boolean(h?.classList.contains("active")),
           navLinks,
           btns,
-          hasFooter: Boolean(footer),
+          hasFooter: Boolean(menuContacts),
           hasModal: Boolean(modal),
           topMenuVisible,
           navVisible: staticMenu ? getComputedStyle(staticMenu).opacity !== "0" : false,
