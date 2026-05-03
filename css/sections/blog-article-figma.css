@@ -1,0 +1,1100 @@
+/**
+ * Статья блога по макету Figma (шаблон «Статья»).
+ * Только страницы с `.blog-header.darktheme` перед секциями контента.
+ * MuseoSansCyrl — css__home-snapshot__overrides.parity-sync.css
+ *
+ * --- Контракт разметки для масштабирования (импорт статей, сборка из JSON) ---
+ * Не переименовывать опрометчиво: билдер и стили завязаны на эти классы.
+ *
+ * Герой:
+ *   section.blog-header.darktheme
+ *     .blog-header__bg (у нового дизайна скрыт CSS), .row, .area-header
+ *     .blog-header__caption → .blog-header__caption-link, .blog-header__date
+ *     h1.blog-header__title, .blog-header__descr
+ *   У .row псевдоэлемент ::after — линия героя: cyan→magenta; зазоры mt/after-line; ширина 100% колонки ряда (симметричные --blog-article-gutter от краёв экрана).
+ *
+ * Тело (блоки по секциям):
+ *   section.lighttheme.article_section_l
+ *     .row
+ *       .blog-article-author-banner (опционально, вставляет build-blog-article-pages.mjs)
+ *         aside.blog-article-author — .blog-article-author__photo, __name, __title
+ *       Мобайл ≤767px: автор над текстом, влево (как шапка: логотип / бургер — см. --blog-article-gutter).
+ *       .article-section.text-content
+ *         .article-section__title-wrap — h2.section-info__title.h2
+ *         h3.h3.section-title
+ *         .article-section__info — основной текст (p, ul, ol, …)
+ *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
+ *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
+ *     Сборка: «…» — автор в одном span → cite.blockquote_articles__attr + p.blockquote_articles__quote (scripts/build-blog-article-pages.mjs).
+ *
+ * «Читайте ещё»: section.blog-read-more + карточки .case.more-blog-case … (логика — build-blog-article-pages.mjs, правило .cursor/rules/blog-articles-static.mdc).
+ * Поле readAlsoHtml в JSON — фрагмент с прода («Читайте также»), для справки; в статическую страницу не подставляется.
+ *
+ * Импорт «одним куском» HTML: обернуть контент в .sa-blog-prose внутри .article-section__info;
+ * расширенная типографика — css/sections/blog-article-prose.css.
+ */
+
+/*
+ * Единый тёмный фон страницы статьи (#121212 как у тела и «Читайте ещё»).
+ * В бандле .case-all-root и .footer-modern — #191a1b; из‑за разницы с #121212
+ * внизу оставался визуальный шов — переопределяем цепочку и футер.
+ */
+/*
+ * База на html; акцент — html::before position:fixed (не подвержен overflow у body).
+ * Два слоя: linear to left (~правые 28–36% ширины) + radial в правом нижнем углу (центр на краю).
+ */
+html:has(.blog-header.darktheme) {
+  min-height: 100%;
+  position: relative;
+  z-index: 0;
+  background-color: #121212;
+  /*
+   * Горизонталь как у .blog-block-mainstr в parity-sync: 78 → 55 (≤1025) → 36 (≤768).
+   */
+  --blog-article-gutter: 78px;
+  /* Зазор от нижнего края фикс-шапки до блока категории/даты; на ≤767px — 140px (+30 к десктопу) */
+  --blog-header-meta-offset: 110px;
+  /* Над линией (после лида): margin-top у ::after; под линией — padding-top первой секции (не схлопывается с margin). +20px зазор лида → линия. */
+  --blog-article-hero-strip-line-mt: 95px;
+  /* От низа H1 до лида; без лида — до линии (105px: +25 к прежним 80) */
+  --blog-article-hero-title-mb: 30px;
+  --blog-article-hero-heading-to-line: 105px;
+  /* От линии до первого блока тела / H2 (100px: +25 к прежним 75) */
+  --blog-article-hero-after-line: 100px;
+  --blog-article-hero-strip-h: 1px;
+}
+
+@media screen and (max-width: 1025px) {
+  html:has(.blog-header.darktheme) {
+    --blog-article-gutter: 55px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  html:has(.blog-header.darktheme) {
+    --blog-article-gutter: 36px;
+  }
+}
+
+html:has(.blog-header.darktheme)::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      ellipse 44vw min(105vh, 920px) at 100% 100%,
+      rgba(140, 95, 210, 0.48) 0%,
+      rgba(78, 52, 118, 0.32) 34%,
+      rgba(28, 24, 36, 0.14) 58%,
+      transparent 72%
+    ),
+    linear-gradient(to left, rgba(72, 48, 108, 0.34) 0%, rgba(22, 20, 30, 0.06) 26%, rgba(18, 18, 22, 0) min(38vw, 40%));
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 1100px) {
+  html:has(.blog-header.darktheme)::before {
+    background-image:
+      radial-gradient(
+        ellipse 52vw min(100vh, 880px) at 100% 100%,
+        rgba(130, 90, 200, 0.42) 0%,
+        rgba(72, 48, 110, 0.28) 36%,
+        rgba(28, 24, 36, 0.12) 56%,
+        transparent 74%
+      ),
+      linear-gradient(to left, rgba(68, 46, 102, 0.3) 0%, rgba(22, 20, 30, 0.05) 24%, rgba(18, 18, 22, 0) min(44vw, 46%));
+  }
+}
+
+@media screen and (max-width: 600px) {
+  html:has(.blog-header.darktheme)::before {
+    background-image:
+      radial-gradient(
+        ellipse 58vw min(96vh, 820px) at 100% 100%,
+        rgba(120, 82, 185, 0.38) 0%,
+        rgba(65, 44, 98, 0.26) 38%,
+        transparent 76%
+      ),
+      linear-gradient(to left, rgba(62, 42, 95, 0.28) 0%, rgba(18, 18, 22, 0) min(48vw, 52%));
+  }
+}
+
+body.case-all-body:has(.blog-header.darktheme) {
+  background-color: transparent !important;
+  position: relative;
+  z-index: 1;
+}
+
+body.case-all-body:has(.blog-header.darktheme) #__nuxt,
+body.case-all-body:has(.blog-header.darktheme) #__layout {
+  background-color: transparent;
+}
+
+body.case-all-body:has(.blog-header.darktheme) .case-all-root {
+  position: relative;
+  background-color: transparent;
+}
+
+body.case-all-body:has(.blog-header.darktheme) .scroll-container.case-all-scroll-footer {
+  background-color: transparent;
+}
+
+body.case-all-body:has(.blog-header.darktheme) footer.footer-modern,
+body.case-all-body:has(.blog-header.darktheme) .footer-modern[data-v-ff4f3948] {
+  background-color: transparent !important;
+}
+
+/*
+ * /case/all: нативные img в .background-gradient скрываем — не дублируем узор.
+ */
+body.case-all-body:has(.blog-header.darktheme) .page-container.nuxt.case-all-page[data-v-6f8a040c] {
+  background: transparent !important;
+}
+
+body.case-all-body:has(.blog-header.darktheme) .background-gradient img[data-v-6f8a040c],
+body.case-all-body:has(.blog-header.darktheme) .background-gradient img {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ——— Hero: без фото; фон страницы — градиент на .case-all-root ——— */
+.blog-header.darktheme {
+  position: relative;
+  min-height: 0;
+  background-color: transparent;
+  /* Текст и рамка блока героя — 60% белого */
+  --blog-hero-ink: rgba(255, 255, 255, 0.6);
+  /* Фиксированная шапка: зазор до меты — --blog-header-meta-offset на html */
+  --blog-header-bar-height: 95px;
+  padding-top: calc(var(--blog-header-bar-height) + var(--blog-header-meta-offset, 110px) + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 1024px) {
+  .blog-header.darktheme {
+    --blog-header-bar-height: 90px;
+  }
+}
+
+.blog-header.darktheme .blog-header__bg {
+  display: none;
+}
+
+.blog-header.darktheme:before {
+  display: none;
+}
+
+/* Горизонталь как у шапки: `var(--blog-article-gutter)` на `html` */
+.blog-header.darktheme > .row {
+  position: relative;
+  z-index: 1;
+  min-height: 0 !important;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 0;
+  /* Воздух под линией — у первой секции статьи (padding-top), не дублируем здесь */
+  padding-bottom: 0;
+  padding-left: var(--blog-article-gutter);
+  padding-right: var(--blog-article-gutter);
+}
+
+/*
+ * В snapshot.bundle.css при max-width: 1024px у всех .row стоит width: 85% — на статье даёт
+ * лишние поля слева/справа относительно героя. Разворачиваем ряд на всю ширину контейнера.
+ */
+@media screen and (max-width: 1024px) {
+  html:has(.blog-header.darktheme) .blog-header.darktheme > .row,
+  html:has(.blog-header.darktheme) .blog-header.darktheme ~ section.lighttheme.article_section_l > .row {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Бандл: .article-section .section-title { width: 70% } */
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .section-title {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/*
+ * Полоса героя: cyan→magenta; margin-top — --blog-article-hero-strip-line-mt; зазор под линией — --blog-article-hero-after-line у первой секции.
+ * На всю ширину контентной колонки .row (padding слева/справа = --blog-article-gutter — одинаковый отступ от краёв экрана).
+ */
+.blog-header.darktheme > .row::after {
+  content: "";
+  display: block;
+  flex: 0 0 auto;
+  align-self: stretch;
+  box-sizing: border-box;
+  height: var(--blog-article-hero-strip-h);
+  margin-top: var(--blog-article-hero-strip-line-mt);
+  margin-bottom: 0;
+  margin-left: 0;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  background: linear-gradient(90deg, #00f0ff 0%, #c058ff 50%, #ff00b5 100%);
+}
+
+/* Зазор «шапка → мета»: --blog-header-meta-offset + padding-top у .blog-header.darktheme */
+section.blog-header.darktheme > .row > .area-header,
+.blog-header.darktheme .area-header {
+  margin-top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Категория в «бабле», дата — компактный блок как на мобильном (≤767px ранее дублировали) */
+.blog-header.darktheme .blog-header__caption {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 28px;
+}
+
+.blog-header.darktheme .blog-header__caption-link {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  min-width: 92px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 16px;
+  border: 1px solid var(--blog-hero-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 1.45;
+  color: var(--blog-hero-ink);
+  text-decoration: none;
+}
+
+.blog-header.darktheme .blog-header__caption-link:hover,
+.blog-header.darktheme .blog-header__caption-link:focus-visible {
+  color: var(--blog-hero-ink);
+}
+
+.blog-header.darktheme .blog-header__caption-link:after {
+  display: none !important;
+  content: none !important;
+}
+
+.blog-header.darktheme .blog-header__date {
+  margin: 0 0 0 14px;
+  flex: 0 1 auto;
+  min-width: 0;
+  text-align: left;
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 1.45;
+  color: var(--blog-hero-ink);
+}
+
+.blog-header.darktheme .blog-header__title {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 70px;
+  line-height: 1.1;
+  font-weight: 600;
+  color: #fff;
+  /* Не сжимать H1: до ~80% ширины вьюпорта (20vw суммарно «воздуха» к краям экрана), внутри ряда — не шире контейнера */
+  max-width: min(100%, calc(100vw - 20vw));
+  box-sizing: border-box;
+  /* Отступ вниз от заголовка до лида (или до линии, если лида нет — см. ниже) */
+  margin: 15px 0 var(--blog-article-hero-title-mb);
+}
+
+/* Без лида: 105px от H1 до линии (margin-bottom H1; у полосы margin-top 0) */
+.blog-header.darktheme .area-header:has(.blog-header__descr:has(p:empty:only-child)) .blog-header__title,
+.blog-header.darktheme .area-header:not(:has(.blog-header__descr)) .blog-header__title {
+  margin-bottom: var(--blog-article-hero-heading-to-line);
+}
+
+.blog-header.darktheme > .row:has(.area-header .blog-header__descr:has(p:empty:only-child))::after,
+.blog-header.darktheme > .row:has(.area-header:not(:has(.blog-header__descr)))::after {
+  margin-top: 0;
+}
+
+/* Лид под H1: макет Figma «Статья» — крупнее тела, ближе к подзаголовку (Hero ~32px / 300). */
+.blog-header.darktheme .blog-header__descr {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: clamp(1.125rem, 0.75rem + 1.35vw, 2rem);
+  line-height: 1.45;
+  font-weight: 300;
+  color: var(--blog-hero-ink);
+  max-width: 38em;
+}
+
+.blog-header.darktheme .blog-header__descr:has(p:empty:only-child) {
+  display: none;
+}
+
+/* ——— Тело статьи ——— */
+.blog-header.darktheme ~ section.lighttheme.article_section_l {
+  /* Абзацы/списки/цитаты: чуть свободнее, чем calc(1.5em + 1pt) */
+  --blog-article-body-line-height: calc(1.55em + 2pt);
+  /* Основной текст тела — светло-серый, не чисто белый */
+  --blog-article-body-color: rgb(208, 208, 210);
+  --blog-article-body-color-em: rgb(196, 196, 198);
+  --blog-article-body-color-strong: rgb(232, 232, 234);
+  --blog-article-link-hover: rgb(244, 244, 245);
+  background: transparent !important;
+  background-color: transparent !important;
+  padding-top: clamp(48px, 6vw, 72px);
+  padding-bottom: clamp(48px, 6vw, 72px);
+}
+
+/* Зазор под линией до первого заголовка тела — padding (надёжнее margin у ::after, без схлопывания) */
+.blog-header.darktheme + section.lighttheme.article_section_l {
+  padding-top: var(--blog-article-hero-after-line);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l + section.lighttheme.article_section_l {
+  padding-top: 0;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l ::selection {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .text-content {
+  padding-left: var(--blog-article-gutter);
+  padding-right: var(--blog-article-gutter);
+}
+
+/*
+ * Блок автора вне потока: absolute от .row (top:0 = уровень первого блока с заголовком, не верх секции).
+ * right: 120px — от правого края ряда (≈ на 20% ближе к краю, чем 150px). Справа у колонок — резерв под карточку.
+ */
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) {
+  position: relative;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .article-section:nth-child(2) {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .article-section:nth-child(2) .article-section__title-wrap {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .article-section.text-content {
+    padding-right: calc(120px + 118px + var(--blog-article-gutter));
+  }
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author-banner {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: var(--blog-article-gutter);
+  padding-right: var(--blog-article-gutter);
+  margin: 0 0 clamp(20px, 3vw, 32px);
+}
+
+@media screen and (min-width: 768px) {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author-banner {
+    justify-content: flex-end;
+  }
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .blog-article-author-banner {
+  position: absolute;
+  top: 15px;
+  right: 120px;
+  z-index: 4;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author {
+  width: 100%;
+  max-width: 118px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__photo {
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  line-height: 0;
+  max-width: 96px;
+  width: 96px;
+  height: 96px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__name {
+  margin: 10px 0 0;
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__title {
+  margin: 6px 0 0;
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Лид из легаси-блока .specialist-mention (снимается при сборке) — в первой колонке перед H2. */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section.text-content > .sa-blog-specialist-lead {
+  margin: 0 0 clamp(18px, 2.8vw, 26px);
+}
+
+/*
+ * Мобайл ≤767px: типографика тела; автор — в потоке над текстом, влево (без колонки справа).
+ */
+@media screen and (max-width: 767px) {
+  html:has(.blog-header.darktheme) {
+    /* зазор шапка → мета: на 40% меньше, чем прежние 140px (84px) */
+    --blog-header-meta-offset: calc(140px * 0.6);
+  }
+
+  .blog-header.darktheme > .row {
+    padding-bottom: 0;
+  }
+
+  .blog-header.darktheme > .row::after {
+    height: 2px;
+    border-radius: 1px;
+    width: 100%;
+  }
+
+  .blog-header.darktheme .blog-header__title {
+    font-size: clamp(1.75rem, 9vw, 70px);
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .section-info__title.h2 {
+    font-size: clamp(21px, 5vw, 28px);
+    line-height: 1.22;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l h3.section-title,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .h3.section-title {
+    font-size: clamp(17px, 3.6vw, 22px);
+    line-height: 1.32;
+    padding-top: 4px;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info li {
+    font-size: 17px;
+    font-weight: 100;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section p {
+    font-size: 17px;
+    font-weight: 100;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol {
+    font-size: 17px;
+    font-weight: 100;
+  }
+
+  /* «Читайте ещё» — тот же масштаб и вес, что у H2 в теле (.section-info__title.h2), не как абзац */
+  html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title[data-v-56f85d51],
+  html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
+    font-family: MuseoSansCyrl, sans-serif !important;
+    font-size: clamp(21px, 5vw, 28px) !important;
+    line-height: 1.22 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    margin-bottom: clamp(14px, 3.5vw, 22px) !important;
+    text-align: left !important;
+  }
+
+  /* Заголовок «Читайте ещё» → карточки: на 15px плотнее к основному зазору home-ledge */
+  html:has(.blog-header.darktheme) .blog-read-more .blog-read-more__intro.services__text.home-ledge {
+    padding-bottom: calc(var(--home-ledge) * 0.8 - 15px) !important;
+  }
+
+  html:has(.blog-header.darktheme)
+    .blog-read-more
+    .more-blog-case
+    .case__description.case__description--static[data-v-c0adc676] {
+    font-size: 15px !important;
+    line-height: 1.32 !important;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .blog-article-author-banner {
+    position: static;
+    right: auto;
+    top: auto;
+    z-index: auto;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 clamp(16px, 4vw, 24px) !important;
+    padding-left: var(--blog-article-gutter) !important;
+    padding-right: var(--blog-article-gutter) !important;
+    display: flex !important;
+    justify-content: flex-start;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author {
+    max-width: none;
+    width: auto;
+    text-align: left;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__photo {
+    width: 72px;
+    height: 72px;
+    max-width: 72px;
+    margin: 0;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__name {
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__title {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__title-wrap {
+  width: 100%;
+  max-width: 733px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .section-info__title.h2 {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.2;
+  font-weight: 500;
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info {
+  max-width: 733px;
+  width: 100%;
+  padding-right: 0;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info li {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: 19px;
+  line-height: var(--blog-article-body-line-height);
+  font-weight: 100;
+  color: var(--blog-article-body-color);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section p {
+  font-size: 19px;
+  line-height: var(--blog-article-body-line-height);
+  font-weight: 100;
+  color: var(--blog-article-body-color);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section strong {
+  color: var(--blog-article-body-color-strong);
+  font-weight: 500;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section em {
+  color: var(--blog-article-body-color-em);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info > p + p {
+  margin-top: 24px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section + .article-section {
+  padding-top: 40px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l h3.section-title,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .h3.section-title {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.35;
+  font-weight: 500;
+  margin-top: 0;
+  padding-top: 8px;
+  color: #fff;
+  width: 100%;
+  max-width: 733px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol {
+  font-size: 19px;
+  line-height: var(--blog-article-body-line-height);
+  font-weight: 100;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul li:before {
+  color: rgb(175, 175, 177);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol li:before {
+  color: rgb(175, 175, 177);
+  font-weight: 500;
+}
+
+/*
+ * Списки (бандл: ul/ol li { margin-bottom: 24px }): чуть плотнее между пунктами;
+ * после списка — чуть больше воздуха до следующего блока.
+ */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol li {
+  margin-bottom: 14px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul li:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol li:last-child {
+  margin-bottom: 0;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + h2,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + h2,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + h3,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + h3,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + .section-title,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + .section-title {
+  margin-top: 36px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ul:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ol:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol:last-child {
+  margin-bottom: 28px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section a {
+  font-weight: 100;
+  color: var(--blog-article-body-color);
+  text-underline-offset: 3px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section a:hover {
+  color: var(--blog-article-link-hover);
+}
+
+/* lighttheme в бандле красит заголовки в #000 — переопределяем */
+.blog-header.darktheme ~ section.lighttheme.article_section_l.lighttheme .section-info__title,
+.blog-header.darktheme ~ section.lighttheme.article_section_l.lighttheme .section-title,
+.blog-header.darktheme ~ section.lighttheme.article_section_l.lighttheme .title {
+  color: #fff;
+}
+
+/*
+ * Цитаты `.blockquote_articles` в теле (секция только с blockquote): макет Figma «Вариации цитат» —
+ * тёмная подложка, скругление; левый край карточки = колонка текста (gutter + до 733px, как .article-section__info).
+ */
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row.tablet_full_width > .blockquote.blockquote_articles.text-content {
+  box-sizing: border-box;
+  width: min(733px, calc(100% - 2 * var(--blog-article-gutter)));
+  margin-left: var(--blog-article-gutter);
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: clamp(28px, 4.5vw, 48px) clamp(22px, 3.5vw, 40px);
+  background-color: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px;
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: clamp(17px, 1.75vw, 21px);
+  line-height: 1.5;
+  font-weight: 300;
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles ::selection {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles .row_tablet {
+  margin: 0;
+  padding: 0;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles .blockquote_articles__attr {
+  display: block;
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(12px, 2.35vw, 16px);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 0.85em;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles .blockquote_articles__quote {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 300;
+  line-height: inherit;
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles span {
+  width: 100%;
+  max-width: none;
+  display: block;
+  color: #fff;
+  font-weight: 300;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row.tablet_full_width > .blockquote.blockquote_articles.text-content {
+    border-radius: 22px;
+    font-size: clamp(15px, 3.6vw, 18px);
+    padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 26px);
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles .blockquote_articles__attr {
+    font-size: clamp(12px, 3.2vw, 14px);
+    margin-bottom: 0.75em;
+  }
+}
+
+/* ——— «Читайте также» (legacy) / «Читайте ещё» (каталог) ——— */
+.blog-header.darktheme ~ section.blog-articles .blog-articles__title {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: clamp(28px, 3vw, 46px);
+  line-height: 1.2;
+  font-weight: 500;
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.blog-articles .blog-articles__caption {
+  font-family: MuseoSansCyrl, sans-serif;
+  color: #fff;
+}
+
+.blog-header.darktheme ~ section.blog-articles .main-cases__wording {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* «Читайте ещё»: те же карточки, что в листинге /blog; слайдер как blog-block на главной */
+.blog-header.darktheme ~ section.blog-read-more {
+  background: transparent !important;
+  background-color: transparent !important;
+  padding-top: clamp(2rem, 5vw, 4rem);
+  /* +40px к прежнему зазору до футера */
+  margin-bottom: 75px;
+}
+
+/*
+ * «Читайте ещё»: секция уже .blog-block-mainstr с горизонтальным padding в parity-sync.
+ * На странице статьи подменяем на тот же --blog-article-gutter, что у героя/тела (без второго padding у .services__text).
+ */
+html:has(.blog-header.darktheme) .blog-header.darktheme ~ section.blog-read-more.blog-block-mainstr {
+  padding-left: var(--blog-article-gutter) !important;
+  padding-right: var(--blog-article-gutter) !important;
+  box-sizing: border-box;
+}
+
+.blog-header.darktheme ~ section.blog-articles {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.blog-header.darktheme ~ section.blog-read-more .services__title {
+  color: #fff;
+}
+
+/* Страница статьи: «Читайте ещё» — вес как у H2 в теле, не «лёгкий» из .services__text */
+html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title[data-v-56f85d51],
+html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
+  font-family: MuseoSansCyrl, sans-serif;
+  font-weight: 500;
+}
+
+/* «Читайте ещё»: заголовок компактнее главного «Блог»; зазор под заголовком до ряда карточек −20%. */
+.blog-read-more .blog-read-more__intro.services__text.home-ledge {
+  padding-bottom: calc(var(--home-ledge) * 0.8) !important;
+}
+
+.blog-read-more .blog-block__swiper-container.swiper-container {
+  padding-top: calc(var(--home-ledge) / 2 * 0.8) !important;
+}
+
+.blog-read-more.isNewContent .services__title[data-v-56f85d51],
+.blog-read-more.isNewContent .services__title {
+  font-size: 37px !important;
+  line-height: 1.26 !important;
+  letter-spacing: 0.02em;
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 1440px) {
+  .blog-read-more.isNewContent .services__title[data-v-56f85d51],
+  .blog-read-more.isNewContent .services__title {
+    font-size: 42px !important;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .blog-read-more.isNewContent .services__title[data-v-56f85d51],
+  .blog-read-more.isNewContent .services__title {
+    font-size: 39px !important;
+    margin-bottom: 42px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .blog-read-more.isNewContent .services__title[data-v-56f85d51],
+  .blog-read-more.isNewContent .services__title {
+    font-size: 21px !important;
+    margin-bottom: 16px !important;
+  }
+}
+
+.blog-read-more .blog-read-more__intro {
+  margin-bottom: 0;
+}
+
+.blog-read-more .blog-block__content-box-slide {
+  width: 374px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.blog-read-more .blog-block__content-box-slide .case {
+  width: 100%;
+  max-width: 100%;
+}
+
+/*
+ * Листинг / «Читайте ещё»: как слайдер «Блог» на главной — blur, сдвиг шапки, подзаголовок, зум.
+ * У <a> не задаём position: relative / overflow — иначе .case__media позиционируется относительно
+ * узкой области внутри padding .case и превью визуально «сжимается». Обрезка по скруглению — у .case в бандле.
+ * Разметка: js/blog.js, build-blog-article-pages.mjs. У тёмных карточек .blur в разметке нет.
+ * linkClass dark-text → .case--dark-card без .more-blog-case; для листинга те же правила шапки/медиа, иначе заголовок в потоке после тегов и визуально выше.
+ */
+#blog-grid .case.more-blog-case > a[data-v-c0adc676],
+#blog-grid .case.case--dark-card > a[data-v-c0adc676],
+.blog-read-more .case.more-blog-case > a[data-v-c0adc676],
+.blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Превью на всю плашку (как у кейсов на главной): контекст позиционирования — .case[data-v-c0adc676]. */
+#blog-grid .case.more-blog-case .case__media[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__media[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__media[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__media[data-v-c0adc676] {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#blog-grid .case.more-blog-case .case__tags[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__tags[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__tags[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__tags[data-v-c0adc676] {
+  position: relative;
+  z-index: 2;
+}
+
+#blog-grid .case.more-blog-case .case__top[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__top[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] {
+  position: absolute;
+  z-index: 2;
+  top: 26px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  transition: transform 1s;
+}
+
+/*
+ * Заголовок в колонке как у слайдера (410c06b6): без translate на самом <p> и без top:24px от бандла кейсов
+ * (иначе position:relative + top сдвигает текст визуально, а подзаголовок в потоке остаётся — наложение).
+ * #blog-grid уже исключён из .more-cases … translateY в parity-sync; для «Читайте ещё» сброс остаётся страховкой.
+ */
+#blog-grid .case.more-blog-case .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676] {
+  top: auto;
+  margin: 0;
+  transform: none;
+}
+
+@media screen and (min-width: 1025px) and (hover: hover) {
+  #blog-grid .case.more-blog-case:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
+  #blog-grid .case.case--dark-card:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
+  .blog-read-more .case.more-blog-case:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
+  .blog-read-more .case.case--dark-card:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
+    transform: none !important;
+  }
+}
+
+#blog-grid .case.more-blog-case .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676] {
+  position: static;
+  top: auto;
+  margin: 0;
+  opacity: 0;
+  font-size: 14px;
+  line-height: 150%;
+  transition: opacity 1s;
+}
+
+#blog-grid .case.more-blog-case .blur[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .blur[data-v-c0adc676] {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition:
+    backdrop-filter 0.3s linear,
+    -webkit-backdrop-filter 0.3s linear;
+}
+
+#blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
+.blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676] {
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+}
+
+@media screen and (min-width: 1025px) and (hover: hover) {
+  #blog-grid .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__top[data-v-c0adc676] {
+    transform: translateY(40px);
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__subtitle[data-v-c0adc676]:not(:empty),
+  #blog-grid .case.case--dark-card:hover .case__subtitle[data-v-c0adc676]:not(:empty),
+  .blog-read-more .case.more-blog-case:hover .case__subtitle[data-v-c0adc676]:not(:empty),
+  .blog-read-more .case.case--dark-card:hover .case__subtitle[data-v-c0adc676]:not(:empty) {
+    opacity: 1;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__tag[data-v-c0adc676] {
+    opacity: 1;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
+    transform: scale(1.2);
+  }
+}
+
+@media screen and (max-width: 1200px), (hover: none) {
+  #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__top[data-v-c0adc676] {
+    transform: none !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__subtitle[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__subtitle[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__subtitle[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__subtitle[data-v-c0adc676] {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__tag[data-v-c0adc676] {
+    opacity: 0 !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
+    transform: none !important;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .blog-read-more .blog-block__content-box-slide {
+    width: 310px;
+    max-width: 310px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .blog-read-more .blog-block__content-box-slide {
+    width: 250px;
+    max-width: 250px;
+  }
+}
