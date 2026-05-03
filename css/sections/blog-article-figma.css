@@ -1368,7 +1368,7 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
 }
 
 /*
- * Мобайл: основной текст тела −30% от базовых 19px (кегль тела и списков, без __info--sub).
+ * Мобайл: основной текст тела — от базовых 19px: сначала ×0.7 (−30%), затем +15% к этому мобильному кеглю (= ×0.805).
  * Блок после глобальных правил 19px — иначе каскад не применится.
  */
 @media screen and (max-width: 767px) {
@@ -1380,7 +1380,7 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose li,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose p,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose li {
-    font-size: calc(19px * 0.7);
+    font-size: calc(19px * 0.7 * 1.15);
     font-weight: 100;
   }
 
@@ -1390,7 +1390,7 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
-    font-size: calc(19px * 0.7);
+    font-size: calc(19px * 0.7 * 1.15);
     font-weight: 100;
   }
 }
