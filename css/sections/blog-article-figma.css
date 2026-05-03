@@ -24,7 +24,7 @@
  *         .article-section__title-wrap — h2.section-info__title.h2
  *         h3.h3.section-title
  *         .article-section__info — основной текст (p, ul, ol, …); опционально в конце колонки — `.article-section__info--sub`
- *           (цитата `p.text-small` + `figure.specialist__main` с аватаром): тёмная карточка; слева круглый аватар, справа подпись и ниже цитата (без перекрытия текста).
+ *           (цитата `p.text-small` + `figure.specialist__main` с аватаром): тёмная карточка; слева аватар; справа одна строка имя + пробел + должность (без запятой, без жирного имени); ниже цитата.
  *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
  *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
  *     Сборка: «…» — автор в одном span → cite + p (build-blog-article-pages.mjs): без ёлочек в тексте, без финальной точки у подписи.
@@ -280,7 +280,8 @@ section.blog-header.darktheme > .row > .area-header,
   height: 34px;
   padding: 0 14px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.92);
+  /* Как в snapshot.bundle (.blog-header__caption-link): приглушённый текст; белый — только hover */
+  border: 1px solid hsla(0, 0%, 100%, 0.35);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -290,8 +291,9 @@ section.blog-header.darktheme > .row > .area-header,
   font-style: normal;
   font-weight: 100;
   line-height: 1.45;
-  color: #fff;
+  color: var(--blog-hero-ink);
   text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .blog-header.darktheme .blog-header__caption-link:hover,
@@ -646,7 +648,7 @@ section.blog-header.darktheme > .row > .area-header,
 /*
  * Цитата + специалист (`.article-section__info--sub`): в snapshot.bundle — колонка справа (`position:absolute`, width 35%)
  * при `padding-right: 35%` у `.article-section__info`. У тёмной статьи padding-right сброшен — блок наезжал на абзацы.
- * В потоке под основным текстом: карточка; слева круглый аватар, справа колонка — подпись (имя, роль), ниже цитата.
+ * В потоке под основным текстом: карточка; слева круглый аватар (+20% к базовому), справа строка «имя должность» без запятой и без жирного имени, ниже цитата.
  */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub {
   position: static !important;
@@ -675,8 +677,8 @@ section.blog-header.darktheme > .row > .area-header,
   grid-column: 1;
   grid-row: 1 / -1;
   align-self: start;
-  width: clamp(52px, 10vw, 64px);
-  height: clamp(52px, 10vw, 64px);
+  width: clamp(62px, 12vw, 77px);
+  height: clamp(62px, 12vw, 77px);
   flex: unset;
   margin: 0;
   padding: 0;
@@ -702,7 +704,7 @@ section.blog-header.darktheme > .row > .area-header,
   flex-direction: row;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0 0.4em;
+  gap: 0;
   justify-content: flex-start;
   font-style: normal;
 }
@@ -712,24 +714,18 @@ section.blog-header.darktheme > .row > .area-header,
   padding: 0;
   font-family: MuseoSansCyrl, sans-serif;
   font-size: clamp(14px, 1.35vw, 16px);
-  font-weight: 500;
-  line-height: 1.35;
-  color: #fff;
-}
-
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__name::after {
-  content: ",\A0";
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__position {
   margin: 0;
   padding: 0;
   font-family: MuseoSansCyrl, sans-serif;
-  font-size: clamp(13px, 1.2vw, 15px);
+  font-size: clamp(14px, 1.35vw, 16px);
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 1.35;
   color: rgba(255, 255, 255, 0.58);
 }
 
