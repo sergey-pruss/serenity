@@ -14,6 +14,7 @@
  * Блок автора справа в начале тела: строка «Автор статьи — …» в конце `bodyHtml` парсится на имя/роль;
  * фото — `author.photo` в JSON (`/_sa/img/blog/<slug>/…`). Синхрон с прода сохраняет `author` в json.
  * Цитаты `.blockquote_articles`: «текст» — подпись → cite + p без ёлочек у текста; финальная точка у подписи снимается; только «…» в span → p без кавычек.
+ * Карточка специалиста (`p.text-small` + `em`/`i` перед `figure.specialist__main`): из текста цитаты убираются символы «» (U+00AB/U+00BB).
  * Легаси `.specialist-mention` из синка снимается: имя/роль/фото сливаются в тот же rail, текст blockquote — лид в первой колонке перед H2.
  */
 import fs from "fs";
@@ -379,17 +380,89 @@ function mergeAdjacentParagraphsForSpecialistRail(fragment) {
 
 /**
  * Легаси Nuxt: цитата в соседнем `<div>` перед `.article-section__info--sub`, а `p.text-small` в rail пустой.
- * Бандл тогда держит rail `position:absolute` поверх текста. Переносим абзацы в `p.text-small` внутри карточки.
+ * Переносим абзацы в `p.text-small` внутри карточки (сетка `display:contents` у figure).
+ * Только если левая колонка — сплошные `<p>...</p>` (без `<ul>` и т.д.): иначе катастрофический backtracking
+ * regex’ом и риск схлопнуть длинные секции; такие кейсы закрывает CSS (`position: static` у `--sub`).
  */
-function relocateOrphanQuoteIntoSpecialistRail(html) {
-  /* Только 1–2 абзаца-цитаты с `<em>` (легаси Nuxt): иначе матч «прыгает» на чужие `</div>` и схлопывает
-   * целые секции до первого пустого `p.text-small`+`figure`. Обычные два `<p>` перед rail не трогаем. */
-  const re =
-    /<div class="article-section__info"([^>]*)>\s*<div[^>]*>((?:\s*<p\b[^>]*>\s*<em>[\s\S]*?<\/em>\s*<\/p>\s*){1,2})<\/div>\s*<div class="article-section__info--sub"([^>]*)>\s*(?:<!---->\s*)*<p class="text-small"[^>]*>\s*<\/p>\s*<figure class="specialist__main"/gi;
-  return String(html).replace(re, (_full, infoAttrs, quoteBlock, subAttrs) => {
-    const merged = mergeAdjacentParagraphsForSpecialistRail(quoteBlock);
-    return `<div class="article-section__info"${infoAttrs}><div class="article-section__info--sub"${subAttrs}><p class="text-small">${merged}</p> <figure class="specialist__main"`;
+/** Убирает «ёлочки» в теле цитаты карточки специалиста и в `.blockquote_articles__quote` (макет без кавычек). */
+function stripGuillemetsFromArticleQuoteBlocks(html) {
+  let out = String(html);
+  out = out.replace(
+    /<p class="text-small"([^>]*)>\s*<(em|i)>([\s\S]*?)<\/\2>\s*<\/p>(\s*<figure class="specialist__main")/gi,
+    (_full, pAttrs, tag, inner, rest) => {
+      const stripped = inner.replace(/\u00ab/gi, "").replace(/\u00bb/gi, "");
+      return `<p class="text-small"${pAttrs}><${tag}>${stripped}</${tag}></p>${rest}`;
+    }
+  );
+  out = out.replace(/<p class="blockquote_articles__quote"([^>]*)>([\s\S]*?)<\/p>/gi, (_full, attrs, inner) => {
+    if (!/[\u00ab\u00bb]/i.test(inner)) return _full;
+    const stripped = inner.replace(/\u00ab/gi, "").replace(/\u00bb/gi, "");
+    return `<p class="blockquote_articles__quote"${attrs}>${stripped}</p>`;
   });
+  return out;
+}
+
+function relocateOrphanQuoteIntoSpecialistRail(html) {
+  const s = String(html);
+  const INFO = '<div class="article-section__info"';
+  const SUB = '<div class="article-section__info--sub"';
+  const emptyRailPrefix = /^(?:\s|<!---->)*<p class="text-small"[^>]*>\s*<\/p>\s*/i;
+  const pOnlyInner = /^(?:\s*<p\b[^>]*>[\s\S]*?<\/p>\s*)+$/i;
+
+  let cursor = 0;
+  const out = [];
+  while (cursor < s.length) {
+    const subIdx = s.indexOf(SUB, cursor);
+    if (subIdx === -1) {
+      out.push(s.slice(cursor));
+      break;
+    }
+    const subTagEnd = s.indexOf(">", subIdx);
+    if (subTagEnd === -1) {
+      out.push(s.slice(cursor, subIdx + SUB.length));
+      cursor = subIdx + SUB.length;
+      continue;
+    }
+    const afterOpen = s.slice(subTagEnd + 1, subTagEnd + 1 + 4000);
+    const railHead = afterOpen.match(emptyRailPrefix);
+    if (!railHead || !/^<figure class="specialist__main"/i.test(afterOpen.slice(railHead[0].length))) {
+      out.push(s.slice(cursor, subTagEnd + 1));
+      cursor = subTagEnd + 1;
+      continue;
+    }
+    const figureStart = subTagEnd + 1 + railHead[0].length;
+
+    const infoStart = s.lastIndexOf(INFO, subIdx);
+    if (infoStart === -1 || infoStart < cursor) {
+      out.push(s.slice(cursor, subTagEnd + 1));
+      cursor = subTagEnd + 1;
+      continue;
+    }
+    const infoTagEnd = s.indexOf(">", infoStart) + 1;
+    const innerPart = s.slice(infoTagEnd, subIdx);
+    const innerMatch = innerPart.match(/^<div[^>]*>([\s\S]*)<\/div>\s*$/i);
+    if (!innerMatch) {
+      out.push(s.slice(cursor, subTagEnd + 1));
+      cursor = subTagEnd + 1;
+      continue;
+    }
+    const innerContent = innerMatch[1].trim();
+    if (!innerContent || !pOnlyInner.test(innerContent)) {
+      out.push(s.slice(cursor, subTagEnd + 1));
+      cursor = subTagEnd + 1;
+      continue;
+    }
+
+    const merged = mergeAdjacentParagraphsForSpecialistRail(innerContent);
+    const infoOpenTag = s.slice(infoStart, infoTagEnd);
+    const subAttrs = s.slice(subIdx + SUB.length, subTagEnd);
+    out.push(s.slice(cursor, infoStart));
+    out.push(
+      `${infoOpenTag}<div class="article-section__info--sub"${subAttrs}><p class="text-small">${merged}</p> `
+    );
+    cursor = figureStart;
+  }
+  return out.join("");
 }
 
 function buildReadMoreSection(currentSlug, articleFeed) {
@@ -497,6 +570,7 @@ ${slides}
     body = injectSpecialistLeadIntoFirstBodyColumn(body, spec.leadFragment);
     body = transformBlockquoteArticlesMarkup(body);
     body = relocateOrphanQuoteIntoSpecialistRail(body);
+    body = stripGuillemetsFromArticleQuoteBlocks(body);
     const readAlso = buildReadMoreSection(slug, articleFeed);
     const title = data.title || slug;
     const description = data.description || "";
