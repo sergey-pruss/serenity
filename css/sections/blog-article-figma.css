@@ -23,7 +23,7 @@
  *         опционально первым: .article-section__info.sa-blog-specialist-lead (лид из .specialist-mention, build-blog-article-pages.mjs)
  *         .article-section__title-wrap — h2.section-info__title.h2
  *         h3.h3.section-title
- *         .article-section__info — основной текст (p, ul, ol, …); опционально в конце колонки — `.article-section__info--sub`
+ *         .article-section__info — основной текст (p, ul, ol, …); списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
  *           (цитата `p.text-small` + `figure.specialist__main` с аватаром): тёмная карточка; слева аватар; справа одна строка имя + пробел + должность (без запятой, без жирного имени); ниже цитата.
  *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
  *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
@@ -67,6 +67,11 @@ html:has(.blog-header.darktheme) {
   /* Ссылки в теле статьи, лиде героя и вынесенных blockquote */
   --blog-article-link: #80BEEA;
   --blog-article-link-hover: rgb(244, 244, 245);
+  /*
+   * Межстрочный ритм пунктов списка: между «плотным» абзацем с <br> и прежним ul/ol с margin на li.
+   * Реализация — column gap у flex-списка (см. .sa-blog-body-list).
+   */
+  --blog-article-list-rows-gap: clamp(10px, 0.58em, 14px);
 }
 
 @media screen and (max-width: 1025px) {
@@ -457,9 +462,9 @@ section.blog-header.darktheme > .row > .area-header,
   border-radius: 50%;
   overflow: hidden;
   line-height: 0;
-  max-width: 96px;
-  width: 96px;
-  height: 96px;
+  max-width: 80px;
+  width: 80px;
+  height: 80px;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__photo img {
@@ -553,8 +558,8 @@ section.blog-header.darktheme > .row > .area-header,
     font-weight: 100;
   }
 
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list {
     font-size: 17px;
     font-weight: 100;
   }
@@ -648,7 +653,7 @@ section.blog-header.darktheme > .row > .area-header,
 /*
  * Цитата + специалист (`.article-section__info--sub`): в snapshot.bundle — колонка справа (`position:absolute`, width 35%)
  * при `padding-right: 35%` у `.article-section__info`. У тёмной статьи padding-right сброшен — блок наезжал на абзацы.
- * В потоке под основным текстом: карточка; слева круглый аватар (+20% к базовому), справа строка «имя должность» без запятой и без жирного имени, ниже цитата.
+ * В потоке под основным текстом: карточка; слева круглый аватар, справа строка «имя должность» без запятой и без жирного имени, ниже цитата.
  */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub {
   position: static !important;
@@ -677,8 +682,8 @@ section.blog-header.darktheme > .row > .area-header,
   grid-column: 1;
   grid-row: 1 / -1;
   align-self: start;
-  width: clamp(62px, 12vw, 77px);
-  height: clamp(62px, 12vw, 77px);
+  width: clamp(52px, 10vw, 64px);
+  height: clamp(52px, 10vw, 64px);
   flex: unset;
   margin: 0;
   padding: 0;
@@ -797,53 +802,77 @@ section.blog-header.darktheme > .row > .area-header,
   max-width: 733px;
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
   font-size: 19px;
   line-height: var(--blog-article-body-line-height);
   font-weight: 100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--blog-article-list-rows-gap);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul li:before {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
+  counter-reset: section;
+}
+
+/* Бандл задаёт `position: static` у ol li — ломает якорь для ::before с цифрой. */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list > li {
+  position: relative;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list > li {
+  margin-bottom: 0 !important;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list > li::before,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list > li::before,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list > li::before {
   color: rgb(175, 175, 177);
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol li:before {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list > li::before,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list > li::before,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list > li::before {
   color: rgb(175, 175, 177);
   font-weight: 500;
 }
 
 /*
- * Списки (бандл: ul/ol li { margin-bottom: 24px }): чуть плотнее между пунктами;
- * после списка — чуть больше воздуха до следующего блока.
+ * После списка — чуть больше воздуха до следующего блока.
  */
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul li,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol li {
-  margin-bottom: 14px;
-}
-
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul li:last-child,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol li:last-child {
-  margin-bottom: 0;
-}
-
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + p,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + p,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + h2,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + h2,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + h3,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + h3,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul + .section-title,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol + .section-title {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list + h2,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list + h2,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list + h3,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list + h3,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list + .section-title,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list + .section-title {
   margin-top: 36px;
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ul:last-child,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ol:last-child,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul:last-child,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol:last-child,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul:last-child,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol:last-child {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ul.sa-blog-body-list:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ol.sa-blog-body-list:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list:last-child,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list:last-child {
   margin-bottom: 28px;
 }
 
