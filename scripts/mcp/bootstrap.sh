@@ -18,5 +18,6 @@ if [[ ! -f "$EXAMPLE_MCP" ]]; then
 fi
 cp -f "$EXAMPLE_MCP" "$TARGET_MCP"
 echo "Обновлён $TARGET_MCP из шаблона (токены читаются из secrets/mcp/env.sh)."
-echo "Google Search Console: положите JSON ключа сервисного аккаунта в secrets/mcp/google-search-console-sa.json"
+echo "Google Search Console: JSON ключа → secrets/mcp/google-search-console-sa.json"
+echo "  Подсказки: npm run mcp:gsc-help   email для GSC: npm run mcp:gsc-email"
 echo "Перезапустите MCP или окно Cursor."
