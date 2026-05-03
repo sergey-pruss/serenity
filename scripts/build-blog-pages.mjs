@@ -41,10 +41,11 @@ const ensureCleanGeneratedRoutes = () => {
     if (name === "index.html") continue;
     const p = path.join(baseDir, name);
     if (!fs.statSync(p).isDirectory()) continue;
-    if (name === "article") {
+    if (name === "article" || name === "case" || name === "card" || name === "life") {
       for (const sub of fs.readdirSync(p)) {
         const sp = path.join(p, sub);
         if (!fs.statSync(sp).isDirectory()) continue;
+        /* Только пагинация листинга (/blog/case/2/ …); материалы /blog/case/<slug>/ не трогаем. */
         if (/^\d+$/.test(sub)) {
           fs.rmSync(sp, { recursive: true, force: true });
         }

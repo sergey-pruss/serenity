@@ -142,6 +142,23 @@ const startStaticServer = (port) =>
       assert(p2 === expectedP2, `Страница 2: ожидается ${expectedP2} карточек, получено ${p2}`);
     }
 
+    const ppmPath = path.join(root, "json", "blog-post-pages-manifest.json");
+    if (fs.existsSync(ppmPath)) {
+      const ppm = JSON.parse(fs.readFileSync(ppmPath, "utf8"));
+      const firstCase = Array.isArray(ppm) ? ppm.find((e) => e && e.segment === "case" && e.slug) : null;
+      if (firstCase) {
+        const staticPath = path.join(root, "blog", firstCase.segment, firstCase.slug, "index.html");
+        assert(fs.existsSync(staticPath), `ожидается ${staticPath} — npm run build:blog / build-blog-article-pages`);
+        await page.goto(
+          `http://127.0.0.1:${port}/blog/${firstCase.segment}/${firstCase.slug}/`,
+          { waitUntil: "load", timeout: 60000 },
+        );
+        await page.waitForSelector("h1.case-all-heading-title", { timeout: 20000 });
+        const t = await page.$eval("h1.case-all-heading-title", (el) => (el.textContent || "").trim());
+        assert(t.length >= 3, "страница блог-кейса: заголовок hero");
+      }
+    }
+
     console.log(
       `OK: /blog — всего постов ${total}, фильтр «Статьи» (${articleCount}), до ${perPage} карточек на страницу`,
     );

@@ -53,6 +53,25 @@ function canonBlogHref(href) {
   }
 }
 
+/**
+ * В карточке листинга не показываем «Статьи», если материал — выпуск «Мышеловки» и уже есть тег «Подкаст»
+ * (фильтр по `tagCodesNorm` не трогаем — пост остаётся и в «Статьях», и в «Подкасте»).
+ */
+function normalizeMyshelovkaPodcastCardTags(posts) {
+  const haystack = (p) => `${String(p.description || "")}\n${String(p.subtitle || "")}`;
+  const mentionsMyshelovka = (p) => /мышеловк/i.test(haystack(p));
+  const isPodcastLabel = (t) => /^подкаст$/i.test(String(t || "").trim());
+  const isStatyiLabel = (t) => /^статьи$/i.test(String(t || "").trim());
+  return posts.map((p) => {
+    if (!mentionsMyshelovka(p)) return p;
+    const tags = Array.isArray(p.tags) ? [...p.tags] : [];
+    if (!tags.some(isPodcastLabel)) return p;
+    const next = tags.filter((t) => !isStatyiLabel(t));
+    if (next.length === tags.length) return p;
+    return { ...p, tags: next.length ? next : tags };
+  });
+}
+
 /** Подмешивает подписи карточек (hover = subtitle), если в CMS поля перепутаны или пусты. */
 function applyBlogCardOverrides(posts, root) {
   const overridePath = path.join(root, "json", "blog-card-overrides.json");
@@ -90,35 +109,9 @@ function toSitePath(fullUrl) {
   }
 }
 
-/**
- * На static.serenity.agency нет статики под /blog/card/, /blog/case/ и постам /blog/life/<slug>/ —
- * Nginx отдаёт HTML главной (try_files → /index.html).
- * Легаси остаётся на serenity.agency; такие ссылки из листинга ведём туда абсолютным URL.
- * Пагинация /blog/life/2/ — статическая, не трогаем.
- */
+/** Внутренние пути блога остаются относительными — статические страницы под /blog/case|card|life/<slug>/. */
 function absoluteLegacyBlogPath(href) {
-  const h = String(href || "").trim();
-  if (!h || /^https?:\/\//i.test(h)) return h;
-  let pathname = h.startsWith("/") ? h : `/${h}`;
-  try {
-    const u = new URL(pathname, "https://serenity.agency");
-    const p = u.pathname || "";
-    if (/^\/blog\/(card|case)\//i.test(p)) {
-      if (!u.pathname.endsWith("/")) u.pathname += "/";
-      return u.href;
-    }
-    const trimmed = p.replace(/\/+$/, "") || "/";
-    const lifeArticle = trimmed.match(/^\/blog\/life\/([^/]+)$/);
-    if (lifeArticle) {
-      const seg = lifeArticle[1];
-      if (seg && !/^\d+$/.test(seg)) {
-        return `${u.origin}${trimmed}`;
-      }
-    }
-    return h;
-  } catch {
-    return h;
-  }
+  return String(href || "").trim();
 }
 
 /** Превью и видео блога — только из img/blog/ (заполняется scripts/sync-blog-images.mjs), иначе fallback на прод. */
@@ -216,6 +209,7 @@ function parseAnimation(animationContent) {
 
   posts = applyBlogCardOverrides(posts, root);
   posts = posts.map((p) => ({ ...p, href: absoluteLegacyBlogPath(p.href) }));
+  posts = normalizeMyshelovkaPodcastCardTags(posts);
 
   const payload = {
     builtAt: new Date().toISOString(),
