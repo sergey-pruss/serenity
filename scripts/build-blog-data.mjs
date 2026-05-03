@@ -6,14 +6,9 @@
  */
 import fs from "fs";
 import path from "path";
+import { EXCLUDED_BLOG_HREFS } from "./blog-excluded-hrefs.mjs";
 
 const API_BASE = "https://serenity.agency/api/blog";
-
-/** Убраны с сайта, но ещё могут приходить из CMS — не попадают в ленту и JSON. */
-const EXCLUDED_BLOG_HREFS = new Set([
-  "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
-  "/blog/life/kak-my-prevratili-rabotu-v-igru/",
-]);
 
 const FILTERS = [
   { code: "", label: "Все" },

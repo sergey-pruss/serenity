@@ -1,3 +1,5 @@
+import { unwrapExcludedBlogArticleLinks } from "./blog-excluded-hrefs.mjs";
+
 /**
  * После шапки эталон Nuxt даёт
  * `<section class="darktheme" data-v-96fb7d6e><div class="specialist-mention">…</div></section>`.
@@ -88,7 +90,7 @@ function normalizeWpVideoShortcodeForWebKit(html) {
 const BLOG_HEADER_BG_DIV_RE = /<div\b[^>]*\bblog-header__bg\b[^>]*>\s*<\/div>\s*/gi;
 
 export function normalizeBlogArticleBodyHtml(html) {
-  let s = String(html || "")
+  let s = unwrapExcludedBlogArticleLinks(String(html || ""))
     .replace(/https:\/\/serenity\.agency\/_sa\//g, "/_sa/")
     .replace(BLOG_HEADER_BG_DIV_RE, "");
   s = normalizeWpVideoShortcodeForWebKit(s);
