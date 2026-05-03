@@ -1246,13 +1246,3 @@ html:has(.blog-article-page-top) .blog-read-more.isNewContent .services__title {
   }
 }
 
-/*
- * Шапка: только сам header — не трогаем .body-application (плавающая «Оставить заявку»),
- * иначе перебивается bottom/top из footer-burger-chrome / бандла и кнопка уезжает вверх.
- */
-@media screen and (min-width: 1251px) {
-  html:has(.blog-article-page-top) header.header.compressed[data-v-e5e2adce],
-  html:has(.blog-article-page-top) header.header.compressed {
-    top: calc(15px + env(safe-area-inset-top, 0px)) !important;
-  }
-}
