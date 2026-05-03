@@ -255,6 +255,33 @@
   height: auto;
 }
 
+/* WordPress `[video]`: легаси inline `width:640px` — шире (~70% вьюпорта), прижато вправо в колонке. */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video {
+  width: min(70vw, 100%) !important;
+  max-width: min(70vw, 960px);
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  display: block;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video video,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video video {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video {
+    width: 100% !important;
+    max-width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .aligncenter,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .aligncenter {
   display: block;
