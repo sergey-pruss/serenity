@@ -3,6 +3,10 @@
 cat <<'EOF'
 === MCP Google Search Console — что сделать ===
 
+0) Если в личном сайте sergey-pruss.github.io уже был путь к OAuth JSON:
+     npm run mcp:gsc-sync-oauth
+   Скрипт скопирует файл в secrets/mcp/gsc-oauth-desktop.json (если исходник на диске есть).
+
 1) Google Cloud (браузер): https://console.cloud.google.com/
    • Выберите проект (или создайте).
    • «APIs and services» / «APIs и сервисы» → «Library» / «Библиотека»
