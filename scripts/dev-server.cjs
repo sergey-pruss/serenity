@@ -45,6 +45,15 @@ const root = path.resolve(__dirname, "..");
     console.error(rbm.stderr || rbm.stdout || "build-blog-mobile-media failed");
     process.exit(1);
   }
+  /* Как в npm run build:html: сначала index.html + blog/index.html из layout (маркер <!--@blog-json-preload-->), затем листинг. */
+  const ras = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (ras.status !== 0) {
+    console.error(ras.stderr || ras.stdout || "assemble-html failed");
+    process.exit(1);
+  }
   const rba = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-article-pages.mjs")], {
     cwd: root,
     encoding: "utf8",
@@ -59,14 +68,6 @@ const root = path.resolve(__dirname, "..");
   });
   if (rbp.status !== 0) {
     console.error(rbp.stderr || rbp.stdout || "build-blog-pages failed");
-    process.exit(1);
-  }
-  const r = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {
-    cwd: root,
-    encoding: "utf8",
-  });
-  if (r.status !== 0) {
-    console.error(r.stderr || r.stdout || "assemble-html failed");
     process.exit(1);
   }
 }
