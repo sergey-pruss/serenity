@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 57,
+  "totalItems": 56,
   "filters": [
     {
       "code": "",
@@ -157,28 +157,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/y9FxAYOmklatOiMgXiQZfXPyQj3M8MpUen6mBX2h.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/ashan-tsifrovye-tehnologii-i-razvitie-klientotsentrichnosti/",
-      "description": "Ашан: цифровые технологии и развитие клиентоцентричности",
-      "subtitle": "6 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
-      "tags": [
-        "Подкаст"
-      ],
-      "tagCodes": [
-        "article",
-        "podcast"
-      ],
-      "tagCodesNorm": [
-        "article",
-        "podcast"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/nvM2te3oS8H9gtT5uGEf4gqjin9PJsfmZQKgZnNQ.jpg"
       }
     },
     {
@@ -530,6 +508,26 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/yPxxY1Sk9fxG73td4yGPSZMQTJxZifOXbKb5p98H.jpg"
+      }
+    },
+    {
+      "href": "https://vc.ru/marketing/513260-kak-protivostoyat-toksichnym-kommunikaciyam-vystraivaem-zdorovoe-partnerstvo-bez-manipulyacii",
+      "description": "Как противостоять токсичным коммуникациям",
+      "subtitle": "Выстраиваем здоровое партнерство без манипуляций.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/rMqYwwbvGgrQdDBfARLw39JkaYkmKvqVPquD2XqW.jpg"
       }
     }
   ]
