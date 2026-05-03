@@ -199,7 +199,11 @@
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose p:has(img) + p:has(> small:only-child),
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> em:only-child),
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose figure:has(img) + p:has(> small:only-child) {
-  margin-top: 0.5em;
+  /*
+   * Зазор под картинкой до подписи: фиксированные px, не --home-ledge (он только у «Читайте ещё» / главной).
+   * 16px — как у .wp-caption-text выше; 0.5em давало ~8px и «липло» к img.
+   */
+  margin-top: 16px;
   font-family: MuseoSansCyrl, sans-serif;
   font-size: 15px;
   line-height: 1.45;
