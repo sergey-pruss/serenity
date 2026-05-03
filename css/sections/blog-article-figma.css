@@ -25,7 +25,7 @@
  *         .article-section__info — основной текст (p, ul, ol, …)
  *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
  *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
- *     Сборка: «…» — автор в одном span → cite.blockquote_articles__attr + p.blockquote_articles__quote (scripts/build-blog-article-pages.mjs).
+ *     Сборка: «…» — автор в одном span → cite + p (build-blog-article-pages.mjs): без ёлочек в тексте, без финальной точки у подписи.
  *
  * «Читайте ещё»: section.blog-read-more + карточки .case.more-blog-case … (логика — build-blog-article-pages.mjs, правило .cursor/rules/blog-articles-static.mdc).
  * Поле readAlsoHtml в JSON — фрагмент с прода («Читайте также»), для справки; в статическую страницу не подставляется.
@@ -908,8 +908,7 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
  * Листинг / «Читайте ещё»: как слайдер «Блог» на главной — blur, сдвиг шапки, подзаголовок, зум.
  * У <a> не задаём position: relative / overflow — иначе .case__media позиционируется относительно
  * узкой области внутри padding .case и превью визуально «сжимается». Обрезка по скруглению — у .case в бандле.
- * Разметка: js/blog.js, build-blog-article-pages.mjs. У тёмных карточек .blur в разметке нет.
- * linkClass dark-text → .case--dark-card без .more-blog-case; для листинга те же правила шапки/медиа, иначе заголовок в потоке после тегов и визуально выше.
+ * Разметка: js/blog.js, build-blog-article-pages.mjs. Светлые карточки (linkClass dark-text → .case--dark-card) тоже с .blur, как у .more-blog-case — единый hover с размытием превью.
  */
 #blog-grid .case.more-blog-case > a[data-v-c0adc676],
 #blog-grid .case.case--dark-card > a[data-v-c0adc676],
@@ -993,7 +992,9 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
 }
 
 #blog-grid .case.more-blog-case .blur[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .blur[data-v-c0adc676] {
+#blog-grid .case.case--dark-card .blur[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .blur[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .blur[data-v-c0adc676] {
   display: block;
   position: absolute;
   inset: 0;
@@ -1005,7 +1006,9 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
 }
 
 #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
-.blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676] {
+#blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
+.blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
+.blog-read-more .case.case--dark-card:hover .blur[data-v-c0adc676] {
   -webkit-backdrop-filter: blur(50px);
   backdrop-filter: blur(50px);
 }
@@ -1046,7 +1049,9 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
 
 @media screen and (max-width: 1200px), (hover: none) {
   #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676] {
+  #blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .blur[data-v-c0adc676] {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }

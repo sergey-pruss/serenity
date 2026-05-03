@@ -13,6 +13,7 @@
  *
  * Блок автора справа в начале тела: строка «Автор статьи — …» в конце `bodyHtml` парсится на имя/роль;
  * фото — `author.photo` в JSON (`/_sa/img/blog/<slug>/…`). Синхрон с прода сохраняет `author` в json.
+ * Цитаты `.blockquote_articles`: «текст» — подпись → cite + p без ёлочек у текста; финальная точка у подписи снимается; только «…» в span → p без кавычек.
  * Легаси `.specialist-mention` из синка снимается: имя/роль/фото сливаются в тот же rail, текст blockquote — лид в первой колонке перед H2.
  */
 import fs from "fs";
@@ -39,17 +40,34 @@ function stripBlogJs(html) {
 /** «Текст цитаты» … — подпись → подпись сверху (cite) + абзац цитаты; иначе разметка без изменений. */
 const BQ_ATTRIBUTED_IN_SPAN_RE = /^«([\s\S]+?)»\s*([,.]?\s*—\s*)([\s\S]+)$/;
 
+/** Точка в конце строки подписи к цитате не нужна (макет). */
+function stripTrailingPeriodFromAttribution(s) {
+  return String(s).replace(/\.\s*$/, "").trim();
+}
+
 function transformBlockquoteArticlesMarkup(html) {
-  return html.replace(
+  const withAttr = html.replace(
     /<blockquote\b([^>]*\bclass="[^"]*\bblockquote_articles\b[^"]*"[^>]*)>\s*<div\b([^>]*\bclass="row_tablet"[^>]*)>\s*<span([^>]*)>([\s\S]*?)<\/span>\s*<\/div>\s*<\/blockquote>/gi,
     (full, bqAttrs, rowAttrs, spanAttrs, innerHtml) => {
       const m = String(innerHtml).trim().match(BQ_ATTRIBUTED_IN_SPAN_RE);
       if (!m) return full;
       const quoted = m[1];
-      const attrLine = m[3].trim();
-      const quoteHtml = `«${quoted}»`;
+      const attrLine = stripTrailingPeriodFromAttribution(m[3].trim());
+      const quoteHtml = quoted;
       const dv = spanAttrs || "";
       return `<blockquote${bqAttrs}><div${rowAttrs}><cite class="blockquote_articles__attr"${dv}>${attrLine}</cite><p class="blockquote_articles__quote"${dv}>${quoteHtml}</p></div></blockquote>`;
+    }
+  );
+  /* Только «…» в span, без подписи — убираем ёлочки (блок уже цитата). */
+  return withAttr.replace(
+    /<blockquote\b([^>]*\bclass="[^"]*\bblockquote_articles\b[^"]*"[^>]*)>\s*<div\b([^>]*\bclass="row_tablet"[^>]*)>\s*<span([^>]*)>([\s\S]*?)<\/span>\s*<\/div>\s*<\/blockquote>/gi,
+    (full, bqAttrs, rowAttrs, spanAttrs, innerHtml) => {
+      const t = String(innerHtml).trim();
+      const m = t.match(/^«([\s\S]+)»\s*$/);
+      if (!m) return full;
+      const inner = m[1];
+      const dv = spanAttrs || "";
+      return `<blockquote${bqAttrs}><div${rowAttrs}><p class="blockquote_articles__quote"${dv}>${inner}</p></div></blockquote>`;
     }
   );
 }
@@ -177,7 +195,7 @@ function renderListingCard(c, idx) {
         <p data-v-c0adc676="" class="case__description case__description--static">${escapeXml(c.description)}</p>
         <p data-v-c0adc676="" class="case__subtitle">${subtitleBody}</p>
       </div>`;
-  const blurBlock = isDarkCard ? "" : `<div data-v-c0adc676="" class="blur"></div>`;
+  const blurBlock = `<div data-v-c0adc676="" class="blur"></div>`;
   return `<div data-v-c0adc676="" data-v-27a87df0="" class="${caseClass}"${caseStyle}>
       <a data-v-c0adc676="" href="${href}" class="${cls}"${linkStyle} rel="noopener noreferrer">${tagsBlock}${topBlock}${media}${blurBlock}
       </a>
@@ -309,7 +327,7 @@ function extractAndStripSpecialistMention(html) {
   let leadFragment = "";
   if (descM) {
     const inner = String(descM[1] ?? "").trim();
-    if (inner) leadFragment = inner;
+    if (inner) leadFragment = /^\s*</.test(inner) ? inner : `<p>${inner}</p>`;
   }
   const left = html.slice(0, bounds.start).replace(/\s+$/, "");
   const right = html.slice(bounds.end).replace(/^\s+/, "");
@@ -344,7 +362,7 @@ function injectSpecialistLeadIntoFirstBodyColumn(bodyHtml, leadFragment) {
   const frag = String(leadFragment || "").trim();
   if (!frag) return bodyHtml;
   const re =
-    /(<section\s+(?=[^>]*\blighttheme\b)(?=[^>]*\barticle_section_l\b)[^>]*>\s*<div\s+class="row"[^>]*>\s*(?:<div class="blog-article-author-banner">[\s\S]*?<\/div>\s*)?<div class="article-section text-content"[^>]*>)/i;
+    /(<section\s+(?=[^>]*\blighttheme\b)(?=[^>]*\barticle_section_l\b)[^>]*>\s*<div\s+class="row"[^>]*>\s*(?:<div class="blog-article-author-banner">[\s\S]*?<\/aside>\s*<\/div>\s*)?(?:<!---->\s*)*<div class="article-section text-content"[^>]*>)/i;
   if (!re.test(bodyHtml)) return bodyHtml;
   const inner = `<div class="article-section__info sa-blog-specialist-lead"><div>${frag}</div></div>`;
   return bodyHtml.replace(re, `$1${inner}`);
