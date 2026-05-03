@@ -98,17 +98,20 @@
     const href = esc(c.href || "#");
 
     const isDarkCard = c.linkClass === "dark-text";
-    const caseClass = isDarkCard ? "case case--dark-card" : "case";
+    const caseClass = isDarkCard
+      ? "case case--dark-card"
+      : "case more-blog-case case--resource case-cutted articles";
     const caseStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
     const linkStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
-    const subtitleHtml = c.subtitle
-      ? `<p data-v-c0adc676="" class="case__subtitle">${esc(c.subtitle)}</p>`
-      : "";
+    const subtitleBody = c.subtitle ? esc(c.subtitle) : "";
+    const tagsBlock = tagsHtml ? `<div data-v-c0adc676="" class="case__tags">${tagsHtml}</div>` : "";
+    const topBlock = `<div data-v-c0adc676="" class="case__top">
+        <p data-v-c0adc676="" class="case__description case__description--static">${esc(c.description)}</p>
+        <p data-v-c0adc676="" class="case__subtitle">${subtitleBody}</p>
+      </div>`;
+    const blurBlock = `<div data-v-c0adc676="" class="blur"></div>`;
     return `<div data-v-c0adc676="" data-v-27a87df0="" class="${caseClass}"${caseStyle}>
-      <a data-v-c0adc676="" href="${href}" ${c.isResource ? 'target="_blank"' : ""} class="${cls}"${linkStyle} rel="noopener noreferrer">${tagsHtml ? `<div data-v-c0adc676="" class="case__tags">${tagsHtml}</div>` : ""}
-        <p data-v-c0adc676="" class="case__description">${esc(c.description)}</p>
-        ${subtitleHtml}
-        ${media}
+      <a data-v-c0adc676="" href="${href}" class="${cls}"${linkStyle} rel="noopener noreferrer">${tagsBlock}${topBlock}${media}${blurBlock}
       </a>
     </div>`;
   };
