@@ -150,9 +150,7 @@ function build() {
   if (fs.existsSync(blogLayoutPath)) {
     const blogLayout = fs.readFileSync(blogLayoutPath, "utf8");
     fs.mkdirSync(path.dirname(blogOutPath), { recursive: true });
-    const blogOut = blogLayout.includes("<!-- @partial")
-      ? expandLayoutMarkers(blogLayout, partials)
-      : blogLayout;
+    const blogOut = expandLayoutMarkers(blogLayout, partials);
     fs.writeFileSync(blogOutPath, blogOut.replace(/\n+$/, "\n"), "utf8");
     console.log("Wrote", blogOutPath);
   }
