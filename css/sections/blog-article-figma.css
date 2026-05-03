@@ -518,12 +518,6 @@ section.blog-header.darktheme > .row > .area-header,
   html:has(.blog-header.darktheme) {
     /* зазор шапка → мета: на 40% меньше, чем прежние 140px (84px) */
     --blog-header-meta-offset: calc(140px * 0.6);
-    /* Линия героя: на 30% плотнее до H1/лида и до первого блока тела (автор) */
-    --blog-article-hero-strip-line-mt: calc(95px * 0.7);
-    --blog-article-hero-after-line: calc(100px * 0.7);
-    /* H1 → лид или до линии без лида — тоже −30%, иначе верхнее кольцо почти не меняется */
-    --blog-article-hero-title-mb: calc(30px * 0.7);
-    --blog-article-hero-heading-to-line: calc(105px * 0.7);
   }
 
   .blog-header.darktheme > .row {
