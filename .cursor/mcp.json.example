@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "yandex-webmaster": {
+      "command": "npx",
+      "args": ["-y", "yandex-webmaster-mcp"],
+      "env": {
+        "YANDEX_WEBMASTER_TOKEN": "PASTE_OAUTH_TOKEN"
+      }
+    },
+    "yandex-metrika": {
+      "command": "npx",
+      "args": ["-y", "yandex-metrika-mcp"],
+      "env": {
+        "YANDEX_METRIKA_TOKEN": "PASTE_OAUTH_TOKEN"
+      }
+    },
+    "google-search-console": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-google-search-console"],
+      "env": {
+        "GSC_SERVICE_ACCOUNT_KEY_FILE": "/absolute/path/to/google-service-account.json"
+      }
+    }
+  }
+}

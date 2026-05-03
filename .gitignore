@@ -11,6 +11,8 @@ compare/*
 !.cursor/rules/
 .cursor/rules/*
 !.cursor/rules/*.mdc
+# Шаблон MCP для Cursor (секреты — только в локальном `.cursor/mcp.json`, см. пример).
+!.cursor/mcp.json.example
 .claude/
 dist/
 .astro/
