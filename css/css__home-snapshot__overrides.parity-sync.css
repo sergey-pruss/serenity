@@ -2214,3 +2214,182 @@ body.order-popup-open .overlay-new {
     padding: 20px 20px 16px;
   }
 }
+
+/*
+ * Листинг /blog (#blog-grid) и «Читайте ещё» (.blog-read-more): карточки как слайдер «Блог» на главной.
+ * Раньше жило в blog-article-figma.css; на листинге тот файл не подключаем — перенос сюда (parity-sync везде).
+ * У <a> не задаём position: relative / overflow — иначе .case__media сжимается. data-v-c0adc676 — разметка js/blog.js.
+ */
+#blog-grid .case.more-blog-case > a[data-v-c0adc676],
+#blog-grid .case.case--dark-card > a[data-v-c0adc676],
+.blog-read-more .case.more-blog-case > a[data-v-c0adc676],
+.blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#blog-grid .case.more-blog-case .case__media[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__media[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__media[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__media[data-v-c0adc676] {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#blog-grid .case.more-blog-case .case__tags[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__tags[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__tags[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__tags[data-v-c0adc676] {
+  position: relative;
+  z-index: 2;
+}
+
+#blog-grid .case.more-blog-case .case__top[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__top[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] {
+  position: absolute;
+  z-index: 2;
+  top: 26px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  transition: transform 1s;
+}
+
+#blog-grid .case.more-blog-case .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676] {
+  top: auto;
+  margin: 0;
+  transform: none;
+}
+
+@media screen and (min-width: 1025px) and (hover: hover) {
+  #blog-grid .case.more-blog-case:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
+  #blog-grid .case.case--dark-card:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
+  .blog-read-more .case.more-blog-case:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
+  .blog-read-more .case.case--dark-card:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
+    transform: none !important;
+  }
+}
+
+#blog-grid .case.more-blog-case .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676] {
+  position: static;
+  top: auto;
+  margin: 0;
+  opacity: 0;
+  font-size: 14px;
+  line-height: 150%;
+  transition: opacity 1s;
+}
+
+#blog-grid .case.more-blog-case .blur[data-v-c0adc676],
+#blog-grid .case.case--dark-card .blur[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .blur[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .blur[data-v-c0adc676] {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition:
+    backdrop-filter 0.3s linear,
+    -webkit-backdrop-filter 0.3s linear;
+}
+
+#blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
+#blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
+.blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
+.blog-read-more .case.case--dark-card:hover .blur[data-v-c0adc676] {
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+}
+
+@media screen and (min-width: 1025px) and (hover: hover) {
+  #blog-grid .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__top[data-v-c0adc676] {
+    transform: translateY(40px);
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__subtitle[data-v-c0adc676]:not(:empty),
+  #blog-grid .case.case--dark-card:hover .case__subtitle[data-v-c0adc676]:not(:empty),
+  .blog-read-more .case.more-blog-case:hover .case__subtitle[data-v-c0adc676]:not(:empty),
+  .blog-read-more .case.case--dark-card:hover .case__subtitle[data-v-c0adc676]:not(:empty) {
+    opacity: 1;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__tag[data-v-c0adc676] {
+    opacity: 1;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
+    transform: scale(1.2);
+  }
+}
+
+@media screen and (max-width: 1200px), (hover: none) {
+  #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .blur[data-v-c0adc676] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__top[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__top[data-v-c0adc676] {
+    transform: none !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__subtitle[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__subtitle[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__subtitle[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__subtitle[data-v-c0adc676] {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__tag[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__tag[data-v-c0adc676] {
+    opacity: 0 !important;
+  }
+
+  #blog-grid .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  #blog-grid .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
+    transform: none !important;
+  }
+}
