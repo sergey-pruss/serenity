@@ -212,6 +212,81 @@ function stripInnerTags(s) {
     .trim();
 }
 
+/** Легаси Nuxt: герой `blog-header` в JSON — убираем; дату публикации забираем для верхнего блока как у листинга. */
+function extractDateAndStripLegacyBlogHeader(html) {
+  const s = String(html).trim();
+  const headerRe = /^<section\s+[^>]*\bblog-header\b[^>]*>[\s\S]*?<\/section>\s*(?:<!---->\s*)?/i;
+  let datePublished = "";
+  const full = s.match(/^<section\s+[^>]*\bblog-header\b[^>]*>([\s\S]*?)<\/section>/i);
+  if (full) {
+    const inner = full[1];
+    const dm =
+      inner.match(/itemprop="datePublished"[^>]*>([\s\S]*?)<\/div>/i) ||
+      inner.match(/class="[^"]*blog-header__date[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    if (dm) datePublished = stripInnerTags(dm[1]);
+  }
+  return { rest: s.replace(headerRe, ""), datePublished };
+}
+
+const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all-page" data-v-6f8a040c="">
+            <div class="background-gradient" data-v-6f8a040c="">
+              <img fetchpriority="low" decoding="async"
+                src="/_sa/img/img__gradient_dot.png"
+                alt=""
+                loading="lazy"
+                data-v-6f8a040c=""
+                style="
+                  opacity: 1;
+                  transition:
+                    opacity 2.5s 0.7s,
+                    transform 1.1s;
+                  transform: rotate(2.1deg);
+                "
+              /><img fetchpriority="low" decoding="async"
+                src="/_sa/img/img__gradient_dot.png"
+                alt=""
+                loading="lazy"
+                data-v-6f8a040c=""
+                style="
+                  opacity: 1;
+                  transition:
+                    opacity 2.5s 0.7s,
+                    transform 1.1s;
+                  transform: rotate(2.1deg);
+                "
+              />
+            </div>
+          </div>`;
+
+function renderBlogArticlePageTop({ title, description, datePublished }) {
+  const metaParts =
+    `<p class="blog-article-page-top__meta" data-v-27a87df0="">` +
+    `<a href="/blog/article/" class="blog-article-page-top__meta-back">←&nbsp;Все статьи.</a>` +
+    `<a href="/blog/article/" class="blog-article-page-top__meta-link">Статьи</a>` +
+    (datePublished
+      ? `<span class="blog-article-page-top__meta-date">${escapeXml(datePublished)}</span>`
+      : "") +
+    `</p>`;
+  const desc = description != null && String(description).trim() ? String(description).trim() : "";
+  const lead = desc ? `<p class="blog-article-page-top__lead">${escapeXml(desc)}</p>` : "";
+  return `<div class="blog-article-page-top">
+${BLOG_ARTICLE_PAGE_TOP_GRADIENT}
+            <div data-v-6f8a040c="" style="z-index: 10">
+              <div data-v-27a87df0="" data-v-6f8a040c="" class="more-case-wr more-case-wr__main case-all-more-case-wr">
+                <div data-v-27a87df0="" class="page__container">
+                  <div class="case-all-heading-line blog-article-page-top__heading" data-v-27a87df0="">
+                    ${metaParts}
+                    <h1 class="cases-block__header-title case-all-heading-title" data-v-27a87df0="" style="color:#fff;opacity:1;">${escapeXml(
+                      title
+                    )}</h1>
+                    ${lead}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+}
+
 /** Подпись под именем: без кавычек «», SEO прописью, с заглавной первой буквы. */
 function normalizeAuthorTitle(title) {
   let s = String(title || "")
@@ -557,6 +632,8 @@ ${slides}
     }
     const data = JSON.parse(fs.readFileSync(jp, "utf8"));
     let bodyForArticle = normalizeBlogArticleBodyHtml(data.bodyHtml || "");
+    const legacyBlogHeader = extractDateAndStripLegacyBlogHeader(bodyForArticle);
+    bodyForArticle = legacyBlogHeader.rest;
     bodyForArticle = applyBlogArticleBodyListMarkup(bodyForArticle);
     bodyForArticle = applyBlogArticleStageHeadingMarkup(bodyForArticle);
     const spec = extractAndStripSpecialistMention(bodyForArticle);
@@ -580,10 +657,16 @@ ${slides}
     const description = data.description || "";
     const canonical = data.canonical || `https://serenity.agency/blog/article/${slug}`;
 
+    const pageTopHtml = renderBlogArticlePageTop({
+      title,
+      description,
+      datePublished: legacyBlogHeader.datePublished,
+    });
+
     let headPart = injectHead(prefix, { title, description, canonical });
     const outHtml = readAlso
-      ? `${headPart}${body}\n${readAlso}\n${suffix}`
-      : `${headPart}${body}\n${suffix}`;
+      ? `${headPart}${pageTopHtml}${body}\n${readAlso}\n${suffix}`
+      : `${headPart}${pageTopHtml}${body}\n${suffix}`;
 
     const { html: typedHtml } = processTypographyHtml(outHtml, { force: true });
 
