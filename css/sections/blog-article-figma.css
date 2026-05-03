@@ -1247,13 +1247,12 @@ html:has(.blog-article-page-top) .blog-read-more.isNewContent .services__title {
 }
 
 /*
- * Шапка и CTA: этот файл идёт после parity-sync в статьях — дублируем отступ сверху,
- * чтобы фиксированные top не «съедались» каскадом / safe-area (viewport-fit=cover).
+ * Шапка: только сам header — не трогаем .body-application (плавающая «Оставить заявку»),
+ * иначе перебивается bottom/top из footer-burger-chrome / бандла и кнопка уезжает вверх.
  */
 @media screen and (min-width: 1251px) {
   html:has(.blog-article-page-top) header.header.compressed[data-v-e5e2adce],
-  html:has(.blog-article-page-top) header.header.compressed,
-  html:has(.blog-article-page-top) .compressed.header .body-application[data-v-e5e2adce] {
+  html:has(.blog-article-page-top) header.header.compressed {
     top: calc(15px + env(safe-area-inset-top, 0px)) !important;
   }
 }
