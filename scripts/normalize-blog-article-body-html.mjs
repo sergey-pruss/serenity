@@ -89,10 +89,17 @@ function normalizeWpVideoShortcodeForWebKit(html) {
 /** Легаси Nuxt: декоративный фон шапки статьи — не используем в статике (см. blog-article-page-top). */
 const BLOG_HEADER_BG_DIV_RE = /<div\b[^>]*\bblog-header__bg\b[^>]*>\s*<\/div>\s*/gi;
 
+/**
+ * WordPress при экспорте часто вставляет «пустой» абзац с неразрывным пробелом перед/после
+ * `.wp-caption` / иллюстраций — в вёрстке блога у `<p>` полный line-height тела → большой серый зазор.
+ */
+const EMPTY_NBSP_ONLY_P_RE = /<p\b[^>]*>(?:\s|&nbsp;|&#160;|&#xa0;|&#XA0;)+<\/p>\s*/gi;
+
 export function normalizeBlogArticleBodyHtml(html) {
   let s = unwrapExcludedBlogArticleLinks(String(html || ""))
     .replace(/https:\/\/serenity\.agency\/_sa\//g, "/_sa/")
-    .replace(BLOG_HEADER_BG_DIV_RE, "");
+    .replace(BLOG_HEADER_BG_DIV_RE, "")
+    .replace(EMPTY_NBSP_ONLY_P_RE, "");
   s = normalizeWpVideoShortcodeForWebKit(s);
   if (!s.includes("specialist-mention")) return s;
   if (/<\/section>\s*<section class="darktheme"[^>]*data-v-96fb7d6e[^>]*>\s*<div class="specialist-mention"/i.test(s)) {
