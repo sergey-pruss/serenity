@@ -28,6 +28,8 @@ function normalizeWpVideoShortcodeForWebKit(html) {
     (full, attrs, inner) => {
       const innerStr = String(inner);
       const sm =
+        innerStr.match(/<source\b[^>]*\bsrc\s*=\s*"([^"]+)"/i) ||
+        innerStr.match(/<source\b[^>]*\bsrc\s*=\s*'([^']+)'/i) ||
         innerStr.match(/\bsrc\s*=\s*"([^"]+)"/i) ||
         innerStr.match(/\bsrc\s*=\s*'([^']+)'/i);
       const srcFromSource = sm ? sm[1] : "";
