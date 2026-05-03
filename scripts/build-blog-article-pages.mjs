@@ -21,6 +21,8 @@ import fs from "fs";
 import path from "path";
 import { createRequire } from "module";
 import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html.mjs";
+import { applyBlogArticleBodyListMarkup } from "./blog-article-body-list-markup.mjs";
+import { applyBlogArticleStageHeadingMarkup } from "./blog-article-stage-heading-markup.mjs";
 
 const require = createRequire(import.meta.url);
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
@@ -267,7 +269,7 @@ function renderAuthorRailHtml(author) {
   const photoBlock = author.photo
     ? `<div class="blog-article-author__photo"><img src="${escapeXml(author.photo)}" alt="${escapeXml(
         author.name
-      )}" width="96" height="96" decoding="async" loading="lazy" /></div>`
+      )}" width="80" height="80" decoding="async" loading="lazy" /></div>`
     : "";
   const titleBlock = author.title
     ? `<p class="blog-article-author__title">${escapeXml(author.title)}</p>`
@@ -555,6 +557,8 @@ ${slides}
     }
     const data = JSON.parse(fs.readFileSync(jp, "utf8"));
     let bodyForArticle = normalizeBlogArticleBodyHtml(data.bodyHtml || "");
+    bodyForArticle = applyBlogArticleBodyListMarkup(bodyForArticle);
+    bodyForArticle = applyBlogArticleStageHeadingMarkup(bodyForArticle);
     const spec = extractAndStripSpecialistMention(bodyForArticle);
     bodyForArticle = spec.html;
     bodyForArticle = bodyForArticle.replace(/<section\s+class="darktheme"[^>]*>\s*<\/section>\s*/gi, "");
