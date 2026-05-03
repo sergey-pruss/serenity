@@ -518,6 +518,13 @@ section.blog-header.darktheme > .row > .area-header,
   html:has(.blog-header.darktheme) {
     /* зазор шапка → мета: на 40% меньше, чем прежние 140px (84px) */
     --blog-header-meta-offset: calc(140px * 0.6);
+    /*
+     * Градиентная линия героя: на мобайле зазоры сверху/снизу на 30% плотнее
+     * (см. --blog-article-hero-strip-line-mt / --blog-article-hero-heading-to-line / --blog-article-hero-after-line).
+     */
+    --blog-article-hero-strip-line-mt: calc(95px * 0.7);
+    --blog-article-hero-heading-to-line: calc(105px * 0.7);
+    --blog-article-hero-after-line: calc(100px * 0.7);
   }
 
   .blog-header.darktheme > .row {
