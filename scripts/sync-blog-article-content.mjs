@@ -6,7 +6,8 @@
  * Абсолютные ссылки https://serenity.agency/… → относительные `/…`.
  * Относительные `/admin/wp-content/uploads/…` (герой Nuxt) тоже скачиваются в `img/blog/<slug>/`.
  *
- * Манифест: json/blog-articles-manifest.json (генерация: node scripts/gen-blog-articles-manifest.mjs).
+ * Манифест статей: json/blog-articles-manifest.json (gen-blog-articles-manifest.mjs).
+ * Доп. материалы blog/case|card|life/slug: json/blog-post-pages-manifest.json (gen-blog-post-pages-manifest.mjs).
  * Пропуск: SKIP_BLOG_ARTICLE_SYNC=1
  *
  * См. также: .cursor/rules/blog-articles-static.mdc
@@ -17,7 +18,9 @@ import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html
 
 const ORIGIN = "https://serenity.agency";
 const MANIFEST = path.join(process.cwd(), "json", "blog-articles-manifest.json");
+const POST_PAGES_MANIFEST = path.join(process.cwd(), "json", "blog-post-pages-manifest.json");
 const OUT_DIR = path.join(process.cwd(), "json", "blog-articles");
+const POST_PAGES_JSON_DIR = path.join(process.cwd(), "json", "blog-post-pages");
 
 function extractArticleHtml(pageHtml) {
   const start = pageHtml.indexOf('<section class="blog-header darktheme"');
@@ -55,13 +58,9 @@ function parseMeta(pageHtml) {
 
 /** Ссылки на тот же сайт — в относительные пути для статического контура. */
 function rewriteSerenityInternalUrls(html) {
-  let s = String(html || "")
+  return String(html || "")
     .replace(/https:\/\/serenity\.agency\//g, "/")
     .replace(/http:\/\/serenity\.agency\//g, "/");
-  /* /blog/card/ и /blog/case/ на static-хосте отдают HTML главной — оставляем абсолютные на основной домен. */
-  s = s.replace(/href="\/blog\/card\//g, 'href="https://serenity.agency/blog/card/');
-  s = s.replace(/href="\/blog\/case\//g, 'href="https://serenity.agency/blog/case/');
-  return s;
 }
 
 /** storage: сначала img/blog/<slug>/, иначе копия из img/blog/ (превью sync-blog-images). */
@@ -149,6 +148,9 @@ async function rewriteAssetUrls(html, root, slug) {
   }
 
   out = out.replace(/href="\/blog\/article"/g, 'href="/blog/article/"');
+  out = out.replace(/href="\/blog\/case"/g, 'href="/blog/case/"');
+  out = out.replace(/href="\/blog\/card"/g, 'href="/blog/card/"');
+  out = out.replace(/href="\/blog\/life"/g, 'href="/blog/life/"');
   return out;
 }
 
@@ -221,6 +223,82 @@ if (process.env.SKIP_BLOG_ARTICLE_SYNC === "1") {
       console.log("OK:", slug);
     } catch (e) {
       console.warn(`WARN: ${slug}:`, e.message || e);
+    }
+  }
+
+  /** /blog/case|card|life/<slug>/ — та же разметка hero + тело, что у статей. */
+  if (fs.existsSync(POST_PAGES_MANIFEST)) {
+    let extra = [];
+    try {
+      extra = JSON.parse(fs.readFileSync(POST_PAGES_MANIFEST, "utf8"));
+    } catch (e) {
+      console.warn("WARN: blog-post-pages-manifest:", e.message);
+      extra = [];
+    }
+    if (!Array.isArray(extra) || extra.length === 0) {
+      console.log("OK: blog-post-pages-manifest пуст");
+    } else {
+      fs.mkdirSync(POST_PAGES_JSON_DIR, { recursive: true });
+      for (const row of extra) {
+        const segment = String(row?.segment || "").trim();
+        const slug = String(row?.slug || "").trim();
+        if (!segment || !slug || slug.includes("..") || segment.includes("..")) continue;
+        if (!/^(case|card|life)$/.test(segment)) continue;
+        const assetKey = `${segment}__${slug}`;
+        const url = `${ORIGIN}/blog/${segment}/${slug}/`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) {
+            console.warn(`WARN: ${url} → ${res.status}, пропуск`);
+            continue;
+          }
+          const pageHtml = await res.text();
+          const meta = parseMeta(pageHtml);
+          let bodyHtml = extractArticleHtml(pageHtml);
+          bodyHtml = await rewriteAssetUrls(bodyHtml, root, assetKey);
+          bodyHtml = normalizeBlogArticleBodyHtml(bodyHtml);
+
+          let readAlsoHtml = extractReadAlsoHtml(pageHtml);
+          readAlsoHtml = await rewriteAssetUrls(readAlsoHtml, root, assetKey);
+
+          let preservedAuthor = null;
+          const segDir = path.join(POST_PAGES_JSON_DIR, segment);
+          fs.mkdirSync(segDir, { recursive: true });
+          const existingJsonPath = path.join(segDir, `${slug}.json`);
+          if (fs.existsSync(existingJsonPath)) {
+            try {
+              const prev = JSON.parse(fs.readFileSync(existingJsonPath, "utf8"));
+              if (prev.author && typeof prev.author === "object") preservedAuthor = prev.author;
+              if (preservedAuthor?.photo) {
+                preservedAuthor = {
+                  ...preservedAuthor,
+                  photo: rewriteSerenityInternalUrls(String(preservedAuthor.photo)),
+                };
+              }
+            } catch {
+              /* ignore */
+            }
+          }
+
+          const payload = {
+            segment,
+            slug,
+            sourceUrl: url,
+            title: meta.title,
+            description: meta.description,
+            canonical: meta.canonical || `${ORIGIN}/blog/${segment}/${slug}`,
+            bodyHtml,
+            readAlsoHtml,
+            syncedAt: new Date().toISOString(),
+          };
+          if (preservedAuthor) payload.author = preservedAuthor;
+
+          fs.writeFileSync(existingJsonPath, JSON.stringify(payload, null, 2), "utf8");
+          console.log("OK:", segment, slug);
+        } catch (e) {
+          console.warn(`WARN: ${segment}/${slug}:`, e.message || e);
+        }
+      }
     }
   }
 })().catch((e) => {

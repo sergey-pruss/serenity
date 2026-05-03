@@ -10,7 +10,7 @@
     "sync:blog-articles": "node scripts/sync-blog-article-content.mjs",
     "sync:blog-article-mp4": "node scripts/sync-blog-article-mp4-from-prod.mjs",
     "build:blog-articles": "node scripts/build-blog-article-pages.mjs",
-    "build:blog": "node scripts/gen-blog-articles-manifest.mjs && node scripts/sync-blog-images.mjs && node scripts/build-blog-data.mjs && node scripts/build-blog-mobile-media.mjs && node scripts/sync-blog-article-content.mjs && node scripts/build-blog-article-pages.mjs",
+    "build:blog": "node scripts/gen-blog-articles-manifest.mjs && node scripts/sync-blog-images.mjs && node scripts/build-blog-data.mjs && node scripts/gen-blog-post-pages-manifest.mjs && node scripts/build-blog-mobile-media.mjs && node scripts/sync-blog-article-content.mjs && node scripts/build-blog-article-pages.mjs",
     "build:html": "npm run build:cases && npm run build:blog && node scripts/assemble-html.cjs build && node scripts/build-blog-pages.mjs && node scripts/typography-nbsp.cjs",
     "dev": "node scripts/dev-server.cjs",
     "test:clients": "node scripts/verify-clients.cjs",

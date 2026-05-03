@@ -22,6 +22,10 @@ import path from "path";
 import { createRequire } from "module";
 import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html.mjs";
 import { applyBlogArticleBodyListMarkup } from "./blog-article-body-list-markup.mjs";
+import {
+  applyBlogArticleBodyMediaMarkup,
+  applyBlogArticleBodyWideMediaByTokens,
+} from "./blog-article-body-media-markup.mjs";
 import { applyBlogArticleStageHeadingMarkup } from "./blog-article-stage-heading-markup.mjs";
 
 const require = createRequire(import.meta.url);
@@ -270,6 +274,12 @@ function extractDateAndStripLegacyBlogHeader(html) {
   return { rest: s.replace(headerRe, ""), datePublished };
 }
 
+/** Выпуски подкаста «Мышеловка»: в мета-строке страницы — «Подкаст», ссылка на ленту подкаста (не «Статьи»). */
+function articleMentionsMyshelovka(data) {
+  const hay = [data?.title, data?.description, data?.bodyHtml].map((x) => String(x ?? "")).join("\n");
+  return /мышеловк/i.test(hay);
+}
+
 const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all-page" data-v-6f8a040c="">
             <div class="background-gradient" data-v-6f8a040c="">
               <img fetchpriority="low" decoding="async"
@@ -300,11 +310,19 @@ const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all
             </div>
           </div>`;
 
-function renderBlogArticlePageTop({ title, description, datePublished }) {
+function renderBlogArticlePageTop({
+  title,
+  description,
+  datePublished,
+  metaCategoryLabel = "Статьи",
+  metaCategoryHref = "/blog/article/",
+}) {
+  const catLabel = String(metaCategoryLabel || "Статьи").trim() || "Статьи";
+  const catHref = String(metaCategoryHref || "/blog/article/").trim() || "/blog/article/";
   const metaParts =
     `<p class="blog-article-page-top__meta" data-v-27a87df0="">` +
     `<a href="/blog/" class="blog-article-page-top__meta-link blog-article-page-top__meta-back">←&nbsp;Назад к блогу</a>` +
-    `<a href="/blog/article/" class="blog-article-page-top__meta-link">Статьи</a>` +
+    `<a href="${escapeXml(catHref)}" class="blog-article-page-top__meta-link">${escapeXml(catLabel)}</a>` +
     (datePublished
       ? `<span class="blog-article-page-top__meta-date">${escapeXml(datePublished)}</span>`
       : "") +
@@ -631,16 +649,111 @@ ${slides}
 </section>`;
 }
 
+const postPagesManifestPath = path.join(root, "json", "blog-post-pages-manifest.json");
+const postPagesJsonRoot = path.join(root, "json", "blog-post-pages");
+
+/**
+ * @param {object} data — json статьи или json/blog-post-pages/segment/slug.json
+ * @param {{ readMoreSlug: string, segment: string, slug: string }} ctx — segment «article» для /blog/article/
+ */
+function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, suffix) {
+  const { readMoreSlug, segment, slug } = ctx;
+  let bodyForArticle = normalizeBlogArticleBodyHtml(data.bodyHtml || "");
+  const legacyBlogHeader = extractDateAndStripLegacyBlogHeader(bodyForArticle);
+  bodyForArticle = legacyBlogHeader.rest;
+  bodyForArticle = applyBlogArticleBodyListMarkup(bodyForArticle);
+  bodyForArticle = applyBlogArticleStageHeadingMarkup(bodyForArticle);
+  bodyForArticle = applyBlogArticleBodyMediaMarkup(bodyForArticle, {
+    blogBodyMediaLayout: data.blogBodyMediaLayout,
+  });
+  bodyForArticle = applyBlogArticleBodyWideMediaByTokens(
+    bodyForArticle,
+    data.blogBodyMediaWideFilenameTokens
+  );
+  const spec = extractAndStripSpecialistMention(bodyForArticle);
+  bodyForArticle = spec.html;
+  bodyForArticle = bodyForArticle.replace(/<section\s+class="darktheme"[^>]*>\s*<\/section>\s*/gi, "");
+  let authorResolved = resolveAuthor(data, bodyForArticle);
+  authorResolved = mergeAuthorWithSpecialist(authorResolved, spec.author);
+  if (authorResolved) {
+    bodyForArticle = stripAuthorByline(bodyForArticle);
+  }
+  let body = bodyForArticle;
+  if (authorResolved) {
+    body = injectAuthorRail(body, renderAuthorRailHtml(authorResolved));
+  }
+  body = injectSpecialistLeadIntoFirstBodyColumn(body, spec.leadFragment);
+  body = transformBlockquoteArticlesMarkup(body);
+  body = relocateOrphanQuoteIntoSpecialistRail(body);
+  body = stripGuillemetsFromArticleQuoteBlocks(body);
+  const readAlso = buildReadMoreSection(readMoreSlug, articleFeed);
+  const title = data.title || slug;
+  const description = data.description || "";
+  const canonical =
+    data.canonical ||
+    (segment === "article"
+      ? `https://serenity.agency/blog/article/${slug}`
+      : `https://serenity.agency/blog/${segment}/${slug}`);
+
+  let metaCategoryLabel = "Статьи";
+  let metaCategoryHref = "/blog/article/";
+  if (segment === "case") {
+    metaCategoryLabel = "Кейсы";
+    metaCategoryHref = "/blog/case/";
+  } else if (segment === "card") {
+    metaCategoryLabel = "Карточки";
+    metaCategoryHref = "/blog/card/";
+  } else if (segment === "life") {
+    metaCategoryLabel = "Наша жизнь";
+    metaCategoryHref = "/blog/life/";
+  } else if (segment === "article" && articleMentionsMyshelovka(data)) {
+    metaCategoryLabel = "Подкаст";
+    metaCategoryHref = "/blog/podcast/";
+  }
+  const pageTopHtml = renderBlogArticlePageTop({
+    title,
+    description,
+    datePublished: legacyBlogHeader.datePublished,
+    metaCategoryLabel,
+    metaCategoryHref,
+  });
+
+  let headPart = injectHead(prefixArticleShell, { title, description, canonical });
+  const outHtml = readAlso
+    ? `${headPart}${pageTopHtml}${body}\n${readAlso}\n${suffix}`
+    : `${headPart}${pageTopHtml}${body}\n${suffix}`;
+
+  const { html: typedHtml } = processTypographyHtml(outHtml, { force: true });
+  return typedHtml;
+}
+
 (() => {
   if (!fs.existsSync(listingPath)) throw new Error(`Нет ${listingPath}`);
-  if (!fs.existsSync(manifestPath)) {
-    console.log("OK: нет манифеста статей — пропуск");
-    process.exit(0);
+
+  let articleSlugs = [];
+  if (fs.existsSync(manifestPath)) {
+    try {
+      articleSlugs = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+      if (!Array.isArray(articleSlugs)) articleSlugs = [];
+    } catch (e) {
+      console.warn("WARN: blog-articles-manifest:", e.message);
+      articleSlugs = [];
+    }
   }
 
-  const slugs = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-  if (!Array.isArray(slugs) || slugs.length === 0) {
-    console.log("OK: blog-articles-manifest пуст");
+  let postPageEntries = [];
+  if (fs.existsSync(postPagesManifestPath)) {
+    try {
+      postPageEntries = JSON.parse(fs.readFileSync(postPagesManifestPath, "utf8"));
+      if (!Array.isArray(postPageEntries)) postPageEntries = [];
+    } catch (e) {
+      console.warn("WARN: blog-post-pages-manifest:", e.message);
+      postPageEntries = [];
+    }
+  }
+
+  if (articleSlugs.length === 0 && postPageEntries.length === 0) {
+    console.log("OK: нет статей и пост-страниц блога — пропуск");
     process.exit(0);
   }
 
@@ -668,7 +781,7 @@ ${slides}
     stripBlogListingJsonPreload(prefix.replace(/\s*<!--@blog-json-preload-->\s*\n?/, "\n")),
   );
 
-  for (const slug of slugs) {
+  for (const slug of articleSlugs) {
     if (!slug || typeof slug !== "string") continue;
     const jp = path.join(jsonDir, `${slug}.json`);
     if (!fs.existsSync(jp)) {
@@ -676,48 +789,40 @@ ${slides}
       continue;
     }
     const data = JSON.parse(fs.readFileSync(jp, "utf8"));
-    let bodyForArticle = normalizeBlogArticleBodyHtml(data.bodyHtml || "");
-    const legacyBlogHeader = extractDateAndStripLegacyBlogHeader(bodyForArticle);
-    bodyForArticle = legacyBlogHeader.rest;
-    bodyForArticle = applyBlogArticleBodyListMarkup(bodyForArticle);
-    bodyForArticle = applyBlogArticleStageHeadingMarkup(bodyForArticle);
-    const spec = extractAndStripSpecialistMention(bodyForArticle);
-    bodyForArticle = spec.html;
-    bodyForArticle = bodyForArticle.replace(/<section\s+class="darktheme"[^>]*>\s*<\/section>\s*/gi, "");
-    let authorResolved = resolveAuthor(data, bodyForArticle);
-    authorResolved = mergeAuthorWithSpecialist(authorResolved, spec.author);
-    if (authorResolved) {
-      bodyForArticle = stripAuthorByline(bodyForArticle);
-    }
-    let body = bodyForArticle;
-    if (authorResolved) {
-      body = injectAuthorRail(body, renderAuthorRailHtml(authorResolved));
-    }
-    body = injectSpecialistLeadIntoFirstBodyColumn(body, spec.leadFragment);
-    body = transformBlockquoteArticlesMarkup(body);
-    body = relocateOrphanQuoteIntoSpecialistRail(body);
-    body = stripGuillemetsFromArticleQuoteBlocks(body);
-    const readAlso = buildReadMoreSection(slug, articleFeed);
-    const title = data.title || slug;
-    const description = data.description || "";
-    const canonical = data.canonical || `https://serenity.agency/blog/article/${slug}`;
-
-    const pageTopHtml = renderBlogArticlePageTop({
-      title,
-      description,
-      datePublished: legacyBlogHeader.datePublished,
-    });
-
-    let headPart = injectHead(prefixArticleShell, { title, description, canonical });
-    const outHtml = readAlso
-      ? `${headPart}${pageTopHtml}${body}\n${readAlso}\n${suffix}`
-      : `${headPart}${pageTopHtml}${body}\n${suffix}`;
-
-    const { html: typedHtml } = processTypographyHtml(outHtml, { force: true });
-
+    const typedHtml = renderTypedBlogArticlePage(
+      data,
+      { readMoreSlug: slug, segment: "article", slug },
+      articleFeed,
+      prefixArticleShell,
+      suffix,
+    );
     const outDir = path.join(root, "blog", "article", slug);
     fs.mkdirSync(outDir, { recursive: true });
     fs.writeFileSync(path.join(outDir, "index.html"), typedHtml, "utf8");
     console.log("OK: blog/article/", slug, "/");
+  }
+
+  for (const row of postPageEntries) {
+    const segment = String(row?.segment || "").trim();
+    const slug = String(row?.slug || "").trim();
+    if (!segment || !slug || slug.includes("..")) continue;
+    if (!/^(case|card|life)$/.test(segment)) continue;
+    const jp = path.join(postPagesJsonRoot, segment, `${slug}.json`);
+    if (!fs.existsSync(jp)) {
+      console.warn(`WARN: нет данных ${jp} — сначала sync:blog-articles (блок пост-страниц)`);
+      continue;
+    }
+    const data = JSON.parse(fs.readFileSync(jp, "utf8"));
+    const typedHtml = renderTypedBlogArticlePage(
+      data,
+      { readMoreSlug: slug, segment, slug },
+      articleFeed,
+      prefixArticleShell,
+      suffix,
+    );
+    const outDir = path.join(root, "blog", segment, slug);
+    fs.mkdirSync(outDir, { recursive: true });
+    fs.writeFileSync(path.join(outDir, "index.html"), typedHtml, "utf8");
+    console.log("OK: blog/", segment, "/", slug, "/");
   }
 })();

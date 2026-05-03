@@ -62,7 +62,6 @@
       "description": "Serenity: Как строим успешный маркетинг — от сотрудника до клиента",
       "subtitle": "7 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
       "tags": [
-        "Статьи",
         "Подкаст"
       ],
       "tagCodes": [
@@ -165,7 +164,6 @@
       "description": "Ашан: цифровые технологии и развитие клиентоцентричности",
       "subtitle": "6 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
       "tags": [
-        "Статьи",
         "Подкаст"
       ],
       "tagCodes": [
@@ -224,7 +222,7 @@
       }
     },
     {
-      "href": "https://serenity.agency/blog/case/neiming-kak-sozdayutsya-silnye-brendi/",
+      "href": "/blog/case/neiming-kak-sozdayutsya-silnye-brendi/",
       "description": "Нейминг: как создаются сильные бренды",
       "subtitle": "Наш креативный копирайтер Илья Полторацкий рассказал, как выглядит процесс нейминга на открытых креативных встречах, и описал методы разработки нового имени.",
       "tags": [
@@ -248,7 +246,6 @@
       "description": "Flowwow: нишевые маркетплейсы против гигантов",
       "subtitle": "5 выпуск, «Мышеловка» — подкаст, в котором мы общаемся с топовыми предпринимателями и маркетологами о том, как делать крутой маркетинг.",
       "tags": [
-        "Статьи",
         "Подкаст"
       ],
       "tagCodes": [
@@ -350,7 +347,7 @@
       }
     },
     {
-      "href": "https://serenity.agency/blog/life/trendy-kontekstnoj-reklamy-2024-chem-nas-udivil-yandeks-direkt",
+      "href": "/blog/life/trendy-kontekstnoj-reklamy-2024-chem-nas-udivil-yandeks-direkt/",
       "description": "Тренды контекстной рекламы 2024: чем нас удивил Яндекс Директ",
       "subtitle": "Рассматриваем новинки Яндекс Директа и какие результаты они способны приносить на фоне существующих рекламных кампаний.",
       "tags": [
@@ -476,7 +473,7 @@
       }
     },
     {
-      "href": "https://serenity.agency/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
+      "href": "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
       "description": "SEO в YouTube — почему стоит заняться оптимизацией видео?",
       "subtitle": "YouTube — не только самый популярный видеохостинг, но и вторая поисковая система в мире после Google.",
       "tags": [
