@@ -1,0 +1,25 @@
+---
+description: Блог — импорт статей, типографика NBSP, meta description
+globs: blog/**,json/blog-articles/**,scripts/build-blog*.mjs,scripts/sync-blog*.mjs
+alwaysApply: false
+---
+
+# Блог: импорт, типографика, описание
+
+## Разметка и стили (не ломать при импорте)
+
+Стабильный контракт классов и секций — комментарий в [`css/sections/blog-article-figma.css`](css/sections/blog-article-figma.css) («Контракт разметки»). Расширенное тело (цитаты, код, таблицы, WP-классы) — [`css/sections/blog-article-prose.css`](css/sections/blog-article-prose.css). Один большой кусок HTML от старого блога — обёртка **`.sa-blog-prose`** внутри `.article-section__info`.
+
+## Что прогонять через типографику NBSP
+
+- **Итоговый HTML страницы** под `data-typography-nbsp="1"`: неразрывные пробелы после коротких слов ([`scripts/typography-nbsp.cjs`](scripts/typography-nbsp.cjs)).
+- После **`npm run build:blog-articles`** типографика уже вшита в скрипт (`processTypographyHtml` с `force: true` в [`scripts/build-blog-article-pages.mjs`](scripts/build-blog-article-pages.mjs)).
+- Если правили **`blog/article/<slug>/index.html` вручную** или собирали страницу без этого шага:  
+  `node scripts/typography-nbsp.cjs --force путь/к/index.html`  
+  либо полный цикл как на главной: после сборки смотри комментарий в `typography-nbsp.cjs` (`npm run typography:nbsp`).
+- Поле **`bodyHtml` в `json/blog-articles/<slug>.json`**: перед выкладкой снова запусти `npm run build:blog-articles` (или ручной `--force` на HTML), чтобы NBSP попали в прод-файл.
+- Контроль: при сомнениях **`npm run test:typography-nbsp`**.
+
+## Meta description (og:description / name=description)
+
+Если в JSON **нет** `description` (или пусто): **составь сам** краткое описание из содержания — первые осмысленные абзацы `bodyHtml` (без разметки), 1–2 предложения, по сути статьи, без кликбейта; ориентир **до ~160 символов** (кириллица), без дублирования заголовка дословно. Запиши в поле **`description`** того же JSON и пересобери статью.

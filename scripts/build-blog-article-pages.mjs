@@ -135,8 +135,8 @@ function escapeXml(s) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogHeaderParity" />
-    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogArticlePageTop" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503metaBackPad" />
+    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503namingArticleWideIllu" />
 `;
 
 function stripBlogListingJsonPreload(html) {

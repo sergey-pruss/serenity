@@ -1,0 +1,33 @@
+---
+description: Статические статьи блога — синхрон с прода, медиа, блок «Читайте ещё»
+alwaysApply: false
+---
+
+# Статические статьи `/blog/article/<slug>/`
+
+## Синхрон и манифест
+
+- Список slug для полного HTML: **`json/blog-articles-manifest.json`** (генерация: **`node scripts/gen-blog-articles-manifest.mjs`** из порядка **`json/blogs-all.json`**).
+- Запрос к проду: **`https://serenity.agency/blog/article/<slug>/`** (со слэшем в конце). Ответ не **2xx** — slug пропускается с предупреждением в логе.
+- Контент и картинки: **`npm run sync:blog-articles`** → `scripts/sync-blog-article-content.mjs` → **`json/blog-articles/<slug>.json`**.
+- Сборка страниц: **`npm run build:blog-articles`** → `blog/article/<slug>/index.html`.
+- Оболочка листинга и статей (шапка): **`html/blog-index.layout.html`** с **`<!-- @partial header -->`** → тот же **`html/partials/header.html`**, что главная (`assemble-html`); собранные **`blog/**/index.html`** без маркеров.
+
+## Медиа статей
+
+- Все ассеты статьи (wp-content, storage после подстановки) — в **`img/blog/<slug-статьи>/`** (slug совпадает с сегментом URL статьи), публичные пути **`/_sa/img/blog/<slug>/…`**.
+- Не складывать новые файлы статьи в корень **`img/blog/`** без подкаталога slug (корень зарезервирован под превью карточек листинга и легаси из **`sync-blog-images.mjs`**).
+- Локальный превью (`python -m http.server` и т.п.): в корне репозитория есть симлинк **`_sa` → `.`**, чтобы URL **`/_sa/img/...`** и **`/_sa/css/...`** открывали те же файлы, что на проде через Nginx `alias` (см. `nginx/serenity-router.live.conf`). Без симлинка картинки статей дадут **404**. После добавления slug в манифест обязательно **`npm run sync:blog-articles`**, иначе в JSON будут пути `/_sa/img/blog/<slug>/…`, а файлов на диске не будет.
+
+## Блок «Читайте ещё»
+
+- Строится из **`json/blogs-all.json`**, только посты с путём **`/blog/article/<slug>`**, порядок — как в массиве **`posts`**.
+- **В середине ленты:** до **4** карточек *раньше* текущей и до **4** *позже* (итого до 8).
+- **У начала ленты** (нельзя набрать 4 «раньше»): **8 карточек вперёд** (следующие после текущей).
+- **У конца ленты** (нельзя набрать 4 «позже»): **8 карточек назад** (предыдущие перед текущей).
+- Реализация: **`scripts/build-blog-article-pages.mjs`** (`buildReadMoreSection` / лента `articleFeed`).
+
+## Ссылки в теле статьи
+
+- Абсолютные URL **`https://serenity.agency/…`** при синке переписываются в относительные **`/…`**, чтобы ссылки оставались на статическом контуре.
+- Относительные **`/admin/wp-content/uploads/…`** в HTML с прода тоже обрабатываются (скачивание в `img/blog/<slug>/`), иначе локально и на `/_sa/` картинки героя и вставок не откроются.
