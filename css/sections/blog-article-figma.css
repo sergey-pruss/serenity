@@ -328,6 +328,21 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
 }
 
 /*
+ * В snapshot.bundle.css у `.more-case-wr .page__container` на узких экранах задан горизонтальный
+ * padding (57px / 35px), а у `.blog-article-page-top__heading` уже есть `var(--blog-article-gutter)` —
+ * отступы суммируются, заголовок и линия «сжимаются». У героя статьи оставляем только gutter у заголовка.
+ */
+@media screen and (max-width: 768px) {
+  html:has(.blog-article-page-top)
+    .blog-article-page-top
+    .case-all-more-case-wr.more-case-wr__main
+    .page__container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/*
  * В snapshot.bundle.css при max-width: 1024px у всех .row стоит width: 85% — на статье даёт
  * лишние поля слева/справа. Разворачиваем ряд тела на всю ширину.
  */
