@@ -25,14 +25,19 @@
     }
   };
 
-  /**
-   * Только src без srcset: у превью блога часто нет пары base + __m в /_sa/img/storage__*
-   * (в кейсах __m генерится пакетно; здесь браузер брал несуществующий __m из srcset → 404).
-   */
+  /** Локальные /_sa/img/blog/* — srcset с __m после build:blog; иначе только src (в т.ч. внешний storage). */
   const buildBlogImageAttrs = (url) => {
     const src = toAbsoluteUrl(url);
     if (!src) return { src: "", srcset: "", sizes: "" };
-    return { src, srcset: "", sizes: "" };
+    if (!src.includes("/_sa/img/blog/")) {
+      return { src, srcset: "", sizes: "" };
+    }
+    const mobileSrc = src.replace(/(\.[a-zA-Z0-9]+)(\?.*)?$/, "__m$1$2");
+    return {
+      src,
+      srcset: `${mobileSrc} 820w, ${src} 1920w`,
+      sizes: "(max-width: 768px) 92vw, (max-width: 1200px) 48vw, 31vw",
+    };
   };
 
   const imgTagAttrs = (attrs, fetchPriority, loading) => {
