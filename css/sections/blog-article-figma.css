@@ -550,24 +550,9 @@ section.blog-header.darktheme > .row > .area-header,
     padding-top: 4px;
   }
 
-  /* Основной текст тела (мобайл): от 17px каскад −20% → 17×0.4096. */
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info p,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info li {
-    font-size: calc(17px * 0.4096);
-    font-weight: 100;
-  }
-
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section p {
-    font-size: calc(17px * 0.4096);
-    font-weight: 100;
-  }
-
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list {
-    font-size: calc(17px * 0.4096);
-    font-weight: 100;
-  }
+  /*
+   * Кегль/интерлиньяж тела на мобайле — в конце файла (после правил 19px), иначе каскад их перебивает.
+   */
 
   /*
    * «Читайте ещё»: заголовок секции и карточки — как в листинге / на главном блоке блога,
@@ -1383,5 +1368,43 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
   .blog-read-more .blog-block__content-box-slide {
     width: 250px;
     max-width: 250px;
+  }
+}
+
+/*
+ * Мобайл ≤767px: основной текст статьи — компактный ритм (реф. static, плотный leading).
+ * Обязательно после блоков с 19px / var(--blog-article-body-line-height), иначе уменьшение не видно.
+ */
+@media screen and (max-width: 767px) {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l {
+    --blog-article-body-line-height: 1.26;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub),
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub) p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub) li,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose li,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose li {
+    font-size: clamp(12.75px, 3.65vw, 13.5px);
+    line-height: 1.26;
+    font-weight: 100;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
+    font-size: clamp(12.75px, 3.65vw, 13.5px);
+    line-height: 1.26;
+    font-weight: 100;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub) > p + p {
+    margin-top: 1.05em;
   }
 }
