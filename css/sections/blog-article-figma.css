@@ -197,6 +197,15 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   }
 }
 
+/*
+ * Листинг /case/all: у .case-all-more-case-wr — padding-top 178px (и 150px ≤991px).
+ * У статьи зазор «шапка → мета» уже задаёт .blog-article-page-top padding-top — иначе отступы суммируются.
+ */
+.blog-article-page-top .case-all-more-case-wr.more-case-wr__main {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .blog-article-page-top .blog-article-page-top__heading.case-all-heading-line {
   position: relative;
   z-index: 1;
@@ -224,31 +233,19 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   margin: 0 0 28px;
 }
 
-.blog-article-page-top .blog-article-page-top__meta-back {
-  flex: 0 0 auto;
-  margin: 0 18px 0 0;
-  font-family: MuseoSansCyrl, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 100;
-  line-height: 1.45;
-  color: var(--blog-hero-ink);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.blog-article-page-top .blog-article-page-top__meta-back:hover,
-.blog-article-page-top .blog-article-page-top__meta-back:focus-visible {
-  color: #fff;
+/* «Блог» — тот же бабл, что у .meta-link; чуть шире минимум и зазор до «Статьи» */
+.blog-article-page-top .blog-article-page-top__meta-link.blog-article-page-top__meta-back {
+  margin: 0 14px 0 0;
+  min-width: 108px;
 }
 
 .blog-article-page-top .blog-article-page-top__meta-link {
   box-sizing: border-box;
   flex: 0 0 auto;
-  min-width: 92px;
-  height: 34px;
-  padding: 0 14px;
-  border-radius: 16px;
+  min-width: 96px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 20px;
   border: 1px solid hsla(0, 0%, 100%, 0.35);
   display: inline-flex;
   align-items: center;
@@ -1203,191 +1200,9 @@ html:has(.blog-article-page-top) .blog-read-more.isNewContent .services__title {
   max-width: 100%;
 }
 
-/*
- * Листинг / «Читайте ещё»: как слайдер «Блог» на главной — blur, сдвиг шапки, подзаголовок, зум.
- * У <a> не задаём position: relative / overflow — иначе .case__media позиционируется относительно
- * узкой области внутри padding .case и превью визуально «сжимается». Обрезка по скруглению — у .case в бандле.
- * Разметка: js/blog.js, build-blog-article-pages.mjs. Светлые карточки (linkClass dark-text → .case--dark-card) тоже с .blur, как у .more-blog-case — единый hover с размытием превью.
- */
-#blog-grid .case.more-blog-case > a[data-v-c0adc676],
-#blog-grid .case.case--dark-card > a[data-v-c0adc676],
-.blog-read-more .case.more-blog-case > a[data-v-c0adc676],
-.blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
-  display: block;
-  height: 100%;
-  box-sizing: border-box;
-}
 
-/* Превью на всю плашку (как у кейсов на главной): контекст позиционирования — .case[data-v-c0adc676]. */
-#blog-grid .case.more-blog-case .case__media[data-v-c0adc676],
-#blog-grid .case.case--dark-card .case__media[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .case__media[data-v-c0adc676],
-.blog-read-more .case.case--dark-card .case__media[data-v-c0adc676] {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+/* Карточки #blog-grid / «Читайте ещё»: перенесены в css/css__home-snapshot__overrides.parity-sync.css (листинг не подключает этот файл). */
 
-#blog-grid .case.more-blog-case .case__tags[data-v-c0adc676],
-#blog-grid .case.case--dark-card .case__tags[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .case__tags[data-v-c0adc676],
-.blog-read-more .case.case--dark-card .case__tags[data-v-c0adc676] {
-  position: relative;
-  z-index: 2;
-}
-
-#blog-grid .case.more-blog-case .case__top[data-v-c0adc676],
-#blog-grid .case.case--dark-card .case__top[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676],
-.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] {
-  position: absolute;
-  z-index: 2;
-  top: 26px;
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  transition: transform 1s;
-}
-
-/*
- * Заголовок в колонке как у слайдера (410c06b6): без translate на самом <p> и без top:24px от бандла кейсов
- * (иначе position:relative + top сдвигает текст визуально, а подзаголовок в потоке остаётся — наложение).
- * #blog-grid уже исключён из .more-cases … translateY в parity-sync; для «Читайте ещё» сброс остаётся страховкой.
- */
-#blog-grid .case.more-blog-case .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
-#blog-grid .case.case--dark-card .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676],
-.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] .case__description.case__description--static[data-v-c0adc676] {
-  top: auto;
-  margin: 0;
-  transform: none;
-}
-
-@media screen and (min-width: 1025px) and (hover: hover) {
-  #blog-grid .case.more-blog-case:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
-  #blog-grid .case.case--dark-card:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
-  .blog-read-more .case.more-blog-case:hover .case__description[data-v-c0adc676]:not(.sceleton_description),
-  .blog-read-more .case.case--dark-card:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
-    transform: none !important;
-  }
-}
-
-#blog-grid .case.more-blog-case .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
-#blog-grid .case.case--dark-card .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676],
-.blog-read-more .case.case--dark-card .case__top[data-v-c0adc676] .case__subtitle[data-v-c0adc676] {
-  position: static;
-  top: auto;
-  margin: 0;
-  opacity: 0;
-  font-size: 14px;
-  line-height: 150%;
-  transition: opacity 1s;
-}
-
-#blog-grid .case.more-blog-case .blur[data-v-c0adc676],
-#blog-grid .case.case--dark-card .blur[data-v-c0adc676],
-.blog-read-more .case.more-blog-case .blur[data-v-c0adc676],
-.blog-read-more .case.case--dark-card .blur[data-v-c0adc676] {
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  transition:
-    backdrop-filter 0.3s linear,
-    -webkit-backdrop-filter 0.3s linear;
-}
-
-#blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
-#blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
-.blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
-.blog-read-more .case.case--dark-card:hover .blur[data-v-c0adc676] {
-  -webkit-backdrop-filter: blur(50px);
-  backdrop-filter: blur(50px);
-}
-
-@media screen and (min-width: 1025px) and (hover: hover) {
-  #blog-grid .case.more-blog-case:hover .case__top[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__top[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__top[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__top[data-v-c0adc676] {
-    transform: translateY(40px);
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__subtitle[data-v-c0adc676]:not(:empty),
-  #blog-grid .case.case--dark-card:hover .case__subtitle[data-v-c0adc676]:not(:empty),
-  .blog-read-more .case.more-blog-case:hover .case__subtitle[data-v-c0adc676]:not(:empty),
-  .blog-read-more .case.case--dark-card:hover .case__subtitle[data-v-c0adc676]:not(:empty) {
-    opacity: 1;
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__tag[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__tag[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__tag[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__tag[data-v-c0adc676] {
-    opacity: 1;
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  #blog-grid .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
-    transform: scale(1.2);
-  }
-}
-
-@media screen and (max-width: 1200px), (hover: none) {
-  #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .blur[data-v-c0adc676] {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__top[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__top[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__top[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__top[data-v-c0adc676] {
-    transform: none !important;
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__subtitle[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__subtitle[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__subtitle[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__subtitle[data-v-c0adc676] {
-    opacity: 0 !important;
-    transition: none !important;
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__tag[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__tag[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__tag[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__tag[data-v-c0adc676] {
-    opacity: 0 !important;
-  }
-
-  #blog-grid .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  #blog-grid .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  #blog-grid .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.more-blog-case:hover .case__media.video .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
-  .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
-    transform: none !important;
-  }
-}
 
 @media screen and (max-width: 930px) {
   .blog-read-more .blog-block__content-box-slide {
