@@ -389,32 +389,25 @@ section.blog-header.darktheme > .row > .area-header,
 /*
  * Блок автора вне потока: absolute от .row (top:0 = уровень первого блока с заголовком, не верх секции).
  * right: 120px — от правого края ряда (≈ на 20% ближе к краю, чем 150px). Справа у колонок — резерв под карточку.
+ * Селекторы без :has(.blog-article-author-banner): если :has недоступен, общие стили баннера (flex, width:100%, margin)
+ * оставляли бы блок в потоке — лишний вертикальный зазор до текста, «как будто» автор раздвигает абзацы.
  */
-.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) {
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row {
   position: relative;
 }
 
-.blog-header.darktheme
-  ~ section.lighttheme.article_section_l
-  > .row:has(.blog-article-author-banner)
-  > .blog-article-author-banner
-  + .article-section {
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row > .blog-article-author-banner + .article-section {
   margin-top: 0;
   padding-top: 0;
 }
 
-.blog-header.darktheme
-  ~ section.lighttheme.article_section_l
-  > .row:has(.blog-article-author-banner)
-  > .blog-article-author-banner
-  + .article-section
-  .article-section__title-wrap {
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row > .blog-article-author-banner + .article-section .article-section__title-wrap {
   margin-top: 0;
   padding-top: 0;
 }
 
 @media screen and (min-width: 768px) {
-  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .article-section.text-content {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row > .blog-article-author-banner ~ .article-section.text-content {
     padding-right: calc(120px + 118px + var(--blog-article-gutter));
   }
 }
@@ -435,7 +428,7 @@ section.blog-header.darktheme > .row > .area-header,
   }
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .blog-article-author-banner {
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row > .blog-article-author-banner {
   position: absolute;
   top: 15px;
   right: 120px;
@@ -495,16 +488,17 @@ section.blog-header.darktheme > .row > .area-header,
 }
 
 /*
- * Бандл: `.article-section__info + .article-section__info { padding-top: 60px }` — зазор между колонкой текста и колонкой
- * со специалистом в старом макете. У статьи rail автора absolute; лид и следующий абзац — два соседних __info → убираем 60px,
- * остаётся нижний margin у лида (как между абзацами).
+ * Бандл: `.article-section__info + .article-section__info { padding-top: 60px }` — зазор между двумя колонками __info.
+ * У лида (`.sa-blog-specialist-lead`) и основного текста — два блока __info; 60px сверху у продолжения лишний.
+ * `lead + __info` нестабилен: в статике между div бывает `<!-- -->` (Vue), из‑за чего `+` не матчится.
  */
 .blog-header.darktheme
   ~ section.lighttheme.article_section_l
-  .article-section.text-content
-  > .sa-blog-specialist-lead
-  + .article-section__info {
-  padding-top: 0;
+  .article-section.text-content:has(> .article-section__info.sa-blog-specialist-lead)
+  > .article-section__info.sa-blog-specialist-lead
+  ~ .article-section__info {
+  padding-top: 0 !important;
+  margin-top: 0;
 }
 
 /*
@@ -585,7 +579,7 @@ section.blog-header.darktheme > .row > .area-header,
     line-height: 1.32 !important;
   }
 
-  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.blog-article-author-banner) > .blog-article-author-banner {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l > .row > .blog-article-author-banner {
     position: static;
     right: auto;
     top: auto;
@@ -643,7 +637,7 @@ section.blog-header.darktheme > .row > .area-header,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info {
   max-width: 733px;
   width: 100%;
-  padding-right: 0;
+  padding-right: 0 !important;
 }
 
 /*
@@ -652,9 +646,9 @@ section.blog-header.darktheme > .row > .area-header,
  * В потоке под основным текстом: карточка; слева круглый аватар, справа колонка — подпись (имя, роль), ниже цитата.
  */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub {
-  position: static;
-  right: auto;
-  top: auto;
+  position: static !important;
+  right: auto !important;
+  top: auto !important;
   width: 100%;
   max-width: 733px;
   margin: clamp(20px, 3vw, 32px) 0 0;
