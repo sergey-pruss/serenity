@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 66,
+  "totalItems": 64,
   "filters": [
     {
       "code": "",
@@ -473,26 +473,6 @@
       }
     },
     {
-      "href": "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
-      "description": "SEO в YouTube — почему стоит заняться оптимизацией видео?",
-      "subtitle": "YouTube — не только самый популярный видеохостинг, но и вторая поисковая система в мире после Google.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/lkLjGG5YIDh15r1daknsD1mcGbBJOjbe2FdVPcf7.jpg"
-      }
-    },
-    {
       "href": "https://serenity.mave.digital/ep-2",
       "description": "Какие 10% в маркетинге приносят 90% результатов?",
       "subtitle": "Игорь Манн в подкасте «Мышеловка».",
@@ -530,6 +510,26 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/dX3x4ZYwfE3JisKSY2A0IO8fxEbiPzRGIEcjRc4m.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.mave.digital/ep-1",
+      "description": "Важность команды и культуры в кризисное время",
+      "subtitle": "Обсуждают Сергей Прусс и Екатерина Русакова в подкасте «Мышеловка».",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.jpg"
       }
     }
   ]

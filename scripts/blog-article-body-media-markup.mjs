@@ -1,25 +1,35 @@
 /**
  * Класс `sa-blog-body-media` на блоках с иллюстрациями/видео в теле статей
- * (см. css/sections/blog-article-prose.css). Опционально `sa-blog-body-media--text` — ширина как у колонки текста
- * (поле JSON `blogBodyMediaLayout`: `"text"` у `<slug>.json`, см. build-blog-article-pages.mjs).
- * Расширение «как видео» до края вьюпорта: класс `sa-blog-body-media--wide` (поле JSON `blogBodyMediaWideFilenameTokens` — подстроки в `src` у `<img>`).
- * Не трогаем `<figure>` с общими стилями margin — только WP `.wp-caption` / `.wp-video` и `<p>` только с `<img>`.
+ * (см. css/sections/blog-article-prose.css). Узкая ширина как у колонки текста (~733px):
+ * `sa-blog-body-media--text` (`blogBodyMediaLayout`: `"text"`) или `sa-blog-body-media--content` (`"content"` — то же по ширине, отдельное имя класса).
+ * Широкий блок: второй класс `sa-blog-body-media--wide` (ширина с отступами как у сетки страницы), если в JSON нет `blogBodyMediaLayout: "text"` / `"content"`.
+ * Не трогаем `<figure>` с общими стилями margin — только WP `.wp-caption` / `.wp-video` и `<p>` с картинкой:
+ * только `<img>` или `<img>` + опц. `<br>` + подпись `<small|em|strong>…</>` (частый WP-паттерн).
  */
 
 const MEDIA_CLASS = "sa-blog-body-media";
 const MEDIA_TEXT_CLASS = "sa-blog-body-media--text";
-const WIDE_CLASS = "sa-blog-body-media--wide";
+const MEDIA_CONTENT_CLASS = "sa-blog-body-media--content";
+const MEDIA_WIDE_CLASS = "sa-blog-body-media--wide";
+
+/** @param {string} layout */
+function mediaLayoutModifier(layout) {
+  const l = String(layout || "").toLowerCase();
+  if (l === "text") return MEDIA_TEXT_CLASS;
+  if (l === "content") return MEDIA_CONTENT_CLASS;
+  return "";
+}
 
 /**
  * @param {string} attrs
- * @param {{ narrow?: boolean }} [opts]
+ * @param {{ layout?: string }} [opts] — `layout`: `""` | `"text"` | `"content"`
  * @returns {string}
  */
 function mergeMediaClassIntoAttrs(attrs, opts = {}) {
   const a = attrs || "";
-  const narrow = Boolean(opts.narrow);
+  const mod = mediaLayoutModifier(opts.layout);
   if (new RegExp(`\\b${MEDIA_CLASS}\\b`).test(a)) return a;
-  const tail = narrow ? ` ${MEDIA_CLASS} ${MEDIA_TEXT_CLASS}` : ` ${MEDIA_CLASS}`;
+  const tail = mod ? ` ${MEDIA_CLASS} ${mod}` : ` ${MEDIA_CLASS}`;
   const dq = a.match(/\bclass\s*=\s*"([^"]*)"/i);
   if (dq) {
     const merged = `${dq[1].trim()}${tail}`.trim();
@@ -31,7 +41,7 @@ function mergeMediaClassIntoAttrs(attrs, opts = {}) {
     return a.replace(/\bclass\s*=\s*'[^']*'/i, `class='${merged}'`);
   }
   const t = a.trim();
-  const cls = `${MEDIA_CLASS}${narrow ? ` ${MEDIA_TEXT_CLASS}` : ""}`.trim();
+  const cls = mod ? `${MEDIA_CLASS} ${mod}` : MEDIA_CLASS;
   if (t) return ` ${t} class="${cls}"`;
   return ` class="${cls}"`;
 }
@@ -39,7 +49,7 @@ function mergeMediaClassIntoAttrs(attrs, opts = {}) {
 /**
  * @param {string} html
  * @param {string} token class token, e.g. wp-caption
- * @param {{ narrow?: boolean }} [opts]
+ * @param {{ layout?: string }} [opts]
  */
 function addMediaClassToDivWithClassToken(html, token, opts = {}) {
   const esc = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -51,12 +61,40 @@ function addMediaClassToDivWithClassToken(html, token, opts = {}) {
 }
 
 /**
- * `<p><img … /></p>` без других тегов — отступ на обёртке.
+ * Абзацы с ведущей иллюстрацией: `<p><img/></p>`, с `<br>`, с подписью `<small>` / `<em>` / `<strong>` (с br или без).
  * @param {string} html
- * @param {{ narrow?: boolean }} [opts]
+ * @param {{ layout?: string }} [opts]
  */
 function addMediaClassToImageOnlyParagraphs(html, opts = {}) {
-  return String(html || "").replace(
+  let out = String(html || "");
+  // Сначала абзацы «картинка + br + подпись small/em» — иначе не попадут под узкий паттерн «только img».
+  out = out.replace(
+    /<p(\b[^>]*)>\s*(<img\b[^>]*>)\s*(<br\s*\/?>\s*<(small|em|strong)\b[^>]*>[\s\S]*?<\/\4>\s*)<\/p>/gi,
+    (full, attrs, imgPart, tail) => {
+      const a = attrs || "";
+      if (new RegExp(`\\b${MEDIA_CLASS}\\b`).test(a)) return full;
+      return `<p${mergeMediaClassIntoAttrs(a, opts)}>${imgPart}${tail}</p>`;
+    }
+  );
+  // Картинка + подпись без br (частый WP-экспорт).
+  out = out.replace(
+    /<p(\b[^>]*)>\s*(<img\b[^>]*>)\s*(<(small|em|strong)\b[^>]*>[\s\S]*?<\/\4>\s*)<\/p>/gi,
+    (full, attrs, imgPart, tail) => {
+      const a = attrs || "";
+      if (new RegExp(`\\b${MEDIA_CLASS}\\b`).test(a)) return full;
+      return `<p${mergeMediaClassIntoAttrs(a, opts)}>${imgPart}${tail}</p>`;
+    }
+  );
+  // Картинка + одиночный br без подписи.
+  out = out.replace(
+    /<p(\b[^>]*)>\s*(<img\b[^>]*>)\s*(<br\s*\/?>\s*)<\/p>/gi,
+    (full, attrs, imgPart, tail) => {
+      const a = attrs || "";
+      if (new RegExp(`\\b${MEDIA_CLASS}\\b`).test(a)) return full;
+      return `<p${mergeMediaClassIntoAttrs(a, opts)}>${imgPart}${tail}</p>`;
+    }
+  );
+  out = out.replace(
     /<p(\b[^>]*)>(\s*<img\b[^>]*>\s*)<\/p>/gi,
     (full, attrs, inner) => {
       const a = attrs || "";
@@ -64,60 +102,66 @@ function addMediaClassToImageOnlyParagraphs(html, opts = {}) {
       return `<p${mergeMediaClassIntoAttrs(a, opts)}>${inner}</p>`;
     }
   );
+  return out;
 }
 
-/**
- * Уже есть `sa-blog-body-media` в разметке (ручная вставка) — добавить модификатор ширины текста.
- * @param {string} html
- * @returns {string}
- */
+/** Снять широкие модификаторы перед навешиванием узкой колонки (в синке уже может быть `--wide` / `--bleed`). */
+function stripWideModifiersFromBodyMediaClass(cls) {
+  return String(cls || "")
+    .replace(/\bsa-blog-body-media--bleed\b/g, "")
+    .replace(/\bsa-blog-body-media--wide\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function appendBodyMediaTextModifier(html) {
   return String(html || "").replace(/\bclass="([^"]*\bsa-blog-body-media\b[^"]*)"/gi, (full, cls) => {
+    let c = stripWideModifiersFromBodyMediaClass(cls);
+    c = c.replace(new RegExp(`\\b${MEDIA_CONTENT_CLASS}\\b`, "g"), "").replace(/\s+/g, " ").trim();
+    if (new RegExp(`\\b${MEDIA_TEXT_CLASS}\\b`).test(c)) return `class="${c}"`;
+    return `class="${c} ${MEDIA_TEXT_CLASS}"`.replace(/\s+/g, " ").trim();
+  });
+}
+
+/** Добавить `sa-blog-body-media--content` к уже размеченным блокам. */
+function appendBodyMediaContentModifier(html) {
+  return String(html || "").replace(/\bclass="([^"]*\bsa-blog-body-media\b[^"]*)"/gi, (full, cls) => {
+    let c = stripWideModifiersFromBodyMediaClass(cls);
+    c = c.replace(new RegExp(`\\b${MEDIA_TEXT_CLASS}\\b`, "g"), "").replace(/\s+/g, " ").trim();
+    if (new RegExp(`\\b${MEDIA_CONTENT_CLASS}\\b`).test(c)) return `class="${c}"`;
+    return `class="${c} ${MEDIA_CONTENT_CLASS}"`.replace(/\s+/g, " ").trim();
+  });
+}
+
+/** Второй класс для широких иллюстраций (не `--text` / `--content`). Легаси `--bleed` приводим к `--wide`. */
+function appendBodyMediaWideModifier(html) {
+  let out = String(html || "").replace(/\bsa-blog-body-media--bleed\b/g, MEDIA_WIDE_CLASS);
+  return out.replace(/\bclass="([^"]*\bsa-blog-body-media\b[^"]*)"/gi, (full, cls) => {
     if (new RegExp(`\\b${MEDIA_TEXT_CLASS}\\b`).test(cls)) return full;
-    return `class="${cls.trim()} ${MEDIA_TEXT_CLASS}"`;
+    if (new RegExp(`\\b${MEDIA_CONTENT_CLASS}\\b`).test(cls)) return full;
+    if (new RegExp(`\\b${MEDIA_WIDE_CLASS}\\b`).test(cls)) return full;
+    return `class="${cls.trim()} ${MEDIA_WIDE_CLASS}"`;
   });
 }
 
 /**
  * @param {string} html
- * @param {{ blogBodyMediaLayout?: string }} [options] — `blogBodyMediaLayout: "text"` → класс `sa-blog-body-media--text`
+ * @param {{ blogBodyMediaLayout?: string }} [options] — `"text"` → `--text`, `"content"` → `--content` (узкая колонка); иначе → `--wide`
  * @returns {string}
  */
 export function applyBlogArticleBodyMediaMarkup(html, options = {}) {
-  const narrow = String(options.blogBodyMediaLayout || "").toLowerCase() === "text";
-  const opts = { narrow };
+  const layout = String(options.blogBodyMediaLayout || "").toLowerCase();
+  const opts = { layout };
   let out = String(html || "");
   out = addMediaClassToDivWithClassToken(out, "wp-caption", opts);
   out = addMediaClassToDivWithClassToken(out, "wp-video", opts);
   out = addMediaClassToImageOnlyParagraphs(out, opts);
-  if (narrow) {
+  if (layout === "text") {
     out = appendBodyMediaTextModifier(out);
+  } else if (layout === "content") {
+    out = appendBodyMediaContentModifier(out);
+  } else {
+    out = appendBodyMediaWideModifier(out);
   }
   return out;
-}
-
-/**
- * Добавляет `sa-blog-body-media--wide` к `<p class="… sa-blog-body-media …">` с `<img src="…">`, если `src` содержит любой из токенов.
- * @param {string} html
- * @param {string[]|undefined} tokens
- * @returns {string}
- */
-export function applyBlogArticleBodyWideMediaByTokens(html, tokens) {
-  if (!Array.isArray(tokens) || tokens.length === 0) return String(html || "");
-  const needle = tokens.map((t) => String(t).trim()).filter(Boolean);
-  if (!needle.length) return String(html || "");
-  return String(html || "").replace(/<p\b([^>]*)>(\s*<img\b[^>]*>)\s*<\/p>/gi, (full, innerAttrs, inner) => {
-    const clsM = String(innerAttrs || "").match(/\bclass\s*=\s*"([^"]*)"/i);
-    if (!clsM) return full;
-    const cls = clsM[1];
-    if (!new RegExp(`\\b${MEDIA_CLASS}\\b`).test(cls)) return full;
-    if (new RegExp(`\\b${MEDIA_TEXT_CLASS}\\b`).test(cls)) return full;
-    if (new RegExp(`\\b${WIDE_CLASS}\\b`).test(cls)) return full;
-    const srcM = /\bsrc="([^"]+)"/i.exec(inner);
-    if (!srcM) return full;
-    const src = srcM[1];
-    if (!needle.some((tok) => src.includes(tok))) return full;
-    const newCls = `${cls.trim()} ${WIDE_CLASS}`.trim();
-    return `<p${String(innerAttrs).replace(/\bclass\s*=\s*"[^"]*"/i, `class="${newCls}"`)}>${inner}</p>`;
-  });
 }

@@ -4,10 +4,10 @@
  * Синк иногда сохраняет «голый» `.specialist-mention` без секции — не срабатывают стили
  * `section.darktheme:has(> .specialist-mention)`.
  *
- * WP `[video]`: как на **живом** `serenity.agency` (Nuxt / старый блог) — у `<video>` нет `src`,
- * только `<source type="video/mp4" src="https://…">` с **абсолютным HTTPS**.
- * Локально `http://127.0.0.1` + относительный `/_sa/…mp4` в Safari часто даёт 0:00 / «запрет»;
- * поэтому для путей `/_sa/img/blog/…` подставляем origin (см. `SERENITY_BLOG_VIDEO_ORIGIN`).
+ * WP `[video]`: у `<video>` часто нет `src`, только `<source type="video/mp4" src="…">`.
+ * Статика отдаётся с того же origin, что и страница — в `src` оставляем **`/_sa/img/blog/…`** (same-origin).
+ * При необходимости префикса другого хоста задайте **`SERENITY_BLOG_VIDEO_ORIGIN`** (например CDN).
+ * Любые **`https://serenity.agency/_sa/…`** в теле приводим к **`/_sa/…`**.
  */
 function stripVideoSrcAttr(attrs) {
   return String(attrs || "")
@@ -15,11 +15,12 @@ function stripVideoSrcAttr(attrs) {
     .replace(/\s+src\s*=\s*'[^']*'/gi, "");
 }
 
-/** Пустая строка = оставить относительные URL (только для отладки). */
+/** По умолчанию — same-origin (`/_sa/…`). Непустой `SERENITY_BLOG_VIDEO_ORIGIN` — префикс для mp4. */
 function blogVideoAssetOrigin() {
   const raw = process.env.SERENITY_BLOG_VIDEO_ORIGIN;
   if (raw === "" || raw === "0") return "";
-  return String(raw || "https://serenity.agency").replace(/\/+$/, "");
+  if (raw != null && String(raw).trim() !== "") return String(raw).replace(/\/+$/, "");
+  return "";
 }
 
 function absolutizeBlogVideoUrl(url, origin) {
@@ -87,7 +88,9 @@ function normalizeWpVideoShortcodeForWebKit(html) {
 const BLOG_HEADER_BG_DIV_RE = /<div\b[^>]*\bblog-header__bg\b[^>]*>\s*<\/div>\s*/gi;
 
 export function normalizeBlogArticleBodyHtml(html) {
-  let s = String(html || "").replace(BLOG_HEADER_BG_DIV_RE, "");
+  let s = String(html || "")
+    .replace(/https:\/\/serenity\.agency\/_sa\//g, "/_sa/")
+    .replace(BLOG_HEADER_BG_DIV_RE, "");
   s = normalizeWpVideoShortcodeForWebKit(s);
   if (!s.includes("specialist-mention")) return s;
   if (/<\/section>\s*<section class="darktheme"[^>]*data-v-96fb7d6e[^>]*>\s*<div class="specialist-mention"/i.test(s)) {

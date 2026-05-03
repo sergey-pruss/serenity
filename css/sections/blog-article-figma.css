@@ -23,7 +23,7 @@
  *         опционально первым: .article-section__info.sa-blog-specialist-lead (лид из .specialist-mention, build-blog-article-pages.mjs)
  *         .article-section__title-wrap — h2.section-info__title.h2
  *         h3.h3.section-title
- *         .article-section__info — основной текст (p, ul, ol, …); под колонкой Nuxt — обёртка `<div>`, поэтому зазор 24px между абзацами: `.article-section__info > div > p + p` (и запасной `> p + p`). Иллюстрации «как видео»: `p.sa-blog-body-media` / `sa-blog-body-media--wide` (токены файлов в JSON, build-blog-article-pages.mjs + blog-article-body-media-markup.mjs). Списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); зазор 10px над списком — `* + ul|ol.sa-blog-body-list`; абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
+ *         .article-section__info — основной текст (p, ul, ol, …); под колонкой Nuxt — обёртка `<div>`, поэтому зазор 24px между абзацами: `.article-section__info > div > p + p` (и запасной `> p + p`); после блока иллюстрации (`div.sa-blog-body-media`, в т.ч. `.wp-caption`) до следующего абзаца — `div.sa-blog-body-media + p` (тот же 24px); два блока иллюстрации подряд (`div.wp-caption` с подписью внутри) — `div.sa-blog-body-media + div.sa-blog-body-media`: крупный зазор сверху у второго (`clamp(48px, 7vw, 96px)`), чтобы подпись первого не «слипалась» со следующим скриншотом. Иллюстрации в теле: `sa-blog-body-media` + `--wide` (широкий; легаси `--bleed` — те же отступы) или + `--content` / `--text` (узкий, `blogBodyMediaLayout` в JSON, blog-article-body-media-markup.mjs). Списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); зазор 10px над списком — `* + ul|ol.sa-blog-body-list`; абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
  *           (цитата `p.text-small` + `figure.specialist__main`): тот же визуальный язык, что и `blockquote.blockquote_articles` — подложка, скругление, подпись как `.blockquote_articles__attr`, текст цитаты как `.blockquote_articles__quote`; при наличии `img.specialist__img` — слева круглый аватар в сетке; без картинки — одна колонка, подпись сверху.
  *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
  *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
@@ -359,6 +359,21 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   }
 }
 
+/*
+ * При ширине >1400px у героя `.more-case-wr .page__container` в snapshot.bundle заданы
+ * `max-width: 1574px` и `width: calc(100% - 156px)` + `margin: auto`, а глобальный `.row { width: 90% }`
+ * остаёт шире и с другой левой кромкой — текст тела визуально «уезжает» левее заголовка.
+ * Повторяем геометрию контейнера героя для рядов тела (в т.ч. `.row.tablet_full_width` с цитатой).
+ */
+@media screen and (min-width: 1401px) {
+  html:has(.blog-article-page-top) .blog-article-page-top ~ section.lighttheme.article_section_l > .row {
+    width: calc(100% - 156px);
+    max-width: 1574px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* ——— Тело статьи ——— */
 .blog-article-page-top ~ section.lighttheme.article_section_l {
   /* Абзацы/списки/цитаты: чуть свободнее, чем calc(1.5em + 1pt) */
@@ -658,10 +673,14 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   padding-right: 0 !important;
 }
 
-/* Широкие иллюстрации `.sa-blog-body-media--wide` выходят за 733px — не обрезаем по горизонтали ряд и колонку. */
+/* Широкие иллюстрации `--bleed` (раньше `--wide`) выходят за 733px — не обрезаем по горизонтали ряд и колонку. */
+.blog-article-page-top ~ section.lighttheme.article_section_l > .row:has(.sa-blog-body-media--bleed),
 .blog-article-page-top ~ section.lighttheme.article_section_l > .row:has(.sa-blog-body-media--wide),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section.text-content:has(.sa-blog-body-media--bleed),
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section.text-content:has(.sa-blog-body-media--wide),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section__info:has(.sa-blog-body-media--bleed),
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section__info:has(.sa-blog-body-media--wide),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section__info:has(.sa-blog-body-media--bleed) > div,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section__info:has(.sa-blog-body-media--wide) > div {
   overflow-x: visible;
 }
@@ -835,6 +854,62 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   margin-top: 24px;
 }
 
+/* Текст → абзац только с картинкой: без лишнего «двойного» зазора (24px + strut line-height). */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section__info > div > p + p.sa-blog-body-media:not(:has(> *:not(img))),
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > p + p.sa-blog-body-media:not(:has(> *:not(img))),
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > p + p.sa-blog-body-media:not(:has(> *:not(img))) {
+  margin-top: 14px;
+}
+
+/* Широкая иллюстрация после текста — больше воздуха, чем 14px у «только img» (перебивает правило выше). */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section__info > div > p + p.sa-blog-body-media.sa-blog-body-media--wide,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > p + p.sa-blog-body-media.sa-blog-body-media--wide,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > p + p.sa-blog-body-media.sa-blog-body-media--wide {
+  margin-top: clamp(40px, 5vw, 64px);
+}
+
+/*
+ * После абзаца сразу идёт `div.sa-blog-body-media` (WP `.wp-caption`, `.wp-video`) — не срабатывает `p + p`;
+ * в prose у `div.sa-blog-body-media` задан margin-top: 0 — нужна большая специфичность, чем у того правила.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > p + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > p + div.wp-video.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > p + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > p + div.wp-video.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > p + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > p + div.wp-video.sa-blog-body-media {
+  margin-top: 24px;
+}
+
+/*
+ * Блок `.wp-caption`/`.sa-blog-body-media` (div) + следующий абзац: тот же 24px, что у `p + p` в колонке.
+ * Без отдельного «спейсера» в HTML селектор `p + p` не срабатывает — подпись внутри div, сосед снизу — `p`.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > div.sa-blog-body-media + p,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > div.sa-blog-body-media + p,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > div.sa-blog-body-media + p,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > div.wp-video.sa-blog-body-media + p,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > div.wp-video.sa-blog-body-media + p,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > div.wp-video.sa-blog-body-media + p {
+  margin-top: 24px;
+}
+
+/*
+ * Два блока иллюстрации подряд (`div.wp-caption` / `div.wp-video`) — подпись первого внутри первого div,
+ * без `<p>` между блоками; 24px визуально «слипало» подпись со следующим скриншотом — отступ сверху у второго блока крупнее.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > div.sa-blog-body-media + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > div.sa-blog-body-media + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > div.sa-blog-body-media + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > div.wp-video.sa-blog-body-media + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > div.wp-video.sa-blog-body-media + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > div.wp-video.sa-blog-body-media + div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info > div > div.sa-blog-body-media + div.wp-video.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose > div > div.sa-blog-body-media + div.wp-video.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose > div > div.sa-blog-body-media + div.wp-video.sa-blog-body-media {
+  margin-top: clamp(48px, 7vw, 96px);
+}
+
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section + .article-section {
   padding-top: 40px;
 }
@@ -879,6 +954,49 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose * + ul.sa-blog-body-list,
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose * + ol.sa-blog-body-list {
   margin-top: 10px;
+}
+
+/*
+ * После иллюстрации тела (`.sa-blog-body-media` / `figure.sa-blog-media`) до списка или заголовка секции —
+ * больше, чем у `p + p` (24px): +15px к зазору после картинки.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info figure.sa-blog-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info figure.sa-blog-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose figure.sa-blog-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose figure.sa-blog-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure.sa-blog-media + ul.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure.sa-blog-media + ol.sa-blog-body-list,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info figure.sa-blog-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info figure.sa-blog-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose figure.sa-blog-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose figure.sa-blog-media + h3.section-title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure.sa-blog-media + h2.section-info__title,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose figure.sa-blog-media + h3.section-title {
+  margin-top: 39px;
 }
 
 /*
@@ -1124,7 +1242,7 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   background-color: transparent !important;
   padding-top: clamp(2rem, 5vw, 4rem);
   /* Зазор до футера: внешний margin секции + padding-top у .footer-modern__container (см. body…footer выше). */
-  margin-bottom: 75px;
+  margin-bottom: 50px;
 }
 
 /*

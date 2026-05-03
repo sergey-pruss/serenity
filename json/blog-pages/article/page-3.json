@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 58,
+  "totalItems": 57,
   "filters": [
     {
       "code": "",
@@ -37,26 +37,6 @@
     }
   ],
   "posts": [
-    {
-      "href": "/blog/article/brending-i-performance-marketing-pochemu-odno-bez-drugogo-sliv-byudzheta/",
-      "description": "Performance-маркетинг и брендинг",
-      "subtitle": "Почему одно без другого — слив бюджета?",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "statyi"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/yPxxY1Sk9fxG73td4yGPSZMQTJxZifOXbKb5p98H.jpg"
-      }
-    },
     {
       "href": "https://vc.ru/marketing/513260-kak-protivostoyat-toksichnym-kommunikaciyam-vystraivaem-zdorovoe-partnerstvo-bez-manipulyacii",
       "description": "Как противостоять токсичным коммуникациям",

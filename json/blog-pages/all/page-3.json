@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 66,
+  "totalItems": 64,
   "filters": [
     {
       "code": "",
@@ -37,26 +37,6 @@
     }
   ],
   "posts": [
-    {
-      "href": "https://serenity.mave.digital/ep-1",
-      "description": "Важность команды и культуры в кризисное время",
-      "subtitle": "Обсуждают Сергей Прусс и Екатерина Русакова в подкасте «Мышеловка».",
-      "tags": [
-        "Наша жизнь"
-      ],
-      "tagCodes": [
-        "nashsaizn"
-      ],
-      "tagCodesNorm": [
-        "life"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.jpg"
-      }
-    },
     {
       "href": "https://vc.ru/marketing/495512-perevesti-nelzya-adaptirovat-ili-pochemu-kontent-prosto-perevedennyi-na-drugoi-yazyk-ne-rabotaet",
       "description": "«Перевести нельзя адаптировать»",
@@ -381,26 +361,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.jpg"
-      }
-    },
-    {
-      "href": "/blog/life/kak-my-prevratili-rabotu-v-igru/",
-      "description": "Как мы превратили работу в игру",
-      "subtitle": "Руководитель агентства Serenity Сергей Прусс поделился экспериментом над корпоративной культурой, который мы проводим в своей компании.",
-      "tags": [
-        "Наша жизнь"
-      ],
-      "tagCodes": [
-        "life"
-      ],
-      "tagCodesNorm": [
-        "life"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/0UPPnQUrMuOKwkNt0H6SBuIwtvTbKhmHo8WBjwJp.webp"
       }
     }
   ]

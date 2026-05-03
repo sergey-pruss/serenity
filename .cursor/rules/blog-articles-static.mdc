@@ -15,6 +15,7 @@ alwaysApply: false
 
 ## Медиа статей
 
+- Иллюстрации в теле: два модификатора — **`sa-blog-body-media--bleed`** (широкий, по умолчанию) и **`sa-blog-body-media--content`** / **`--text`** (узкий ~733px): в JSON **`"blogBodyMediaLayout": "content"`** или **`"text"`**; без поля сборка вешает **`--bleed`**. После правки JSON — **`npm run build:blog-articles`**.
 - Все ассеты статьи (wp-content, storage после подстановки) — в **`img/blog/<slug-статьи>/`** (slug совпадает с сегментом URL статьи), публичные пути **`/_sa/img/blog/<slug>/…`**.
 - Не складывать новые файлы статьи в корень **`img/blog/`** без подкаталога slug (корень зарезервирован под превью карточек листинга и легаси из **`sync-blog-images.mjs`**).
 - Локальный превью (`python -m http.server` и т.п.): в корне репозитория есть симлинк **`_sa` → `.`**, чтобы URL **`/_sa/img/...`** и **`/_sa/css/...`** открывали те же файлы, что на проде через Nginx `alias` (см. `nginx/serenity-router.live.conf`). Без симлинка картинки статей дадут **404**. После добавления slug в манифест обязательно **`npm run sync:blog-articles`**, иначе в JSON будут пути `/_sa/img/blog/<slug>/…`, а файлов на диске не будет.
@@ -31,3 +32,9 @@ alwaysApply: false
 
 - Абсолютные URL **`https://serenity.agency/…`** при синке переписываются в относительные **`/…`**, чтобы ссылки оставались на статическом контуре.
 - Относительные **`/admin/wp-content/uploads/…`** в HTML с прода тоже обрабатываются (скачивание в `img/blog/<slug>/`), иначе локально и на `/_sa/` картинки героя и вставок не откроются.
+
+## Классы и вертикальный ритм
+
+- Не плодить параллельные классы для одной роли: подпись к иллюстрации — контракт в **`css/sections/blog-article-prose.css`** (легаси **`.wp-caption-text`**, канон **`.sa-blog-media__caption`**); новые имена не вводить без нужды. При сборке **`npm run build:blog-articles`** легаси и «голые» `<p><small>…</small></p>` рядом с **`sa-blog-body-media`** приводятся к канону в **`scripts/blog-article-body-caption-markup.mjs`**.
+- Ритм отступов между блоками задаётся **CSS** (см. **`blog-article-figma.css`**: `p + p`, `p + div.sa-blog-body-media`, **`div.sa-blog-body-media + p`** и т.д.), а не пустыми абзацами **`&nbsp;`** в JSON — они ломают ритм и дают артефакты.
+
