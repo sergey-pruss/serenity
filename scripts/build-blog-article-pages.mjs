@@ -27,6 +27,7 @@ import {
   applyBlogArticleBodyWideMediaByTokens,
 } from "./blog-article-body-media-markup.mjs";
 import { applyBlogArticleStageHeadingMarkup } from "./blog-article-stage-heading-markup.mjs";
+import { normalizeBlogMetaDescription } from "./normalize-blog-meta-description.mjs";
 
 const require = createRequire(import.meta.url);
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
@@ -688,7 +689,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   body = stripGuillemetsFromArticleQuoteBlocks(body);
   const readAlso = buildReadMoreSection(readMoreSlug, articleFeed);
   const title = data.title || slug;
-  const description = data.description || "";
+  const description = normalizeBlogMetaDescription(data.description || "");
   const canonical =
     data.canonical ||
     (segment === "article"
