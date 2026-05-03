@@ -4,3 +4,9 @@ _sa
 node_modules
 .wrangler
 artifacts
+.claude
+.cursor
+
+# Workers: один файл ассета не больше 25 MiB (остальное — с прод-статики)
+img/blog/prodakshn-stoit-li-ono-togo/vizual-5-svet.mp4
+img/blog/brending-i-performance-marketing-pochemu-odno-bez-drugogo-sliv-byudzheta/_D0_91_D0_B0_D0_BD_D0_BD_D0_B5_D1_80_D1_8B_20_D0_B4_D0_BB_D1_8F_20_D1_81_D1_82_D0_B0_D1_82_D1_8C_D0_B8.mp4

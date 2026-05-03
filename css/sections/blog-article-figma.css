@@ -231,6 +231,11 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   flex-wrap: wrap;
   gap: 0;
   margin: 0 0 28px;
+  /* Полная ширина колонки героя: иначе при display:none у «Назад к блогу» flex-ряд сжимается по контенту и тянет за собой ширину лида и ::after. */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  align-self: stretch;
 }
 
 .blog-article-page-top .blog-article-page-top__meta-link {
@@ -307,8 +312,11 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   line-height: 1.45;
   font-weight: 300;
   color: var(--blog-hero-ink);
-  max-width: 38em;
+  /* На десктопе ограничиваем меру строки; не шире колонки (важно во flex-колонке с align-items: stretch). */
+  max-width: min(38em, 100%);
   margin: 0;
+  box-sizing: border-box;
+  align-self: stretch;
 }
 
 .blog-article-page-top .blog-article-page-top__heading.case-all-heading-line::after {
@@ -322,7 +330,8 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   margin-bottom: 0;
   margin-left: 0;
   width: 100%;
-  max-width: 100%;
+  min-width: 0;
+  max-width: none;
   border-radius: 0;
   background: linear-gradient(90deg, #00f0ff 0%, #c058ff 50%, #ff00b5 100%);
 }
@@ -566,10 +575,14 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
 
   .blog-article-page-top .blog-article-page-top__heading.case-all-heading-line .cases-block__header-title.case-all-heading-title {
     font-size: clamp(1.75rem, 9vw, 70px);
+    max-width: 100%;
   }
 
   .blog-article-page-top .blog-article-page-top__lead {
     font-size: clamp(0.84375rem, calc((0.75rem + 1.35vw) * 0.75), 1.5rem);
+    /* На мобиле лид и линия — на всю ширину колонки героя (не узже H1), в т.ч. когда «Назад к блогу» скрыт. */
+    max-width: none;
+    width: 100%;
   }
 
   .blog-article-page-top ~ section.lighttheme.article_section_l .section-info__title.h2 {
