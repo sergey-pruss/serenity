@@ -195,16 +195,10 @@
 
 .services__context-slider .swiper-button-prev img,
 .services__context-slider .swiper-button-next img,
-.services__context-slider .swiper-button-prev svg,
-.services__context-slider .swiper-button-next svg,
 .blog-block__swiper-container .swiper-button-prev img,
 .blog-block__swiper-container .swiper-button-next img,
-.blog-block__swiper-container .swiper-button-prev svg,
-.blog-block__swiper-container .swiper-button-next svg,
 .clients-mainstr .swiper-buttons .swiper-button-prev img,
-.clients-mainstr .swiper-buttons .swiper-button-next img,
-.clients-mainstr .swiper-buttons .swiper-button-prev svg,
-.clients-mainstr .swiper-buttons .swiper-button-next svg {
+.clients-mainstr .swiper-buttons .swiper-button-next img {
   display: none !important;
 }
 
@@ -397,17 +391,13 @@
   min-width: 0;
 }
 
-/* Бандл: .clients-wrapper и .clients-mainstr (один узел) дают overflow:hidden.
-   Нельзя задавать только overflow-x: visible при overflow-y: hidden — по спецификации X схлопывается в auto
-   и лента снова клипится. Нужен полный visible. */
-.clients-wrapper.clients-mainstr[data-v-08586076]:has(.swiper-container-clients-new[data-clients-strip="1"]),
+/* Бандл даёт .clients-wrapper overflow:hidden — при «выпирании» ленты обрезает плашки по краям экрана */
 .clients-wrapper.clients-mainstr:has(.swiper-container-clients-new[data-clients-strip="1"]) {
-  overflow: visible !important;
+  overflow-x: visible !important;
 }
 
 .clients-mainstr .clients-new-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
   overflow-x: visible !important;
-  overflow-y: visible !important;
 }
 
 @media screen and (max-width: 1025px) {

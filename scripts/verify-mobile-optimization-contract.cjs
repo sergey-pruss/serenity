@@ -24,8 +24,8 @@ assert(
   "html/index.layout.html: mobile CSS cache-bust должен быть 20260430o",
 );
 assert(
-  /src="\/_sa\/js\/app\.js\?v=20260503clientsStripPerf"/.test(layout),
-  "html/index.layout.html: app.js cache-bust должен быть 20260503clientsStripPerf",
+  /src="\/_sa\/js\/app\.js\?v=20260502ctaVisible"/.test(layout),
+  "html/index.layout.html: app.js cache-bust должен быть 20260502ctaVisible",
 );
 assert(
   /rel="preload"[\s\S]*?\/_sa\/css\/sections\/header\.css/.test(layout) &&

@@ -592,8 +592,33 @@
       true,
     );
 
-    /* Горизонтальный скролл — только нативный (overflow-x на треке): без preventDefault/wheel,
-       иначе на десктопе (Safari/Chromium) рвётся композитор и жест «липнет». */
+    host.addEventListener(
+      "wheel",
+      (event) => {
+        const absX = Math.abs(event.deltaX);
+        const absY = Math.abs(event.deltaY);
+        const horizontalGesture =
+          (event.shiftKey && absY > 0.5) || (absX > 0.8 && !(absY > absX * 4.5));
+        if (!horizontalGesture) return;
+        const max = maxScroll();
+        if (loopW <= 0 || max <= EPS) {
+          event.preventDefault();
+          return;
+        }
+        const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
+        const mappedDelta = rawDelta * HORIZ_SLIDER_SIGN;
+        const cur = track.scrollLeft;
+        const next = Math.max(0, Math.min(max, cur + mappedDelta));
+        if (Math.abs(next - cur) >= 0.1) {
+          track.scrollLeft = next;
+          normalizeLoop();
+        }
+        lastT = performance.now();
+        lastUserScroll = performance.now();
+        event.preventDefault();
+      },
+      { passive: false },
+    );
 
     if ("IntersectionObserver" in window) {
       const stripIo = new IntersectionObserver(
@@ -606,9 +631,7 @@
       stripIo.observe(host);
     }
 
-    const AUTO_TICK_MS = 33;
-    const tick = () => {
-      const now = performance.now();
+    const tick = (now) => {
       const userIdle = now - lastUserScroll >= USER_SCROLL_IDLE_MS;
       const shouldAuto =
         loopW > 0 &&
@@ -621,7 +644,7 @@
         !normalizing;
 
       if (shouldAuto) {
-        const dt = Math.min(0.12, Math.max(0, (now - lastT) / 1000));
+        const dt = (now - lastT) / 1000;
         lastT = now;
         autoAdvancing = true;
         track.scrollLeft += HORIZ_SLIDER_SIGN * autoPxPerSec * dt;
@@ -634,8 +657,9 @@
       } else {
         lastT = now;
       }
+      requestAnimationFrame(tick);
     };
-    window.setInterval(tick, AUTO_TICK_MS);
+    requestAnimationFrame(tick);
   };
 
   const initHeaderBurgerOnScroll = () => {
@@ -651,30 +675,9 @@
     const DESKTOP_BREAKPOINT = 1250;
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
-    const BLOG_LEAVE_CTA_SCROLL_PX = 500;
-    const isBlogLeaveCtaPath = () => {
-      try {
-        const p = window.location.pathname || "";
-        return p === "/blog" || p.startsWith("/blog/");
-      } catch {
-        return false;
-      }
-    };
-    const blogLeaveCtaRevealed = () => {
-      if (!isBlogLeaveCtaPath()) return true;
-      const se = document.scrollingElement || document.documentElement;
-      const y = Math.max(window.scrollY || 0, window.pageYOffset || 0, se.scrollTop || 0);
-      const innerH = window.innerHeight || 0;
-      const docH = se.scrollHeight || 0;
-      const maxY = Math.max(0, docH - innerH);
-      /* До первой отрисовки контента maxY=0 — не показываем CTA «впустую». */
-      if (maxY === 0) return false;
-      /* Нельзя проскроллить 500px: показываем у нижней границы документа. */
-      if (maxY < BLOG_LEAVE_CTA_SCROLL_PX) return y >= maxY - 2;
-      return y >= BLOG_LEAVE_CTA_SCROLL_PX;
-    };
-    /* Плавающий CTA: везде сразу, кроме блога — там после BLOG_LEAVE_CTA_SCROLL_PX px вертикального скролла. */
-    const shouldShowFloatingCta = () => blogLeaveCtaRevealed();
+
+    /* Плавающий CTA в шапке — показываем сразу (раньше скрывали на page-top через .noactive + CSS .page-top). */
+    const shouldShowFloatingCta = () => true;
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);
@@ -729,22 +732,10 @@
       if (bodyApplication && !header.classList.contains("active")) {
         bodyApplication.classList.toggle("noactive", !shouldShowFloatingCta());
       }
-      document.body.classList.toggle("blog-leave-cta-hidden", isBlogLeaveCtaPath() && !blogLeaveCtaRevealed());
     };
 
     window.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync);
-    if (isBlogLeaveCtaPath() && typeof ResizeObserver !== "undefined") {
-      let roRaf = 0;
-      const ro = new ResizeObserver(() => {
-        if (roRaf) return;
-        roRaf = requestAnimationFrame(() => {
-          roRaf = 0;
-          sync();
-        });
-      });
-      ro.observe(document.documentElement);
-    }
     sync();
   };
 
