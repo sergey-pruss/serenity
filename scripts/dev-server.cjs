@@ -149,6 +149,9 @@ const tryListen = (port) => {
     console.log(
       `(no-store; если старый сервер оставили на 8765 — закрой тот терминал или: lsof -ti:8765 | xargs kill)`,
     );
+    console.log(
+      `Видео в статьях блога: по умолчанию с https://serenity.agency/_sa/… (как на проде). Офлайн: SERENITY_BLOG_VIDEO_ORIGIN= npm run dev`,
+    );
   });
 };
 
