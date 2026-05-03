@@ -233,12 +233,6 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   margin: 0 0 28px;
 }
 
-/* «Блог» — тот же бабл, что у .meta-link; чуть шире минимум и зазор до «Статьи» */
-.blog-article-page-top .blog-article-page-top__meta-link.blog-article-page-top__meta-back {
-  margin: 0 14px 0 0;
-  min-width: 108px;
-}
-
 .blog-article-page-top .blog-article-page-top__meta-link {
   box-sizing: border-box;
   flex: 0 0 auto;
@@ -259,6 +253,14 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   color: var(--blog-hero-ink);
   text-decoration: none;
   transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+/* «Назад к блогу» — тот же бабл, что у .meta-link; чуть шире по padding, зазор до рубрики */
+.blog-article-page-top .blog-article-page-top__meta-link.blog-article-page-top__meta-back {
+  margin: 0 14px 0 0;
+  min-width: 108px;
+  padding-left: 22px;
+  padding-right: 22px;
 }
 
 .blog-article-page-top .blog-article-page-top__meta-link:hover,

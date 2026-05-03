@@ -421,6 +421,67 @@
   color: var(--blog-article-body-color) !important;
 }
 
+/*
+ * «Как придумать название бренда»: иллюстрации шире колонки текста (~733px).
+ * Часть картинок в `<p>` с подписью после `<br>` не получает `sa-blog-body-media` при сборке — ловим по canonical.
+ */
+@media screen and (min-width: 768px) {
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    > .row:has(.article-section__info p > img:first-child) {
+    overflow-x: visible;
+  }
+
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section.text-content:has(.article-section__info p > img:first-child),
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section__info:has(p > img:first-child),
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section__info:has(p > img:first-child)
+    > div {
+    overflow-x: visible;
+  }
+
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section__info
+    p:has(> img:first-child),
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section__info
+    p.sa-blog-body-media:not(.sa-blog-body-media--text) {
+    box-sizing: border-box;
+    --sa-naming-article-illu-w: min(calc(100vw - 2 * var(--blog-article-gutter)), 1180px);
+    width: var(--sa-naming-article-illu-w) !important;
+    max-width: var(--sa-naming-article-illu-w) !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section__info
+    p:has(> img:first-child),
+  html:has(link[rel="canonical"][href*="kak-pridumat-nazvanie-brenda"])
+    .blog-article-page-top
+    ~ section.lighttheme.article_section_l
+    .article-section__info
+    p.sa-blog-body-media:not(.sa-blog-body-media--text) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 /* Мобайл: цитаты и таблицы в масштабе тела (как у figma: ×0.7 затем +15% = ×0.805 от 19px / 18px). */
 @media screen and (max-width: 767px) {
   .blog-article-page-top ~ section.lighttheme.article_section_l .article-section blockquote,
