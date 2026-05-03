@@ -14,6 +14,8 @@ const sourceDataPath = path.join(root, "json", "blogs-all.json");
 const outJsonDir = path.join(root, "json", "blog-pages");
 const perPage = 24;
 
+const JSON_PRELOAD_MARKER = "<!--@blog-json-preload-->";
+
 const toDir = (p) => path.join(root, p.replace(/^\//, ""));
 
 const normalizeCode = (code) => (code ? String(code) : "");
@@ -70,7 +72,10 @@ const filterPosts = (posts, code) => {
   if (!fs.existsSync(sourceHtmlPath)) throw new Error(`Missing ${sourceHtmlPath}`);
   if (!fs.existsSync(sourceDataPath)) throw new Error(`Missing ${sourceDataPath}. Run build-blog-data first.`);
 
-  const html = fs.readFileSync(sourceHtmlPath, "utf8");
+  const htmlTemplate = fs.readFileSync(sourceHtmlPath, "utf8");
+  if (!htmlTemplate.includes(JSON_PRELOAD_MARKER)) {
+    throw new Error(`blog/index.html: нет маркера ${JSON_PRELOAD_MARKER} для preload JSON листинга`);
+  }
   const data = JSON.parse(fs.readFileSync(sourceDataPath, "utf8"));
   const posts = Array.isArray(data.posts) ? data.posts : [];
   const filters = Array.isArray(data.filters) ? data.filters : [];
@@ -111,9 +116,15 @@ const filterPosts = (posts, code) => {
       };
 
       fs.writeFileSync(path.join(jsonFolder, `page-${pageNum}.json`), JSON.stringify(payload, null, 2), "utf8");
-      writeHtmlAtRoute(routePath(code, pageNum), html);
+      const folder = codeFolder(code);
+      const preloadTag = `    <link rel="preload" href="/_sa/json/blog-pages/${folder}/page-${pageNum}.json" as="fetch" crossorigin="anonymous" />\n`;
+      const pageHtml = htmlTemplate.replace(JSON_PRELOAD_MARKER, preloadTag);
+      writeHtmlAtRoute(routePath(code, pageNum), pageHtml);
     }
   }
+
+  /* Исходник blog/index.html с маркером — для следующего build-blog-article-pages в том же npm-скрипте. */
+  fs.writeFileSync(sourceHtmlPath, htmlTemplate, "utf8");
 
   console.log("OK: generated paginated routes and JSON in /blog/* and /json/blog-pages/*");
 })();

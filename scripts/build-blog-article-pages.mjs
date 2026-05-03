@@ -129,6 +129,29 @@ function escapeXml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogMetaBackPill" />
+    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogArticlePageTop" />
+`;
+
+function stripBlogListingJsonPreload(html) {
+  return html.replace(
+    /\n\s*<link rel="preload" href="\/_sa\/json\/blog-pages\/[^"]+\.json" as="fetch" crossorigin="anonymous"\s*\/>\s*/g,
+    "\n",
+  );
+}
+
+function injectBlogArticleShellStyles(html) {
+  const needle = 'href="/_sa/css/css__home-snapshot__overrides.parity-sync.css';
+  const idx = html.indexOf(needle);
+  if (idx === -1) {
+    throw new Error("blog/index.html: нет parity-sync.css — некуда вставить стили статей");
+  }
+  const lineEnd = html.indexOf("\n", idx);
+  if (lineEnd === -1) throw new Error("blog/index.html: строка parity-sync без перевода строки");
+  return html.slice(0, lineEnd + 1) + BLOG_ARTICLE_SHELL_STYLES + html.slice(lineEnd + 1);
+}
+
 /** Нормализация пути поста для сравнения с текущей статьёй */
 function normBlogPath(href) {
   if (!href) return "";
@@ -168,6 +191,20 @@ function buildStaticArticleFeed(allPosts) {
  * Карточка как в js/blog.js renderCard; без target="_blank" (навигация в той же вкладке).
  * Видео — только постер (на странице статьи нет blog.js для отложенной загрузки ролика).
  */
+function blogListingCardImageAttrs(url) {
+  if (!url) return { src: "", srcset: "", sizes: "" };
+  const s = String(url);
+  if (!s.includes("/_sa/img/blog/")) {
+    return { src: s, srcset: "", sizes: "" };
+  }
+  const mobileSrc = s.replace(/(\.[a-zA-Z0-9]+)(\?.*)?$/, "__m$1$2");
+  return {
+    src: s,
+    srcset: `${mobileSrc} 820w, ${s} 1920w`,
+    sizes: "(max-width: 768px) 92vw, (max-width: 1200px) 48vw, 31vw",
+  };
+}
+
 function renderListingCard(c, idx) {
   const tagsHtml = (c.tags || [])
     .map((t) => `<span class="case__tag" data-v-c0adc676="">${escapeXml(t)}</span>`)
@@ -176,8 +213,12 @@ function renderListingCard(c, idx) {
     c.media?.kind === "video" ? c.media.poster || c.media.image : c.media?.image;
   const fetchPriority = idx < 2 ? "high" : "low";
   const loading = idx < 2 ? "eager" : "lazy";
-  const imgOpen = imageUrl
-    ? `<img data-v-c0adc676="" class="case__media--front" alt="" src="${escapeXml(imageUrl)}" fetchpriority="${fetchPriority}" decoding="async" loading="${loading}" />`
+  const ia = blogListingCardImageAttrs(imageUrl);
+  const srcsetAttr = ia.srcset
+    ? ` srcset="${escapeXml(ia.srcset)}" sizes="${escapeXml(ia.sizes)}"`
+    : "";
+  const imgOpen = ia.src
+    ? `<img data-v-c0adc676="" class="case__media--front" alt="" src="${escapeXml(ia.src)}"${srcsetAttr} fetchpriority="${fetchPriority}" decoding="async" loading="${loading}" />`
     : "";
 
   const media = `<div class="case__media zoom" data-v-c0adc676="">
@@ -261,7 +302,7 @@ const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all
 function renderBlogArticlePageTop({ title, description, datePublished }) {
   const metaParts =
     `<p class="blog-article-page-top__meta" data-v-27a87df0="">` +
-    `<a href="/blog/article/" class="blog-article-page-top__meta-back">←&nbsp;Все статьи.</a>` +
+    `<a href="/blog/" class="blog-article-page-top__meta-link blog-article-page-top__meta-back">←&nbsp;Блог</a>` +
     `<a href="/blog/article/" class="blog-article-page-top__meta-link">Статьи</a>` +
     (datePublished
       ? `<span class="blog-article-page-top__meta-date">${escapeXml(datePublished)}</span>`
@@ -622,6 +663,9 @@ ${slides}
 
   const prefix = blogIndex.slice(0, startReplace);
   const suffix = stripBlogJs(blogIndex.slice(endReplace));
+  const prefixArticleShell = injectBlogArticleShellStyles(
+    stripBlogListingJsonPreload(prefix.replace(/\s*<!--@blog-json-preload-->\s*\n?/, "\n")),
+  );
 
   for (const slug of slugs) {
     if (!slug || typeof slug !== "string") continue;
@@ -663,7 +707,7 @@ ${slides}
       datePublished: legacyBlogHeader.datePublished,
     });
 
-    let headPart = injectHead(prefix, { title, description, canonical });
+    let headPart = injectHead(prefixArticleShell, { title, description, canonical });
     const outHtml = readAlso
       ? `${headPart}${pageTopHtml}${body}\n${readAlso}\n${suffix}`
       : `${headPart}${pageTopHtml}${body}\n${suffix}`;

@@ -37,6 +37,14 @@ const root = path.resolve(__dirname, "..");
     console.error(rb.stderr || rb.stdout || "build-blog-data failed");
     process.exit(1);
   }
+  const rbm = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-mobile-media.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (rbm.status !== 0) {
+    console.error(rbm.stderr || rbm.stdout || "build-blog-mobile-media failed");
+    process.exit(1);
+  }
   const rba = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-article-pages.mjs")], {
     cwd: root,
     encoding: "utf8",

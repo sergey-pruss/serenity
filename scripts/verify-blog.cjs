@@ -74,6 +74,17 @@ const startStaticServer = (port) =>
   const blogIndexPath = path.join(root, "blog", "index.html");
   const blogTemplate = fs.readFileSync(blogIndexPath, "utf8");
   assert(blogTemplate.includes("ym(30205029"), "blog/index.html — Яндекс.Метрика");
+  assert(
+    !blogTemplate.includes("blog-article-figma.css"),
+    "листинг блога не должен тянуть CSS статей (blog-article-figma)",
+  );
+  assert(
+    blogTemplate.includes("<!--@blog-json-preload-->") ||
+      /<link[^>]+rel="preload"[^>]+href="\/_sa\/json\/blog-pages\/all\/page-1\.json"[^>]+as="fetch"/.test(
+        blogTemplate,
+      ),
+    "blog/index.html — маркер или preload JSON для page-1 ленты «все»",
+  );
 
   const payload = JSON.parse(fs.readFileSync(path.join(root, "json/blogs-all.json"), "utf8"));
   const posts = payload.posts || [];
