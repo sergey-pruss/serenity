@@ -451,7 +451,7 @@
 
     let loopW = 0;
     let lastT = performance.now();
-    const autoPxPerSec = 58;
+    const autoPxPerSec = 72;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let pointerMoved = false;
     let blockLinkFromGesture = false;
@@ -592,33 +592,8 @@
       true,
     );
 
-    host.addEventListener(
-      "wheel",
-      (event) => {
-        const absX = Math.abs(event.deltaX);
-        const absY = Math.abs(event.deltaY);
-        const horizontalGesture =
-          (event.shiftKey && absY > 0.5) || (absX > 0.8 && !(absY > absX * 4.5));
-        if (!horizontalGesture) return;
-        const max = maxScroll();
-        if (loopW <= 0 || max <= EPS) {
-          event.preventDefault();
-          return;
-        }
-        const rawDelta = event.shiftKey && absY > absX ? event.deltaY : event.deltaX;
-        const mappedDelta = rawDelta * HORIZ_SLIDER_SIGN;
-        const cur = track.scrollLeft;
-        const next = Math.max(0, Math.min(max, cur + mappedDelta));
-        if (Math.abs(next - cur) >= 0.1) {
-          track.scrollLeft = next;
-          normalizeLoop();
-        }
-        lastT = performance.now();
-        lastUserScroll = performance.now();
-        event.preventDefault();
-      },
-      { passive: false },
-    );
+    /* Горизонтальный жест — только нативный scroll на .clients-new__context-wrapper (без preventDefault):
+       иначе на десктопе рвётся композитор и скролл «липнет». */
 
     if ("IntersectionObserver" in window) {
       const stripIo = new IntersectionObserver(
@@ -631,7 +606,9 @@
       stripIo.observe(host);
     }
 
-    const tick = (now) => {
+    const AUTO_TICK_MS = 32;
+    const tick = () => {
+      const now = performance.now();
       const userIdle = now - lastUserScroll >= USER_SCROLL_IDLE_MS;
       const shouldAuto =
         loopW > 0 &&
@@ -644,7 +621,7 @@
         !normalizing;
 
       if (shouldAuto) {
-        const dt = (now - lastT) / 1000;
+        const dt = Math.min(0.12, Math.max(0, (now - lastT) / 1000));
         lastT = now;
         autoAdvancing = true;
         track.scrollLeft += HORIZ_SLIDER_SIGN * autoPxPerSec * dt;
@@ -657,9 +634,8 @@
       } else {
         lastT = now;
       }
-      requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    window.setInterval(tick, AUTO_TICK_MS);
   };
 
   const initHeaderBurgerOnScroll = () => {
