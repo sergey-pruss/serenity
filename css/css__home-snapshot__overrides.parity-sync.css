@@ -2249,6 +2249,14 @@ body.order-popup-open .overlay-new {
   z-index: 2;
 }
 
+/* Как подписи фильтра «Наша жизнь»: без capitalize из кейсов (.case__tag), иначе «жизнь» → «Жизнь». */
+#blog-grid .case.more-blog-case .case__tag[data-v-c0adc676],
+#blog-grid .case.case--dark-card .case__tag[data-v-c0adc676],
+.blog-read-more .case.more-blog-case .case__tag[data-v-c0adc676],
+.blog-read-more .case.case--dark-card .case__tag[data-v-c0adc676] {
+  text-transform: none;
+}
+
 #blog-grid .case.more-blog-case .case__top[data-v-c0adc676],
 #blog-grid .case.case--dark-card .case__top[data-v-c0adc676],
 .blog-read-more .case.more-blog-case .case__top[data-v-c0adc676],
