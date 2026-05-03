@@ -17,6 +17,8 @@ dist/
 standalone/
 public/img/
 tmp/
+# Локальный симлинк `/_sa/` → корень репозитория (удобство dev); в git и rsync не кладём.
+_sa
 artifacts/
 # Локальные снимки миграции / baseline (не коммитим повторно)
 .snapshots/
