@@ -23,7 +23,7 @@
  *         опционально первым: .article-section__info.sa-blog-specialist-lead (лид из .specialist-mention, build-blog-article-pages.mjs)
  *         .article-section__title-wrap — h2.section-info__title.h2
  *         h3.h3.section-title
- *         .article-section__info — основной текст (p, ul, ol, …); списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); зазор 10px над списком после любого предыдущего блока — селектор `* + ul|ol.sa-blog-body-list`; абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
+ *         .article-section__info — основной текст (p, ul, ol, …); под колонкой Nuxt — обёртка `<div>`, поэтому зазор 24px между абзацами: `.article-section__info > div > p + p` (и запасной `> p + p`). Иллюстрации «как видео»: `p.sa-blog-body-media` / `sa-blog-body-media--wide` (токены файлов в JSON, build-blog-article-pages.mjs + blog-article-body-media-markup.mjs). Списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); зазор 10px над списком — `* + ul|ol.sa-blog-body-list`; абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
  *           (цитата `p.text-small` + `figure.specialist__main`): тот же визуальный язык, что и `blockquote.blockquote_articles` — подложка, скругление, подпись как `.blockquote_articles__attr`, текст цитаты как `.blockquote_articles__quote`; при наличии `img.specialist__img` — слева круглый аватар в сетке; без картинки — одна колонка, подпись сверху.
  *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
  *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
@@ -373,7 +373,11 @@ section.blog-header.darktheme > .row > .area-header,
   --blog-article-body-color-strong: rgb(232, 232, 234);
   background: transparent !important;
   background-color: transparent !important;
-  padding-top: clamp(48px, 6vw, 72px);
+  /*
+   * padding-top задаётся только первой секцией тела (правило с :not ниже) и цепочкой «+ section»;
+   * здесь не clamp — иначе тот же селектор перебивает var(--blog-article-hero-after-line) по порядку/специфичности.
+   */
+  padding-top: 0;
   padding-bottom: clamp(48px, 6vw, 72px);
 }
 
@@ -519,19 +523,24 @@ section.blog-header.darktheme > .row > .area-header,
 }
 
 /*
+ * Узкий вьюпорт: зазоры героя у линии (−30% к базовым px) — до 768px, как --blog-article-gutter.
+ * (Отдельно от блока ≤767px: мета/типографика/автор в потоке.)
+ */
+@media screen and (max-width: 768px) {
+  html:has(.blog-header.darktheme) {
+    --blog-article-hero-strip-line-mt: calc(95px * 0.7);
+    --blog-article-hero-heading-to-line: calc(105px * 0.7);
+    --blog-article-hero-after-line: calc(100px * 0.7);
+  }
+}
+
+/*
  * Мобайл ≤767px: типографика тела; автор — в потоке над текстом, влево (без колонки справа).
  */
 @media screen and (max-width: 767px) {
   html:has(.blog-header.darktheme) {
     /* зазор шапка → мета: на 40% меньше, чем прежние 140px (84px) */
     --blog-header-meta-offset: calc(140px * 0.6);
-    /*
-     * Градиентная линия героя: на мобайле зазоры сверху/снизу на 30% плотнее
-     * (см. --blog-article-hero-strip-line-mt / --blog-article-hero-heading-to-line / --blog-article-hero-after-line).
-     */
-    --blog-article-hero-strip-line-mt: calc(95px * 0.7);
-    --blog-article-hero-heading-to-line: calc(105px * 0.7);
-    --blog-article-hero-after-line: calc(100px * 0.7);
   }
 
   .blog-header.darktheme > .row {
@@ -651,6 +660,14 @@ section.blog-header.darktheme > .row > .area-header,
   max-width: 733px;
   width: 100%;
   padding-right: 0 !important;
+}
+
+/* Широкие иллюстрации `.sa-blog-body-media--wide` выходят за 733px — не обрезаем по горизонтали ряд и колонку. */
+.blog-header.darktheme ~ section.lighttheme.article_section_l > .row:has(.sa-blog-body-media--wide),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section.text-content:has(.sa-blog-body-media--wide),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:has(.sa-blog-body-media--wide),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:has(.sa-blog-body-media--wide) > div {
+  overflow-x: visible;
 }
 
 /*
@@ -817,7 +834,8 @@ section.blog-header.darktheme > .row > .area-header,
   color: var(--blog-article-body-color-em);
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info > p + p {
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info > p + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info > div > p + p {
   margin-top: 24px;
 }
 
