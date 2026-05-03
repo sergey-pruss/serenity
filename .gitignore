@@ -11,8 +11,10 @@ compare/*
 !.cursor/rules/
 .cursor/rules/*
 !.cursor/rules/*.mdc
-# Шаблон MCP для Cursor (секреты — только в локальном `.cursor/mcp.json`, см. пример).
+# Шаблон MCP для Cursor; рабочий `.cursor/mcp.json` и секреты — локально (`bash scripts/mcp/bootstrap.sh`).
 !.cursor/mcp.json.example
+# OAuth-токены и ключи GSC (создаётся bootstrap, не коммитить).
+secrets/
 .claude/
 dist/
 .astro/
