@@ -193,12 +193,19 @@
   background-image: none !important;
 }
 
+/* Иконка только ::before; инлайновый svg (разметка / makeArrow) скрываем — иначе двойная стрелка. */
 .services__context-slider .swiper-button-prev img,
 .services__context-slider .swiper-button-next img,
+.services__context-slider .swiper-button-prev svg,
+.services__context-slider .swiper-button-next svg,
 .blog-block__swiper-container .swiper-button-prev img,
 .blog-block__swiper-container .swiper-button-next img,
+.blog-block__swiper-container .swiper-button-prev svg,
+.blog-block__swiper-container .swiper-button-next svg,
 .clients-mainstr .swiper-buttons .swiper-button-prev img,
-.clients-mainstr .swiper-buttons .swiper-button-next img {
+.clients-mainstr .swiper-buttons .swiper-button-next img,
+.clients-mainstr .swiper-buttons .swiper-button-prev svg,
+.clients-mainstr .swiper-buttons .swiper-button-next svg {
   display: none !important;
 }
 
