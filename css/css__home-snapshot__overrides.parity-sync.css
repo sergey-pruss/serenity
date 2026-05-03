@@ -110,6 +110,10 @@
   --cases-ledge: 62px;
   /* Горизонталь как у .services-unified / секций: один ритм для контента, футера и плавающей CTA */
   --page-gutter-x: 78px;
+  /* Фиксированная шапка и плавающая CTA: общий отступ от верха вьюпорта + высота ряда (95px).
+     0px даёт «прилипание» CTA к верху относительно визуального ряда меню/лого — держим 15px. */
+  --sa-header-viewport-top: 15px;
+  --sa-header-top-line-height: 95px;
 }
 @media screen and (max-width: 1025px) {
   :root {
@@ -402,6 +406,7 @@
   в адаптивах отключаются ниже отдельным reset-блоком.
 */
 @media screen and (min-width: 1025px) and (hover: hover) {
+  /* Только слайдер «Блог» на главной (data-v-410c06b6). Листинг /blog — отдельно в blog-article-figma.css (только подзаголовок). */
   .more-blog-case:hover .case__top[data-v-410c06b6] {
     transform: translateY(40px);
   }
@@ -416,6 +421,9 @@
     opacity: 1;
   }
   .more-blog-case:hover .zoom .case__media--front[data-v-410c06b6] {
+    transform: scale(1.2);
+  }
+  .more-blog-case:hover .case__media.video .case__media--front[data-v-410c06b6] {
     transform: scale(1.2);
   }
 
@@ -456,7 +464,12 @@
 
 /* Кейсы (desktop): в статике нет .active, дублируем reveal категорий на :hover как в проде */
 @media screen and (min-width: 1025px) and (hover: hover) {
-  .more-cases .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
+  /*
+   * Только сетка кейсов (#case-all-grid и т.п.): сдвиг заголовка на самом .case__description.
+   * Листинг блога (#blog-grid): more-blog-case и case--dark-card (linkClass dark-text) — шапка .case__top и hover из blog-article-figma.css;
+   * второй translateY здесь давал ~80px и «рвал» заголовок относительно слайдера на главной.
+   */
+  .more-cases .more-cases__item:not(#blog-grid) .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
     transform: translateY(40px);
   }
 
@@ -475,7 +488,7 @@
 /* Адаптивы: отключаем hover-поведение карточек кейсов/услуг/блога */
 @media screen and (max-width: 1200px), (hover: none) {
   /* Кейсы */
-  .more-cases .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
+  .more-cases .more-cases__item:not(#blog-grid) .case:hover .case__description[data-v-c0adc676]:not(.sceleton_description) {
     transform: none !important;
   }
   .more-cases .case:hover .case__tag[data-v-c0adc676] {
@@ -498,7 +511,7 @@
     transition: none !important;
   }
 
-  /* Блог */
+  /* Блог: только главный слайдер (410c06b6). Листинг — blog-article-figma.css. */
   .more-blog-case:hover .case__top[data-v-410c06b6],
   .more-blog-case:hover .case__top--static[data-v-410c06b6] {
     transform: none !important;
@@ -513,6 +526,9 @@
   .more-blog-case:hover .zoom .case__media--front[data-v-410c06b6] {
     transform: none !important;
   }
+  .more-blog-case:hover .case__media.video .case__media--front[data-v-410c06b6] {
+    transform: none !important;
+  }
 }
 
 .case .dark-text .case__description[data-v-c0adc676],
@@ -521,9 +537,10 @@
   color: #000 !important;
 }
 
+/* Только каталог кейсов: пятый плейсхолдер в ряду из четырёх. На #blog-grid все карточки — контент, скрывать последнюю нельзя. */
 @media screen and (min-width: 1501px) {
-  .more-cases .more-cases__item > .case:nth-last-of-type(1),
-  .more-cases .more-cases__item > .case[data-v-c0adc676]:nth-last-of-type(1) {
+  #case-all-grid.more-cases__item > .case:nth-last-of-type(1),
+  #case-all-grid.more-cases__item > .case[data-v-c0adc676]:nth-last-of-type(1) {
     display: none !important;
   }
 }
@@ -633,9 +650,12 @@ body.scroll-menu-open {
   }
 }
 
+/* После скролла app.js снимает .page-top — без этого селектора CTA остаётся только с бандлом
+   (position:fixed без top) и «прилипает» к верху вьюпорта. */
 @media screen and (min-width: 1025px) and (max-width: 1250px) {
   .page-top.header.compressed .body-application,
   .page-top.header.compressed .body-application[data-v-e5e2adce],
+  .compressed.header .body-application[data-v-e5e2adce],
   .compressed.header .body-application.noactive,
   .compressed.header .body-application.noactive[data-v-e5e2adce] {
     width: 240px !important;
@@ -653,19 +673,26 @@ body.scroll-menu-open {
   }
 }
 
-/* Широкий десктоп: бандл тушит CTA через .page-top.header .body-application до скролла — показываем сразу. */
+/* Широкий десктоп: бандл тушит CTA через .page-top.header .body-application до скролла — показываем сразу.
+   После скролла app.js снимает класс .page-top с шапки — селектор ниже без .page-top держит те же координаты.
+   CTA — position:fixed от вьюпорта: при смещении шапки (--sa-header-viewport-top) без явного top/transform
+   «Оставить заявку» залезала в зазор над меню; выравниваем по тому же вертикальному ряду, что .header__container (95px). */
 @media screen and (min-width: 1251px) {
-  .page-top.header.compressed .body-application[data-v-e5e2adce] {
+  .page-top.header.compressed .body-application[data-v-e5e2adce],
+  .compressed.header .body-application[data-v-e5e2adce] {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
     width: 240px !important;
     display: flex !important;
     justify-content: flex-end !important;
+    align-items: center !important;
     position: fixed !important;
-    top: auto !important;
+    top: calc(var(--sa-header-viewport-top, 15px) + env(safe-area-inset-top, 0px)) !important;
+    height: var(--sa-header-top-line-height) !important;
+    box-sizing: border-box !important;
     right: var(--page-gutter-x) !important;
-    transform: translate3d(0, -20px, 0) !important;
+    transform: none !important;
     z-index: 120 !important;
   }
 }
@@ -690,6 +717,22 @@ body.scroll-menu-open {
   }
 }
 
+/* Блог: «Оставить заявку» только после 500px скролла (класс blog-leave-cta-hidden — app.js). */
+body.blog-leave-cta-hidden .compressed.header .body-application[data-v-e5e2adce],
+body.blog-leave-cta-hidden .compressed.header .body-application {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+}
+
+body.blog-leave-cta-hidden .btns.white .btns__item_open[data-v-23015bc0],
+body.blog-leave-cta-hidden .btns.white .btns__item_open {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .header .new-static-menu.new-static-menu_main-str,
 .header .new-static-menu.new-static-menu_main-str[data-v-e5e2adce] {
   opacity: 0;
@@ -709,6 +752,13 @@ body.scroll-menu-open {
 .header.active .header__top-line .navigation-menu[data-v-e5e2adce] {
   opacity: 0 !important;
   pointer-events: none !important;
+}
+
+/* Вертикаль фиксированной шапки — тот же токен, что у CTA. Без .page-top: после скролла app.js
+   снимает page-top, иначе шапка остаётся с top:0 из бандла, а #body — с токеном → рассинхрон. */
+header.header.compressed[data-v-e5e2adce],
+header.header.compressed {
+  top: calc(var(--sa-header-viewport-top, 15px) + env(safe-area-inset-top, 0px)) !important;
 }
 
 /* Два tel в разметке бургера: на десктопе показываем обычный switcher, блок ниже — в overrides.mobile */
@@ -732,6 +782,49 @@ body.scroll-menu-open {
 .header__top-line[data-v-e5e2adce] {
   padding-left: var(--page-gutter-x) !important;
   padding-right: var(--page-gutter-x) !important;
+}
+
+/* Десктоп ≥1251px: меню от центра вьюпорта до левого края CTA-кнопки («Оставить заявку»).
+   Containing block для абсолютного .navigation-menu — .header__top-line (position:relative,
+   width:100% вьюпорта). Кнопка CTA: position:fixed; right:var(--page-gutter-x); width:240px.
+   Её левый край = viewport_right - (page-gutter-x + 240px). Задаём тот же right для меню,
+   чтобы правый край меню точно совпадал с левым краем кнопки.
+   В бандле у .header__container стоит transform:translateZ(0) при .page-top — это сужало
+   containing block меню; убираем transform, чтобы right/left считались от полного вьюпорта. */
+@media screen and (min-width: 1251px) {
+  .header__top-line .header__container[data-v-e5e2adce] {
+    justify-content: flex-start !important;
+    transform: none !important;
+  }
+
+  .header__top-line .navigation-menu[data-v-e5e2adce] {
+    position: absolute !important;
+    left: 50% !important;
+    /* Правый край меню = левый край CTA: viewport - (gutter + ширина CTA) */
+    right: calc(var(--page-gutter-x) + 240px) !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  .header__top-line .navigation-list[data-v-e5e2adce] {
+    width: 100% !important;
+    max-width: none !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    grid-gap: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .header__top-line .navigation-list a[data-v-e5e2adce] {
+    font-size: 15px !important;
+  }
 }
 
 @media screen and (max-width: 1250px) {
@@ -1970,12 +2063,12 @@ body.order-popup-open .overlay-new {
   stroke: #fff !important;
 }
 
-/* Убираем белые кромки по периметру превью на всех брейкпоинтах. */
-.case-all-root .case .case__media {
+/* Убираем белые кромки по периметру превью — только сетка /case/all (#case-all-grid), не листинг блога (#blog-grid). */
+.case-all-root #case-all-grid .case .case__media {
   overflow: hidden;
 }
 
-.case-all-root .case .case__media--front {
+.case-all-root #case-all-grid .case .case__media--front {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1984,16 +2077,16 @@ body.order-popup-open .overlay-new {
 }
 
 /* Для светлых dark-card (например X-Clinic) немного сильнее кроп, чтобы скрыть белые кромки. */
-.case-all-root .case.case--dark-card .case__media--front {
+.case-all-root #case-all-grid .case.case--dark-card .case__media--front {
   transform: scale(1.08);
 }
 
 @media (min-width: 900px) {
-  .case-all-root .case .case__media--front {
+  .case-all-root #case-all-grid .case .case__media--front {
     transform: scale(1.03);
   }
 
-  .case-all-root .case.case--dark-card .case__media--front {
+  .case-all-root #case-all-grid .case.case--dark-card .case__media--front {
     transform: scale(1.06);
   }
 }
@@ -2056,161 +2149,5 @@ body.order-popup-open .overlay-new {
 @media (max-width: 768px) {
   body.case-all-body .more-cases.case-all-more-cases-grid[data-v-27a87df0]:not(.more-cases--new) {
     display: block !important;
-  }
-}
-
-/* Листинг блога: «Читайте еще» — горизонтальная лента карточек перед футером */
-.blog-read-more {
-  position: relative;
-  z-index: 10;
-  background-color: #191a1b;
-  padding: 40px 0 56px;
-}
-
-.blog-read-more__inner.page__container {
-  max-width: 100%;
-}
-
-.blog-read-more__title {
-  margin: 0 0 36px;
-  padding: 0;
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-align: left;
-}
-
-.blog-read-more__scroller {
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
-  padding: 4px 0 14px;
-}
-
-.blog-read-more__scroller::-webkit-scrollbar {
-  height: 6px;
-}
-
-.blog-read-more__scroller::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 99px;
-}
-
-.blog-read-more__track {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 18px;
-  width: max-content;
-  min-width: 100%;
-}
-
-@supports (scroll-snap-type: x mandatory) {
-  .blog-read-more__scroller {
-    scroll-snap-type: x proximity;
-  }
-
-  .blog-read-more__card {
-    scroll-snap-align: start;
-  }
-}
-
-.blog-read-more__card {
-  position: relative;
-  display: block;
-  flex: 0 0 auto;
-  width: min(300px, calc(100vw - 2 * var(--page-gutter-x, 24px) - 48px));
-  max-width: 300px;
-  aspect-ratio: 3 / 4;
-  border-radius: 28px;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-
-.blog-read-more__card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
-}
-
-.blog-read-more__card:focus-visible {
-  outline: 2px solid rgba(128, 190, 234, 0.9);
-  outline-offset: 3px;
-}
-
-.blog-read-more__card-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.blog-read-more__card-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 52%;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.72) 0%,
-    rgba(0, 0, 0, 0.35) 45%,
-    transparent 100%
-  );
-  z-index: 1;
-}
-
-.blog-read-more__card-title {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  padding: 24px 26px 20px;
-  margin: 0;
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  color: #fff;
-}
-
-.blog-read-more__card--noimg {
-  background: linear-gradient(145deg, #2c2d30 0%, #1a1b1d 100%);
-  display: flex;
-  align-items: flex-start;
-}
-
-.blog-read-more__card--noimg .blog-read-more__card-title {
-  position: relative;
-  padding: 24px 26px;
-}
-
-@media (max-width: 600px) {
-  .blog-read-more {
-    padding: 32px 0 44px;
-  }
-
-  .blog-read-more__title {
-    margin-bottom: 28px;
-  }
-
-  .blog-read-more__card {
-    width: min(280px, calc(100vw - 2 * var(--page-gutter-x, 20px) - 32px));
-    border-radius: 24px;
-  }
-
-  .blog-read-more__card-title {
-    font-size: 16px;
-    padding: 20px 20px 16px;
   }
 }
