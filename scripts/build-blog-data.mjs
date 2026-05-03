@@ -26,6 +26,56 @@ const NORM_CODE = {
 
 const normalizeCode = (code) => NORM_CODE[String(code || "").toLowerCase()] || String(code || "");
 
+/** Подпись категории life в карточках — как в фильтре (вторая часть с маленькой буквы), независимо от CMS. */
+function displayCategoryName(codeRaw, nameRaw) {
+  const codeNorm = normalizeCode(String(codeRaw || "").trim());
+  const name = String(nameRaw || "").trim();
+  if (codeNorm === "life" || /^наша\s+жизнь$/i.test(name)) {
+    const fromFilter = FILTERS.find((f) => f.code === "life");
+    return fromFilter ? fromFilter.label : "Наша жизнь";
+  }
+  return name;
+}
+
+/** Ключ для json/blog-card-overrides.json — путь с ведущим / и завершающим /. */
+function canonBlogHref(href) {
+  let h = String(href || "").trim();
+  if (!h) return "";
+  try {
+    const u = new URL(h, "https://serenity.agency");
+    let p = u.pathname || "";
+    if (!p.endsWith("/")) p += "/";
+    return p;
+  } catch {
+    if (!h.startsWith("/")) h = `/${h}`;
+    if (!h.endsWith("/")) h += "/";
+    return h;
+  }
+}
+
+/** Подмешивает подписи карточек (hover = subtitle), если в CMS поля перепутаны или пусты. */
+function applyBlogCardOverrides(posts, root) {
+  const overridePath = path.join(root, "json", "blog-card-overrides.json");
+  if (!fs.existsSync(overridePath)) return posts;
+  let raw = {};
+  try {
+    raw = JSON.parse(fs.readFileSync(overridePath, "utf8"));
+  } catch (e) {
+    console.warn("WARN: blog-card-overrides.json:", e.message);
+    return posts;
+  }
+  if (!raw || typeof raw !== "object") return posts;
+  return posts.map((post) => {
+    const key = canonBlogHref(post.href);
+    const o = raw[key] || raw[post.href];
+    if (!o || typeof o !== "object") return post;
+    const next = { ...post };
+    if ("description" in o && o.description != null) next.description = String(o.description);
+    if ("subtitle" in o && o.subtitle != null) next.subtitle = String(o.subtitle);
+    return next;
+  });
+}
+
 /** Канонический путь на нашем сайте (для карточек → статические /blog/article/slug/). */
 function toSitePath(fullUrl) {
   if (!fullUrl) return "";
@@ -37,6 +87,37 @@ function toSitePath(fullUrl) {
     return p;
   } catch {
     return String(fullUrl);
+  }
+}
+
+/**
+ * На static.serenity.agency нет статики под /blog/card/, /blog/case/ и постам /blog/life/<slug>/ —
+ * Nginx отдаёт HTML главной (try_files → /index.html).
+ * Легаси остаётся на serenity.agency; такие ссылки из листинга ведём туда абсолютным URL.
+ * Пагинация /blog/life/2/ — статическая, не трогаем.
+ */
+function absoluteLegacyBlogPath(href) {
+  const h = String(href || "").trim();
+  if (!h || /^https?:\/\//i.test(h)) return h;
+  let pathname = h.startsWith("/") ? h : `/${h}`;
+  try {
+    const u = new URL(pathname, "https://serenity.agency");
+    const p = u.pathname || "";
+    if (/^\/blog\/(card|case)\//i.test(p)) {
+      if (!u.pathname.endsWith("/")) u.pathname += "/";
+      return u.href;
+    }
+    const trimmed = p.replace(/\/+$/, "") || "/";
+    const lifeArticle = trimmed.match(/^\/blog\/life\/([^/]+)$/);
+    if (lifeArticle) {
+      const seg = lifeArticle[1];
+      if (seg && !/^\d+$/.test(seg)) {
+        return `${u.origin}${trimmed}`;
+      }
+    }
+    return h;
+  } catch {
+    return h;
   }
 }
 
@@ -86,7 +167,9 @@ function parseAnimation(animationContent) {
     page += 1;
   } while (page <= lastPage);
 
-  const posts = allRaw.map((item) => {
+  const root = path.resolve(process.cwd());
+
+  let posts = allRaw.map((item) => {
     let cats = [];
     try {
       cats = JSON.parse(item.categories || "[]");
@@ -95,7 +178,7 @@ function parseAnimation(animationContent) {
     }
     const tagCodesRaw = cats.map((c) => String(c.code || "").trim()).filter(Boolean);
     const tagCodesNorm = [...new Set(tagCodesRaw.map(normalizeCode).filter(Boolean))];
-    const tags = cats.map((c) => String(c.name || "").trim()).filter(Boolean);
+    const tags = cats.map((c) => displayCategoryName(c.code, c.name)).filter(Boolean);
     const anim = parseAnimation(item.animation_content);
     const linkClass = Number(item.is_text_white) === 1 ? "white-text" : "dark-text";
     const previewFile = item.preview ? String(item.preview) : "";
@@ -116,7 +199,7 @@ function parseAnimation(animationContent) {
           };
 
     return {
-      href: toSitePath(item.link),
+      href: absoluteLegacyBlogPath(toSitePath(item.link)),
       description: item.name || "",
       subtitle: item.title ? String(item.title) : "",
       tags,
@@ -131,14 +214,15 @@ function parseAnimation(animationContent) {
     return h.length > 0;
   });
 
+  posts = applyBlogCardOverrides(posts, root);
+  posts = posts.map((p) => ({ ...p, href: absoluteLegacyBlogPath(p.href) }));
+
   const payload = {
     builtAt: new Date().toISOString(),
     source: API_BASE,
     filters: FILTERS,
     posts,
   };
-
-  const root = path.resolve(process.cwd());
   fs.mkdirSync(path.join(root, "json"), { recursive: true });
   const jsonPath = path.join(root, "json", "blogs-all.json");
   fs.writeFileSync(jsonPath, JSON.stringify(payload, null, 2), "utf8");

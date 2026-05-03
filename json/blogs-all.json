@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-05-02T13:48:23.472Z",
+  "builtAt": "2026-05-03T02:58:35.948Z",
   "source": "https://serenity.agency/api/blog",
   "filters": [
     {
@@ -27,7 +27,7 @@
     {
       "href": "/blog/article/geo-seo-kak-ne-popast-v-lovushku-trendov-i-ne-slit-byudzhet/",
       "description": "GEO: как не попасть в ловушку трендов и не слить бюджет",
-      "subtitle": "Механики, ограничения и условия эффективного продвижения в AI-поиске",
+      "subtitle": "Что такое GEO и как продвигаться в генеративной выдаче: механики, отличия от SEO, типичные ошибки и стратегия без слива бюджета.",
       "tags": [
         "Статьи"
       ],
@@ -253,7 +253,7 @@
       "subtitle": "Как строить доверие к клиентам и достигать результатов.",
       "tags": [
         "Статьи",
-        "Наша Жизнь"
+        "Наша жизнь"
       ],
       "tagCodes": [
         "article",
@@ -439,7 +439,7 @@
       "subtitle": "Валерия Леонова о вдохновляющем лидерстве и создании эффективной команды.",
       "tags": [
         "Статьи",
-        "Наша Жизнь"
+        "Наша жизнь"
       ],
       "tagCodes": [
         "article",
@@ -703,7 +703,7 @@
       }
     },
     {
-      "href": "/blog/case/neiming-kak-sozdayutsya-silnye-brendi/",
+      "href": "https://serenity.agency/blog/case/neiming-kak-sozdayutsya-silnye-brendi/",
       "description": "Нейминг: как создаются сильные бренды",
       "subtitle": "Наш креативный копирайтер Илья Полторацкий рассказал, как выглядит процесс нейминга на открытых креативных встречах, и описал методы разработки нового имени.",
       "tags": [
@@ -829,11 +829,11 @@
       }
     },
     {
-      "href": "/blog/life/trendy-kontekstnoj-reklamy-2024-chem-nas-udivil-yandeks-direkt/",
+      "href": "https://serenity.agency/blog/life/trendy-kontekstnoj-reklamy-2024-chem-nas-udivil-yandeks-direkt",
       "description": "Тренды контекстной рекламы 2024: чем нас удивил Яндекс Директ",
       "subtitle": "Рассматриваем новинки Яндекс Директа и какие результаты они способны приносить на фоне существующих рекламных кампаний.",
       "tags": [
-        "Наша Жизнь"
+        "Наша жизнь"
       ],
       "tagCodes": [
         "life"
@@ -955,7 +955,7 @@
       }
     },
     {
-      "href": "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
+      "href": "https://serenity.agency/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
       "description": "SEO в YouTube — почему стоит заняться оптимизацией видео?",
       "subtitle": "YouTube — не только самый популярный видеохостинг, но и вторая поисковая система в мире после Google.",
       "tags": [
@@ -1218,11 +1218,11 @@
       }
     },
     {
-      "href": "/blog/life/liderstvo-ko-vsem-prihodit/",
+      "href": "https://serenity.agency/blog/life/liderstvo-ko-vsem-prihodit",
       "description": "Лидерство ко всем приходит",
       "subtitle": "О личном росте, командном сотрудничестве и взаимном вдохновении на развитие рассказала лидер контекстной рекламы — Юлия Панецкая.",
       "tags": [
-        "Наша Жизнь"
+        "Наша жизнь"
       ],
       "tagCodes": [
         "life"
@@ -1318,7 +1318,7 @@
       }
     },
     {
-      "href": "/blog/life/ot-prodzhekta-do-lidera-za-god/",
+      "href": "https://serenity.agency/blog/life/ot-prodzhekta-do-lidera-za-god",
       "description": "От проджекта до лидера за год",
       "subtitle": "О самоорганизации, личной ответственности и работе в мотивированной команде рассказала Екатерина Русакова.",
       "tags": [
@@ -1361,11 +1361,11 @@
       }
     },
     {
-      "href": "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+      "href": "https://serenity.agency/blog/life/kak-my-prevratili-rabotu-v-igru",
       "description": "Как мы превратили работу в игру",
       "subtitle": "Руководитель агентства Serenity Сергей Прусс поделился экспериментом над корпоративной культурой, который мы проводим в своей компании.",
       "tags": [
-        "Наша Жизнь"
+        "Наша жизнь"
       ],
       "tagCodes": [
         "life"

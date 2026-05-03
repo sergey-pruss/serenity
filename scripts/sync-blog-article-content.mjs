@@ -55,9 +55,13 @@ function parseMeta(pageHtml) {
 
 /** Ссылки на тот же сайт — в относительные пути для статического контура. */
 function rewriteSerenityInternalUrls(html) {
-  return String(html || "")
+  let s = String(html || "")
     .replace(/https:\/\/serenity\.agency\//g, "/")
     .replace(/http:\/\/serenity\.agency\//g, "/");
+  /* /blog/card/ и /blog/case/ на static-хосте отдают HTML главной — оставляем абсолютные на основной домен. */
+  s = s.replace(/href="\/blog\/card\//g, 'href="https://serenity.agency/blog/card/');
+  s = s.replace(/href="\/blog\/case\//g, 'href="https://serenity.agency/blog/case/');
+  return s;
 }
 
 /** storage: сначала img/blog/<slug>/, иначе копия из img/blog/ (превью sync-blog-images). */
