@@ -23,8 +23,8 @@
  *         опционально первым: .article-section__info.sa-blog-specialist-lead (лид из .specialist-mention, build-blog-article-pages.mjs)
  *         .article-section__title-wrap — h2.section-info__title.h2
  *         h3.h3.section-title
- *         .article-section__info — основной текст (p, ul, ol, …); списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
- *           (цитата `p.text-small` + `figure.specialist__main` с аватаром): тёмная карточка; слева аватар; справа одна строка имя + пробел + должность (без запятой, без жирного имени); ниже цитата.
+ *         .article-section__info — основной текст (p, ul, ol, …); списки тела — `ul.sa-blog-body-list` / `ol.sa-blog-body-list` (класс вшивает build-blog-article-pages.mjs); зазор 10px над списком после любого предыдущего блока — селектор `* + ul|ol.sa-blog-body-list`; абзацы-заголовки этапов WP — `p.sa-blog-stage-heading` (blog-article-stage-heading-markup.mjs); опционально в конце колонки — `.article-section__info--sub`
+ *           (цитата `p.text-small` + `figure.specialist__main`): тот же визуальный язык, что и `blockquote.blockquote_articles` — подложка, скругление, подпись как `.blockquote_articles__attr`, текст цитаты как `.blockquote_articles__quote`; при наличии `img.specialist__img` — слева круглый аватар в сетке; без картинки — одна колонка, подпись сверху.
  *   Отдельная секция с цитатой: .row.tablet_full_width → blockquote.blockquote.blockquote_articles.text-content
  *     (тёмная карточка — стили в этом файле; не путать с blockquote внутри .article-section / .sa-blog-prose — blog-article-prose.css).
  *     Сборка: «…» — автор в одном span → cite + p (build-blog-article-pages.mjs): без ёлочек в тексте, без финальной точки у подписи.
@@ -531,17 +531,22 @@ section.blog-header.darktheme > .row > .area-header,
   }
 
   .blog-header.darktheme .blog-header__title {
-    font-size: clamp(1.75rem, 9vw, 70px);
+    /* ещё −25% к прежнему мобильному clamp */
+    font-size: clamp(1.3125rem, 6.75vw, 52.5px);
+  }
+
+  .blog-header.darktheme .blog-header__descr {
+    font-size: clamp(0.84375rem, calc((0.75rem + 1.35vw) * 0.75), 1.5rem);
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .section-info__title.h2 {
-    font-size: clamp(21px, 5vw, 28px);
+    font-size: clamp(15.75px, 3.75vw, 21px);
     line-height: 1.22;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l h3.section-title,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .h3.section-title {
-    font-size: clamp(17px, 3.6vw, 22px);
+    font-size: clamp(12.75px, 2.7vw, 16.5px);
     line-height: 1.32;
     padding-top: 4px;
   }
@@ -549,18 +554,18 @@ section.blog-header.darktheme > .row > .area-header,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info p,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info li {
-    font-size: 17px;
+    font-size: calc(17px * 0.75);
     font-weight: 100;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section p {
-    font-size: 17px;
+    font-size: calc(17px * 0.75);
     font-weight: 100;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list {
-    font-size: 17px;
+    font-size: calc(17px * 0.75);
     font-weight: 100;
   }
 
@@ -568,11 +573,11 @@ section.blog-header.darktheme > .row > .area-header,
   html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title[data-v-56f85d51],
   html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
     font-family: MuseoSansCyrl, sans-serif !important;
-    font-size: clamp(21px, 5vw, 28px) !important;
+    font-size: clamp(15.75px, 3.75vw, 21px) !important;
     line-height: 1.22 !important;
     font-weight: 500 !important;
     letter-spacing: 0 !important;
-    margin-bottom: clamp(14px, 3.5vw, 22px) !important;
+    margin-bottom: clamp(10.5px, 2.625vw, 16.5px) !important;
     text-align: left !important;
   }
 
@@ -585,7 +590,7 @@ section.blog-header.darktheme > .row > .area-header,
     .blog-read-more
     .more-blog-case
     .case__description.case__description--static[data-v-c0adc676] {
-    font-size: 15px !important;
+    font-size: calc(15px * 0.75) !important;
     line-height: 1.32 !important;
   }
 
@@ -620,12 +625,12 @@ section.blog-header.darktheme > .row > .area-header,
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__name {
-    font-size: 14px;
+    font-size: calc(14px * 0.75);
     margin-top: 8px;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .blog-article-author__title {
-    font-size: 12px;
+    font-size: calc(12px * 0.75);
     margin-top: 4px;
   }
 }
@@ -653,7 +658,7 @@ section.blog-header.darktheme > .row > .area-header,
 /*
  * Цитата + специалист (`.article-section__info--sub`): в snapshot.bundle — колонка справа (`position:absolute`, width 35%)
  * при `padding-right: 35%` у `.article-section__info`. У тёмной статьи padding-right сброшен — блок наезжал на абзацы.
- * В потоке под основным текстом: карточка; слева круглый аватар, справа строка «имя должность» без запятой и без жирного имени, ниже цитата.
+ * В потоке под основным текстом: та же карточка, что у `.blockquote.blockquote_articles` (см. ниже); при аватаре — сетка слева круг, справа подпись и цитата.
  */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub {
   position: static !important;
@@ -662,16 +667,40 @@ section.blog-header.darktheme > .row > .area-header,
   width: 100%;
   max-width: 733px;
   margin: clamp(20px, 3vw, 32px) 0 0;
-  padding: clamp(20px, 3vw, 28px) clamp(18px, 2.8vw, 28px);
+  padding: clamp(28px, 4.5vw, 48px) clamp(22px, 3.5vw, 40px);
   box-sizing: border-box;
   background-color: #1e1e1e;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 20px;
+  border-radius: 28px;
+  font-family: MuseoSansCyrl, sans-serif;
+  font-size: clamp(17px, 1.75vw, 21px);
+  line-height: 1.5;
+  font-weight: 300;
+  color: #fff;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   grid-template-rows: auto auto;
   column-gap: clamp(14px, 2.2vw, 22px);
   row-gap: 0;
+}
+
+/* Без фото — как blockquote_articles: одна колонка, подпись над цитатой (DOM: сначала p, потом figure). */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub:not(:has(img.specialist__img)) {
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub:not(:has(img.specialist__img)) .specialist__img-wrap {
+  display: none !important;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub:not(:has(img.specialist__img)) .specialist__attributes {
+  order: -1;
+  margin: 0 0 0.85em;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub:not(:has(img.specialist__img)) p.text-small {
+  margin-top: 0;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__main {
@@ -703,7 +732,7 @@ section.blog-header.darktheme > .row > .area-header,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__attributes {
   grid-column: 2;
   grid-row: 1;
-  margin: 0;
+  margin: 0 0 0.85em;
   padding: 0;
   display: flex;
   flex-direction: row;
@@ -714,24 +743,31 @@ section.blog-header.darktheme > .row > .area-header,
   font-style: normal;
 }
 
+/* Как `.blockquote_articles__attr`: одна строка подписи, имя и роль через запятую */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__name {
   margin: 0;
   padding: 0;
   font-family: MuseoSansCyrl, sans-serif;
-  font-size: clamp(14px, 1.35vw, 16px);
+  font-size: clamp(12px, 2.35vw, 16px);
   font-weight: 300;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__name::after {
+  content: ",\00a0";
+  font-weight: inherit;
+  color: inherit;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__position {
   margin: 0;
   padding: 0;
   font-family: MuseoSansCyrl, sans-serif;
-  font-size: clamp(14px, 1.35vw, 16px);
+  font-size: clamp(12px, 2.35vw, 16px);
   font-weight: 300;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub p.text-small {
@@ -739,20 +775,22 @@ section.blog-header.darktheme > .row > .area-header,
   grid-row: 2;
   width: 100%;
   max-width: none;
-  margin: clamp(10px, 1.8vw, 14px) 0 0;
+  margin: 0;
   padding: 0;
   font-family: MuseoSansCyrl, sans-serif;
-  font-size: clamp(16px, 1.65vw, 19px);
-  line-height: 1.45;
+  font-size: 1em;
+  line-height: inherit;
   font-weight: 300;
-  font-style: italic;
+  font-style: normal;
   text-align: left;
-  color: rgba(255, 255, 255, 0.92);
+  color: #fff;
 }
 
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub p.text-small em {
-  font-style: inherit;
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub p.text-small em,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub p.text-small i {
+  font-style: normal;
   color: inherit;
+  font-weight: inherit;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
@@ -818,17 +856,39 @@ section.blog-header.darktheme > .row > .area-header,
   margin-bottom: 0;
 }
 
+/*
+ * Над списком тела — 10px после любого предыдущего элемента в той же колонке (абзац, h4, другой список и т.д.).
+ * Вложенный список без элемент-соседа слева не получает отступ (первый ul/ol внутри li).
+ */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info * + ul.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info * + ol.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose * + ul.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose * + ol.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose * + ul.sa-blog-body-list,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose * + ol.sa-blog-body-list {
+  margin-top: 10px;
+}
+
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
   counter-reset: section;
+  /*
+   * Бандл: padding-left на ol + ::before у li с left:0 без padding на li — цифра наезжает на текст.
+   * Колонка маркера — на li (как у ul в .article-section ul li).
+   */
+  padding-left: 0;
 }
 
-/* Бандл задаёт `position: static` у ol li — ломает якорь для ::before с цифрой. */
+/*
+ * Бандл: .article-section ol li { position: static } — якорь ::before уезжает к предку;
+ * плюс у ol li нет padding-left (в отличие от ul li), поэтому при left:0 маркер перекрывает текст.
+ */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list > li,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list > li,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list > li {
   position: relative;
+  padding-left: 34px;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list > li,
@@ -838,6 +898,13 @@ section.blog-header.darktheme > .row > .area-header,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list > li,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list > li {
   margin-bottom: 0 !important;
+}
+
+/* Маркер «—» у ul: якорь — li (бандл не задаёт position на ul li). */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list > li,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list > li {
+  position: relative;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list > li::before,
@@ -974,12 +1041,27 @@ section.blog-header.darktheme > .row > .area-header,
 @media screen and (max-width: 767px) {
   .blog-header.darktheme ~ section.lighttheme.article_section_l > .row.tablet_full_width > .blockquote.blockquote_articles.text-content {
     border-radius: 22px;
-    font-size: clamp(15px, 3.6vw, 18px);
+    font-size: clamp(11.25px, 2.7vw, 13.5px);
     padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 26px);
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .blockquote.blockquote_articles .blockquote_articles__attr {
-    font-size: clamp(12px, 3.2vw, 14px);
+    font-size: clamp(9px, 2.4vw, 10.5px);
+    margin-bottom: 0.75em;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub {
+    border-radius: 22px;
+    font-size: clamp(11.25px, 2.7vw, 13.5px);
+    padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 26px);
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__name,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__position {
+    font-size: clamp(9px, 2.4vw, 10.5px);
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info--sub .specialist__attributes {
     margin-bottom: 0.75em;
   }
 }
@@ -1007,8 +1089,17 @@ section.blog-header.darktheme > .row > .area-header,
   background: transparent !important;
   background-color: transparent !important;
   padding-top: clamp(2rem, 5vw, 4rem);
-  /* До футера: без «+40px» поверх глобальных отступов футера (см. body…footer выше). */
-  margin-bottom: clamp(20px, 2.8vw, 36px);
+  /* Зазор до футера: внешний margin секции + padding-top у .footer-modern__container (см. body…footer выше). */
+  margin-bottom: 75px;
+}
+
+/*
+ * Нативный горизонтальный ряд (css__home-snapshot__native-row-scroll.css): у .blog-block__swiper-container[data-native-row="1"]
+ * стоит margin-bottom: -40px (чтобы padding-bottom под glow не раздувал макет). На странице статьи это схлопывается
+ * с margin-bottom секции выше — визуально почти исчезал зазор между карточками и футером. Отменяем только здесь.
+ */
+.blog-header.darktheme ~ section.blog-read-more .blog-block__swiper-container.swiper-container[data-native-row="1"] {
+  margin-bottom: 0;
 }
 
 /*
