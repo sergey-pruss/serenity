@@ -27,6 +27,7 @@ import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html
 import { applyBlogArticleBodyListMarkup } from "./blog-article-body-list-markup.mjs";
 import { applyBlogArticleBodyMediaMarkup } from "./blog-article-body-media-markup.mjs";
 import { applyBlogArticleMediaCaptionMarkup } from "./blog-article-body-caption-markup.mjs";
+import { applyBlogArticleBodyImageSrcsetSizes } from "./blog-article-body-image-srcset-sizes.mjs";
 import { applyBlogArticleStageHeadingMarkup } from "./blog-article-stage-heading-markup.mjs";
 import { normalizeBlogMetaDescription } from "./normalize-blog-meta-description.mjs";
 
@@ -772,6 +773,9 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
     blogBodyMediaLayout: data.blogBodyMediaLayout,
   });
   bodyForArticle = applyBlogArticleMediaCaptionMarkup(bodyForArticle);
+  bodyForArticle = applyBlogArticleBodyImageSrcsetSizes(bodyForArticle, {
+    blogBodyMediaLayout: data.blogBodyMediaLayout,
+  });
   const spec = extractAndStripSpecialistMention(bodyForArticle);
   bodyForArticle = spec.html;
   bodyForArticle = bodyForArticle.replace(/<section\s+class="darktheme"[^>]*>\s*<\/section>\s*/gi, "");
