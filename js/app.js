@@ -651,30 +651,9 @@
     const DESKTOP_BREAKPOINT = 1250;
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
-    const BLOG_LEAVE_CTA_SCROLL_PX = 500;
-    const isBlogLeaveCtaPath = () => {
-      try {
-        const p = window.location.pathname || "";
-        return p === "/blog" || p.startsWith("/blog/");
-      } catch {
-        return false;
-      }
-    };
-    const blogLeaveCtaRevealed = () => {
-      if (!isBlogLeaveCtaPath()) return true;
-      const se = document.scrollingElement || document.documentElement;
-      const y = Math.max(window.scrollY || 0, window.pageYOffset || 0, se.scrollTop || 0);
-      const innerH = window.innerHeight || 0;
-      const docH = se.scrollHeight || 0;
-      const maxY = Math.max(0, docH - innerH);
-      /* До первой отрисовки контента maxY=0 — не показываем CTA «впустую». */
-      if (maxY === 0) return false;
-      /* Нельзя проскроллить 500px: показываем у нижней границы документа. */
-      if (maxY < BLOG_LEAVE_CTA_SCROLL_PX) return y >= maxY - 2;
-      return y >= BLOG_LEAVE_CTA_SCROLL_PX;
-    };
-    /* Плавающий CTA: везде сразу, кроме блога — там после BLOG_LEAVE_CTA_SCROLL_PX px вертикального скролла. */
-    const shouldShowFloatingCta = () => blogLeaveCtaRevealed();
+
+    /* Плавающий CTA в шапке — показываем сразу (раньше скрывали на page-top через .noactive + CSS .page-top). */
+    const shouldShowFloatingCta = () => true;
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);
@@ -729,22 +708,10 @@
       if (bodyApplication && !header.classList.contains("active")) {
         bodyApplication.classList.toggle("noactive", !shouldShowFloatingCta());
       }
-      document.body.classList.toggle("blog-leave-cta-hidden", isBlogLeaveCtaPath() && !blogLeaveCtaRevealed());
     };
 
     window.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync);
-    if (isBlogLeaveCtaPath() && typeof ResizeObserver !== "undefined") {
-      let roRaf = 0;
-      const ro = new ResizeObserver(() => {
-        if (roRaf) return;
-        roRaf = requestAnimationFrame(() => {
-          roRaf = 0;
-          sync();
-        });
-      });
-      ro.observe(document.documentElement);
-    }
     sync();
   };
 
