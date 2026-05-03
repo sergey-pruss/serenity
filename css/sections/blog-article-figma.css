@@ -885,6 +885,19 @@ section.blog-header.darktheme > .row > .area-header,
   margin-top: 10px;
 }
 
+/*
+ * Один пункт-«подзаголовок»: <ul class="sa-blog-body-list"><li><strong>…</strong></li></ul>.
+ * Больше воздуха сверху; снизу до абзаца — см. узкий margin у `… + p` ниже.
+ */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info * + ul.sa-blog-body-list:has(> li:only-child > strong),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info * + ol.sa-blog-body-list:has(> li:only-child > strong),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose * + ul.sa-blog-body-list:has(> li:only-child > strong),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose * + ol.sa-blog-body-list:has(> li:only-child > strong),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose * + ul.sa-blog-body-list:has(> li:only-child > strong),
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose * + ol.sa-blog-body-list:has(> li:only-child > strong) {
+  margin-top: 26px;
+}
+
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
@@ -948,6 +961,15 @@ section.blog-header.darktheme > .row > .area-header,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list + .section-title,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list + .section-title {
   margin-top: 36px;
+}
+
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list:has(> li:only-child > strong) + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list:has(> li:only-child > strong) + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list:has(> li:only-child > strong) + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list:has(> li:only-child > strong) + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list:has(> li:only-child > strong) + p,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list:has(> li:only-child > strong) + p {
+  margin-top: 14px;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info ul.sa-blog-body-list:last-child,
