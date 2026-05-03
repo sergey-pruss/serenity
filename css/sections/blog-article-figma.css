@@ -1241,8 +1241,8 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   background: transparent !important;
   background-color: transparent !important;
   padding-top: clamp(2rem, 5vw, 4rem);
-  /* Зазор до футера: внешний margin секции + padding-top у .footer-modern__container (см. body…footer выше). */
-  margin-bottom: 50px;
+  /* Зазор до футера: padding-top у .footer-modern__container (см. body…footer выше); внешний margin не нужен — дублировал пустоту. */
+  margin-bottom: 0;
 }
 
 /*

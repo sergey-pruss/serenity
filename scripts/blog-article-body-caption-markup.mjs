@@ -1,10 +1,48 @@
 /**
  * Единый класс подписи к иллюстрациям — `sa-blog-media__caption` (см. css/sections/blog-article-prose.css).
  * После `applyBlogArticleBodyMediaMarkup`: навешиваем класс на `<p>` с подписью (`<small>` / `<em>`) рядом с блоком медиа,
- * нормализуем легаси `wp-caption-text` и `content-figure__caption` в тот же класс без дублей.
+ * нормализуем легаси `wp-caption-text` и `content-figure__caption` в тот же класс без дублей;
+ * снимаем легаси `dline` с подписей, выносим `<style>p.dline{…}</style>`, одиночный `<p class="dline">` → канон.
  */
 
 const CAPTION = "sa-blog-media__caption";
+
+function stripCaptionNoiseClasses(cls) {
+  return String(cls || "")
+    .replace(/\bwp-caption-text\b/gi, "")
+    .replace(/\bcontent-figure__caption\b/gi, "")
+    .replace(/\bdline\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Легаси `<style>p.dline{…}</style>` в теле — дублирует типографику, ломает description из первых символов HTML. */
+function removeInlineDlineCaptionStyles(html) {
+  return String(html || "").replace(/<style\b[^>]*>\s*p\.dline\s*\{[^}]*\}\s*<\/style>/gi, "");
+}
+
+/** Оставшийся `<p class="dline">` (подпись без канона) → `sa-blog-media__caption`. */
+function upgradeStandaloneDlineCaptionParagraphs(html) {
+  return String(html || "")
+    .replace(/<p\s+class="dline"\s*>/gi, `<p class="${CAPTION}">`)
+    .replace(/<p\s+class='dline'\s*>/gi, `<p class="${CAPTION}">`);
+}
+
+/** У любого узла с каноном подписи в `class` убрать `dline` (оставить только семантику `sa-blog-media__caption`). */
+function stripDlineFromCaptionClassAttrs(html) {
+  let out = String(html || "");
+  out = out.replace(/\bclass\s*=\s*"([^"]*)"/gi, (full, cls) => {
+    if (!new RegExp(`\\b${CAPTION}\\b`, "i").test(cls)) return full;
+    const c = stripCaptionNoiseClasses(cls);
+    return `class="${c}"`;
+  });
+  out = out.replace(/\bclass\s*=\s*'([^']*)'/gi, (full, cls) => {
+    if (!new RegExp(`\\b${CAPTION}\\b`, "i").test(cls)) return full;
+    const c = stripCaptionNoiseClasses(cls);
+    return `class="${c}"`;
+  });
+  return out;
+}
 
 /**
  * @param {string} attrs — фрагмент между `<p` и `>` (без угловых скобок)
@@ -13,21 +51,13 @@ function injectCaptionClassIntoOpeningTagAttrs(attrs) {
   const raw = String(attrs || "");
   const dq = raw.match(/\bclass\s*=\s*"([^"]*)"/i);
   if (dq) {
-    let cls = dq[1]
-      .replace(/\bwp-caption-text\b/gi, "")
-      .replace(/\bcontent-figure__caption\b/gi, "")
-      .replace(/\s+/g, " ")
-      .trim();
+    let cls = stripCaptionNoiseClasses(dq[1]);
     if (!new RegExp(`\\b${CAPTION}\\b`).test(cls)) cls = `${cls} ${CAPTION}`.trim();
     return raw.replace(/\bclass\s*=\s*"[^"]*"/i, `class="${cls}"`);
   }
   const sq = raw.match(/\bclass\s*=\s*'([^']*)'/i);
   if (sq) {
-    let cls = sq[1]
-      .replace(/\bwp-caption-text\b/gi, "")
-      .replace(/\bcontent-figure__caption\b/gi, "")
-      .replace(/\s+/g, " ")
-      .trim();
+    let cls = stripCaptionNoiseClasses(sq[1]);
     if (!new RegExp(`\\b${CAPTION}\\b`).test(cls)) cls = `${cls} ${CAPTION}`.trim();
     return raw.replace(/\bclass\s*=\s*'[^']*'/i, `class='${cls}'`);
   }
@@ -39,11 +69,7 @@ function injectCaptionClassIntoOpeningTagAttrs(attrs) {
 function normalizeLegacyCaptionClassesInQuotedAttrs(html) {
   return String(html || "").replace(/\bclass\s*=\s*"([^"]*)"/gi, (full, cls) => {
     if (!/\bwp-caption-text\b/i.test(cls) && !/\bcontent-figure__caption\b/i.test(cls)) return full;
-    let c = cls
-      .replace(/\bwp-caption-text\b/gi, "")
-      .replace(/\bcontent-figure__caption\b/gi, "")
-      .replace(/\s+/g, " ")
-      .trim();
+    let c = stripCaptionNoiseClasses(cls);
     if (!new RegExp(`\\b${CAPTION}\\b`).test(c)) c = `${c} ${CAPTION}`.trim();
     return `class="${c}"`;
   });
@@ -97,7 +123,7 @@ function tagFigcaptionOnMediaFigures(html) {
         if (/\bclass\s*=/i.test(attrs)) {
           const dq = attrs.match(/\bclass\s*=\s*"([^"]*)"/i);
           if (dq) {
-            let cls = dq[1].replace(/\s+/g, " ").trim();
+            let cls = stripCaptionNoiseClasses(dq[1]);
             if (!new RegExp(`\\b${CAPTION}\\b`).test(cls)) cls = `${cls} ${CAPTION}`.trim();
             return `<figcaption${attrs.replace(/\bclass\s*=\s*"[^"]*"/i, `class="${cls}"`)}>`;
           }
@@ -116,10 +142,13 @@ function tagFigcaptionOnMediaFigures(html) {
  */
 export function applyBlogArticleMediaCaptionMarkup(html) {
   let out = String(html || "");
+  out = removeInlineDlineCaptionStyles(out);
+  out = upgradeStandaloneDlineCaptionParagraphs(out);
   out = normalizeLegacyCaptionClassesInQuotedAttrs(out);
   out = splitInlineCaptionOutOfBodyMediaParagraph(out);
   out = tagCaptionParagraphBeforeBodyMediaP(out);
   out = tagCaptionParagraphAfterBodyMediaP(out);
   out = tagFigcaptionOnMediaFigures(out);
+  out = stripDlineFromCaptionClassAttrs(out);
   return out;
 }

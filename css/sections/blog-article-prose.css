@@ -373,7 +373,7 @@
 
 /*
  * Медиа в теле: `.sa-blog-body-media` (вшивает build-blog-article-pages.mjs).
- * Ширина: `.sa-blog-body-media--wide` (и легаси `.sa-blog-body-media--bleed`) — блок с отступами как у сетки (`100vw` минус боковые gutter, max 1040px); `.sa-blog-body-media--text` / `--content` — колонка текста (733px).
+ * Ширина: `.sa-blog-body-media--wide` (и легаси `.sa-blog-body-media--bleed`) — `width: 100%` колонки тела, `max-width: min(100vw − 2×gutter, 1040px)`; `.sa-blog-body-media--text` / `--content` — колонка текста (733px).
  * Только div-обёртка с margin 0 — у `p.sa-blog-body-media` вертикаль ритмит `p + p` в blog-article-figma.css.
  */
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media,
@@ -398,8 +398,9 @@
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video.sa-blog-body-media--wide,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video.sa-blog-body-media--wide {
   --sa-blog-body-bleed-w: min(calc(100vw - 2 * var(--blog-article-gutter, 78px)), 1040px);
-  --sa-blog-wp-video-width: var(--sa-blog-body-bleed-w);
-  width: var(--sa-blog-body-bleed-w) !important;
+  /* 100% колонки тела (до 733px), верх — max 1040px: иначе фикс. ширина ~1040px в узком родителе даёт «узкую» картинку при width:100% у img с неявной базой для процентов. */
+  --sa-blog-wp-video-width: 100%;
+  width: 100% !important;
   max-width: var(--sa-blog-body-bleed-w) !important;
 }
 
