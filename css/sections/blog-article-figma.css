@@ -531,8 +531,7 @@ section.blog-header.darktheme > .row > .area-header,
   }
 
   .blog-header.darktheme .blog-header__title {
-    /* ещё −25% к прежнему мобильному clamp */
-    font-size: clamp(1.3125rem, 6.75vw, 52.5px);
+    font-size: clamp(1.75rem, 9vw, 70px);
   }
 
   .blog-header.darktheme .blog-header__descr {
@@ -551,21 +550,22 @@ section.blog-header.darktheme > .row > .area-header,
     padding-top: 4px;
   }
 
+  /* Основной текст тела: на 20% меньше базовых 17px (мобайл). */
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info p,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info li {
-    font-size: calc(17px * 0.75);
+    font-size: calc(17px * 0.8);
     font-weight: 100;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section p {
-    font-size: calc(17px * 0.75);
+    font-size: calc(17px * 0.8);
     font-weight: 100;
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list {
-    font-size: calc(17px * 0.75);
+    font-size: calc(17px * 0.8);
     font-weight: 100;
   }
 
