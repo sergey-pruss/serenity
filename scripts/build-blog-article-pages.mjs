@@ -16,6 +16,9 @@
  * Цитаты `.blockquote_articles`: «текст» — подпись → cite + p без ёлочек у текста; финальная точка у подписи снимается; только «…» в span → p без кавычек.
  * Карточка специалиста (`p.text-small` + `em`/`i` перед `figure.specialist__main`): из текста цитаты убираются символы «» (U+00AB/U+00BB).
  * Легаси `.specialist-mention` из синка снимается: имя/роль/фото сливаются в тот же rail, текст blockquote — лид в первой колонке перед H2.
+ *
+ * SEO/GEO: полный блок head (description, OG article, Twitter, og:image — обложка из сырого hero или дефолт как на главной,
+ * canonical со слэшем, robots, geo, JSON-LD BlogPosting).
  */
 import fs from "fs";
 import path from "path";
@@ -81,52 +84,6 @@ function transformBlockquoteArticlesMarkup(html) {
   );
 }
 
-function injectHead(html, { title, description, canonical }) {
-  let out = html;
-  if (title) {
-    out = out.replace(/<title>[^<]*<\/title>/, `<title>${escapeXml(title)}</title>`);
-    out = out.replace(
-      /<meta property="og:title" content="[^"]*"\s*\/>/,
-      `<meta property="og:title" content="${escapeXml(title)}" />`
-    );
-  }
-  if (description) {
-    if (/<meta name="description"/.test(out)) {
-      out = out.replace(
-        /<meta name="description"[^>]*\/>/,
-        `<meta name="description" content="${escapeXml(description)}" />`
-      );
-    } else {
-      out = out.replace(
-        /(<meta property="og:type" content="website" \/>)/,
-        `$1\n    <meta name="description" content="${escapeXml(description)}" />`
-      );
-    }
-    if (/<meta property="og:description"/.test(out)) {
-      out = out.replace(
-        /<meta property="og:description" content="[^"]*"\s*\/>/,
-        `<meta property="og:description" content="${escapeXml(description)}" />`
-      );
-    } else {
-      out = out.replace(
-        /(<meta property="og:title" content="[^"]*" \/>)/,
-        `$1\n    <meta property="og:description" content="${escapeXml(description)}" />`
-      );
-    }
-  }
-  if (canonical) {
-    out = out.replace(
-      /<link rel="canonical" href="[^"]*"\s*\/>/,
-      `<link rel="canonical" href="${escapeXml(canonical)}" />`
-    );
-    out = out.replace(
-      /<meta property="og:url" content="[^"]*"\s*\/>/,
-      `<meta property="og:url" content="${escapeXml(canonical)}" />`
-    );
-  }
-  return out;
-}
-
 function escapeXml(s) {
   return String(s ?? "")
     .replace(/&/g, "&amp;")
@@ -136,8 +93,8 @@ function escapeXml(s) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogHeroWidth" />
-    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503namingArticleWideIllu" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503hideMetaBackMobile" />
+    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503vkAuditoriyaNarrowIllu" />
 `;
 
 function stripBlogListingJsonPreload(html) {
@@ -257,6 +214,153 @@ function stripInnerTags(s) {
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+const SITE_ORIGIN = "https://serenity.agency";
+/** Тот же дефолтный OG, что на главной (`html/index.layout.html`). */
+const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/_sa/img/storage__2lwfrwamwdjZrXwCGrqHh1iCd0TASXMPCTozoLqM.png`;
+
+/** Блок og:title…canonical из оболочки листинга (`blog/index.html`); ведущий `\s*` убирает отступную строку перед og:title без съедания перевода строки после предыдущего тега. */
+const BLOG_SHELL_OG_CANON_RE =
+  /[ \t]*\n[ \t]*<meta property="og:title" content="[^"]*" \/>\s*<meta property="og:type" content="[^"]*" \/>\s*<meta property="og:url" content="[^"]*" \/>\s*<link rel="canonical" href="[^"]*" \/>/;
+
+function resolveAbsoluteUrl(href) {
+  let h = String(href || "").trim();
+  if (!h) return null;
+  if (/^http:\/\//i.test(h)) h = `https://${h.slice(7)}`;
+  if (/^https:\/\//i.test(h)) return h;
+  if (h.startsWith("//")) return `https:${h}`;
+  if (h.startsWith("/")) return `${SITE_ORIGIN}${h}`;
+  return null;
+}
+
+/** Сырой `bodyHtml` до снятия blog-header: обложка hero для og:image. */
+function extractHeroOgImageFromSyncedBody(rawHtml) {
+  const s = String(rawHtml || "");
+  const m1 =
+    s.match(/<link[^>]*\bitemprop=["']image["'][^>]*\bhref=["']([^"']+)["']/i) ||
+    s.match(/<link[^>]*\bhref=["']([^"']+)["'][^>]*\bitemprop=["']image["']/i);
+  if (m1) {
+    const u = resolveAbsoluteUrl(m1[1]);
+    if (u) return u;
+  }
+  const m2 = s.match(/href=["'](\/_sa\/img\/blog\/[^"']+\.(?:png|jpg|jpeg|webp))["']/i);
+  if (m2) return resolveAbsoluteUrl(m2[1]);
+  return null;
+}
+
+function ensureTrailingSlashOnCanonical(url) {
+  const u = String(url || "").trim();
+  if (!u) return `${SITE_ORIGIN}/`;
+  const q = u.indexOf("?");
+  const h = u.indexOf("#");
+  if (q !== -1) {
+    const base = u.slice(0, q);
+    const rest = u.slice(q);
+    const b = base.endsWith("/") ? base : `${base}/`;
+    return b + rest;
+  }
+  if (h !== -1) {
+    const base = u.slice(0, h);
+    const frag = u.slice(h);
+    return (base.endsWith("/") ? base : `${base}/`) + frag;
+  }
+  return u.endsWith("/") ? u : `${u}/`;
+}
+
+function ogImageMimeFromUrl(url) {
+  const u = String(url || "").toLowerCase();
+  if (/\.jpe?g(\?|#|$)/.test(u)) return "image/jpeg";
+  if (/\.webp(\?|#|$)/.test(u)) return "image/webp";
+  if (/\.png(\?|#|$)/.test(u)) return "image/png";
+  return "image/png";
+}
+
+function deriveDescriptionFromArticleBody(html) {
+  let t = stripInnerTags(String(html || ""))
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!t) return "";
+  const max = 158;
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const sp = cut.lastIndexOf(" ");
+  const base = sp > 70 ? cut.slice(0, sp) : cut;
+  return `${base.replace(/[,;:!?.…\-—]+$/u, "").trim()}…`;
+}
+
+function buildBlogPostingJsonLd({ title, description, canonical, imageUrl, authorPersonName }) {
+  const author =
+    authorPersonName && String(authorPersonName).trim()
+      ? { "@type": "Person", name: String(authorPersonName).trim() }
+      : { "@type": "Organization", name: "Serenity" };
+  const doc = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    url: canonical,
+    image: [imageUrl],
+    author,
+    publisher: {
+      "@type": "Organization",
+      name: "Serenity",
+      url: SITE_ORIGIN,
+      logo: { "@type": "ImageObject", url: DEFAULT_OG_IMAGE },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+  };
+  return `<script type="application/ld+json">${JSON.stringify(doc)}</script>`;
+}
+
+/**
+ * Полная подстановка SEO/GEO в head: OG article, Twitter, og:image (hero или дефолт главной),
+ * canonical со слэшем, robots, geo, JSON-LD BlogPosting.
+ */
+function injectBlogArticleHead(html, { title, description, canonical, ogImageUrl, authorPersonName }) {
+  const canon = ensureTrailingSlashOnCanonical(canonical);
+  const img = ogImageUrl && String(ogImageUrl).trim() ? String(ogImageUrl).trim() : DEFAULT_OG_IMAGE;
+  const imType = ogImageMimeFromUrl(img);
+  const metaAuthor = authorPersonName && String(authorPersonName).trim() ? String(authorPersonName).trim() : "Serenity";
+
+  const block =
+    `\n    <meta name="title" content="${escapeXml(title)}" />\n` +
+    `    <meta property="og:title" content="${escapeXml(title)}" />\n` +
+    `    <meta name="description" content="${escapeXml(description)}" />\n` +
+    `    <meta property="og:description" content="${escapeXml(description)}" />\n` +
+    `    <meta property="og:type" content="article" />\n` +
+    `    <meta property="og:url" content="${escapeXml(canon)}" />\n` +
+    `    <meta property="og:locale" content="ru_RU" />\n` +
+    `    <meta property="og:site_name" content="Serenity" />\n` +
+    `    <meta property="og:image" content="${escapeXml(img)}" />\n` +
+    `    <meta property="og:image:secure_url" content="${escapeXml(img)}" />\n` +
+    `    <meta property="og:image:type" content="${imType}" />\n` +
+    `    <meta name="twitter:card" content="summary_large_image" />\n` +
+    `    <meta name="twitter:title" content="${escapeXml(title)}" />\n` +
+    `    <meta name="twitter:description" content="${escapeXml(description)}" />\n` +
+    `    <meta name="twitter:image" content="${escapeXml(img)}" />\n` +
+    `    <link rel="canonical" href="${escapeXml(canon)}" />\n` +
+    `    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />\n` +
+    `    <meta name="author" content="${escapeXml(metaAuthor)}" />\n` +
+    `    <meta name="geo.region" content="RU" />\n` +
+    `    <meta name="geo.placename" content="Россия" />`;
+
+  if (!BLOG_SHELL_OG_CANON_RE.test(html)) {
+    throw new Error(
+      "injectBlogArticleHead: в оболочке блога не найден блок og:title → canonical — проверьте blog/index.html",
+    );
+  }
+  let out = html.replace(BLOG_SHELL_OG_CANON_RE, block);
+  out = out.replace(/<title>[^<]*<\/title>/, `<title>${escapeXml(title)}</title>`);
+  const jsonLd = buildBlogPostingJsonLd({
+    title,
+    description,
+    canonical: canon,
+    imageUrl: img,
+    authorPersonName,
+  });
+  out = out.replace(/\n  <\/head>/i, `\n    ${jsonLd}\n  </head>`);
+  return out;
 }
 
 /** Легаси Nuxt: герой `blog-header` в JSON — убираем; дату публикации забираем для верхнего блока как у листинга. */
@@ -659,7 +763,9 @@ const postPagesJsonRoot = path.join(root, "json", "blog-post-pages");
  */
 function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, suffix) {
   const { readMoreSlug, segment, slug } = ctx;
-  let bodyForArticle = normalizeBlogArticleBodyHtml(data.bodyHtml || "");
+  const rawBodyHtml = data.bodyHtml || "";
+  const ogImageFromHero = extractHeroOgImageFromSyncedBody(rawBodyHtml);
+  let bodyForArticle = normalizeBlogArticleBodyHtml(rawBodyHtml);
   const legacyBlogHeader = extractDateAndStripLegacyBlogHeader(bodyForArticle);
   bodyForArticle = legacyBlogHeader.rest;
   bodyForArticle = applyBlogArticleBodyListMarkup(bodyForArticle);
@@ -689,12 +795,23 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   body = stripGuillemetsFromArticleQuoteBlocks(body);
   const readAlso = buildReadMoreSection(readMoreSlug, articleFeed);
   const title = data.title || slug;
-  const description = normalizeBlogMetaDescription(data.description || "");
-  const canonical =
+  let metaDescription = normalizeBlogMetaDescription(data.description || "");
+  if (!metaDescription) {
+    metaDescription = deriveDescriptionFromArticleBody(body);
+  }
+  if (!metaDescription) {
+    metaDescription = `${title} — материалы блога агентства Serenity.`;
+  }
+  metaDescription = normalizeBlogMetaDescription(metaDescription);
+
+  const canonicalRaw =
     data.canonical ||
     (segment === "article"
-      ? `https://serenity.agency/blog/article/${slug}`
-      : `https://serenity.agency/blog/${segment}/${slug}`);
+      ? `${SITE_ORIGIN}/blog/article/${slug}`
+      : `${SITE_ORIGIN}/blog/${segment}/${slug}`);
+  const canonicalForHead = ensureTrailingSlashOnCanonical(canonicalRaw);
+
+  const authorPersonName = authorResolved?.name ? String(authorResolved.name).trim() : "";
 
   let metaCategoryLabel = "Статьи";
   let metaCategoryHref = "/blog/article/";
@@ -713,13 +830,19 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   }
   const pageTopHtml = renderBlogArticlePageTop({
     title,
-    description,
+    description: metaDescription,
     datePublished: legacyBlogHeader.datePublished,
     metaCategoryLabel,
     metaCategoryHref,
   });
 
-  let headPart = injectHead(prefixArticleShell, { title, description, canonical });
+  let headPart = injectBlogArticleHead(prefixArticleShell, {
+    title,
+    description: metaDescription,
+    canonical: canonicalForHead,
+    ogImageUrl: ogImageFromHero,
+    authorPersonName,
+  });
   const outHtml = readAlso
     ? `${headPart}${pageTopHtml}${body}\n${readAlso}\n${suffix}`
     : `${headPart}${pageTopHtml}${body}\n${suffix}`;
