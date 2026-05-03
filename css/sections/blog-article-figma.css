@@ -1368,6 +1368,34 @@ html:has(.blog-header.darktheme) .blog-read-more.isNewContent .services__title {
 }
 
 /*
+ * Мобайл: основной текст тела −30% от базовых 19px (кегль тела и списков, без __info--sub).
+ * Блок после глобальных правил 19px — иначе каскад не применится.
+ */
+@media screen and (max-width: 767px) {
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub),
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub) p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section__info:not(.article-section__info--sub) li,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose li,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose p,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose li {
+    font-size: calc(19px * 0.7);
+    font-weight: 100;
+  }
+
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section ol.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose ol.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ul.sa-blog-body-list,
+  .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose ol.sa-blog-body-list {
+    font-size: calc(19px * 0.7);
+    font-weight: 100;
+  }
+}
+
+/*
  * Шапка и CTA: этот файл идёт после parity-sync в статьях — дублируем отступ сверху,
  * чтобы фиксированные top не «съедались» каскадом / safe-area (viewport-fit=cover).
  */
