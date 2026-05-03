@@ -83,8 +83,12 @@ function normalizeWpVideoShortcodeForWebKit(html) {
   );
 }
 
+/** Легаси Nuxt: декоративный фон шапки статьи — не используем в статике (см. blog-article-page-top). */
+const BLOG_HEADER_BG_DIV_RE = /<div\b[^>]*\bblog-header__bg\b[^>]*>\s*<\/div>\s*/gi;
+
 export function normalizeBlogArticleBodyHtml(html) {
-  let s = normalizeWpVideoShortcodeForWebKit(html);
+  let s = String(html || "").replace(BLOG_HEADER_BG_DIV_RE, "");
+  s = normalizeWpVideoShortcodeForWebKit(s);
   if (!s.includes("specialist-mention")) return s;
   if (/<\/section>\s*<section class="darktheme"[^>]*data-v-96fb7d6e[^>]*>\s*<div class="specialist-mention"/i.test(s)) {
     return s;
