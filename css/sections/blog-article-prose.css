@@ -4,7 +4,15 @@
  * Не дублирует базовые p/ul/ol/h2/h3 — они в blog-article-figma.css.
  *
  * Опциональная обёртка для «одного куска» HTML: `.sa-blog-prose` внутри `.article-section__info` или `.text-content`.
+ *
+ * Иллюстрация + подпись: `<figure class="sa-blog-media">` + `img` + `figcaption.sa-blog-media__caption` — те же отступы, что у `figure` ниже.
  */
+
+/* Легаси WP: span с color внутри заголовка секции — иначе блок ниже с [style*="#000"] красит подпись в цвет тела. */
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section h3.section-title [style],
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .h3.section-title [style] {
+  color: inherit !important;
+}
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section h4,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .h4 {
@@ -152,7 +160,9 @@
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section figure,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section figure.sa-blog-media,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose figure,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose figure.sa-blog-media,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .wp-block-image,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .wp-block-image {
   margin: 1.5em 0;
