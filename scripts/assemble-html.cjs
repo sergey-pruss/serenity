@@ -17,6 +17,8 @@ const path = require("path");
 
 const root = path.resolve(__dirname, "..");
 const layoutPath = path.join(root, "html", "index.layout.html");
+const blogLayoutPath = path.join(root, "html", "blog-index.layout.html");
+const blogOutPath = path.join(root, "blog", "index.html");
 const partialsDir = path.join(root, "html", "partials");
 const outPath = path.join(root, "index.html");
 
@@ -121,12 +123,7 @@ function assertLayoutMarkersKnown(layout, partialNames) {
   }
 }
 
-function build() {
-  if (!fs.existsSync(layoutPath)) {
-    throw new Error(`Missing layout ${layoutPath} — run extract first`);
-  }
-  const partials = loadPartials();
-  let layout = fs.readFileSync(layoutPath, "utf8");
+function expandLayoutMarkers(layout, partials) {
   assertLayoutMarkersKnown(layout, new Set(partials.keys()));
   const out = layout.replace(MARKER_RE, (_, name) => {
     if (!partials.has(name)) {
@@ -137,8 +134,28 @@ function build() {
   if (out.includes("<!-- @partial")) {
     throw new Error("Unreplaced @partial markers remain in output");
   }
-  fs.writeFileSync(outPath, out.replace(/\n+$/, "\n"), "utf8");
+  return out;
+}
+
+function build() {
+  if (!fs.existsSync(layoutPath)) {
+    throw new Error(`Missing layout ${layoutPath} — run extract first`);
+  }
+  const partials = loadPartials();
+  const mainLayout = fs.readFileSync(layoutPath, "utf8");
+  const mainOut = expandLayoutMarkers(mainLayout, partials);
+  fs.writeFileSync(outPath, mainOut.replace(/\n+$/, "\n"), "utf8");
   console.log("Wrote", outPath);
+
+  if (fs.existsSync(blogLayoutPath)) {
+    const blogLayout = fs.readFileSync(blogLayoutPath, "utf8");
+    fs.mkdirSync(path.dirname(blogOutPath), { recursive: true });
+    const blogOut = blogLayout.includes("<!-- @partial")
+      ? expandLayoutMarkers(blogLayout, partials)
+      : blogLayout;
+    fs.writeFileSync(blogOutPath, blogOut.replace(/\n+$/, "\n"), "utf8");
+    console.log("Wrote", blogOutPath);
+  }
 }
 
 const cmd = process.argv[2] || "build";

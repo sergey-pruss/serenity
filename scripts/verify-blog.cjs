@@ -79,11 +79,12 @@ const startStaticServer = (port) =>
     "листинг блога не должен тянуть CSS статей (blog-article-figma)",
   );
   assert(
-    blogTemplate.includes("<!--@blog-json-preload-->") ||
-      /<link[^>]+rel="preload"[^>]+href="\/_sa\/json\/blog-pages\/all\/page-1\.json"[^>]+as="fetch"/.test(
-        blogTemplate,
-      ),
-    "blog/index.html — маркер или preload JSON для page-1 ленты «все»",
+    !blogTemplate.includes("<!--@blog-json-preload-->"),
+    "blog/index.html: после сборки не должно оставаться <!--@blog-json-preload--> — выполни node scripts/build-blog-pages.mjs",
+  );
+  assert(
+    /<link[^>]+rel="preload"[^>]+href="\/_sa\/json\/blog-pages\/all\/page-1\.json"[^>]+as="fetch"/.test(blogTemplate),
+    "blog/index.html — preload JSON первой страницы ленты «все»",
   );
 
   const payload = JSON.parse(fs.readFileSync(path.join(root, "json/blogs-all.json"), "utf8"));

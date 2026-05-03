@@ -74,7 +74,12 @@ const filterPosts = (posts, code) => {
 
   const htmlTemplate = fs.readFileSync(sourceHtmlPath, "utf8");
   if (!htmlTemplate.includes(JSON_PRELOAD_MARKER)) {
-    throw new Error(`blog/index.html: нет маркера ${JSON_PRELOAD_MARKER} для preload JSON листинга`);
+    throw new Error(
+      `blog/index.html: нет маркера ${JSON_PRELOAD_MARKER} — сначала node scripts/assemble-html.cjs build`,
+    );
+  }
+  if (htmlTemplate.includes("<!-- @partial")) {
+    throw new Error("blog/index.html: остались <!-- @partial — сначала node scripts/assemble-html.cjs build");
   }
   const data = JSON.parse(fs.readFileSync(sourceDataPath, "utf8"));
   const posts = Array.isArray(data.posts) ? data.posts : [];
@@ -122,9 +127,6 @@ const filterPosts = (posts, code) => {
       writeHtmlAtRoute(routePath(code, pageNum), pageHtml);
     }
   }
-
-  /* Исходник blog/index.html с маркером — для следующего build-blog-article-pages в том же npm-скрипте. */
-  fs.writeFileSync(sourceHtmlPath, htmlTemplate, "utf8");
 
   console.log("OK: generated paginated routes and JSON in /blog/* and /json/blog-pages/*");
 })();
