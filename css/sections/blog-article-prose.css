@@ -257,8 +257,8 @@
 
 /*
  * WordPress `[video]`: легаси inline `width:640px`. Родитель `.article-section__info` — max-width 733px,
- * поэтому проценты от «100%» не дают ширину по экрану: задаём min(vw, px) явно; высота видео — auto (пропорции ролика).
- * Подпись кейса `.article-section__info--sub` сразу под блоком — та же ширина, что и плеер.
+ * поэтому проценты от «100%» не дают ширину по экрану: задаём min(vw, px) явно; высота — auto (пропорции ролика).
+ * Блок цитаты `.article-section__info--sub` под видео не трогаем — ширина как у колонки статьи (blog-article-figma.css).
  */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .wp-video {
@@ -268,14 +268,6 @@
   margin-left: 0 !important;
   margin-right: auto !important;
   display: block;
-}
-
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info:has(> div > .wp-video) > .article-section__info--sub {
-  width: min(78vw, 1040px);
-  max-width: min(78vw, 1040px);
-  margin-left: 0;
-  margin-right: auto;
-  box-sizing: border-box;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .wp-video video,
@@ -294,11 +286,6 @@
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-  }
-
-  .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info:has(> div > .wp-video) > .article-section__info--sub {
-    width: 100%;
-    max-width: 100%;
   }
 }
 
