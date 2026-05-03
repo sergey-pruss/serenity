@@ -346,16 +346,16 @@
   color: var(--blog-article-body-color) !important;
 }
 
-/* Мобайл: цитаты и таблицы в масштабе тела (−30% к десктопным 19px / 18px). */
+/* Мобайл: цитаты и таблицы в масштабе тела (как у figma: ×0.7 затем +15% = ×0.805 от 19px / 18px). */
 @media screen and (max-width: 767px) {
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section blockquote,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose blockquote {
-    font-size: calc(19px * 0.7);
+    font-size: calc(19px * 0.7 * 1.15);
   }
 
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info table,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose table,
   .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose table {
-    font-size: calc(18px * 0.7);
+    font-size: calc(18px * 0.7 * 1.15);
   }
 }
