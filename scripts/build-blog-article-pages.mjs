@@ -368,6 +368,30 @@ function injectSpecialistLeadIntoFirstBodyColumn(bodyHtml, leadFragment) {
   return bodyHtml.replace(re, `$1${inner}`);
 }
 
+/** Содержимое нескольких `<p>` в один фрагмент для `p.text-small` в rail (допустимы `<br /><br />` между абзацами). */
+function mergeAdjacentParagraphsForSpecialistRail(fragment) {
+  const parts = [];
+  const r = /<p\b[^>]*>([\s\S]*?)<\/p>/gi;
+  let m;
+  while ((m = r.exec(String(fragment))) !== null) parts.push(m[1].trim());
+  return parts.join("<br /><br />");
+}
+
+/**
+ * Легаси Nuxt: цитата в соседнем `<div>` перед `.article-section__info--sub`, а `p.text-small` в rail пустой.
+ * Бандл тогда держит rail `position:absolute` поверх текста. Переносим абзацы в `p.text-small` внутри карточки.
+ */
+function relocateOrphanQuoteIntoSpecialistRail(html) {
+  /* Только 1–2 абзаца-цитаты с `<em>` (легаси Nuxt): иначе матч «прыгает» на чужие `</div>` и схлопывает
+   * целые секции до первого пустого `p.text-small`+`figure`. Обычные два `<p>` перед rail не трогаем. */
+  const re =
+    /<div class="article-section__info"([^>]*)>\s*<div[^>]*>((?:\s*<p\b[^>]*>\s*<em>[\s\S]*?<\/em>\s*<\/p>\s*){1,2})<\/div>\s*<div class="article-section__info--sub"([^>]*)>\s*(?:<!---->\s*)*<p class="text-small"[^>]*>\s*<\/p>\s*<figure class="specialist__main"/gi;
+  return String(html).replace(re, (_full, infoAttrs, quoteBlock, subAttrs) => {
+    const merged = mergeAdjacentParagraphsForSpecialistRail(quoteBlock);
+    return `<div class="article-section__info"${infoAttrs}><div class="article-section__info--sub"${subAttrs}><p class="text-small">${merged}</p> <figure class="specialist__main"`;
+  });
+}
+
 function buildReadMoreSection(currentSlug, articleFeed) {
   if (!Array.isArray(articleFeed) || articleFeed.length === 0) return "";
   const idx = articleFeed.findIndex((p) => articleSlugFromHref(p.href) === currentSlug);
@@ -472,6 +496,7 @@ ${slides}
     }
     body = injectSpecialistLeadIntoFirstBodyColumn(body, spec.leadFragment);
     body = transformBlockquoteArticlesMarkup(body);
+    body = relocateOrphanQuoteIntoSpecialistRail(body);
     const readAlso = buildReadMoreSection(slug, articleFeed);
     const title = data.title || slug;
     const description = data.description || "";
