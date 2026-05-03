@@ -7,7 +7,7 @@
  *
  * Иллюстрация + подпись: `<figure class="sa-blog-media">` + `img` + `figcaption.sa-blog-media__caption` — те же отступы, что у `figure` ниже.
  *
- * Медиа в колонке: `sa-blog-body-media` (ширина как у WP-видео) и `sa-blog-body-media--text` (ширина текста, JSON `blogBodyMediaLayout`: `"text"`).
+ * Медиа в колонке: обёртка `div.sa-blog-body-media`; картинки — `p.sa-blog-body-media`. Нулевые вертикальные margin только у `div`, иначе перебивается `p + p` (blog-article-figma.css). `--text` — JSON `blogBodyMediaLayout`: `"text"`.
  */
 
 /* Легаси WP: span с color внутри заголовка секции — иначе блок ниже с [style*="#000"] красит подпись в цвет тела. */
@@ -161,11 +161,15 @@
   min-width: 560px;
 }
 
-/* Таблица в широком блоке медиа: без второго вертикального поля; шире колонки текста. */
+/*
+ * Таблица внутри div.sa-blog-body-media: внешний блок без вертикали — отступ даёт скролл
+ * (как у одиночного .blog-article-table-scroll). Раньше margin: 0 «убирал дубль», но после абзаца
+ * шёл div, а не второй p — верхний зазор пропадал.
+ */
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media > .blog-article-table-scroll,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media > .blog-article-table-scroll,
 .blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media > .blog-article-table-scroll {
-  margin: 0;
+  margin: 1.25em 0;
 }
 
 .blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media table,
@@ -293,11 +297,13 @@
  * Медиа в теле: `.sa-blog-body-media` (вшивает build-blog-article-pages.mjs).
  * По умолчанию — ширина как у встроенного видео WP; с модификатором `.sa-blog-body-media--text`
  * (JSON `blogBodyMediaLayout`: `"text"`) — ширина колонки текста (733px, как .article-section__info).
+ * Только div-обёртка с margin 0 — у `p.sa-blog-body-media` вертикаль ритмит `p + p` в blog-article-figma.css.
  */
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .sa-blog-body-media,
-.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose .sa-blog-body-media {
-  margin-top: 10px;
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media,
+.blog-header.darktheme ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media {
+  margin-top: 0;
+  margin-bottom: 0;
   display: block;
   box-sizing: border-box;
   margin-left: 0 !important;
