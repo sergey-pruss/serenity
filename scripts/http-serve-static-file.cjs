@@ -7,6 +7,24 @@ const path = require("path");
  * Safari и др. для `<video src="…mp4">` часто шлют `Range: bytes=0-1` и ждут `206` + `Content-Range`;
  * ответ `200` без диапазонов даёт плеер с длительностью 0:00.
  */
+function fileEntityTag(stat) {
+  return `"${stat.size}-${Math.floor(stat.mtimeMs / 1000)}"`;
+}
+
+/** RFC 7233: при несовпадении If-Range нужен полный 200, иначе Safari/WebKit может не собрать MP4. */
+function ifRangeAllowsPartial(req, stat, etag) {
+  const ir = req.headers["if-range"];
+  if (!ir) return true;
+  const v = String(ir).trim();
+  if (v.startsWith('"') || /^W\//i.test(v)) {
+    const client = v.replace(/^W\//i, "").trim();
+    return client === etag;
+  }
+  const t = Date.parse(v);
+  if (!Number.isFinite(t)) return false;
+  return Math.abs(stat.mtimeMs - t) < 2000;
+}
+
 function parseByteRange(rangeHeader, size) {
   if (!rangeHeader || !/^bytes=/i.test(rangeHeader)) return null;
   const raw = rangeHeader.replace(/^bytes=/i, "").trim();
@@ -54,14 +72,26 @@ function serveStaticFile(req, res, file, opts) {
     return;
   }
   const size = st.size;
-  for (const k of Object.keys(noCache)) {
-    res.setHeader(k, noCache[k]);
+  const etag = fileEntityTag(st);
+  const lastModified = st.mtime.toUTCString();
+
+  if (ext === ".mp4") {
+    res.setHeader("Cache-Control", "private, max-age=0, must-revalidate");
+  } else {
+    for (const k of Object.keys(noCache)) {
+      res.setHeader(k, noCache[k]);
+    }
   }
   res.setHeader("Content-Type", contentType);
   res.setHeader("Accept-Ranges", "bytes");
+  res.setHeader("ETag", etag);
+  res.setHeader("Last-Modified", lastModified);
 
   const method = (req.method || "GET").toUpperCase();
-  const rangeSpec = parseByteRange(req.headers.range, size);
+  let rangeSpec = parseByteRange(req.headers.range, size);
+  if (rangeSpec && "start" in rangeSpec && !ifRangeAllowsPartial(req, st, etag)) {
+    rangeSpec = null;
+  }
 
   if (rangeSpec && rangeSpec.error === 416) {
     res.setHeader("Content-Range", `bytes */${size}`);
@@ -93,4 +123,4 @@ function serveStaticFile(req, res, file, opts) {
   fs.createReadStream(file).on("error", () => res.destroy()).pipe(res);
 }
 
-module.exports = { parseByteRange, serveStaticFile };
+module.exports = { parseByteRange, serveStaticFile, fileEntityTag, ifRangeAllowsPartial };

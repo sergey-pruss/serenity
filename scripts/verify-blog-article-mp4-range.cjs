@@ -115,6 +115,7 @@ function httpRequest(port, opts) {
     });
     assert(range.statusCode === 206, `Range GET ожидался 206, получено ${range.statusCode}`);
     assert(range.body.length === 2, `Тело Range 0-1: ожидалось 2 байта, ${range.body.length}`);
+    assert(String(range.headers.etag || "").startsWith('"'), `Range GET: ожидался ETag, получено ${range.headers.etag}`);
     assert(
       String(range.headers["content-type"] || "").includes("video/mp4"),
       `GET Content-Type: ожидался video/mp4`,
@@ -123,6 +124,15 @@ function httpRequest(port, opts) {
       /^bytes 0-1\/\d+$/.test(String(range.headers["content-range"] || "")),
       `Content-Range: ожидался bytes 0-1/<size>, получено ${range.headers["content-range"]}`,
     );
+
+    const etag = String(range.headers.etag || "");
+    const range2 = await httpRequest(port, {
+      path: urlPath,
+      headers: { Range: "bytes=10-19", "If-Range": etag },
+    });
+    assert(range2.statusCode === 206, `If-Range + Range: ожидался 206, получено ${range2.statusCode}`);
+    assert(range2.body.length === 10, `If-Range + Range: ожидалось 10 байт, ${range2.body.length}`);
+
     console.log("OK: /_sa/…mp4 HEAD 200 + Range bytes=0-1 → 206 (как у npm run dev для Safari).");
   } finally {
     await new Promise((resolve) => server.close(resolve));
