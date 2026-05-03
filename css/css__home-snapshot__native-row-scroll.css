@@ -348,23 +348,20 @@
 }
 
 /* «Наши клиенты»: нативный горизонтальный scroll на треке (как блог/услуги) — инерция тача без JS-transform.
-   Лента на всю ширину вьюпорта на всех брейкпоинтах: компенсируем padding .clients-wrapper (--page-gutter-x),
-   снимаем max-width/centering бандла (иначе на широком экране полоса «втиснута» в 1366px с зазорами).
-   padding бандла у хоста — 0, чтобы трек доходил до краёв экрана. */
+   До ≤1025px лента на всю ширину вьюпорта: компенсируем горизонталь страницы (--page-gutter-x на .clients-wrapper),
+   сбрасываем padding бандла у хоста — плашки доходят до краёв экрана и уезжают за них при скролле. */
 .swiper-container-clients-new[data-clients-strip="1"] {
   overflow-x: visible !important;
   overflow-y: visible !important;
   overscroll-behavior-x: contain;
   position: relative;
   touch-action: auto !important;
-  width: calc(100% + 2 * var(--page-gutter-x)) !important;
-  max-width: none !important;
+  width: 100% !important;
+  max-width: 1366px;
   min-width: 0;
-  box-sizing: border-box !important;
-  margin-left: calc(-1 * var(--page-gutter-x)) !important;
-  margin-right: calc(-1 * var(--page-gutter-x)) !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
 }
 .swiper-container-clients-new[data-clients-strip="1"] .clients-new__context-wrapper {
   display: flex;
@@ -411,4 +408,16 @@
 .clients-mainstr .clients-new-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
   overflow-x: visible !important;
   overflow-y: visible !important;
+}
+
+@media screen and (max-width: 1025px) {
+  .swiper-container-clients-new[data-clients-strip="1"] {
+    max-width: none !important;
+    width: calc(100% + 2 * var(--page-gutter-x)) !important;
+    margin-left: calc(-1 * var(--page-gutter-x)) !important;
+    margin-right: calc(-1 * var(--page-gutter-x)) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
 }
