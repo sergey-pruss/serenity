@@ -28,6 +28,7 @@ const require = createRequire(import.meta.url);
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 
 const root = path.resolve(process.cwd());
+/** Всегда собранный листинг: после `assemble-html` шапка из partials уже развёрнута. */
 const listingPath = path.join(root, "blog", "index.html");
 const jsonDir = path.join(root, "json", "blog-articles");
 const manifestPath = path.join(root, "json", "blog-articles-manifest.json");
@@ -130,7 +131,7 @@ function escapeXml(s) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogMetaBackPill" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260503blogBackLabel" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogArticlePageTop" />
 `;
 
@@ -302,7 +303,7 @@ const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all
 function renderBlogArticlePageTop({ title, description, datePublished }) {
   const metaParts =
     `<p class="blog-article-page-top__meta" data-v-27a87df0="">` +
-    `<a href="/blog/" class="blog-article-page-top__meta-link blog-article-page-top__meta-back">←&nbsp;Блог</a>` +
+    `<a href="/blog/" class="blog-article-page-top__meta-link blog-article-page-top__meta-back">←&nbsp;Назад к блогу</a>` +
     `<a href="/blog/article/" class="blog-article-page-top__meta-link">Статьи</a>` +
     (datePublished
       ? `<span class="blog-article-page-top__meta-date">${escapeXml(datePublished)}</span>`

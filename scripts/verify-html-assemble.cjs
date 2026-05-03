@@ -12,6 +12,7 @@ const assert = (ok, msg) => {
 
 const root = path.resolve(__dirname, "..");
 const indexPath = path.join(root, "index.html");
+const blogIndexPath = path.join(root, "blog", "index.html");
 
 (() => {
   const r = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {
@@ -26,8 +27,21 @@ const indexPath = path.join(root, "index.html");
   });
   assert(rTypo.status === 0, `typography-nbsp failed: ${rTypo.stderr || rTypo.stdout}`);
 
+  const rBlogPages = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-pages.mjs")], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  assert(rBlogPages.status === 0, `build-blog-pages failed: ${rBlogPages.stderr || rBlogPages.stdout}`);
+
   const html = fs.readFileSync(indexPath, "utf8");
   assert(!html.includes("<!-- @partial"), "В index.html остались незаменённые маркеры @partial");
+
+  const blogHtml = fs.readFileSync(blogIndexPath, "utf8");
+  assert(!blogHtml.includes("<!-- @partial"), "В blog/index.html остались незаменённые маркеры @partial");
+  assert(
+    blogHtml.includes("https://serenity.agency/career/vacancy") && blogHtml.includes("Вакансии"),
+    "blog/index.html — шапка из partials (пункт «Вакансии» как на главной)"
+  );
 
   assert(html.includes('class="header page-top'), "header (page-top)");
   assert(html.includes("services-section_main-structure"), "services-section_main-structure");
