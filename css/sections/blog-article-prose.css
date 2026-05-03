@@ -210,7 +210,7 @@
   font-weight: 300;
   font-style: normal;
   color: rgba(255, 255, 255, 0.55);
-  text-align: center;
+  text-align: left;
 }
 
 /* WP часто оборачивает подпись в <em><small> — без сброса курсив и ~80% кегля */
