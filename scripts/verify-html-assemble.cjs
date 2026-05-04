@@ -39,6 +39,10 @@ const blogIndexPath = path.join(root, "blog", "index.html");
   const blogHtml = fs.readFileSync(blogIndexPath, "utf8");
   assert(!blogHtml.includes("<!-- @partial"), "В blog/index.html остались незаменённые маркеры @partial");
   assert(
+    !/\{\{BLOG_(TITLE|CANONICAL|DESCRIPTION)\}\}/.test(blogHtml),
+    "blog/index.html: после build-blog-pages не должно оставаться плейсхолдеров {{BLOG_*}}",
+  );
+  assert(
     blogHtml.includes("https://serenity.agency/career/vacancy") && blogHtml.includes("Вакансии"),
     "blog/index.html — шапка из partials (пункт «Вакансии» как на главной)"
   );

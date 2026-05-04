@@ -74,6 +74,10 @@ const startStaticServer = (port) =>
   const caseAllIndexPath = path.join(root, "case", "all", "index.html");
   const caseAllTemplate = fs.readFileSync(caseAllIndexPath, "utf8");
   assert(caseAllTemplate.includes("ym(30205029"), "case/all/index.html — Яндекс.Метрика");
+  assert(
+    !/\{\{CASE_(TITLE|CANONICAL|DESCRIPTION)\}\}/.test(caseAllTemplate),
+    "case/all/index.html: после build-case-all-pages не должно оставаться плейсхолдеров {{CASE_*}}",
+  );
 
   const payload = JSON.parse(fs.readFileSync(path.join(root, "json/cases-all.json"), "utf8"));
   const cases = payload.cases || [];
@@ -129,6 +133,11 @@ const startStaticServer = (port) =>
       const lastPageCount = await countCases();
       const expectedLast = total - pageDesktop * 2;
       assert(lastPageCount === expectedLast, `Страница 3: ожидается ${expectedLast} карточек, получено ${lastPageCount}`);
+      const p3Desc = await page.$eval('meta[name="description"]', (el) => el.getAttribute("content") || "");
+      assert(
+        /Страница\s+3\./.test(p3Desc),
+        `meta description страницы 3 кейсов должна содержать «Страница 3.», получено: ${p3Desc.slice(0, 140)}…`,
+      );
     }
 
     console.log(

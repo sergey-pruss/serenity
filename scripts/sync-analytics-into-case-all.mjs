@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Подставляет html/partials/analytics-counters.html в case/all/index.html
+ * Подставляет html/partials/analytics-counters.html в html/case-all-index.layout.html
  * между маркерами SERENITY:ANALYTICS-BEGIN / END (запуск из npm run build:cases).
  */
 import fs from "fs";
@@ -8,7 +8,7 @@ import path from "path";
 
 const root = path.resolve(process.cwd());
 const partialPath = path.join(root, "html", "partials", "analytics-counters.html");
-const caseAllPath = path.join(root, "case", "all", "index.html");
+const caseAllPath = path.join(root, "html", "case-all-index.layout.html");
 const blockRe = /<!-- SERENITY:ANALYTICS-BEGIN -->[\s\S]*?<!-- SERENITY:ANALYTICS-END -->/;
 
 (() => {
@@ -26,5 +26,5 @@ const blockRe = /<!-- SERENITY:ANALYTICS-BEGIN -->[\s\S]*?<!-- SERENITY:ANALYTIC
   const block = `<!-- SERENITY:ANALYTICS-BEGIN -->\n${partial}\n    <!-- SERENITY:ANALYTICS-END -->`;
   html = html.replace(blockRe, block);
   fs.writeFileSync(caseAllPath, html.replace(/\n+$/, "\n"), "utf8");
-  console.log("OK: analytics-counters → case/all/index.html");
+  console.log("OK: analytics-counters → html/case-all-index.layout.html");
 })();

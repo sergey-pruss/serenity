@@ -1,43 +1,45 @@
 #!/usr/bin/env bash
-# Пошаговая настройка MCP Google Search Console (русский интерфейс GSC / Google Cloud).
+# Настройка MCP Google Search Console: сначала OAuth Desktop (без SA в GSC), затем опционально SA.
 cat <<'EOF'
-=== MCP Google Search Console — что сделать ===
+=== MCP Google Search Console — рекомендуемый обход (OAuth Desktop) ===
 
-0) Если в личном сайте sergey-pruss.github.io уже был путь к OAuth JSON:
-     npm run mcp:gsc-sync-oauth
-   Скрипт скопирует файл в secrets/mcp/gsc-oauth-desktop.json (если исходник на диске есть).
+Не нужно добавлять сервисный аккаунт в Search Console: API ходит от вашего
+личного Google, у которого уже есть доступ к свойству Serenity.
 
-1) Google Cloud (браузер): https://console.cloud.google.com/
-   • Выберите проект (или создайте).
-   • «APIs and services» / «APIs и сервисы» → «Library» / «Библиотека»
-   • Найдите «Google Search Console API» → Enable / «Включить».
+1) Google Cloud → проект (например sergeypruss):
+   https://console.cloud.google.com/apis/library/searchconsole.googleapis.com
+   Включите API «Google Search Console API».
 
-2) Сервисный аккаунт и ключ JSON:
-   • «IAM and admin» / «IAM и администрирование» → «Service accounts»
-     / «Сервисные аккаунты» → Create / «Создать».
-   • После создания: вкладка «Keys» / «Ключи» → Add key → JSON.
-   • Сохраните файл в репозиторий ТОЧНО сюда (имя важно для лаунчера):
-       secrets/mcp/google-search-console-sa.json
-   • Либо положите JSON куда угодно и в secrets/mcp/env.sh укажите:
-       export GSC_SERVICE_ACCOUNT_KEY_FILE="/полный/путь/к/файлу.json"
+2) APIs & Services → Credentials → OAuth client ID → тип «Desktop»
+   (у вас уже может быть «GSC MCP Desktop»). Скачайте JSON клиента.
 
-3) Узнать email сервисного аккаунта (для шага 4):
-       npm run mcp:gsc-email
+3) Положите JSON в репозиторий Serenity одним из способов:
+   • npm run mcp:gsc-install-oauth -- "/полный/путь/client_secret_….json"
+     → копия окажется в secrets/mcp/gsc-oauth-desktop.json
+   • или npm run mcp:gsc-sync-oauth
+     → копирует из пути в ~/Documents/GitHub/sergey-pruss.github.io/.cursor/mcp.json
+   • или в secrets/mcp/env.sh:
+       export GSC_OAUTH_CLIENT_FILE="/полный/путь/к/desktop-client.json"
 
-4) Google Search Console — куда нажимать (у вас уже открыты «Настройки»):
-   • На странице «Настройки» найдите блок «Общие настройки».
-   • Строка «Пользователи и разрешения» — нажмите НА САМУ СТРОКУ
-     (не ищите отдельный пункт в меню слева: откроется список пользователей).
-   • Внутри: «Добавить пользователя» / «Add user».
-   • Вставьте email из шага 3 (…@….iam.gserviceaccount.com).
-   • Роль: достаточно «Полный» / «Full» для чтения отчётов через API
-     (или «Ограниченный» с нужными правами — если API пустой, повысьте до Full).
+4) OAuth consent screen → раздел «Test users» / «Тестовые пользователи»:
+   добавьте email того Google, под которым входите (например sergeyprus@gmail.com).
+   Иначе после входа будет «403: access_denied» — приложение в режиме Testing.
 
-5) Перезапуск MCP в Cursor (или перезапуск окна).
+5) Перезапуск MCP «google-search-console» в Cursor (или перезапуск окна).
+   При первом обращении к GSC откроется браузер — войдите тем Google,
+   который имеет доступ к Search Console для serenity.agency.
 
-Альтернатива без сервисного аккаунта: OAuth Desktop — в secrets/mcp/env.sh:
-   export GSC_OAUTH_CLIENT_FILE="/полный/путь/к/client_secret_….json"
-При первом запуске откроется браузер для входа Google.
+6) Принудительно использовать SA (если OAuth и SA оба на диске):
+     export GSC_FORCE_SERVICE_ACCOUNT=1
+   (по умолчанию при наличии OAuth SA не передаётся в MCP.)
 
-Проверка: npm run mcp:gsc-email (если ключ на месте — покажет email).
+---
+
+Опционально: сервисный аккаунт (нужен JSON + добавление …@….iam.gserviceaccount.com в GSC)
+
+• Ключ: secrets/mcp/google-search-console-sa.json
+• Email для GSC: npm run mcp:gsc-email
+• GSC → Настройки → Пользователи и разрешения → Добавить пользователя → Full
+
+Полезно для npm run seo:positions-report (там пока только SA), см. docs/seo-positions-mcp-workflows.md
 EOF
