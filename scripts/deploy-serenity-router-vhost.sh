@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 #
-# Выкладка продового vhost serenity.agency (location ^~ /docs/, robots, sitemap, legacy-прокси).
+# Выкладка продового vhost serenity.agency (location ^~ /docs/, /blog, robots, sitemap, legacy-прокси).
 # Путь по умолчанию — как в комментарии nginx/serenity-router.live.conf.
 #
 # Это НЕ scripts/deploy-routing.sh (тот только nginx/routing.conf в conf.d).
