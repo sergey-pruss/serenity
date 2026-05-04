@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Проверка: в sitemap.xml нет URL /blog/ и нет «ложных» /case/all/{slug} вне статического роутинга.
+ * Проверка: в sitemap.xml нет «ложных» /case/all/{slug} вне статического роутинга.
  */
 import fs from "node:fs";
 import path from "node:path";
