@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 /**
  * Сужает sitemap.xml под фактический роутинг serenity.agency (nginx/routing.conf):
- * - убирает все URL /blog/… (на основном домене блог пока legacy; статический блог — отдельная задача);
  * - убирает /case/all/{slug} и /case/all/all/… (не статика; в индекс попадали «ложные» loc).
  *
- * Оставляет /case/all, /case/all/{N}, /case/all/category/{code}[/N] и все прочие URL (legacy-страницы и т.д.).
+ * Оставляет /case/all, /case/all/{N}, /case/all/category/{code}[/N], URL блога и прочие (не подпадающие под фильтр /case/all/…).
  *
  * Запуск: node scripts/apply-sitemap-serenity-routing-policy.mjs
  */
@@ -20,8 +19,6 @@ const sitemapPath = path.join(root, "sitemap.xml");
 export function keepSitemapLoc(locRaw) {
   const loc = String(locRaw || "").trim();
   if (!loc.startsWith("https://serenity.agency")) return true;
-
-  if (/\/blog(\/|$)/i.test(loc)) return false;
 
   const prefix = "https://serenity.agency/case/all";
   if (!loc.startsWith(prefix)) return true;
@@ -62,4 +59,4 @@ const out =
   `</urlset>\n`;
 
 fs.writeFileSync(sitemapPath, out, "utf8");
-console.log(`OK: sitemap.xml — было ${blocks.length} <url>, оставлено ${kept.length} (без /blog/ и без нестатических /case/all/…).`);
+console.log(`OK: sitemap.xml — было ${blocks.length} <url>, оставлено ${kept.length} (без нестатических /case/all/…).`);

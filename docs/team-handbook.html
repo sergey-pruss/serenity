@@ -548,9 +548,14 @@
               <td>Отдельные страницы кейсов пока остаются на старом сайте.</td>
             </tr>
             <tr>
-              <td><code>/blog</code>, <code>/services</code>, прочие разделы (пока не включены в map как «1»)</td>
+              <td><code>/blog</code>, <code>/blog/…</code></td>
+              <td><span class="pill-new">Новая статика</span></td>
+              <td>Сборка из репозитория (<span class="mono">blog/…</span> → <span class="mono">/var/www/static/blog/…</span>); в <span class="mono">nginx/routing.conf</span> правило <span class="mono">~^/blog(/|$)</span>.</td>
+            </tr>
+            <tr>
+              <td><code>/services</code> и прочие пути вне map как «1»</td>
               <td><span class="pill-legacy">Legacy WP</span></td>
-              <td>Раскатка по секциям — через добавление правил в map (в конфиге есть закомментированные примеры).</td>
+              <td>Каталог услуг и остальное на старом сайте, пока не вынесено в статику.</td>
             </tr>
             <tr>
               <td><code>/docs/…</code> (справочник и др.)</td>
@@ -655,8 +660,8 @@
           <code>Disallow: /</code>), см. <code>nginx/static.serenity.agency.live.conf</code>.
         </p>
         <p>
-          <code>sitemap.xml</code> отдаётся со статического деплоя, а не из WordPress — чтобы новые маршруты вроде
-          <code>/case/all/…</code> попадали в карту сайта из репозитория.
+          <code>sitemap.xml</code> отдаётся со статического деплоя, а не из WordPress — чтобы маршруты вроде
+          <code>/case/all/…</code> и при необходимости <code>/blog/…</code> попадали в карту сайта из репозитория.
         </p>
       </section>
 
@@ -723,17 +728,17 @@
 
         <h3>Дубликаты <code>&lt;title&gt;</code> и описаний</h3>
         <p>
-          В отчёте <strong>Индексирование → Заголовки и описания</strong> для <span class="mono">https://serenity.agency</span> могут отображаться доли страниц с одинаковыми заголовками и описаниями (пример из практики: порядка <strong>15%</strong> дублей title и <strong>14%</strong> дублей description), группы URL с одним title (например общий «Блог — Serenity» на <span class="mono">/blog</span> и путях <span class="mono">/blog/card/…</span>).
+          В отчёте <strong>Индексирование → Заголовки и описания</strong> для <span class="mono">https://serenity.agency</span> могут отображаться доли страниц с одинаковыми заголовками и описаниями (пример из практики: порядка <strong>15%</strong> дублей title и <strong>14%</strong> дублей description), группы URL с одним title (например общий заголовок листинга на <span class="mono">/blog/</span> и смежных листингах).
         </p>
         <ul>
           <li>
             <strong>Полный список URL в группе:</strong> кнопки выгрузки <strong>XLS / CSV</strong> в том же отчёте Вебмастера — материал для решений, не обязательный артефакт в репозитории.
           </li>
           <li>
-            <strong>Где искать причину на проде:</strong> пути <span class="mono">/blog/card/…</span> на основном домене отдаёт <strong>legacy WordPress</strong> (карта в <span class="mono">nginx/routing.conf</span> не переводит блог на статику). Уникальные title/description для этих URL настраиваются в <strong>админке WP / теме / SEO-плагине</strong>.
+            <strong>Где искать причину на проде:</strong> пути <span class="mono">/blog/…</span> на основном домене отдаётся со <strong>статического деплоя</strong> (<span class="mono">nginx/routing.conf</span> мапит префикс <span class="mono">/blog</span> на новый контур). Дубликаты title/description для листингов правятся в шаблонах сборки блога; для статей — в исходниках страниц или пайплайне сборки.
           </li>
           <li>
-            <strong>Параллельно в репозитории:</strong> шаблон листингов <span class="mono">html/blog-index.layout.html</span> задаёт один title «Блог — агентство Serenity» на нескольких собранных листингах — тот же <em>класс</em> риска, если эти файлы станут каноном для похожих URL. Отдельные статьи под <span class="mono">blog/article/&lt;slug&gt;/</span> обычно уже с уникальным <span class="mono">&lt;title&gt;</span>.
+            <strong>Параллельно в репозитории:</strong> шаблон листингов <span class="mono">html/blog-index.layout.html</span> задаёт общий title на нескольких собранных листингах — при необходимости развести формулировки по URL. Отдельные статьи под <span class="mono">blog/article/&lt;slug&gt;/</span> обычно уже с уникальным <span class="mono">&lt;title&gt;</span>.
           </li>
         </ul>
       </section>
