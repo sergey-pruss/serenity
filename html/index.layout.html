@@ -64,12 +64,37 @@
     />
     <link rel="canonical" href="https://serenity.agency/" />
     <link rel="icon" type="image/x-icon" href="/_sa/img/favicon.ico" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://serenity.agency/#organization",
+            "name": "Serenity",
+            "url": "https://serenity.agency/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://serenity.agency/_sa/img/storage__2lwfrwamwdjZrXwCGrqHh1iCd0TASXMPCTozoLqM.png"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://serenity.agency/#website",
+            "name": "Serenity",
+            "url": "https://serenity.agency/",
+            "publisher": { "@id": "https://serenity.agency/#organization" },
+            "inLanguage": "ru-RU"
+          }
+        ]
+      }
+    </script>
     <style>
       @media screen and (max-width: 620px) {
-        .component-block[data-v-135dc442] {
+        body.sa-home-page .component-block[data-v-135dc442] {
           display: none !important;
         }
-        .main-heading-block + .component-block[data-v-135dc442] + div[data-v-6f8a040c] {
+        body.sa-home-page .main-heading-block + .component-block[data-v-135dc442] + div[data-v-6f8a040c] {
           margin-top: -30px !important;
         }
       }
@@ -78,7 +103,7 @@
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
     <link
       rel="stylesheet"
-      href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260503singleSiteFooter"
+      href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260504navMenu15"
     />
     <link
       rel="preload"
@@ -126,7 +151,7 @@
     <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260427" /></noscript>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
   </head>
-  <body style="overflow: hidden auto">
+  <body class="sa-home-page" style="overflow: hidden auto">
     <div id="__nuxt">
       <div id="__layout">
         <div>
@@ -157,7 +182,7 @@
     <noscript><link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid" /></noscript>
     <script defer src="/_sa/js/nav-active.js?v=20260430a"></script>
     <script defer src="/_sa/js/home-cases-auto.js?v=20260430f"></script>
-    <script defer src="/_sa/js/app.js?v=20260503singleSiteFooter"></script>
+    <script defer src="/_sa/js/app.js?v=20260503clientsStripScrollPerf"></script>
 <!-- @partial analytics-counters -->
     <script defer src="/_sa/js/leave-request-cta.js?v=20260429d"></script>
   </body>

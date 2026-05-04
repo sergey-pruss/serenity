@@ -620,6 +620,11 @@ body.scroll-menu-open {
   overflow: hidden !important;
 }
 
+/* Верхнее десктоп-меню (Кейсы, Услуги, …): +1px к снимку в bundle (14px). */
+.navigation-list a[data-v-e5e2adce] {
+  font-size: 15px;
+}
+
 /* Fullscreen menu from production new-static-menu */
 .header .menu-icon,
 .header .menu-icon[data-v-e5e2adce] {
