@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Проверка: у публичных статических HTML в репозитории есть <meta name="description">.
- * Исключения: services/ (в разработке), docs/ (noindex, служебное).
+ * Исключения: docs/ (noindex, служебное).
  *
  * Для сопоставления с Я.Вебмастером: диагностика DOCUMENTS_MISSING_DESCRIPTION
  * часто относится ко всему хосту; статика из этого списка должна проходить проверку.
@@ -11,7 +11,7 @@ import path from "path";
 
 const root = path.resolve(process.cwd());
 
-const SKIP_PREFIXES = ["services/", "docs/"];
+const SKIP_PREFIXES = ["docs/"];
 
 function* walkHtmlIndex(dirRel) {
   const dir = path.join(root, dirRel);

@@ -35,10 +35,7 @@ assert(
   "Missing /case/all/category/{code}/{page}/index.html rule."
 );
 assert(/~\^\/docs\(\/\|\$\)\s+1;/.test(content), "Missing /docs static rule (team handbook and other docs).");
-assert(/~\^\/services\/\?\$\s+1;/.test(content), "Missing /services/ static rule (services index redirect).");
-assert(/~\^\/services\/index\\\.html\$\s+1;/.test(content), "Missing /services/index.html static rule.");
-assert(/~\^\/services\/production\/\?\$\s+1;/.test(content), "Missing /services/production/ static rule.");
-assert(/~\^\/services\/production\/index\\\.html\$\s+1;/.test(content), "Missing /services/production/index.html static rule.");
+assert(!/~\^\/services/.test(content), "Статические URL /services/… не мапим на новый контур — каталог услуг только на legacy.");
 /* На основном домене /blog не мапится на новую статику — остаётся WordPress; статический блог — static + локально. */
 assert(!/~\^\/blog\//.test(content), "Blog must not be routed to new static on serenity.agency (use legacy; preview on static host).");
 assert(!/~\^\/blog\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule: /blog($|/) would catch article URLs.");
