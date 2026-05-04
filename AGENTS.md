@@ -74,6 +74,8 @@
 
 Подробности маршрутизации **`/robots.txt`**, **`/docs/`** и legacy — **[`docs/team-handbook.html`](docs/team-handbook.html)**.
 
+Со страниц legacy WordPress ссылка на листинг блога часто приходит как **`/blog`** без завершающего слэша. Канон — **`/blog/`**: редирект, **`sub_filter`** и перехват клика в **`nginx/serenity-router.live.conf`** (тот же приём, что для **`/case/all/`**). При правках vhost поддерживайте инварианты в **`scripts/verify-routing-config.cjs`** и гоняйте **`npm run test:routing-config`**.
+
 ---
 
 ## Архитектура и интеграции
