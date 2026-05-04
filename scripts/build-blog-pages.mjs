@@ -14,7 +14,25 @@ const sourceDataPath = path.join(root, "json", "blogs-all.json");
 const outJsonDir = path.join(root, "json", "blog-pages");
 const perPage = 24;
 
+const SITE_ORIGIN = "https://serenity.agency";
+
 const JSON_PRELOAD_MARKER = "<!--@blog-json-preload-->";
+
+/** Листинг «Все»: «Блог — Агентство Serenity», «Блог (N) — Агентство Serenity». Рубрика: «{label} — Блог — Serenity», «{label} (N) — Блог — Serenity». */
+const buildListingTitle = (code, pageNum, label) => {
+  const p = Number(pageNum) || 1;
+  const c = normalizeCode(code);
+  if (!c) {
+    if (p <= 1) return "Блог — Агентство Serenity";
+    return `Блог (${p}) — Агентство Serenity`;
+  }
+  const lab = String(label || "").trim() || "Блог";
+  if (p <= 1) return `${lab} — Блог — Serenity`;
+  return `${lab} (${p}) — Блог — Serenity`;
+};
+
+const applyListingMeta = (html, { title, canonicalUrl }) =>
+  html.replace(/\{\{BLOG_TITLE\}\}/g, title).replace(/\{\{BLOG_CANONICAL\}\}/g, canonicalUrl);
 
 const toDir = (p) => path.join(root, p.replace(/^\//, ""));
 
@@ -124,8 +142,12 @@ const filterPosts = (posts, code) => {
       fs.writeFileSync(path.join(jsonFolder, `page-${pageNum}.json`), JSON.stringify(payload, null, 2), "utf8");
       const folder = codeFolder(code);
       const preloadTag = `    <link rel="preload" href="/_sa/json/blog-pages/${folder}/page-${pageNum}.json" as="fetch" crossorigin="anonymous" />\n`;
-      const pageHtml = htmlTemplate.replace(JSON_PRELOAD_MARKER, preloadTag);
-      writeHtmlAtRoute(routePath(code, pageNum), pageHtml);
+      const route = routePath(code, pageNum);
+      const canonicalUrl = `${SITE_ORIGIN}${route}`;
+      const title = buildListingTitle(code, pageNum, filter.label);
+      let pageHtml = htmlTemplate.replace(JSON_PRELOAD_MARKER, preloadTag);
+      pageHtml = applyListingMeta(pageHtml, { title, canonicalUrl });
+      writeHtmlAtRoute(route, pageHtml);
     }
   }
 
