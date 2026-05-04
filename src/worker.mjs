@@ -21,13 +21,6 @@ export default {
     if (url.pathname === "/blog") {
       return Response.redirect(new URL("/blog/", url.origin), 308);
     }
-    if (url.pathname === "/services") {
-      return Response.redirect(new URL("/services/", url.origin), 308);
-    }
-    if (url.pathname === "/services/production") {
-      return Response.redirect(new URL("/services/production/", url.origin), 308);
-    }
-
     if (url.pathname === "/api/lead") {
       return handleLeadRequest(request, env);
     }

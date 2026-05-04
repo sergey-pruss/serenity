@@ -57,8 +57,8 @@
                 в&nbsp;социальных сетях:</p>
               </div>
               <div class="social form-success__socials" data-v-a1ad29aa="">
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-a1ad29aa="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-a1ad29aa="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-a1ad29aa="" src="img/ui/social/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-a1ad29aa="" src="img/ui/social/vk.svg" alt="VK" loading="eager" decoding="async"></a>
                 <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram">
                   <svg width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Instagram">
                     <rect x="0.5" y="1" width="45" height="45" rx="10" fill="white"></rect>
@@ -327,9 +327,9 @@
           <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
             <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
             <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/whatsapp.svg" alt="WhatsApp" loading="eager" decoding="async"></a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-2ee28934="" data-v-5c138029="" src="img/services/production/svg/vk.svg" alt="VK" loading="eager" decoding="async"></a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://t.me/Serenity_Agency_bot" aria-label="Telegram"><img data-v-2ee28934="" data-v-5c138029="" src="img/ui/social/telegram.svg" alt="Telegram" loading="eager" decoding="async"></a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp"><img data-v-2ee28934="" data-v-5c138029="" src="img/ui/social/whatsapp.svg" alt="WhatsApp" loading="eager" decoding="async"></a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://vk.me/serenity.agency" aria-label="VK"><img data-v-2ee28934="" data-v-5c138029="" src="img/ui/social/vk.svg" alt="VK" loading="eager" decoding="async"></a>
             </div>
           </div>
         </div>
