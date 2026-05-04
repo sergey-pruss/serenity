@@ -43,6 +43,19 @@ assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /
 const routerVhostPath = path.join(__dirname, "..", "nginx", "serenity-router.live.conf");
 const routerVhost = fs.readFileSync(routerVhostPath, "utf8");
 assert(
+  /\blocation\s*=\s*\/blog\s*\{[\s\S]*?return\s+308\s+https:\/\/serenity\.agency\/blog\/\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /blog → 308 https://serenity.agency/blog/$is_args$args (canonical listing /blog/)."
+);
+assert(
+  /\bsub_filter\s+'<a href="\/blog"'\s+'<a href="\/blog\/"'/.test(routerVhost),
+  "serenity-router.live.conf: missing sub_filter for legacy <a href=\"/blog\" → /blog/ (same pattern as /case/all/)."
+);
+assert(
+  routerVhost.includes('if(href==="/blog"||href==="https://serenity.agency/blog"') &&
+    routerVhost.includes('return"/blog/"'),
+  "serenity-router.live.conf: legacy click-normalize script must rewrite /blog → /blog/."
+);
+assert(
   !/\bserver_name\s+serenity\.agency\s+www\.serenity\.agency\s*;/.test(routerVhost),
   "serenity-router.live.conf: www must not share the canonical production server block."
 );
