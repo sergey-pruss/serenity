@@ -1,0 +1,172 @@
+/* «Награды» на главной: разметка и Swiper как на serenity.agency/kontekstnaya_reklama */
+
+.home-awards-block {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: linear-gradient(115deg, #1a0f2e 0%, #121826 42%, #0a0d14 100%);
+}
+
+.home-awards-block .home-awards-section {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+.home-awards-block .awards {
+  box-sizing: border-box;
+  max-width: 1576px;
+  margin: 0 auto;
+  padding: 172px 78px 96px;
+}
+
+@media screen and (max-width: 1025px) {
+  .home-awards-block .awards {
+    padding: 140px 55px 72px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-awards-block .awards {
+    padding: 100px 36px 56px;
+  }
+
+  .home-awards-block .awards__title {
+    font-size: 36px;
+    line-height: 1.22;
+  }
+}
+
+.home-awards-block .awards__header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 91px;
+}
+
+.home-awards-block .awards__title {
+  margin: 0;
+  color: #fff;
+  font-size: 46px;
+  font-weight: 400;
+  line-height: 1.26;
+  letter-spacing: normal;
+}
+
+.home-awards-block .navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Как в Nuxt: data-uri с кругом и стрелкой (Swiper добавляет .swiper-button-disabled) */
+.home-awards-block {
+  --ha-nav-bg: url("data:image/svg+xml;charset=utf-8,%3Csvg width='42' height='42' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle r='20.5' transform='matrix(-1 0 0 1 21 21)' stroke='%23fff'/%3E%3Cpath d='M19 14l7.071 7.071L19 28.142' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.home-awards-block .awards__prev,
+.home-awards-block .awards__next {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  margin: 0 0 0 20px;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: var(--ha-nav-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 42px 42px;
+  border: none;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.home-awards-block .awards__prev {
+  transform: matrix3d(-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
+}
+
+.home-awards-block .awards__prev.swiper-button-disabled,
+.home-awards-block .awards__next.swiper-button-disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.home-awards-block .home-awards-swiper {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.home-awards-block .home-awards-swiper .swiper-slide {
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.home-awards-block .awards__card-wraper {
+  display: block;
+  width: 148px;
+  box-sizing: border-box;
+  color: #777;
+  text-decoration: none;
+}
+
+.home-awards-block .awards__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 148px;
+  box-sizing: border-box;
+}
+
+.home-awards-block .awards__card-info {
+  position: absolute;
+  top: 30px;
+  left: 28px;
+  width: 92px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.home-awards-block .awards__card-rating {
+  display: block;
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.home-awards-block .awards__card-year {
+  display: block;
+  margin: 0;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.home-awards-block .awards__card-img {
+  display: block;
+  width: 148px;
+  height: 131px;
+  flex-shrink: 0;
+}
+
+.home-awards-block .awards__card-img + .awards__card-img {
+  margin-top: -131px;
+}
+
+.home-awards-block .awards__card-description {
+  margin: -100px 0 0;
+  padding: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+}

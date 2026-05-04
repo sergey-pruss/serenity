@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-05-04T05:10:54.429Z",
+  "builtAt": "2026-05-04T08:17:48.407Z",
   "source": "https://serenity.agency/api/blog",
   "filters": [
     {
@@ -27,7 +27,7 @@
     {
       "href": "/blog/article/geo-seo-kak-ne-popast-v-lovushku-trendov-i-ne-slit-byudzhet/",
       "description": "GEO: как не попасть в ловушку трендов и не слить бюджет",
-      "subtitle": "Что такое GEO и как продвигаться в генеративной выдаче: механики, отличия от SEO, типичные ошибки и стратегия без слива бюджета.",
+      "subtitle": "Механики, ограничения и условия эффективного продвижения в AI-поиске",
       "tags": [
         "Статьи"
       ],
