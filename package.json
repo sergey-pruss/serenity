@@ -15,6 +15,8 @@
     "seo:import-topvisor-audit": "node scripts/seo/import-topvisor-audit-pages.mjs",
     "seo:import-topvisor-links": "node scripts/seo/import-topvisor-links.mjs",
     "seo:import-topvisor-images": "node scripts/seo/import-topvisor-images.mjs",
+    "seo:import-topvisor-js": "node scripts/seo/import-topvisor-js.mjs",
+    "seo:import-topvisor-css": "node scripts/seo/import-topvisor-css.mjs",
     "seo:gen-semantic-core-home": "node scripts/seo/gen-semantic-core-home.mjs",
     "seo:merge-gsc-core": "node scripts/seo/merge-gsc-queries-into-core.mjs",
     "seo:fetch-gsc-home-queries": "node scripts/seo/fetch-gsc-home-queries-oauth.mjs",
@@ -65,6 +67,7 @@
     "googleapis": "^144.0.0",
     "iconv-lite": "^0.7.2",
     "playwright": "^1.50.0",
+    "read-excel-file": "^9.0.9",
     "sharp": "^0.34.5"
   }
 }

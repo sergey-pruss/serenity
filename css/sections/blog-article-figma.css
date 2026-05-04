@@ -293,7 +293,7 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
   font-family: MuseoSansCyrl, sans-serif;
   font-size: clamp(1.125rem, 0.75rem + 1.35vw, 2rem);
   line-height: 1.45;
-  font-weight: 300;
+  font-weight: 100;
   color: var(--blog-hero-ink);
   /* На десктопе ограничиваем меру строки; не шире колонки (важно во flex-колонке с align-items: stretch). */
   max-width: min(38em, 100%);

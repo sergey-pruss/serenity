@@ -1,0 +1,4 @@
+"Код ответа";"URL страницы";URL;"? warnings";"? errors";"!! problems";"TTFB
+мс"
+200;https://serenity.agency/;https://serenity.agency/_sa/css/home.css;1;0;2;80
+404;https://serenity.agency/blog/;https://serenity.agency/_sa/css/missing.css;0;2;4;

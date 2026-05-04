@@ -75,6 +75,8 @@
       ensureButtons = false,
       desktopArrowsOnly = false,
       fullBleed = false,
+      /** false: стрелки в шапке (фикс. ряд), без абсолютного «оверлея» по высоте карточек */
+      syncArrowOverlay = true,
       sidePadGetter = getServicesSidePad,
     } = options;
     if (!host || !track) return;
@@ -142,6 +144,7 @@
      * круги визуально смещались.
      */
     const syncArrowOverlayToTrack = () => {
+      if (!syncArrowOverlay) return;
       const root = buttonRoot || host;
       const wrap = root?.querySelector?.(".swiper-buttons");
       if (!wrap || !track) return;
@@ -1081,6 +1084,33 @@
     });
   };
 
+  /** Как на /kontekstnaya_reklama: Swiper + .awards__prev/.awards__next + mousewheel (конфиг из Nuxt). */
+  const initHomeAwardsSwiper = () => {
+    if (typeof Swiper === "undefined") return;
+    const el = document.querySelector(".home-awards-block .home-awards-swiper");
+    if (!el || el.dataset.homeAwardsSwiper === "1") return;
+    const prev = document.querySelector(".home-awards-block .awards__prev");
+    const next = document.querySelector(".home-awards-block .awards__next");
+    if (!prev || !next) return;
+    el.dataset.homeAwardsSwiper = "1";
+    new Swiper(el, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      slidesPerGroup: 1,
+      speed: 1000,
+      freeMode: false,
+      watchOverflow: true,
+      navigation: { prevEl: prev, nextEl: next },
+      mousewheel: { forceToAxis: true, invert: true },
+      breakpoints: {
+        480: { slidesPerView: 2, spaceBetween: 20 },
+        768: { slidesPerView: "auto", spaceBetween: 30 },
+        920: { slidesPerView: "auto", spaceBetween: 67 },
+        2560: { slidesPerView: "auto", spaceBetween: 61 },
+      },
+    });
+  };
+
   initHeaderBurgerOnScroll();
   initAdaptiveFloatingCtaPosition();
   initFooterPhoneSwitch();
@@ -1089,5 +1119,6 @@
   initClientsLogoFallbacks();
   initClientsStrip();
   initMorCasesSlider();
+  initHomeAwardsSwiper();
 
 })();
