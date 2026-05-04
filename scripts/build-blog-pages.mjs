@@ -18,6 +18,16 @@ const SITE_ORIGIN = "https://serenity.agency";
 
 const JSON_PRELOAD_MARKER = "<!--@blog-json-preload-->";
 
+/** Совпадает с базовым текстом в `html/blog-index.layout.html` (плейсхолдер {{BLOG_DESCRIPTION}}). */
+const BLOG_LISTING_DESCRIPTION_BASE =
+  "Статьи маркетингового агентства Serenity: стратегия, бренд, продакшн, контекст и таргет, SEO и кейсы. Практика и разборы для маркетологов и владельцев бизнеса.";
+
+const buildListingDescription = (pageNum) => {
+  const p = Number(pageNum) || 1;
+  if (p <= 1) return BLOG_LISTING_DESCRIPTION_BASE;
+  return `${BLOG_LISTING_DESCRIPTION_BASE} Страница ${p}.`;
+};
+
 /** Листинг «Все»: «Блог — Агентство Serenity», «Блог (N) — Агентство Serenity». Рубрика: «{label} — Блог — Serenity», «{label} (N) — Блог — Serenity». */
 const buildListingTitle = (code, pageNum, label) => {
   const p = Number(pageNum) || 1;
@@ -31,8 +41,11 @@ const buildListingTitle = (code, pageNum, label) => {
   return `${lab} (${p}) — Блог — Serenity`;
 };
 
-const applyListingMeta = (html, { title, canonicalUrl }) =>
-  html.replace(/\{\{BLOG_TITLE\}\}/g, title).replace(/\{\{BLOG_CANONICAL\}\}/g, canonicalUrl);
+const applyListingMeta = (html, { title, canonicalUrl, description }) =>
+  html
+    .replace(/\{\{BLOG_TITLE\}\}/g, title)
+    .replace(/\{\{BLOG_CANONICAL\}\}/g, canonicalUrl)
+    .replace(/\{\{BLOG_DESCRIPTION\}\}/g, description);
 
 const toDir = (p) => path.join(root, p.replace(/^\//, ""));
 
@@ -145,8 +158,9 @@ const filterPosts = (posts, code) => {
       const route = routePath(code, pageNum);
       const canonicalUrl = `${SITE_ORIGIN}${route}`;
       const title = buildListingTitle(code, pageNum, filter.label);
+      const description = buildListingDescription(pageNum);
       let pageHtml = htmlTemplate.replace(JSON_PRELOAD_MARKER, preloadTag);
-      pageHtml = applyListingMeta(pageHtml, { title, canonicalUrl });
+      pageHtml = applyListingMeta(pageHtml, { title, canonicalUrl, description });
       writeHtmlAtRoute(route, pageHtml);
     }
   }

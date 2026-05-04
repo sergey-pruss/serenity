@@ -17,8 +17,8 @@
  * Карточка специалиста (`p.text-small` + `em`/`i` перед `figure.specialist__main`): из текста цитаты убираются символы «» (U+00AB/U+00BB).
  * Легаси `.specialist-mention` из синка снимается: имя/роль/фото сливаются в тот же rail, текст blockquote — лид в первой колонке перед H2.
  *
- * SEO/GEO: полный блок head (description, OG article, Twitter, og:image — обложка из сырого hero или дефолт как на главной,
- * canonical со слэшем, robots, geo, JSON-LD BlogPosting).
+ * SEO/GEO: полный блок head (description, OG article, Twitter, og:image из материала или дефолт главной,
+ * canonical со слэшем, robots, geo, JSON-LD @graph: BlogPosting, BreadcrumbList, Person при авторе).
  */
 import fs from "fs";
 import path from "path";
@@ -219,34 +219,49 @@ const SITE_ORIGIN = "https://serenity.agency";
 /** Тот же дефолтный OG, что на главной (`html/index.layout.html`). */
 const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/_sa/img/storage__2lwfrwamwdjZrXwCGrqHh1iCd0TASXMPCTozoLqM.png`;
 
-/** Блок og:title…canonical из оболочки листинга (`blog/index.html`); ведущий `\s*` убирает отступную строку перед og:title без съедания перевода строки после предыдущего тега. */
+const ARTICLE_DOC_TITLE_SUFFIX = " — Блог — Serenity";
+
+/** `<title>`, OG, Twitter, JSON-LD headline; H1 остаётся коротким (`title` без суффикса). */
+function formatArticleDocumentTitle(plainTitle) {
+  const t = String(plainTitle || "").trim();
+  if (!t) return "";
+  if (t.endsWith(ARTICLE_DOC_TITLE_SUFFIX)) return t;
+  return `${t}${ARTICLE_DOC_TITLE_SUFFIX}`;
+}
+
+/**
+ * Один тег `<meta …/>` без «перешагивания» через `/>` чужих тегов.
+ * Иначе ленивый `<meta…[\s\S]*?name="description"` матчится от первого `<meta charset` до листингового description и вырезает шапку целиком.
+ * У листинга name=description и name=title — многострочные; в content нет литерала `/>`.
+ */
+const SINGLE_META_WITH_NAME_VALUE = (value) =>
+  new RegExp(
+    `<meta\\b(?:(?!/>)[\\s\\S])*?\\bname\\s*=\\s*["']${value}["'](?:(?!/>)[\\s\\S])*?/>\\s*`,
+    "gi",
+  );
+
+/** Листинговые meta name=description / name=title до первого og:title — иначе дубли с блоком injectBlogArticleHead. */
+function stripBlogListingSeoMetaBeforeOg(html) {
+  const ogMark = '<meta property="og:title"';
+  const i = html.indexOf(ogMark);
+  if (i === -1) return html;
+  const before = html.slice(0, i);
+  const after = html.slice(i);
+  const woDesc = before.replace(SINGLE_META_WITH_NAME_VALUE("description"), "");
+  const woBoth = woDesc.replace(SINGLE_META_WITH_NAME_VALUE("title"), "");
+  return woBoth + after;
+}
+
+/** Если оболочка собрана без `build-blog-pages.mjs`, в head остаются `{{…}}` — убираем такие `<meta>`, чтобы не было дублей и мусора. */
+function stripUnresolvedPlaceholderMetaInHead(html) {
+  return html.replace(/<head\b[^>]*>[\s\S]*?<\/head>/i, (headBlock) =>
+    headBlock.replace(/<meta\b[\s\S]*?\/>\s*/gi, (meta) => (/\{\{[A-Z0-9_]+\}\}/.test(meta) ? "" : meta)),
+  );
+}
+
+/** Блок og:title…canonical из оболочки листинга (`blog/index.html`); ведущий `\s*` убирает отступную строку перед og:title без съедания перевода строки после предыдущего тега. Между title и type допускается многострочный `og:description`. */
 const BLOG_SHELL_OG_CANON_RE =
-  /[ \t]*\n[ \t]*<meta property="og:title" content="[^"]*" \/>\s*<meta property="og:type" content="[^"]*" \/>\s*<meta property="og:url" content="[^"]*" \/>\s*<link rel="canonical" href="[^"]*" \/>/;
-
-function resolveAbsoluteUrl(href) {
-  let h = String(href || "").trim();
-  if (!h) return null;
-  if (/^http:\/\//i.test(h)) h = `https://${h.slice(7)}`;
-  if (/^https:\/\//i.test(h)) return h;
-  if (h.startsWith("//")) return `https:${h}`;
-  if (h.startsWith("/")) return `${SITE_ORIGIN}${h}`;
-  return null;
-}
-
-/** Сырой `bodyHtml` до снятия blog-header: обложка hero для og:image. */
-function extractHeroOgImageFromSyncedBody(rawHtml) {
-  const s = String(rawHtml || "");
-  const m1 =
-    s.match(/<link[^>]*\bitemprop=["']image["'][^>]*\bhref=["']([^"']+)["']/i) ||
-    s.match(/<link[^>]*\bhref=["']([^"']+)["'][^>]*\bitemprop=["']image["']/i);
-  if (m1) {
-    const u = resolveAbsoluteUrl(m1[1]);
-    if (u) return u;
-  }
-  const m2 = s.match(/href=["'](\/_sa\/img\/blog\/[^"']+\.(?:png|jpg|jpeg|webp))["']/i);
-  if (m2) return resolveAbsoluteUrl(m2[1]);
-  return null;
-}
+  /[ \t]*\n[ \t]*<meta property="og:title" content="[^"]*" \/>\s*(?:<meta\s+[\s\S]*?property="og:description"[\s\S]*?\/>)?\s*<meta property="og:type" content="[^"]*" \/>\s*<meta property="og:url" content="[^"]*" \/>\s*<link rel="canonical" href="[^"]*" \/>/;
 
 function ensureTrailingSlashOnCanonical(url) {
   const u = String(url || "").trim();
@@ -275,6 +290,63 @@ function ogImageMimeFromUrl(url) {
   return "image/png";
 }
 
+function toAbsoluteOgUrl(ref) {
+  const s = String(ref || "").trim();
+  if (!s) return "";
+  if (/^https?:\/\//i.test(s)) return s;
+  if (s.startsWith("//")) return `https:${s}`;
+  const p = s.startsWith("/") ? s : `/${s}`;
+  return `${SITE_ORIGIN}${p}`;
+}
+
+/** Из легаси-блока `blog-header`: `og.png` или первый `link itemprop="image"`. */
+function extractOgImageHrefFromLegacyBlogHeader(html) {
+  const m = String(html).match(/<section[^>]*\bblog-header\b[^>]*>([\s\S]*?)<\/section>/i);
+  if (!m) return "";
+  const inner = m[1];
+  const og = inner.match(/href="(\/_sa\/img\/blog\/[^"]*\/og\.(?:png|jpg|jpeg|webp))"/i);
+  if (og) return og[1];
+  let link = inner.match(/<link[^>]*\bitemprop="image"[^>]*\bhref="([^"]+)"/i);
+  if (link) return link[1];
+  link = inner.match(/<link[^>]*\bhref="([^"]+)"[^>]*\bitemprop="image"/i);
+  if (link) return link[1];
+  return "";
+}
+
+/** Первое изображение статьи под `/_sa/img/blog/` (предпочтение не только `og.*`). */
+function extractFirstBlogImageFromBody(html) {
+  const re = /(?:src|href)="(\/_sa\/img\/blog\/[^"]+\.(?:png|jpg|jpeg|webp))"/gi;
+  let m;
+  let fallback = "";
+  while ((m = re.exec(String(html))) !== null) {
+    if (!/\/og\.(?:png|jpg|jpeg|webp)(?:["?#]|$)/i.test(m[1])) return m[1];
+    if (!fallback) fallback = m[1];
+  }
+  return fallback;
+}
+
+function resolveArticleOgImageUrl(rawBodyHtml, data) {
+  const keys = ["ogImage", "heroImage", "coverImage", "image", "shareImage"];
+  for (const k of keys) {
+    const v = data?.[k];
+    if (v != null && String(v).trim()) {
+      const abs = toAbsoluteOgUrl(String(v).trim());
+      if (abs) return abs;
+    }
+  }
+  const fromHeader = extractOgImageHrefFromLegacyBlogHeader(rawBodyHtml);
+  if (fromHeader) return toAbsoluteOgUrl(fromHeader);
+  const fromBody = extractFirstBlogImageFromBody(rawBodyHtml);
+  if (fromBody) return toAbsoluteOgUrl(fromBody);
+  return DEFAULT_OG_IMAGE;
+}
+
+function blogSectionIndexUrl(href) {
+  const h = String(href || "").trim() || "/blog/article/";
+  const pathOnly = h.startsWith("/") ? h : `/${h}`;
+  return ensureTrailingSlashOnCanonical(`${SITE_ORIGIN}${pathOnly}`);
+}
+
 function deriveDescriptionFromArticleBody(html) {
   let t = stripInnerTags(String(html || ""))
     .replace(/\s+/g, " ")
@@ -288,19 +360,25 @@ function deriveDescriptionFromArticleBody(html) {
   return `${base.replace(/[,;:!?.…\-—]+$/u, "").trim()}…`;
 }
 
-function buildBlogPostingJsonLd({ title, description, canonical, imageUrl, authorPersonName }) {
-  const author =
-    authorPersonName && String(authorPersonName).trim()
-      ? { "@type": "Person", name: String(authorPersonName).trim() }
-      : { "@type": "Organization", name: "Serenity" };
-  const doc = {
-    "@context": "https://schema.org",
+function buildArticleStructuredDataScript({
+  documentTitle,
+  plainTitle,
+  description,
+  canonical,
+  imageUrl,
+  authorPersonName,
+  authorImageUrl,
+  metaCategoryLabel,
+  metaCategoryHref,
+}) {
+  const graph = [];
+  const authorId = `${canonical}#author`;
+  const blogPosting = {
     "@type": "BlogPosting",
-    headline: title,
+    headline: documentTitle,
     description,
     url: canonical,
     image: [imageUrl],
-    author,
     publisher: {
       "@type": "Organization",
       name: "Serenity",
@@ -309,22 +387,63 @@ function buildBlogPostingJsonLd({ title, description, canonical, imageUrl, autho
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
   };
+
+  const name = authorPersonName && String(authorPersonName).trim() ? String(authorPersonName).trim() : "";
+  if (name) {
+    blogPosting.author = { "@id": authorId };
+    const person = { "@type": "Person", "@id": authorId, name };
+    const img = authorImageUrl && String(authorImageUrl).trim() ? toAbsoluteOgUrl(authorImageUrl) : "";
+    if (img) person.image = img;
+    graph.push(person);
+  } else {
+    blogPosting.author = { "@type": "Organization", name: "Serenity" };
+  }
+
+  graph.unshift(blogPosting);
+
+  const catLabel = String(metaCategoryLabel || "Статьи").trim() || "Статьи";
+  const crumbs = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Serenity", item: `${SITE_ORIGIN}/` },
+      { "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog/` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: catLabel,
+        item: blogSectionIndexUrl(metaCategoryHref),
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: String(plainTitle || documentTitle).trim() || documentTitle,
+        item: canonical,
+      },
+    ],
+  };
+  graph.push(crumbs);
+
+  const doc = { "@context": "https://schema.org", "@graph": graph };
   return `<script type="application/ld+json">${JSON.stringify(doc)}</script>`;
 }
 
 /**
- * Полная подстановка SEO/GEO в head: OG article, Twitter, og:image (hero или дефолт главной),
- * canonical со слэшем, robots, geo, JSON-LD BlogPosting.
+ * Полная подстановка SEO/GEO в head: OG article, Twitter, og:image (из материала или дефолт главной),
+ * canonical со слэшем, robots, geo, JSON-LD @graph (BlogPosting + BreadcrumbList + Person при авторе).
  */
-function injectBlogArticleHead(html, { title, description, canonical, ogImageUrl, authorPersonName }) {
+function injectBlogArticleHead(
+  html,
+  { title, description, canonical, authorPersonName, ogImageUrl, metaCategoryLabel, metaCategoryHref, authorImageUrl },
+) {
   const canon = ensureTrailingSlashOnCanonical(canonical);
   const img = ogImageUrl && String(ogImageUrl).trim() ? String(ogImageUrl).trim() : DEFAULT_OG_IMAGE;
   const imType = ogImageMimeFromUrl(img);
   const metaAuthor = authorPersonName && String(authorPersonName).trim() ? String(authorPersonName).trim() : "Serenity";
+  const documentTitle = formatArticleDocumentTitle(title);
 
   const block =
-    `\n    <meta name="title" content="${escapeXml(title)}" />\n` +
-    `    <meta property="og:title" content="${escapeXml(title)}" />\n` +
+    `\n    <meta name="title" content="${escapeXml(documentTitle)}" />\n` +
+    `    <meta property="og:title" content="${escapeXml(documentTitle)}" />\n` +
     `    <meta name="description" content="${escapeXml(description)}" />\n` +
     `    <meta property="og:description" content="${escapeXml(description)}" />\n` +
     `    <meta property="og:type" content="article" />\n` +
@@ -335,7 +454,7 @@ function injectBlogArticleHead(html, { title, description, canonical, ogImageUrl
     `    <meta property="og:image:secure_url" content="${escapeXml(img)}" />\n` +
     `    <meta property="og:image:type" content="${imType}" />\n` +
     `    <meta name="twitter:card" content="summary_large_image" />\n` +
-    `    <meta name="twitter:title" content="${escapeXml(title)}" />\n` +
+    `    <meta name="twitter:title" content="${escapeXml(documentTitle)}" />\n` +
     `    <meta name="twitter:description" content="${escapeXml(description)}" />\n` +
     `    <meta name="twitter:image" content="${escapeXml(img)}" />\n` +
     `    <link rel="canonical" href="${escapeXml(canon)}" />\n` +
@@ -350,13 +469,17 @@ function injectBlogArticleHead(html, { title, description, canonical, ogImageUrl
     );
   }
   let out = html.replace(BLOG_SHELL_OG_CANON_RE, block);
-  out = out.replace(/<title>[^<]*<\/title>/, `<title>${escapeXml(title)}</title>`);
-  const jsonLd = buildBlogPostingJsonLd({
-    title,
+  out = out.replace(/<title>[^<]*<\/title>/, `<title>${escapeXml(documentTitle)}</title>`);
+  const jsonLd = buildArticleStructuredDataScript({
+    documentTitle,
+    plainTitle: title,
     description,
     canonical: canon,
     imageUrl: img,
     authorPersonName,
+    authorImageUrl,
+    metaCategoryLabel,
+    metaCategoryHref,
   });
   out = out.replace(/\n  <\/head>/i, `\n    ${jsonLd}\n  </head>`);
   return out;
@@ -762,7 +885,6 @@ const postPagesJsonRoot = path.join(root, "json", "blog-post-pages");
 function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, suffix) {
   const { readMoreSlug, segment, slug } = ctx;
   const rawBodyHtml = data.bodyHtml || "";
-  const ogImageFromHero = extractHeroOgImageFromSyncedBody(rawBodyHtml);
   let bodyForArticle = normalizeBlogArticleBodyHtml(rawBodyHtml);
   const legacyBlogHeader = extractDateAndStripLegacyBlogHeader(bodyForArticle);
   bodyForArticle = legacyBlogHeader.rest;
@@ -834,12 +956,18 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
     metaCategoryHref,
   });
 
+  const ogImageResolved = resolveArticleOgImageUrl(rawBodyHtml, data);
+  const authorPhotoAbs = authorResolved?.photo ? toAbsoluteOgUrl(authorResolved.photo) : "";
+
   let headPart = injectBlogArticleHead(prefixArticleShell, {
     title,
     description: metaDescription,
     canonical: canonicalForHead,
-    ogImageUrl: ogImageFromHero,
     authorPersonName,
+    ogImageUrl: ogImageResolved,
+    metaCategoryLabel,
+    metaCategoryHref,
+    authorImageUrl: authorPhotoAbs,
   });
   const outHtml = readAlso
     ? `${headPart}${pageTopHtml}${body}\n${readAlso}\n${suffix}`
@@ -900,7 +1028,11 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   const prefix = blogIndex.slice(0, startReplace);
   const suffix = stripBlogJs(blogIndex.slice(endReplace));
   const prefixArticleShell = injectBlogArticleShellStyles(
-    stripBlogListingJsonPreload(prefix.replace(/\s*<!--@blog-json-preload-->\s*\n?/, "\n")),
+    stripBlogListingJsonPreload(
+      stripUnresolvedPlaceholderMetaInHead(
+        stripBlogListingSeoMetaBeforeOg(prefix.replace(/\s*<!--@blog-json-preload-->\s*\n?/, "\n")),
+      ),
+    ),
   );
 
   for (const slug of articleSlugs) {

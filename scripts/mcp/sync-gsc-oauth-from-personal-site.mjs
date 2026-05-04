@@ -60,3 +60,4 @@ fs.copyFileSync(src, dest);
 const st = fs.statSync(dest);
 console.log("Скопировано:", dest, `(${st.size} bytes)`);
 console.log("Перезапустите MCP в Cursor.");
+console.log("Альтернатива без личного mcp.json: npm run mcp:gsc-install-oauth -- /путь/к/client_secret_….json");

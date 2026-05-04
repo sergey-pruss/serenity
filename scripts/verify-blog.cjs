@@ -140,6 +140,30 @@ const startStaticServer = (port) =>
       );
       const p2 = await countCards();
       assert(p2 === expectedP2, `Страница 2: ожидается ${expectedP2} карточек, получено ${p2}`);
+      const p2Desc = await page.$eval('meta[name="description"]', (el) => el.getAttribute("content") || "");
+      assert(
+        /Страница\s+2\./.test(p2Desc),
+        `meta description страницы 2 блога должна содержать «Страница 2.», получено: ${p2Desc.slice(0, 120)}…`,
+      );
+    }
+
+    const manifestPath = path.join(root, "json", "blog-articles-manifest.json");
+    if (fs.existsSync(manifestPath)) {
+      const slugs = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+      const firstSlug = Array.isArray(slugs) && slugs.length ? String(slugs[0]).trim() : "";
+      if (firstSlug) {
+        const articleHtmlPath = path.join(root, "blog", "article", firstSlug, "index.html");
+        if (fs.existsSync(articleHtmlPath)) {
+          const articleHtml = fs.readFileSync(articleHtmlPath, "utf8");
+          assert(!/\{\{BLOG_/.test(articleHtml), "статья: в HTML не должно быть плейсхолдеров {{BLOG_*}}");
+          const titleMatch = articleHtml.match(/<title>([^<]*)<\/title>/);
+          assert(titleMatch, "статья: ожидается <title>");
+          assert(
+            titleMatch[1].includes(" — Блог — Serenity"),
+            `статья: <title> с суффиксом « — Блог — Serenity», получено: ${titleMatch[1]}`,
+          );
+        }
+      }
     }
 
     const ppmPath = path.join(root, "json", "blog-post-pages-manifest.json");
