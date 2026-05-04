@@ -94,6 +94,81 @@ const ensureCleanGeneratedJson = () => {
 
 const getPageSlice = (arr, page) => arr.slice((page - 1) * perPage, page * perPage);
 
+/** Крошки листинга блога (как `buildCaseListingBreadcrumbJsonLd` в build-case-all-pages.mjs). */
+function buildBlogListingBreadcrumbJsonLd({ title, canonicalUrl, filterCode, filterLabel, pageNum }) {
+  const code = normalizeCode(filterCode);
+  const p = Number(pageNum) || 1;
+  const elements = [{ "@type": "ListItem", position: 1, name: "Serenity", item: `${SITE_ORIGIN}/` }];
+
+  if (!code && p <= 1) {
+    elements.push({ "@type": "ListItem", position: 2, name: title, item: canonicalUrl });
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: elements,
+    };
+  }
+
+  if (!code && p > 1) {
+    elements.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog/` });
+    elements.push({ "@type": "ListItem", position: 3, name: title, item: canonicalUrl });
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: elements,
+    };
+  }
+
+  elements.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog/` });
+  elements.push({
+    "@type": "ListItem",
+    position: 3,
+    name: String(filterLabel || "").trim() || code,
+    item: `${SITE_ORIGIN}${routePath(code, 1)}`,
+  });
+  elements.push({
+    "@type": "ListItem",
+    position: 4,
+    name: title,
+    item: canonicalUrl,
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: elements,
+  };
+}
+
+function buildBlogListingStructuredData({ title, description, canonicalUrl, filterCode, filterLabel, pageNum }) {
+  const breadcrumb = buildBlogListingBreadcrumbJsonLd({
+    title,
+    canonicalUrl,
+    filterCode,
+    filterLabel,
+    pageNum,
+  });
+  const webPage = {
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#webpage`,
+    name: title,
+    description,
+    url: canonicalUrl,
+    inLanguage: "ru-RU",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Serenity",
+      url: `${SITE_ORIGIN}/`,
+    },
+  };
+  const { itemListElement } = breadcrumb;
+  const crumbs = { "@type": "BreadcrumbList", itemListElement };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [webPage, crumbs],
+  };
+}
+
 const filterPosts = (posts, code) => {
   const c = normalizeCode(code);
   if (!c) return posts;
@@ -161,6 +236,16 @@ const filterPosts = (posts, code) => {
       const description = buildListingDescription(pageNum);
       let pageHtml = htmlTemplate.replace(JSON_PRELOAD_MARKER, preloadTag);
       pageHtml = applyListingMeta(pageHtml, { title, canonicalUrl, description });
+      const graph = buildBlogListingStructuredData({
+        title,
+        description,
+        canonicalUrl,
+        filterCode: code,
+        filterLabel: filter.label,
+        pageNum,
+      });
+      const ldScript = `<script type="application/ld+json">${JSON.stringify(graph)}</script>`;
+      pageHtml = pageHtml.replace(/<\/head>/i, `    ${ldScript}\n  </head>`);
       writeHtmlAtRoute(route, pageHtml);
     }
   }
