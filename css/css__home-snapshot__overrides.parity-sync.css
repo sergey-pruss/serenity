@@ -225,6 +225,57 @@
   box-sizing: border-box !important;
 }
 
+/* «Наши клиенты» и «Награды»: один класс заголовка (как .clients-mainstr .clients-new__title в бандле). */
+.clients-mainstr .home-clients-awards__title[data-v-08586076],
+.clients-mainstr .home-clients-awards__title,
+.home-awards-block .home-clients-awards__title[data-v-08586076],
+.home-awards-block .home-clients-awards__title {
+  margin: 0;
+  color: #f6f6f6;
+  font-size: 46px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 126%;
+}
+
+@media screen and (max-width: 1440px) {
+  .clients-mainstr .home-clients-awards__title[data-v-08586076],
+  .clients-mainstr .home-clients-awards__title,
+  .home-awards-block .home-clients-awards__title[data-v-08586076],
+  .home-awards-block .home-clients-awards__title {
+    font-size: 52px;
+    letter-spacing: 0.02em;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .clients-mainstr .home-clients-awards__title[data-v-08586076],
+  .clients-mainstr .home-clients-awards__title,
+  .home-awards-block .home-clients-awards__title[data-v-08586076],
+  .home-awards-block .home-clients-awards__title {
+    font-size: 49px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .clients-mainstr .home-clients-awards__title[data-v-08586076],
+  .clients-mainstr .home-clients-awards__title,
+  .home-awards-block .home-clients-awards__title[data-v-08586076],
+  .home-awards-block .home-clients-awards__title {
+    font-size: 28px;
+  }
+
+  /* Зазор заголовка до ленты: на 15px меньше бандла / home-awards.css (25px→10px; 72px→57px). */
+  .clients-mainstr .clients-new[data-v-08586076],
+  .clients-mainstr .clients-new {
+    margin-bottom: 10px !important;
+  }
+
+  .home-awards-block .awards__header {
+    margin-bottom: 57px !important;
+  }
+}
+
 /*
   «Наши клиенты»: на адаптиве (как у «Блог») — заголовок по левому краю; на min-width 1367 бандл держит
   центрирование секции через flex на .clients-wrapper.
@@ -235,13 +286,13 @@
     justify-content: flex-start !important;
   }
 
-  .clients-mainstr .clients-new__title[data-v-08586076],
-  .clients-mainstr .clients-new__title {
+  .clients-mainstr .home-clients-awards__title[data-v-08586076],
+  .clients-mainstr .home-clients-awards__title {
     text-align: left !important;
   }
 
-  .home-awards-block .clients-new__title[data-v-08586076],
-  .home-awards-block .clients-new__title {
+  .home-awards-block .home-clients-awards__title[data-v-08586076],
+  .home-awards-block .home-clients-awards__title {
     text-align: left !important;
   }
 
