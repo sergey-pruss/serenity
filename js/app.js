@@ -1119,23 +1119,6 @@
     });
   };
 
-  /** «Награды» на главной: прод serenity.agency, превью static/workers и localhost (обложка sa-home-page). */
-  const shouldMountHomeAwardsOnHomePage = () => {
-    try {
-      const h = String(location.hostname || "").toLowerCase();
-      const isLocal = h === "127.0.0.1" || h === "localhost" || h === "[::1]";
-      const isSerenitySite =
-        h === "serenity.agency" ||
-        h === "www.serenity.agency" ||
-        h === "static.serenity.agency" ||
-        h.endsWith(".sergeyprus.workers.dev");
-      if (!isLocal && !isSerenitySite) return false;
-      return document.body?.classList.contains("sa-home-page") === true;
-    } catch {
-      return false;
-    }
-  };
-
   const tripleHomeAwardsStripSlides = (mountRoot) => {
     const track = mountRoot.querySelector(".clients-new__context-wrapper");
     if (!track || track.dataset.awardsStripTripled === "1") return;
@@ -1153,8 +1136,9 @@
     track.dataset.awardsStripTripled = "1";
   };
 
-  const mountHomeAwardsTemplateOnLocalhost = () => {
-    if (!shouldMountHomeAwardsOnHomePage()) return;
+  /** «Награды»: без гейта по хосту — только главная (шаблон в разметке). */
+  const mountHomeAwardsTemplate = () => {
+    if (document.body?.classList.contains("sa-home-page") !== true) return;
     const tpl = document.getElementById("sa-home-awards-fragment");
     const scroll = document.querySelector(".scroll-container");
     const footer = scroll?.querySelector("footer.footer-modern");
@@ -1170,7 +1154,7 @@
     /* Стили после бандла: иначе .swiper-slide img { max-width:100% } ломает венки до применения home-awards.css */
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/_sa/css/sections/home-awards.css?v=20260506awardsOnProdMain";
+    link.href = "/_sa/css/sections/home-awards.css?v=20260506awardsNoHostGate";
     const runAwardsStripAfterPaint = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -1190,9 +1174,9 @@
 
   /* На части мобильных WebView отложенный бандл может отработать до полной готовности поддерева scroll+footer — монтируем после DOMContentLoaded, если ещё грузится. */
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => mountHomeAwardsTemplateOnLocalhost(), { once: true });
+    document.addEventListener("DOMContentLoaded", () => mountHomeAwardsTemplate(), { once: true });
   } else {
-    mountHomeAwardsTemplateOnLocalhost();
+    mountHomeAwardsTemplate();
   }
 
   initHeaderBurgerOnScroll();
