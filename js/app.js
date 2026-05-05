@@ -1119,15 +1119,17 @@
     });
   };
 
-  /** «Награды» на главной — только static.serenity.agency и *.sergeyprus.workers.dev (+ localhost для разработки). На serenity.agency / www — никогда (один артефакт статики, гейт в JS). */
-  const isStaticHomeAwardsPreviewHost = () => {
+  /** «Награды» на главной: прод serenity.agency, превью static/workers и localhost (обложка sa-home-page). */
+  const shouldMountHomeAwardsOnHomePage = () => {
     try {
       const h = String(location.hostname || "").toLowerCase();
-      if (h === "serenity.agency" || h === "www.serenity.agency") return false;
       const isLocal = h === "127.0.0.1" || h === "localhost" || h === "[::1]";
-      const isStaticOrWorkerPreview =
-        h === "static.serenity.agency" || h.endsWith(".sergeyprus.workers.dev");
-      if (!isLocal && !isStaticOrWorkerPreview) return false;
+      const isSerenitySite =
+        h === "serenity.agency" ||
+        h === "www.serenity.agency" ||
+        h === "static.serenity.agency" ||
+        h.endsWith(".sergeyprus.workers.dev");
+      if (!isLocal && !isSerenitySite) return false;
       return document.body?.classList.contains("sa-home-page") === true;
     } catch {
       return false;
@@ -1152,9 +1154,7 @@
   };
 
   const mountHomeAwardsTemplateOnLocalhost = () => {
-    const hn = String(location.hostname || "").toLowerCase();
-    if (hn === "serenity.agency" || hn === "www.serenity.agency") return;
-    if (!isStaticHomeAwardsPreviewHost()) return;
+    if (!shouldMountHomeAwardsOnHomePage()) return;
     const tpl = document.getElementById("sa-home-awards-fragment");
     const scroll = document.querySelector(".scroll-container");
     const footer = scroll?.querySelector("footer.footer-modern");
@@ -1170,7 +1170,7 @@
     /* Стили после бандла: иначе .swiper-slide img { max-width:100% } ломает венки до применения home-awards.css */
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/_sa/css/sections/home-awards.css?v=20260505awardsMobileGap30";
+    link.href = "/_sa/css/sections/home-awards.css?v=20260506awardsOnProdMain";
     const runAwardsStripAfterPaint = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {

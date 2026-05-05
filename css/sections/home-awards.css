@@ -62,34 +62,7 @@
   margin: 0 0 72px;
 }
 
-/* Заголовок — тот же класс и те же размеры, что у «Наши клиенты» (.clients-mainstr .clients-new__title в бандле). */
-.home-awards-block .clients-new__title[data-v-08586076],
-.home-awards-block .clients-new__title {
-  margin: 0;
-  font-size: 46px;
-}
-
-@media screen and (max-width: 1440px) {
-  .home-awards-block .clients-new__title[data-v-08586076],
-  .home-awards-block .clients-new__title {
-    font-size: 52px;
-    letter-spacing: 0.02em;
-  }
-}
-
-@media screen and (max-width: 930px) {
-  .home-awards-block .clients-new__title[data-v-08586076],
-  .home-awards-block .clients-new__title {
-    font-size: 49px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .home-awards-block .clients-new__title[data-v-08586076],
-  .home-awards-block .clients-new__title {
-    font-size: 28px;
-  }
-}
+/* Типографика заголовка — .home-clients-awards__title в css__home-snapshot__overrides.parity-sync.css */
 
 /* Зазоры между карточками (как spaceBetween в прежнем Swiper). Мобайл: +10px к прежнему зазору (30px). */
 .home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide {

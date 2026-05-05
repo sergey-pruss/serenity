@@ -82,10 +82,10 @@ const startStaticServer = (port) =>
     await page.waitForTimeout(200);
 
     // 1) Курсор над заголовком — лента должна смещаться (автоплей)
-    const title = page.locator(".clients-mainstr .clients-new__title");
+    const title = page.locator(".clients-mainstr .home-clients-awards__title");
     await title.waitFor({ state: "visible" });
     const tBox = await title.boundingBox();
-    assert(tBox, "h2 .clients-new__title not visible / no box");
+    assert(tBox, "h2 .home-clients-awards__title not visible / no box");
     await page.mouse.move(tBox.x + tBox.width / 2, tBox.y + tBox.height / 2);
     await page.waitForTimeout(200);
     const x0 = await readStripPosition(page);
