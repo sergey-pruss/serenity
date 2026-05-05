@@ -62,6 +62,23 @@
   margin: 0 0 72px;
 }
 
+/*
+  «Наши клиенты»: зазор заголовок → логотип = margin-bottom .clients-new.home-ledge (--home-ledge)
+  + вертикальный зазор от верха слайда до img (бандл: до 550px — 31px, с 551px — 50px на типичных мобильных).
+  У наград у слайда нет такого внутреннего отступа — компенсируем margin-bottom шапки, чтобы h2 → венок совпал с клиентами.
+*/
+@media screen and (max-width: 768px) {
+  .home-awards-block .awards__header {
+    margin-bottom: calc(var(--home-ledge) + 31px);
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 768px) {
+  .home-awards-block .awards__header {
+    margin-bottom: calc(var(--home-ledge) + 50px);
+  }
+}
+
 /* Типографика заголовка — .home-clients-awards__title в css__home-snapshot__overrides.parity-sync.css */
 
 /* Зазоры между карточками (как spaceBetween в прежнем Swiper). Мобайл: +10px к прежнему зазору (30px). */
