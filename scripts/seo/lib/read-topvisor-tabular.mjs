@@ -2,7 +2,7 @@
  * Таблица из экспорта Топвизора: .csv (с cp1251 auto) или первый лист .xlsx.
  */
 import path from "node:path";
-import readXlsxFile from "read-excel-file";
+import readXlsxFile from "read-excel-file/node";
 import { parseCsvDocument, detectCsvDelimiter } from "./parse-csv.mjs";
 import { readTopvisorCsvText } from "./topvisor-csv-text.mjs";
 
@@ -39,7 +39,9 @@ export function normalizeJaggedMatrix(matrix) {
 export async function readTopvisorTabularMatrix(absPath, encoding, delimiter) {
   const ext = path.extname(absPath).toLowerCase();
   if (ext === ".xlsx") {
-    const raw = await readXlsxFile(absPath);
+    const sheets = await readXlsxFile(absPath);
+    const first = Array.isArray(sheets) && sheets.length > 0 ? sheets[0] : null;
+    const raw = first?.data ?? [];
     const matrix = normalizeJaggedMatrix(stringifyMatrix(/** @type {unknown[][]} */ (raw)));
     return { format: "xlsx", matrix, delimiter: null };
   }

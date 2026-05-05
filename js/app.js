@@ -21,7 +21,7 @@
 
   /** Текстовая подпись до загрузки логотипа; alt без «function String()»; eager + fetchPriority. */
   const initClientsLogoFallbacks = () => {
-    const host = document.querySelector(".swiper-container-clients-new");
+    const host = document.querySelector(".clients-mainstr .swiper-container-clients-new");
     if (!host || host.dataset.clientLogoFallback === "1") return;
     host.dataset.clientLogoFallback = "1";
     const labelFromSrc = (src) => {
@@ -75,8 +75,6 @@
       ensureButtons = false,
       desktopArrowsOnly = false,
       fullBleed = false,
-      /** false: стрелки в шапке (фикс. ряд), без абсолютного «оверлея» по высоте карточек */
-      syncArrowOverlay = true,
       sidePadGetter = getServicesSidePad,
     } = options;
     if (!host || !track) return;
@@ -144,7 +142,6 @@
      * круги визуально смещались.
      */
     const syncArrowOverlayToTrack = () => {
-      if (!syncArrowOverlay) return;
       const root = buttonRoot || host;
       const wrap = root?.querySelector?.(".swiper-buttons");
       if (!wrap || !track) return;
@@ -401,12 +398,11 @@
   });
 
   /**
-   * «Наши клиенты» — тройной дубль слайдов + нативный горизонтальный scroll на треке (как услуги/блог):
+   * «Наши клиенты» / «Награды» (localhost): тройной дубль слайдов + нативный горизонтальный scroll на треке:
    * инерция тача из браузера, без transform/touchmove с preventDefault. Автодрейф scrollLeft,
-   * колесо/тачпад, пауза автоплея при :hover только на .swiper-container-clients-new.
+   * пауза автоплея при :hover только на хосте ленты.
    */
-  const initClientsStrip = () => {
-    const host = document.querySelector(".swiper-container-clients-new");
+  const initOneClientsStrip = (host) => {
     const track = host ? host.querySelector(".clients-new__context-wrapper") : null;
     if (!host || !track) return;
     if (host.dataset.clientsStrip === "1") return;
@@ -418,6 +414,8 @@
     let normalizing = false;
     let layoutSnap = false;
     let lastUserScroll = 0;
+    /** Пока > now: scroll-события от программного scrollLeft не трогают lastUserScroll (иначе «ложный» user idle). */
+    let suppressUserScrollSignalUntil = 0;
     const USER_SCROLL_IDLE_MS = 480;
 
     const isRealClientLink = (href) => {
@@ -454,7 +452,11 @@
 
     let loopW = 0;
     let lastT = performance.now();
-    const autoPxPerSec = 72;
+    const markProgrammaticScroll = (ms = 150) => {
+      suppressUserScrollSignalUntil = performance.now() + ms;
+    };
+    /* px/с: слишком мало — «едва едут»; scroll от автодрейфа не должен забивать lastUserScroll (см. markProgrammaticScroll). */
+    const autoPxPerSec = 68;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let pointerMoved = false;
     let blockLinkFromGesture = false;
@@ -479,6 +481,7 @@
       const lw = loopW;
       if (sl < lw * 0.28) {
         normalizing = true;
+        markProgrammaticScroll();
         track.scrollLeft = sl + lw;
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
@@ -487,6 +490,7 @@
         });
       } else if (maxSl > 0 && sl > maxSl - lw * 0.28) {
         normalizing = true;
+        markProgrammaticScroll();
         track.scrollLeft = sl - lw;
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
@@ -496,13 +500,24 @@
       }
     };
 
-    const snapToMiddleBlock = () => {
+    /** Стартовая позиция для бесконечной ленты: «клиенты» — середина первого блока; «награды» — начало 2-го цикла (= слева 2026, как начало списка, без прыжка normalize с 0). */
+    const snapStripInitialPosition = () => {
       const slides = listSlides();
       if (slides.length < 13) return;
-      const mid = slides[12];
-      if (!mid) return;
+      let target = null;
+      if (host.closest("#sa-home-awards-mounted")) {
+        const at0 = [];
+        slides.forEach((el, i) => {
+          if (el.getAttribute("data-swiper-slide-index") === "0") at0.push(i);
+        });
+        if (at0.length >= 2) target = slides[at0[1]];
+      } else {
+        target = slides[12];
+      }
+      if (!target) return;
       layoutSnap = true;
-      track.scrollLeft = mid.offsetLeft;
+      markProgrammaticScroll();
+      track.scrollLeft = target.offsetLeft;
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           layoutSnap = false;
@@ -517,7 +532,7 @@
     };
 
     refresh();
-    snapToMiddleBlock();
+    snapStripInitialPosition();
     if (typeof ResizeObserver !== "undefined") {
       new ResizeObserver(() => {
         refresh();
@@ -528,7 +543,7 @@
     }
     window.addEventListener("load", () => {
       refresh();
-      snapToMiddleBlock();
+      snapStripInitialPosition();
       normalizeLoop();
     }, { once: true });
     window.addEventListener("resize", () => {
@@ -538,8 +553,14 @@
 
     let scrollRaf = 0;
     const onTrackScroll = () => {
-      if (!autoAdvancing && !normalizing && !layoutSnap) {
-        lastUserScroll = performance.now();
+      const now = performance.now();
+      if (
+        now >= suppressUserScrollSignalUntil &&
+        !autoAdvancing &&
+        !normalizing &&
+        !layoutSnap
+      ) {
+        lastUserScroll = now;
       }
       if (scrollRaf) return;
       scrollRaf = requestAnimationFrame(() => {
@@ -609,7 +630,7 @@
       stripIo.observe(host);
     }
 
-    const AUTO_TICK_MS = 32;
+    const AUTO_TICK_MS = 16;
     const tick = () => {
       const now = performance.now();
       const userIdle = now - lastUserScroll >= USER_SCROLL_IDLE_MS;
@@ -624,9 +645,10 @@
         !normalizing;
 
       if (shouldAuto) {
-        const dt = Math.min(0.12, Math.max(0, (now - lastT) / 1000));
+        const dt = Math.min(0.08, Math.max(0, (now - lastT) / 1000));
         lastT = now;
         autoAdvancing = true;
+        markProgrammaticScroll();
         track.scrollLeft += HORIZ_SLIDER_SIGN * autoPxPerSec * dt;
         normalizeLoop();
         requestAnimationFrame(() => {
@@ -639,6 +661,19 @@
       }
     };
     window.setInterval(tick, AUTO_TICK_MS);
+  };
+
+  const initClientsStrip = () => {
+    document.querySelectorAll(".swiper-container-clients-new").forEach((host) => {
+      if (host.closest("#sa-home-awards-mounted")) return;
+      initOneClientsStrip(host);
+    });
+  };
+
+  /** Лента наград: home-awards.css подключается асинхронно — инициализация после load, иначе loopW=0. */
+  const initHomeAwardsClientsStrip = () => {
+    const host = document.querySelector("#sa-home-awards-mounted .swiper-container-clients-new");
+    if (host) initOneClientsStrip(host);
   };
 
   const initHeaderBurgerOnScroll = () => {
@@ -1084,32 +1119,81 @@
     });
   };
 
-  /** Как на /kontekstnaya_reklama: Swiper + .awards__prev/.awards__next + mousewheel (конфиг из Nuxt). */
-  const initHomeAwardsSwiper = () => {
-    if (typeof Swiper === "undefined") return;
-    const el = document.querySelector(".home-awards-block .home-awards-swiper");
-    if (!el || el.dataset.homeAwardsSwiper === "1") return;
-    const prev = document.querySelector(".home-awards-block .awards__prev");
-    const next = document.querySelector(".home-awards-block .awards__next");
-    if (!prev || !next) return;
-    el.dataset.homeAwardsSwiper = "1";
-    new Swiper(el, {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      slidesPerGroup: 1,
-      speed: 1000,
-      freeMode: false,
-      watchOverflow: true,
-      navigation: { prevEl: prev, nextEl: next },
-      mousewheel: { forceToAxis: true, invert: true },
-      breakpoints: {
-        480: { slidesPerView: 2, spaceBetween: 20 },
-        768: { slidesPerView: "auto", spaceBetween: 30 },
-        920: { slidesPerView: "auto", spaceBetween: 67 },
-        2560: { slidesPerView: "auto", spaceBetween: 61 },
-      },
-    });
+  /** «Награды» на главной — только static.serenity.agency и *.sergeyprus.workers.dev (+ localhost для разработки). На serenity.agency / www — никогда (один артефакт статики, гейт в JS). */
+  const isStaticHomeAwardsPreviewHost = () => {
+    try {
+      const h = String(location.hostname || "").toLowerCase();
+      if (h === "serenity.agency" || h === "www.serenity.agency") return false;
+      const isLocal = h === "127.0.0.1" || h === "localhost" || h === "[::1]";
+      const isStaticOrWorkerPreview =
+        h === "static.serenity.agency" || h.endsWith(".sergeyprus.workers.dev");
+      if (!isLocal && !isStaticOrWorkerPreview) return false;
+      return document.body?.classList.contains("sa-home-page") === true;
+    } catch {
+      return false;
+    }
   };
+
+  const tripleHomeAwardsStripSlides = (mountRoot) => {
+    const track = mountRoot.querySelector(".clients-new__context-wrapper");
+    if (!track || track.dataset.awardsStripTripled === "1") return;
+    const originals = [...track.querySelectorAll(".clients-new__slide")];
+    if (originals.length < 2) return;
+    const n = originals.length;
+    originals.forEach((el, i) => el.setAttribute("data-swiper-slide-index", String(i)));
+    /* Три полных цикла в DOM: measureLoopWidth() ищет два слайда с index «0».
+       Ветка «>= 13 без клонов» давала loopW=0 и отключала автодрейф при длинном списке наград. */
+    for (let r = 0; r < 2; r += 1) {
+      for (let i = 0; i < n; i += 1) {
+        track.appendChild(originals[i].cloneNode(true));
+      }
+    }
+    track.dataset.awardsStripTripled = "1";
+  };
+
+  const mountHomeAwardsTemplateOnLocalhost = () => {
+    const hn = String(location.hostname || "").toLowerCase();
+    if (hn === "serenity.agency" || hn === "www.serenity.agency") return;
+    if (!isStaticHomeAwardsPreviewHost()) return;
+    const tpl = document.getElementById("sa-home-awards-fragment");
+    const scroll = document.querySelector(".scroll-container");
+    const footer = scroll?.querySelector("footer.footer-modern");
+    if (!tpl || !scroll || !footer || !(tpl instanceof HTMLTemplateElement)) return;
+    if (document.getElementById("sa-home-awards-mounted")) return;
+
+    const mount = document.createElement("div");
+    mount.id = "sa-home-awards-mounted";
+    mount.appendChild(tpl.content.cloneNode(true));
+    tripleHomeAwardsStripSlides(mount);
+    scroll.insertBefore(mount, footer);
+
+    /* Стили после бандла: иначе .swiper-slide img { max-width:100% } ломает венки до применения home-awards.css */
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/_sa/css/sections/home-awards.css?v=20260505awardsMobileGap30";
+    const runAwardsStripAfterPaint = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          initHomeAwardsClientsStrip();
+        });
+      });
+    };
+    link.addEventListener("load", runAwardsStripAfterPaint, { once: true });
+    link.addEventListener("error", runAwardsStripAfterPaint, { once: true });
+    document.head.appendChild(link);
+    try {
+      if (link.sheet) runAwardsStripAfterPaint();
+    } catch {
+      /* ignore */
+    }
+  };
+
+  /* На части мобильных WebView отложенный бандл может отработать до полной готовности поддерева scroll+footer — монтируем после DOMContentLoaded, если ещё грузится. */
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => mountHomeAwardsTemplateOnLocalhost(), { once: true });
+  } else {
+    mountHomeAwardsTemplateOnLocalhost();
+  }
 
   initHeaderBurgerOnScroll();
   initAdaptiveFloatingCtaPosition();
@@ -1119,6 +1203,5 @@
   initClientsLogoFallbacks();
   initClientsStrip();
   initMorCasesSlider();
-  initHomeAwardsSwiper();
 
 })();

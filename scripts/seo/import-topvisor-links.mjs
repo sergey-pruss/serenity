@@ -1,25 +1,24 @@
 #!/usr/bin/env node
 /**
- * Импорт CSV Топвизора «Ссылки без анкоров» / отчёт по ссылкам (колонки URL, анкор, TTFB и т.д.).
- * Переносы строк внутри кавычек — через parseCsvDocument; кодировка — readTopvisorCsvText (auto utf8/cp1251).
+ * Импорт «Ссылки без анкоров» / отчёт по ссылкам (колонки URL, анкор, TTFB и т.д.).
+ * Файл: **.csv** или **.xlsx** (первый лист).
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseCsvDocument, detectCsvDelimiter } from "./lib/parse-csv.mjs";
-import { readTopvisorCsvText } from "./lib/topvisor-csv-text.mjs";
+import { readTopvisorTabularMatrix } from "./lib/read-topvisor-tabular.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..", "..");
 
 function usage() {
   console.error(`Использование:
-  node scripts/seo/import-topvisor-links.mjs --input PATH/links.csv [опции]
+  node scripts/seo/import-topvisor-links.mjs --input PATH/links.csv|links.xlsx [опции]
 
 Опции:
   --output PATH          JSON (по умолчанию: artifacts/seo/topvisor-links-<timestamp>.json)
-  --delimiter auto|,|;
-  --encoding auto|utf8|cp1251
+  --delimiter auto|,|;   только .csv
+  --encoding auto|utf8|cp1251   только .csv
   --only-host HOST       только URL, чей hostname заканчивается на HOST (например serenity.agency)
   --empty-anchor-only    оставить строки с пустым «Текст (анкор)» после trim
   --sort ttfb            сначала с большим TTFB (число мс), пустые в конце
@@ -123,24 +122,20 @@ function hostEndsWith(url, host) {
   }
 }
 
-function main() {
+async function main() {
   const opts = parseArgs(process.argv.slice(2));
-  if (!opts.input) die("Нужен --input PATH.csv");
+  if (!opts.input) die("Нужен --input PATH.csv или .xlsx");
   if (!["auto", "utf8", "cp1251", "windows-1251"].includes(opts.encoding)) die('--encoding: auto | utf8 | cp1251');
 
   const inputAbs = path.resolve(opts.input);
   if (!fs.existsSync(inputAbs)) die(`Файл не найден: ${inputAbs}`);
 
-  const text = readTopvisorCsvText(
+  const { format, matrix, delimiter: delimOut } = await readTopvisorTabularMatrix(
     inputAbs,
     /** @type {"auto"|"utf8"|"cp1251"|"windows-1251"} */ (opts.encoding),
+    opts.delimiter,
   );
-  const firstLine = (text.split("\n").find((l) => l.trim()) || "").trim();
-  const delim = opts.delimiter === "auto" ? detectCsvDelimiter(firstLine) : opts.delimiter;
-  if (delim !== "," && delim !== ";") die('--delimiter: только "," или ";" или auto');
-
-  const matrix = parseCsvDocument(text, delim);
-  if (matrix.length < 2) die("CSV: заголовок и данные");
+  if (matrix.length < 2) die("Таблица: заголовок и данные");
 
   const rawHeaders = matrix[0];
   const headerCells = rawHeaders.map(normHeader);
@@ -207,8 +202,9 @@ function main() {
     source: {
       type: "topvisor-links",
       file: path.relative(ROOT, inputAbs),
-      delimiter: delim,
-      encoding: opts.encoding,
+      format,
+      delimiter: delimOut,
+      encoding: format === "csv" ? opts.encoding : null,
       filters: {
         onlyHost: opts.onlyHost || null,
         emptyAnchorOnly: opts.emptyAnchorOnly,
@@ -237,4 +233,7 @@ function main() {
   console.log("Ссылки Топвизора:", outPath, `(${rows.length} строк)`);
 }
 
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

@@ -1,25 +1,25 @@
 #!/usr/bin/env node
 /**
- * Импорт CSV Топвизора: проблемные стили (вкладка CSS / ресурсы).
+ * Импорт Топвизора: проблемные стили (вкладка CSS / ресурсы).
  * Колонки: URL файла .css, опционально URL страницы, счётчики как в аудите, TTFB.
+ * Файл: **.csv** или **.xlsx** (первый лист).
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseCsvDocument, detectCsvDelimiter } from "./lib/parse-csv.mjs";
-import { readTopvisorCsvText } from "./lib/topvisor-csv-text.mjs";
+import { readTopvisorTabularMatrix } from "./lib/read-topvisor-tabular.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..", "..");
 
 function usage() {
   console.error(`Использование:
-  node scripts/seo/import-topvisor-css.mjs --input PATH/css.csv [опции]
+  node scripts/seo/import-topvisor-css.mjs --input PATH/css.csv|css.xlsx [опции]
 
 Опции:
   --output PATH              JSON (по умолчанию: artifacts/seo/topvisor-css-<timestamp>.json)
-  --delimiter auto|,|;
-  --encoding auto|utf8|cp1251
+  --delimiter auto|,|;      только .csv
+  --encoding auto|utf8|cp1251   только .csv
   --css-url-column NAME      заголовок колонки URL файла .css (если авто не угадал)
   --page-url-column NAME     заголовок колонки URL страницы
   --only-css-host HOST       только cssUrl на этом host
@@ -169,24 +169,20 @@ function hostOk(url, host) {
   }
 }
 
-function main() {
+async function main() {
   const opts = parseArgs(process.argv.slice(2));
-  if (!opts.input) die("Нужен --input PATH.csv");
+  if (!opts.input) die("Нужен --input PATH.csv или .xlsx");
   if (!["auto", "utf8", "cp1251", "windows-1251"].includes(opts.encoding)) die('--encoding: auto | utf8 | cp1251');
 
   const inputAbs = path.resolve(opts.input);
   if (!fs.existsSync(inputAbs)) die(`Файл не найден: ${inputAbs}`);
 
-  const text = readTopvisorCsvText(
+  const { format, matrix, delimiter: delimOut } = await readTopvisorTabularMatrix(
     inputAbs,
     /** @type {"auto"|"utf8"|"cp1251"|"windows-1251"} */ (opts.encoding),
+    opts.delimiter,
   );
-  const firstLine = (text.split("\n").find((l) => l.trim()) || "").trim();
-  const delim = opts.delimiter === "auto" ? detectCsvDelimiter(firstLine) : opts.delimiter;
-  if (delim !== "," && delim !== ";") die('--delimiter: только "," или ";" или auto');
-
-  const matrix = parseCsvDocument(text, delim);
-  if (matrix.length < 2) die("CSV: заголовок и данные");
+  if (matrix.length < 2) die("Таблица: заголовок и данные");
 
   const rawHeaders = matrix[0];
   const headerCells = rawHeaders.map(normHeader);
@@ -196,7 +192,7 @@ function main() {
   });
 
   if (opts.dryRun) {
-    console.log("delimiter:", delim);
+    console.log("format:", format, "delimiter:", delimOut);
     console.log("columns:", {
       status: idx.status >= 0 ? headerCells[idx.status] : null,
       page: idx.page >= 0 ? headerCells[idx.page] : null,
@@ -270,8 +266,9 @@ function main() {
     source: {
       type: "topvisor-css",
       file: path.relative(ROOT, inputAbs),
-      delimiter: delim,
-      encoding: opts.encoding,
+      format,
+      delimiter: delimOut,
+      encoding: format === "csv" ? opts.encoding : null,
       filters: { onlyCssHost: opts.onlyCssHost || null, minProblems: opts.minProblems || null },
       rowCount: rows.length,
     },
@@ -295,4 +292,7 @@ function main() {
   console.log("CSS Топвизора:", outPath, `(${rows.length} строк)`);
 }
 
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

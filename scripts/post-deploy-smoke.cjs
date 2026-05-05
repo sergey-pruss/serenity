@@ -40,11 +40,11 @@ async function checkHandbookDeployedAtOrigins() {
     assert(res.ok, `handbook ${url}: HTTP ${res.status}`);
     assert(
       text.includes(HANDBOOK_MARKER),
-      `handbook ${url}: нет маркера справочника — часто значит нет файла на диске и nginx отдал /index.html; сделайте bash deploy.sh и при необходимости bash scripts/deploy-static-vhost.sh`
+      `handbook ${url}: нет маркера справочника — часто значит нет файла на диске и nginx отдал /index.html; сделайте bash scripts/deploy-prod.sh и при необходимости bash scripts/deploy-static-vhost.sh`
     );
     assert(
       !text.includes(MAIN_INDEX_TITLE_SNIPPET),
-      `handbook ${url}: пришла главная index.html вместо handbook (проверьте deploy.sh и vhost static с location ^~ /docs/)`
+      `handbook ${url}: пришла главная index.html вместо handbook (проверьте deploy-prod.sh и vhost static с location ^~ /docs/)`
     );
     console.log(`OK handbook ${url}`);
   }

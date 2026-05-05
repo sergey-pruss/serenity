@@ -1,11 +1,26 @@
-/* «Награды» на главной: разметка и Swiper как на serenity.agency/kontekstnaya_reklama */
+/* «Награды» (localhost): карточки + лента как «Наши клиенты» (native scroll + initClientsStrip). Метрики карточек — с Nuxt /kontekstnaya_reklama. */
+
+/* Дублируем правила из native-row-scroll: этот файл грузится после mount — гарантирует высоту на мобильных до/вне зависимости от порядка preload основного бандла. */
+#sa-home-awards-mounted .swiper-container-clients-new,
+#sa-home-awards-mounted .swiper-container-clients-new .swiper-wrapper {
+  height: auto !important;
+  min-height: 0;
+}
+#sa-home-awards-mounted .swiper-container-clients-new .swiper-slide {
+  height: auto !important;
+  width: auto !important;
+}
 
 .home-awards-block {
   padding-left: 0 !important;
   padding-right: 0 !important;
   overflow: hidden;
   box-sizing: border-box;
-  background: linear-gradient(115deg, #1a0f2e 0%, #121826 42%, #0a0d14 100%);
+  background: transparent;
+}
+
+.home-awards-block:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow: visible !important;
 }
 
 .home-awards-block .home-awards-section {
@@ -14,27 +29,28 @@
   max-width: none;
 }
 
+/* Главная localhost: верхний «воздух» не дублируем — он визуально отрывал блок от цифр; часть ритма — padding снизу до футера. */
 .home-awards-block .awards {
   box-sizing: border-box;
   max-width: 1576px;
   margin: 0 auto;
-  padding: 172px 78px 96px;
+  padding: 72px 78px 96px;
+}
+
+.home-awards-block .awards:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
 }
 
 @media screen and (max-width: 1025px) {
   .home-awards-block .awards {
-    padding: 140px 55px 72px;
+    padding: 56px 55px 80px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .home-awards-block .awards {
-    padding: 100px 36px 56px;
-  }
-
-  .home-awards-block .awards__title {
-    font-size: 36px;
-    line-height: 1.22;
+    padding: 40px 36px 64px;
   }
 }
 
@@ -42,68 +58,91 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: space-between;
-  margin: 0 0 91px;
+  justify-content: flex-start;
+  margin: 0 0 72px;
 }
 
-.home-awards-block .awards__title {
+/* Заголовок — тот же класс и те же размеры, что у «Наши клиенты» (.clients-mainstr .clients-new__title в бандле). */
+.home-awards-block .clients-new__title[data-v-08586076],
+.home-awards-block .clients-new__title {
   margin: 0;
-  color: #fff;
   font-size: 46px;
-  font-weight: 400;
-  line-height: 1.26;
-  letter-spacing: normal;
 }
 
-.home-awards-block .navigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+@media screen and (max-width: 1440px) {
+  .home-awards-block .clients-new__title[data-v-08586076],
+  .home-awards-block .clients-new__title {
+    font-size: 52px;
+    letter-spacing: 0.02em;
+  }
 }
 
-/* Как в Nuxt: data-uri с кругом и стрелкой (Swiper добавляет .swiper-button-disabled) */
-.home-awards-block {
-  --ha-nav-bg: url("data:image/svg+xml;charset=utf-8,%3Csvg width='42' height='42' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle r='20.5' transform='matrix(-1 0 0 1 21 21)' stroke='%23fff'/%3E%3Cpath d='M19 14l7.071 7.071L19 28.142' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+@media screen and (max-width: 930px) {
+  .home-awards-block .clients-new__title[data-v-08586076],
+  .home-awards-block .clients-new__title {
+    font-size: 49px;
+  }
 }
 
-.home-awards-block .awards__prev,
-.home-awards-block .awards__next {
-  flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  margin: 0 0 0 20px;
-  cursor: pointer;
-  background-color: transparent;
-  background-image: var(--ha-nav-bg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 42px 42px;
-  border: none;
-  padding: 0;
-  transition: opacity 0.2s ease;
+@media screen and (max-width: 550px) {
+  .home-awards-block .clients-new__title[data-v-08586076],
+  .home-awards-block .clients-new__title {
+    font-size: 28px;
+  }
 }
 
-.home-awards-block .awards__prev {
-  transform: matrix3d(-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
+/* Зазоры между карточками (как spaceBetween в прежнем Swiper). Мобайл: +10px к прежнему зазору (30px). */
+.home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide {
+  margin-right: 30px !important;
 }
 
-.home-awards-block .awards__prev.swiper-button-disabled,
-.home-awards-block .awards__next.swiper-button-disabled {
-  opacity: 0;
-  pointer-events: none;
+@media screen and (min-width: 768px) {
+  .home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide {
+    margin-right: 30px !important;
+  }
 }
 
-.home-awards-block .home-awards-swiper {
+@media screen and (min-width: 920px) {
+  .home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide {
+    margin-right: 61px !important;
+  }
+}
+
+.home-awards-block .swiper-container-clients-new[data-clients-strip="1"] {
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  padding-bottom: 0 !important;
 }
 
-.home-awards-block .home-awards-swiper .swiper-slide {
-  width: auto;
-  height: auto;
+.home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__context-wrapper {
+  display: flex !important;
+  align-items: flex-start !important;
+}
+
+.home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide {
+  float: none !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box;
+  text-align: initial !important;
+  position: relative;
+  overflow: visible;
+}
+
+.home-awards-block .swiper-container-clients-new[data-clients-strip="1"] .clients-new__slide img {
+  max-width: none !important;
+}
+
+.home-awards-block .home-awards-slide-shell {
+  position: relative;
+  width: 148px;
+  max-width: 148px;
   flex-shrink: 0;
   box-sizing: border-box;
+  overflow: visible;
 }
 
 .home-awards-block .awards__card-wraper {
@@ -116,9 +155,7 @@
 
 .home-awards-block .awards__card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: block;
   width: 148px;
   box-sizing: border-box;
 }
@@ -128,17 +165,21 @@
   top: 30px;
   left: 28px;
   width: 92px;
+  z-index: 2;
   text-align: center;
   pointer-events: none;
 }
 
+/* Прод: rating/year color #fff + opacity 0.5, lh 18.2px / 15.4px */
 .home-awards-block .awards__card-rating {
   display: block;
   margin: 0 0 10px;
   color: #fff;
   font-size: 14px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 18.2px;
+  opacity: 0.5;
+  font-family: MuseoSansCyrl, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .home-awards-block .awards__card-year {
@@ -147,26 +188,95 @@
   color: #fff;
   font-size: 11px;
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 15.4px;
+  opacity: 0.5;
+  font-family: MuseoSansCyrl, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .home-awards-block .awards__card-img {
   display: block;
-  width: 148px;
-  height: 131px;
+  width: 148px !important;
+  height: 131px !important;
+  max-width: none !important;
   flex-shrink: 0;
+  object-fit: contain;
+  position: relative;
 }
 
+/* Прод: второй img в разметке есть, но opacity:0 — виден один «серый» венок, без второго градиентного слоя */
 .home-awards-block .awards__card-img + .awards__card-img {
   margin-top: -131px;
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
+/* Hover (как на прод): только венок — градиент; текст и подпись без изменений. */
+@media screen and (min-width: 1025px) {
+  .home-awards-block .awards__card {
+    isolation: isolate;
+  }
+
+  .home-awards-block .awards__card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 148px;
+    height: 131px;
+    z-index: 1;
+    pointer-events: none;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    background: linear-gradient(
+      142deg,
+      #f472b6 0%,
+      #d946ef 16%,
+      #a855f7 38%,
+      #6366f1 62%,
+      #4338ca 88%,
+      #312e81 100%
+    );
+    -webkit-mask-image: url("../../img/home/award-wreath-union.svg");
+    mask-image: url("../../img/home/award-wreath-union.svg");
+    -webkit-mask-size: 148px 131px;
+    mask-size: 148px 131px;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center top;
+    mask-position: center top;
+  }
+
+  .home-awards-block .awards__card-img:first-of-type {
+    transition: opacity 0.28s ease;
+  }
+
+  .home-awards-block .awards__card-wraper:hover .awards__card::before,
+  .home-awards-block .awards__card-wraper:focus-visible .awards__card::before {
+    opacity: 1;
+  }
+
+  .home-awards-block .awards__card-wraper:hover .awards__card-img:first-of-type,
+  .home-awards-block .awards__card-wraper:focus-visible .awards__card-img:first-of-type {
+    opacity: 0 !important;
+  }
+}
+
+/* Ниже венка: +4px, затем ещё +25px по ТЗ */
 .home-awards-block .awards__card-description {
-  margin: -100px 0 0;
+  margin: 29px 0 0;
   padding: 0;
+  width: 148px;
+  box-sizing: border-box;
   text-align: center;
   color: #fff;
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 19.6px;
+  opacity: 0.5;
+  font-family: MuseoSansCyrl, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  position: relative;
+  z-index: 1;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }

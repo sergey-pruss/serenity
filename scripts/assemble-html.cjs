@@ -26,7 +26,11 @@ const outPath = path.join(root, "index.html");
 const MARKER_RE = /<!--\s*@partial\s+([\w-]+)\s*-->(?:\r?\n)?/g;
 
 /** Partials вне extract: один файл — счётчики (GTM + Я.Метрика), подключаются из index.layout.html */
-const EXTRA_PARTIALS = ["analytics-counters"];
+const EXTRA_PARTIALS = [
+  "analytics-counters",
+  "section-home-awards-slides",
+  "section-home-awards-local-template",
+];
 
 /** 1-based inclusive line ranges → partial file (без .html) */
 const EXTRACT_PARTIALS = {
@@ -110,6 +114,51 @@ function loadPartials() {
   return map;
 }
 
+/** Маркеры @partial внутри самих partial (например награды → отдельный файл с текстами). */
+function assertNestedPartialMarkersResolvable(partials) {
+  const re = /<!--\s*@partial\s+([\w-]+)\s*-->/g;
+  const keys = new Set(partials.keys());
+  for (const [name, body] of partials) {
+    let m;
+    while ((m = re.exec(body))) {
+      if (!keys.has(m[1])) {
+        throw new Error(
+          `В partial «${name}» маркер @partial ${m[1]} — нет файла html/partials/${m[1]}.html (добавьте в EXTRACT_PARTIALS или EXTRA_PARTIALS)`,
+        );
+      }
+    }
+    re.lastIndex = 0;
+  }
+}
+
+/** Подставляет @partial внутри значений map, пока маркеры не кончатся (порядок проходов — стабильный порядок ключей Map). */
+function expandNestedPartialsInMap(partials) {
+  const markerRe = /<!--\s*@partial\s+([\w-]+)\s*-->(?:\r?\n)?/g;
+  const order = [...partials.keys()];
+  for (let round = 0; round < 30; round += 1) {
+    let changed = false;
+    for (const name of order) {
+      const raw = partials.get(name);
+      if (!raw.includes("@partial")) continue;
+      const next = raw.replace(markerRe, (_, ref) => {
+        if (!partials.has(ref)) {
+          throw new Error(`В partial «${name}»: неизвестный @partial «${ref}»`);
+        }
+        changed = true;
+        return partials.get(ref).replace(/\s+$/, "") + "\n";
+      });
+      markerRe.lastIndex = 0;
+      partials.set(name, next);
+    }
+    if (!changed) break;
+  }
+  for (const name of order) {
+    if (/<!--\s*@partial\s+/.test(partials.get(name))) {
+      throw new Error(`Сборка: в partial «${name}» остался несобранный @partial (циклические includes?)`);
+    }
+  }
+}
+
 /** В шаблоне нет ссылок на несуществующие partial — иначе сборка падает с понятной ошибкой. */
 function assertLayoutMarkersKnown(layout, partialNames) {
   const markerRe = /<!--\s*@partial\s+([\w-]+)\s*-->/g;
@@ -142,6 +191,8 @@ function build() {
     throw new Error(`Missing layout ${layoutPath} — run extract first`);
   }
   const partials = loadPartials();
+  assertNestedPartialMarkersResolvable(partials);
+  expandNestedPartialsInMap(partials);
   const mainLayout = fs.readFileSync(layoutPath, "utf8");
   const mainOut = expandLayoutMarkers(mainLayout, partials);
   fs.writeFileSync(outPath, mainOut.replace(/\n+$/, "\n"), "utf8");

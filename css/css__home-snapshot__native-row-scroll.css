@@ -412,3 +412,24 @@
   overflow-x: visible !important;
   overflow-y: visible !important;
 }
+
+/* Награды: без Swiper init у .swiper-wrapper/.swiper-slide стоят height:100% из бандла — на части мобильных высота схлопывается до нуля. */
+#sa-home-awards-mounted .swiper-container-clients-new,
+#sa-home-awards-mounted .swiper-container-clients-new .swiper-wrapper {
+  height: auto !important;
+  min-height: 0;
+}
+#sa-home-awards-mounted .swiper-container-clients-new .swiper-slide {
+  height: auto !important;
+  width: auto !important;
+}
+
+/* «Награды» (localhost): full-bleed лента как у «Наши клиенты», без обрезания трека родителями. */
+.home-awards-block:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow: visible !important;
+}
+
+.home-awards-block .home-awards-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}

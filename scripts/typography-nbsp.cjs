@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 /**
  * Неразрывные пробелы после коротких предлогов/союзов (типографика «висячих» слов).
- * Если на открывающем теге <html> уже есть data-typography-nbsp="1", файл не трогаем.
+ * Содержимое `<head>...</head>` не трогаем: в `<title>` и мета-тегах не должно быть NBSP.
+ * Перед прогоном в `<head>` нормализуются `&nbsp;` / `&#160;` / `&#xa0;` в обычные пробелы (наследие старых сборок).
+ * Если на открывающем теге <html> уже есть data-typography-nbsp="1", полный прогон пропускается
+ * (см. `--force`, чтобы пересчитать весь документ).
  *
  * Запуск после сборки: npm run build:html && npm run typography:nbsp
  * Внимание: npm run test:html-assemble пересобирает index.html и снимает маркер — после проверки снова typography:nbsp.
  * Путь: node scripts/typography-nbsp.cjs path/to/file.html
+ * Принудительно: node scripts/typography-nbsp.cjs --force path/to/file.html
  */
 const fs = require("fs");
 const path = require("path");
@@ -125,6 +129,8 @@ function stashProtectedRegions(html) {
     });
   };
 
+  // Целиком head: title, meta, JSON-LD внутри <script> — без NBSP-типографики между тегами.
+  hide(/<head\b[^>]*>[\s\S]*?<\/head>/gi);
   hide(/<script\b[^>]*>[\s\S]*?<\/script>/gi);
   hide(/<style\b[^>]*>[\s\S]*?<\/style>/gi);
   hide(/<!--[\s\S]*?-->/g);
@@ -151,14 +157,32 @@ function applyNbspBetweenTags(html) {
 }
 
 /**
+ * Убирает неразрывные пробелы в разметке `<head>` (title, атрибуты meta, ld+json и т.д.).
  * @param {string} html
+ * @returns {string}
+ */
+function normalizeNbspInHead(html) {
+  return html.replace(/<head\b[^>]*>[\s\S]*?<\/head>/gi, (headBlock) =>
+    headBlock
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&#160;/gi, " ")
+      .replace(/&#xA0;/gi, " ")
+      .replace(/&#xa0;/gi, " ")
+  );
+}
+
+/**
+ * @param {string} html
+ * @param {{ force?: boolean }} [options]
  * @returns {{ html: string, skipped: boolean, changed: boolean }}
  */
-function processTypographyHtml(html) {
-  if (hasTypographyMarker(html)) {
-    return { html, skipped: true, changed: false };
+function processTypographyHtml(html, options = {}) {
+  const force = Boolean(options?.force);
+  const cleaned = normalizeNbspInHead(html);
+  if (hasTypographyMarker(cleaned) && !force) {
+    return { html: cleaned, skipped: true, changed: cleaned !== html };
   }
-  const { html: stripped, stash } = stashProtectedRegions(html);
+  const { html: stripped, stash } = stashProtectedRegions(cleaned);
   const tied = applyNbspBetweenTags(stripped);
   const restored = unstash(tied, stash);
   const marked = addTypographyMarker(restored);
@@ -168,15 +192,23 @@ function processTypographyHtml(html) {
 
 function main() {
   const root = path.resolve(__dirname, "..");
-  const target = path.resolve(root, process.argv[2] || "index.html");
+  const argv = process.argv.slice(2);
+  const force = argv.includes("--force");
+  const files = argv.filter((a) => a !== "--force");
+  const target = path.resolve(root, files[0] || "index.html");
   if (!fs.existsSync(target)) {
     console.error("typography-nbsp: файл не найден:", target);
     process.exit(1);
   }
   const raw = fs.readFileSync(target, "utf8");
-  const { html, skipped, changed } = processTypographyHtml(raw);
+  const { html, skipped, changed } = processTypographyHtml(raw, { force });
   if (skipped) {
-    console.log("typography-nbsp: уже обработано (", MARKER_ATTR, "), пропуск:", path.relative(root, target));
+    if (changed) {
+      fs.writeFileSync(target, html.replace(/\n+$/, "\n"), "utf8");
+      console.log("typography-nbsp: нормализован <head> (", MARKER_ATTR, "):", path.relative(root, target));
+    } else {
+      console.log("typography-nbsp: уже обработано (", MARKER_ATTR, "), пропуск:", path.relative(root, target));
+    }
     process.exit(0);
   }
   if (changed) {
@@ -191,6 +223,7 @@ module.exports = {
   MARKER_ATTR,
   MARKER_VALUE,
   hasTypographyMarker,
+  normalizeNbspInHead,
   processTypographyHtml,
   tieShortWordsInTextChunk,
   WORDS,

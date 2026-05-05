@@ -1,25 +1,24 @@
 #!/usr/bin/env node
 /**
- * Импорт CSV Топвизора: изображения без alt (или полный экспорт вкладки «Изображения» / ресурсы).
- * Кодировка: readTopvisorCsvText (auto utf8/cp1251). Разбор: parseCsvDocument (переносы в кавычках).
+ * Импорт Топвизора: изображения без alt (или полный экспорт вкладки «Изображения» / ресурсы).
+ * Файл: **.csv** или **.xlsx** (первый лист).
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseCsvDocument, detectCsvDelimiter } from "./lib/parse-csv.mjs";
-import { readTopvisorCsvText } from "./lib/topvisor-csv-text.mjs";
+import { readTopvisorTabularMatrix } from "./lib/read-topvisor-tabular.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..", "..");
 
 function usage() {
   console.error(`Использование:
-  node scripts/seo/import-topvisor-images.mjs --input PATH/images.csv [опции]
+  node scripts/seo/import-topvisor-images.mjs --input PATH/images.csv|images.xlsx [опции]
 
 Опции:
   --output PATH              JSON (по умолчанию: artifacts/seo/topvisor-images-<timestamp>.json)
-  --delimiter auto|,|;
-  --encoding auto|utf8|cp1251
+  --delimiter auto|,|;      только .csv
+  --encoding auto|utf8|cp1251   только .csv
   --page-url-column NAME     заголовок колонки URL страницы (если авто не угадал)
   --image-url-column NAME    заголовок колонки URL файла изображения
   --alt-column NAME          заголовок колонки Alt (для фильтра пустых)
@@ -172,24 +171,20 @@ function hostOk(url, host) {
   }
 }
 
-function main() {
+async function main() {
   const opts = parseArgs(process.argv.slice(2));
-  if (!opts.input) die("Нужен --input PATH.csv");
+  if (!opts.input) die("Нужен --input PATH.csv или .xlsx");
   if (!["auto", "utf8", "cp1251", "windows-1251"].includes(opts.encoding)) die('--encoding: auto | utf8 | cp1251');
 
   const inputAbs = path.resolve(opts.input);
   if (!fs.existsSync(inputAbs)) die(`Файл не найден: ${inputAbs}`);
 
-  const text = readTopvisorCsvText(
+  const { format, matrix, delimiter: delimOut } = await readTopvisorTabularMatrix(
     inputAbs,
     /** @type {"auto"|"utf8"|"cp1251"|"windows-1251"} */ (opts.encoding),
+    opts.delimiter,
   );
-  const firstLine = (text.split("\n").find((l) => l.trim()) || "").trim();
-  const delim = opts.delimiter === "auto" ? detectCsvDelimiter(firstLine) : opts.delimiter;
-  if (delim !== "," && delim !== ";") die('--delimiter: только "," или ";" или auto');
-
-  const matrix = parseCsvDocument(text, delim);
-  if (matrix.length < 2) die("CSV: заголовок и данные");
+  if (matrix.length < 2) die("Таблица: заголовок и данные");
 
   const rawHeaders = matrix[0];
   const headerCells = rawHeaders.map(normHeader);
@@ -200,7 +195,7 @@ function main() {
   });
 
   if (opts.dryRun) {
-    console.log("delimiter:", delim);
+    console.log("format:", format, "delimiter:", delimOut);
     console.log("columns:", {
       status: idx.status >= 0 ? headerCells[idx.status] : null,
       page: headerCells[idx.page],
@@ -268,8 +263,9 @@ function main() {
     source: {
       type: "topvisor-images",
       file: path.relative(ROOT, inputAbs),
-      delimiter: delim,
-      encoding: opts.encoding,
+      format,
+      delimiter: delimOut,
+      encoding: format === "csv" ? opts.encoding : null,
       filters: {
         onlyHost: opts.onlyHost || null,
         emptyAltOnly: opts.emptyAltOnly,
@@ -294,4 +290,7 @@ function main() {
   console.log("Изображения Топвизора:", outPath, `(${rows.length} строк)`);
 }
 
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

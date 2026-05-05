@@ -25,9 +25,9 @@ const noCache = {
   Expires: "0",
 };
 
-/** Положение ленты: нативный scrollLeft на треке (раньше — m41 transform). */
+/** Положение ленты «Наши клиенты»: нативный scrollLeft на треке (на главной есть вторая лента — «Награды»). */
 const readStripPosition = (page) =>
-  page.locator(".clients-new__context-wrapper").evaluate((el) => el.scrollLeft);
+  page.locator(".clients-mainstr .clients-new__context-wrapper").evaluate((el) => el.scrollLeft);
 
 const assert = (ok, msg) => {
   if (!ok) throw new Error(msg);
@@ -82,7 +82,7 @@ const startStaticServer = (port) =>
     await page.waitForTimeout(200);
 
     // 1) Курсор над заголовком — лента должна смещаться (автоплей)
-    const title = page.locator(".clients-new__title");
+    const title = page.locator(".clients-mainstr .clients-new__title");
     await title.waitFor({ state: "visible" });
     const tBox = await title.boundingBox();
     assert(tBox, "h2 .clients-new__title not visible / no box");
@@ -94,8 +94,8 @@ const startStaticServer = (port) =>
     const dTitle = Math.abs(x1 - x0);
     assert(dTitle > 2, `Ожидается движение ленты при hover на заголовок (scrollLeft d=${dTitle})`);
 
-    // 2) Курсор внутри .swiper-container-clients-new — пауза (scrollLeft не меняется)
-    const host = page.locator(".swiper-container-clients-new");
+    // 2) Курсор внутри ленты клиентов — пауза (scrollLeft не меняется)
+    const host = page.locator(".clients-mainstr .swiper-container-clients-new");
     await host.waitFor({ state: "visible" });
     const hBox = await host.boundingBox();
     assert(hBox, "no box for .swiper-container-clients-new");

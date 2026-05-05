@@ -59,6 +59,18 @@ const blogIndexPath = path.join(root, "blog", "index.html");
     html.includes('data-typography-nbsp="1"'),
     "после сборки должна быть типографика (data-typography-nbsp)"
   );
+  const indexHead = html.match(/<head\b[^>]*>[\s\S]*?<\/head>/i);
+  assert(indexHead, "index.html: блок <head>");
+  assert(
+    !/&nbsp;|&#160;|&#xa0;/i.test(indexHead[0]),
+    "index.html: в <head> (title, meta, ld+json) без NBSP-сущностей"
+  );
+  const blogHead = blogHtml.match(/<head\b[^>]*>[\s\S]*?<\/head>/i);
+  assert(blogHead, "blog/index.html: блок <head>");
+  assert(
+    !/&nbsp;|&#160;|&#xa0;/i.test(blogHead[0]),
+    "blog/index.html: в <head> без NBSP-сущностей"
+  );
   assert(
     html.includes("в&nbsp;маркетинг"),
     "nbsp после предлога «в» (кейс Складно и др.)"

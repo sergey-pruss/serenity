@@ -29,6 +29,7 @@ artifacts/
 .wrangler/
 
 # локальные черновики / снимки вне пайплайна
+
 _patch_ribbon.py
 _strip_bad_ribbon.py
 _serenity_home.html
