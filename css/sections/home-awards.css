@@ -62,20 +62,10 @@
   margin: 0 0 72px;
 }
 
-/*
-  «Наши клиенты»: зазор заголовок → логотип = margin-bottom .clients-new.home-ledge (--home-ledge)
-  + вертикальный зазор от верха слайда до img (бандл: до 550px — 31px, с 551px — 50px на типичных мобильных).
-  У наград у слайда нет такого внутреннего отступа — компенсируем margin-bottom шапки, чтобы h2 → венок совпал с клиентами.
-*/
+/* Мобильный: как у «Наши клиенты» — зазор заголовок → верх ряда карточек (= margin-bottom .clients-new.home-ledge, токен --home-ledge), а не до img внутри слайда. */
 @media screen and (max-width: 768px) {
   .home-awards-block .awards__header {
-    margin-bottom: calc(var(--home-ledge) + 31px);
-  }
-}
-
-@media screen and (min-width: 551px) and (max-width: 768px) {
-  .home-awards-block .awards__header {
-    margin-bottom: calc(var(--home-ledge) + 50px);
+    margin-bottom: var(--home-ledge) !important;
   }
 }
 
