@@ -1154,7 +1154,7 @@
     /* Стили после бандла: иначе .swiper-slide img { max-width:100% } ломает венки до применения home-awards.css */
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/_sa/css/sections/home-awards.css?v=20260506awardsHeaderLedgeParity";
+    link.href = "/_sa/css/sections/home-awards.css?v=20260506awardsHeaderMatchClientsRow";
     const runAwardsStripAfterPaint = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
