@@ -264,16 +264,6 @@
   .home-awards-block .home-clients-awards__title {
     font-size: 28px;
   }
-
-  /* Зазор заголовка до ленты: на 15px меньше бандла / home-awards.css (25px→10px; 72px→57px). */
-  .clients-mainstr .clients-new[data-v-08586076],
-  .clients-mainstr .clients-new {
-    margin-bottom: 10px !important;
-  }
-
-  .home-awards-block .awards__header {
-    margin-bottom: 57px !important;
-  }
 }
 
 /*
@@ -670,7 +660,7 @@
   }
 }
 
-/* Награды (localhost): ритм «до футера» — снизу блока наград, не огромный зазор над заголовком после цифр */
+/* Награды: ритм «до футера» — снизу блока наград, не огромный зазор над заголовком после цифр */
 body.sa-home-page #sa-home-awards-mounted + footer.footer-modern .footer-modern__container,
 body.sa-home-page #sa-home-awards-mounted + footer.footer-modern .footer-modern__container[data-v-ff4f3948] {
   padding-top: 32px !important;
