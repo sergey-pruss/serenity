@@ -31,4 +31,4 @@ echo "Validating and applying routing config on server"
 "${SSH_CMD[@]}" "cp '${TMP_REMOTE}' '${REMOTE_ROUTING_PATH}' && nginx -t && systemctl reload nginx && rm -f '${TMP_REMOTE}'"
 
 echo "Routing config applied successfully."
-echo "Если /docs/… всё ещё даёт 500 или Nuxt: bash deploy.sh и bash scripts/deploy-serenity-router-vhost.sh (см. AGENTS.md)."
+echo "Если /docs/… всё ещё даёт 500 или Nuxt: bash scripts/deploy-prod.sh и bash scripts/deploy-serenity-router-vhost.sh (см. AGENTS.md)."

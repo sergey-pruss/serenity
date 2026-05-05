@@ -30,4 +30,4 @@ echo "Applying ${REMOTE_SERENITY_ROUTER_VHOST_PATH} and reloading nginx"
 "${SSH_CMD[@]}" "cp '${TMP_REMOTE}' '${REMOTE_SERENITY_ROUTER_VHOST_PATH}' && nginx -t && systemctl reload nginx && rm -f '${TMP_REMOTE}'"
 
 echo "Serenity-router vhost applied successfully."
-echo "Reminder: bash deploy.sh (файлы docs/ на диске) и bash scripts/deploy-routing.sh (карта is_new_page)."
+echo "Reminder: bash scripts/deploy-prod.sh (файлы docs/ на диске) и bash scripts/deploy-routing.sh (карта is_new_page)."

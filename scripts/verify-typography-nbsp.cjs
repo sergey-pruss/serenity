@@ -8,6 +8,7 @@ const assert = (ok, msg) => {
 
 const {
   hasTypographyMarker,
+  normalizeNbspInHead,
   processTypographyHtml,
   tieShortWordsInTextChunk,
 } = require("./typography-nbsp.cjs");
@@ -33,10 +34,13 @@ const {
   const r1 = processTypographyHtml(withMarker);
   assert(r1.skipped && !r1.changed, "при маркере не меняем документ");
 
-  const noMarker = '<html lang="ru"><body><p>Услуги в России</p></body></html>';
+  const noMarker =
+    '<html lang="ru"><head><title>Услуги в России</title></head><body><p>Услуги в России</p></body></html>';
   const r2 = processTypographyHtml(noMarker);
   assert(!r2.skipped && r2.changed, "без маркера — правки");
-  assert(r2.html.includes("в&nbsp;России"), "nbsp в тексте");
+  assert(r2.html.includes("<title>Услуги в России</title>"), "в <title> без &nbsp;");
+  assert(r2.html.includes("в&nbsp;России</p>"), "nbsp в теле страницы");
+  assert(!r2.html.includes("&nbsp;</title>"), "title не содержит сущность nbsp");
   assert(hasTypographyMarker(r2.html), "маркер на html");
 
   const r3 = processTypographyHtml(r2.html);
@@ -46,6 +50,20 @@ const {
   const r4 = processTypographyHtml(scriptInner);
   assert(r4.html.includes('var a = b < c'), "внутри script не трогаем");
   assert(r4.html.includes("и&nbsp;далее"), "вне script правим");
+
+  const markedBadTitle =
+    '<html lang="ru" data-typography-nbsp="1"><head><title>в&nbsp;России</title></head><body></body></html>';
+  const r5 = processTypographyHtml(markedBadTitle);
+  assert(r5.skipped && r5.changed, "маркер: только нормализация head");
+  assert(r5.html.includes("<title>в России</title>"), "очистка nbsp в title при пропуске полного прогона");
+
+  const headMetaNbsp = normalizeNbspInHead(
+    '<head><meta name="x" content="в&nbsp;Москве и&nbsp;СПб" /></head>'
+  );
+  assert(
+    headMetaNbsp.includes('content="в Москве и СПб"'),
+    "normalizeNbspInHead: meta content без сущностей nbsp"
+  );
 
   console.log("verify-typography-nbsp: ok");
 })();

@@ -1,29 +1,26 @@
 #!/usr/bin/env node
 /**
- * Импорт CSV «Страницы» / аудита Топвизора (проблемные страницы) → JSON.
- * Учитывает переносы строк внутри кавычек (код ответа «301↵200», заголовки с переносами).
- *
- * Кодировка: UTF-8 (BOM снимается).
+ * Импорт «Страницы» / аудита Топвизора (проблемные страницы) → JSON.
+ * Файл: **.csv** (переносы в кавычках, кодировка auto utf8/cp1251) или **.xlsx** (первый лист).
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseCsvDocument, detectCsvDelimiter } from "./lib/parse-csv.mjs";
-import { readTopvisorCsvText } from "./lib/topvisor-csv-text.mjs";
+import { readTopvisorTabularMatrix } from "./lib/read-topvisor-tabular.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..", "..");
 
 function usage() {
   console.error(`Использование:
-  node scripts/seo/import-topvisor-audit-pages.mjs --input PATH/pages.csv [опции]
+  node scripts/seo/import-topvisor-audit-pages.mjs --input PATH/pages.csv|pages.xlsx [опции]
 
 Опции:
   --output PATH     JSON (по умолчанию: artifacts/seo/topvisor-audit-pages-<timestamp>.json)
-  --delimiter auto|,|;
+  --delimiter auto|,|;   только .csv
   --min-problems N  оставить только строки, где число в колонке «!! problems» >= N (0 = все)
   --sort problems   сортировка по убыванию problems, затем errors, затем URL
-  --encoding auto|utf8|cp1251   по умолчанию auto: UTF-8, иначе Windows-1251 (частый экспорт Топвизора)
+  --encoding auto|utf8|cp1251   только .csv; по умолчанию auto
   --with-raw-columns  добавить в каждую строку объект byHeader (все колонки — сильно раздувает JSON)
 
 Пример:
@@ -119,25 +116,20 @@ function ts() {
   return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 }
 
-function main() {
+async function main() {
   const opts = parseArgs(process.argv.slice(2));
-  if (!opts.input) die("Нужен --input PATH.csv");
+  if (!opts.input) die("Нужен --input PATH.csv или .xlsx");
   const inputAbs = path.resolve(opts.input);
   if (!fs.existsSync(inputAbs)) die(`Файл не найден: ${inputAbs}`);
 
   if (!["auto", "utf8", "cp1251", "windows-1251"].includes(opts.encoding)) die('--encoding: auto | utf8 | cp1251');
 
-  let text = readTopvisorCsvText(
+  const { format, matrix, delimiter: delimOut } = await readTopvisorTabularMatrix(
     inputAbs,
     /** @type {"auto"|"utf8"|"cp1251"|"windows-1251"} */ (opts.encoding),
+    opts.delimiter,
   );
-
-  const firstLine = (text.split(/\n/).find((l) => l.trim()) || "").trim();
-  const delim = opts.delimiter === "auto" ? detectCsvDelimiter(firstLine) : opts.delimiter;
-  if (delim !== "," && delim !== ";") die('--delimiter: только "," или ";" или auto');
-
-  const matrix = parseCsvDocument(text, delim);
-  if (matrix.length < 2) die("CSV: ожидается заголовок и хотя бы одна строка данных");
+  if (matrix.length < 2) die("Таблица: ожидается заголовок и хотя бы одна строка данных");
 
   const headerCells = matrix[0].map(normHeader);
   const idx = pickColumnIndices(matrix[0]);
@@ -200,8 +192,9 @@ function main() {
     source: {
       type: "topvisor-audit-pages",
       file: path.relative(ROOT, inputAbs),
-      delimiter: delim,
-      encoding: opts.encoding,
+      format,
+      delimiter: delimOut,
+      encoding: format === "csv" ? opts.encoding : null,
       rowCount: rows.length,
     },
     columns: {
@@ -223,4 +216,7 @@ function main() {
   console.log("Аудит страниц Топвизора:", outPath, `(${rows.length} URL)`);
 }
 
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

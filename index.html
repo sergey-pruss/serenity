@@ -2,8 +2,8 @@
 <html lang="ru" data-typography-nbsp="1">
   <head>
     <title>
-      Маркетинговое агентство Serenity. Профессиональные услуги маркетинга в&nbsp;Москве,
-      Санкт-Петербурге и&nbsp;по&nbsp;России.
+      Маркетинговое агентство Serenity. Профессиональные услуги маркетинга в Москве,
+      Санкт-Петербурге и по России.
     </title>
     <meta charset="utf-8" />
     <meta
@@ -103,7 +103,7 @@
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
     <link
       rel="stylesheet"
-      href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260504navMenu15"
+      href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260505awardsTitleAlign"
     />
     <link
       rel="preload"
@@ -128,19 +128,20 @@
     <noscript><link rel="stylesheet" href="/_sa/css/sections/lead-form.css?v=20260429b" /></noscript>
     <link
       rel="preload"
-      href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260504homeAwardsStaticRow"
+      href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260506awardsMountedHeight"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
-    <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260504homeAwardsStaticRow" /></noscript>
+    <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260506awardsMountedHeight" /></noscript>
     <link
-      rel="stylesheet"
+      rel="preload"
       href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
-    <link
-      rel="stylesheet"
-      href="/_sa/css/sections/home-awards.css?v=20260504homeAwardsLayoutFix"
-    />
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" />
+    </noscript>
     <link
       rel="preload"
       href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260427"
@@ -2397,12 +2398,13 @@
                           stroke-width="2"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        ></path></svg>
-                    </a>
+                        ></path></svg
+                    ></a>
                   </div>
                 </div>
               </div>
-            <div data-v-6f8a040c="" class="home-between"></div>
+<!-- Награды: localhost — оболочка; слайды 2026–2022: @partial section-home-awards-slides -->
+<template id="sa-home-awards-fragment">
             <div data-v-6f8a040c="" style="z-index: 10">
               <div
                 class="component-block home-awards-block isNewContent"
@@ -2411,30 +2413,24 @@
                 <section class="wrapper home-awards-section">
                   <div class="awards">
                     <div class="awards__header">
-                      <h3 class="awards__title" id="home-awards-heading">Награды</h3>
-                      <div class="navigation">
-                        <div
-                          class="awards__prev"
-                          tabindex="0"
-                          role="button"
-                          aria-label="Назад"
-                        ></div>
-                        <div
-                          class="awards__next"
-                          tabindex="0"
-                          role="button"
-                          aria-label="Вперёд"
-                        ></div>
-                      </div>
+                      <h2 class="clients-new__title" data-v-08586076="" id="home-awards-heading">Награды</h2>
                     </div>
                     <div
-                      class="swiper-container swiper-horizontal home-awards-swiper swiper-slider"
+                      class="swiper-container swiper-container-horizontal swiper-container-free-mode swiper-container-clients-new"
+                      data-v-08586076=""
+                      data-v-6f8a040c=""
                     >
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                      <div
+                        class="swiper-wrapper clients-new__context-wrapper"
+                        data-v-08586076=""
+                        data-v-6f8a040c=""
+                      >
+<!-- Тексты карточек «Награды»: 2026–2022. 2026 — Connect (в SSR /about нет строки года 2026); 2025–2022 — с https://serenity.agency/about -->
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
                                 <span class="awards__card-rating">Connect</span>
                                 <span class="awards__card-year">2026</span>
@@ -2458,15 +2454,49 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                ТОП-50 в&nbsp;списке проверенных агентств контекстной рекламы в&nbsp;России
+                                ТОП-50 в&nbsp;списке проверенных маркетинговых агентств по&nbsp;контекстной рекламе в&nbsp;России
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Workspace Digital</span>
+                                <span class="awards__card-year">2025</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                16 место в&nbsp;списке самых награждаемых маркетинговых агентств
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
                                 <span class="awards__card-rating">Рейтинг Рунета</span>
                                 <span class="awards__card-year">2025</span>
@@ -2490,22 +2520,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                6 место по&nbsp;России в&nbsp;контекстной рекламе в&nbsp;сфере медицины и&nbsp;здоровья
+                                6 место по&nbsp;России среди маркетинговых агентств в&nbsp;контент-маркетинге в&nbsp;IT-сфере
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a
-                            class="awards__card-wraper"
-                            href="https://workspace.ru/awards/cases/kompleksnaya-usluga-dlya-peterburgskogo-brenda-ukrasheniy-darkrain/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
-                                <span class="awards__card-rating">Workspace Digital</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-rating">Рейтинг Рунета</span>
+                                <span class="awards__card-year">2025</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2526,15 +2553,181 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                1 место за&nbsp;комплексные услуги для&nbsp;eCom бренда Darkrain
+                                6 место среди маркетинговых агентств по&nbsp;России в&nbsp;дизайне ювелирных украшений
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Рейтинг Рунета</span>
+                                <span class="awards__card-year">2025</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                6 место по&nbsp;России среди маркетинговых агентств по&nbsp;контекстной рекламе в&nbsp;сфере медицины и&nbsp;здоровья
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Рейтинг Рунета</span>
+                                <span class="awards__card-year">2025</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                5 место в&nbsp;Санкт-Петербурге в&nbsp;PR
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Рейтинг Рунета</span>
+                                <span class="awards__card-year">2025</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                3 место по&nbsp;России среди маркетинговых агентств по&nbsp;SMM для&nbsp;спортивных и&nbsp;фитнес сервисов
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Рейтинг Рунета</span>
+                                <span class="awards__card-year">2025</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                3 место по&nbsp;России среди маркетинговых агентств по&nbsp;SMM для&nbsp;производства алкоголя
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Рейтинг Рунета</span>
+                                <span class="awards__card-year">2025</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                1 место по&nbsp;России среди маркетинговых агентств по&nbsp;инфлюенс-маркетингу в&nbsp;сфере отдыха и&nbsp;досуга
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
                                 <span class="awards__card-rating">Рейтинг Рунета</span>
                                 <span class="awards__card-year">2024</span>
@@ -2558,19 +2751,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                3 место по&nbsp;России в&nbsp;рейтинге комплексных digital-агентств в&nbsp;сфере «Красота,
-                                мода»
+                                2 место в&nbsp;СПб по&nbsp;PR-продвижению
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
                                 <span class="awards__card-rating">Рейтинг Рунета</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-year">2023</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2591,18 +2784,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                4 место в&nbsp;СПб по&nbsp;комплексному продвижению в&nbsp;интернете
+                                7 место в&nbsp;России среди маркетинговых агентств по&nbsp;SMM-продвижению в&nbsp;сфере красоты и&nbsp;моды
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
                                 <span class="awards__card-rating">Рейтинг Рунета</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-year">2023</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2623,18 +2817,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                23 место в&nbsp;СПб по&nbsp;настройке контекстной рекламы
+                                2 место в&nbsp;России среди маркетинговых агентств по&nbsp;брендингу для&nbsp;промышленных предприятий
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
                                 <span class="awards__card-rating">Рейтинг Рунета</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-year">2022</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2655,18 +2850,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                14 место в&nbsp;России по&nbsp;комплексному продвижению в&nbsp;сфере «Промышленность»
+                                1 место в&nbsp;России по&nbsp;разработке позиционирования
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
-                                <span class="awards__card-rating">Рейтинг Рунета</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-rating">Рейтинг АКАР</span>
+                                <span class="awards__card-year">2022</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2687,18 +2883,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                14 место в&nbsp;России по&nbsp;комплексному продвижению микро-бизнеса
+                                ТОП-85 по&nbsp;России в&nbsp;Digital Non-Media Rating
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
-                                <span class="awards__card-rating">Рейтинг Рунета</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-rating">Ruward</span>
+                                <span class="awards__card-year">2022</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2719,18 +2916,19 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                16 место в&nbsp;России по&nbsp;комплексному продвижению корпоративных сайтов
+                                2 место в&nbsp;России по&nbsp;performance-маркетингу для&nbsp;IT-услуг и&nbsp;сервисов
                               </p>
-                            </div></a>
+                            </div>
                           </div>
                         </div>
-                        <div class="swiper-slide">
-                          <div class="home-awards-slide-shell">
-                          <a class="awards__card-wraper" target="_blank" rel="noopener noreferrer"
-                            ><div class="awards__card">
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
-                                <span class="awards__card-rating">Рейтинг Рунета</span>
-                                <span class="awards__card-year">2024</span>
+                                <span class="awards__card-rating">Ruward</span>
+                                <span class="awards__card-year">2022</span>
                               </div>
                               <img
                                 class="awards__card-img"
@@ -2751,9 +2949,75 @@
                                 decoding="async"
                               />
                               <p class="awards__card-description">
-                                29 место в&nbsp;России по&nbsp;комплексному продвижению в&nbsp;интернете
+                                5 место в&nbsp;России по&nbsp;SMM-продвижению IT-услуг и&nbsp;сервисов
                               </p>
-                            </div></a>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Ruward</span>
+                                <span class="awards__card-year">2022</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                15 место в&nbsp;России по&nbsp;digital-продвижению в&nbsp;сфере красоты и&nbsp;косметологии
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="swiper-slide clients-new__slide awards__card-wraper"
+                          data-v-6f8a040c=""
+                        ><div class="home-awards-slide-shell" data-v-6f8a040c="">
+                            <div class="awards__card" data-v-6f8a040c="">
+                              <div class="awards__card-info">
+                                <span class="awards__card-rating">Ruward</span>
+                                <span class="awards__card-year">2022</span>
+                              </div>
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <img
+                                class="awards__card-img"
+                                src="/_sa/img/home/award-wreath-union1.svg"
+                                alt=""
+                                width="148"
+                                height="131"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              <p class="awards__card-description">
+                                28 место в&nbsp;России по&nbsp;digital-продвижению в&nbsp;сфере промышленности
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2762,6 +3026,7 @@
                 </section>
               </div>
             </div>
+</template>
               <footer
                 class="footer-modern"
                 data-v-ff4f3948=""
@@ -2966,7 +3231,7 @@
     <noscript><link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid" /></noscript>
     <script defer src="/_sa/js/nav-active.js?v=20260430a"></script>
     <script defer src="/_sa/js/home-cases-auto.js?v=20260430f"></script>
-    <script defer src="/_sa/js/app.js?v=20260504homeAwardsSwiperParity"></script>
+    <script defer src="/_sa/js/app.js?v=20260506awardsNotOnProd"></script>
     <!-- Яндекс.Метрика -->
     <script type="text/javascript">
       (function (m, e, t, r, i, k, a) {

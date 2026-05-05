@@ -240,6 +240,11 @@
     text-align: left !important;
   }
 
+  .home-awards-block .clients-new__title[data-v-08586076],
+  .home-awards-block .clients-new__title {
+    text-align: left !important;
+  }
+
   .clients-mainstr .clients-new__title_center[data-v-08586076],
   .clients-mainstr .clients-new__title_center {
     margin-left: 0 !important;
@@ -586,6 +591,44 @@
   .live-marketing-block__content-link,
   .live-marketing-block__content-link[data-v-1c300291] {
     bottom: 60px !important;
+  }
+}
+
+/* Карточки цифр: подпись #969696 → белый при hover карточки.
+   Без (hover: hover): на macOS/Safari часто coarse pointer — иначе правила не срабатывают. */
+@media screen and (min-width: 1025px) {
+  .live-marketing-block__card .live-marketing-block__card-description,
+  .live-marketing-block__card .live-marketing-block__card-description[data-v-1c300291] {
+    transition: color 0.25s ease;
+  }
+
+  .live-marketing-block__card:hover .live-marketing-block__card-description,
+  .live-marketing-block__card:hover .live-marketing-block__card-description[data-v-1c300291],
+  .live-marketing-block__card:focus-within .live-marketing-block__card-description,
+  .live-marketing-block__card:focus-within .live-marketing-block__card-description[data-v-1c300291] {
+    color: #ffffff !important;
+  }
+
+  .information-card .information-card__description {
+    transition: color 0.25s ease;
+  }
+
+  .information-card:hover .information-card__description,
+  .information-card:focus-within .information-card__description {
+    color: #ffffff !important;
+  }
+}
+
+/* Награды (localhost): ритм «до футера» — снизу блока наград, не огромный зазор над заголовком после цифр */
+body.sa-home-page #sa-home-awards-mounted + footer.footer-modern .footer-modern__container,
+body.sa-home-page #sa-home-awards-mounted + footer.footer-modern .footer-modern__container[data-v-ff4f3948] {
+  padding-top: 32px !important;
+}
+
+@media screen and (max-width: 1440px) {
+  body.sa-home-page #sa-home-awards-mounted + footer.footer-modern .footer-modern__container,
+  body.sa-home-page #sa-home-awards-mounted + footer.footer-modern .footer-modern__container[data-v-ff4f3948] {
+    padding-top: 24px !important;
   }
 }
 

@@ -102,7 +102,7 @@ GitHub Actions: [.github/workflows/seo-positions-report.yml](../.github/workflow
 
 | Сервис                                                                           | Зачем                                                                 |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [Topvisor](https://topvisor.com/)                                                | Мониторинг позиций и аудит (Яндекс/Google, РФ); в этом репо — экспорт CSV и `npm run seo:import-topvisor*`. |
+| [Topvisor](https://topvisor.com/)                                                | Мониторинг позиций и аудит (Яндекс/Google, РФ); в этом репо — импорт **CSV** или **XLSX** (первый лист) через `npm run seo:import-topvisor*`. |
 | [SE Ranking](https://seranking.com/)                                             | Трекинг + API на коммерческих тарифах (лимиты уточнять в тарифах).    |
 | [Rush Analytics](https://rush-analytics.ru/) и др.                               | Альтернативы при других процессах команды.                            |
 
@@ -131,16 +131,18 @@ SEMANTIC_CORE_PATH="$PWD/artifacts/seo/semantic-core-tracked.json" npm run seo:p
 
 Справка по всем флагам: `npm run seo:export-topvisor-queries -- --help`.
 
-**Импорт выгрузки Топвизора (CSV → JSON, опционально слияние с отчётом панелей)**
+**Импорт выгрузки Топвизора (CSV или XLSX → JSON, опционально слияние с отчётом панелей)**
 
-1. В Топвизоре: «Проверка позиций» → экспорт **CSV** (кодировка **UTF-8** в [настройках аккаунта](https://topvisor.com/ru/support/account/settings/), иначе в Excel «кракозябры» — см. их справку).
+Файл **`.xlsx`**: читается **первый лист**. Для **`.csv`**: кодировка **UTF-8** в [настройках аккаунта](https://topvisor.com/ru/support/account/settings/) снижает риск «кракозябр» в Excel; скрипт с **`--encoding auto`** также пробует **cp1251** для CSV.
+
+1. В Топвизоре: «Проверка позиций» → экспорт **CSV** или **XLSX** (нужная таблица на **первом** листе книги).
 2. Сначала проверка колонок без записи большого файла:
 
    ```bash
    npm run seo:import-topvisor -- --input /путь/к/export.csv --dry-run
    ```
 
-   Если колонка с фразой не угадалась, укажите заголовок **точно как в первой строке CSV**: `--query-column "Ключ"` (или как у вас в файле).
+   Если колонка с фразой не угадалась, укажите заголовок **точно как в первой строке таблицы**: `--query-column "Ключ"` (или как у вас в файле).
 
 3. Импорт в `artifacts/seo/topvisor-import-<дата>.json` (join с `semantic-core` по `normalizedKey` для `cluster` / `priority` / `targetUrl`):
 
@@ -154,23 +156,24 @@ SEMANTIC_CORE_PATH="$PWD/artifacts/seo/semantic-core-tracked.json" npm run seo:p
    npm run seo:import-topvisor -- --input /путь/к/export.csv --merge-report artifacts/seo/positions-report-ВАШ_ФАЙЛ.json
    ```
 
-   На выходе: `artifacts/seo/positions-report-with-topvisor-<дата>.json`. Строки отчёта без совпадения в CSV **сохраняют** прежний блок `topvisor` (если был).
+   На выходе: `artifacts/seo/positions-report-with-topvisor-<дата>.json`. Строки отчёта без совпадения в выгрузке **сохраняют** прежний блок `topvisor` (если был).
 
-Справка: `npm run seo:import-topvisor -- --help`. Формат **XLSX** скрипт не читает — пересохраните в CSV или экспортируйте CSV из Топвизора.
+Справка: `npm run seo:import-topvisor -- --help`. Флаги **`--delimiter`** и **`--encoding`** относятся только к **CSV**; для XLSX в JSON-метаданных `delimiter` и `encoding` будут `null`.
 
-**Аудит Топвизора: проблемные страницы (CSV «Страницы» → JSON)**
+**Аудит Топвизора: проблемные страницы (CSV или XLSX «Страницы» → JSON)**
 
-Экспорт из раздела аудита со списком URL и счётчиками `? warnings`, `? errors`, `!! problems` (колонки могут называться так же, как в интерфейсе). В CSV часто **Windows-1251** — скрипт с **`--encoding auto`** сам берёт UTF-8, если в начале файла видно «Код ответа», иначе декодирует как **cp1251** (зависимость `iconv-lite`).
+Экспорт из раздела аудита со списком URL и счётчиками `? warnings`, `? errors`, `!! problems` (колонки могут называться так же, как в интерфейсе). Для **CSV** часто **Windows-1251** — скрипт с **`--encoding auto`** сам берёт UTF-8, если в начале файла видно «Код ответа», иначе декодирует как **cp1251** (зависимость `iconv-lite`). Для **XLSX** читается первый лист.
 
 ```bash
 npm run seo:import-topvisor-audit -- --input ~/Downloads/pages.csv --sort problems
+# или: --input ~/Downloads/pages.xlsx
 ```
 
 По умолчанию: `artifacts/seo/topvisor-audit-pages-<timestamp>.json` (компактно: URL, `statusRaw`, числа, `auditedAt`). Полные колонки по каждой строке: `--with-raw-columns`. Явная кодировка: `--encoding utf8` или `--encoding cp1251`.
 
 Справка: `npm run seo:import-topvisor-audit -- --help`.
 
-**Топвизор: ссылки без анкоров (`links.csv` → JSON)**
+**Топвизор: ссылки без анкоров (`links.csv` / `links.xlsx` → JSON)**
 
 Экспорт отчёта по ссылкам (колонки вроде «Код ответа», URL, «Стр.», «Текст (анкор)», «Текст (title)», rel-флаги, TTFB мс). Кодировка: тот же **`--encoding auto`**, что у аудита страниц.
 
@@ -180,7 +183,7 @@ npm run seo:import-topvisor-links -- --input ~/Downloads/links.csv --sort ttfb
 
 Только ссылки на ваш домен: `--only-host serenity.agency`. Только пустой анкор в выгрузке: `--empty-anchor-only`. Справка: `npm run seo:import-topvisor-links -- --help`.
 
-**Топвизор: изображения без alt (`images.csv` → JSON)**
+**Топвизор: изображения без alt (`images.csv` / `images.xlsx` → JSON)**
 
 Экспорт вкладки изображений / ресурсов. Автоопределение: две колонки **`URL`** (страница и файл), либо **`URL`** + **`Адрес изображения`**, плюс при наличии **`Alt`**, **`Размер`**, **`Код ответа`**. Если шаблон столбцов другой — **`--dry-run`**, затем **`--page-url-column`** / **`--image-url-column`** / **`--alt-column`** (строка **точно как в заголовке CSV**).
 
@@ -190,7 +193,7 @@ npm run seo:import-topvisor-images -- --input ~/Downloads/images.csv --empty-alt
 
 Справка: `npm run seo:import-topvisor-images -- --help`.
 
-**Топвизор: проблемные скрипты (`js.csv` → JSON)**
+**Топвизор: проблемные скрипты (`js.csv` / `js.xlsx` → JSON)**
 
 Колонки вроде **`Код ответа`**, **`URL страницы`** (если есть), **`URL`** или **«Адрес скрипта»**, **`? warnings` / `? errors` / `!! problems`**, **`TTFB мс`**. Две колонки **`URL`** подряд — первая считается страницей, вторая скриптом (если нет явного «URL страницы»).
 
@@ -200,7 +203,7 @@ npm run seo:import-topvisor-js -- --input ~/Downloads/js.csv --sort problems --o
 
 Явные заголовки: `--script-url-column "…"` и при необходимости `--page-url-column "…"`. Проверка колонок: `--dry-run`. Справка: `npm run seo:import-topvisor-js -- --help`.
 
-**Топвизор: проблемные CSS (`css.csv` → JSON)**
+**Топвизор: проблемные CSS (`css.csv` / `css.xlsx` → JSON)**
 
 Те же идеи, что для JS: **`URL страницы`** + **`URL`**, либо две колонки **`URL`**, либо явный адрес стилей. Счётчики **`? warnings` / `? errors` / `!! problems`**, **`TTFB мс`**.
 

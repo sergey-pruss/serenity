@@ -61,7 +61,7 @@ npm run test:post-deploy-smoke
 Типовой порядок:
 
 1. Собрать проект и прогнать релевантные тесты.
-2. Выложить статику: `bash deploy.sh`.
+2. Статика: превью **static.serenity.agency** — `bash scripts/deploy-dev.sh`; основной домен **serenity.agency** — `bash scripts/deploy-prod.sh` (корневой `bash deploy.sh` = prod).
 3. Если менялись Nginx-правила, выложить соответствующие конфиги скриптами из `scripts/`.
 4. Если менялся Worker: `npx wrangler deploy`.
 

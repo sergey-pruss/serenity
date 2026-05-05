@@ -6,3 +6,5 @@ alwaysApply: true
 # Правила агента
 
 **Полный регламент в корне:** [`AGENTS.md`](AGENTS.md). Человекочитаемый нарратив URL/SEO — [`docs/team-handbook.html`](docs/team-handbook.html).
+
+**Статика:** «выложи на static / dev / превью» → **`bash scripts/deploy-dev.sh`** (или устаревший алиас `deploy-static-preview.sh`). «Выложи на прод / serenity.agency» → **`bash scripts/deploy-prod.sh`**. Корневой **`deploy.sh`** — обёртка на **`deploy-prod.sh`**.

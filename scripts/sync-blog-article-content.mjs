@@ -8,6 +8,8 @@
  *
  * Манифест статей: json/blog-articles-manifest.json (gen-blog-articles-manifest.mjs).
  * Доп. материалы blog/case|card|life/slug: json/blog-post-pages-manifest.json (gen-blog-post-pages-manifest.mjs).
+ * Если в json/blog-articles/<slug>.json уже есть preserveBodyHtmlOnBlogSync: true и непустой bodyHtml —
+ * при синке с прода поле bodyHtml не перезаписывается (title, description, readAlsoHtml и т.д. с прода по-прежнему обновляются).
  * Пропуск: SKIP_BLOG_ARTICLE_SYNC=1
  *
  * См. также: .cursor/rules/blog-articles-static.mdc
@@ -185,14 +187,12 @@ if (process.env.SKIP_BLOG_ARTICLE_SYNC === "1") {
       }
       const pageHtml = await res.text();
       const meta = parseMeta(pageHtml);
-      let bodyHtml = extractArticleHtml(pageHtml);
-      bodyHtml = await rewriteAssetUrls(bodyHtml, root, slug);
-      bodyHtml = normalizeBlogArticleBodyHtml(bodyHtml);
 
       let readAlsoHtml = extractReadAlsoHtml(pageHtml);
       readAlsoHtml = await rewriteAssetUrls(readAlsoHtml, root, slug);
 
       let preservedAuthor = null;
+      let preservedBodyHtml = null;
       const existingJsonPath = path.join(OUT_DIR, `${slug}.json`);
       if (fs.existsSync(existingJsonPath)) {
         try {
@@ -204,9 +204,24 @@ if (process.env.SKIP_BLOG_ARTICLE_SYNC === "1") {
               photo: rewriteSerenityInternalUrls(String(preservedAuthor.photo)),
             };
           }
+          if (
+            prev.preserveBodyHtmlOnBlogSync === true &&
+            typeof prev.bodyHtml === "string" &&
+            prev.bodyHtml.trim()
+          ) {
+            preservedBodyHtml = prev.bodyHtml;
+          }
         } catch {
           /* ignore */
         }
+      }
+
+      let bodyHtml = extractArticleHtml(pageHtml);
+      if (preservedBodyHtml !== null) {
+        bodyHtml = preservedBodyHtml;
+      } else {
+        bodyHtml = await rewriteAssetUrls(bodyHtml, root, slug);
+        bodyHtml = normalizeBlogArticleBodyHtml(bodyHtml);
       }
 
       const payload = {
@@ -220,6 +235,7 @@ if (process.env.SKIP_BLOG_ARTICLE_SYNC === "1") {
         syncedAt: new Date().toISOString(),
       };
       if (preservedAuthor) payload.author = preservedAuthor;
+      if (preservedBodyHtml !== null) payload.preserveBodyHtmlOnBlogSync = true;
 
       fs.writeFileSync(path.join(OUT_DIR, `${slug}.json`), JSON.stringify(payload, null, 2), "utf8");
       console.log("OK:", slug);

@@ -1,32 +1,33 @@
 #!/usr/bin/env node
 /**
- * Импорт CSV экспорта «Проверка позиций» Топвизора → JSON в artifacts/seo/
+ * Импорт экспорта «Проверка позиций» Топвизора → JSON в artifacts/seo/
  * (слияние по normalizeQueryForJoin с семантическим ядром и опционально с positions-report).
  *
- * Формат экспорта в Топвизоре настраивается шаблоном столбцов — заголовки могут отличаться.
+ * Файл: **.csv** или **.xlsx** (первый лист). Шаблон столбцов в Топвизоре настраивается — заголовки могут отличаться.
  * Скрипт ищет колонку запроса по эвристике (Ключ, Фраза, Запрос, query…) или по --query-column.
  * Остальные колонки трактуются как позиции (число, «--», «>100», компактный «6 https://…»).
  *
- * Кодировка: UTF-8 (BOM снимается). Для Windows-1251: iconv -f WINDOWS-1251 -t UTF-8 in.csv > in.utf8.csv
+ * Для **.csv**: `--encoding auto|utf8|cp1251` (как в других импортерах Топвизора).
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeQueryForJoin } from "./lib/normalize-query.mjs";
-import { parseCsvDocument, detectCsvDelimiter } from "./lib/parse-csv.mjs";
 import { loadSemanticCore } from "./lib/semantic-core-utils.mjs";
+import { readTopvisorTabularMatrix } from "./lib/read-topvisor-tabular.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..", "..");
 
 function usage() {
   console.error(`Использование:
-  node scripts/seo/import-topvisor-export.mjs --input PATH/to/export.csv [опции]
+  node scripts/seo/import-topvisor-export.mjs --input PATH/export.csv|export.xlsx [опции]
 
 Опции:
   --output PATH           JSON (по умолчанию: artifacts/seo/topvisor-import-<timestamp>.json)
-  --query-column NAME     точное имя столбца из первой строки CSV (если автоопределение промахнулось)
-  --delimiter auto|,|;   по умолчанию auto (считает «;» и «,» в первой строке)
+  --query-column NAME     точное имя столбца из первой строки таблицы (если автоопределение промахнулось)
+  --delimiter auto|,|;   только .csv; по умолчанию auto
+  --encoding auto|utf8|cp1251   только .csv; по умолчанию auto
   --core PATH             semantic-core для полей cluster/priority/targetUrl (по умолчанию json/seo/semantic-core.json)
   --merge-report PATH     существующий positions-report-*.json → новый файл с теми же rows + блок topvisor
   --merge-output PATH     куда записать merge (по умолчанию: artifacts/seo/positions-report-with-topvisor-<ts>.json)
@@ -50,6 +51,7 @@ function parseArgs(argv) {
     output: "",
     queryColumn: "",
     delimiter: "auto",
+    encoding: "auto",
     core: "",
     mergeReport: "",
     mergeOutput: "",
@@ -70,6 +72,7 @@ function parseArgs(argv) {
     else if (a === "--output") o.output = next();
     else if (a === "--query-column") o.queryColumn = next();
     else if (a === "--delimiter") o.delimiter = next();
+    else if (a === "--encoding") o.encoding = next();
     else if (a === "--core") o.core = next();
     else if (a === "--merge-report") o.mergeReport = next();
     else if (a === "--merge-output") o.mergeOutput = next();
@@ -134,21 +137,20 @@ function ts() {
   return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 }
 
-function main() {
+async function main() {
   const opts = parseArgs(process.argv.slice(2));
-  if (!opts.input) die("Нужен --input PATH.csv");
+  if (!opts.input) die("Нужен --input PATH.csv или .xlsx");
   const inputAbs = path.resolve(opts.input);
   if (!fs.existsSync(inputAbs)) die(`Файл не найден: ${inputAbs}`);
 
-  let text = fs.readFileSync(inputAbs, "utf8");
-  if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
+  if (!["auto", "utf8", "cp1251", "windows-1251"].includes(opts.encoding)) die('--encoding: auto | utf8 | cp1251');
 
-  const firstLine = (text.split(/\r?\n/).find((l) => l.trim()) || "").trim();
-  const delim = opts.delimiter === "auto" ? detectCsvDelimiter(firstLine) : opts.delimiter;
-  if (delim !== "," && delim !== ";") die('--delimiter: только "," или ";" или auto');
-
-  const matrix = parseCsvDocument(text, delim);
-  if (matrix.length < 2) die("CSV: нужна строка заголовков и хотя бы одна строка данных");
+  const { format, matrix, delimiter: delimOut } = await readTopvisorTabularMatrix(
+    inputAbs,
+    /** @type {"auto"|"utf8"|"cp1251"|"windows-1251"} */ (opts.encoding),
+    opts.delimiter,
+  );
+  if (matrix.length < 2) die("Таблица: нужна строка заголовков и хотя бы одна строка данных");
 
   const headers = matrix[0].map((h) => String(h).trim());
   const qIdx = pickQueryColumnIndex(headers, opts.queryColumn);
@@ -174,7 +176,7 @@ function main() {
   }
 
   if (opts.dryRun) {
-    console.log("delimiter:", delim);
+    console.log("format:", format, "delimiter:", delimOut);
     console.log("query column:", headers[qIdx], `(index ${qIdx})`);
     console.log("position columns:", positionHeaders.join(" || "));
     console.log("rows (unique normalized keys):", byKey.size);
@@ -224,7 +226,9 @@ function main() {
     source: {
       type: "topvisor",
       file: path.relative(ROOT, inputAbs),
-      delimiter: delim,
+      format,
+      delimiter: delimOut,
+      encoding: format === "csv" ? opts.encoding : null,
       queryColumn: headers[qIdx],
     },
     corePath: path.relative(ROOT, corePath),
@@ -280,4 +284,7 @@ function main() {
   }
 }
 
-main();
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

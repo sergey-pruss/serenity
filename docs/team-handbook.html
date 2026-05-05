@@ -285,7 +285,7 @@
           <li>Внешний вид и контент сверять с живым продом serenity.agency; копировать пиксель в пиксель, не добавлять от себя.</li>
           <li>В описаниях коммитов использовать русский язык.</li>
           <li>
-            После готовности выкладывать статику на <strong>новый сервер</strong> статического контура (IP и роль — в <span class="mono">AGENTS.md</span>) по регламенту <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>: <span class="mono">deploy.sh</span>, при смене <span class="mono">nginx/routing.conf</span> и vhost — скрипты оттуда же; старый WordPress-хост из репозитория <strong>не деплоим</strong>. Worker — отдельно: <span class="mono">npx wrangler deploy</span>.
+            После готовности выкладывать статику на <strong>новый сервер</strong> статического контура (IP и роль — в <span class="mono">AGENTS.md</span>) по регламенту <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>: <span class="mono">scripts/deploy-prod.sh</span> (прод), <span class="mono">scripts/deploy-dev.sh</span> (превью static); корневой <span class="mono">deploy.sh</span> = prod. При смене <span class="mono">nginx/routing.conf</span> и vhost — скрипты оттуда же; старый WordPress-хост из репозитория <strong>не деплоим</strong>. Worker — отдельно: <span class="mono">npx wrangler deploy</span>.
           </li>
           <li>
             Стили и скрипты с долгим кэшем живут под <code>/_sa/</code>: если их трогали, обновить маркер версии в запросах (<code>?v=…</code> в шаблоне) и заново собрать HTML так, как принято в репозитории.

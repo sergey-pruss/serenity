@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Prod: выкладка статики для основного домена https://serenity.agency (тот же root /var/www/static на текущей схеме nginx).
+# После rsync — purge CDN у static.serenity.agency, чтобы превью не расходилось с origin.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+# shellcheck disable=SC1091
+source "${ROOT}/scripts/deploy-lib.sh"
+
+echo "→ Prod deploy: основной домен https://serenity.agency (origin статики) …"
+deploy_ensure_blog_built
+deploy_rsync_repo_to_static_root
+echo "✅ Prod: статика на origin для serenity.agency (nginx: root /var/www/static)."
+deploy_cdn_purge_yandex_static_preview
