@@ -113,6 +113,13 @@ server {
         return 308 https://serenity.agency/blog/$is_args$args;
     }
 
+    location = /blog/article/7-raz-otmer-kak-sozdat-effektivnyj-sajt-dlya-biznesa {
+        return 301 https://serenity.agency/blog/article/;
+    }
+    location = /blog/article/7-raz-otmer-kak-sozdat-effektivnyj-sajt-dlya-biznesa/ {
+        return 301 https://serenity.agency/blog/article/;
+    }
+
     location ^~ /blog {
         expires -1;
         add_header Cache-Control "no-cache, max-age=0, must-revalidate";
