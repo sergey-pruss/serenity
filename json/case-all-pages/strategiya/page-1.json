@@ -38,24 +38,6 @@
   ],
   "cases": [
     {
-      "href": "https://serenity.agency/case/all/boca",
-      "description": "Увеличили продажи с помощью инструментов контекстной и георекламы",
-      "tags": [
-        "Продвижение",
-        "Стратегия"
-      ],
-      "tagCodes": [
-        "pr",
-        "strategiya"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
-      }
-    },
-    {
       "href": "https://serenity.agency/case/all/minisklad",
       "description": "Создали новый фирменный стиль и увеличили количество обращений на 500%",
       "tags": [
@@ -93,6 +75,24 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5.webp"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/boca",
+      "description": "Увеличили продажи с помощью инструментов контекстной и георекламы",
+      "tags": [
+        "Продвижение",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
       }
     },
     {
@@ -156,6 +156,26 @@
         "kind": "video",
         "poster": "/_sa/img/case/eEn5z5K1VqnFurjwT6vHFhSyHwKolEzUF41JawC9.jpg",
         "videoSrc": "/_sa/img/case/nDqkUf1hDrQnNiY9gPZNrfEY3Vwgcw86y3AlcK51.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/schaeferfliesen",
+      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "tags": [
+        "Брендинг",
+        "Сайты",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
       }
     },
     {
@@ -412,26 +432,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/qz8RLM07vxpU8Cu3xiGwERlXHdzz0Rpmz8rKiLL2.jpg"
-      }
-    },
-    {
-      "href": "https://serenity.agency/case/all/schaeferfliesen",
-      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
-      "tags": [
-        "Брендинг",
-        "Сайты",
-        "Стратегия"
-      ],
-      "tagCodes": [
-        "brending",
-        "sites",
-        "strategiya"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
       }
     }
   ]

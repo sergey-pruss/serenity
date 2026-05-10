@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 62,
+  "totalItems": 61,
   "filters": [
     {
       "code": "",
@@ -247,26 +247,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
-      }
-    },
-    {
-      "href": "https://serenity.agency/case/all/schaeferfliesen",
-      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
-      "tags": [
-        "Брендинг",
-        "Сайты",
-        "Стратегия"
-      ],
-      "tagCodes": [
-        "brending",
-        "sites",
-        "strategiya"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
       }
     }
   ]

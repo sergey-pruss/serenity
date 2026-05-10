@@ -16,6 +16,8 @@ const FILTERS = [
   { code: "sites", label: "Сайты" },
   { code: "strategiya", label: "Стратегия" },
 ];
+const TILE_CASE_DESCRIPTION = "Айдентика и сайт для дистрибьютера испанской плитки в Германии";
+const EVROSTROY_SLUG = "/case/evrostroj";
 
 /** Карточки кейсов — из img/case/ (заполняется scripts/sync-case-images.mjs), иначе прод. */
 function caseMediaUrl(filename) {
@@ -47,6 +49,10 @@ function parseAnimation(animationContent) {
     };
   }
   return { kind: "picture", frontImage: media.frontImage || "", video: "" };
+}
+
+function normalizeText(value) {
+  return String(value || "").trim().toLowerCase();
 }
 
 (async () => {
@@ -87,6 +93,34 @@ function parseAnimation(animationContent) {
             },
     };
   });
+
+  const targetDescription = normalizeText(TILE_CASE_DESCRIPTION);
+  const targetCases = cases.filter((c) => normalizeText(c.description) === targetDescription);
+  if (targetCases.length > 1) {
+    const preferred = targetCases.find((c) => !c.isResource) || targetCases[0];
+    const deduped = [];
+    let usedPreferred = false;
+    for (const item of cases) {
+      if (normalizeText(item.description) !== targetDescription) {
+        deduped.push(item);
+        continue;
+      }
+      if (!usedPreferred && item.href === preferred.href && item.isResource === preferred.isResource) {
+        deduped.push(item);
+        usedPreferred = true;
+      }
+    }
+    cases.length = 0;
+    cases.push(...deduped);
+  }
+
+  const targetIndex = cases.findIndex((c) => normalizeText(c.description) === targetDescription);
+  const evrostroyIndex = cases.findIndex((c) => String(c.href || "").includes(EVROSTROY_SLUG));
+  if (targetIndex >= 0 && evrostroyIndex >= 0) {
+    const [target] = cases.splice(targetIndex, 1);
+    const insertAt = cases.findIndex((c) => String(c.href || "").includes(EVROSTROY_SLUG));
+    cases.splice(insertAt + 1, 0, target);
+  }
 
   const payload = {
     builtAt: new Date().toISOString(),

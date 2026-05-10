@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 62,
+  "totalItems": 61,
   "filters": [
     {
       "code": "",
@@ -38,8 +38,8 @@
   ],
   "cases": [
     {
-      "href": "https://www.behance.net/gallery/179526211/Schaefer-Fliesen-brand-identity-and-website",
-      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "href": "https://serenity.agency/case/360flat",
+      "description": "Бренд-стратегия и сайт для агентства недвижимости",
       "tags": [
         "Брендинг",
         "Сайт"
@@ -49,10 +49,10 @@
         "sites"
       ],
       "linkClass": "white-text",
-      "isResource": true,
+      "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "/_sa/img/case/nSk2RxnqvxvD5WQkwI0xJDHDbAGWqD5sGVRkS0xi.jpg"
+        "image": "/_sa/img/case/6tgUlCXw9GYFJKLap2A7PXdotuSKa5prNUpuwnX9.jpg"
       }
     },
     {

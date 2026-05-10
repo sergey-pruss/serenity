@@ -136,6 +136,45 @@
     });
   };
 
+  const getGridColumnCount = () => {
+    const styles = window.getComputedStyle(grid);
+    const columns = (styles.gridTemplateColumns || "")
+      .split(/\s+/)
+      .map((value) => value.trim())
+      .filter(Boolean)
+      .length;
+    return columns > 0 ? columns : 1;
+  };
+
+  const syncGridRows = () => {
+    const cards = Array.from(grid.querySelectorAll(".case"));
+    if (cards.length === 0) return;
+
+    cards.forEach((card) => {
+      card.hidden = false;
+      card.removeAttribute("aria-hidden");
+    });
+
+    const columns = getGridColumnCount();
+    const rows = new Map();
+    cards.forEach((card) => {
+      // Группируем по фактической вертикальной позиции, чтобы не зависеть от DOM-порядка.
+      const topKey = String(Math.round(card.offsetTop));
+      if (!rows.has(topKey)) rows.set(topKey, []);
+      rows.get(topKey).push(card);
+    });
+
+    const orderedRowKeys = Array.from(rows.keys()).sort((a, b) => Number(a) - Number(b));
+    if (orderedRowKeys.length <= 1) return;
+    const lastRowCards = rows.get(orderedRowKeys[orderedRowKeys.length - 1]) || [];
+    if (lastRowCards.length === 0 || lastRowCards.length >= columns) return;
+
+    lastRowCards.forEach((card) => {
+      card.hidden = true;
+      card.setAttribute("aria-hidden", "true");
+    });
+  };
+
   const renderCategories = (payload) => {
     catRoot.innerHTML = (payload.filters || [])
       .map((f) => {
@@ -195,6 +234,15 @@
   emptyEl.hidden = Number(payload.totalItems || 0) !== 0;
   renderCategories(payload);
   renderPagination(payload);
+  syncGridRows();
+  let resizeRaf = 0;
+  window.addEventListener("resize", () => {
+    if (resizeRaf) window.cancelAnimationFrame(resizeRaf);
+    resizeRaf = window.requestAnimationFrame(() => {
+      resizeRaf = 0;
+      syncGridRows();
+    });
+  });
   initDeferredVideos();
 
   try {
