@@ -58,24 +58,6 @@
       }
     },
     {
-      "href": "https://serenity.agency/case/all/boca",
-      "description": "Увеличили продажи с помощью инструментов контекстной и георекламы",
-      "tags": [
-        "Продвижение",
-        "Стратегия"
-      ],
-      "tagCodes": [
-        "pr",
-        "strategiya"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
-      }
-    },
-    {
       "href": "https://serenity.agency/case/all/minisklad",
       "description": "Создали новый фирменный стиль и увеличили количество обращений на 500%",
       "tags": [
@@ -113,6 +95,24 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/AndTNWYK9X0q8jK1uKSkDrOF4PAEKyfO91k2aqI5.webp"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/boca",
+      "description": "Увеличили продажи с помощью инструментов контекстной и георекламы",
+      "tags": [
+        "Продвижение",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/fcinfNVrWIvITcJr2rUpiKLo7K4C8Oif44dl5Kjs.webp"
       }
     },
     {

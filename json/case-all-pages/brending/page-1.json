@@ -3,7 +3,7 @@
   "currentPage": 1,
   "totalPages": 2,
   "perPage": 24,
-  "totalItems": 39,
+  "totalItems": 38,
   "filters": [
     {
       "code": "",
@@ -138,6 +138,26 @@
         "kind": "video",
         "poster": "/_sa/img/case/eEn5z5K1VqnFurjwT6vHFhSyHwKolEzUF41JawC9.jpg",
         "videoSrc": "/_sa/img/case/nDqkUf1hDrQnNiY9gPZNrfEY3Vwgcw86y3AlcK51.mp4"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/schaeferfliesen",
+      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
+      "tags": [
+        "Брендинг",
+        "Сайты",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "brending",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/566isMIGIE8z0ns5izuRXaI4ayl7LXqlJ09xCtnG.webp"
       }
     },
     {
@@ -327,24 +347,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/6tgUlCXw9GYFJKLap2A7PXdotuSKa5prNUpuwnX9.jpg"
-      }
-    },
-    {
-      "href": "https://www.behance.net/gallery/179526211/Schaefer-Fliesen-brand-identity-and-website",
-      "description": "Айдентика и сайт для дистрибьютера испанской плитки в Германии",
-      "tags": [
-        "Брендинг",
-        "Сайт"
-      ],
-      "tagCodes": [
-        "brending",
-        "sites"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/nSk2RxnqvxvD5WQkwI0xJDHDbAGWqD5sGVRkS0xi.jpg"
       }
     },
     {
