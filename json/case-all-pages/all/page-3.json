@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 61,
+  "totalItems": 62,
   "filters": [
     {
       "code": "",
@@ -247,6 +247,26 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/iripa",
+      "description": "Стратегия и комплексное продвижение социально значимого проекта",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/wwuqI8dMmEGCaQkLGMfBanx9Svc6Nm83sk8vUsdi.png"
       }
     }
   ]

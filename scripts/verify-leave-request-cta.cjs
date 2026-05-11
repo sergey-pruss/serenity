@@ -32,6 +32,20 @@ const readDesktopModal = async (page) =>
     };
   });
 
+const installMetrikaGoalRecorder = async (page) => {
+  await page.addInitScript(() => {
+    window.__metrikaGoals = [];
+    window.ym = (...args) => {
+      if (args[1] === "reachGoal") {
+        window.__metrikaGoals.push(args);
+      }
+    };
+  });
+};
+
+const readMetrikaGoalNames = async (page) =>
+  page.evaluate(() => (window.__metrikaGoals || []).map((args) => args[2]));
+
 /** На узкой вьюпорте синтетический mouse-click Playwright не всегда даёт цепочку как у тапа; `el.click()` стабильно вызывает обработчик leave-request-cta. */
 const clickFloatingCtaProgrammatic = async (page) => {
   await page.locator("#body.body-application .footer__link.application").evaluate((el) => el.click());
@@ -61,7 +75,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       const formShape = await page.evaluate(() => {
         const modal = document.querySelector("#desktop-order-popup");
         const firstMessengerLink = modal?.querySelector(".contact-form__messenger-links a");
-        const firstMessengerIcon = modal?.querySelector(".contact-form__messenger-links img");
+        const firstMessengerIcon = modal?.querySelector(".contact-form__messenger-links a svg");
         const linkRect = firstMessengerLink?.getBoundingClientRect();
         const iconRect = firstMessengerIcon?.getBoundingClientRect();
         const rect = (el) => {
@@ -361,6 +375,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
 
     {
       const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      await installMetrikaGoalRecorder(page);
       await page.route("**/api/lead", (route) =>
         route.fulfill({
           status: 200,
@@ -379,18 +394,61 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.fill('#desktop-order-popup input[name="email"]', "test@example.com");
       await page.click("#desktop-order-popup .form__submit", { force: true });
       await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
+      let metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа"]),
+        `Десктоп: успешный submit должен отправить только цель «Форма заказа», got ${JSON.stringify(metrikaGoals)}`,
+      );
       const ty = await readThankYou(page);
       assert(ty.isThankYou, "Десктоп: после успешного submit модалка получает is-thank-you");
       assert(ty.hasFormSuccess, "Десктоп: ожидается #form-success.form-success__inner");
       assert(ty.title === "Спасибо, наш новый друг!", "Десктоп: заголовок экрана благодарности");
       assert(ty.linkCount === 3, `Десктоп: три соцссылки как на оригинале, got ${ty.linkCount}`);
       assert(
-        ty.linkHrefs[0] === "https://t.me/Serenity_Agency_bot" &&
-          ty.linkHrefs[1] === "https://vk.me/serenity.agency" &&
+        ty.linkHrefs[0] === "https://t.me/serenityagency" &&
+          ty.linkHrefs[1] === "https://vk.com/serenity.agency" &&
           ty.linkHrefs[2] === "https://www.instagram.com/serenity.agency/",
-        `Десктоп: href соцсетей на экране «Спасибо» (TG, VK, Insta), got ${JSON.stringify(ty.linkHrefs)}`,
+        `Десктоп: на «Спасибо» публичные TG и VK (не бот / не vk.me), Insta, got ${JSON.stringify(ty.linkHrefs)}`,
       );
       assert(ty.paragraphHasNbsp, "Десктоп: в тексте благодарности должны быть неразрывные пробелы (&nbsp;)");
+      await page.evaluate(() => {
+        document.addEventListener("click", (e) => e.preventDefault(), true);
+        document.querySelector('#desktop-order-popup .form-success__socials a[href^="https://t.me/"]')?.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true }),
+        );
+        document.querySelector('#desktop-order-popup .form-success__socials a[href^="https://vk.com/serenity"]')?.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true }),
+        );
+        document.querySelector('#desktop-order-popup .form-success__socials a[href*="instagram.com"]')?.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true }),
+        );
+      });
+      metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа"]),
+        `Десктоп: на «Спасибо» публичные TG/VK/Insta не считаются «Мессенджеры», got ${JSON.stringify(metrikaGoals)}`,
+      );
+      await page.evaluate(() => {
+        const links = [
+          ["wa-test", "https://wa.me/15557164521"],
+          ["vk-public-test", "https://vk.com/serenity.agency"],
+          ["tg-public-test", "https://t.me/serenityagency"],
+        ];
+        for (const [id, href] of links) {
+          const a = document.createElement("a");
+          a.id = id;
+          a.href = href;
+          a.target = "_blank";
+          a.textContent = id;
+          document.body.appendChild(a);
+          a.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+        }
+      });
+      metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа", "Мессенджеры"]),
+        `Десктоп: после экрана «Спасибо» только wa.me даёт «Мессенджеры» среди синтетических ссылок, got ${JSON.stringify(metrikaGoals)}`,
+      );
       await page.keyboard.press("Escape");
       await page.waitForTimeout(200);
       const closedTy = await readDesktopModal(page);
@@ -399,6 +457,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
 
     {
       const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await installMetrikaGoalRecorder(page);
       await page.route("**/api/lead", (route) =>
         route.fulfill({
           status: 200,
@@ -417,15 +476,20 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       await page.fill('#desktop-order-popup input[name="email"]', "mobile@example.com");
       await page.click("#desktop-order-popup .form__submit", { force: true });
       await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
+      const metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа"]),
+        `Мобайл: успешный submit должен отправить только цель «Форма заказа», got ${JSON.stringify(metrikaGoals)}`,
+      );
       const tyM = await readThankYou(page);
       assert(tyM.isThankYou && tyM.hasFormSuccess, "Мобайл: экран благодарности после submit");
       assert(tyM.title === "Спасибо, наш новый друг!", "Мобайл: заголовок экрана благодарности");
       assert(tyM.linkCount === 3, `Мобайл: три соцссылки, got ${tyM.linkCount}`);
       assert(
-        tyM.linkHrefs[0] === "https://t.me/Serenity_Agency_bot" &&
-          tyM.linkHrefs[1] === "https://vk.me/serenity.agency" &&
+        tyM.linkHrefs[0] === "https://t.me/serenityagency" &&
+          tyM.linkHrefs[1] === "https://vk.com/serenity.agency" &&
           tyM.linkHrefs[2] === "https://www.instagram.com/serenity.agency/",
-        `Мобайл: на «Спасибо» только TG, VK, Insta, got ${JSON.stringify(tyM.linkHrefs)}`,
+        `Мобайл: на «Спасибо» публичные TG, VK, Insta, got ${JSON.stringify(tyM.linkHrefs)}`,
       );
     }
 

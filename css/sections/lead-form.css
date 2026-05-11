@@ -94,7 +94,8 @@ body.order-popup-open .overlay-new {
   opacity: 1 !important;
 }
 
-#desktop-order-popup .contact-form__messenger-links a img {
+#desktop-order-popup .contact-form__messenger-links a img,
+#desktop-order-popup .contact-form__messenger-links a svg {
   width: 46px !important;
   height: 46px !important;
   object-fit: contain !important;
@@ -445,7 +446,8 @@ body.order-popup-open .overlay-new {
     margin-left: 15px !important;
   }
 
-  #desktop-order-popup .contact-form__messenger-links a img {
+  #desktop-order-popup .contact-form__messenger-links a img,
+  #desktop-order-popup .contact-form__messenger-links a svg {
     width: 46px !important;
     height: 46px !important;
     display: block !important;
@@ -553,7 +555,8 @@ body.order-popup-open .overlay-new {
     color: rgba(255, 255, 255, 0.45) !important;
   }
 
-  #desktop-order-popup.is-thank-you .form-success__socials img {
+  #desktop-order-popup.is-thank-you .form-success__socials img,
+  #desktop-order-popup.is-thank-you .form-success__socials svg {
     width: 46px !important;
     height: auto !important;
   }
