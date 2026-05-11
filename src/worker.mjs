@@ -1,4 +1,4 @@
-import { handleLeadRequest } from "./lead-api.mjs";
+import { handleAmoFieldMapRequest, handleLeadRequest } from "./lead-api.mjs";
 
 /** Совпадает с nginx `/_sa/` → файлы из корня репозитория (css/, img/, …). Без префикса не перехватываем пути legacy. */
 const SNAPSHOT_PREFIX = "/_sa";
@@ -21,8 +21,16 @@ export default {
     if (url.pathname === "/blog") {
       return Response.redirect(new URL("/blog/", url.origin), 308);
     }
+    if (url.pathname === "/api/lead/" || url.pathname === "/api/internal/amo-lead-field-map/") {
+      const u = new URL(request.url);
+      u.pathname = u.pathname.replace(/\/+$/, "");
+      return Response.redirect(u, 308);
+    }
     if (url.pathname === "/api/lead") {
       return handleLeadRequest(request, env);
+    }
+    if (url.pathname === "/api/internal/amo-lead-field-map") {
+      return handleAmoFieldMapRequest(request, env);
     }
 
     /** Как nginx `location = /robots.txt` → `robots.production.txt` (канон продакшена). */

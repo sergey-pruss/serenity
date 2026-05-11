@@ -85,14 +85,20 @@ await withFetchMock(
     if (path === "/leads") {
       assert.equal(body[0].name, "Заявка с сайта — Иван");
       assert.deepEqual(body[0]._embedded.contacts, [{ id: 321 }]);
-      assert.equal(body[0].custom_fields_values[0].field_id, 555);
-      assert.equal(body[0].custom_fields_values[0].values[0].value, "https://serenity.test/#form");
+      const byField = Object.fromEntries(
+        (body[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
+      );
+      assert.equal(byField[555], "https://serenity.test/landing?utm_source=yandex&utm_medium=cpc#form");
+      assert.equal(byField[777], "yandex");
+      assert.equal(byField[888], "cpc");
       return Response.json({ _embedded: { leads: [{ id: 654 }] } });
     }
 
     if (path === "/leads/654/notes") {
       assert.match(body[0].params.text, /Задача: Нужен сайт/);
-      assert.match(body[0].params.text, /Источник: https:\/\/serenity\.test\/#form/);
+      assert.match(body[0].params.text, /Источник: https:\/\/serenity\.test\/landing\?utm_source=yandex/);
+      assert.match(body[0].params.text, /utm_source: yandex/);
+      assert.match(body[0].params.text, /utm_medium: cpc/);
       return Response.json({ _embedded: { notes: [{ id: 987 }] } });
     }
 
@@ -105,17 +111,76 @@ await withFetchMock(
         phone: "+7 999 123-45-67",
         email: "ivan@example.com",
         comments: "Нужен сайт",
-        source: "https://serenity.test/#form",
+        source: "https://serenity.test/landing?utm_source=yandex&utm_medium=cpc#form",
+        utm_source: "yandex",
+        utm_medium: "cpc",
       }),
       {
         RESEND_API_KEY: "resend-token",
         AMO_SUBDOMAIN: "serenity",
+        AMO_CLIENT_ID: "cid",
+        AMO_CLIENT_SECRET: "sec",
         AMO_ACCESS_TOKEN: "amo-token",
+        AMO_REFRESH_TOKEN: "amo-refresh",
         AMO_SOURCE_FIELD_ID: "555",
+        AMO_UTM_SOURCE_FIELD_ID: "777",
+        AMO_UTM_MEDIUM_FIELD_ID: "888",
       },
     );
     assert.equal(response.status, 200);
     assert.deepEqual(await json(response), { success: true });
+  },
+);
+
+await withFetchMock(
+  async (url, init) => {
+    if (url === "https://api.resend.com/emails") return Response.json({ id: "email_123" });
+
+    const path = String(url).replace("https://serenity.amocrm.ru/api/v4", "");
+    const body = JSON.parse(init.body);
+
+    if (path === "/contacts") {
+      return Response.json({ _embedded: { contacts: [{ id: 1 }] } });
+    }
+    if (path === "/leads") {
+      const byField = Object.fromEntries(
+        (body[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
+      );
+      assert.equal(byField[100], "google");
+      assert.equal(byField[101], "banner");
+      return Response.json({ _embedded: { leads: [{ id: 2 }] } });
+    }
+    if (path === "/leads/2/notes") {
+      assert.match(body[0].params.text, /utm_source: google/);
+      assert.match(body[0].params.text, /utm_medium: banner/);
+      return Response.json({ _embedded: { notes: [{ id: 3 }] } });
+    }
+    throw new Error(`Unexpected AmoCRM path: ${path}`);
+  },
+  async () => {
+    const response = await handleLeadRequest(
+      new Request("https://serenity.test/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Пётр",
+          phone: "+7",
+          email: "p@example.com",
+          source: "https://serenity.test/x?utm_source=google&utm_medium=banner",
+        }),
+      }),
+      {
+        RESEND_API_KEY: "resend-token",
+        AMO_SUBDOMAIN: "serenity",
+        AMO_CLIENT_ID: "cid",
+        AMO_CLIENT_SECRET: "sec",
+        AMO_ACCESS_TOKEN: "amo-token",
+        AMO_REFRESH_TOKEN: "amo-refresh",
+        AMO_UTM_SOURCE_FIELD_ID: "100",
+        AMO_UTM_MEDIUM_FIELD_ID: "101",
+      },
+    );
+    assert.equal(response.status, 200);
   },
 );
 
