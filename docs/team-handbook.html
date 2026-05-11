@@ -629,10 +629,11 @@
         <h2>Аналитика и SEO</h2>
         <h3>Счётчики и вставка на страницы</h3>
         <p>
-          Фрагмент с кодом счётчиков: <code>html/partials/analytics-counters.html</code>. Он подключается в шаблоне сборки главной (<code>html/index.layout.html</code>, директива partial) и копируется в страницы <code>case/all</code> скриптом
-          <code>scripts/sync-analytics-into-case-all.mjs</code>.
+          Фрагмент с кодом счётчиков и скрипта заявки: <code>html/partials/analytics-counters.html</code>. Он подключается в шаблоне главной (<code>html/index.layout.html</code>, директива <code>@partial</code>) и вставляется между маркерами <code>SERENITY:ANALYTICS-BEGIN/END</code> в
+          <code>html/case-all-index.layout.html</code> и <code>html/blog-index.layout.html</code> скриптом
+          <code>scripts/sync-analytics-into-case-all.mjs</code> (шаг <code>npm run build:cases</code>).
         </p>
-        <p><strong>Сейчас в partial:</strong> Яндекс.Метрика, счётчик <code>30205029</code> (инициализация через <code>mc.yandex.ru/metrika/tag.js</code>).</p>
+        <p><strong>Сейчас в partial:</strong> Яндекс.Метрика <code>30205029</code> (<code>mc.yandex.ru/metrika/tag.js</code>) и <code>/_sa/js/leave-request-cta.js</code> с актуальным <code>?v=</code>.</p>
         <p class="note">Проверка «счётчик жив»: сеть в DevTools, срабатывание <code>ym(…)</code>, при необходимости отчёт в Метрике.</p>
         <h3>Индексация и мета в HTML</h3>
         <p>

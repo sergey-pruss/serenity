@@ -77,6 +77,22 @@ const blogIndexPath = path.join(root, "blog", "index.html");
   );
 
   assert(html.includes("ym(30205029"), "Яндекс.Метрика (ym init) в index.html");
+  assert(
+    (html.match(/ym\s*\(\s*30205029\s*,\s*"init"/g) || []).length === 1,
+    "index.html — ровно один ym(30205029, \"init\")",
+  );
+  assert(
+    (html.match(/\/_sa\/js\/leave-request-cta\.js/g) || []).length === 1,
+    "index.html — ровно один leave-request-cta.js",
+  );
+  assert(
+    (blogHtml.match(/ym\s*\(\s*30205029\s*,\s*"init"/g) || []).length === 1,
+    "blog/index.html — ровно один ym(30205029, \"init\")",
+  );
+  assert(
+    (blogHtml.match(/\/_sa\/js\/leave-request-cta\.js/g) || []).length === 1,
+    "blog/index.html — ровно один leave-request-cta.js",
+  );
 
   const footMatch = html.match(/<footer[\s\S]*?<\/footer>/i);
   assert(footMatch, "footer block");

@@ -75,6 +75,14 @@ const startStaticServer = (port) =>
   const blogTemplate = fs.readFileSync(blogIndexPath, "utf8");
   assert(blogTemplate.includes("ym(30205029"), "blog/index.html — Яндекс.Метрика");
   assert(
+    (blogTemplate.match(/ym\s*\(\s*30205029\s*,\s*"init"/g) || []).length === 1,
+    "blog/index.html — ровно один ym(30205029, \"init\")",
+  );
+  assert(
+    (blogTemplate.match(/\/_sa\/js\/leave-request-cta\.js/g) || []).length === 1,
+    "blog/index.html — ровно один leave-request-cta.js",
+  );
+  assert(
     !blogTemplate.includes("blog-article-figma.css"),
     "листинг блога не должен тянуть CSS статей (blog-article-figma)",
   );

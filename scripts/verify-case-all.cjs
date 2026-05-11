@@ -75,6 +75,14 @@ const startStaticServer = (port) =>
   const caseAllTemplate = fs.readFileSync(caseAllIndexPath, "utf8");
   assert(caseAllTemplate.includes("ym(30205029"), "case/all/index.html — Яндекс.Метрика");
   assert(
+    (caseAllTemplate.match(/ym\s*\(\s*30205029\s*,\s*"init"/g) || []).length === 1,
+    "case/all/index.html — ровно один ym(30205029, \"init\")",
+  );
+  assert(
+    (caseAllTemplate.match(/\/_sa\/js\/leave-request-cta\.js/g) || []).length === 1,
+    "case/all/index.html — ровно один leave-request-cta.js",
+  );
+  assert(
     !/\{\{CASE_(TITLE|CANONICAL|DESCRIPTION)\}\}/.test(caseAllTemplate),
     "case/all/index.html: после build-case-all-pages не должно оставаться плейсхолдеров {{CASE_*}}",
   );

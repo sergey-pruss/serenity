@@ -6,7 +6,7 @@
  * И JSON-срезов для каждой страницы.
  *
  * Источник разметки: `html/case-all-index.layout.html` (плейсхолдеры {{CASE_*}}).
- * Перед сборкой: `node scripts/sync-analytics-into-case-all.mjs` подставляет счётчики в layout.
+ * Перед сборкой: `node scripts/sync-analytics-into-case-all.mjs` подставляет счётчики и leave-request-cta в `case-all-index` и `blog-index` layouts.
  */
 import fs from "fs";
 import path from "path";
