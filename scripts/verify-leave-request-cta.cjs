@@ -329,9 +329,11 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
       );
       assert(
         mobMessenger.length === 3 &&
+          mobMessenger[0] === "https://t.me/Serenity_Agency_bot" &&
           mobMessenger[1] === "https://wa.me/15557164521" &&
+          mobMessenger[2] === "https://vk.me/serenity.agency" &&
           !mobMessenger.some((h) => h && h.toLowerCase().includes("instagram")),
-        `Мобайл: в форме TG, WA, VK без Instagram, got ${JSON.stringify(mobMessenger)}`,
+        `Мобайл: в форме TG-бот, WA, vk.me (не публичные соцстраницы), got ${JSON.stringify(mobMessenger)}`,
       );
       const mobMessengerOpacity = await page.evaluate(() =>
         parseFloat(
