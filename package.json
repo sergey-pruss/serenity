@@ -44,6 +44,7 @@
     "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",
     "test:sliders": "node scripts/slider-smoke.cjs",
     "test:lead-api": "node scripts/verify-lead-api.mjs",
+    "amo:sync-utm-secrets": "node scripts/sync-amo-utm-wrangler-secrets.mjs",
     "apply:sitemap-policy": "node scripts/apply-sitemap-serenity-routing-policy.mjs",
     "build:sitemap": "node scripts/build-sitemap.mjs && node scripts/apply-sitemap-serenity-routing-policy.mjs",
     "test:routing-config": "node scripts/verify-routing-config.cjs && node scripts/verify-nginx-edge-intercepts.cjs && node scripts/verify-sitemap-lastmod.mjs && node scripts/verify-sitemap-loc-policy.mjs",
