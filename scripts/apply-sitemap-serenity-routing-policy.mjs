@@ -41,22 +41,29 @@ export function keepSitemapLoc(locRaw) {
   return false;
 }
 
-const xml = fs.readFileSync(sitemapPath, "utf8");
-const blockRe = /<url>[\s\S]*?<\/url>/g;
-const blocks = xml.match(blockRe) || [];
-const kept = [];
-for (const block of blocks) {
-  const m = block.match(/<loc>([^<]*)<\/loc>/);
-  if (!m) continue;
-  if (keepSitemapLoc(m[1])) kept.push(block.trim());
+export function applySitemapSerenityRoutingPolicy() {
+  const xml = fs.readFileSync(sitemapPath, "utf8");
+  const blockRe = /<url>[\s\S]*?<\/url>/g;
+  const blocks = xml.match(blockRe) || [];
+  const kept = [];
+  for (const block of blocks) {
+    const m = block.match(/<loc>([^<]*)<\/loc>/);
+    if (!m) continue;
+    if (keepSitemapLoc(m[1])) kept.push(block.trim());
+  }
+
+  const body = kept.map((b) => `        ${b}\n`).join("");
+  const out =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    body +
+    `</urlset>\n`;
+
+  fs.writeFileSync(sitemapPath, out, "utf8");
+  console.log(`OK: sitemap.xml — было ${blocks.length} <url>, оставлено ${kept.length} (без нестатических /case/all/…).`);
 }
 
-const body = kept.map((b) => `        ${b}\n`).join("");
-const out =
-  `<?xml version="1.0" encoding="UTF-8"?>\n` +
-  `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  body +
-  `</urlset>\n`;
-
-fs.writeFileSync(sitemapPath, out, "utf8");
-console.log(`OK: sitemap.xml — было ${blocks.length} <url>, оставлено ${kept.length} (без нестатических /case/all/…).`);
+const isMain = process.argv[1]?.endsWith("apply-sitemap-serenity-routing-policy.mjs");
+if (isMain) {
+  applySitemapSerenityRoutingPolicy();
+}

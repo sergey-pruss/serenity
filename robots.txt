@@ -1,6 +1,4 @@
-# Должно совпадать с robots.production.txt (обновляйте оба). Нужен для try_files на serenity.agency,
-# если на сервере ещё нет location = /robots.txt → alias robots.production.txt.
-# static.serenity.agency отдаёт robots.static-preview.txt (см. nginx/static.serenity.agency.live.conf).
+# Синхронно с robots.production.txt (обновляйте оба; см. AGENTS.md).
 User-agent: *
 
 Disallow: /docs/
@@ -23,6 +21,6 @@ Disallow: *openstat=
 
 Allow: */uploads
 
-Clean-param: &utm&get&amo
+Clean-param: &utm&get&amo&amp
 
 Sitemap: https://serenity.agency/sitemap.xml

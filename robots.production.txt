@@ -20,6 +20,6 @@ Disallow: *openstat=
 
 Allow: */uploads
 
-Clean-param: &utm&get&amo
+Clean-param: &utm&get&amo&amp
 
 Sitemap: https://serenity.agency/sitemap.xml

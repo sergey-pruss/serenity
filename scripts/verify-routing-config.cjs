@@ -86,4 +86,9 @@ const robotsPreviewPath = path.join(__dirname, "..", "robots.static-preview.txt"
 const robotsPreview = fs.readFileSync(robotsPreviewPath, "utf8");
 assert(/^\s*Disallow:\s*\/\s*$/m.test(robotsPreview), "robots.static-preview.txt must Disallow: / for static host.");
 
+assert(
+  /\blocation\s*=\s*\/seminar\/7\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/blog\/\s*;/.test(routerVhost),
+  "serenity-router.live.conf: edge intercept /seminar/7 → /blog/ (полный список — json/nginx-edge-intercepts.json, verify-nginx-edge-intercepts.cjs; тот же стиль, что для /blog/article/7-raz-otmer…)."
+);
+
 console.log("OK: routing config baseline rules are present.");
