@@ -663,6 +663,16 @@
           <code>sitemap.xml</code> отдаётся со статического деплоя, а не из WordPress — чтобы маршруты вроде
           <code>/case/all/…</code> и при необходимости <code>/blog/…</code> попадали в карту сайта из репозитория.
         </p>
+        <p>
+          <strong>Метки и дубли URL:</strong> правило <code>Disallow: *?*</code> в продовом <code>robots.production.txt</code>
+          не даёт роботам обходить адреса с строкой запроса (в том числе с <code>utm_</code> и прочими метками), чтобы не плодить дубли в обходе.
+          Для Яндекса отдельно задана директива <code>Clean-param</code> — склейка по именам параметров. В самом файле
+          <code>robots.txt</code> между именами параметров — только символ U+0026 (амперсанд); если ту же строку вставляют в HTML без экранирования,
+          браузер «ломает» разметку и может показать обрезанный хвост вроде <code>…get&amp;amp</code>. Ниже — как строка выглядит на экране и как её нужно записывать в HTML-исходнике:
+        </p>
+        <p class="mono ok-note">
+          <code>Clean-param: &amp;utm&amp;get&amp;amo&amp;amp</code>
+        </p>
       </section>
 
       <section id="seo-visibility-process">

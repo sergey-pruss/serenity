@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const path = require("path");
+const { pathToFileURL } = require("url");
 const { chromium } = require("playwright");
 
 const DEFAULT_URLS = [
@@ -48,6 +50,19 @@ async function checkHandbookDeployedAtOrigins() {
     );
     console.log(`OK handbook ${url}`);
   }
+}
+
+async function checkProdRobotsSitemapAtOrigins() {
+  const { verifyProdRobotsSitemap } = await import(pathToFileURL(path.join(__dirname, "verify-prod-robots-sitemap.mjs")).href);
+  const origins = [...new Set(URLS.map((u) => new URL(u).origin))];
+  await verifyProdRobotsSitemap({ origins });
+}
+
+async function checkOptionalSitemapHeadSample() {
+  const k = Number.parseInt(process.env.SITEMAP_HEAD_SAMPLE_K || "0", 10);
+  if (!Number.isFinite(k) || k <= 0) return;
+  const { runSitemapHeadSample } = await import(pathToFileURL(path.join(__dirname, "verify-prod-sitemap-sample-head.mjs")).href);
+  await runSitemapHeadSample();
 }
 
 async function checkUrl(browser, url) {
@@ -150,6 +165,8 @@ async function run() {
       await checkUrl(browser, url);
     }
     await checkHandbookDeployedAtOrigins();
+    await checkProdRobotsSitemapAtOrigins();
+    await checkOptionalSitemapHeadSample();
     console.log("post-deploy-smoke: OK");
   } finally {
     await browser.close();
