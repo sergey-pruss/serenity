@@ -156,6 +156,11 @@ function appendAmoUtmCustomFields(env, leadCustomFields, utm) {
   appendUtmToAmoValues(env, utm, UTM_PARAM_TO_ENV, leadCustomFields);
 }
 
+function makeAmoSourceUid() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
 function formatUtmForNote(utm) {
   const lines = [];
   for (const [param] of UTM_PARAM_TO_ENV) {
@@ -566,69 +571,66 @@ async function createAmoCRMLead(env, { name, phone, email, message, source, utm 
     throw new Error("AMO_ACCESS_TOKEN или AMO_REFRESH_TOKEN не заданы");
   }
 
-  // 1. Создаём контакт
-  const contactRes = await amoRequest(env, authState, "/contacts", [
-    {
-      name,
-      custom_fields_values: [
-        phone && { field_code: "PHONE", values: [{ value: phone, enum_code: "WORK" }] },
-        email && { field_code: "EMAIL", values: [{ value: email, enum_code: "WORK" }] },
-      ].filter(Boolean),
-    },
-  ]);
+  // Заявки сайта должны попадать в "Неразобранное": не передаём responsible_user_id/status_id.
+  const contactCustomFields = [
+    phone && { field_code: "PHONE", values: [{ value: phone, enum_code: "WORK" }] },
+    email && { field_code: "EMAIL", values: [{ value: email, enum_code: "WORK" }] },
+  ].filter(Boolean);
+  appendUtmToAmoValues(env, utm, UTM_PARAM_TO_CONTACT_ENV, contactCustomFields);
 
-  let contactId = null;
-  if (contactRes.ok) {
-    const cd = await contactRes.json();
-    contactId = cd?._embedded?.contacts?.[0]?.id ?? null;
-  } else {
-    console.error("AmoCRM contact error:", await contactRes.text());
-  }
-
-  if (contactId) {
-    const contactUtmCf = [];
-    appendUtmToAmoValues(env, utm, UTM_PARAM_TO_CONTACT_ENV, contactUtmCf);
-    if (contactUtmCf.length) {
-      const patchRes = await amoPatchRequest(env, authState, "/contacts", [
-        { id: contactId, custom_fields_values: contactUtmCf },
-      ]);
-      if (!patchRes.ok) {
-        console.error("AmoCRM contact UTM patch:", await patchRes.text());
-      }
-    }
-  }
-
-  // 2. Создаём лид
   const leadCustomFields = [];
-  if (source && env.AMO_SOURCE_FIELD_ID) {
-    leadCustomFields.push({ field_id: Number(env.AMO_SOURCE_FIELD_ID), values: [{ value: source }] });
+  const amoSource = source || "https://serenity.agency/";
+  if (amoSource && env.AMO_SOURCE_FIELD_ID) {
+    leadCustomFields.push({ field_id: Number(env.AMO_SOURCE_FIELD_ID), values: [{ value: amoSource }] });
   }
   appendAmoUtmCustomFields(env, leadCustomFields, utm);
 
-  const leadRes = await amoRequest(env, authState, "/leads", [
+  const now = Math.floor(Date.now() / 1000);
+  const sourceUid = makeAmoSourceUid();
+  const unsortedRes = await amoRequest(env, authState, "/leads/unsorted/forms", [
     {
-      name: `Заявка с сайта — ${name}`,
-      ...(leadCustomFields.length ? { custom_fields_values: leadCustomFields } : {}),
+      request_id: sourceUid,
+      source_name: "Serenity Статика",
+      source_uid: sourceUid,
+      created_at: now,
       _embedded: {
-        contacts: contactId ? [{ id: contactId }] : [],
+        leads: [
+          {
+            name: `Заявка с сайта — ${name}`,
+            ...(leadCustomFields.length ? { custom_fields_values: leadCustomFields } : {}),
+          },
+        ],
+        contacts: [
+          {
+            name,
+            ...(contactCustomFields.length ? { custom_fields_values: contactCustomFields } : {}),
+          },
+        ],
+      },
+      metadata: {
+        form_id: "serenity-static-lead-form",
+        form_name: "Форма заявки Serenity",
+        form_page: amoSource,
+        form_sent_at: now,
+        referer: amoSource,
       },
     },
   ]);
 
-  if (!leadRes.ok) {
-    throw new Error(`AmoCRM leads ${leadRes.status}: ${await leadRes.text()}`);
+  if (!unsortedRes.ok) {
+    throw new Error(`AmoCRM unsorted forms ${unsortedRes.status}: ${await unsortedRes.text()}`);
   }
 
-  // 3. Добавляем заметку: задача + источник
+  // 2. Добавляем заметку: задача + источник
   const noteParts = [];
   if (message) noteParts.push(`Задача: ${message}`);
-  if (source)  noteParts.push(`Источник: ${source}`);
+  if (amoSource) noteParts.push(`Источник: ${amoSource}`);
   const utmNote = formatUtmForNote(utm);
   if (utmNote) noteParts.push(utmNote);
 
   if (noteParts.length) {
-    const leadData = await leadRes.json();
-    const leadId = leadData?._embedded?.leads?.[0]?.id;
+    const unsortedData = await unsortedRes.json();
+    const leadId = unsortedData?._embedded?.unsorted?.[0]?._embedded?.leads?.[0]?.id;
     if (leadId) {
       await amoRequest(env, authState, `/leads/${leadId}/notes`, [
         { note_type: "common", params: { text: noteParts.join("\n") } },
