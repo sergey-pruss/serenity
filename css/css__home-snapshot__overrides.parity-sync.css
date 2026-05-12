@@ -1962,7 +1962,8 @@ body.order-popup-open .overlay-new {
     gap: 26px;
     padding: 12px 0 18px;
     margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-right: calc(-1 * var(--page-gutter-x)) !important;
+    width: calc(100% + var(--page-gutter-x));
     row-gap: 0;
   }
 

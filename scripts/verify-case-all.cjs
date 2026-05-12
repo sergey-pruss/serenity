@@ -70,6 +70,40 @@ const startStaticServer = (port) =>
     server.listen(port, "127.0.0.1", () => resolve(server));
   });
 
+async function assertMobileCategoriesReachViewportEdge(page, url) {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(url, { waitUntil: "load", timeout: 60000 });
+  await page.waitForSelector("#case-all-categories .categories__link", { timeout: 20000 });
+  const metrics = await page.evaluate(async () => {
+    const categories = document.querySelector("#case-all-categories");
+    const links = Array.from(categories?.querySelectorAll(".categories__link") || []);
+    if (!categories || links.length === 0) return { ok: false };
+    categories.scrollLeft = categories.scrollWidth;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const cr = categories.getBoundingClientRect();
+    const last = links[links.length - 1].getBoundingClientRect();
+    return {
+      ok: true,
+      viewportWidth: window.innerWidth,
+      scrollRoom: categories.scrollWidth - categories.clientWidth,
+      scrollLeft: categories.scrollLeft,
+      containerRightGap: window.innerWidth - cr.right,
+      lastRightGap: window.innerWidth - last.right,
+    };
+  });
+  assert(metrics.ok, "Mobile categories: не найдены категории");
+  assert(
+    Math.abs(metrics.containerRightGap) <= 2,
+    `Mobile categories: scrollport должен доходить до правого края viewport, gap=${metrics.containerRightGap}`,
+  );
+  if (metrics.scrollRoom > 2) {
+    assert(
+      Math.abs(metrics.lastRightGap) <= 3,
+      `Mobile categories: последний пункт должен докручиваться до края без пустого хвоста, gap=${metrics.lastRightGap}`,
+    );
+  }
+}
+
 (async () => {
   const caseAllIndexPath = path.join(root, "case", "all", "index.html");
   const caseAllTemplate = fs.readFileSync(caseAllIndexPath, "utf8");
@@ -147,6 +181,8 @@ const startStaticServer = (port) =>
         `meta description страницы 3 кейсов должна содержать «Страница 3.», получено: ${p3Desc.slice(0, 140)}…`,
       );
     }
+
+    await assertMobileCategoriesReachViewportEdge(page, `http://127.0.0.1:${port}/case/all/`);
 
     console.log(
       `OK: /case/all — всего кейсов ${total}, фильтр «Брендинг» (${brendingCount}), пагинация при ширине 1520px (${pageDesktop} карточек на страницу)`,
