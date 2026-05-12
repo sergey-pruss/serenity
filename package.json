@@ -47,7 +47,7 @@
     "amo:sync-utm-secrets": "node scripts/sync-amo-utm-wrangler-secrets.mjs",
     "apply:sitemap-policy": "node scripts/apply-sitemap-serenity-routing-policy.mjs",
     "build:sitemap": "node scripts/build-sitemap.mjs && node scripts/apply-sitemap-serenity-routing-policy.mjs",
-    "test:routing-config": "node scripts/verify-routing-config.cjs && node scripts/verify-nginx-edge-intercepts.cjs && node scripts/verify-sitemap-lastmod.mjs && node scripts/verify-sitemap-loc-policy.mjs",
+    "test:routing-config": "node scripts/verify-routing-config.cjs && node scripts/verify-nginx-edge-intercepts.cjs && node scripts/verify-sitemap-lastmod.mjs && node scripts/verify-sitemap-loc-policy.mjs && node scripts/verify-deploy-surfaces.cjs",
     "test:prod-robots-sitemap": "node scripts/verify-prod-robots-sitemap.mjs",
     "test:prod-sitemap-head-sample": "node scripts/verify-prod-sitemap-sample-head.mjs",
     "seo:gsc-coverage-hint": "node scripts/seo/gsc-coverage-export-hint.cjs",

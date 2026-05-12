@@ -766,9 +766,10 @@ body.scroll-menu-open {
   }
 
   .page-top.header.compressed .body-application[data-v-e5e2adce] {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 }
 
