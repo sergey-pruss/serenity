@@ -76,22 +76,32 @@ await withFetchMock(
     const body = JSON.parse(init.body);
     assert.equal(init.headers.Authorization, "Bearer amo-token");
 
-    if (path === "/contacts") {
-      assert.equal(body[0].name, "Иван");
-      assert.equal(body[0].custom_fields_values.length, 2);
-      return Response.json({ _embedded: { contacts: [{ id: 321 }] } });
-    }
-
-    if (path === "/leads") {
-      assert.equal(body[0].name, "Заявка с сайта — Иван");
-      assert.deepEqual(body[0]._embedded.contacts, [{ id: 321 }]);
+    if (path === "/leads/unsorted/forms") {
+      assert.equal(body[0].source_name, "Serenity Статика");
+      assert.equal(typeof body[0].source_uid, "string");
+      assert.ok(body[0].source_uid);
+      assert.equal(body[0].request_id, body[0].source_uid);
+      assert.equal(body[0].metadata.form_id, "serenity-static-lead-form");
+      assert.equal(body[0].metadata.form_page, "https://serenity.test/landing?utm_source=yandex&utm_medium=cpc#form");
+      assert.equal(body[0].metadata.referer, "https://serenity.test/landing?utm_source=yandex&utm_medium=cpc#form");
+      assert.equal(body[0]._embedded.leads[0].name, "Заявка с сайта — Иван");
+      assert.equal(body[0]._embedded.contacts[0].name, "Иван");
+      const contactFields = body[0]._embedded.contacts[0].custom_fields_values || [];
+      assert.ok(contactFields.some((cf) => cf.field_code === "PHONE" && cf.values[0].value === "+7 999 123-45-67"));
+      assert.ok(contactFields.some((cf) => cf.field_code === "EMAIL" && cf.values[0].value === "ivan@example.com"));
+      assert.equal(body[0].responsible_user_id, undefined);
+      assert.equal(body[0].status_id, undefined);
+      assert.equal(body[0].pipeline_id, undefined);
+      assert.equal(body[0]._embedded.leads[0].responsible_user_id, undefined);
+      assert.equal(body[0]._embedded.leads[0].status_id, undefined);
+      assert.equal(body[0]._embedded.leads[0].pipeline_id, undefined);
       const byField = Object.fromEntries(
-        (body[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
+        (body[0]._embedded.leads[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
       );
       assert.equal(byField[555], "https://serenity.test/landing?utm_source=yandex&utm_medium=cpc#form");
       assert.equal(byField[777], "yandex");
       assert.equal(byField[888], "cpc");
-      return Response.json({ _embedded: { leads: [{ id: 654 }] } });
+      return Response.json({ _embedded: { unsorted: [{ _embedded: { leads: [{ id: 654 }] } }] } });
     }
 
     if (path === "/leads/654/notes") {
@@ -139,16 +149,20 @@ await withFetchMock(
     const path = String(url).replace("https://serenity.amocrm.ru/api/v4", "");
     const body = JSON.parse(init.body);
 
-    if (path === "/contacts") {
-      return Response.json({ _embedded: { contacts: [{ id: 1 }] } });
-    }
-    if (path === "/leads") {
+    if (path === "/leads/unsorted/forms") {
       const byField = Object.fromEntries(
-        (body[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
+        (body[0]._embedded.leads[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
+      );
+      const byContactField = Object.fromEntries(
+        (body[0]._embedded.contacts[0].custom_fields_values || [])
+          .filter((cf) => cf.field_id)
+          .map((cf) => [cf.field_id, cf.values[0].value]),
       );
       assert.equal(byField[100], "google");
       assert.equal(byField[101], "banner");
-      return Response.json({ _embedded: { leads: [{ id: 2 }] } });
+      assert.equal(byContactField[200], "google");
+      assert.equal(byContactField[201], "banner");
+      return Response.json({ _embedded: { unsorted: [{ _embedded: { leads: [{ id: 2 }] } }] } });
     }
     if (path === "/leads/2/notes") {
       assert.match(body[0].params.text, /utm_source: google/);
@@ -178,6 +192,8 @@ await withFetchMock(
         AMO_REFRESH_TOKEN: "amo-refresh",
         AMO_UTM_SOURCE_FIELD_ID: "100",
         AMO_UTM_MEDIUM_FIELD_ID: "101",
+        AMO_CONTACT_UTM_SOURCE_FIELD_ID: "200",
+        AMO_CONTACT_UTM_MEDIUM_FIELD_ID: "201",
       },
     );
     assert.equal(response.status, 200);
