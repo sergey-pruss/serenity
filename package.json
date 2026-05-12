@@ -70,7 +70,8 @@
     "test:readability-slow": "node scripts/verify-readability-slow-network.cjs",
     "test:hero-poster": "node scripts/verify-hero-video-poster.cjs",
     "test:post-deploy-smoke": "node scripts/post-deploy-smoke.cjs",
-    "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs"
+    "capture:form-parity": "node scripts/generate-form-50-50-overlay.cjs",
+    "test:category-scroll-edge": "node scripts/verify-category-scroll-edge.cjs"
   },
   "devDependencies": {
     "@google-cloud/local-auth": "^3.0.1",
