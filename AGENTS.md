@@ -6,11 +6,23 @@
 
 ---
 
+## Перед любой выкладкой
+
+Перед деплоем агент обязан явно уточнить у пользователя один из трёх вариантов и действовать только после ответа:
+
+- **DEV** — `bash scripts/deploy-dev.sh`: выкладка в отдельный dev-root `/var/www/static-dev/` для `https://static.serenity.agency` и деплой Worker `https://serenity.sergeyprus.workers.dev`.
+- **PROD** — `bash scripts/deploy-prod.sh` (или `./deploy.sh`): выкладка только в prod-root `/var/www/static/` для `https://serenity.agency`; Worker этим шагом не обновляется.
+- **ВЕЗДЕ** — сначала DEV, затем PROD, с релевантными тестами и проверками обеих поверхностей.
+
+Нельзя считать фразы вроде «залей», «выложи», «загрузи на сервер» достаточным разрешением: если поверхность не названа явно, спросить **DEV / PROD / ВЕЗДЕ**. Нельзя подменять `deploy-dev.sh` ручным `rsync` в prod-root.
+
+---
+
 ## Только новый сервер (статический контур)
 
-Все шаги выкладки из этого регламента относятся **только к новому серверу** со статикой и Nginx-роутером: `**bash scripts/deploy-dev.sh`** (превью **static.serenity.agency**), `**bash scripts/deploy-prod.sh`** (основной **serenity.agency**), корневой `**deploy.sh`** (= `**deploy-prod.sh`**), `**bash scripts/deploy-routing.sh**`, `**bash scripts/deploy-serenity-router-vhost.sh**`, `**bash scripts/deploy-static-vhost.sh**` работают с **этой** машиной и каталогом `**/var/www/static`** (плюс конфиги Nginx на ней).
+Все шаги выкладки из этого регламента относятся **только к новому серверу** со статикой и Nginx-роутером: `**bash scripts/deploy-dev.sh`** (превью **static.serenity.agency**, отдельный каталог `**/var/www/static-dev/`** + Worker), `**bash scripts/deploy-prod.sh`** (основной **serenity.agency**, каталог `**/var/www/static/`**), корневой `**deploy.sh`** (= `**deploy-prod.sh`**), `**bash scripts/deploy-routing.sh**`, `**bash scripts/deploy-serenity-router-vhost.sh**`, `**bash scripts/deploy-static-vhost.sh**` работают с **этой** машиной и Nginx-конфигами на ней.
 
-**Dev и prod сейчас на один origin:** в `nginx/` и **static**, и **serenity** смотрят в `**/var/www/static`** на `168.222.142.141`. Скрипты **dev** и **prod** делают один и тот же `rsync` по умолчанию; различаются сценарий, сообщения и обязательность: **dev** ориентирован на проверку по **static.serenity.agency**, **prod** — на выкладку под основной домен. Разнести каталоги на сервере можно через `**DEPLOY_REMOTE_PATH`** / `**DEPLOY_SSH_TARGET`** в окружении (см. `scripts/deploy-lib.sh`). Алиас прежнего имени: `**bash scripts/deploy-static-preview.sh**` = `**deploy-dev.sh**`.
+**Dev и prod разнесены:** `**deploy-dev.sh`** по умолчанию пишет в `**/var/www/static-dev/`** и обновляет Worker staging; `**deploy-prod.sh`** по умолчанию пишет в `**/var/www/static/`** и Worker не трогает. `**static.serenity.agency`** должен смотреть на `**/var/www/static-dev`** через `nginx/static.serenity.agency.live.conf`; `**serenity.agency`** — на `**/var/www/static`** через `nginx/serenity-router.live.conf`. Переопределять `**DEPLOY_REMOTE_PATH`** можно только осознанно и после явного подтверждения поверхности деплоя. Алиас прежнего имени: `**bash scripts/deploy-static-preview.sh**` = `**deploy-dev.sh**`.
 
 **Старый основной хост WordPress (legacy)** из этого репозитория **не трогаем**: туда нет `rsync`, нет деплоя темы/плагинов и правок PHP. Он участвует в схеме только как **upstream за прокси** в конфиге Nginx **на новом** сервере — менять эту границу можно только осознанно (файлы в `nginx/`, тесты, выкладка на **новый** сервер).
 
@@ -18,7 +30,7 @@
 
 ## Почему прод не обновляется «сам» после правок в репозитории
 
-Прод-сайт живёт на **отдельной машине** с Nginx и каталогом `/var/www/static`. Изменения в git **никак не затрагивают** её, пока кто‑то с доступом по SSH не выполнит `**bash scripts/deploy-prod.sh`** (или `**deploy-dev.sh`** для того же origin) и при необходимости скрипты Nginx (см. таблицу ниже).
+Прод-сайт живёт на **отдельной машине** с Nginx и каталогом `/var/www/static`. Изменения в git **никак не затрагивают** её, пока кто‑то с доступом по SSH не выполнит `**bash scripts/deploy-prod.sh`** и при необходимости скрипты Nginx (см. таблицу ниже). `**deploy-dev.sh`** не должен обновлять prod-root.
 
 Если `**https://serenity.agency/robots.txt**` выглядит как правила **WordPress**, поиск `**Disallow: /docs/`** ничего не находит — запрос почти наверняка уходит в **legacy** (прокси на отдельный WordPress‑хост), а не в файлы статики **нового** сервера из репо. То же самое с `**/docs/team-handbook.html`**, если там **500**, страница **Nuxt** или другая ошибка legacy: нужны **актуальные файлы на диске** и **активированная маршрутизация/nginx** под префикс `/docs/`.
 
@@ -30,14 +42,14 @@
 
 ---
 
-## Три прод-поверхности (один артефакт в репозитории)
+## Три поверхности выкладки (один артефакт в репозитории)
 
 
 | Поверхность                                   | Как обновить контент                                                                                                                                                                                             |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `**https://serenity.agency`**                 | Статика с диска `/var/www/static` + Nginx-роутер; без `**scripts/deploy-prod.sh`** (или ручного rsync туда же) и корректного vhost пользователи могут продолжать видеть legacy.                                  |
-| `**https://static.serenity.agency**`          | Тот же `**/var/www/static**` на том же сервере; для проверки превью — `**bash scripts/deploy-dev.sh**` (purge CDN превью). Отдельно при необходимости — vhost превью: `**bash scripts/deploy-static-vhost.sh**`. |
-| `**https://serenity.sergeyprus.workers.dev**` | Облако: `**npx wrangler deploy**` (тот же артефакт как ASSETS). Сервер прод при этом может ещё не совпасть по версии файлов/Nginx — Worker и Nginx всегда обновлять **раздельно**, если задача затрагивает оба.  |
+| `**https://serenity.agency`**                 | Статика с диска `/var/www/static` + Nginx-роутер; без `**scripts/deploy-prod.sh`** (или ручного rsync туда же после явного выбора PROD) и корректного vhost пользователи могут продолжать видеть legacy. |
+| `**https://static.serenity.agency**`          | Dev-статика с диска `/var/www/static-dev` на том же сервере; для проверки превью — `**bash scripts/deploy-dev.sh**` (rsync в dev-root + purge CDN превью). Отдельно при необходимости — vhost превью: `**bash scripts/deploy-static-vhost.sh**`. |
+| `**https://serenity.sergeyprus.workers.dev**` | Worker staging: обновляется в составе `**bash scripts/deploy-dev.sh`** через `**npx wrangler deploy`**. При ручном деплое Worker всё равно считать это DEV-поверхностью. |
 
 
 **Итого:** изменения только в GitHub без выкладки на сервер **не изменят** `serenity.agency` и `static.serenity.agency`.
@@ -52,11 +64,11 @@
 2. **Тесты перед выкладкой**
   - Всегда по контексту релиза: `**npm run test:layout-smoke`**, `**npm run test:routing-config`**.  
   - После изменений кейсов и карточек: `**npm run test:case-all**` и визуально `**case/all**` на всех трёх поверхностях (после выкладки).
-3. **Статика на сервер** (**обязательно** для прод-ориентира): `**bash scripts/deploy-prod.sh`** → rsync в `/var/www/static/` (основной **serenity.agency**; только артефакт; nginx и Worker — отдельными шагами ниже). Для проверки на **static.serenity.agency** — `**bash scripts/deploy-dev.sh`** (тот же путь по умолчанию + purge CDN превью).
+3. **Статика на сервер**: после явного выбора поверхности. **DEV**: `**bash scripts/deploy-dev.sh`** → rsync в `/var/www/static-dev/`, purge CDN превью и Worker staging. **PROD**: `**bash scripts/deploy-prod.sh`** → rsync в `/var/www/static/` для основного **serenity.agency**; Worker этим шагом не обновляется.
 4. **Nginx «карта» маршрутизации** (если менялся `**nginx/routing.conf`**, включая признаки «новая страница» для `/robots.txt`, `/sitemap.xml`, `/docs/`): `**bash scripts/deploy-routing.sh`**.
 5. **Продовый vhost основного домена** (если менялся `**nginx/serenity-router.live.conf`**): `**bash scripts/deploy-serenity-router-vhost.sh`** (или ручное копирование в конфиг сервера, затем `nginx -t` и reload).
 6. **Vhost превью static** (если менялся `**nginx/static.serenity.agency.live.conf`**): `**bash scripts/deploy-static-vhost.sh`**.
-7. **Worker**: при изменениях, влияющих на стейджинг (`**wrangler.jsonc`**, `src/worker.mjs`, ASSETS и т.п.): `**npx wrangler deploy`**.
+7. **Worker**: DEV-деплой обновляет Worker автоматически через `**npx wrangler deploy`**. Отдельный `**npx wrangler deploy`** — только после явного выбора DEV или ВЕЗДЕ.
 8. **Git**: `**git push`** уже после принятого для команды набора команд (сообщение коммита — **на русском**).
 
 Краткая таблица «что изменил → что выполнить»:
@@ -64,7 +76,7 @@
 
 | Изменено                                     | Обязательно дополнительно                                                                                                           |
 | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| HTML/кейсы/статика репозитория               | `**deploy-prod.sh`** (или `**deploy.sh`**) для прод; `**deploy-dev.sh**` для превью static; при сборке из шаблонов — см. шаги 1 и 2 |
+| HTML/кейсы/статика репозитория               | После выбора поверхности: `**deploy-dev.sh`** для static + Worker; `**deploy-prod.sh`** (или `**deploy.sh`**) для prod; при сборке из шаблонов — см. шаги 1 и 2 |
 | `**nginx/routing.conf**`                     | `deploy-routing.sh`                                                                                                                 |
 | `**nginx/serenity-router.live.conf**`        | `deploy-serenity-router-vhost.sh`                                                                                                   |
 | `**nginx/static.serenity.agency.live.conf**` | `deploy-static-vhost.sh`                                                                                                            |

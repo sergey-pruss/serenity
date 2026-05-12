@@ -183,6 +183,40 @@ const scrollPageToEnd = async (cdp) => {
     .then((r) => r?.result?.value);
 };
 
+const readCtaState = async (cdp) =>
+  cdp
+    .send("Runtime.evaluate", {
+      expression: `(() => {
+        const cta = document.querySelector("#body.body-application");
+        const pill =
+          document.querySelector("#body.body-application .application, #body.body-application .footer__link") || cta;
+        if (!cta || !pill) return { hasCta: false };
+        const cs = getComputedStyle(cta);
+        const pr = pill.getBoundingClientRect();
+        const vv = window.visualViewport;
+        const h = vv && vv.height ? vv.height : window.innerHeight;
+        const hidden =
+          cs.display === "none" ||
+          cs.visibility === "hidden" ||
+          Number(cs.opacity) === 0 ||
+          pr.bottom <= 0 ||
+          pr.top >= h;
+        return {
+          hasCta: true,
+          hidden,
+          display: cs.display,
+          opacity: cs.opacity,
+          visibility: cs.visibility,
+          top: pr.top,
+          bottom: pr.bottom,
+          viewportHeight: h,
+          classes: cta.className,
+        };
+      })()`,
+      returnByValue: true,
+    })
+    .then((r) => r?.result?.value);
+
 (async () => {
   const chrome = defaultChrome();
   assert(chrome, "Не найден Google Chrome. Укажи CHROME_BIN=/path/to/chrome");
@@ -250,6 +284,19 @@ const scrollPageToEnd = async (cdp) => {
       await sleep(200);
     }
 
+    await cdp.send("Runtime.evaluate", { expression: "window.scrollTo(0, 0);", returnByValue: true });
+    await sleep(500);
+    const initialVal = await readCtaState(cdp);
+    assert(initialVal?.hasCta, "Старт: нет #body.body-application");
+    assert(initialVal.hidden, `Старт: mobile CTA не должна быть видна (${JSON.stringify(initialVal)})`);
+
+    // До порога схлопывания шапки не должно быть серого артефакта сверху справа.
+    await cdp.send("Runtime.evaluate", { expression: "window.scrollTo(0, 80);", returnByValue: true });
+    await sleep(500);
+    const preShowVal = await readCtaState(cdp);
+    assert(preShowVal?.hasCta, "Перед показом: нет #body.body-application");
+    assert(preShowVal.hidden, `Перед показом: CTA-артефакт виден до порога (${JSON.stringify(preShowVal)})`);
+
     // середина: скролл + зазор
     await cdp.send("Runtime.evaluate", { expression: "window.scrollTo(0, 220);", returnByValue: true });
     await sleep(500);
@@ -303,7 +350,7 @@ const scrollPageToEnd = async (cdp) => {
       `Низ: нижний край CTA и иконки должны совпадать, Δ=${endVal.deltaBottom}`,
     );
 
-    console.log("OK: mobile CTA — ~15px в середине, сходится снизу с иконкой в футере");
+    console.log("OK: mobile CTA — скрыта до порога, ~15px в середине, сходится снизу с иконкой в футере");
   } catch (e) {
     console.error(e);
     process.exitCode = 1;

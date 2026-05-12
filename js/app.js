@@ -689,8 +689,7 @@
     const COLLAPSE_Y = 120;
     const EXPAND_Y = 36;
 
-    /* Плавающий CTA в шапке — показываем сразу (раньше скрывали на page-top через .noactive + CSS .page-top). */
-    const shouldShowFloatingCta = () => true;
+    const shouldShowFloatingCta = () => (window.scrollY || window.pageYOffset || 0) > COLLAPSE_Y;
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);

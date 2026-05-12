@@ -6,6 +6,8 @@ node_modules
 artifacts
 .claude
 .cursor
+.codex
+case/all/*/index 2.html
 
 # Workers: один файл ассета не больше 25 MiB (остальное — с прод-статики)
 img/blog/prodakshn-stoit-li-ono-togo/vizual-5-svet.mp4
