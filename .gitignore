@@ -36,3 +36,7 @@ _serenity_home.html
 
 publish/index.html
 publish/svgset.svg
+
+# Локально установленные skills для агентов; не часть сайта и деплоя.
+.agents/
+skills-lock.json
