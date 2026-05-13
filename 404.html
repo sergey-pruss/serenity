@@ -29,45 +29,26 @@
       .sa-not-found-page .sa-not-found-legacy {
         background: #191a1b;
       }
-
-      /* Резиновый layout: страница растёт по контенту, футер всегда внизу */
       .sa-not-found-page {
         color: #fff;
-        min-height: 100svh;
-        overflow-x: hidden;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
+        height: 100svh;
+        overflow: hidden !important;
         -webkit-font-smoothing: antialiased;
         text-rendering: geometricPrecision;
       }
-
-      /* Цепочка Vue-враперов: каждый растягивается на всю оставшуюся высоту */
-      .sa-not-found-page #__nuxt,
-      .sa-not-found-page #__layout,
-      .sa-not-found-page #__layout > div:first-child {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        min-height: 0;
-      }
-
       .sa-not-found-page #body.body-application {
         display: none !important;
       }
-
-      /* Main: занимает всё свободное место между хедером и футером */
       .sa-not-found-page .sa-not-found-legacy {
         position: relative;
         display: flex;
         align-items: center;
-        flex: 1;
-        min-height: 380px;
+        height: calc(100svh - 192px);
+        min-height: 542px;
         box-sizing: border-box;
-        padding: 60px 0 20px;
+        padding: 96px 0 42px;
         overflow: hidden;
       }
-
       .sa-not-found-page .error-page__content {
         position: static;
         left: auto;
@@ -128,61 +109,31 @@
         stroke: currentColor;
         flex: 0 0 auto;
       }
-
-      /* Футер: прилипает к низу за счёт flex: 1 на main */
       .sa-not-found-page .sa-not-found-footer {
-        flex-shrink: 0;
+        min-height: 0;
       }
       .sa-not-found-page .sa-not-found-footer footer.footer-modern {
         padding-top: 0;
         padding-bottom: 0;
       }
       .sa-not-found-page .sa-not-found-footer .footer-modern__container {
-        display: flex !important;
-        align-items: stretch !important;
-        padding-top: 0 !important;
-        padding-bottom: 38px !important;
-        margin-top: 0 !important;
-      }
-      .sa-not-found-page .sa-not-found-footer .footer-modern__contacts {
-        justify-content: flex-end !important;
-      }
-      .sa-not-found-page .sa-not-found-footer .footer-modern__social {
-        position: static !important;
-        left: auto !important;
-        bottom: auto !important;
-        transform: none !important;
-        margin-left: auto !important;
-        align-items: flex-end !important;
-        justify-content: flex-end !important;
-        text-align: right;
-      }
-      .sa-not-found-page .sa-not-found-footer .footer-modern__social .social__header {
-        text-align: right !important;
-      }
-
-      @media screen and (max-width: 1200px) {
-        .sa-not-found-page .sa-not-found-footer .footer-modern__social {
-          margin-left: var(--page-gutter-x) !important;
-          justify-content: flex-start !important;
-          text-align: left !important;
-        }
-        .sa-not-found-page .sa-not-found-footer .footer-modern__social .social__header {
-          text-align: left !important;
-        }
-        .sa-not-found-page .sa-not-found-footer .footer-modern__container {
-          padding-bottom: 16px !important;
-        }
+        padding-bottom: 24px !important;
       }
       @media screen and (max-width: 1024px) {
+        .sa-not-found-page .sa-not-found-legacy {
+          height: calc(100svh - 184px);
+          min-height: 520px;
+          padding-top: 88px;
+        }
         .sa-not-found-page .error-page__content {
           margin-left: 55px;
         }
       }
       @media screen and (max-width: 680px) {
         .sa-not-found-page .sa-not-found-legacy {
-          min-height: 320px;
-          padding: 32px 0;
+          height: calc(100svh - 176px);
+          min-height: 430px;
+          padding: 88px 0 32px;
         }
         .sa-not-found-page .error-page__content {
           width: calc(100% - 72px);
@@ -199,6 +150,13 @@
           min-width: 190px;
           height: 50px;
           margin-top: 46px;
+        }
+      }
+      @media screen and (max-height: 733px) {
+        .sa-not-found-page {
+          height: auto;
+          min-height: 100svh;
+          overflow-y: auto !important;
         }
       }
     </style>
@@ -348,20 +306,24 @@
               </a>
             </div>
           </main>
-          <!--<div class="scroll-container sa-not-found-footer" data-v-6f8a040c="">
+          <div class="scroll-container sa-not-found-footer" data-v-6f8a040c="">
               <footer
                 class="footer-modern"
                 data-v-ff4f3948=""
                 data-v-6f8a040c=""
               >
                 <div class="footer-modern__container" data-v-ff4f3948="">
-                  <div class="footer-modern__contacts" data-v-ff4f3948="" data-burger-menu-contacts="1">
-                    <span class="footer-modern__city-selector" data-v-ff4f3948=""
+                  <div class="footer-modern__contacts" data-v-ff4f3948="">
+                    <span
+                      class="footer-modern__city-selector"
+                      data-v-ff4f3948=""
                       ><a data-v-ff4f3948="" class="selected"> Москва </a
                       ><a data-v-ff4f3948="" class=""> Санкт-Петербург </a></span
                     >
                     <a href="tel:+74954199588" data-v-ff4f3948=""
-                      ><span class="footer-modern__phone" data-v-ff4f3948=""> +7 (495) 419 95 88 </span></a
+                      ><span class="footer-modern__phone" data-v-ff4f3948="">
+                        +7 (495) 419 95 88
+                      </span                    ></a
                     >
                   </div>
                   <div class="footer-modern__social" data-v-ff4f3948="">
@@ -402,7 +364,7 @@
                   </div>
                 </div>
               </footer>
-          </div>-->
+          </div>
             <div data-v-6f8a040c="">
               <meta itemprop="name" content="Serenity" />
               <div itemprop="address" data-v-6f8a040c="">
