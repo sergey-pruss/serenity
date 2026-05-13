@@ -1,6 +1,8 @@
 {
-  "builtAt": "2026-05-13T06:07:06.556Z",
+  "builtAt": "2026-05-13T14:21:55.971Z",
   "source": "https://serenity.agency/api/blog",
+  "sourceManual": "json/blog-posts-manual.json",
+  "manualPostsCount": 0,
   "filters": [
     {
       "code": "",
