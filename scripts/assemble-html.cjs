@@ -19,6 +19,8 @@ const root = path.resolve(__dirname, "..");
 const layoutPath = path.join(root, "html", "index.layout.html");
 const blogLayoutPath = path.join(root, "html", "blog-index.layout.html");
 const blogOutPath = path.join(root, "blog", "index.html");
+const notFoundLayoutPath = path.join(root, "html", "404.layout.html");
+const notFoundOutPath = path.join(root, "404.html");
 const partialsDir = path.join(root, "html", "partials");
 const outPath = path.join(root, "index.html");
 
@@ -204,6 +206,13 @@ function build() {
     const blogOut = expandLayoutMarkers(blogLayout, partials);
     fs.writeFileSync(blogOutPath, blogOut.replace(/\n+$/, "\n"), "utf8");
     console.log("Wrote", blogOutPath);
+  }
+
+  if (fs.existsSync(notFoundLayoutPath)) {
+    const notFoundLayout = fs.readFileSync(notFoundLayoutPath, "utf8");
+    const notFoundOut = expandLayoutMarkers(notFoundLayout, partials);
+    fs.writeFileSync(notFoundOutPath, notFoundOut.replace(/\n+$/, "\n"), "utf8");
+    console.log("Wrote", notFoundOutPath);
   }
 }
 
