@@ -30,7 +30,8 @@ deploy_rsync_repo_to_static_root() {
 
 deploy_worker_staging() {
   echo "→ Worker deploy: https://serenity.sergeyprus.workers.dev …"
-  npx wrangler deploy
+  # wrangler индексирует весь репозиторий как assets (см. wrangler.jsonc); без лимита Node падает по heap.
+  NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=8192}" npx wrangler deploy
 }
 
 # Edge Yandex CDN перед static.serenity.agency (см. AGENTS.md). DEV purge нужен после rsync в static-dev.
