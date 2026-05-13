@@ -266,6 +266,14 @@ const readCtaState = async (cdp) =>
     await cdp.ready();
     await cdp.send("Page.enable", {});
     await cdp.send("Runtime.enable", {});
+    /* Плавающий CTA в app.js включается только при max-width ≤1200px; headless Chrome
+       часто открывается шире — без фиксации viewport тест ложно падает (CTA в потоке шапки). */
+    await cdp.send("Emulation.setDeviceMetricsOverride", {
+      width: 390,
+      height: 844,
+      deviceScaleFactor: 1,
+      mobile: true,
+    });
 
     await cdp.send("Page.navigate", { url: base });
 
@@ -355,6 +363,11 @@ const readCtaState = async (cdp) =>
     console.error(e);
     process.exitCode = 1;
   } finally {
+    try {
+      await cdp?.send("Emulation.clearDeviceMetricsOverride", {});
+    } catch {
+      // ignore
+    }
     try {
       cdp?.close();
     } catch {
