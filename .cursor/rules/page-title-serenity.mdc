@@ -1,0 +1,11 @@
+---
+description: Формат <title> для статических HTML Serenity (длинное тире)
+alwaysApply: false
+---
+
+# Тайтл страниц (`<title>`)
+
+- **Формат:** `Название страницы — Serenity` (тире **—** U+2014, не дефис `-`).
+- Во второй части только имя бренда **Serenity** (без «агентство», «агентство Serenity» и т.п.), если в задаче явно не задано иное.
+- **404** (`html/404.layout.html` → корневой `404.html`): **`404 (Страница не найдена) — Serenity`**.
+- После правок шаблона: `node scripts/assemble-html.cjs build` или `npm run build:html`; кэш см. `AGENTS.md`.
