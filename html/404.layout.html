@@ -39,14 +39,30 @@
       .sa-not-found-page #body.body-application {
         display: none !important;
       }
+      /* Контакты и «Следите за нами» из разметки бургер-меню: на 404 не показываем в потоке; при открытом меню (.header.active) — снова доступны. */
+      .sa-not-found-page .header:not(.active) .new-static-menu .btns__modal {
+        display: none !important;
+      }
+      .sa-not-found-page .sa-not-found-root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100svh;
+      }
+      .sa-not-found-page .sa-not-found-root > main + div {
+        flex: 0 0 auto;
+      }
       .sa-not-found-page .sa-not-found-legacy {
         position: relative;
+        flex: 1 1 auto;
         display: flex;
         align-items: center;
-        height: calc(100svh - 192px);
+        justify-content: flex-start;
         min-height: 542px;
         box-sizing: border-box;
-        padding: 96px 0 42px;
+        padding-top: clamp(28px, 7vh, 96px);
+        padding-right: var(--page-gutter-x, 78px);
+        padding-bottom: 32px;
+        padding-left: var(--page-gutter-x, 78px);
         overflow: hidden;
       }
       .sa-not-found-page .error-page__content {
@@ -54,9 +70,10 @@
         left: auto;
         top: auto;
         transform: none;
-        width: min(520px, calc(100% - 72px));
+        width: min(520px, 100%);
+        max-width: 100%;
         padding: 0;
-        margin-left: clamp(180px, 26vw, 420px);
+        margin-left: 0;
         color: #fff;
       }
       .sa-not-found-page .error-page__number {
@@ -109,35 +126,37 @@
         stroke: currentColor;
         flex: 0 0 auto;
       }
-      .sa-not-found-page .sa-not-found-footer {
-        min-height: 0;
-      }
-      .sa-not-found-page .sa-not-found-footer footer.footer-modern {
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-      .sa-not-found-page .sa-not-found-footer .footer-modern__container {
-        padding-bottom: 24px !important;
+      /* Десктоп с горизонтальным меню (как в шапке до max-width 1250px): левый край 404 — по вертикали после лого: поле страницы + смещение колонки .header__container (max 1576px по центру) + ширина лого 130px + зазор до линии контента. */
+      @media screen and (min-width: 1251px) {
+        .sa-not-found-page .sa-not-found-legacy {
+          padding-left: calc(
+            var(--page-gutter-x, 78px) + max(0px, (100vw - 2 * var(--page-gutter-x, 78px) - 1576px) / 2) + 130px + 48px
+          );
+        }
       }
       @media screen and (max-width: 1024px) {
         .sa-not-found-page .sa-not-found-legacy {
-          height: calc(100svh - 184px);
           min-height: 520px;
-          padding-top: 88px;
+          padding-top: clamp(24px, 6vh, 72px);
+          padding-right: var(--page-gutter-x, 55px);
+          padding-bottom: 32px;
+          padding-left: var(--page-gutter-x, 55px);
         }
         .sa-not-found-page .error-page__content {
-          margin-left: 55px;
+          width: min(520px, 100%);
         }
       }
       @media screen and (max-width: 680px) {
         .sa-not-found-page .sa-not-found-legacy {
-          height: calc(100svh - 176px);
           min-height: 430px;
-          padding: 88px 0 32px;
+          padding-top: clamp(20px, 5vh, 56px);
+          padding-right: var(--page-gutter-x, 36px);
+          padding-bottom: 28px;
+          padding-left: var(--page-gutter-x, 36px);
         }
         .sa-not-found-page .error-page__content {
-          width: calc(100% - 72px);
-          margin: 0 36px;
+          width: min(520px, 100%);
+          margin: 0;
         }
         .sa-not-found-page .error-page__number {
           margin-bottom: 20px;
@@ -164,7 +183,7 @@
   <body class="sa-home-page sa-not-found-page" style="overflow: hidden auto">
     <div id="__nuxt">
       <div id="__layout">
-        <div>
+        <div class="sa-not-found-root">
 <!-- @partial header -->
           <main class="darktheme error-page nuxt sa-not-found-legacy" aria-labelledby="sa-not-found-title">
             <div class="error-page__content">
@@ -178,9 +197,6 @@
               </a>
             </div>
           </main>
-          <div class="scroll-container sa-not-found-footer" data-v-6f8a040c="">
-<!-- @partial footer-modern -->
-          </div>
 <!-- @partial page-microdata -->
         </div>
         <div class="vue-portal-target"></div>

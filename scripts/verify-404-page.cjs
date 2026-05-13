@@ -16,7 +16,8 @@ const html = read("404.html");
 assert(!html.includes("<!-- @partial"), "404.html: не должно оставаться маркеров @partial");
 assert(/<title>\s*404\s*<\/title>/.test(html), "404.html: title должен повторять legacy 404");
 assert(html.includes('class="header page-top compressed"'), "404.html: должен использовать общий header Serenity");
-assert(html.includes('class="footer-modern"'), "404.html: должен использовать общий footer Serenity");
+assert(!html.includes("sa-not-found-footer"), "404.html: без отдельного блока футера страницы");
+assert(!/<footer\b[^>]*\bclass="footer-modern"\b/.test(html), "404.html: без нижнего <footer class=\"footer-modern\">");
 assert(!html.includes('class="btns white"'), "404.html: на странице 404 не должно быть floating CTA «Оставить заявку»");
 assert(html.includes(".sa-not-found-page #body.body-application"), "404.html: header CTA «Оставить заявку» должен быть скрыт на 404");
 assert(html.includes('class="darktheme error-page nuxt sa-not-found-legacy"'), "404.html: должна использовать legacy error-page/darktheme разметку");
@@ -28,11 +29,17 @@ assert(html.includes('class="sa-not-found-home-button error-page__button"'), "40
 assert(html.includes("<span>На главную</span>"), "404.html: текст кнопки должен быть как на legacy 404");
 assert(/\.sa-not-found-page\s+\.sa-not-found-home-button\s*\{[\s\S]*?margin-top:\s*50px;/.test(html), "404.html: отступ до кнопки «На главную» должен быть увеличен на 20px");
 assert(!/transform:\s*translate\(-50%,\s*-50%\)/.test(html), "404.html: нельзя центрировать 404 через transform — на крупном тексте появляется размытие");
-assert(/height:\s*calc\(100svh - 192px\)/.test(html), "404.html: первый экран должен помещать футер без скролла на высоте из контрольного скрина");
+assert(
+  /\.sa-not-found-page\s+\.sa-not-found-root\s*\{[\s\S]*?display:\s*flex;[\s\S]*?flex-direction:\s*column;/.test(html),
+  "404.html: колонка на весь экран под шапкой для вертикального центра",
+);
+assert(
+  /\.sa-not-found-page\s+\.sa-not-found-legacy\s*\{[\s\S]*?flex:\s*1\s+1\s+auto;/.test(html),
+  "404.html: main растягивается в области под шапкой",
+);
 assert(/min-height:\s*542px/.test(html), "404.html: скролл допустим только ниже минимальной высоты из контрольного скрина");
 assert(/\.sa-not-found-page\s*\{[\s\S]*?overflow:\s*hidden\s*!important;/.test(html), "404.html: на нормальной высоте не должно быть принудительного вертикального скролла");
 assert(/max-height:\s*733px/.test(html) && /overflow-y:\s*auto\s*!important;/.test(html), "404.html: вертикальный скролл разрешён только ниже минимальной высоты");
-assert(/\.sa-not-found-page\s+\.sa-not-found-footer\s+\.footer-modern__container\s*\{[\s\S]*?padding-bottom:\s*24px\s*!important;/.test(html), "404.html: нижний отступ футера должен быть прижат без лишнего воздуха");
 assert(!html.includes("404 Not Found"), "404.html: не должно оставаться nginx-текста на английском");
 assert(!html.includes("nginx/1.24.0"), "404.html: не должно оставаться подписи nginx");
 assert(/<meta\s+name="robots"\s+content="noindex, follow"\s*\/>/.test(html), "404.html: должен быть noindex, follow");

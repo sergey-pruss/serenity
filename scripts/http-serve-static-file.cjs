@@ -51,11 +51,12 @@ function parseByteRange(rangeHeader, size) {
  * @param {import("http").IncomingMessage} req
  * @param {import("http").ServerResponse} res
  * @param {string} file
- * @param {{ noCache: Record<string, string>, mimes: Record<string, string> }} opts
+ * @param {{ noCache: Record<string, string>, mimes: Record<string, string>, statusCode?: number }} opts
  */
 function serveStaticFile(req, res, file, opts) {
   const noCache = opts.noCache;
   const mimes = opts.mimes || {};
+  const defaultStatus = opts.statusCode != null ? opts.statusCode : 200;
   const ext = path.extname(file).toLowerCase();
   const contentType = mimes[ext] || "application/octet-stream";
   let st;
@@ -116,10 +117,11 @@ function serveStaticFile(req, res, file, opts) {
 
   res.setHeader("Content-Length", size);
   if (method === "HEAD") {
-    res.writeHead(200);
+    res.writeHead(defaultStatus);
     res.end();
     return;
   }
+  if (opts.statusCode != null) res.statusCode = opts.statusCode;
   fs.createReadStream(file).on("error", () => res.destroy()).pipe(res);
 }
 

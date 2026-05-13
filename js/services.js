@@ -30,60 +30,62 @@
     });
   }
 
-  var approachSteps = [
-    {
-      key: "strategy",
-      title: "Правильный старт",
-      text: "С помощью стратегии мы анализируем бизнес, его преимущества и опыт, слабые и сильные стороны конкурентов, потребности целевой аудитории. Стратегия становится фундаментом для инструментов брендинга и performance.",
-    },
-    {
-      key: "branding",
-      title: "Влюблять с первого взгляда",
-      text: "Благодаря брендингу performance приносит лучшие результаты в долгосрочной перспективе: влюбляет аудиторию в продукт, цепляет визуалом, доносит главные посылы через контент-маркетинг, создает положительный образ компании.",
-    },
-    {
-      key: "performance",
-      title: "Найти покупателей и увеличить продажи",
-      text: "Performance же налаживает коммуникацию с аудиторией и усиливает ее через различные инструменты: инфоповоды, соцсети, рекламные кампании. За счет performance мы выстраиваем бренд для клиентов.",
-    },
-  ];
-
   function initApproach() {
     var section = document.querySelector("[data-services-approach]");
     if (!section) return;
-    var copy = section.querySelector("[data-services-approach-copy], [data-approach-copy]");
-    var title = copy && copy.querySelector("h3");
-    var text = copy && copy.querySelector("p");
+
+    var stepKeys = ["strategy", "branding", "performance"];
     var current = -1;
-    var swapTimer = 0;
+    var rafId = 0;
+    var bounds = null;
+    /* mobile breakpoint совпадает с CSS: ≤1024px sticky выключен */
+    var mq = window.matchMedia("(max-width: 1024px)");
+
+    function calcBounds() {
+      /* Используем __virtual как контейнер sticky-хода: sticky стартует
+         когда __virtual.top достигает 0 во viewport и едет ровно
+         (virtual.offsetHeight − innerHeight) пикселей. */
+      var virtual = section.querySelector("[data-approach-virtual]") || section;
+      var top = virtual.getBoundingClientRect().top + window.scrollY;
+      var travel = Math.max(1, virtual.offsetHeight - window.innerHeight);
+      bounds = { top: top, travel: travel };
+    }
 
     function setStep(index) {
-      if (index === current || !approachSteps[index]) return;
+      if (index === current) return;
       current = index;
-      var step = approachSteps[index];
-      section.setAttribute("data-active", step.key);
-      if (!title || !text) return;
-      window.clearTimeout(swapTimer);
-      copy.style.opacity = "0";
-      copy.style.transform = "translateY(16px)";
-      swapTimer = window.setTimeout(function () {
-        title.textContent = step.title;
-        text.textContent = step.text;
-        copy.style.opacity = "";
-        copy.style.transform = "";
-      }, 160);
+      section.setAttribute("data-active", stepKeys[index]);
     }
 
-    function update() {
-      var rect = section.getBoundingClientRect();
-      var travel = Math.max(1, section.offsetHeight - window.innerHeight);
-      var progress = Math.min(1, Math.max(0, -rect.top / travel));
-      setStep(Math.min(approachSteps.length - 1, Math.floor(progress * approachSteps.length)));
+    function tick() {
+      rafId = 0;
+      if (mq.matches) return;
+      if (!bounds) calcBounds();
+      var scrolled = window.scrollY - bounds.top;
+      var progress = Math.min(1, Math.max(0, scrolled / bounds.travel));
+      var step = Math.min(stepKeys.length - 1, Math.floor(progress * stepKeys.length));
+      setStep(step);
     }
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    function onScroll() {
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    var resizeTimer = 0;
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        bounds = null;
+        onScroll();
+      }, 150);
+    }
+
+    if (!mq.matches) {
+      calcBounds();
+      tick();
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
   }
 
   if (document.readyState === "loading") {

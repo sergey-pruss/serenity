@@ -39,14 +39,30 @@
       .sa-not-found-page #body.body-application {
         display: none !important;
       }
+      /* Контакты и «Следите за нами» из разметки бургер-меню: на 404 не показываем в потоке; при открытом меню (.header.active) — снова доступны. */
+      .sa-not-found-page .header:not(.active) .new-static-menu .btns__modal {
+        display: none !important;
+      }
+      .sa-not-found-page .sa-not-found-root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100svh;
+      }
+      .sa-not-found-page .sa-not-found-root > main + div {
+        flex: 0 0 auto;
+      }
       .sa-not-found-page .sa-not-found-legacy {
         position: relative;
+        flex: 1 1 auto;
         display: flex;
         align-items: center;
-        height: calc(100svh - 192px);
+        justify-content: flex-start;
         min-height: 542px;
         box-sizing: border-box;
-        padding: 96px 0 42px;
+        padding-top: clamp(28px, 7vh, 96px);
+        padding-right: var(--page-gutter-x, 78px);
+        padding-bottom: 32px;
+        padding-left: var(--page-gutter-x, 78px);
         overflow: hidden;
       }
       .sa-not-found-page .error-page__content {
@@ -54,9 +70,10 @@
         left: auto;
         top: auto;
         transform: none;
-        width: min(520px, calc(100% - 72px));
+        width: min(520px, 100%);
+        max-width: 100%;
         padding: 0;
-        margin-left: clamp(180px, 26vw, 420px);
+        margin-left: 0;
         color: #fff;
       }
       .sa-not-found-page .error-page__number {
@@ -109,35 +126,37 @@
         stroke: currentColor;
         flex: 0 0 auto;
       }
-      .sa-not-found-page .sa-not-found-footer {
-        min-height: 0;
-      }
-      .sa-not-found-page .sa-not-found-footer footer.footer-modern {
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-      .sa-not-found-page .sa-not-found-footer .footer-modern__container {
-        padding-bottom: 24px !important;
+      /* Десктоп с горизонтальным меню (как в шапке до max-width 1250px): левый край 404 — по вертикали после лого: поле страницы + смещение колонки .header__container (max 1576px по центру) + ширина лого 130px + зазор до линии контента. */
+      @media screen and (min-width: 1251px) {
+        .sa-not-found-page .sa-not-found-legacy {
+          padding-left: calc(
+            var(--page-gutter-x, 78px) + max(0px, (100vw - 2 * var(--page-gutter-x, 78px) - 1576px) / 2) + 130px + 48px
+          );
+        }
       }
       @media screen and (max-width: 1024px) {
         .sa-not-found-page .sa-not-found-legacy {
-          height: calc(100svh - 184px);
           min-height: 520px;
-          padding-top: 88px;
+          padding-top: clamp(24px, 6vh, 72px);
+          padding-right: var(--page-gutter-x, 55px);
+          padding-bottom: 32px;
+          padding-left: var(--page-gutter-x, 55px);
         }
         .sa-not-found-page .error-page__content {
-          margin-left: 55px;
+          width: min(520px, 100%);
         }
       }
       @media screen and (max-width: 680px) {
         .sa-not-found-page .sa-not-found-legacy {
-          height: calc(100svh - 176px);
           min-height: 430px;
-          padding: 88px 0 32px;
+          padding-top: clamp(20px, 5vh, 56px);
+          padding-right: var(--page-gutter-x, 36px);
+          padding-bottom: 28px;
+          padding-left: var(--page-gutter-x, 36px);
         }
         .sa-not-found-page .error-page__content {
-          width: calc(100% - 72px);
-          margin: 0 36px;
+          width: min(520px, 100%);
+          margin: 0;
         }
         .sa-not-found-page .error-page__number {
           margin-bottom: 20px;
@@ -164,7 +183,7 @@
   <body class="sa-home-page sa-not-found-page" style="overflow: hidden auto">
     <div id="__nuxt">
       <div id="__layout">
-        <div>
+        <div class="sa-not-found-root">
           <header class="header page-top compressed" data-v-e5e2adce="">
             <div
               class="menu-icon__wrapper menu-icon__wrapper_main"
@@ -306,65 +325,6 @@
               </a>
             </div>
           </main>
-          <div class="scroll-container sa-not-found-footer" data-v-6f8a040c="">
-              <footer
-                class="footer-modern"
-                data-v-ff4f3948=""
-                data-v-6f8a040c=""
-              >
-                <div class="footer-modern__container" data-v-ff4f3948="">
-                  <div class="footer-modern__contacts" data-v-ff4f3948="">
-                    <span
-                      class="footer-modern__city-selector"
-                      data-v-ff4f3948=""
-                      ><a data-v-ff4f3948="" class="selected"> Москва </a
-                      ><a data-v-ff4f3948="" class=""> Санкт-Петербург </a></span
-                    >
-                    <a href="tel:+74954199588" data-v-ff4f3948=""
-                      ><span class="footer-modern__phone" data-v-ff4f3948="">
-                        +7 (495) 419 95 88
-                      </span                    ></a
-                    >
-                  </div>
-                  <div class="footer-modern__social" data-v-ff4f3948="">
-                    <header class="social__header" data-v-ff4f3948="">
-                      Следите за нами
-                    </header>
-                    <a href="https://vk.com/serenity.agency" target="_blank" rel="noopener noreferrer" data-v-ff4f3948=""
-                      ><svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 32 32"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class=""
-                      >
-                        <path
-                          d="M19.6622 2.66734H11.6861C4.40064 2.66734 2.66734 4.40064 2.66734 11.6725V19.6486C2.66734 26.934 4.38716 28.6673 11.6725 28.6673H19.6486C26.934 28.6673 28.6673 26.9475 28.6673 19.6621V11.6861C28.6673 4.40064 26.9475 2.66734 19.6622 2.66734ZM23.6569 21.2194H21.7611C21.0434 21.2194 20.8267 20.6371 19.5403 19.3506C18.4163 18.2673 17.9423 18.1319 17.658 18.1319C17.2653 18.1319 17.1569 18.2402 17.1569 18.7819V20.4881C17.1569 20.9486 17.008 21.2194 15.8028 21.2194C14.6333 21.1408 13.4992 20.7855 12.4939 20.1828C11.4886 19.5801 10.6408 18.7472 10.0205 17.7527C8.5477 15.9196 7.52298 13.7681 7.02779 11.4694C7.02779 11.185 7.13609 10.9277 7.67779 10.9277H9.57359C10.0611 10.9277 10.2372 11.1444 10.4267 11.6455C11.3475 14.3538 12.9184 16.71 13.5548 16.71C13.7986 16.71 13.9069 16.6017 13.9069 15.9923V13.2027C13.8256 11.9298 13.1486 11.8215 13.1486 11.3611C13.1575 11.2396 13.2134 11.1264 13.3044 11.0455C13.3954 10.9646 13.5144 10.9223 13.6361 10.9277H16.6153C17.0215 10.9277 17.1569 11.1308 17.1569 11.6183V15.383C17.1569 15.7892 17.333 15.9246 17.4548 15.9246C17.6986 15.9246 17.8881 15.7892 18.335 15.3423C19.2953 14.1713 20.0799 12.8666 20.6642 11.4694C20.7238 11.3013 20.8369 11.1573 20.9861 11.0595C21.1352 10.9617 21.3123 10.9154 21.4903 10.9277H23.3861C23.9548 10.9277 24.0767 11.2121 23.9548 11.6183C23.265 13.1631 22.4115 14.6295 21.409 15.9923C21.2059 16.3038 21.1247 16.4663 21.409 16.8319C21.5986 17.1163 22.2622 17.6715 22.709 18.1996C23.359 18.8479 23.8987 19.5981 24.3069 20.4205C24.4694 20.9486 24.1986 21.2194 23.6569 21.2194V21.2194Z"
-                          fill="white"
-                        ></path></svg
-                    ></a>
-                    <a href="https://t.me/serenityagency" target="_blank" rel="noopener noreferrer" data-v-ff4f3948=""
-                      ><svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 32 32"
-                        id="telegram"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class=""
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M19.6608 2.66602H11.6848C4.39932 2.66602 2.66602 4.39932 2.66602 11.6712V19.6473C2.66602 26.9326 4.38584 28.666 11.6712 28.666H19.6473C26.9327 28.666 28.666 26.9462 28.666 19.6608V11.6848C28.666 4.39932 26.9462 2.66602 19.6608 2.66602ZM7.44681 14.7953L22.2218 9.09784C22.896 8.79284 23.5476 9.26034 23.2901 10.2928L20.7743 22.1495C20.5985 22.9928 20.091 23.1928 19.3843 22.8037L15.5518 19.9728L13.7093 21.7645C13.7024 21.7711 13.6956 21.7777 13.6888 21.7843C13.4833 21.9831 13.3129 22.1478 12.9418 22.1478L13.2035 18.2378L13.2018 18.237H13.2035L20.3143 11.8195C20.626 11.5428 20.2468 11.407 19.8318 11.6595L11.0551 17.197L7.26181 16.0137C6.44431 15.7628 6.43847 15.2003 7.44681 14.7953Z"
-                          fill="white"
-                        ></path></svg
-                    ></a>
-                  </div>
-                </div>
-              </footer>
-          </div>
             <div data-v-6f8a040c="">
               <meta itemprop="name" content="Serenity" />
               <div itemprop="address" data-v-6f8a040c="">
