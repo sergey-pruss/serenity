@@ -2,24 +2,30 @@
 /**
  * Цепочка обновления страницы kontekstnaya_reklama из локального Nuxt (репозиторий SerenityAgency).
  *
- * Предусловия:
- *   1) В каталоге SerenityAgency: npm install (один раз), затем npm run dev — сервер по nuxt.config / package.json (часто http://0.0.0.0:4333).
- *   2) Страница должна открываться в браузере (данные WP/API должны быть доступны из локалки).
+ * Предусловия: у владельца SerenityAgency запущен dev, страница открывается в браузере (API/данные с его стороны).
+ * Репозиторий SerenityAgency из задач по serenity не патчится — только URL для захвата.
  *
- * Переменные (опционально):
- *   KONTEKST_CAPTURE_URL — URL для Playwright (по умолчанию http://127.0.0.1:4333/kontekstnaya_reklama)
- *   KONTEKST_NUXT_ORIGIN   — откуда качать /_nuxt/css/*.css (по умолчанию http://127.0.0.1:4333)
+ * Переменные:
+ *   KONTEKST_CAPTURE_URL — полный URL страницы для Playwright (по умолчанию http://127.0.0.1:4333/kontekstnaya_reklama)
+ *   KONTEKST_NUXT_ORIGIN — origin для скачивания /_nuxt/css/*.css; если не задан, берётся из KONTEKST_CAPTURE_URL (удобно при смене порта).
  *
- * Не обновляет tmp/kontekst-parity-prod-layout.html — срез колонки по-прежнему из своего дампа; для полного переноса DOM с локалки добавьте отдельный шаг захвата в tmp и assemble.
+ * Сборка: capture пишет tmp/kontekst-prod-full.html; assemble по умолчанию (auto) берёт срез main из этого файла.
  */
 const { execSync } = require("child_process");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
 
-process.env.KONTEKST_CAPTURE_URL =
-  process.env.KONTEKST_CAPTURE_URL || "http://127.0.0.1:4333/kontekstnaya_reklama";
-process.env.KONTEKST_NUXT_ORIGIN = process.env.KONTEKST_NUXT_ORIGIN || "http://127.0.0.1:4333";
+const defaultCapture = "http://127.0.0.1:4333/kontekstnaya_reklama";
+process.env.KONTEKST_CAPTURE_URL = process.env.KONTEKST_CAPTURE_URL || defaultCapture;
+
+if (!process.env.KONTEKST_NUXT_ORIGIN) {
+  try {
+    process.env.KONTEKST_NUXT_ORIGIN = new URL(process.env.KONTEKST_CAPTURE_URL).origin;
+  } catch {
+    process.env.KONTEKST_NUXT_ORIGIN = "http://127.0.0.1:4333";
+  }
+}
 
 function run(cmd) {
   execSync(cmd, { cwd: root, stdio: "inherit", env: process.env });

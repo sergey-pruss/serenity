@@ -1,0 +1,13 @@
+---
+description: Паритет kontekstnaya_reklama — Nuxt-эталон read-only, три артефакта, переменные KONTEKST_*
+globs: kontekstnaya_reklama/**,scripts/**/*kontekst*,scripts/assemble-kontekstnaya-from-prod-layout.cjs
+alwaysApply: false
+---
+
+Полный регламент и чеклист — в корневом [`AGENTS.md`](../AGENTS.md) (раздел «Паритет страницы «Контекстная реклама»»).
+
+Кратко:
+
+- **SerenityAgency не правим** из задач по репозиторию `serenity`; только скрипты, `tmp/`, `kontekstnaya_reklama/`, CSS в `serenity`.
+- **Три артефакта:** срез DOM (по умолчанию из `tmp/kontekst-prod-full.html` после capture), бандл Nuxt CSS + манифест, ассеты `/_sa/`.
+- **`refresh:kontekstnaya-from-local-nuxt`:** если не задан `KONTEKST_NUXT_ORIGIN`, он выводится из **`KONTEKST_CAPTURE_URL`** (тот же host/port для Playwright и для скачивания `/_nuxt/css/`).

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * Полный HTML страницы (для извлечения link rel=stylesheet из head).
- * По умолчанию — prod; для локального Nuxt из репозитория SerenityAgency:
- *   npm run dev   # в SerenityAgency, порт из package.json → обычно 4333
- *   KONTEKST_CAPTURE_URL=http://127.0.0.1:4333/kontekstnaya_reklama node scripts/capture-prod-kontekst-full-html.cjs
+ * По умолчанию — prod; для локального Nuxt (SerenityAgency, другой порт):
+ *   KONTEKST_CAPTURE_URL=http://127.0.0.1:64947/kontekstnaya_reklama node scripts/capture-prod-kontekst-full-html.cjs
+ *   KONTEKST_NUXT_ORIGIN для download лучше задать тем же origin или использовать refresh-kontekstnaya-from-local-nuxt (он выставляет NUXT из CAPTURE).
  */
 const fs = require("fs");
 const path = require("path");

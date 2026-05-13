@@ -104,6 +104,14 @@
 - Статика нового сайта в проде должна идти через префикс `/_sa/`; корневые `/css`, `/js`, `/img`, `/json` под legacy не занимаем.
 - Основной обработчик Worker: `src/worker.mjs`; API формы: `src/lead-api.mjs`.
 
+### Паритет страницы «Контекстная реклама» (Nuxt-эталон → статика в этом репо)
+
+- **Репозиторий SerenityAgency (старый Nuxt) из задач по `serenity` не правится:** нет патчей и коммитов агентом; эталон — только URL, который пользователь поднимает у себя (`npm run dev` и т.д. в своей копии SerenityAgency).
+- **Две «локалки»:** `serenity` — `npm run dev` статики; SerenityAgency — отдельный процесс Nuxt (часто порт 4333). Агент не заменяет запуск Nuxt на машине пользователя.
+- **Три артефакта паритета:** (1) срез DOM `page-constructor`…`footer-modern` — по умолчанию из `tmp/kontekst-prod-full.html` после capture (`KONTEKST_LAYOUT_SOURCE=auto|full|parity`, см. `scripts/assemble-kontekstnaya-from-prod-layout.cjs`); (2) один Nuxt CSS-бандл и `kontekstnaya_reklama/nuxt-css-manifest.json` — `scripts/download-nuxt-css-prod-kontekstnaya.cjs`; (3) пути и ассеты под `/_sa/` и тест `npm run test:kontekstnaya-reklama`.
+- **Переменные захвата:** `KONTEKST_CAPTURE_URL` — полный URL страницы для Playwright (`scripts/capture-prod-kontekst-full-html.cjs`); `KONTEKST_NUXT_ORIGIN` — origin для скачивания `/_nuxt/css/*.css`. В `npm run refresh:kontekstnaya-from-local-nuxt`, если `KONTEKST_NUXT_ORIGIN` не задан, он **берётся из origin `KONTEKST_CAPTURE_URL`** (удобно при смене порта). Цепочка prod: `npm run refresh:kontekstnaya-from-prod`.
+- **Проверка UI:** не полагаться только на встроенный браузер IDE; `curl -I` на dev-URL и внешний браузер (Console/Network). Проблемы Nuxt/API — вне зоны правок `serenity`.
+
 ### Тайтлы HTML (статический контур)
 
 - Паттерн: **`Название страницы — Serenity`** (длинное тире `—`). Подробности и исключения — в `[.cursor/rules/page-title-serenity.mdc](.cursor/rules/page-title-serenity.mdc)`.
