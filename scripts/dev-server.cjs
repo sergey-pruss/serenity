@@ -112,13 +112,22 @@ function resolveStaticFile(urlPath) {
   return null;
 }
 
+const custom404Path = path.join(root, "404.html");
+
 const server = http.createServer((req, res) => {
   const urlPath = (req.url || "/").split("?")[0];
-  const file = resolveStaticFile(urlPath);
+  let file = resolveStaticFile(urlPath);
+  let statusCode;
   if (!file) {
-    res.writeHead(404, noCache);
-    res.end("Not found");
-    return;
+    /* Как nginx error_page 404 /404.html: неизвестный URL → тело кастомной страницы и статус 404. */
+    if (fs.existsSync(custom404Path) && fs.statSync(custom404Path).isFile()) {
+      file = custom404Path;
+      statusCode = 404;
+    } else {
+      res.writeHead(404, noCache);
+      res.end("Not found");
+      return;
+    }
   }
   const method = (req.method || "GET").toUpperCase();
   if (method !== "GET" && method !== "HEAD") {
@@ -126,7 +135,7 @@ const server = http.createServer((req, res) => {
     res.end("Method Not Allowed");
     return;
   }
-  serveStaticFile(req, res, file, { noCache, mimes });
+  serveStaticFile(req, res, file, { noCache, mimes, statusCode });
 });
 
 const startPort = process.env.PORT ? Number(process.env.PORT) : 8765;
@@ -149,6 +158,10 @@ const tryListen = (port) => {
     server.removeListener("error", onErr);
     if (!process.env.PORT && port !== 8765) {
       console.log(`(порт 8765 занят, поднят ${port} — открой этот URL)`);
+    }
+    console.log(`Корень статики: ${root}`);
+    if (!fs.existsSync(custom404Path)) {
+      console.log("(в корне нет 404.html — несуществующие URL отдадут текст «Not found»)");
     }
     console.log(
       `http://127.0.0.1:${port}/ или http://localhost:${port}/ — главная; …/case/all/ — кейсы; …/blog/ — блог`,

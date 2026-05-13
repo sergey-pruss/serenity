@@ -91,6 +91,12 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
   line-height: 1.26;
 }
 
+/* Virtual scroll container: должен быть намного выше sticky (100vh),
+   чтобы дать 200vh хода (3 шага × ~67vh). */
+.services-approach__virtual {
+  min-height: 300vh;
+}
+
 .services-approach__sticky {
   position: sticky;
   top: 0;
@@ -110,10 +116,33 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
   column-gap: clamp(80px, 13vw, 220px);
 }
 
-.services-approach__copy {
+/* Copy-stack: все 3 копии в одной grid-ячейке, переключаются через data-active */
+.services-approach__copy-stack {
   grid-column: 1;
+  display: grid;
+  align-self: center;
   max-width: 470px;
-  transition: transform .45s ease, opacity .35s ease;
+}
+
+.services-approach__copy-stack > .services-approach__copy {
+  grid-area: 1 / 1;
+}
+
+.services-approach__copy {
+  max-width: 470px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity .4s ease, transform .45s ease;
+}
+
+/* Показываем только активную копию */
+.services-approach[data-active="strategy"] .services-approach__copy--positioning,
+.services-approach[data-active="branding"] .services-approach__copy--design,
+.services-approach[data-active="performance"] .services-approach__copy--synergy {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
 }
 
 .services-approach__copy h3 {
@@ -146,10 +175,45 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
   transform: translateX(-115%);
 }
 
-.services-approach[data-active="branding"] .services-approach__copy {
+.services-approach[data-active="branding"] .services-approach__copy-stack {
   grid-column: 2;
   max-width: 540px;
   justify-self: end;
+}
+
+.services-approach__description {
+  max-width: 1574px;
+  margin: 20px auto 0;
+  color: rgba(255, 255, 255, .5);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.services-approach__conversion {
+  max-width: 1574px;
+  margin: 0 auto;
+  padding: 80px 0 100px;
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+  color: #fff;
+}
+
+.services-approach__conversion-content h3 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.services-approach__conversion-content p {
+  margin: 0;
+  max-width: 560px;
+  color: #969696;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.55;
 }
 
 .services-approach__orbit {
@@ -360,6 +424,27 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
 
   .services-approach[data-active="branding"] .services-approach__atom {
     transform: none;
+  }
+
+  /* На мобайле sticky выключен — показываем все копии стопкой */
+  .services-approach__copy-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 100%;
+  }
+
+  .services-approach__copy-stack > .services-approach__copy {
+    grid-area: unset;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .services-approach[data-active="branding"] .services-approach__copy-stack {
+    grid-column: 1;
+    justify-self: start;
+    max-width: 100%;
   }
 }
 
