@@ -49,6 +49,7 @@ server {
 
     root /var/www/static;
     index index.html;
+    error_page 404 /404.html;
 
     # Текстовые ответы: gzip по запросу клиента (Accept-Encoding). Файлы на диске не меняются.
     gzip on;
@@ -80,6 +81,11 @@ server {
         default_type application/xml;
         charset utf-8;
         access_log off;
+    }
+
+    location = /404.html {
+        expires -1;
+        add_header Cache-Control "no-cache, max-age=0, must-revalidate";
     }
 
     location ^~ /_sa/ {
