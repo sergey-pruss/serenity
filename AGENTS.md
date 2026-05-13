@@ -104,10 +104,14 @@
 - Статика нового сайта в проде должна идти через префикс `/_sa/`; корневые `/css`, `/js`, `/img`, `/json` под legacy не занимаем.
 - Основной обработчик Worker: `src/worker.mjs`; API формы: `src/lead-api.mjs`.
 
+### Тайтлы HTML (статический контур)
+
+- Паттерн: **`Название страницы — Serenity`** (длинное тире `—`). Подробности и исключения — в `[.cursor/rules/page-title-serenity.mdc](.cursor/rules/page-title-serenity.mdc)`.
+
 ### Статическая страница 404 (новый контур)
 
 - **Назначение:** корневой `404.html` — кастомный ответ **HTTP 404** для **нового статического контура** (не страница WordPress). Разметка собирается из `html/404.layout.html` (`npm run build:html` или `node scripts/assemble-html.cjs build`).
-- **Nginx:** в `nginx/serenity-router.live.conf`, `nginx/static.serenity.agency.live.conf` и примере `nginx/serenity.agency.server.conf.example` задано `error_page 404 /404.html`; у прокси на legacy при необходимости включён перехват ошибок, чтобы тот же `404.html` отдавался и при 404 от upstream (см. `proxy_intercept_errors` и `error_page` внутри `@legacy_proxy`).
+- **Nginx:** кастомная 404 через named location `@serenity_static_404` и `recursive_error_pages` в `nginx/serenity-router.live.conf`; превью `nginx/static.serenity.agency.live.conf` — `error_page 404 /404.html`. У прокси на legacy — `proxy_intercept_errors` и `error_page` внутри `@legacy_proxy` (см. файлы в репозитории).
 - **Локально:** `npm run dev` для несуществующего URL отдаёт этот `404.html` с кодом 404, если файл есть в корне репозитория.
 - **Проверка:** `npm run test:404-page` (скрипт `scripts/verify-404-page.cjs`).
 

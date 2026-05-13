@@ -14,7 +14,10 @@ function read(relPath) {
 
 const html = read("404.html");
 assert(!html.includes("<!-- @partial"), "404.html: не должно оставаться маркеров @partial");
-assert(/<title>\s*404\s*<\/title>/.test(html), "404.html: title должен повторять legacy 404");
+assert(
+  /<title>\s*404\s*\(\s*Страница не найдена\s*\)\s*—\s*Serenity\s*<\/title>/.test(html),
+  "404.html: title «404 (Страница не найдена) — Serenity» (см. .cursor/rules/page-title-serenity.mdc)",
+);
 assert(html.includes('class="header page-top compressed"'), "404.html: должен использовать общий header Serenity");
 assert(!html.includes("sa-not-found-footer"), "404.html: без отдельного блока футера страницы");
 assert(!/<footer\b[^>]*\bclass="footer-modern"\b/.test(html), "404.html: без нижнего <footer class=\"footer-modern\">");
@@ -45,7 +48,10 @@ assert(!html.includes("nginx/1.24.0"), "404.html: не должно остава
 assert(/<meta\s+name="robots"\s+content="noindex, follow"\s*\/>/.test(html), "404.html: должен быть noindex, follow");
 
 const router = read("nginx/serenity-router.live.conf");
-assert(/^\s*error_page\s+404\s+\/404\.html;\s*$/m.test(router), "prod vhost: нужен error_page 404 /404.html");
+assert(
+  /error_page\s+404\s+@serenity_static_404\s*;/.test(router),
+  "prod vhost: нужен error_page 404 @serenity_static_404 (named location с кастомной 404)",
+);
 assert(
   /\blocation\s*=\s*\/404\.html\s*\{[\s\S]*?Cache-Control "no-cache, max-age=0, must-revalidate"/.test(router),
   "prod vhost: /404.html должен отдаваться без долгого кэша",
