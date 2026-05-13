@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-05-13T14:37:29.418Z",
+  "builtAt": "2026-05-13T14:44:14.075Z",
   "source": "https://serenity.agency/api/blog",
   "sourceManual": "json/blog-posts-manual.json",
   "manualPostsCount": 1,
@@ -29,7 +29,7 @@
     {
       "href": "/blog/article/kontekstnaya-i-georeklama-premium-segment/",
       "description": "Как контекстная реклама и геореклама влияют на продажи в премиум-сегменте",
-      "subtitle": "На примере проекта в нише премиальной мебели",
+      "subtitle": "Рассказываем на примере проекта в нише дизайнерской мебели",
       "tags": [
         "Статьи"
       ],
