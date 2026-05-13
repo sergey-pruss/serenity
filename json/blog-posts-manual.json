@@ -1,3 +1,24 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "href": "/blog/article/kontekstnaya-i-georeklama-premium-segment/",
+      "description": "Как контекстная реклама и геореклама влияют на продажи в премиум-сегменте",
+      "subtitle": "На примере проекта в нише премиальной мебели",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kontekstnaya-i-georeklama-premium-segment/hero-cover.png"
+      }
+    }
+  ]
 }
