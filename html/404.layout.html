@@ -33,8 +33,6 @@
         color: #fff;
         height: 100svh;
         overflow: hidden !important;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: geometricPrecision;
       }
       .sa-not-found-page #body.body-application {
         display: none !important;
@@ -64,6 +62,9 @@
         padding-bottom: 32px;
         padding-left: var(--page-gutter-x, 78px);
         overflow: hidden;
+        /* antialiased только на блоке 404, не на шапке — иначе меню визуально тоньше, чем на главной. */
+        -webkit-font-smoothing: antialiased;
+        text-rendering: geometricPrecision;
       }
       .sa-not-found-page .error-page__content {
         position: static;
