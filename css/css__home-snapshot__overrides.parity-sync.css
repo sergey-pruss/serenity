@@ -518,6 +518,13 @@
   }
 }
 
+/* Главная: на 4 колонках CTA "Смотреть больше кейсов" должен закрывать второй ряд */
+@media screen and (min-width: 1501px) {
+  .more-case-wr__main .more-cases__item > .case:nth-of-type(8) {
+    display: none;
+  }
+}
+
 /* Адаптивы: отключаем hover-поведение карточек кейсов/услуг/блога */
 @media screen and (max-width: 1200px), (hover: none) {
   /* Кейсы */
