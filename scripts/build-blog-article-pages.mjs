@@ -854,6 +854,27 @@ function buildReadMoreSection(currentSlug, articleFeed) {
   }
   if (related.length === 0) return "";
 
+  /* Самый свежий пост (первый в ленте) — в «Читайте ещё», если это не текущая статья и его ещё нет в подборке. */
+  const newest = articleFeed[0];
+  const newestSlug = newest ? articleSlugFromHref(newest.href) : "";
+  if (newestSlug && newestSlug !== currentSlug) {
+    const newestHref = normBlogPath(newest.href);
+    const already = related.some((p) => normBlogPath(p.href) === newestHref);
+    if (!already) {
+      const merged = [newest, ...related];
+      const seen = new Set();
+      const deduped = [];
+      for (const p of merged) {
+        const h = normBlogPath(p.href);
+        if (seen.has(h)) continue;
+        seen.add(h);
+        deduped.push(p);
+        if (deduped.length >= READ_MORE_EDGE) break;
+      }
+      related = deduped;
+    }
+  }
+
   const slides = related
     .map((c, slideIdx) => {
       const card = renderListingCard(c, slideIdx);
