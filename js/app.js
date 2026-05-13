@@ -373,15 +373,17 @@
     setTimeout(relayout, 0);
   };
 
-  const servicesHost = document.querySelector(".services__context-slider");
-  const servicesTrack = servicesHost?.querySelector(".services__context-wrapper");
-  initRow({
-    host: servicesHost,
-    track: servicesTrack,
-    slideSelector: ".services__slide, .swiper-slide",
-    desktopArrowsOnly: true,
-    fullBleed: true,
-    sidePadGetter: getServicesSidePad,
+  /* На /services/ несколько рядов карточек (по секциям); на главной — один. */
+  document.querySelectorAll(".services__context-slider").forEach((servicesHost) => {
+    const servicesTrack = servicesHost.querySelector(".services__context-wrapper");
+    initRow({
+      host: servicesHost,
+      track: servicesTrack,
+      slideSelector: ".services__slide, .swiper-slide",
+      desktopArrowsOnly: true,
+      fullBleed: true,
+      sidePadGetter: getServicesSidePad,
+    });
   });
 
   const blogContainer = document.querySelector(".blog-block__swiper-container");
@@ -1186,5 +1188,15 @@
   initClientsLogoFallbacks();
   initClientsStrip();
   initMorCasesSlider();
+
+  /* Страницы не-главная (услуги и т.п.): блок наград уже в DOM, но mountHomeAwardsTemplate
+     не запускается (нет sa-home-page). Инициализируем ленту и тройной loop вручную. */
+  if (!document.body?.classList.contains("sa-home-page")) {
+    const awardsMount = document.getElementById("sa-home-awards-mounted");
+    if (awardsMount) {
+      tripleHomeAwardsStripSlides(awardsMount);
+      initHomeAwardsClientsStrip();
+    }
+  }
 
 })();
