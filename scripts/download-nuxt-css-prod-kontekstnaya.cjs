@@ -6,8 +6,9 @@
  * Временные чанки — только в tmp/, в git остаётся бандл.
  *
  * Откуда качать чанки: KONTEKST_NUXT_ORIGIN (без завершающего /), по умолчанию https://serenity.agency
- * Для локального Nuxt (SerenityAgency, npm run dev → 4333):
- *   KONTEKST_NUXT_ORIGIN=http://127.0.0.1:4333 node scripts/download-nuxt-css-prod-kontekstnaya.cjs
+ * Для локального Nuxt: KONTEKST_NUXT_ORIGIN=http://127.0.0.1:4333 … или цепочка refresh-kontekstnaya-from-local-nuxt (NUXT из CAPTURE).
+ *
+ * Сборка HTML: после capture assemble по умолчанию берёт срез main из tmp/kontekst-prod-full.html (KONTEKST_LAYOUT_SOURCE=auto|full|parity).
  */
 const fs = require("fs");
 const path = require("path");
