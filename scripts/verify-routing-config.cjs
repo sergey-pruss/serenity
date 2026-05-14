@@ -91,4 +91,11 @@ assert(
   "serenity-router.live.conf: edge intercept /seminar/7 → /blog/ (полный список — json/nginx-edge-intercepts.json, verify-nginx-edge-intercepts.cjs; тот же стиль, что для /blog/article/7-raz-otmer…)."
 );
 
+assert(
+  /#\s*>>>\s*GEN:serenity-legacy-case-path-redirects/.test(routerVhost) &&
+    /#\s*<<<\s*GEN:serenity-legacy-case-path-redirects/.test(routerVhost) &&
+    /\blocation\s*=\s*\/case\/prodvizhenie\/toofli\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/case\/toofli\s*;/.test(routerVhost),
+  "serenity-router.live.conf: ожидается сгенерированный блок GEN:serenity-legacy-case-path-redirects (node scripts/build-serenity-legacy-redirects.cjs после смены json/cases-all.json).",
+);
+
 console.log("OK: routing config baseline rules are present.");

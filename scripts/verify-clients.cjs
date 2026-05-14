@@ -151,11 +151,11 @@ const startStaticServer = (port) =>
     const orangePaired = await page.evaluate(() =>
       Boolean(
         document.querySelector(
-          'a[href="https://serenity.agency/case/all/orange"] img[src*="bR5c6w"]',
+          'a[href="https://serenity.agency/case/orange"] img[src*="bR5c6w"]',
         ),
       ),
     );
-    assert(orangePaired, "Прод-маппинг: лого Orange (bR5c6w) → /case/all/orange");
+    assert(orangePaired, "Прод-маппинг: лого Orange (bR5c6w) → /case/orange");
 
     // Наводим курсор на плашку, чтобы сработал pause автоплея
     const vbox = await volvo.boundingBox();
