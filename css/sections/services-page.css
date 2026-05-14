@@ -56,6 +56,7 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
    but the gradient canvas is position:fixed and covers the viewport.
    Lift these sections above the canvas (z-index:0). */
 .services-body .more-case-wr,
+.services-body .services-approach,
 .services-body .clients-wrapper,
 .services-body .clients-new-section,
 .services-body .home-awards-block,
@@ -86,6 +87,432 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
     padding-top: 150px !important;
   }
 }
+
+/* Header must be above fixed gradient canvas (z-index:0) with opaque background */
+.services-body .header {
+  position: fixed !important;
+  z-index: 100 !important;
+  background: #191a1b !important;
+}
+.services-approach {
+  position: relative;
+  z-index: 1;
+  min-height: 300vh;
+  padding: 238px 78px 0;
+}
+
+.services-approach__title {
+  max-width: 1574px;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 54px;
+  font-weight: 400;
+  line-height: 1.26;
+}
+
+/* Virtual scroll container: должен быть намного выше sticky (100vh),
+   чтобы дать 200vh хода (3 шага × ~67vh). */
+.services-approach__virtual {
+  min-height: 300vh;
+}
+
+.services-approach__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 760px;
+  display: flex;
+  align-items: center;
+}
+
+.services-approach__inner {
+  width: 100%;
+  max-width: 1574px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(330px, 470px) minmax(520px, 1fr);
+  align-items: center;
+  column-gap: clamp(80px, 13vw, 220px);
+}
+
+/* Copy-stack: все 3 копии в одной grid-ячейке, переключаются через data-active */
+.services-approach__copy-stack {
+  grid-column: 1;
+  display: grid;
+  align-self: center;
+  max-width: 470px;
+}
+
+.services-approach__copy-stack > .services-approach__copy {
+  grid-area: 1 / 1;
+}
+
+.services-approach__copy {
+  max-width: 470px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity .4s ease, transform .45s ease;
+}
+
+/* Показываем только активную копию */
+.services-approach[data-active="strategy"] .services-approach__copy--positioning,
+.services-approach[data-active="branding"] .services-approach__copy--design,
+.services-approach[data-active="performance"] .services-approach__copy--synergy {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.services-approach__copy h3 {
+  margin: 0 0 30px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.services-approach__copy p {
+  margin: 0;
+  max-width: 450px;
+  color: #969696;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.services-approach__atom {
+  grid-column: 2;
+  position: relative;
+  width: min(46vw, 560px);
+  aspect-ratio: 1.1;
+  justify-self: center;
+  transition: transform .7s ease;
+}
+
+.services-approach[data-active="branding"] .services-approach__atom {
+  transform: translateX(-115%);
+}
+
+.services-approach[data-active="branding"] .services-approach__copy-stack {
+  grid-column: 2;
+  max-width: 540px;
+  justify-self: end;
+}
+
+.services-approach__description {
+  max-width: 1574px;
+  margin: 20px auto 0;
+  color: rgba(255, 255, 255, .5);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.services-approach__conversion {
+  max-width: 1574px;
+  margin: 0 auto;
+  padding: 80px 0 100px;
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+  color: #fff;
+}
+
+.services-approach__conversion-content h3 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.services-approach__conversion-content p {
+  margin: 0;
+  max-width: 560px;
+  color: #969696;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.services-approach__orbit {
+  position: absolute;
+  inset: 8% 24%;
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 50%;
+  transition: border-color .45s ease, transform .45s ease;
+}
+
+.services-approach__orbit--strategy {
+  transform: rotate(73deg);
+}
+
+.services-approach__orbit--branding {
+  transform: rotate(-73deg);
+}
+
+.services-approach__orbit--performance {
+  inset: 32% 5%;
+  transform: rotate(0deg);
+}
+
+.services-approach[data-active="strategy"] .services-approach__orbit--strategy,
+.services-approach[data-active="branding"] .services-approach__orbit--branding,
+.services-approach[data-active="performance"] .services-approach__orbit--performance {
+  border-color: rgba(255, 255, 255, .92);
+}
+
+.services-approach[data-active="strategy"] .services-approach__orbit--strategy {
+  transform: rotate(73deg);
+}
+
+.services-approach[data-active="strategy"] .services-approach__orbit--branding {
+  transform: rotate(-73deg);
+}
+
+.services-approach[data-active="strategy"] .services-approach__orbit--performance {
+  transform: rotate(0deg);
+}
+
+.services-approach[data-active="branding"] .services-approach__orbit--strategy {
+  transform: rotate(0deg);
+}
+
+.services-approach[data-active="branding"] .services-approach__orbit--branding {
+  transform: rotate(73deg);
+}
+
+.services-approach[data-active="branding"] .services-approach__orbit--performance {
+  transform: rotate(-73deg);
+}
+
+.services-approach[data-active="performance"] .services-approach__orbit--strategy {
+  transform: rotate(-73deg);
+}
+
+.services-approach[data-active="performance"] .services-approach__orbit--branding {
+  transform: rotate(0deg);
+}
+
+.services-approach[data-active="performance"] .services-approach__orbit--performance {
+  transform: rotate(73deg);
+}
+
+.services-approach__center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.services-approach__point {
+  position: absolute;
+  color: rgba(255, 255, 255, .42);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  transition: color .45s ease, left .7s ease, top .7s ease;
+}
+
+.services-approach__point b {
+  position: absolute;
+  font: inherit;
+  white-space: nowrap;
+}
+
+.services-approach__point span {
+  position: relative;
+  display: block;
+  width: 31px;
+  height: 31px;
+  border: 2px solid rgba(255, 255, 255, .92);
+  border-radius: 50%;
+  background: rgba(22, 22, 24, .7);
+}
+
+.services-approach__point span::before,
+.services-approach__point span::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.services-approach__point span::before {
+  inset: 5px;
+  border: 1px solid rgba(255, 255, 255, .42);
+}
+
+.services-approach__point span::after {
+  inset: 9px;
+  background: rgba(255, 255, 255, .72);
+  box-shadow: 0 0 10px rgba(255, 255, 255, .55);
+}
+
+.services-approach__point--strategy {
+  left: 28%;
+  top: 8%;
+}
+
+.services-approach__point--strategy b {
+  left: 0;
+  bottom: calc(100% + 18px);
+}
+
+.services-approach__point--branding {
+  left: 70%;
+  top: 70%;
+}
+
+.services-approach__point--branding b {
+  left: -10px;
+  bottom: calc(100% + 22px);
+}
+
+.services-approach__point--performance {
+  left: 8%;
+  top: 43%;
+}
+
+.services-approach__point--performance b {
+  left: calc(100% + 14px);
+  top: 5px;
+}
+
+.services-approach[data-active="strategy"] [data-approach-point="strategy"],
+.services-approach[data-active="branding"] [data-approach-point="branding"],
+.services-approach[data-active="performance"] [data-approach-point="performance"] {
+  color: rgba(255, 255, 255, .92);
+}
+
+.services-approach[data-active="branding"] .services-approach__point--branding {
+  left: 78%;
+  top: 32%;
+}
+
+.services-approach[data-active="branding"] .services-approach__point--strategy {
+  left: 70%;
+  top: 72%;
+}
+
+.services-approach[data-active="performance"] .services-approach__point--strategy {
+  left: 18%;
+  top: 12%;
+}
+
+.services-approach[data-active="performance"] .services-approach__point--branding {
+  left: 27%;
+  top: 80%;
+}
+
+.services-approach[data-active="performance"] .services-approach__point--performance {
+  left: 77%;
+  top: 42%;
+}
+
+@media screen and (max-width: 1024px) {
+  .services-approach {
+    min-height: auto;
+    padding: 150px 57px 70px;
+  }
+
+  .services-approach__title {
+    font-size: 50px;
+  }
+
+  .services-approach__sticky {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding-top: 90px;
+  }
+
+  .services-approach__inner {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    row-gap: 70px;
+  }
+
+  .services-approach__atom {
+    width: min(78vw, 560px);
+    align-self: center;
+  }
+
+  .services-approach[data-active="branding"] .services-approach__atom {
+    transform: none;
+  }
+
+  /* На мобайле sticky выключен — показываем все копии стопкой */
+  .services-approach__copy-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 100%;
+  }
+
+  .services-approach__copy-stack > .services-approach__copy {
+    grid-area: unset;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .services-approach[data-active="branding"] .services-approach__copy-stack {
+    grid-column: 1;
+    justify-self: start;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .services-approach {
+    padding: 110px 35px 45px;
+  }
+
+  .services-approach__title {
+    font-size: 28px;
+  }
+
+  .services-approach__sticky {
+    padding-top: 55px;
+  }
+
+  .services-approach__inner {
+    row-gap: 42px;
+  }
+
+  .services-approach__atom {
+    width: min(84vw, 350px);
+  }
+
+  .services-approach__center {
+    font-size: 18px;
+  }
+
+  .services-approach__point {
+    font-size: 13px;
+  }
+
+  .services-approach__point span {
+    width: 25px;
+    height: 25px;
+  }
+
+  .services-approach__copy h3 {
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+
+  .services-approach__copy p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+ 
 
 /* Header must be above fixed gradient canvas (z-index:0) with opaque background */
 .services-body .header {
