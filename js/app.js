@@ -1108,6 +1108,22 @@
 
   const initCasesBlockSwipers = () => {
     if (typeof window.Swiper === "undefined") return;
+    if (!window.__saCasesBlockResizeHooked) {
+      window.__saCasesBlockResizeHooked = true;
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          document
+            .querySelectorAll(".cases-block__slider-swiper-container.swiper-container")
+            .forEach((el) => {
+              if (el._saCasesSwiper && typeof el._saCasesSwiper.update === "function") {
+                el._saCasesSwiper.update();
+              }
+            });
+        }, 120);
+      });
+    }
     document.querySelectorAll(".cases-block__slider").forEach((root) => {
       const container = root.querySelector(".cases-block__slider-swiper-container.swiper-container");
       if (!container || container.dataset.saCasesSwiperInit === "1") return;
@@ -1152,6 +1168,7 @@
           nextSlideMessage: "Следующий слайд",
         },
       });
+      container._saCasesSwiper = swiper;
       requestAnimationFrame(() => {
         swiper.update();
       });

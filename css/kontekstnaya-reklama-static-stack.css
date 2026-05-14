@@ -57,10 +57,9 @@ body:not(.order-popup-open) .overlay-new {
 
 /*
  * cases-block (статика):
- * 1) min-height слайда = один экран минус padding-top секции (см. --cases-block-section-pt).
- * 2) У Nuxt justify-content:center + большие padding — «полоски» размытого фона сверху/снизу превью
- *    и съедание заголовка; прижимаем колонку к верху, сверху у превью ~30px (по ТЗ).
- * 3) overflow: visible — не обрезать заголовок/текст под превью.
+ * 1) Высота слайда: min(контент, 100svh − padding-top секции) — при низком окне не вылезает за край;
+ *    при длинном контенте — прокрутка внутри слайда (overflow-y: auto).
+ * 2) Прижимаем колонку к верху, сверху у превью ~30px (по ТЗ).
  * Секция: уменьшаем только верхний отступ до превью (оригинал 160/120px даёт лишнюю полосу).
  */
 .cases-block[data-v-bd2e570a] {
@@ -76,7 +75,10 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-  min-height: calc(100svh - var(--cases-block-section-pt)) !important;
+  --cases-block-slide-cap: calc(100svh - var(--cases-block-section-pt));
+  min-height: 0 !important;
+  height: min(max-content, var(--cases-block-slide-cap)) !important;
+  max-height: var(--cases-block-slide-cap) !important;
   justify-content: flex-start !important;
   align-items: center !important;
   box-sizing: border-box !important;
@@ -84,7 +86,9 @@ body:not(.order-popup-open) .overlay-new {
   padding-bottom: clamp(72px, 11vh, 200px) !important;
   padding-left: 78px !important;
   padding-right: 78px !important;
-  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media screen and (max-width: 1024px) {
@@ -102,6 +106,20 @@ body:not(.order-popup-open) .overlay-new {
     padding-bottom: clamp(88px, 14vh, 190px) !important;
     padding-left: 36px !important;
     padding-right: 36px !important;
+  }
+}
+
+/* Низкое окно: меньше нижний паддинг слайда, чтобы превью и текст помещались без лишней прокрутки */
+@media screen and (max-height: 740px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding-bottom: clamp(48px, 8vh, 120px) !important;
+  }
+}
+
+@media screen and (max-height: 560px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding-top: 20px !important;
+    padding-bottom: 36px !important;
   }
 }
 
