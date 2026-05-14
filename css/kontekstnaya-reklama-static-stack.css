@@ -55,6 +55,73 @@ body:not(.order-popup-open) .overlay-new {
   -webkit-backdrop-filter: none !important;
 }
 
+/*
+ * cases-block (Nuxt): слайд с min-height:100vh + padding секции → выше окна и лишний скролл страницы.
+ * Вписываем блок в small viewport height, пол «минимальной» высоты — через max() с нижней планкой;
+ * превью в .cases-block__swiper-slide-contant при нехватке места скроллится внутри (текст/кнопка не масштабируются).
+ */
+.cases-block[data-v-bd2e570a] {
+  --cases-reserve-top: 108px;
+  --cases-reserve-bottom: 112px;
+  --cases-slide-max-h: calc(100svh - var(--cases-reserve-top) - var(--cases-reserve-bottom));
+  padding-top: min(96px, 11vh) !important;
+}
+
+@media screen and (max-width: 1366px) {
+  .cases-block[data-v-bd2e570a] {
+    padding-top: min(72px, 10vh) !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .cases-block[data-v-bd2e570a] {
+    --cases-reserve-top: 96px;
+    --cases-reserve-bottom: 132px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .cases-block[data-v-bd2e570a] {
+    --cases-reserve-top: 88px;
+    --cases-reserve-bottom: 148px;
+  }
+}
+
+.cases-block .cases-block__swiper-wrapper[data-v-bd2e570a] {
+  max-height: var(--cases-slide-max-h) !important;
+}
+
+.cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  max-height: var(--cases-slide-max-h) !important;
+  height: min(var(--cases-slide-max-h), max(420px, 62svh)) !important;
+  padding: clamp(16px, 3.2vh, 56px) clamp(16px, 4vw, 78px) clamp(18px, 3.2vh, 56px) !important;
+  overflow: hidden !important;
+}
+
+.cases-block .cases-block__swiper-slide-contant[data-v-bd2e570a] {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cases-block .cases-block__swiper-slide-text-contant[data-v-bd2e570a] {
+  flex: 0 0 auto !important;
+}
+
+.cases-block .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+}
+
 /* Cases-block (статика без Nuxt): в prod CSS у превью и текста встречные translateX(-60%/+60%) и
    transition при снятии .swiper-slide-active — поверх сдвига Swiper картинка и текст едут в разные стороны.
    Отключаем только эти внутренние смещения; двигается весь слайд целиком, как на оригинале. */
