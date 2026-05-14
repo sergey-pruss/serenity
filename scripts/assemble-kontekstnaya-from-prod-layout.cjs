@@ -130,7 +130,7 @@ function run() {
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260512categoryScrollEdge\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260506awardsMountedHeight\" />",
     buildCssLinks(v),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260514kontekstCasesVh\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260514kontekstCasesOneScreen\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260428a\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m\" />",
