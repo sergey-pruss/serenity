@@ -124,3 +124,18 @@ body:not(.order-popup-open) .overlay-new {
   width: 100% !important;
   box-sizing: border-box;
 }
+
+/*
+ * Затемнение справа: у неактивного слайда .background остаётся scale(2)+blur(20px) из Nuxt-бандла;
+ * при overflow:visible на слайде или при подглядывании соседа размытие вылезает как тёмная вуаль.
+ * Активному слайду фон и так scale(1)+blur(0); соседям декоративный слой не нужен, пока они не активны.
+ */
+.cases-block__slider .cases-block__slider-swiper-container.swiper-container {
+  overflow: hidden !important;
+}
+
+.cases-block .cases-block__swiper-slide:not(.swiper-slide-active) .background[data-v-bd2e570a] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
