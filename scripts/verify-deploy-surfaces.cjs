@@ -40,6 +40,16 @@ assert(
   "deploy-lib.sh должен исключать локальную .codex/ из rsync",
 );
 assert(
+  /--exclude='tmp\/'/.test(deployLib),
+  "deploy-lib.sh должен исключать tmp/ из rsync (локальные срезы паритета)",
+);
+assert(
+  /deploy_remote_scrub_rsync_excluded_tmp/.test(deployLib) &&
+    /deploy_remote_scrub_rsync_excluded_tmp/.test(deployDev) &&
+    /deploy_remote_scrub_rsync_excluded_tmp/.test(deployProd),
+  "deploy-dev/prod после rsync должны вызывать deploy_remote_scrub_rsync_excluded_tmp",
+);
+assert(
   /root \/var\/www\/static-dev;/.test(staticVhost) &&
     /alias \/var\/www\/static-dev\/;/.test(staticVhost) &&
     /alias \/var\/www\/static-dev\/robots\.static-preview\.txt;/.test(staticVhost),

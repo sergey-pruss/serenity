@@ -12,6 +12,7 @@ export DEPLOY_REMOTE_PATH="${DEPLOY_REMOTE_PATH:-/var/www/static-dev/}"
 echo "→ Dev deploy: превью https://static.serenity.agency …"
 deploy_ensure_blog_built
 deploy_rsync_repo_to_static_root
+deploy_remote_scrub_rsync_excluded_tmp
 echo "✅ Dev: static origin обновлён (${DEPLOY_SSH_TARGET:-root@168.222.142.141}:${DEPLOY_REMOTE_PATH})"
 deploy_cdn_purge_yandex_static_preview
 deploy_worker_staging

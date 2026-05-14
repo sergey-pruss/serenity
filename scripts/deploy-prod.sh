@@ -12,4 +12,5 @@ export DEPLOY_REMOTE_PATH="${DEPLOY_REMOTE_PATH:-/var/www/static/}"
 echo "→ Prod deploy: основной домен https://serenity.agency (origin статики) …"
 deploy_ensure_blog_built
 deploy_rsync_repo_to_static_root
+deploy_remote_scrub_rsync_excluded_tmp
 echo "✅ Prod: статика на origin для serenity.agency (nginx: root /var/www/static)."
