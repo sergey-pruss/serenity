@@ -1,0 +1,139 @@
+/**
+ * Блок «Вопрос-ответ» на /kontekstnaya_reklama — локальные стили (partial
+ * html/partials/services/faq-kontekstnaya-reklama.html), без data-v из Nuxt.
+ * Базовые .spoiler / .spoiler__* остаются из kontekstnaya-reklama-nuxt.bundle.css.
+ *
+ * Секция в разметке — <section class="... kontekst-faq-section"> перед блоком кейсов (more-case-wr),
+ * после «Команда» и формы заявки в потоке. Отступ от предыдущей секции — var(--home-between) из parity-sync
+ * (112px → 97px → 60px по брейкпоинтам), как .clients-new-section.home-between на главной.
+ */
+
+/*
+ * В разметке на одном узле стоят questions-wr + page__container_admin (как в Nuxt).
+ * Сбрасываем «админский» контейнер, чтобы не дублировать сужение с .questions.
+ */
+.kontekst-faq-root.page__container_admin {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+.kontekst-faq-root.questions-wr {
+  padding-top: var(--home-between, 112px);
+  padding-bottom: 0;
+}
+
+.page-constructor__section.kontekst-faq-section {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  /* Следующая секция — more-case-wr с внутренним z-index:10; без подъёма FAQ визуально может оказаться под слоем карусели. */
+  position: relative;
+  z-index: 4;
+  overflow: visible;
+}
+
+/* Заголовок секции: в Nuxt стили завязаны на [data-v-841383f2] — дублируем ключевое для статики. */
+.kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+  color: #fff !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 46px !important;
+  line-height: 126% !important;
+  margin: 0 0 80px !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media screen and (max-width: 768px) {
+  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    font-size: 28px !important;
+    line-height: 126% !important;
+    margin-bottom: 45px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    font-size: 26px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/* Контент FAQ: одна вертикаль с шапкой и остальными секциями (--page-gutter-x из parity-sync). */
+.kontekst-faq-root .questions {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-left: var(--page-gutter-x, 78px);
+  padding-right: var(--page-gutter-x, 78px);
+  box-sizing: border-box;
+}
+
+.kontekst-faq-root .questions .questions__blocks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(16px, 2vw, 32px);
+  row-gap: clamp(24px, 3vw, 42px);
+  width: 100%;
+  margin: 0;
+}
+
+.kontekst-faq-root .blocks__column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 42px);
+  min-width: 0;
+}
+
+.kontekst-faq-root .block {
+  padding: 36px;
+  background: #272727;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+  filter: drop-shadow(0 0 10px rgba(116, 11, 160, 0.35));
+  border-radius: 30px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+  .kontekst-faq-root .block {
+    padding: 26px 26px 26px 40px;
+  }
+}
+
+/* Десктоп: 22px вместо 26px из Nuxt */
+.kontekst-faq-root .block .block__question {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .kontekst-faq-root .block .block__question {
+    font-size: 20px;
+  }
+}
+
+.kontekst-faq-root .block .block__content {
+  padding-top: 30px;
+  color: #969696;
+}
+
+@media (max-width: 1024px) {
+  .kontekst-faq-root .questions .questions__blocks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .kontekst-faq-root .questions .questions__blocks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

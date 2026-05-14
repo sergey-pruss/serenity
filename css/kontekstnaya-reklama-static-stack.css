@@ -56,73 +56,9 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
- * cases-block (статика):
- * 1) Высота слайда = 100svh − padding-top секции (кап по окну); при длинном контенте — прокрутка
- *    внутри слайда (overflow-y: auto). При смене высоты окна кап пересчитывается (svh + resize → swiper.update).
- * 2) Прижимаем колонку к верху, сверху у превью ~30px (по ТЗ).
- * Секция: уменьшаем только верхний отступ до превью (оригинал 160/120px даёт лишнюю полосу).
+ * cases-block (статика): только правки поверх Nuxt-бандла — без отдельной геометрии для «третьего» слайдера.
+ * Отключаем встречные translate у превью/текста, вуаль у неактивного .background, задаём ширину слайда и overflow у контейнера.
  */
-.cases-block[data-v-bd2e570a] {
-  --cases-block-section-pt: 48px;
-  padding-top: 48px !important;
-}
-
-@media screen and (max-width: 1366px) {
-  .cases-block[data-v-bd2e570a] {
-    --cases-block-section-pt: 40px;
-    padding-top: 40px !important;
-  }
-}
-
-.cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-  --cases-block-slide-cap: calc(100svh - var(--cases-block-section-pt));
-  /* Всегда ровно «окно минус верх секции»: при сжатии высоты окна слайд ужимается; длинный контент — прокрутка внутри. */
-  min-height: var(--cases-block-slide-cap) !important;
-  max-height: var(--cases-block-slide-cap) !important;
-  justify-content: flex-start !important;
-  align-items: center !important;
-  box-sizing: border-box !important;
-  padding-top: 30px !important;
-  padding-bottom: clamp(72px, 11vh, 200px) !important;
-  padding-left: 78px !important;
-  padding-right: 78px !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media screen and (max-width: 1024px) {
-  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding-top: 30px !important;
-    padding-bottom: clamp(96px, 12vh, 200px) !important;
-    padding-left: 110px !important;
-    padding-right: 110px !important;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding-top: 24px !important;
-    padding-bottom: clamp(88px, 14vh, 190px) !important;
-    padding-left: 36px !important;
-    padding-right: 36px !important;
-  }
-}
-
-/* Низкое окно: меньше нижний паддинг слайда, чтобы превью и текст помещались без лишней прокрутки */
-@media screen and (max-height: 740px) {
-  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding-bottom: clamp(48px, 8vh, 120px) !important;
-  }
-}
-
-@media screen and (max-height: 560px) {
-  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding-top: 20px !important;
-    padding-bottom: 36px !important;
-  }
-}
-
 /* Cases-block (статика без Nuxt): в prod CSS у превью и текста встречные translateX(-60%/+60%) и
    transition при снятии .swiper-slide-active — поверх сдвига Swiper картинка и текст едут в разные стороны.
    Отключаем только эти внутренние смещения; двигается весь слайд целиком, как на оригинале. */
@@ -156,4 +92,687 @@ body:not(.order-popup-open) .overlay-new {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/*
+ * Пагинация Swiper у .cases-block: как на prod / `.darktheme` в snapshot — неактивный белый ~50%, активный #fff.
+ * Иначе побеждает дефолт Swiper: `.swiper-pagination-bullet-active { background: #007aff }`.
+ */
+.page-constructor .cases-block .swiper-pagination-bullet,
+.cases-block[data-v-bd2e570a] .swiper-pagination-bullet {
+  background: hsla(0, 0%, 100%, 0.5) !important;
+  opacity: 1 !important;
+}
+
+.page-constructor .cases-block .swiper-pagination-bullet-active,
+.cases-block[data-v-bd2e570a] .swiper-pagination-bullet-active {
+  background: #fff !important;
+  opacity: 1 !important;
+}
+
+.page-constructor .cases-block .swiper-pagination-clickable .swiper-pagination-bullet:hover,
+.cases-block[data-v-bd2e570a] .swiper-pagination-clickable .swiper-pagination-bullet:hover {
+  background: hsla(0, 0%, 100%, 0.75) !important;
+}
+
+/*
+ * Вертикальный ритм секций (как на главной: .clients-new-section.home-between — padding-top: var(--home-between)).
+ * Токен в css__home-snapshot__overrides.parity-sync.css (:root --home-between 112 / 97 / 60).
+ * Между двумя секциями один шаг: отступ «сверху» у следующей; у предыдущей padding-bottom не дублируем тот же шаг.
+ *
+ * Единый шаг --home-between для текстовых блоков, кейсов и пакетов (Nuxt давал 172px / 160px / ~50px — «лесенка» на скрине).
+ */
+.page-constructor > .page-constructor__section > .modern.content-block[data-v-4ed7dc78],
+.page-constructor > .page-constructor__section > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor > .page-constructor__section > .dies.modern[data-v-07db1e8a],
+.page-constructor > .page-constructor__section > .dies.modern {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .team-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .more-case-wr[data-v-27a87df0] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+/*
+ * Блок «Кейсы комплексного маркетинга»: на всю ширину вьюпорта те же горизонтальные поля,
+ * что у шапки и FAQ (бандл даёт width: calc(100% - 156px) + padding:0 — на широких экранах
+ * расходился ритм с секциями на clamp у FAQ).
+ */
+.page-constructor .more-case-wr.more-case-wr__main .page__container[data-v-27a87df0] {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: var(--page-gutter-x, 78px) !important;
+  padding-right: var(--page-gutter-x, 78px) !important;
+  box-sizing: border-box !important;
+}
+
+/* Герой: левый край текста по линии лого / меню, не по центру слайда. */
+.page-constructor__section .c-title-block .jumbotron {
+  align-items: flex-start !important;
+  box-sizing: border-box;
+  padding-left: var(--page-gutter-x, 78px);
+  padding-right: var(--page-gutter-x, 78px);
+}
+
+.page-constructor__section .c-title-block .jumbotron-img-aurora__title,
+.page-constructor__section .c-title-block .jumbotron-img-aurora__title-small {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: min(1108px, 100%) !important;
+}
+
+.page-constructor__section .c-title-block .jumbotron-img-aurora__subtitle {
+  text-align: left !important;
+  margin: 40px 0 0 !important;
+  max-width: min(590px, 100%) !important;
+}
+
+/* «Команда»: поля контейнера = шапка; заголовок h2 — в одну линию с первой колонкой сетки (.row с margin -20px). */
+@media screen and (min-width: 720px) {
+  .page-constructor .team-block .page__container {
+    padding-left: var(--page-gutter-x, 78px) !important;
+    padding-right: var(--page-gutter-x, 78px) !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .page-constructor .team-block .page__container .team__head > h2 {
+    margin-left: -20px;
+  }
+}
+
+/*
+ * Слайдер кейсов: у Nuxt justify-content:center — центр тяжести ниже мокапа (текст + кнопка),
+ * поэтому сверху визуально больше «воздуха», чем снизу (красный vs жёлтый).
+ * Равные поля: flex-пружины ::before/::after делят оставшуюся высоту min(100vh) поровну; минимальный вертикальный inset + горизонтальные padding.
+ * У .cases-block — padding-top и небольшой padding-bottom, чуть больше «воздуха» у краёв секции.
+ */
+.cases-block[data-v-bd2e570a] {
+  padding-top: calc(var(--home-between, 112px) + 16px) !important;
+  padding-bottom: 16px !important;
+}
+
+.cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+  justify-content: flex-start !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  min-height: 100vh !important;
+  padding: 44px 78px !important;
+}
+
+.cases-block .cases-block__swiper-slide[data-v-bd2e570a]::before,
+.cases-block .cases-block__swiper-slide[data-v-bd2e570a]::after {
+  content: "";
+  flex: 1 1 0;
+  min-height: 0;
+  align-self: stretch;
+  pointer-events: none;
+}
+
+/* Пустой блок тегов не должен участвовать во flex (иначе ломается симметрия ::before/::after). */
+.cases-block .cases-block__swiper-slide-tags-wrapper_hidden[data-v-bd2e570a] {
+  display: none !important;
+}
+
+/* Бандл: margin-bottom 84px (60px ≤768) между мокапом и заголовком — слишком широкий зазор (красный → жёлтый). */
+.cases-block .cases-block__swiper-slide-contant[data-v-bd2e570a] {
+  margin-bottom: 40px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .cases-block .cases-block__swiper-slide-contant[data-v-bd2e570a] {
+    margin-bottom: 32px !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding: 38px 110px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding: 34px 36px !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding: 28px 36px !important;
+  }
+}
+
+/* Синергия: не дублировать padding-bottom .home-ledge (--home-ledge) с отступом слайдера; см. блок ниже про margin у h3. */
+.kontekst-synergy-root .services__text.home-ledge,
+.kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: 0 !important;
+}
+
+/*
+ * Заголовок → карточки: в бандле у .swiper-container padding-top: 54px; рядом с unified margin-bottom: 80px у h3
+ * получается «двойной» зазор. Здесь margin у заголовка обнуляем — вертикальный ритм даёт только слайдер (как у .services__title с margin:0 в бандле).
+ */
+.page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Синергия (partial как на главной): в prod-блоке не было цен — скрываем, если появятся в разметке */
+.kontekst-synergy-root .services__card-price {
+  display: none !important;
+}
+
+/*
+ * Бандл главной: при hover на .services__card-container у .services__card-description-animation
+ * opacity:0 (под цену). В блоке «Синергия» цен нет — описание должно оставаться и при наведении;
+ * подсветка — только .services__card::after (box-shadow) из того же бандла.
+ */
+.kontekst-synergy-root
+  .services__card
+  .services__card-container:hover
+  .services__card-description-animation[data-v-56f85d51],
+.kontekst-synergy-root
+  .services__card
+  .services__card-container:hover
+  .services__card-description-animation {
+  opacity: 1 !important;
+}
+
+/*
+ * Секционные заголовки /kontekstnaya_reklama: h3 + .kontekstnaya-page__section-heading — один ритм
+ * (46px / 126% / 400, отступ снизу 80px). «Команда» в .team__head — flex с абзацем: margin у h3 обнуляем.
+ * Перебивает .isNewContent .services__title и .home-clients-awards__title из бандла/parity.
+ */
+.page-constructor h3.kontekstnaya-page__section-heading {
+  margin: 0 0 80px;
+  padding: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 126%;
+  letter-spacing: 0;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor h3.kontekstnaya-page__section-heading {
+    font-size: 28px;
+    line-height: 126%;
+    margin-bottom: 45px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor h3.kontekstnaya-page__section-heading {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+}
+
+.team-block .team__head > h3.kontekstnaya-page__section-heading {
+  margin: 0;
+}
+
+@media screen and (max-width: 719px) {
+  .team-block .team .team__head > h3.kontekstnaya-page__section-heading {
+    margin-left: 90px;
+    margin-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 559px) {
+  .team-block .team .team__head > h3.kontekstnaya-page__section-heading {
+    margin-left: 36px;
+  }
+}
+
+/*
+ * «Команда»: как в Nuxt-бандле — `.team-block .page__container` без искусственного max-width на широких
+ * вьюпортах (только горизонтальные отступы из бандла), блок на всю ширину контентной полосы страницы.
+ */
+
+.page-constructor .isNewContent h3.services__title.kontekstnaya-page__section-heading,
+.page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  letter-spacing: 0 !important;
+  margin-bottom: 80px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .isNewContent h3.services__title.kontekstnaya-page__section-heading,
+  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    font-size: 28px !important;
+    line-height: 126% !important;
+    margin-bottom: 45px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .isNewContent h3.services__title.kontekstnaya-page__section-heading,
+  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    font-size: 26px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/*
+ * «Награды»: заголовок → ряд карточек без лишнего margin у .awards__header (см. home-awards.css).
+ * Сверху секции — полный шаг --home-between от предыдущего блока; снизу — --home-ledge (не второй --home-between,
+ * чтобы вместе с padding-top «Синергии» не получить двойной зазор).
+ */
+.page-constructor .home-awards-block .awards__header {
+  margin-bottom: 0 !important;
+}
+
+.page-constructor .home-awards-block .awards {
+  padding-top: var(--home-between, 112px) !important;
+  /* Один полный шаг до следующей секции даёт .services-unified (синергия); снизу — «полка» как --home-ledge. */
+  padding-bottom: var(--home-ledge, 54px) !important;
+  padding-left: var(--page-gutter-x, 78px) !important;
+  padding-right: var(--page-gutter-x, 78px) !important;
+}
+
+/*
+ * «Синергия» после «Награды»: тот же секционный шаг --home-between (на главной после кейсов +66px к услугам — здесь не дублируем).
+ */
+.page-constructor .kontekst-synergy-root .services-unified,
+.page-constructor .kontekst-synergy-root .services-unified[data-v-56f85d51] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+/* Inline из partial: иначе +90px к --home-between и визуально «другой» шаг до заголовка синергии. */
+.page-constructor .kontekst-synergy-root .block-padding.block-padding_desktop,
+.page-constructor .kontekst-synergy-root .block-padding.block-padding_tablet {
+  padding-top: 0 !important;
+}
+
+/*
+ * Заголовок «Пакеты» (section с .content-block непосредственно перед section с .dies): на десктопе по центру,
+ * как ряд карточек; в Nuxt .col-6 тянет блок в левую половину контейнера.
+ */
+@media screen and (min-width: 1024px) {
+  .page-constructor
+    > .page-constructor__section:has(+ .page-constructor__section > .dies.modern)
+    > .modern.content-block
+    .numbered-header.number-header__empty
+    .row[data-v-490c7534] {
+    justify-content: center !important;
+  }
+
+  .page-constructor
+    > .page-constructor__section:has(+ .page-constructor__section > .dies.modern)
+    > .modern.content-block
+    .numbered-header__title-column[data-v-490c7534] {
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor
+    > .page-constructor__section:has(+ .page-constructor__section > .dies.modern)
+    > .modern.content-block
+    .numbered-header__title[data-v-490c7534] {
+    text-align: center !important;
+  }
+}
+
+/*
+ * «Пакеты»: ширина как у блока контента .content-block
+ * (.page__container[data-v-4ed7dc78] в Nuxt-бандле: width calc(100% - 154px), padding 0),
+ * без full-bleed во вьюпорт и без второго горизонтального инсета .prices__cards (65px).
+ */
+@media screen and (min-width: 1024px) {
+  .page-constructor .page-constructor__section:has(> .dies.modern .prices)
+    .dies.modern[data-v-07db1e8a]
+    > .page__container[data-v-07db1e8a] {
+    box-sizing: border-box;
+    max-width: 1366px !important;
+    width: calc(100% - 154px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor .page-constructor__section:has(> .dies.modern .prices)
+    .dies
+    .prices
+    .prices__cards.row[data-v-1505791e] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/*
+ * Адаптив «Пакеты»: заголовок — поля как у шапки/услуг (--page-gutter-x); ряд карточек — padding на треке
+ * (initRow для пакетов без fullBleed, иначе отрицательные margin + overflow:hidden на хосте обрезают края).
+ */
+@media screen and (max-width: 1023px) {
+  .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
+    .modern.content-block
+    > .page__container[data-v-4ed7dc78],
+  .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
+    .modern.content-block
+    > .page__container {
+    box-sizing: border-box !important;
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-gutter-x) !important;
+    padding-right: var(--page-gutter-x) !important;
+  }
+
+  .page-constructor .page-constructor__section:has(> .dies.modern .prices)
+    .dies.modern[data-v-07db1e8a]
+    > .page__container[data-v-07db1e8a] {
+    box-sizing: border-box !important;
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor .page-constructor__section:has(> .dies.modern .prices)
+    .dies
+    .prices
+    .prices__cards.row[data-v-1505791e] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/*
+ * Карточки «Пакеты»: заголовок и цена на 30% меньше Nuxt-типографики; цена внизу карточки.
+ * Внутренние отступы карточки: база в 2 раза меньше прежних (верт./гориз. как ниже) + ещё 5px со всех сторон;
+ * на десктопе (≥1024px) те же величины ×1.2; зазор между текстом и ценой — margin-top: auto у .price-card__details.
+ */
+.page-constructor .dies .prices .price-card__wrapper[data-v-1444f1fb] {
+  display: flex !important;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.page-constructor .dies .prices .price-card__wrapper[data-v-1444f1fb] > .price-card.noImg[data-v-1444f1fb] {
+  flex: 1 1 auto;
+  /* Nuxt: .price-card { height:100%; overflow:hidden }. min-height:0 на flex-ребёнке + hidden обрезали хвост (цена + бюджет). */
+  min-height: min-content !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/*
+ * Равная высота карточек в ряду «Пакеты»: у .swiper-slide из бандла height:100% — ломает flex-stretch
+ * на .prices__packages-track (align-items: stretch в native-row-scroll). Слайд — flex-колонка, карточка на всю высоту.
+ */
+.page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .swiper-slide,
+.page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .prices__packages-slide.swiper-slide {
+  height: auto !important;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-constructor .dies .prices .prices__packages-track[data-native-row="1"] .price-card__wrapper[data-v-1444f1fb] {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+.page-constructor .dies .prices .prices__packages-track[data-native-row="1"] .price-card__wrapper[data-v-1444f1fb] > .price-card.noImg[data-v-1444f1fb] {
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important;
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__details[data-v-1444f1fb] {
+  margin-top: auto !important;
+}
+
+/*
+ * Сразу под заголовком тарифа — линия как .live-marketing-block__card-gradient на главной
+ * (css__home-snapshot__snapshot.bundle.css): три варианта градиента по колонкам 1–3.
+ */
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule {
+  display: block;
+  height: 1px;
+  width: 100%;
+  max-width: 100%;
+  /* Nuxt-эталон ~20px сверху; минус 15px по ТЗ «воздух» до линии */
+  margin: 5px auto 30px;
+  border: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule--1 {
+  background: linear-gradient(90deg, #00f0ff, #ff00b5 355%);
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule--2 {
+  background: linear-gradient(90deg, #00f0ff -127.33%, #ff00b5 225.33%);
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule--3 {
+  background: linear-gradient(90deg, #00f0ff -254.33%, #ff00b5 100.08%);
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule {
+    margin-bottom: 23px;
+  }
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] {
+  padding: calc((50px * 0.8 + 15px) / 2 + 5px) calc((50px * 0.8) / 2 + 5px) !important;
+}
+
+@media screen and (min-width: 1024px) {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] {
+    padding: calc(((50px * 0.8 + 15px) / 2 + 5px) * 1.2) calc(((50px * 0.8) / 2 + 5px) * 1.2) !important;
+  }
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] h3[data-v-1444f1fb] {
+  font-size: calc(40px * 0.7) !important;
+}
+
+@media screen and (max-width: 1023px) {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] h3[data-v-1444f1fb] {
+    font-size: calc(34px * 0.7) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] h3[data-v-1444f1fb] {
+    font-size: calc(24px * 0.7) !important;
+  }
+}
+
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__price[data-v-1444f1fb] {
+  font-size: calc(32px * 0.7) !important;
+  margin-top: 30px !important;
+}
+
+/* Бюджет под ценой — <p><i>…</i></p>; зазор от цены */
+.page-constructor .dies .prices .price-card__details[data-v-1444f1fb] > p[data-v-1444f1fb],
+.page-constructor .dies .prices .price-card__details > p[data-v-1444f1fb] {
+  margin-top: 10px !important;
+}
+
+/* «Подходит для…» и строка бюджета в разметке в <i> — без курсива */
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] i {
+  font-style: normal !important;
+}
+
+/*
+ * «Пакеты»: ≥1024px — три колонки без сжатия карточек (flex 1 1 0); ≤1023px — горизонтальный ряд
+ * (initRow без fullBleed + padding на .prices__packages-track, см. css).
+ */
+@media screen and (min-width: 1024px) {
+  .page-constructor .dies .prices .prices__cards--packages.prices__cards.row {
+    display: block;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slider {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    flex: 1 1 0 !important;
+    min-width: 0;
+    width: auto;
+    max-width: none !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide:last-child {
+    margin-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    padding-left: var(--page-gutter-x, 78px);
+    padding-right: var(--page-gutter-x, 78px);
+    box-sizing: border-box;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    touch-action: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    flex: 0 0 auto !important;
+    width: min(400px, calc(100vw - 2 * var(--page-gutter-x, 78px)));
+    max-width: none !important;
+  }
+}
+
+/*
+ * Этапы (content-block): полоса текста уже на ~15 % за счёт поля справа (слева — по линии контента, как у заголовка).
+ */
+@media screen and (min-width: 721px) {
+  body .modern.content-block .block-item {
+    padding-left: 0;
+    padding-right: 15%;
+    box-sizing: border-box;
+  }
+
+  body .modern .columns-with-progress__column > div:first-child {
+    padding-left: 0;
+    padding-right: 15%;
+    box-sizing: border-box;
+  }
+}
+
+/*
+ * «Пакеты» → инлайн-форма: дополнительный зазор +30px.
+ */
+.page-constructor .page-constructor__section.sa-service-lead-section {
+  margin-top: var(--home-between, 112px);
+}
+
+/* Ширина тёмной карточки формы = у контейнера пакетов (.dies > .page__container), без max-width:1280 и боковых 24px. */
+@media screen and (min-width: 1024px) {
+  .page-constructor .page-constructor__section.sa-service-lead-section .sa-service-lead-section__container {
+    max-width: 1366px !important;
+    width: calc(100% - 154px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor
+    .page-constructor__section.sa-service-lead-section
+    #sa-inline-lead-root.sa-service-lead-root
+    .order-popup__inner[data-v-2ee28934] {
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 1023px) and (min-width: 720px) {
+  .page-constructor .page-constructor__section.sa-service-lead-section .sa-service-lead-section__container {
+    max-width: 1366px !important;
+    width: calc(100% - 110px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor
+    .page-constructor__section.sa-service-lead-section
+    #sa-inline-lead-root.sa-service-lead-root
+    .order-popup__inner[data-v-2ee28934] {
+    max-width: none !important;
+    width: 100% !important;
+  }
 }
