@@ -5,11 +5,11 @@
  * у блога margin-bottom шапки — снаружи, поэтому сравниваем не низ border-box контейнеров,
  * а низ контентных строк.
  *
- * SLIDER_TEST_URL=http://127.0.0.1:8765/ node scripts/verify-services-blog-card-gap.cjs
+ * SLIDER_TEST_URL=http://127.0.0.1:8895/ node scripts/verify-services-blog-card-gap.cjs
  */
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8895/";
 const TOL = 2.5;
 
 function assert(cond, message) {

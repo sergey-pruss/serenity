@@ -4,11 +4,11 @@
  * Исключение: при viewport ≤768 у .clients-new-section.home-between padding-top = --home-between + 15px
  * (css__home-snapshot__overrides.mobile.css).
  *
- * SLIDER_TEST_URL=http://127.0.0.1:8765/ node scripts/home-rhythm-measure.cjs
+ * SLIDER_TEST_URL=http://127.0.0.1:8895/ node scripts/home-rhythm-measure.cjs
  */
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8895/";
 
 function assert(cond, message) {
   if (!cond) throw new Error(message);

@@ -114,6 +114,10 @@ function resolveStaticFile(urlPath) {
 
 const custom404Path = path.join(root, "404.html");
 
+/** Порт по умолчанию сменён с 8765: меньше конфликтов со «старой» локалкой в другом терминале. Переопределение: `PORT=… npm run dev`. */
+const DEFAULT_DEV_PORT = 8895;
+const DEV_PORT_SCAN_MAX = DEFAULT_DEV_PORT + 50;
+
 const server = http.createServer((req, res) => {
   const urlPath = (req.url || "/").split("?")[0];
   let file = resolveStaticFile(urlPath);
@@ -138,14 +142,14 @@ const server = http.createServer((req, res) => {
   serveStaticFile(req, res, file, { noCache, mimes, statusCode });
 });
 
-const startPort = process.env.PORT ? Number(process.env.PORT) : 8765;
+const startPort = process.env.PORT ? Number(process.env.PORT) : DEFAULT_DEV_PORT;
 
 const tryListen = (port) => {
   const onErr = (err) => {
     server.removeListener("error", onErr);
     if (err?.code === "EADDRINUSE" && !process.env.PORT) {
       const next = port + 1;
-      if (next <= 8815) {
+      if (next <= DEV_PORT_SCAN_MAX) {
         return tryListen(next);
       }
     }
@@ -156,21 +160,27 @@ const tryListen = (port) => {
   /* Не только 127.0.0.1: иначе http://localhost:… часто идёт на [::1] и браузер не подключается. */
   server.listen({ port, host: "::", ipv6Only: false }, () => {
     server.removeListener("error", onErr);
-    if (!process.env.PORT && port !== 8765) {
-      console.log(`(порт 8765 занят, поднят ${port} — открой этот URL)`);
+    if (!process.env.PORT && port !== DEFAULT_DEV_PORT) {
+      console.log(`(порт ${DEFAULT_DEV_PORT} занят, поднят ${port} — открой этот URL)`);
     }
     console.log(`Корень статики: ${root}`);
     if (!fs.existsSync(custom404Path)) {
       console.log("(в корне нет 404.html — несуществующие URL отдадут текст «Not found»)");
     }
+    console.log("");
+    console.log("══ Serenity static dev ══");
+    console.log(`  Главная:     http://127.0.0.1:${port}/`);
+    console.log(`  Контекстная: http://127.0.0.1:${port}/kontekstnaya_reklama/`);
+    console.log(`  (или localhost:${port} — тот же процесс)`);
+    console.log("");
     console.log(
-      `http://127.0.0.1:${port}/ или http://localhost:${port}/ — главная; …/case/all/ — кейсы; …/blog/ — блог`,
+      "В Safari в адресной строке без «:порт» открывается только порт 80 — это другой сервер, не npm run dev.",
     );
     console.log(
       `Стили/скрипты: ссылки вида /_sa/css/... отдаются из css/... (см. strip-serenity-snapshot-prefix.cjs). Если страница без CSS — перезапусти этот процесс.`,
     );
     console.log(
-      `(no-store; если старый сервер оставили на 8765 — закрой тот терминал или: lsof -ti:8765 | xargs kill)`,
+      `(no-store; порт занят — закрой старый dev или: lsof -ti:${DEFAULT_DEV_PORT} | xargs kill)`,
     );
     console.log(
       `Видео в статьях: по умолчанию грузятся с https://serenity.agency (быстро только после деплоя там; локальные файлы — img/blog/…). Офлайн/только диск: SERENITY_BLOG_VIDEO_ORIGIN= npm run dev, затем npm run build:blog-articles`,

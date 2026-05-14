@@ -3,7 +3,7 @@
  * - desktop: локальный order-popup,
  * - mobile: тот же #desktop-order-popup, без нижнего .btns листа.
  * Запуск: npm run test:leave-cta
- * URL: env LEAVE_CTA_TEST_BASE_URL или http://127.0.0.1:8765/ (см. npm run dev)
+ * URL: env LEAVE_CTA_TEST_BASE_URL или http://127.0.0.1:8895/ (см. npm run dev)
  */
 const { chromium } = require("playwright");
 
@@ -51,7 +51,7 @@ const clickFloatingCtaProgrammatic = async (page) => {
   await page.locator("#body.body-application .footer__link.application").evaluate((el) => el.click());
 };
 
-const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8765/";
+const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
 
 (async () => {
   const browser = await chromium.launch();
