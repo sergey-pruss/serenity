@@ -57,8 +57,8 @@ body:not(.order-popup-open) .overlay-new {
 
 /*
  * cases-block (статика):
- * 1) Высота слайда: min(контент, 100svh − padding-top секции) — при низком окне не вылезает за край;
- *    при длинном контенте — прокрутка внутри слайда (overflow-y: auto).
+ * 1) Высота слайда = 100svh − padding-top секции (кап по окну); при длинном контенте — прокрутка
+ *    внутри слайда (overflow-y: auto). При смене высоты окна кап пересчитывается (svh + resize → swiper.update).
  * 2) Прижимаем колонку к верху, сверху у превью ~30px (по ТЗ).
  * Секция: уменьшаем только верхний отступ до превью (оригинал 160/120px даёт лишнюю полосу).
  */
@@ -76,8 +76,8 @@ body:not(.order-popup-open) .overlay-new {
 
 .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
   --cases-block-slide-cap: calc(100svh - var(--cases-block-section-pt));
-  min-height: 0 !important;
-  height: min(max-content, var(--cases-block-slide-cap)) !important;
+  /* Всегда ровно «окно минус верх секции»: при сжатии высоты окна слайд ужимается; длинный контент — прокрутка внутри. */
+  min-height: var(--cases-block-slide-cap) !important;
   max-height: var(--cases-block-slide-cap) !important;
   justify-content: flex-start !important;
   align-items: center !important;
