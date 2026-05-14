@@ -1,0 +1,76 @@
+/**
+ * Статический HTML kontekstnaya_reklama без гидрации Nuxt.
+ *
+ * 1) .page-constructor__bg — слой контента выше фиксированного фона.
+ * 2) Полноэкранный .overlay-new не перекрывает страницу без модалки.
+ *
+ * Важно: колонка MAIN в index должна идти уже после </header>, не внутри
+ * .new-static-menu — иначе любое display:none на меню скрывает всю страницу.
+ */
+.page-constructor {
+  isolation: isolate;
+  position: relative;
+}
+
+.page-constructor__bg {
+  z-index: 0 !important;
+}
+
+.page-constructor__section {
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor ~ .footer-modern {
+  position: relative;
+  z-index: 1;
+}
+
+body:not(.order-popup-open) .overlay-new[data-v-2ee28934],
+body:not(.order-popup-open) .overlay-new {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/*
+ * Полноэкранная оболочка бургер-меню в Nuxt: position:absolute + min-height:100vh.
+ * В закрытом состоянии parity тушит только opacity/visibility, но блок по геометрии
+ * остаётся «листом» на весь экран и перекрывает main (page-constructor) под шапкой.
+ * При .header.active правила бандла снова раскрывают меню.
+ */
+.header:not(.active) .new-static-menu.new-static-menu_main-str,
+.header:not(.active) .new-static-menu.new-static-menu_main-str[data-v-e5e2adce],
+.header:not(.active) .new-static-menu.new-static-menu_main-str[data-v-7050ddb2] {
+  min-height: 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Cases-block (статика без Nuxt): в prod CSS у превью и текста встречные translateX(-60%/+60%) и
+   transition при снятии .swiper-slide-active — поверх сдвига Swiper картинка и текст едут в разные стороны.
+   Отключаем только эти внутренние смещения; двигается весь слайд целиком, как на оригинале. */
+.cases-block .cases-block__swiper-slide .cases-block__swiper-slide-contant[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide .cases-block__swiper-slide-text-contant[data-v-bd2e570a] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Фон слайда: без длинного transition scale/blur — иначе фон «отстаёт» от карточки при быстром свайпе */
+.cases-block .cases-block__swiper-slide .background[data-v-bd2e570a] {
+  transition: none !important;
+}
+
+.cases-block__slider .cases-block__slider-swiper-container .swiper-slide {
+  width: 100% !important;
+  box-sizing: border-box;
+}

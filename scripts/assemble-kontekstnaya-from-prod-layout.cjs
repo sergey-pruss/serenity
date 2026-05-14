@@ -39,6 +39,36 @@ function resolveLayoutPath() {
   return { path: null, label: null };
 }
 
+/** Заменяет prod-Nuxt блок «Награды» на статическую оболочку главной (partial). */
+function injectKontekstnayaAwardsFromPartial(mainHtml) {
+  const partialPath = path.join(root, "html", "partials", "services", "awards-kontekstnaya-reklama.html");
+  if (!fs.existsSync(partialPath)) {
+    console.warn("assemble: нет partial наград —", partialPath);
+    return mainHtml;
+  }
+  const partial = fs.readFileSync(partialPath, "utf8").trim();
+  const moreRe = /<section class="page-constructor__section"><div[^>]*class="more-case-wr"/;
+  const moreMatch = mainHtml.match(moreRe);
+  if (!moreMatch) {
+    console.warn("assemble: не найден more-case-wr — подстановка наград пропущена");
+    return mainHtml;
+  }
+  const moreIdx = moreMatch.index;
+  const titleNeedle = 'class="awards__title">Награды</h3>';
+  const tIdx = mainHtml.lastIndexOf(titleNeedle, moreIdx);
+  if (tIdx < 0) {
+    console.warn("assemble: заголовок «Награды» (legacy Nuxt) не найден — подстановка наград пропущена");
+    return mainHtml;
+  }
+  const beforeTitle = mainHtml.slice(0, tIdx);
+  const secStart = beforeTitle.lastIndexOf('<section class="page-constructor__section"><section');
+  if (secStart < 0) {
+    console.warn("assemble: не найдено начало секции наград — подстановка пропущена");
+    return mainHtml;
+  }
+  return mainHtml.slice(0, secStart) + partial + mainHtml.slice(moreIdx);
+}
+
 function rewriteProdSlice(html) {
   let s = html;
   // Дамп #__layout иногда содержит устаревший заголовок; на live prod — «Больше кейсов» (curl prod HTML).
@@ -54,6 +84,8 @@ function rewriteProdSlice(html) {
   s = s.replace(/https:\/\/serenity-dev\.ru\//g, "/");
   s = s.replace(/https?:\/\/127\.0\.0\.1(?::\d+)?\//g, "/");
   s = s.replace(/https?:\/\/localhost(?::\d+)?\//g, "/");
+  // Пустой хвост из Nuxt-гидрации: второй page-constructor только с <!----> ломает стек/DOM.
+  s = s.replace(/<div class="page-constructor">\s*<!---->\s*<\/div>\s*<!---->/g, "");
   return s;
 }
 
@@ -85,6 +117,7 @@ function run() {
     process.exit(1);
   }
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
+  main = injectKontekstnayaAwardsFromPartial(main);
 
   const index = fs.readFileSync(indexPath, "utf8");
   const MAIN_START = "<!-- KONTEKST-MAIN-START -->";
@@ -95,11 +128,16 @@ function run() {
     "    <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260512categoryScrollEdge\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260506awardsMountedHeight\" />",
     buildCssLinks(v),
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260514kontekstMenuClip\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260428a\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid\" />",
     "    <!-- KONTEKST-CSS-BUNDLE-END -->",
+    "    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__slider-arrows.css?v=20260513kontekstSwipers\" />",
   ].join("\n");
 
   const cssStart = index.indexOf("<!-- KONTEKST-CSS-BUNDLE-START");
