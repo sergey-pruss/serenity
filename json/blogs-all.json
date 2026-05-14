@@ -1,6 +1,8 @@
 {
-  "builtAt": "2026-05-13T06:07:06.556Z",
+  "builtAt": "2026-05-13T14:44:14.075Z",
   "source": "https://serenity.agency/api/blog",
+  "sourceManual": "json/blog-posts-manual.json",
+  "manualPostsCount": 1,
   "filters": [
     {
       "code": "",
@@ -24,6 +26,26 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kontekstnaya-i-georeklama-premium-segment/",
+      "description": "Как контекстная реклама и геореклама влияют на продажи в премиум-сегменте",
+      "subtitle": "Рассказываем на примере проекта в нише дизайнерской мебели",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.jpg"
+      }
+    },
     {
       "href": "/blog/article/geo-seo-kak-ne-popast-v-lovushku-trendov-i-ne-slit-byudzhet/",
       "description": "GEO: как не попасть в ловушку трендов и не слить бюджет",
