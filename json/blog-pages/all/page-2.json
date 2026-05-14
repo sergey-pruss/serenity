@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 3,
   "perPage": 24,
-  "totalItems": 63,
+  "totalItems": 64,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,26 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kompleksnyj-seo-audit-sajta-zachem-kogda-i-iz-chego-sostoit/",
+      "description": "Комплексный SEO-аудит сайта: зачем, когда и из чего состоит",
+      "subtitle": "Успешное SEO-продвижение: почему аудит сайта — необходимость, а не опция.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/Mg3PVvezisXKgUba4CiQdztzYD58HBKyCWMVbcfm.jpg"
+      }
+    },
     {
       "href": "/blog/article/seo-optimizatsiya-internet-magazina/",
       "description": "SEO-оптимизация интернет-магазина",
@@ -508,26 +528,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.jpg"
-      }
-    },
-    {
-      "href": "https://vc.ru/marketing/495512-perevesti-nelzya-adaptirovat-ili-pochemu-kontent-prosto-perevedennyi-na-drugoi-yazyk-ne-rabotaet",
-      "description": "«Перевести нельзя адаптировать»",
-      "subtitle": "Или почему контент, просто переведенный на другой язык, не работает.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "statyi"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/1jX9u2xjUxeWdype49GVhnhlmyNbDWUWigbSn8X7.jpg"
       }
     }
   ]
