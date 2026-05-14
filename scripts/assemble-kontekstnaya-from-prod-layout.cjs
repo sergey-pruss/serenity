@@ -28,6 +28,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { processTypographyHtml } = require("./typography-nbsp.cjs");
 
 const root = path.resolve(__dirname, "..");
 const fullHtmlPath = path.join(root, "tmp", "kontekst-prod-full.html");
@@ -516,6 +517,8 @@ function run() {
   const afterMain = indexCss.slice(iEnd);
   const out = `${beforeMain}\n${main}\n${afterMain}`;
   fs.writeFileSync(indexPath, out, "utf8");
+  const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });
+  fs.writeFileSync(indexPath, typo.html.replace(/\n+$/, "\n"), "utf8");
   console.log("assemble-kontekstnaya-from-prod-layout: ok, bytes main", main.length);
 }
 
