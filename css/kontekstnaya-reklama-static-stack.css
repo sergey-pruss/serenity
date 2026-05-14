@@ -88,6 +88,13 @@ body:not(.order-popup-open) .overlay-new {
   overflow: hidden !important;
 }
 
+/* Свайп/драг: баннеры внутри ссылок не уводят жест в native image-drag (Safari). */
+.cases-block .cases-block__swiper-slide img[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 .cases-block .cases-block__swiper-slide:not(.swiper-slide-active) .background[data-v-bd2e570a] {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -476,6 +483,8 @@ body:not(.order-popup-open) .overlay-new {
 /*
  * Адаптив «Пакеты»: заголовок — поля как у шапки/услуг (--page-gutter-x); ряд карточек — padding на треке
  * (initRow для пакетов без fullBleed, иначе отрицательные margin + overflow:hidden на хосте обрезают края).
+ * Заголовок h2 и первая карточка — одна вертикаль: у Nuxt .row margin -20px и .col padding 25px сдвигали текст
+ * относительно трека; у секции с карточками убираем общий padding-top --home-between между заголовком и рядом.
  */
 @media screen and (max-width: 1023px) {
   .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
@@ -491,6 +500,31 @@ body:not(.order-popup-open) .overlay-new {
     margin-right: 0 !important;
     padding-left: var(--page-gutter-x) !important;
     padding-right: var(--page-gutter-x) !important;
+  }
+
+  .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
+    .numbered-header.number-header__empty
+    .row[data-v-490c7534] {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
+    .numbered-header.number-header__empty
+    .numbered-header__title-column[data-v-490c7534] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
+    .numbered-header[data-v-490c7534] {
+    margin-bottom: 10px !important;
+  }
+
+  .page-constructor > .page-constructor__section:has(> .dies.modern .prices) > .dies.modern[data-v-07db1e8a],
+  .page-constructor > .page-constructor__section:has(> .dies.modern .prices) > .dies.modern {
+    padding-top: 20px !important;
   }
 
   .page-constructor .page-constructor__section:has(> .dies.modern .prices)
@@ -511,6 +545,14 @@ body:not(.order-popup-open) .overlay-new {
     .prices__cards.row[data-v-1505791e] {
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
+    .numbered-header.number-header__empty
+    .numbered-header__title-column[data-v-490c7534] {
+    margin-bottom: 16px !important;
   }
 }
 

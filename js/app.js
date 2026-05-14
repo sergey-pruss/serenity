@@ -1222,9 +1222,18 @@
         simulateTouch: true,
         grabCursor: true,
         threshold: 6,
-        touchAngle: 45,
+        /* Шире угол — проще сработать диагональному свайпу (страница + слайдер). */
+        touchAngle: 65,
         touchReleaseOnEdges: true,
         passiveListeners: false,
+        /* Safari/macOS: горизонтальный трекпад — wheel, не touch; swiper-bundle включает Mousewheel при enabled. */
+        mousewheel: {
+          enabled: true,
+          forceToAxis: true,
+          sensitivity: 0.85,
+          thresholdDelta: 12,
+          releaseOnEdges: true,
+        },
         pagination: {
           el: pagination,
           clickable: true,
