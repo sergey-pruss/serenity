@@ -1106,17 +1106,97 @@
     videos.forEach((video) => io.observe(video));
   };
 
+  const initCasesBlockSwipers = () => {
+    if (typeof window.Swiper === "undefined") return;
+    document.querySelectorAll(".cases-block__slider").forEach((root) => {
+      const container = root.querySelector(".cases-block__slider-swiper-container.swiper-container");
+      if (!container || container.dataset.saCasesSwiperInit === "1") return;
+      const pagination = root.querySelector(".swiper-pagination");
+      const nav = root.querySelector(".swiper__navigation");
+      const nextEl = nav && nav.querySelector(".swiper-button-next");
+      const prevEl = nav && nav.querySelector(".swiper-button-prev");
+      if (!pagination || !nextEl || !prevEl) return;
+      container.dataset.saCasesSwiperInit = "1";
+      /* Дамп Nuxt: инлайновый width:1280px на слайдах — ограничиваем ширину контейнера Swiper. */
+      container.querySelectorAll(".swiper-slide").forEach((slide) => {
+        slide.style.width = "";
+        slide.style.removeProperty("width");
+      });
+      const wrap = container.querySelector(".swiper-wrapper");
+      if (wrap) {
+        wrap.style.transform = "";
+        wrap.style.removeProperty("transform");
+        /* Дамп Nuxt: инлайновый height на wrapper (напр. 720px) фиксирует высоту после смены CSS слайда. */
+        wrap.style.height = "";
+        wrap.style.removeProperty("height");
+      }
+      const swiper = new window.Swiper(container, {
+        autoHeight: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        speed: 550,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+        pagination: {
+          el: pagination,
+          clickable: true,
+        },
+        navigation: {
+          nextEl,
+          prevEl,
+        },
+        keyboard: { enabled: true, onlyInViewport: true },
+        a11y: {
+          prevSlideMessage: "Предыдущий слайд",
+          nextSlideMessage: "Следующий слайд",
+        },
+      });
+      requestAnimationFrame(() => {
+        swiper.update();
+      });
+    });
+  };
+
+  const initSynergyContextSwiper = () => {
+    if (typeof window.Swiper === "undefined") return;
+    document.querySelectorAll(".synergy__context-slider.swiper-container").forEach((container) => {
+      if (container.dataset.saSynergySwiperInit === "1") return;
+      const nextEl = container.querySelector(".swiper-button-next");
+      const prevEl = container.querySelector(".swiper-button-prev");
+      if (!nextEl || !prevEl) return;
+      container.dataset.saSynergySwiperInit = "1";
+      new window.Swiper(container, {
+        slidesPerView: "auto",
+        spaceBetween: 30,
+        freeMode: true,
+        grabCursor: true,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+        navigation: { nextEl, prevEl },
+        keyboard: { enabled: true, onlyInViewport: true },
+      });
+    });
+  };
+
   const initMorCasesSlider = () => {
-    if (window.innerWidth > 768) return;
-    const container = document.querySelector(".mor-cases-slider");
-    if (!container || container.dataset.morCasesInit === "1") return;
-    container.dataset.morCasesInit = "1";
-    new Swiper(container, {
-      direction: "horizontal",
-      slidesPerView: "auto",
-      freeMode: true,
-      spaceBetween: 20,
-      grabCursor: true,
+    if (typeof window.Swiper === "undefined") return;
+    document.querySelectorAll(".mor-cases-slider").forEach((container) => {
+      if (container.dataset.morCasesInit === "1") return;
+      const paginationEl = container.querySelector(".swiper-pagination");
+      const opts = {
+        direction: "horizontal",
+        slidesPerView: "auto",
+        freeMode: true,
+        spaceBetween: 20,
+        grabCursor: true,
+      };
+      if (paginationEl) {
+        opts.pagination = { el: paginationEl, clickable: true };
+      }
+      container.dataset.morCasesInit = "1";
+      new window.Swiper(container, opts);
     });
   };
 
@@ -1155,7 +1235,7 @@
     /* Стили после бандла: иначе .swiper-slide img { max-width:100% } ломает венки до применения home-awards.css */
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/_sa/css/sections/home-awards.css?v=20260506awardsDescriptionWeight100";
+    link.href = "/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell";
     const runAwardsStripAfterPaint = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -1187,6 +1267,8 @@
   initDeferredCaseVideos();
   initClientsLogoFallbacks();
   initClientsStrip();
+  initCasesBlockSwipers();
+  initSynergyContextSwiper();
   initMorCasesSlider();
 
   /* Страницы не-главная (услуги и т.п.): блок наград уже в DOM, но mountHomeAwardsTemplate

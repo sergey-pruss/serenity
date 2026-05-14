@@ -56,22 +56,53 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
- * cases-block: у Nuxt min-height:100vh на .cases-block__swiper-slide + padding-top у .cases-block
- * (160px / 120px ≤1366) дают сумму > 100svh и лишний скролл страницы. Меняем только min-height слайда,
- * остальные flex / padding / выравнивание из бандла не трогаем. Пагинация на десктопе display:none.
+ * cases-block (статика):
+ * 1) min-height слайда = один экран минус padding-top секции (см. --cases-block-section-pt).
+ * 2) У Nuxt justify-content:center + большие padding — «полоски» размытого фона сверху/снизу превью
+ *    и съедание заголовка; прижимаем колонку к верху, сверху у превью ~30px (по ТЗ).
+ * 3) overflow: visible — не обрезать заголовок/текст под превью.
+ * Секция: уменьшаем только верхний отступ до превью (оригинал 160/120px даёт лишнюю полосу).
  */
 .cases-block[data-v-bd2e570a] {
-  --cases-block-section-pt: 160px;
+  --cases-block-section-pt: 48px;
+  padding-top: 48px !important;
 }
 
 @media screen and (max-width: 1366px) {
   .cases-block[data-v-bd2e570a] {
-    --cases-block-section-pt: 120px;
+    --cases-block-section-pt: 40px;
+    padding-top: 40px !important;
   }
 }
 
 .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
   min-height: calc(100svh - var(--cases-block-section-pt)) !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  padding-top: 30px !important;
+  padding-bottom: clamp(72px, 11vh, 200px) !important;
+  padding-left: 78px !important;
+  padding-right: 78px !important;
+  overflow: visible !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding-top: 30px !important;
+    padding-bottom: clamp(96px, 12vh, 200px) !important;
+    padding-left: 110px !important;
+    padding-right: 110px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding-top: 24px !important;
+    padding-bottom: clamp(88px, 14vh, 190px) !important;
+    padding-left: 36px !important;
+    padding-right: 36px !important;
+  }
 }
 
 /* Cases-block (статика без Nuxt): в prod CSS у превью и текста встречные translateX(-60%/+60%) и
