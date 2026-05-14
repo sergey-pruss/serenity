@@ -6,8 +6,8 @@
 
   function initGradient() {
     var canvas = document.getElementById("gradient-canvas");
-    if (!canvas || canvas.classList.contains("isLoaded")) return;
-    canvas.classList.add("isLoaded");
+    if (!canvas || canvas.getAttribute("data-sa-gradient-init") === "1") return;
+    canvas.setAttribute("data-sa-gradient-init", "1");
     if (typeof Gradient !== "undefined") {
       try { new Gradient({ canvas: "#gradient-canvas" }); } catch (e) {}
     }

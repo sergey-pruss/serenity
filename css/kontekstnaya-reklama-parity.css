@@ -1,0 +1,15 @@
+/**
+ * Локальная статика: prod Nuxt скрывает дубль «карточек» через scoped-CSS.
+ * Без этого видны и горизонтальные колонки этапов, и тёмная сетка block-item.
+ */
+@media screen and (min-width: 1025px) {
+  body .modern.content-block .content-block__grid.content-block__grid--desc {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  body .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+}
