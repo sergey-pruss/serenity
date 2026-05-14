@@ -1,0 +1,636 @@
+/**
+ * Инлайн-форма (#sa-inline-lead-root): та же разметка, что у #desktop-order-popup;
+ * классы darktheme + newModal вешает js/leave-request-cta.js (как у модалки).
+ * Типографику заголовка h2 не дублировать (500, 54/50/28px из snapshot / Nuxt); отступ под h2 до
+ * лида — как у модалки: в snapshot это .order-popup h2 { margin-bottom: 30px }, у инлайна предка
+ * .order-popup нет — задаём тот же отступ в этом файле.
+ */
+
+.sa-service-lead-section {
+  position: relative;
+  z-index: 2;
+}
+
+.sa-service-lead-section__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px 72px;
+  box-sizing: border-box;
+}
+
+#sa-inline-lead-root.sa-service-lead-root {
+  /* Карточка в потоке страницы: классы newModal/darktheme совпадают с модалкой, но без position:fixed у .modal —
+     явно фиксируем потоковую модель, чтобы в Chrome не «подтягивались» слои формы к viewport. */
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  contain: layout;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgb(29, 29, 31);
+  border-radius: 30px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  min-height: clamp(440px, 68vh, 640px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: clamp(40px, 5vw, 88px);
+  padding-bottom: clamp(40px, 5vw, 88px);
+  /* Слева больше «воздуха», чем справа у края карточки: справа у колонки формы дополнительно .form-wrap padding-right */
+  padding-right: clamp(28px, 4vw, 72px);
+  padding-left: clamp(48px, 6.5vw, 112px);
+  /* Как html в snapshot.bundle: модалка наследует MuseoSansCyrl, не системный шрифт страницы Nuxt */
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif !important;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+#sa-inline-lead-root.sa-service-lead-root.is-thank-you {
+  min-height: clamp(360px, 52vh, 520px);
+}
+
+@media (min-width: 769px) {
+  #sa-inline-lead-root .order-popup__meta[data-v-2ee28934] {
+    margin-right: 30px !important;
+  }
+}
+
+#sa-inline-lead-root .order-popup__inner[data-v-2ee28934] {
+  width: 100% !important;
+  max-width: 1080px !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  /* Как у модалки: обе колонки по высоте = высоте формы → space-between в .order-popup__content прижимает мессенджеры вниз */
+  align-items: stretch !important;
+  gap: clamp(28px, 4vw, 56px) !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#sa-inline-lead-root .order-popup__content[data-v-2ee28934],
+#sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+  width: 50% !important;
+  max-width: 50% !important;
+  flex: 0 0 50% !important;
+  box-sizing: border-box !important;
+}
+
+/* Паритет snapshot.bundle: левая колонка — flex + space-between (после flex-basis 50%) */
+@media (min-width: 769px) {
+  #sa-inline-lead-root .order-popup__content[data-v-2ee28934] {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+#sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+  margin-top: -25px !important;
+}
+
+/* У модалки поля не упираются в правый край колонки: внутренний инсет формы (паритет «воздуха» справа) */
+@media (min-width: 769px) {
+  #sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+    padding-right: clamp(48px, 8vw, 120px) !important;
+    box-sizing: border-box !important;
+  }
+}
+
+#sa-inline-lead-root .contact-form__form-title {
+  display: none !important;
+}
+
+/* Заголовок h2: размер/вес — из snapshot / Nuxt; у инлайна нет предка .order-popup, поэтому
+   margin-bottom из .order-popup h2[data-v-2ee28934] не срабатывает — задаём тот же 30px вручную. */
+#sa-inline-lead-root .order-popup__meta h2[data-v-2ee28934],
+#sa-inline-lead-root .order-popup__meta h2 {
+  margin-bottom: 30px !important;
+}
+
+#sa-inline-lead-root .order-popup__meta .lead[data-v-2ee28934],
+#sa-inline-lead-root .order-popup__meta .lead {
+  color: #969696 !important;
+  font-size: 18px !important;
+  font-weight: 300 !important;
+  line-height: 160% !important;
+  margin: 0 !important;
+  max-width: 350px !important;
+}
+
+#sa-inline-lead-root .contact-form__messenger[data-v-2ee28934] {
+  margin-top: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Подписи полей — #777; заголовок «Общаться в мессенджере» — #fff (snapshot .contact-form__messenger-title). */
+#sa-inline-lead-root .form__label[data-v-8ad2fcbc],
+#sa-inline-lead-root .form__label {
+  color: #777 !important;
+  font-family: inherit !important;
+  font-weight: 300 !important;
+}
+
+#sa-inline-lead-root .form__control[data-v-8ad2fcbc],
+#sa-inline-lead-root .form__control {
+  font-family: inherit !important;
+  font-weight: 300 !important;
+}
+
+#sa-inline-lead-root .privacy-check__text[data-v-8ad2fcbc],
+#sa-inline-lead-root .privacy-check__text {
+  font-family: inherit !important;
+  font-weight: 300 !important;
+}
+
+/* Линия поля: по умолчанию #777; при .error — красная (#cb3232), как .form__group.error:after в snapshot.
+   Нельзя красить все :after в #777 !important — иначе перебивается состояние ошибки и валидация «не видна». */
+#sa-inline-lead-root .form__group[data-v-8ad2fcbc]:not(.error):after,
+#sa-inline-lead-root .form__group:not(.error):after {
+  background: #777 !important;
+}
+
+#sa-inline-lead-root .form__group.error[data-v-8ad2fcbc]:after,
+#sa-inline-lead-root .form__group.error:after {
+  background: #cb3232 !important;
+}
+
+@media (min-width: 1025px) {
+  #sa-inline-lead-root .contact-form__messenger-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 34px !important;
+  }
+}
+
+#sa-inline-lead-root .contact-form__messenger-links a {
+  width: 46px !important;
+  height: 46px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  opacity: 0.5 !important;
+  background: none !important;
+  border-radius: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  transition: opacity 0.3s ease !important;
+}
+
+#sa-inline-lead-root .contact-form__messenger-links a:hover {
+  opacity: 1 !important;
+}
+
+#sa-inline-lead-root .contact-form__messenger-links a img,
+#sa-inline-lead-root .contact-form__messenger-links a svg {
+  width: 46px !important;
+  height: 46px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+#sa-inline-lead-root .privacy-check__mask {
+  border-radius: 4px !important;
+}
+
+#sa-inline-lead-root .privacy-check__text a {
+  text-decoration: underline !important;
+}
+
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665] {
+  width: 250px !important;
+  flex: 0 0 250px !important;
+  min-width: 200px !important;
+  max-width: 250px !important;
+  height: 46px !important;
+  padding: 0 24px !important;
+  border-radius: 30px !important;
+  overflow: hidden !important;
+  opacity: 0.5 !important;
+}
+
+@media (max-width: 768px) {
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665].is-disabled {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.26) !important;
+    color: rgba(255, 255, 255, 0.62) !important;
+    opacity: 0.62 !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665].is-disabled .btn__text,
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665].is-disabled .btn__arrow path {
+    color: rgba(255, 255, 255, 0.62) !important;
+    stroke: rgba(255, 255, 255, 0.62) !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665].is-disabled .btn__overlay {
+    display: none !important;
+  }
+}
+
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover .btn__text,
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
+  color: #000 !important;
+  stroke: #000 !important;
+}
+
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665]:active {
+  color: rgb(99, 99, 99) !important;
+}
+
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665]:active .btn__text,
+#sa-inline-lead-root .form__submit.btn[data-v-111f0665]:active .btn__arrow path {
+  color: rgb(99, 99, 99) !important;
+  stroke: rgb(99, 99, 99) !important;
+}
+
+#sa-inline-lead-root .form__submit .btn__overlay {
+  display: block !important;
+  background-color: #fff !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+#sa-inline-lead-root .form__submit .btn__text,
+#sa-inline-lead-root .form__submit .btn__arrow {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+#sa-inline-lead-root .form__submit:hover .btn__overlay {
+  width: 250% !important;
+  height: 560px !important;
+}
+
+#sa-inline-lead-root .form__grid[data-v-8ad2fcbc] {
+  display: flex !important;
+}
+
+#sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:last-child {
+  width: 0 !important;
+  margin-left: 0 !important;
+  overflow: hidden !important;
+}
+
+#sa-inline-lead-root .privacy-check[data-v-8ad2fcbc] {
+  line-height: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  margin-top: 40px !important;
+}
+
+#sa-inline-lead-root.is-thank-you .order-popup__inner[data-v-2ee28934] {
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  min-height: clamp(320px, 50vh, 480px) !important;
+  display: block !important;
+}
+
+#sa-inline-lead-root.is-thank-you #sa-inline-lead-form-wrap.form-wrap[data-v-8ad2fcbc],
+#sa-inline-lead-root.is-thank-you #form.form-wrap[data-v-8ad2fcbc] {
+  min-height: 320px !important;
+  box-sizing: border-box !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__inner[data-v-a1ad29aa] {
+  height: 100% !important;
+  position: relative !important;
+}
+
+#sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
+  margin-bottom: 16.7px !important;
+}
+
+#sa-inline-lead-root .form__group.form__comments[data-v-8ad2fcbc] {
+  margin-bottom: 16.7px !important;
+}
+
+#sa-inline-lead-root .form__comments[data-v-8ad2fcbc] {
+  overflow: visible !important;
+  transition: margin-bottom 0.15s linear !important;
+}
+
+#sa-inline-lead-root .form__comments textarea.form__control[data-v-8ad2fcbc] {
+  max-height: none !important;
+  min-height: 4.5em !important;
+  height: 4.5em;
+  overflow: hidden !important;
+  resize: none !important;
+}
+
+@media (min-width: 769px) {
+  #sa-inline-lead-root .form__group.form__group--sub[data-v-8ad2fcbc] {
+    margin-top: 48px !important;
+  }
+}
+
+#sa-inline-lead-root .form__group.is-focused .form__label[data-v-8ad2fcbc],
+#sa-inline-lead-root .form__group.is-filled .form__label[data-v-8ad2fcbc] {
+  transform: translate3d(0, -2em, 0) !important;
+  font-size: 0.625em !important;
+}
+
+@media (max-width: 425px) {
+  #sa-inline-lead-root .form__group.is-focused .form__label[data-v-8ad2fcbc],
+  #sa-inline-lead-root .form__group.is-filled .form__label[data-v-8ad2fcbc] {
+    font-size: 0.875em !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  #sa-inline-lead-root .order-popup__inner[data-v-2ee28934] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 40px !important;
+    box-sizing: border-box !important;
+  }
+
+  #sa-inline-lead-root .order-popup__content[data-v-2ee28934],
+  #sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  #sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+    margin-top: -28px !important;
+  }
+
+  #sa-inline-lead-root .order-popup__meta .lead {
+    max-width: none !important;
+  }
+
+  #sa-inline-lead-root .form__grid[data-v-8ad2fcbc] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    overflow: visible !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .sa-service-lead-section__container {
+    padding: 28px 16px 56px;
+  }
+
+  #sa-inline-lead-root.sa-service-lead-root {
+    min-height: 0;
+    padding: 32px 20px 40px;
+    background: rgb(25, 26, 27) !important;
+  }
+
+  #sa-inline-lead-root .order-popup__inner[data-v-2ee28934] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    gap: 36px !important;
+    flex-direction: column !important;
+    display: flex !important;
+    align-items: stretch !important;
+    min-height: 0 !important;
+  }
+
+  #sa-inline-lead-root .order-popup__content[data-v-2ee28934],
+  #sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  #sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
+    margin-top: 0 !important;
+  }
+
+  #sa-inline-lead-root .order-popup__meta[data-v-2ee28934] {
+    margin-right: 0 !important;
+  }
+
+  /* ≤768: как parity / lead-form для #desktop-order-popup (перебивает только 50px у h2 до 719px из бандла) */
+  #sa-inline-lead-root .order-popup__meta h2[data-v-2ee28934],
+  #sa-inline-lead-root .order-popup__meta h2 {
+    font-size: 28px !important;
+    line-height: 1.3 !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    color: #fff !important;
+    max-width: 260px !important;
+    margin: 0 0 30px !important;
+  }
+
+  #sa-inline-lead-root .order-popup__meta .lead[data-v-2ee28934],
+  #sa-inline-lead-root .order-popup__meta .lead {
+    font-size: 18px !important;
+    line-height: 160% !important;
+    font-weight: 300 !important;
+    color: #969696 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger[data-v-2ee28934] {
+    margin-top: 50px !important;
+    margin-bottom: 40px !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-title[data-v-2ee28934] {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 25px !important;
+    color: #fff !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links {
+    display: block !important;
+    line-height: 0 !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links a {
+    background: none !important;
+    border-radius: 0 !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    vertical-align: top !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links a + a {
+    margin-left: 15px !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links a img,
+  #sa-inline-lead-root .contact-form__messenger-links a svg {
+    width: 46px !important;
+    height: 46px !important;
+    display: block !important;
+    opacity: 1 !important;
+  }
+
+  #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:last-child {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
+    margin-bottom: 16.7px !important;
+  }
+
+  #sa-inline-lead-root .form__group.form__comments[data-v-8ad2fcbc] {
+    margin-bottom: 16.7px !important;
+  }
+
+  #sa-inline-lead-root .form__group--sub[data-v-8ad2fcbc] {
+    position: relative !important;
+    top: unset !important;
+    margin-top: 64.5px !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    height: 46px !important;
+    padding: 0 24px !important;
+    border-radius: 30px !important;
+    opacity: 0.5 !important;
+    color: #fff !important;
+    background: transparent !important;
+    border: 1px solid #fff !important;
+    box-shadow: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 40px !important;
+  }
+
+  #sa-inline-lead-root .form__submit .btn__text[data-v-111f0665],
+  #sa-inline-lead-root .form__submit .btn__arrow {
+    color: #fff !important;
+  }
+
+  #sa-inline-lead-root .form__submit .btn__arrow path {
+    stroke: #fff !important;
+  }
+
+  #sa-inline-lead-root .form__submit:hover .btn__overlay[data-v-111f0665],
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover .btn__overlay {
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover {
+    color: #fff !important;
+    opacity: 1 !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover .btn__text,
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665]:hover .btn__arrow path {
+    color: #fff !important;
+    stroke: #fff !important;
+  }
+
+  #sa-inline-lead-root .form__submit-error {
+    margin-top: -24px !important;
+    margin-bottom: 14px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    color: rgba(255, 120, 120, 0.95) !important;
+    min-height: 18px !important;
+  }
+
+  #sa-inline-lead-root .privacy-check[data-v-8ad2fcbc] {
+    height: auto !important;
+    min-height: 0 !important;
+    align-items: flex-start !important;
+    margin-top: 0 !important;
+    line-height: 1.35 !important;
+  }
+
+  #sa-inline-lead-root .privacy-check__text[data-v-8ad2fcbc],
+  #sa-inline-lead-root .privacy-check__text {
+    font-size: 14px !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665],
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665] .btn__text,
+  #sa-inline-lead-root .form__submit.btn[data-v-111f0665] .btn__arrow path {
+    transition: none !important;
+  }
+
+  #sa-inline-lead-root.is-thank-you .form-success__socials img,
+  #sa-inline-lead-root.is-thank-you .form-success__socials svg {
+    width: 46px !important;
+    height: auto !important;
+  }
+}
+
+/* Защита от чужого каскада (Nuxt/header): иконки без «плиток», только как у модалки */
+#sa-inline-lead-root.sa-service-lead-root.newModal.darktheme .contact-form__messenger-links a[data-v-2ee28934],
+#sa-inline-lead-root.sa-service-lead-root.newModal.darktheme .contact-form__messenger-links a {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+body.sa-service-lead-in-view #body.body-application {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
