@@ -704,7 +704,7 @@ body.scroll-menu-open {
   overflow: hidden !important;
 }
 
-/* Верхнее десктоп-меню (Кейсы, Услуги, …): +1px к снимку в bundle (14px). */
+/* Верхнее десктоп-меню: базовый размер в бандле 14px; канонический размер и жирность — в sections/header.css (16px / 500). */
 .navigation-list a[data-v-e5e2adce] {
   font-size: 15px;
 }

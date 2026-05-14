@@ -125,6 +125,11 @@
   overflow: visible;
 }
 
+.home-awards-block a.home-awards-slide-shell {
+  text-decoration: none;
+  color: inherit;
+}
+
 .home-awards-block .awards__card-wraper {
   display: block;
   width: 148px;
