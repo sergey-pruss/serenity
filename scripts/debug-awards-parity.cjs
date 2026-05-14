@@ -1,7 +1,7 @@
 /**
  * Снятие эталонных метрик блока «Награды» с прод-страницы (Nuxt) для сверки с локалкой.
  * Запуск: node scripts/debug-awards-parity.cjs
- * Локалка: SERENITY_AWARDS_LOCAL_URL=http://127.0.0.1:8765/ node scripts/debug-awards-parity.cjs
+ * Локалка: SERENITY_AWARDS_LOCAL_URL=http://127.0.0.1:8895/ node scripts/debug-awards-parity.cjs
  */
 
 const { chromium } = require("playwright");
@@ -148,7 +148,7 @@ async function harvestLocal(page, url) {
       const loc = await harvestLocal(page, LOCAL_URL);
       console.log("\n=== LOCAL ===\n", JSON.stringify(loc, null, 2));
     } else {
-      console.log("\n(LOCAL skip: set SERENITY_AWARDS_LOCAL_URL=http://127.0.0.1:8765/)");
+      console.log("\n(LOCAL skip: set SERENITY_AWARDS_LOCAL_URL=http://127.0.0.1:8895/)");
     }
   } finally {
     await browser.close();

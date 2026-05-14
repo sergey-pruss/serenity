@@ -5,7 +5,11 @@
 .blog-block__swiper-container .swiper-button-prev::after,
 .blog-block__swiper-container .swiper-button-next::after,
 .clients-mainstr .swiper-buttons .swiper-button-prev::after,
-.clients-mainstr .swiper-buttons .swiper-button-next::after {
+.clients-mainstr .swiper-buttons .swiper-button-next::after,
+.cases-block__slider .swiper__navigation .swiper-button-prev::after,
+.cases-block__slider .swiper__navigation .swiper-button-next::after,
+.synergy__context-slider .swiper-button-prev::after,
+.synergy__context-slider .swiper-button-next::after {
   content: none !important;
   display: none !important;
 }

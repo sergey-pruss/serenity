@@ -1,6 +1,7 @@
 /* Нативный горизонтальный ряд (Apple Store–style): скролл внутри .swiper-wrapper, стрелки в контейнере */
 .services__context-slider.swiper-container[data-native-row="1"],
-.blog-block__swiper-container.swiper-container[data-native-row="1"] {
+.blog-block__swiper-container.swiper-container[data-native-row="1"],
+.prices__packages-slider.swiper-container[data-native-row="1"] {
   overflow: hidden !important;
   overscroll-behavior-x: contain;
   position: relative;
@@ -9,14 +10,16 @@
 /* Вертикальный буфер под glow карточек + зазор «шапка → ряд»:
    padding-top слайдера — половина прежнего (--home-ledge и +5px у блога). */
 .services__context-slider.swiper-container[data-native-row="1"],
-.blog-block__swiper-container.swiper-container[data-native-row="1"] {
+.blog-block__swiper-container.swiper-container[data-native-row="1"],
+.prices__packages-slider.swiper-container[data-native-row="1"] {
   padding-bottom: 40px;
   margin-top: 0;
   margin-bottom: -40px;
 }
 
 .services__context-slider.swiper-container[data-native-row="1"],
-.blog-block__swiper-container.swiper-container[data-native-row="1"] {
+.blog-block__swiper-container.swiper-container[data-native-row="1"],
+.prices__packages-slider.swiper-container[data-native-row="1"] {
   padding-top: calc(var(--home-ledge) / 2);
 }
 
@@ -240,7 +243,8 @@
 }
 
 .services__context-wrapper[data-native-row="1"],
-.blog-block__swiper-container .swiper-wrapper[data-native-row="1"] {
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
+.prices__packages-track[data-native-row="1"] {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
@@ -258,8 +262,9 @@
   transition: none !important;
 }
 
-/* Для услуг полностью отключаем ручной X-scroll: только стрелки */
-.services__context-wrapper[data-native-row="1"] {
+/* Для услуг и пакетов «Контекстная» полностью отключаем ручной X-scroll: только стрелки */
+.services__context-wrapper[data-native-row="1"],
+.prices__packages-track[data-native-row="1"] {
   overflow-x: hidden !important;
   overflow-y: hidden !important;
   /* Буфер под hover glow карточек, чтобы тень не резалась по Y. */
@@ -272,7 +277,8 @@
 /* Адаптив: до ~980px карточки листаются свайпом и без стрелок. */
 @media screen and (max-width: 980px) {
   .services__context-wrapper[data-native-row="1"],
-  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] {
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
+  .prices__packages-track[data-native-row="1"] {
     overflow-x: auto !important;
     overflow-y: hidden !important;
     /* Не блокируем вертикальный жест страницы на мобильных:
@@ -296,7 +302,8 @@
 }
 
 .services__context-wrapper[data-native-row="1"]::-webkit-scrollbar,
-.blog-block__swiper-container .swiper-wrapper[data-native-row="1"]::-webkit-scrollbar {
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"]::-webkit-scrollbar,
+.prices__packages-track[data-native-row="1"]::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
@@ -304,7 +311,9 @@
 
 .services__context-wrapper[data-native-row="1"] .services__slide,
 .services__context-wrapper[data-native-row="1"] .swiper-slide,
-.blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide {
+.blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide,
+.prices__packages-track[data-native-row="1"] .prices__packages-slide,
+.prices__packages-track[data-native-row="1"] .swiper-slide {
   scroll-snap-align: start;
   flex-shrink: 0;
 }
@@ -313,27 +322,35 @@
    чтобы fallback работал, если трек ещё не размечен; в js/app.js тот же отступ ещё и задаётся с !important. */
 .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
 .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-.blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
+.blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
+.prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
+.prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
   margin-right: 78px !important;
 }
 @media screen and (max-width: 1025px) {
   .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
   .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
+  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
+  .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
+  .prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
     margin-right: 55px !important;
   }
 }
 @media screen and (max-width: 768px) {
   .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
   .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
+  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
+  .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
+  .prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
     margin-right: 36px !important;
   }
 }
 @media screen and (max-width: 450px) {
   .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
   .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child {
+  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
+  .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
+  .prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
     margin-right: 36px !important;
   }
 }

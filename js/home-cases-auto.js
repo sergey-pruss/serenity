@@ -142,15 +142,23 @@
         morContainer?.removeAttribute("data-mor-cases-init");
 
         // Если fetch завершился после initMorCasesSlider в app.js — замена DOM ломает отступы spaceBetween.
-        if (hadSwiper && window.innerWidth <= 768 && typeof window.Swiper === "function") {
+        if (hadSwiper && typeof window.Swiper === "function") {
           morContainer.dataset.morCasesInit = "1";
-          new Swiper(morContainer, {
+          const paginationEl = morContainer.querySelector(".swiper-pagination");
+          const opts = {
             direction: "horizontal",
             slidesPerView: "auto",
             freeMode: true,
             spaceBetween: 20,
             grabCursor: true,
-          });
+            simulateTouch: true,
+            threshold: 6,
+            passiveListeners: false,
+          };
+          if (paginationEl) {
+            opts.pagination = { el: paginationEl, clickable: true };
+          }
+          new window.Swiper(morContainer, opts);
         }
       }
     })
