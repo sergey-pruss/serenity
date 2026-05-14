@@ -306,7 +306,7 @@
       <section id="local-vs-prod">
         <h2>Локальная разработка и прод</h2>
         <p>
-          Команда <span class="mono">npm run dev</span> запускает <span class="mono">node scripts/dev-server.cjs</span>. Перед стартом скрипт собирает данные кейсов и главную (<span class="mono">build-cases-all-data</span>, <span class="mono">build-case-all-pages</span>, <span class="mono">assemble-html build</span>), затем поднимает HTTP-сервер на <strong>127.0.0.1</strong>: по умолчанию порт <strong>8765</strong> (переменная окружения <span class="mono">PORT</span> переопределяет его; если 8765 занят, скрипт перебирает следующие порты до 8815).
+          Команда <span class="mono">npm run dev</span> запускает <span class="mono">node scripts/dev-server.cjs</span>. Перед стартом скрипт собирает данные кейсов и главную (<span class="mono">build-cases-all-data</span>, <span class="mono">build-case-all-pages</span>, <span class="mono">assemble-html build</span>), затем поднимает HTTP-сервер на <strong>127.0.0.1</strong>: по умолчанию порт <strong>8895</strong> (раньше 8765; переменная окружения <span class="mono">PORT</span> переопределяет его; если стартовый порт занят, скрипт перебирает следующие порты до <strong>8945</strong>). В терминале печатаются полные URL — в Safari без «<span class="mono">:8895</span>» в адресной строке открывается только порт 80, это другой сервер.
         </p>
         <ul>
           <li>
