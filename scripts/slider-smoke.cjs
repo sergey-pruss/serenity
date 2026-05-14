@@ -1,6 +1,6 @@
 const { chromium } = require("playwright");
 
-const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8765/";
+const URL = process.env.SLIDER_TEST_URL || "http://127.0.0.1:8895/";
 const VIEWPORT = { width: 1366, height: 900 };
 
 function assert(cond, message) {

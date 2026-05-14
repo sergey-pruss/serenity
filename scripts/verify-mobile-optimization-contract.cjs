@@ -24,14 +24,21 @@ assert(
   "html/index.layout.html: mobile CSS cache-bust должен быть 20260430o",
 );
 assert(
-  /src="\/_sa\/js\/app\.js\?v=20260514kontekstCasesSlideCap"/.test(layout),
-  "html/index.layout.html: app.js cache-bust должен быть 20260514kontekstCasesSlideCap",
+  /src="\/_sa\/js\/app\.js\?v=20260514casesBlockSwiperNoAutoHeight"/.test(layout),
+  "html/index.layout.html: app.js cache-bust должен быть 20260514casesBlockSwiperNoAutoHeight",
 );
-assert(
-  /rel="preload"[\s\S]*?\/_sa\/css\/sections\/header\.css/.test(layout) &&
-    /<noscript><link rel="stylesheet" href="\/_sa\/css\/sections\/header\.css/.test(layout),
-  "html/index.layout.html: header.css должен быть preload style с noscript fallback",
-);
+{
+  const iParity = layout.indexOf("css__home-snapshot__overrides.parity-sync.css");
+  const iHeader = layout.indexOf("sections/header.css");
+  assert(
+    iParity !== -1 && iHeader !== -1 && iParity < iHeader,
+    "html/index.layout.html: header.css должен идти в head сразу после parity-sync (стабильный каскад меню)",
+  );
+  assert(
+    /<link\b[^>]*\brel="stylesheet"[^>]*\/_sa\/css\/sections\/header\.css\?v=/.test(layout),
+    "html/index.layout.html: header.css — синхронный rel=stylesheet (не только preload), чтобы жирность меню не ждала onload",
+  );
+}
 assert(
   /component-block\[data-v-135dc442\][\s\S]*?display:\s*none\s*!important/.test(layout) &&
     /component-block\[data-v-135dc442\][\s\S]*?display:\s*none\s*!important/.test(mobileCss),
