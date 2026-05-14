@@ -5,7 +5,7 @@
  * - title содержит нужный текст
  * - H1 содержит нужный текст
  * - ключевые ассеты присутствуют на диске
- * - разметка кейсов как на prod (cases-block__slider + swiper-слайды), блок «Больше кейсов» — mor-cases
+ * - разметка кейсов как на prod (cases-block__slider + swiper-слайды), блок кейсов внизу — как на /services/ (mor-cases + сетка)
  */
 const fs = require("fs");
 const path = require("path");
@@ -45,6 +45,26 @@ async function run() {
   );
 
   assert(
+    html.includes('name="google-site-verification"') &&
+      html.includes("LDRx_-Q9yZ6z32F4lojL-TtK3FuUXGV8c6P4zkbppZA"),
+    "SEO: meta google-site-verification как на остальных страницах Serenity",
+  );
+  assert(
+    html.includes(
+      'name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"',
+    ),
+    "SEO: robots как на главной (index, follow + лимиты сниппета, без noyaca)",
+  );
+  assert(
+    html.includes("mod.calltouch.ru/init.js?id=s7m1mg1r"),
+    "SEO/аналитика: скрипт Calltouch в head как на prod Nuxt и /services/",
+  );
+  assert(
+    html.includes('property="og:image:secure_url"') && html.includes('name="twitter:image"'),
+    "SEO: og:image:secure_url и twitter:image для превью шаринга",
+  );
+
+  assert(
     /<h1[^>]*>\s*Настройка и(?:&nbsp;|\s+)ведение контекстной рекламы/.test(html),
     "<h1>: должен содержать 'Настройка и ведение контекстной рекламы'",
   );
@@ -60,8 +80,67 @@ async function run() {
   );
 
   assert(
+    html.includes('</span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 300 000&nbsp;₽</i></p>') &&
+      html.includes('</span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 350 000&nbsp;₽</i></p>') &&
+      html.includes('</span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 400 000&nbsp;₽</i></p>'),
+    "HTML: под ценой пакетов — бюджет тем же разметочным паттерном, что «Подходит для…» (<p><i>…</i></p>)",
+  );
+
+  assert(
+    html.includes("prices__cards--packages") && html.includes("prices__packages-slider"),
+    "HTML: блок «Пакеты» — слайдер-обёртка (prices__cards--packages + prices__packages-slider)",
+  );
+  assert(
+    (html.match(/class="prices__packages-slide swiper-slide"/g) || []).length === 3,
+    "HTML: три слайда тарифов (prices__packages-slide)",
+  );
+  assert(
+    (html.match(/class="price-card__title-rule price-card__title-rule--[123]"/g) || []).length === 3,
+    "HTML: сразу под заголовком каждого тарифа — градиентная полоска (price-card__title-rule ×3)",
+  );
+  assert(
+    !html.includes("price-card__wrapper col-6 col-sm-12"),
+    "HTML: три тарифа — не двухколоночная сетка col-6 у price-card__wrapper",
+  );
+  assert(
+    !html.includes("price-card__wrapper col-4 col-md-6 col-sm-12"),
+    "HTML: тарифы без bootstrap col-* (ширина из flex слайдера / десктоп-сетки)",
+  );
+
+  assert(
     html.includes("css__home-snapshot__native-row-scroll.css"),
     "HTML: native-row-scroll — горизонтальный scroll ленты наград/клиентов (overflow-x на треке при data-clients-strip)",
+  );
+
+  const iBundleEnd = html.indexOf("<!-- KONTEKST-CSS-BUNDLE-END -->");
+  const iSwiper = html.indexOf("Swiper/8.4.7/swiper-bundle.min.css");
+  const iSliderArrows = html.indexOf("css__home-snapshot__slider-arrows.css");
+  const iMobileCss = html.indexOf("css__home-snapshot__overrides.mobile.css");
+  const iFooterBurger = html.indexOf("sections/footer-burger-chrome.css");
+  const iServiceInlineLead = html.indexOf("sections/service-inline-lead-form.css");
+  const iHeaderCss = html.indexOf("sections/header.css");
+  assert(
+    iBundleEnd !== -1 &&
+      iSwiper !== -1 &&
+      iSliderArrows !== -1 &&
+      iMobileCss !== -1 &&
+      iFooterBurger !== -1 &&
+      iServiceInlineLead !== -1 &&
+      iHeaderCss !== -1,
+    "HTML: Swiper, slider-arrows, overrides.mobile, footer-burger-chrome, service-inline-lead-form и sections/header.css должны быть в head",
+  );
+  assert(
+    iSwiper < iSliderArrows &&
+      iSliderArrows < iMobileCss &&
+      iMobileCss < iFooterBurger &&
+      iFooterBurger < iServiceInlineLead &&
+      iServiceInlineLead < iHeaderCss &&
+      iHeaderCss < iBundleEnd,
+    "HTML: порядок стилей — … → footer-burger-chrome → service-inline-lead-form → header.css последним до KONTEKST-CSS-BUNDLE-END (каскад шапки)",
+  );
+  assert(
+    (html.match(/swiper-bundle\.min\.css/g) || []).length === 1,
+    "HTML: один подключённый Swiper bundle (без дубликатов)",
   );
 
   assert(
@@ -110,6 +189,11 @@ async function run() {
   );
 
   assert(
+    html.includes("page-constructor-gradient.js"),
+    "HTML: инициализация WebGL-градиента (page-constructor-gradient.js после gradient-animation)",
+  );
+
+  assert(
     html.includes("jumbotron-img-aurora__title"),
     "HTML: должен содержать legacy hero-элемент .jumbotron-img-aurora__title",
   );
@@ -144,9 +228,20 @@ async function run() {
     "HTML: mor-cases-slider и секции cases-block (prod)",
   );
 
+
   assert(
-    html.includes("Больше кейсов"),
-    "HTML: заголовок блока «ещё кейсов» должен быть «Больше кейсов», как на prod more-cases-block",
+    html.includes("Кейсы комплексного маркетинга"),
+    "HTML: заголовок сетки кейсов — «Кейсы комплексного маркетинга», как на /services/",
+  );
+
+  assert(
+    fileExists("html/partials/services/more-cases-kontekstnaya-from-services.html"),
+    "Частичный блок кейсов (services): html/partials/services/more-cases-kontekstnaya-from-services.html",
+  );
+
+  assert(
+    html.includes("more-case-wr more-case-wr__main"),
+    "HTML: блок кейсов — оболочка как на /services/ (more-case-wr__main)",
   );
 
   assert(
@@ -166,9 +261,61 @@ async function run() {
     "HTML: блок наград — оболочка главной (sa-home-awards-mounted, home-awards-block, венки /_sa/img/home/)",
   );
 
+  const iSynOrder = html.indexOf('id="kontekst-synergy-mounted"');
+  const iAwardsOrder = html.indexOf('id="sa-home-awards-mounted"');
+  assert(
+    iSynOrder >= 0 && iAwardsOrder >= 0 && iAwardsOrder < iSynOrder,
+    "HTML: награды выше блока «Синергия с услугами» (после кейсов, до синергии)",
+  );
+
   assert(
     !html.includes('class="awards__title">Награды</h3>'),
     "HTML: не остаётся legacy-заголовок Nuxt awards__title — подставлен partial",
+  );
+
+  assert(
+    fileExists("html/partials/services/synergy-kontekstnaya-reklama.html"),
+    "Частичный блок синергии: html/partials/services/synergy-kontekstnaya-reklama.html",
+  );
+
+  assert(
+    fileExists("html/partials/services/faq-kontekstnaya-reklama.html"),
+    "Частичный блок FAQ: html/partials/services/faq-kontekstnaya-reklama.html",
+  );
+
+  assert(
+    fileExists("css/sections/kontekstnaya-faq.css"),
+    "Локальные стили FAQ: css/sections/kontekstnaya-faq.css",
+  );
+
+  assert(
+    html.includes('id="kontekst-faq-mounted"') && html.includes("kontekstnaya-faq.css"),
+    "HTML: FAQ — #kontekst-faq-mounted и подключение kontekstnaya-faq.css",
+  );
+
+  const iPackagesHeading = html.indexOf(">Пакеты</h2>");
+  const iInlineLead = html.indexOf('id="sa-inline-lead-root"');
+  const iFaqMounted = html.indexOf('id="kontekst-faq-mounted"');
+  const iCasesMain = html.indexOf("more-case-wr more-case-wr__main");
+  assert(
+    iPackagesHeading >= 0 && iFaqMounted > iPackagesHeading,
+    "HTML: блок «Вопрос-ответ» (FAQ) идёт после секции с заголовком «Пакеты»",
+  );
+  assert(
+    iInlineLead < 0 || (iInlineLead > iPackagesHeading && iFaqMounted > iInlineLead),
+    "HTML: при наличии инлайн-формы заявки — она между «Пакеты» и FAQ",
+  );
+  assert(
+    iCasesMain >= 0 && iFaqMounted < iCasesMain,
+    "HTML: блок «Вопрос-ответ» (FAQ) идёт перед блоком кейсов (more-case-wr__main)",
+  );
+
+  assert(
+    html.includes('id="kontekst-synergy-mounted"') &&
+      html.includes("kontekst-synergy-root") &&
+      html.includes("services-section_main-structure") &&
+      html.includes('class="services__context-slider swiper-container'),
+    "HTML: синергия — оболочка главной (services-section + services__context-slider)",
   );
 
   assert(
@@ -179,8 +326,35 @@ async function run() {
   );
 
   assert(
-    !html.includes("Кейсы комплексного маркетинга"),
-    "HTML: не должно остаться ошибочного заголовка «Кейсы комплексного маркетинга»",
+    html.includes('id="sa-inline-lead-root"') &&
+      html.includes('id="sa-inline-lead-meta"') &&
+      html.includes("service-inline-lead-form.css"),
+    "HTML: инлайн-заявка — #sa-inline-lead-root, template meta, service-inline-lead-form.css",
+  );
+  const leaveJs = read("js/leave-request-cta.js");
+  assert(
+    leaveJs.includes("data-sa-service-lead") &&
+      leaveJs.includes("serviceLeadVisibilityMarker") &&
+      leaveJs.includes("order-popup__inner"),
+    "JS: зона скрытия CTA — data-sa-service-lead на .order-popup__inner (не min-height #sa-inline-lead-root)",
+  );
+  assert(
+    !/\bid="sa-inline-lead-root"[^>]*\bdata-sa-service-lead=/.test(html),
+    "HTML: data-sa-service-lead не на #sa-inline-lead-root (маркер ставит JS на .order-popup__inner)",
+  );
+  assert(
+    !html.includes('class="forms modern"'),
+    "HTML: Nuxt-блок forms modern заменён на partial service-inline-lead",
+  );
+
+  assert(
+    fileExists("js/kontekstnaya-spoilers.js"),
+    "JS: kontekstnaya-spoilers.js — раскрытие блока «Вопрос-ответ» (Nuxt-спойлеры без Vue)",
+  );
+
+  assert(
+    html.includes("kontekstnaya-spoilers.js"),
+    "HTML: подключён kontekstnaya-spoilers.js для FAQ",
   );
 
   const manPath = "kontekstnaya_reklama/nuxt-css-manifest.json";
@@ -204,6 +378,7 @@ async function run() {
     "_sa/img/storage__R16Tij6hzShVdtyA5ZbyTu0bM19BmNBE9eTlnQRT.png",
     "css/kontekstnaya-reklama-nuxt.bundle.css",
     "css/kontekstnaya-reklama-static-stack.css",
+    "css/sections/kontekstnaya-faq.css",
     "css/sections/home-awards.css",
     "_sa/js/gradient-animation.min.js",
   ];

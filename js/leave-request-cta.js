@@ -1,12 +1,18 @@
 /**
  * «Оставить заявку» — локальная модалка #desktop-order-popup (как на оригинале),
  * без редиректов и window.open на внешний сайт. Промежуточный нижний лист не используется.
+ *
+ * Инлайн на страницах услуг: #sa-inline-lead-root — та же разметка и отправка, что у модалки;
+ * заголовок и подзаголовок — из `<template id="sa-inline-lead-meta">` (см. partials services).
  */
 (() => {
   const BOTTOM_BAR_MAX_WIDTH = 1024;
   const BODY_FLAG = "leave-cta-open";
   const DESKTOP_MODAL_ID = "desktop-order-popup";
   const DESKTOP_BODY_LOCK = "order-popup-open";
+  const INLINE_LEAD_ROOT_ID = "sa-inline-lead-root";
+  const INLINE_LEAD_META_ID = "sa-inline-lead-meta";
+  const INLINE_FORM_WRAP_ID = "sa-inline-lead-form-wrap";
   const LEAD_API_FALLBACK = "https://serenity.sergeyprus.workers.dev/api/lead";
   const METRIKA_COUNTER_ID = 30205029;
   const METRIKA_FORM_GOAL = "Форма заказа";
@@ -32,6 +38,15 @@
   const UTM_SESSION_KEY = "serenity_sa_utm_v1";
   const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
   let thankYouAutoCloseTimer = null;
+  let inlineLeadRemountTimer = null;
+
+  const escapeHtml = (s) =>
+    String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
 
   const readStoredUtm = () => {
     try {
@@ -79,6 +94,112 @@
   };
 
   mergeFirstTouchUtmIntoSession();
+
+  const buildOrderPopupInnerShell = ({ formWrapId, titleInnerHtml, leadInnerHtml, serviceLeadVisibilityMarker }) => `
+      <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__inner"${
+        serviceLeadVisibilityMarker ? ' data-sa-service-lead="1"' : ""
+      }>
+        <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content">
+          <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__meta">
+            <h2 data-v-2ee28934="" data-v-5c138029="">${titleInnerHtml}</h2>
+            <p data-v-2ee28934="" data-v-5c138029="" class="lead">${leadInnerHtml}</p>
+          </div>
+          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
+            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
+            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="${TELEGRAM_MESSENGER_BOT_HREF}" aria-label="Telegram">${SVG_ICON.telegram}</a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp">${SVG_ICON.whatsapp}</a>
+              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="${VK_MESSENGER_HREF}" aria-label="VK">${SVG_ICON.vk}</a>
+            </div>
+          </div>
+        </div>
+        <div data-v-8ad2fcbc="" data-v-5c138029="" id="${formWrapId}" class="form-wrap" style="height: unset;">
+          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title contact-form__form-title">Отправить форму заявки</div>
+          <form data-v-8ad2fcbc="" action="#" method="post" enctype="multipart/form-data" class="order-popup__form order-form form" novalidate>
+            <div data-v-8ad2fcbc="" class="form__grid">
+              <div data-v-8ad2fcbc="" class="form__grid-item">
+                <label data-v-8ad2fcbc="" class="form__group">
+                  <input data-v-8ad2fcbc="" type="text" name="name" placeholder="Имя" class="form__control js-requied" />
+                  <span data-v-8ad2fcbc="" class="form__label">Имя *</span>
+                </label>
+                <label data-v-8ad2fcbc="" class="form__group">
+                  <input data-v-8ad2fcbc="" type="text" name="phone" placeholder="Телефон" class="form__control js-requied" />
+                  <span data-v-8ad2fcbc="" class="form__label">Телефон *</span>
+                </label>
+                <label data-v-8ad2fcbc="" class="form__group">
+                  <input data-v-8ad2fcbc="" type="email" name="email" placeholder="email" class="form__control" />
+                  <span data-v-8ad2fcbc="" class="form__label">Email *</span>
+                </label>
+                <label data-v-8ad2fcbc="" class="form__group form__comments">
+                  <textarea data-v-8ad2fcbc="" name="comments" rows="1" placeholder="Комментарий" autocomplete="off" class="form__control"></textarea>
+                  <span data-v-8ad2fcbc="" class="form__label">Комментарий</span>
+                </label>
+                <label data-v-8ad2fcbc="" class="form__group form__manager" style="display:none">
+                  <input data-v-8ad2fcbc="" type="text" name="manager" class="form__control" />
+                </label>
+              </div>
+              <div data-v-8ad2fcbc="" class="form__grid-item">
+                <label data-v-8ad2fcbc="" class="form__group">
+                  <input data-v-8ad2fcbc="" type="text" name="site" placeholder="Сайт" class="form__control" />
+                  <span data-v-8ad2fcbc="" class="form__label">Сайт</span>
+                </label>
+                <label data-v-8ad2fcbc="" class="form__group upload-input">
+                  <input data-v-8ad2fcbc="" type="file" name="file" class="form__control" />
+                  <span data-v-8ad2fcbc="" class="form__label upload-input__label">Прикрепить файл</span>
+                </label>
+              </div>
+            </div>
+            <div data-v-8ad2fcbc="" class="form__group form__group--sub">
+              <button data-v-111f0665="" data-v-8ad2fcbc="" class="btn form__submit" type="submit">
+                <span data-v-111f0665="" class="btn__overlay"></span>
+                <span data-v-111f0665="" class="btn__text">Отправить</span>
+                <svg data-v-111f0665="" class="btn__arrow" width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path data-v-111f0665="" d="M0 5.5H14M14 5.5L8.4 0M14 5.5L8.4 11" transform="translate(0 1)" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+              <label data-v-8ad2fcbc="" class="privacy-check">
+                <input data-v-8ad2fcbc="" type="checkbox" name="consent" value="1" required class="privacy-check__control" checked />
+                <span data-v-8ad2fcbc="" class="privacy-check__mask"></span>
+                <span data-v-8ad2fcbc="" class="privacy-check__text">Я даю согласие <a data-v-8ad2fcbc="" href="https://serenity.agency/privacy.pdf" target="_blank" rel="noopener noreferrer">на обработку персональных данных</a></span>
+              </label>
+            </div>
+            <div data-v-8ad2fcbc="" class="order-popup__form-scroll-spacer" aria-hidden="true"></div>
+          </form>
+        </div>
+      </div>
+    `;
+
+  const buildThankYouInnerHtml = (formWrapId, { serviceLeadVisibilityMarker } = {}) => `
+      <div class="order-popup__inner" data-v-2ee28934=""${
+        serviceLeadVisibilityMarker ? ' data-sa-service-lead="1"' : ""
+      }>
+        <div id="${formWrapId}" class="form-wrap" data-v-a1ad29aa="" data-v-2ee28934="">
+          <div id="form-success" class="form-success__inner" data-v-a1ad29aa="">
+            <div class="form-success__inner-wrap" data-v-a1ad29aa="">
+              <div class="form-success__message" data-v-a1ad29aa="">
+                <h2 class="form-success__title title" data-v-a1ad29aa="">Спасибо, наш новый друг!</h2>
+                <p data-v-a1ad29aa="">Уже рассматриваем вашу заявку всей командой.<br data-v-a1ad29aa="">
+                И&nbsp;совсем скоро с&nbsp;вами свяжемся.<br data-v-a1ad29aa="">
+                А&nbsp;пока давайте продолжим дружбу
+                в&nbsp;социальных сетях:</p>
+              </div>
+              <div class="social form-success__socials" data-v-a1ad29aa="">
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="${TELEGRAM_PUBLIC_CHANNEL_HREF}" aria-label="Telegram">${SVG_ICON.telegram}</a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="${VK_PUBLIC_PAGE_HREF}" aria-label="VK">${SVG_ICON.vk}</a>
+                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram">
+                  <svg width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Instagram">
+                    <rect x="0.5" y="1" width="45" height="45" rx="10" fill="white"></rect>
+                    <rect x="11.5" y="12" width="23" height="23" rx="7.5" stroke="#151516" stroke-width="2.4"></rect>
+                    <circle cx="23" cy="23.5" r="5.5" stroke="#151516" stroke-width="2.4"></circle>
+                    <circle cx="30.2" cy="15.8" r="1.8" fill="#151516"></circle>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
 
   const getUtmForLeadSubmit = () => {
     const stored = readStoredUtm();
@@ -159,36 +280,9 @@
   const showThankYouScreen = (modal) => {
     if (!modal) return;
     modal.classList.add("is-thank-you");
-    /* Как на serenity.agency после submit: #form + form-success (не блок мессенджеров формы). */
     modal.innerHTML = `
       <div class="modal-close order-popup__cross" data-v-2ee28934="" aria-label="Закрыть"></div>
-      <div class="order-popup__inner" data-v-2ee28934="">
-        <div id="form" class="form-wrap" data-v-a1ad29aa="" data-v-2ee28934="">
-          <div id="form-success" class="form-success__inner" data-v-a1ad29aa="">
-            <div class="form-success__inner-wrap" data-v-a1ad29aa="">
-              <div class="form-success__message" data-v-a1ad29aa="">
-                <h2 class="form-success__title title" data-v-a1ad29aa="">Спасибо, наш новый друг!</h2>
-                <p data-v-a1ad29aa="">Уже рассматриваем вашу заявку всей командой.<br data-v-a1ad29aa="">
-                И&nbsp;совсем скоро с&nbsp;вами свяжемся.<br data-v-a1ad29aa="">
-                А&nbsp;пока давайте продолжим дружбу
-                в&nbsp;социальных сетях:</p>
-              </div>
-              <div class="social form-success__socials" data-v-a1ad29aa="">
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="${TELEGRAM_PUBLIC_CHANNEL_HREF}" aria-label="Telegram">${SVG_ICON.telegram}</a>
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="${VK_PUBLIC_PAGE_HREF}" aria-label="VK">${SVG_ICON.vk}</a>
-                <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/serenity.agency/" aria-label="Instagram">
-                  <svg width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Instagram">
-                    <rect x="0.5" y="1" width="45" height="45" rx="10" fill="white"></rect>
-                    <rect x="11.5" y="12" width="23" height="23" rx="7.5" stroke="#151516" stroke-width="2.4"></rect>
-                    <circle cx="23" cy="23.5" r="5.5" stroke="#151516" stroke-width="2.4"></circle>
-                    <circle cx="30.2" cy="15.8" r="1.8" fill="#151516"></circle>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      ${buildThankYouInnerHtml("form", { serviceLeadVisibilityMarker: false })}
     `;
     modal.querySelector(".modal-close")?.addEventListener("click", closeDesktopModal);
     modal.scrollTop = 0;
@@ -205,6 +299,30 @@
     }, 15000);
   };
 
+  const showThankYouInline = (root) => {
+    if (!root) return;
+    if (inlineLeadRemountTimer) {
+      clearTimeout(inlineLeadRemountTimer);
+      inlineLeadRemountTimer = null;
+    }
+    root.classList.add("is-thank-you");
+    root.innerHTML = buildThankYouInnerHtml(INLINE_FORM_WRAP_ID, { serviceLeadVisibilityMarker: true });
+    root.scrollTop = 0;
+    const formWrap = root.querySelector(`#${INLINE_FORM_WRAP_ID}`);
+    if (formWrap) {
+      formWrap.style.height = "";
+      formWrap.style.minHeight = "280px";
+    }
+    requestAnimationFrame(() => {
+      window.dispatchEvent(new CustomEvent("sa-service-lead-dom-update"));
+    });
+    inlineLeadRemountTimer = setTimeout(() => {
+      inlineLeadRemountTimer = null;
+      root.classList.remove("is-thank-you");
+      mountInlineLeadForm({ remount: true });
+    }, 15000);
+  };
+
   const closeDesktopModal = () => {
     if (thankYouAutoCloseTimer) {
       clearTimeout(thankYouAutoCloseTimer);
@@ -217,7 +335,7 @@
   };
 
   const syncDesktopModalScrollable = (modal) => {
-    if (!modal) return;
+    if (!modal || modal.id !== DESKTOP_MODAL_ID) return;
     modal.classList.remove("is-scrollable");
     requestAnimationFrame(() => {
       const needsScroll = modal.scrollHeight > modal.clientHeight + 1;
@@ -322,8 +440,40 @@
     if (node) node.textContent = "";
   };
 
-  const initDesktopFormBehavior = (modal) => {
-    const form = modal.querySelector("form.order-popup__form");
+  const mountInlineLeadForm = (opts = {}) => {
+    const root = document.getElementById(INLINE_LEAD_ROOT_ID);
+    if (!root) return;
+    if (!opts.remount && root.querySelector("form.order-popup__form")) return;
+    if (inlineLeadRemountTimer) {
+      clearTimeout(inlineLeadRemountTimer);
+      inlineLeadRemountTimer = null;
+    }
+    const tmpl = document.getElementById(INLINE_LEAD_META_ID);
+    let titleInnerHtml = "Хочу работать с&nbsp;вами";
+    let leadInnerHtml = "Оставьте заявку, и мы в скором времени с вами свяжемся обсудить ваши задачи.";
+    if (tmpl && tmpl.tagName === "TEMPLATE") {
+      const titleSrc = tmpl.content.querySelector('[data-role="title"]');
+      const leadSrc = tmpl.content.querySelector('[data-role="lead"]');
+      if (titleSrc?.textContent?.trim()) titleInnerHtml = escapeHtml(titleSrc.textContent.trim());
+      if (leadSrc?.innerHTML?.trim()) leadInnerHtml = leadSrc.innerHTML.trim();
+    }
+    root.classList.remove("is-thank-you");
+    root.innerHTML = buildOrderPopupInnerShell({
+      formWrapId: INLINE_FORM_WRAP_ID,
+      titleInnerHtml,
+      leadInnerHtml,
+      serviceLeadVisibilityMarker: true,
+    });
+    /* Как у #desktop-order-popup: селекторы snapshot.bundle (.newModal .order-popup__content и т.д.) */
+    root.classList.add("darktheme", "newModal");
+    initDesktopFormBehavior(root);
+    requestAnimationFrame(() => {
+      window.dispatchEvent(new CustomEvent("sa-service-lead-dom-update"));
+    });
+  };
+
+  const initDesktopFormBehavior = (formHost) => {
+    const form = formHost.querySelector("form.order-popup__form");
     if (!form) return;
     const submit = form.querySelector(".form__submit");
 
@@ -339,7 +489,7 @@
         const minHeight = parseFloat(getComputedStyle(control).minHeight) || 54;
         control.style.height = "auto";
         control.style.height = `${Math.max(control.scrollHeight, minHeight)}px`;
-        syncDesktopModalScrollable(modal);
+        syncDesktopModalScrollable(formHost);
       };
       control.addEventListener("focus", () => control.closest(".form__group")?.classList.add("is-focused"));
       control.addEventListener("blur", () => control.closest(".form__group")?.classList.remove("is-focused"));
@@ -395,10 +545,12 @@
         }
         return;
       }
-      const modalEl = document.getElementById(DESKTOP_MODAL_ID);
+      const desktopModal = form.closest(`#${DESKTOP_MODAL_ID}`);
+      const inlineRoot = form.closest(`#${INLINE_LEAD_ROOT_ID}`);
       const payload = buildLeadFormData(form);
       reachMetrikaGoal(METRIKA_FORM_GOAL);
-      showThankYouScreen(modalEl);
+      if (desktopModal) showThankYouScreen(desktopModal);
+      else if (inlineRoot) showThankYouInline(inlineRoot);
       void submitLeadFormPayload(payload).catch((err) => {
         console.error(err);
       });
@@ -431,75 +583,12 @@
     modal.setAttribute("data-v-5c138029", "");
     modal.innerHTML = `
       <div data-v-2ee28934="" data-v-5c138029="" class="modal-close order-popup__cross" aria-label="Закрыть"></div>
-      <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__inner">
-        <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__content">
-          <div data-v-2ee28934="" data-v-5c138029="" class="order-popup__meta">
-            <h2 data-v-2ee28934="" data-v-5c138029="">Хочу работать с&nbsp;вами</h2>
-            <p data-v-2ee28934="" data-v-5c138029="" class="lead">Оставьте заявку, и мы в скором времени с вами свяжемся обсудить ваши задачи.</p>
-          </div>
-          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger">
-            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title">Общаться в мессенджере</div>
-            <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-links">
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="${TELEGRAM_MESSENGER_BOT_HREF}" aria-label="Telegram">${SVG_ICON.telegram}</a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="https://wa.me/15557164521" aria-label="WhatsApp">${SVG_ICON.whatsapp}</a>
-              <a data-v-2ee28934="" data-v-5c138029="" target="_blank" rel="noopener noreferrer" href="${VK_MESSENGER_HREF}" aria-label="VK">${SVG_ICON.vk}</a>
-            </div>
-          </div>
-        </div>
-        <div data-v-8ad2fcbc="" data-v-5c138029="" id="form" class="form-wrap" style="height: unset;">
-          <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title contact-form__form-title">Отправить форму заявки</div>
-          <form data-v-8ad2fcbc="" action="#" method="post" enctype="multipart/form-data" class="order-popup__form order-form form" novalidate>
-            <div data-v-8ad2fcbc="" class="form__grid">
-              <div data-v-8ad2fcbc="" class="form__grid-item">
-                <label data-v-8ad2fcbc="" class="form__group">
-                  <input data-v-8ad2fcbc="" type="text" name="name" placeholder="Имя" class="form__control js-requied" />
-                  <span data-v-8ad2fcbc="" class="form__label">Имя *</span>
-                </label>
-                <label data-v-8ad2fcbc="" class="form__group">
-                  <input data-v-8ad2fcbc="" type="text" name="phone" placeholder="Телефон" class="form__control js-requied" />
-                  <span data-v-8ad2fcbc="" class="form__label">Телефон *</span>
-                </label>
-                <label data-v-8ad2fcbc="" class="form__group">
-                  <input data-v-8ad2fcbc="" type="email" name="email" placeholder="email" class="form__control" />
-                  <span data-v-8ad2fcbc="" class="form__label">Email *</span>
-                </label>
-                <label data-v-8ad2fcbc="" class="form__group form__comments">
-                  <textarea data-v-8ad2fcbc="" name="comments" rows="1" placeholder="Комментарий" autocomplete="off" class="form__control"></textarea>
-                  <span data-v-8ad2fcbc="" class="form__label">Комментарий</span>
-                </label>
-                <label data-v-8ad2fcbc="" class="form__group form__manager" style="display:none">
-                  <input data-v-8ad2fcbc="" type="text" name="manager" class="form__control" />
-                </label>
-              </div>
-              <div data-v-8ad2fcbc="" class="form__grid-item">
-                <label data-v-8ad2fcbc="" class="form__group">
-                  <input data-v-8ad2fcbc="" type="text" name="site" placeholder="Сайт" class="form__control" />
-                  <span data-v-8ad2fcbc="" class="form__label">Сайт</span>
-                </label>
-                <label data-v-8ad2fcbc="" class="form__group upload-input">
-                  <input data-v-8ad2fcbc="" type="file" name="file" class="form__control" />
-                  <span data-v-8ad2fcbc="" class="form__label upload-input__label">Прикрепить файл</span>
-                </label>
-              </div>
-            </div>
-            <div data-v-8ad2fcbc="" class="form__group form__group--sub">
-              <button data-v-111f0665="" data-v-8ad2fcbc="" class="btn form__submit" type="submit">
-                <span data-v-111f0665="" class="btn__overlay"></span>
-                <span data-v-111f0665="" class="btn__text">Отправить</span>
-                <svg data-v-111f0665="" class="btn__arrow" width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path data-v-111f0665="" d="M0 5.5H14M14 5.5L8.4 0M14 5.5L8.4 11" transform="translate(0 1)" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-              <label data-v-8ad2fcbc="" class="privacy-check">
-                <input data-v-8ad2fcbc="" type="checkbox" name="consent" value="1" required class="privacy-check__control" checked />
-                <span data-v-8ad2fcbc="" class="privacy-check__mask"></span>
-                <span data-v-8ad2fcbc="" class="privacy-check__text">Я даю согласие <a data-v-8ad2fcbc="" href="https://serenity.agency/privacy.pdf" target="_blank" rel="noopener noreferrer">на обработку персональных данных</a></span>
-              </label>
-            </div>
-            <div data-v-8ad2fcbc="" class="order-popup__form-scroll-spacer" aria-hidden="true"></div>
-          </form>
-        </div>
-      </div>
+      ${buildOrderPopupInnerShell({
+        formWrapId: "form",
+        titleInnerHtml: "Хочу работать с&nbsp;вами",
+        leadInnerHtml: "Оставьте заявку, и мы в скором времени с вами свяжемся обсудить ваши задачи.",
+        serviceLeadVisibilityMarker: false,
+      })}
     `;
 
     modal.querySelector(".modal-close")?.addEventListener("click", closeDesktopModal);
@@ -587,6 +676,181 @@
     });
   };
 
+  const initServiceLeadFloatingCtaHide = () => {
+    /* Маркер — на .order-popup__inner внутри #sa-inline-lead-root (см. buildOrderPopupInnerShell): не на #sa-inline-lead-root,
+     * иначе min-height + flex оболочки дают «хвост» в viewport после скролла мимо формы и CTA остаётся скрыт. */
+    const getNodes = () => [...document.querySelectorAll("[data-sa-service-lead]")];
+    if (!document.getElementById(INLINE_LEAD_ROOT_ID)) return;
+
+    const MIN_OVERLAP_FRAC = 0.018;
+    const MIN_OVERLAP_PX = 40;
+    /**
+     * Скрываем CTA только пока в viewport видно «существенную» долю .order-popup__inner по высоте.
+     * Чем выше порог — тем раньше по скроллу снимается sa-service-lead-in-view (кнопка появляется при большей части формы ещё в кадре).
+     */
+    const minMeaningfulVisibleHeight = (r) => Math.max(120, Math.min(240, r.height * 0.42));
+
+    let scheduled = false;
+    const syncBody = () => {
+      scheduled = false;
+      const nodes = getNodes();
+      if (!nodes.length) {
+        document.body.classList.remove("sa-service-lead-in-view");
+        return;
+      }
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      const vw = window.innerWidth || document.documentElement.clientWidth || 0;
+      let any = false;
+      for (const el of nodes) {
+        if (!el.isConnected) continue;
+        const r = el.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) continue;
+        const ih = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+        const iw = Math.min(r.right, vw) - Math.max(r.left, 0);
+        if (ih <= 0 || iw <= 0) continue;
+        if (ih < minMeaningfulVisibleHeight(r)) continue;
+        if (iw < 72) continue;
+        const intersectArea = ih * iw;
+        const boxArea = Math.max(1, r.width * r.height);
+        const frac = intersectArea / boxArea;
+        if (frac < MIN_OVERLAP_FRAC && Math.min(ih, iw) < MIN_OVERLAP_PX) continue;
+        any = true;
+        break;
+      }
+      document.body.classList.toggle("sa-service-lead-in-view", any);
+    };
+    const schedule = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(syncBody);
+    };
+
+    const isScrollableBox = (node) => {
+      if (!node || node === document) return false;
+      try {
+        const st = getComputedStyle(node);
+        const oy = st.overflowY;
+        const ox = st.overflowX;
+        const y =
+          (oy === "auto" || oy === "scroll" || oy === "overlay") && node.scrollHeight > node.clientHeight + 1;
+        const x =
+          (ox === "auto" || ox === "scroll" || ox === "overlay") && node.scrollWidth > node.clientWidth + 1;
+        return y || x;
+      } catch {
+        return false;
+      }
+    };
+
+    const collectScrollRoots = () => {
+      const set = new Set();
+      set.add(document.documentElement);
+      set.add(document.body);
+      const nuxt = document.getElementById("__nuxt");
+      if (nuxt) set.add(nuxt);
+      const pc = document.querySelector(".page-constructor");
+      if (pc) {
+        for (let p = pc; p; p = p.parentElement) {
+          if (isScrollableBox(p)) set.add(p);
+        }
+      }
+      for (const el of getNodes()) {
+        if (!el?.isConnected) continue;
+        for (let p = el; p; p = p.parentElement) {
+          if (isScrollableBox(p)) set.add(p);
+        }
+      }
+      return [...set];
+    };
+
+    let scrollRoots = [];
+    const onScrollRoot = () => schedule();
+    const rebindScrollRoots = () => {
+      for (const n of scrollRoots) {
+        try {
+          n.removeEventListener("scroll", onScrollRoot);
+        } catch {
+          /* ignore */
+        }
+      }
+      scrollRoots = collectScrollRoots();
+      for (const n of scrollRoots) {
+        try {
+          n.addEventListener("scroll", onScrollRoot, { passive: true });
+        } catch {
+          /* ignore */
+        }
+      }
+    };
+
+    let io = null;
+    const rebuildIo = () => {
+      if (typeof IntersectionObserver !== "function") return;
+      if (io) io.disconnect();
+      io = new IntersectionObserver(schedule, { root: null, threshold: 0 });
+      for (const el of getNodes()) {
+        if (el?.isConnected) io.observe(el);
+      }
+    };
+
+    let ro = null;
+    const rebuildRo = () => {
+      if (typeof ResizeObserver !== "function") return;
+      if (ro) ro.disconnect();
+      try {
+        ro = new ResizeObserver(schedule);
+        for (const el of getNodes()) {
+          if (el?.isConnected) ro.observe(el);
+        }
+      } catch {
+        ro = null;
+      }
+    };
+
+    const onDomUpdate = () => {
+      rebindScrollRoots();
+      rebuildIo();
+      rebuildRo();
+      schedule();
+    };
+
+    window.addEventListener("sa-service-lead-dom-update", onDomUpdate);
+
+    /* Скролл: window + documentElement + document/capture + #__nuxt + предки с overflow (Chrome: скролл не на window). */
+    document.addEventListener("scroll", schedule, { passive: true, capture: true });
+    document.addEventListener("wheel", schedule, { passive: true, capture: true });
+    window.addEventListener("scroll", schedule, { passive: true });
+    document.documentElement.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    const nuxtRoot = document.getElementById("__nuxt");
+    if (nuxtRoot) nuxtRoot.addEventListener("scroll", schedule, { passive: true });
+
+    const vv = window.visualViewport;
+    if (vv) {
+      vv.addEventListener("scroll", schedule, { passive: true });
+      vv.addEventListener("resize", schedule);
+    }
+
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", schedule, { passive: true });
+      document.addEventListener("scrollend", schedule, { passive: true, capture: true });
+    }
+
+    window.addEventListener(
+      "pageshow",
+      (e) => {
+        if (e.persisted) schedule();
+      },
+      { passive: true },
+    );
+
+    rebindScrollRoots();
+    rebuildIo();
+    rebuildRo();
+
+    schedule();
+    requestAnimationFrame(() => requestAnimationFrame(syncBody));
+  };
+
   const initEscape = () => {
     document.addEventListener(
       "keydown",
@@ -608,6 +872,8 @@
   const run = () => {
     initMessengerGoalTracking();
     initInModalInpageAction();
+    initServiceLeadFloatingCtaHide();
+    mountInlineLeadForm();
     initHeaderFloatingCta();
     initFullscreenMenuButton();
     initBottomBar();
