@@ -75,6 +75,8 @@
       ensureButtons = false,
       desktopArrowsOnly = false,
       fullBleed = false,
+      /** Когда `fullBleed: false`, можно задать media-query — геометрия «вылета» как у услуг только на адаптиве (исторически для «Пакеты»; сейчас пакеты — padding на треке, без fullBleed). */
+      fullBleedMedia = null,
       sidePadGetter = getServicesSidePad,
     } = options;
     if (!host || !track) return;
@@ -103,8 +105,38 @@
     ensureArrowButtons();
 
     const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+
+    const fullBleedActive = () => {
+      if (fullBleed) return true;
+      if (!fullBleedMedia || typeof window === "undefined") return false;
+      try {
+        return window.matchMedia(fullBleedMedia).matches;
+      } catch {
+        return false;
+      }
+    };
+
+    const clearBleedGeometry = () => {
+      ["width", "max-width", "margin-left", "margin-right", "box-sizing"].forEach((p) => host.style.removeProperty(p));
+      track.style.removeProperty("box-sizing");
+      track.style.removeProperty("padding-left");
+      const lastSlide = track.querySelector(".swiper-slide:last-child");
+      if (lastSlide) lastSlide.style.removeProperty("margin-right");
+      if (prevBtn) {
+        prevBtn.style.removeProperty("left");
+        prevBtn.style.removeProperty("right");
+      }
+      if (nextBtn) {
+        nextBtn.style.removeProperty("left");
+        nextBtn.style.removeProperty("right");
+      }
+    };
+
     const applyHostGeometry = () => {
-      if (!fullBleed) return;
+      if (!fullBleedActive()) {
+        clearBleedGeometry();
+        return;
+      }
       const sidePad = sidePadGetter();
       /* Правый «вылет» сетки: один раз на последнем слайде, до расчёта maxScroll. Иначе inline margin
          из HTML / старые стили бьют по ширине трека, и отступ визуально не тянется. */
@@ -149,7 +181,10 @@
       let minTop = Number.POSITIVE_INFINITY;
       let maxBottom = Number.NEGATIVE_INFINITY;
       slides.forEach((slide) => {
-        const card = slide.querySelector("a.case") || slide.querySelector("a.blog-box");
+        const card =
+          slide.querySelector("a.case") ||
+          slide.querySelector("a.blog-box") ||
+          slide.querySelector(".price-card");
         if (!card) return;
         const r = card.getBoundingClientRect();
         if (r.width < 1 || r.height < 1) return;
@@ -371,6 +406,20 @@
     }
     window.addEventListener("load", relayout, { once: true });
     setTimeout(relayout, 0);
+
+    if (fullBleedMedia && !fullBleed && typeof window !== "undefined") {
+      let mm;
+      try {
+        mm = window.matchMedia(fullBleedMedia);
+      } catch {
+        mm = null;
+      }
+      if (mm) {
+        const onBleedMedia = () => relayout();
+        if (typeof mm.addEventListener === "function") mm.addEventListener("change", onBleedMedia);
+        else if (typeof mm.addListener === "function") mm.addListener(onBleedMedia);
+      }
+    }
   };
 
   /* На /services/ несколько рядов карточек (по секциям); на главной — один. */
@@ -382,6 +431,19 @@
       slideSelector: ".services__slide, .swiper-slide",
       desktopArrowsOnly: true,
       fullBleed: true,
+      sidePadGetter: getServicesSidePad,
+    });
+  });
+
+  document.querySelectorAll(".prices__packages-slider").forEach((packagesHost) => {
+    const packagesTrack = packagesHost.querySelector(".prices__packages-track");
+    initRow({
+      host: packagesHost,
+      track: packagesTrack,
+      slideSelector: ".prices__packages-slide",
+      desktopArrowsOnly: true,
+      /* Без fullBleed: отступы слева/справа задаём CSS на .prices__packages-track (секция не дублирует сетку с initRow). */
+      fullBleed: false,
       sidePadGetter: getServicesSidePad,
     });
   });
@@ -1147,13 +1209,22 @@
         wrap.style.removeProperty("height");
       }
       const swiper = new window.Swiper(container, {
-        autoHeight: true,
+        /* autoHeight даёт высоту обёртки по «короткому» слайду до загрузки картинок (SSR 720px) —
+           контент с min-height:100vh обрезается и визуально прилипает к низу. Слайды кейсов одной высоты. */
+        autoHeight: false,
         slidesPerView: 1,
         spaceBetween: 0,
         speed: 550,
         watchOverflow: true,
         observer: true,
         observeParents: true,
+        /* Свайп: при overflow-y на слайде touch часто уходит в скролл; passiveListeners:false + release на краях помогают горизонтальному жесту. */
+        simulateTouch: true,
+        grabCursor: true,
+        threshold: 6,
+        touchAngle: 45,
+        touchReleaseOnEdges: true,
+        passiveListeners: false,
         pagination: {
           el: pagination,
           clickable: true,
@@ -1169,9 +1240,18 @@
         },
       });
       container._saCasesSwiper = swiper;
-      requestAnimationFrame(() => {
-        swiper.update();
+      const bumpCasesSwiper = () => {
+        requestAnimationFrame(() => {
+          swiper.update();
+        });
+      };
+      bumpCasesSwiper();
+      container.querySelectorAll("img").forEach((img) => {
+        if (img.complete) return;
+        img.addEventListener("load", bumpCasesSwiper, { once: true });
+        img.addEventListener("error", bumpCasesSwiper, { once: true });
       });
+      window.addEventListener("load", bumpCasesSwiper, { once: true });
     });
   };
 
@@ -1188,6 +1268,9 @@
         spaceBetween: 30,
         freeMode: true,
         grabCursor: true,
+        simulateTouch: true,
+        threshold: 6,
+        passiveListeners: false,
         watchOverflow: true,
         observer: true,
         observeParents: true,
@@ -1208,6 +1291,9 @@
         freeMode: true,
         spaceBetween: 20,
         grabCursor: true,
+        simulateTouch: true,
+        threshold: 6,
+        passiveListeners: false,
       };
       if (paginationEl) {
         opts.pagination = { el: paginationEl, clickable: true };

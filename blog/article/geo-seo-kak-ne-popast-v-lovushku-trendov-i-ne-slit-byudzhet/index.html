@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260512categoryScrollEdge" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260504blogWideMediaMt10" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogCaptionStripDline" />
-    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260428a" />
+    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260514navMenu16" />
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m" />
     <link rel="preload" href="/_sa/css/sections/lead-form.css?v=20260429b" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="/_sa/css/sections/lead-form.css?v=20260429b" /></noscript>
@@ -48,7 +48,14 @@
     <div id="__nuxt">
       <div id="__layout">
         <div class="case-all-root">
-                    <header class="header page-top compressed" data-v-e5e2adce="">
+          <!--
+  КАНОН ШАПКИ (верхнее меню «Кейсы / Услуги / …» на десктопе):
+  типографика задаётся только в css/sections/header.css (@media min-width: 1251px):
+  MuseoSansCyrl, font-weight 500, font-size 16px (+ сглаживание для Safari).
+  Не вешать font-size/font-weight пунктов меню в страничных Nuxt-бандлах / parity поверх этого;
+  в head подключать sections/header.css после любых бандлов, где снова объявлен .navigation-list a.
+-->
+          <header class="header page-top compressed" data-v-e5e2adce="">
             <div
               class="menu-icon__wrapper menu-icon__wrapper_main"
               data-v-e5e2adce=""
@@ -87,7 +94,7 @@
                       <a href="/case/all/" data-v-e5e2adce="" class=""> Кейсы </a>
                     </li>
                     <li data-v-e5e2adce="">
-                      <a href="https://serenity.agency/services" data-v-e5e2adce="" class=""> Услуги </a>
+                      <a href="/services/" data-v-e5e2adce="" class=""> Услуги </a>
                     </li>
                     <li data-v-e5e2adce="">
                       <a href="https://serenity.agency/about" data-v-e5e2adce="" class=""> Агентство </a>
@@ -111,7 +118,7 @@
                   <div class="navigation-new__menu__list-wrapper" data-v-7050ddb2="">
                     <ul class="navigation-new__list" data-v-7050ddb2="">
                       <li data-v-7050ddb2=""><a href="/case/all/" data-v-7050ddb2="">Кейсы</a></li>
-                      <li data-v-7050ddb2=""><a href="https://serenity.agency/services" data-v-7050ddb2="">Услуги</a></li>
+                      <li data-v-7050ddb2=""><a href="/services/" data-v-7050ddb2="">Услуги</a></li>
                       <li data-v-7050ddb2=""><a href="https://serenity.agency/about" data-v-7050ddb2="">Агентство</a></li>
                       <li data-v-7050ddb2=""><a href="/blog/" data-v-7050ddb2="">Блог</a></li>
                       <li data-v-7050ddb2=""><a href="https://serenity.agency/career/vacancy" data-v-7050ddb2="">Вакансии</a></li>
@@ -653,7 +660,7 @@ GEO не дает быстрых лидов и&nbsp;продаж. Если пы�
       });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/30205029" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <script defer src="/_sa/js/leave-request-cta.js?v=20260511g"></script>
+    <script defer src="/_sa/js/leave-request-cta.js?v=20260514leadCtaShowEarlier2"></script>
     <!-- SERENITY:ANALYTICS-END -->
   </body>
 </html>

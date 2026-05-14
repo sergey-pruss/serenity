@@ -1,4 +1,60 @@
-/* Header section: logo geometry for desktop/tablet/mobile parity */
+/* Header: геометрия лого + зафиксированный контракт верхнего десктоп-меню. */
+
+/*
+ * === Зафиксированный контракт: верхнее меню (Кейсы, Услуги, …), viewport ≥ 1251px ===
+ * font-family: MuseoSansCyrl (+ системный стек) | font-weight: 500 | font-size: 16px
+ * + -webkit-font-smoothing: subpixel-antialiased (Safari не «тонит» начертание).
+ * Источник правды по меню — только этот файл; не дублировать размер/жирность в parity / Nuxt-бандлах страниц.
+ * Подключение: sections/header.css после страничных CSS, где снова задаётся .navigation-list a (иначе «плывёт» 14/15px).
+ * Не использовать селектор .header.page-top для меню: js/app.js (initHeaderBurgerOnScroll) снимает page-top при скролле.
+ * Селекторы с #__layout и ul.navigation-list > li > a — запас по каскаду и scoped-атрибутам.
+ */
+@media screen and (min-width: 1251px) {
+  #__layout .header .header__top-line .navigation-menu .navigation-list a[data-v-e5e2adce],
+  #__layout .header .header__top-line .navigation-menu .navigation-list a[data-v-6bd2b9b2],
+  .header .header__top-line .navigation-menu .navigation-list a[data-v-e5e2adce],
+  .header .header__top-line .navigation-menu .navigation-list a[data-v-6bd2b9b2],
+  #__layout .header .header__top-line .navigation-menu ul.navigation-list > li > a,
+  .header .header__top-line .navigation-menu ul.navigation-list > li > a {
+    font-family:
+      MuseoSansCyrl,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      Ubuntu,
+      Cantarell,
+      "Noto Sans",
+      sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  }
+
+  #__layout .header .header__top-line .navigation-menu .navigation-list a.nuxt-link-active[data-v-e5e2adce],
+  #__layout .header .header__top-line .navigation-menu .navigation-list a.nuxt-link-active[data-v-6bd2b9b2],
+  .header .header__top-line .navigation-menu .navigation-list a.nuxt-link-active[data-v-e5e2adce],
+  .header .header__top-line .navigation-menu .navigation-list a.nuxt-link-active[data-v-6bd2b9b2],
+  #__layout .header .header__top-line .navigation-menu ul.navigation-list > li > a.nuxt-link-active,
+  .header .header__top-line .navigation-menu ul.navigation-list > li > a.nuxt-link-active {
+    font-family:
+      MuseoSansCyrl,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      Ubuntu,
+      Cantarell,
+      "Noto Sans",
+      sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  }
+}
+
 @media screen and (min-width: 769px) {
   .header__logo .header__logo-img {
     position: relative;
