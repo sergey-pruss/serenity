@@ -24,8 +24,8 @@ assert(
   "html/index.layout.html: mobile CSS cache-bust должен быть 20260430o",
 );
 assert(
-  /src="\/_sa\/js\/app\.js\?v=20260514casesBlockSwiperNoAutoHeight"/.test(layout),
-  "html/index.layout.html: app.js cache-bust должен быть 20260514casesBlockSwiperNoAutoHeight",
+  /src="\/_sa\/js\/app\.js\?v=20260514kontekstCasesSwipe"/.test(layout),
+  "html/index.layout.html: app.js cache-bust должен быть 20260514kontekstCasesSwipe",
 );
 {
   const iParity = layout.indexOf("css__home-snapshot__overrides.parity-sync.css");
