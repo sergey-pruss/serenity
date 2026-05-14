@@ -22,10 +22,21 @@ deploy_rsync_repo_to_static_root() {
     --exclude='node_modules' \
     --exclude='.wrangler' \
     --exclude='artifacts' \
+    --exclude='tmp/' \
     --exclude='wrangler.toml' \
     --exclude='deploy.sh' \
     --exclude='case/all/*/index 2.html' \
     ./ "${host}:${path}"
+}
+
+# Каталог tmp/ (срезы паритета, скриншоты) не кладём на origin. Без --delete rsync старые копии не снимет — чистим по SSH.
+deploy_remote_scrub_rsync_excluded_tmp() {
+  export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
+  local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
+  local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
+  # shellcheck disable=SC2086
+  $RSYNC_RSH "${host}" "rm -rf -- '${path}tmp'" || true
+  echo "🧹 На origin удалён каталог tmp (если был): ${host}:${path}tmp"
 }
 
 deploy_worker_staging() {
