@@ -91,9 +91,16 @@ body:not(.order-popup-open) .overlay-new {
   transition: none !important;
 }
 
-/* Фон слайда: без длинного transition scale/blur — иначе фон «отстаёт» от карточки при быстром свайпе */
+/* Фон слайда: без длинного transition scale/blur — иначе фон «отстаёт» от карточки при быстром свайпе.
+ * WebKit: в Nuxt-бандле у .background z-index:-1 — внутри слайда с overflow:hidden слой уходит «под» корень
+ * и не рисуется (тёмный прямоугольник за мокапами, кейс «Композит»). Держим неотрицательный z-index всегда. */
+.cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+  position: relative;
+}
+
 .cases-block .cases-block__swiper-slide .background[data-v-bd2e570a] {
   transition: none !important;
+  z-index: 0 !important;
 }
 
 .cases-block__slider .cases-block__slider-swiper-container .swiper-slide {

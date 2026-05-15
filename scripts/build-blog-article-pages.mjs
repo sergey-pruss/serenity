@@ -229,7 +229,8 @@ function renderListingCard(c, idx) {
   const imageUrl =
     c.media?.kind === "video" ? c.media.poster || c.media.image : c.media?.image;
   const fetchPriority = idx < 2 ? "high" : "low";
-  const loading = idx < 2 ? "eager" : "lazy";
+  /* Safari: отложенная загрузка в горизонтальном «Читайте ещё» даёт битый плейсхолдер; слайдов не больше READ_MORE_EDGE. */
+  const loading = idx < READ_MORE_EDGE ? "eager" : "lazy";
   const ia = blogListingCardImageAttrs(imageUrl);
   const srcsetAttr = ia.srcset
     ? ` srcset="${escapeXml(ia.srcset)}" sizes="${escapeXml(ia.sizes)}"`
@@ -567,7 +568,7 @@ const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all
               <img fetchpriority="low" decoding="async"
                 src="/_sa/img/img__gradient_dot.png"
                 alt=""
-                loading="lazy"
+                loading="eager"
                 data-v-6f8a040c=""
                 style="
                   opacity: 1;
@@ -579,7 +580,7 @@ const BLOG_ARTICLE_PAGE_TOP_GRADIENT = `<div class="page-container nuxt case-all
               /><img fetchpriority="low" decoding="async"
                 src="/_sa/img/img__gradient_dot.png"
                 alt=""
-                loading="lazy"
+                loading="eager"
                 data-v-6f8a040c=""
                 style="
                   opacity: 1;
@@ -685,7 +686,7 @@ function renderAuthorRailHtml(author) {
   const photoBlock = author.photo
     ? `<div class="blog-article-author__photo"><img src="${escapeXml(author.photo)}" alt="${escapeXml(
         author.name
-      )}" width="80" height="80" decoding="async" loading="lazy" /></div>`
+      )}" width="80" height="80" decoding="async" loading="eager" fetchpriority="low" /></div>`
     : "";
   const titleBlock = author.title
     ? `<p class="blog-article-author__title">${escapeXml(author.title)}</p>`
