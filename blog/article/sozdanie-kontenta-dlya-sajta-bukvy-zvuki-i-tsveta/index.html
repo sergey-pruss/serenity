@@ -33,11 +33,11 @@
     <link rel="preload" as="font" type="font/woff" href="/_sa/img/HeroNew-Medium.woff" crossorigin="anonymous" />
     <link rel="preload" as="font" type="font/woff2" href="/_sa/img/HeroNew-Bold.woff2" crossorigin="anonymous" />
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
-    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260512categoryScrollEdge" />
+    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerFillViewport" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260504blogWideMediaMt10" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogCaptionStripDline" />
-    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260514navMenu16" />
-    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m" />
+    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260515menuOverlayTopNeg5" />
+    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap" />
     <link rel="preload" href="/_sa/css/sections/lead-form.css?v=20260429b" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="/_sa/css/sections/lead-form.css?v=20260429b" /></noscript>
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260503clientsStripNativeBleed" />
@@ -51,7 +51,7 @@
           <!--
   КАНОН ШАПКИ (верхнее меню «Кейсы / Услуги / …» на десктопе):
   типографика задаётся только в css/sections/header.css (@media min-width: 1251px):
-  MuseoSansCyrl, font-weight 500, font-size 16px (+ сглаживание для Safari).
+  MuseoSansCyrl, font-weight 300, font-size 16px (+ сглаживание для Safari).
   Не вешать font-size/font-weight пунктов меню в страничных Nuxt-бандлах / parity поверх этого;
   в head подключать sections/header.css после любых бандлов, где снова объявлен .navigation-list a.
 -->
@@ -152,22 +152,25 @@
                     </div>
                     <div class="footer-modern__social" data-v-ff4f3948="">
                       <header class="social__header" data-v-ff4f3948="">Следите за&nbsp;нами</header>
-                      <a href="https://vk.com/serenity.agency" target="_blank" rel="noopener noreferrer" data-v-ff4f3948=""
-                        ><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-                          <path
-                            d="M19.6622 2.66734H11.6861C4.40064 2.66734 2.66734 4.40064 2.66734 11.6725V19.6486C2.66734 26.934 4.38716 28.6673 11.6725 28.6673H19.6486C26.934 28.6673 28.6673 26.9475 28.6673 19.6621V11.6861C28.6673 4.40064 26.9475 2.66734 19.6622 2.66734ZM23.6569 21.2194H21.7611C21.0434 21.2194 20.8267 20.6371 19.5403 19.3506C18.4163 18.2673 17.9423 18.1319 17.658 18.1319C17.2653 18.1319 17.1569 18.2402 17.1569 18.7819V20.4881C17.1569 20.9486 17.008 21.2194 15.8028 21.2194C14.6333 21.1408 13.4992 20.7855 12.4939 20.1828C11.4886 19.5801 10.6408 18.7472 10.0205 17.7527C8.5477 15.9196 7.52298 13.7681 7.02779 11.4694C7.02779 11.185 7.13609 10.9277 7.67779 10.9277H9.57359C10.0611 10.9277 10.2372 11.1444 10.4267 11.6455C11.3475 14.3538 12.9184 16.71 13.5548 16.71C13.7986 16.71 13.9069 16.6017 13.9069 15.9923V13.2027C13.8256 11.9298 13.1486 11.8215 13.1486 11.3611C13.1575 11.2396 13.2134 11.1264 13.3044 11.0455C13.3954 10.9646 13.5144 10.9223 13.6361 10.9277H16.6153C17.0215 10.9277 17.1569 11.1308 17.1569 11.6183V15.383C17.1569 15.7892 17.333 15.9246 17.4548 15.9246C17.6986 15.9246 17.8881 15.7892 18.335 15.3423C19.2953 14.1713 20.0799 12.8666 20.6642 11.4694C20.7238 11.3013 20.8369 11.1573 20.9861 11.0595C21.1352 10.9617 21.3123 10.9154 21.4903 10.9277H23.3861C23.9548 10.9277 24.0767 11.2121 23.9548 11.6183C23.265 13.1631 22.4115 14.6295 21.409 15.9923C21.2059 16.3038 21.1247 16.4663 21.409 16.8319C21.5986 17.1163 22.2622 17.6715 22.709 18.1996C23.359 18.8479 23.8987 19.5981 24.3069 20.4205C24.4694 20.9486 24.1986 21.2194 23.6569 21.2194V21.2194Z"
-                            fill="white"
-                          ></path></svg
-                      ></a>
-                      <a href="https://t.me/serenityagency" target="_blank" rel="noopener noreferrer" data-v-ff4f3948=""
-                        ><svg width="32" height="32" viewBox="0 0 32 32" id="telegram" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M19.6608 2.66602H11.6848C4.39932 2.66602 2.66602 4.39932 2.66602 11.6712V19.6473C2.66602 26.9326 4.38584 28.666 11.6712 28.666H19.6473C26.9327 28.666 28.666 26.9462 28.666 19.6608V11.6848C28.666 4.39932 26.9462 2.66602 19.6608 2.66602ZM7.44681 14.7953L22.2218 9.09784C22.896 8.79284 23.5476 9.26034 23.2901 10.2928L20.7743 22.1495C20.5985 22.9928 20.091 23.1928 19.3843 22.8037L15.5518 19.9728L13.7093 21.7645C13.7024 21.7711 13.6956 21.7777 13.6888 21.7843C13.4833 21.9831 13.3129 22.1478 12.9418 22.1478L13.2035 18.2378L13.2018 18.237H13.2035L20.3143 11.8195C20.626 11.5428 20.2468 11.407 19.8318 11.6595L11.0551 17.197L7.26181 16.0137C6.44431 15.7628 6.43847 15.2003 7.44681 14.7953Z"
-                            fill="white"
-                          ></path></svg
-                      ></a>
+                      <!-- Ряд иконок в отдельном flex: иначе в Safari «Следите за нами» (flex-basis 100%) ломал соседние <a> в одном контейнере. -->
+                      <div class="footer-modern__social-icons" data-v-ff4f3948="">
+                        <a href="https://vk.com/serenity.agency" target="_blank" rel="noopener noreferrer" data-v-ff4f3948="" aria-label="ВКонтакте"
+                          ><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="" aria-hidden="true">
+                            <path
+                              d="M19.6622 2.66734H11.6861C4.40064 2.66734 2.66734 4.40064 2.66734 11.6725V19.6486C2.66734 26.934 4.38716 28.6673 11.6725 28.6673H19.6486C26.934 28.6673 28.6673 26.9475 28.6673 19.6621V11.6861C28.6673 4.40064 26.9475 2.66734 19.6622 2.66734ZM23.6569 21.2194H21.7611C21.0434 21.2194 20.8267 20.6371 19.5403 19.3506C18.4163 18.2673 17.9423 18.1319 17.658 18.1319C17.2653 18.1319 17.1569 18.2402 17.1569 18.7819V20.4881C17.1569 20.9486 17.008 21.2194 15.8028 21.2194C14.6333 21.1408 13.4992 20.7855 12.4939 20.1828C11.4886 19.5801 10.6408 18.7472 10.0205 17.7527C8.5477 15.9196 7.52298 13.7681 7.02779 11.4694C7.02779 11.185 7.13609 10.9277 7.67779 10.9277H9.57359C10.0611 10.9277 10.2372 11.1444 10.4267 11.6455C11.3475 14.3538 12.9184 16.71 13.5548 16.71C13.7986 16.71 13.9069 16.6017 13.9069 15.9923V13.2027C13.8256 11.9298 13.1486 11.8215 13.1486 11.3611C13.1575 11.2396 13.2134 11.1264 13.3044 11.0455C13.3954 10.9646 13.5144 10.9223 13.6361 10.9277H16.6153C17.0215 10.9277 17.1569 11.1308 17.1569 11.6183V15.383C17.1569 15.7892 17.333 15.9246 17.4548 15.9246C17.6986 15.9246 17.8881 15.7892 18.335 15.3423C19.2953 14.1713 20.0799 12.8666 20.6642 11.4694C20.7238 11.3013 20.8369 11.1573 20.9861 11.0595C21.1352 10.9617 21.3123 10.9154 21.4903 10.9277H23.3861C23.9548 10.9277 24.0767 11.2121 23.9548 11.6183C23.265 13.1631 22.4115 14.6295 21.409 15.9923C21.2059 16.3038 21.1247 16.4663 21.409 16.8319C21.5986 17.1163 22.2622 17.6715 22.709 18.1996C23.359 18.8479 23.8987 19.5981 24.3069 20.4205C24.4694 20.9486 24.1986 21.2194 23.6569 21.2194V21.2194Z"
+                              fill="white"
+                            ></path></svg
+                        ></a>
+                        <a href="https://t.me/serenityagency" target="_blank" rel="noopener noreferrer" data-v-ff4f3948="" aria-label="Канал в Telegram"
+                          ><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="" aria-hidden="true">
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M19.6608 2.66602H11.6848C4.39932 2.66602 2.66602 4.39932 2.66602 11.6712V19.6473C2.66602 26.9326 4.38584 28.666 11.6712 28.666H19.6473C26.9327 28.666 28.666 26.9462 28.666 19.6608V11.6848C28.666 4.39932 26.9462 2.66602 19.6608 2.66602ZM7.44681 14.7953L22.2218 9.09784C22.896 8.79284 23.5476 9.26034 23.2901 10.2928L20.7743 22.1495C20.5985 22.9928 20.091 23.1928 19.3843 22.8037L15.5518 19.9728L13.7093 21.7645C13.7024 21.7711 13.6956 21.7777 13.6888 21.7843C13.4833 21.9831 13.3129 22.1478 12.9418 22.1478L13.2035 18.2378L13.2018 18.237H13.2035L20.3143 11.8195C20.626 11.5428 20.2468 11.407 19.8318 11.6595L11.0551 17.197L7.26181 16.0137C6.44431 15.7628 6.43847 15.2003 7.44681 14.7953Z"
+                              fill="white"
+                            ></path></svg
+                        ></a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -602,8 +605,8 @@
       </div>
     </div>
     <div class="overlay-new" data-v-2ee28934=""></div>
-    <link rel="preload" href="/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid" /></noscript>
+    <link rel="preload" href="/_sa/css/sections/footer-burger-chrome.css?v=20260515socialIconsWrap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260515socialIconsWrap" /></noscript>
     <script defer="" src="/_sa/js/nav-active.js?v=20260430a"></script>
     <script defer="" src="/_sa/js/app.js?v=20260503singleSiteFooter"></script>
     <!-- SERENITY:ANALYTICS-BEGIN -->

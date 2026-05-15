@@ -8,7 +8,7 @@ const assert = (condition, message) => {
   if (!condition) throw new Error(message);
 };
 
-const CSS_VERSION = "20260512categoryScrollEdge";
+const CSS_VERSION = "20260515burgerFillViewport";
 const css = read("css/css__home-snapshot__overrides.parity-sync.css");
 
 assert(

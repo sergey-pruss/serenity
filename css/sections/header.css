@@ -2,13 +2,32 @@
 
 /*
  * === Зафиксированный контракт: верхнее меню (Кейсы, Услуги, …), viewport ≥ 1251px ===
- * font-family: MuseoSansCyrl (+ системный стек) | font-weight: 500 | font-size: 16px
+ * font-family: MuseoSansCyrl (+ системный стек) | font-weight: 300 | font-size: 16px
  * + -webkit-font-smoothing: subpixel-antialiased (Safari не «тонит» начертание).
  * Источник правды по меню — только этот файл; не дублировать размер/жирность в parity / Nuxt-бандлах страниц.
  * Подключение: sections/header.css после страничных CSS, где снова задаётся .navigation-list a (иначе «плывёт» 14/15px).
  * Не использовать селектор .header.page-top для меню: js/app.js (initHeaderBurgerOnScroll) снимает page-top при скролле.
  * Селекторы с #__layout и ul.navigation-list > li > a — запас по каскаду и scoped-атрибутам.
  */
+
+/* +5px к базовому top:0 в Nuxt-бандле: лого, строка меню и бургер ниже края экрана. */
+#__layout .header.header,
+.header.header {
+  top: 5px !important;
+}
+
+/* При открытом меню оверлей тянем на 5px вверх — иначе видна полоска из-за top:5px у шапки. */
+.header.active .new-static-menu.new-static-menu_main-str,
+.header.active .new-static-menu.new-static-menu_main-str[data-v-e5e2adce],
+.header.active .new-static-menu.new-static-menu_main-str[data-v-7050ddb2],
+.header.active .new-static-menu.new-static-menu_main-str[data-v-6bd2b9b2],
+#__layout .header.active .new-static-menu.new-static-menu_main-str,
+#__layout .header.active .new-static-menu.new-static-menu_main-str[data-v-e5e2adce],
+#__layout .header.active .new-static-menu.new-static-menu_main-str[data-v-7050ddb2],
+#__layout .header.active .new-static-menu.new-static-menu_main-str[data-v-6bd2b9b2] {
+  top: -5px !important;
+}
+
 @media screen and (min-width: 1251px) {
   #__layout .header .header__top-line .navigation-menu .navigation-list a[data-v-e5e2adce],
   #__layout .header .header__top-line .navigation-menu .navigation-list a[data-v-6bd2b9b2],
@@ -26,7 +45,7 @@
       Cantarell,
       "Noto Sans",
       sans-serif !important;
-    font-weight: 500 !important;
+    font-weight: 300 !important;
     font-size: 16px !important;
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: auto;
@@ -48,7 +67,7 @@
       Cantarell,
       "Noto Sans",
       sans-serif !important;
-    font-weight: 500 !important;
+    font-weight: 300 !important;
     font-size: 16px !important;
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: auto;

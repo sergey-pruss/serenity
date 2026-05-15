@@ -509,6 +509,39 @@ function deferNonBlockingCss(href) {
   ].join("\n");
 }
 
+/** Первый `footer-modern__social` в шапке (бургер): срез с прод иногда без второй иконки — подменяем каноном из `html/partials/header.html`. */
+function extractFirstFooterModernSocialFromHeaderPartial() {
+  const p = fs.readFileSync(path.join(root, "html", "partials", "header.html"), "utf8");
+  const needle = '<div class="footer-modern__social"';
+  const i0 = p.indexOf(needle);
+  if (i0 < 0) return null;
+  let depth = 0;
+  for (let k = i0; k < p.length; k++) {
+    if (p.startsWith("<div", k)) depth++;
+    else if (p.startsWith("</div>", k)) {
+      depth--;
+      if (depth === 0) return p.slice(i0, k + "</div>".length);
+    }
+  }
+  return null;
+}
+
+function replaceFirstFooterModernSocialBlock(html, replacement) {
+  if (!replacement) return html;
+  const needle = '<div class="footer-modern__social"';
+  const i0 = html.indexOf(needle);
+  if (i0 < 0) return html;
+  let depth = 0;
+  for (let k = i0; k < html.length; k++) {
+    if (html.startsWith("<div", k)) depth++;
+    else if (html.startsWith("</div>", k)) {
+      depth--;
+      if (depth === 0) return html.slice(0, i0) + replacement + html.slice(k + "</div>".length);
+    }
+  }
+  return html;
+}
+
 function run() {
   const { path: layoutPath, label: layoutLabel } = resolveLayoutPath();
   if (!layoutPath || !fs.existsSync(layoutPath)) {
@@ -554,7 +587,7 @@ function run() {
     "    <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->",
     "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515ultraInline1576\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerFillViewport\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260514kontekstPackagesNativeRow\" />",
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260515asyncCssFaq"),
@@ -562,10 +595,10 @@ function run() {
     "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260515deferCssStack\" />",
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260515socialIconsWrap\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260514serviceInlineLead7\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260514navMenu16\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260515menuOverlayTopNeg5\" />",
     "    <!-- KONTEKST-CSS-BUNDLE-END -->",
   ].join("\n");
 
@@ -589,7 +622,17 @@ function run() {
 
   const beforeMain = indexCss.slice(0, iStart + MAIN_START.length);
   const afterMain = indexCss.slice(iEnd);
-  const out = `${beforeMain}\n${main}\n${afterMain}`;
+  let out = `${beforeMain}\n${main}\n${afterMain}`;
+  const iMainMarker = out.indexOf(MAIN_START);
+  if (iMainMarker > 0) {
+    const canon = extractFirstFooterModernSocialFromHeaderPartial();
+    if (!canon) {
+      console.warn("assemble: нет footer-modern__social в header partial — бургер не патчился");
+    } else {
+      const head = out.slice(0, iMainMarker);
+      out = replaceFirstFooterModernSocialBlock(head, canon) + out.slice(iMainMarker);
+    }
+  }
   fs.writeFileSync(indexPath, out, "utf8");
   const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });
   fs.writeFileSync(indexPath, typo.html.replace(/\n+$/, "\n"), "utf8");
@@ -597,4 +640,3 @@ function run() {
 }
 
 run();
-
