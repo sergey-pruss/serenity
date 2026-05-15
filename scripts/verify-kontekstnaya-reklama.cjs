@@ -56,13 +56,37 @@ async function run() {
     "SEO: robots как на главной (index, follow + лимиты сниппета, без noyaca)",
   );
   assert(
-    html.includes("mod.calltouch.ru/init.js?id=s7m1mg1r"),
-    "SEO/аналитика: скрипт Calltouch в head как на prod Nuxt и /services/",
+    !html.includes("mod.calltouch.ru"),
+    "HTML: без Calltouch на статическом контуре (аналитика — Яндекс.Метрика внизу страницы)",
   );
   assert(
     html.includes('property="og:image:secure_url"') && html.includes('name="twitter:image"'),
     "SEO: og:image:secure_url и twitter:image для превью шаринга",
   );
+
+  assert(
+    html.includes('"@type":"Product"') &&
+      html.includes('"image":"https://serenity.agency/_sa/img/storage__2lwfrwamwdjZrXwCGrqHh1iCd0TASXMPCTozoLqM.png"') &&
+      !html.includes('"image":"/img/og.png"'),
+    "SEO: Product JSON-LD — абсолютный image (как og:image), без /img/og.png",
+  );
+  {
+    const re = /<script[^>]+type="application\/ld\+json"[^>]*>(\{[^<]+\})<\/script>/g;
+    let m;
+    while ((m = re.exec(html)) !== null) {
+      try {
+        const o = JSON.parse(m[1]);
+        if (o["@type"] === "Product" && typeof o.description === "string") {
+          assert(
+            !/[<>]/.test(o.description),
+            "SEO: Product JSON-LD description — только текст, без HTML-тегов",
+          );
+        }
+      } catch (_) {
+        /* не JSON — пропускаем */
+      }
+    }
+  }
 
   assert(
     /<h1[^>]*>\s*Настройка и(?:&nbsp;|\s+)ведение контекстной рекламы/.test(html),
@@ -139,8 +163,9 @@ async function run() {
     "HTML: порядок стилей — … → footer-burger-chrome → service-inline-lead-form → header.css последним до KONTEKST-CSS-BUNDLE-END (каскад шапки)",
   );
   assert(
-    (html.match(/swiper-bundle\.min\.css/g) || []).length === 1,
-    "HTML: один подключённый Swiper bundle (без дубликатов)",
+    (html.match(/swiper-bundle\.min\.css/g) || []).length >= 1 &&
+      (html.match(/swiper-bundle\.min\.css/g) || []).length <= 2,
+    "HTML: Swiper bundle (один URL; допускается preload+noscript для отложенной загрузки)",
   );
 
   assert(

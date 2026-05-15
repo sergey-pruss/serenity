@@ -64,13 +64,13 @@
   }
 }
 
-/* Контент FAQ: одна вертикаль с шапкой и остальными секциями (--page-gutter-x из parity-sync). */
+/* Контент FAQ: одна вертикаль с шапкой и остальными секциями (--page-inline-* = лого на ультрашироких). */
 .kontekst-faq-root .questions {
   max-width: none;
   width: 100%;
   margin: 0;
-  padding-left: var(--page-gutter-x, 78px);
-  padding-right: var(--page-gutter-x, 78px);
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
   box-sizing: border-box;
 }
 
@@ -135,5 +135,16 @@
 @media (max-width: 720px) {
   .kontekst-faq-root .questions .questions__blocks {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .kontekst-faq-root .questions {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px);
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px);
+  }
+
+  .kontekst-faq-root .block {
+    padding: 22px 22px 22px 28px;
   }
 }

@@ -110,6 +110,18 @@
   --cases-ledge: 62px;
   /* Горизонталь как у .services-unified / секций: один ритм для контента, футера и плавающей CTA */
   --page-gutter-x: 78px;
+  /* Как .header__top-line .header__container в Nuxt (max-width: 1576px + margin: auto): на очень широком
+     вьюпорте левый край колонки — не 78px от края экрана, а центрирование 1576px. Full-bleed блоки с одним
+     только --page-gutter-x «уезжают» влево относительно лого — используйте --page-inline-start/end. */
+  --page-header-inner-max-width: 1576px;
+  --page-inline-start: max(
+    var(--page-gutter-x),
+    calc((100vw - var(--page-header-inner-max-width)) / 2)
+  );
+  --page-inline-end: max(
+    var(--page-gutter-x),
+    calc((100vw - var(--page-header-inner-max-width)) / 2)
+  );
 }
 @media screen and (max-width: 1025px) {
   :root {
@@ -850,15 +862,15 @@ body.scroll-menu-open {
   }
 }
 
-/* Список кейсов: вместо width: calc(100% - 156px) — полная ширина и тот же gutter, что у шапки */
+/* Список кейсов: вместо width: calc(100% - 156px) — полная ширина; на ультрашироких — как колонка шапки */
 @media screen and (max-width: 1400px) {
   .more-case-wr .page__container[data-v-27a87df0] {
     width: 100% !important;
     max-width: none !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding-left: var(--page-gutter-x) !important;
-    padding-right: var(--page-gutter-x) !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x)) !important;
     box-sizing: border-box !important;
   }
 }

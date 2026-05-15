@@ -157,8 +157,8 @@ body:not(.order-popup-open) .overlay-new {
   max-width: none !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
-  padding-left: var(--page-gutter-x, 78px) !important;
-  padding-right: var(--page-gutter-x, 78px) !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
   box-sizing: border-box !important;
 }
 
@@ -166,8 +166,8 @@ body:not(.order-popup-open) .overlay-new {
 .page-constructor__section .c-title-block .jumbotron {
   align-items: flex-start !important;
   box-sizing: border-box;
-  padding-left: var(--page-gutter-x, 78px);
-  padding-right: var(--page-gutter-x, 78px);
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
 }
 
 .page-constructor__section .c-title-block .jumbotron-img-aurora__title,
@@ -187,8 +187,8 @@ body:not(.order-popup-open) .overlay-new {
 /* «Команда»: поля контейнера = шапка; заголовок h2 — в одну линию с первой колонкой сетки (.row с margin -20px). */
 @media screen and (min-width: 720px) {
   .page-constructor .team-block .page__container {
-    padding-left: var(--page-gutter-x, 78px) !important;
-    padding-right: var(--page-gutter-x, 78px) !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
   }
 }
 
@@ -214,7 +214,10 @@ body:not(.order-popup-open) .overlay-new {
   align-items: center !important;
   box-sizing: border-box !important;
   min-height: 100vh !important;
-  padding: 44px 78px !important;
+  padding-top: 44px !important;
+  padding-bottom: 44px !important;
+  padding-left: var(--page-inline-start, 78px) !important;
+  padding-right: var(--page-inline-end, 78px) !important;
 }
 
 .cases-block .cases-block__swiper-slide[data-v-bd2e570a]::before,
@@ -244,7 +247,10 @@ body:not(.order-popup-open) .overlay-new {
 
 @media screen and (max-width: 1024px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 38px 110px !important;
+    padding-top: 38px !important;
+    padding-bottom: 38px !important;
+    padding-left: max(var(--page-inline-start, 55px), 110px) !important;
+    padding-right: max(var(--page-inline-end, 55px), 110px) !important;
   }
 }
 
@@ -396,11 +402,21 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 .page-constructor .home-awards-block .awards {
+  /*
+   * home-awards.css: max-width 1576px + margin:auto — на очень широком вьюпорте колонка
+   * центрируется: заголовок уезжает вправо относительно «Синергия с услугами», а лента с
+   * data-clients-strip (width 100% + 2*gutter, отрицательные margin) считается от узкой
+   * колонки — края венков визуально «режутся». Как у синергии: полная ширина контентной
+   * полосы страницы, горизонтальные поля только --page-gutter-x.
+   */
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding-top: var(--home-between, 112px) !important;
   /* Один полный шаг до следующей секции даёт .services-unified (синергия); снизу — «полка» как --home-ledge. */
   padding-bottom: var(--home-ledge, 54px) !important;
-  padding-left: var(--page-gutter-x, 78px) !important;
-  padding-right: var(--page-gutter-x, 78px) !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
 }
 
 /*
@@ -498,8 +514,8 @@ body:not(.order-popup-open) .overlay-new {
     width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding-left: var(--page-gutter-x) !important;
-    padding-right: var(--page-gutter-x) !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x)) !important;
   }
 
   .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
@@ -738,8 +754,8 @@ body:not(.order-popup-open) .overlay-new {
   }
 
   .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
-    padding-left: var(--page-gutter-x, 78px);
-    padding-right: var(--page-gutter-x, 78px);
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
     box-sizing: border-box;
     overflow-x: auto !important;
     overflow-y: hidden !important;
@@ -768,6 +784,16 @@ body:not(.order-popup-open) .overlay-new {
     padding-left: 0;
     padding-right: 15%;
     box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  body .modern.content-block .block-item {
+    padding-right: 0;
+  }
+
+  body .modern .columns-with-progress__column > div:first-child {
+    padding-right: 0;
   }
 }
 
@@ -817,4 +843,49 @@ body:not(.order-popup-open) .overlay-new {
     max-width: none !important;
     width: 100% !important;
   }
+}
+
+/*
+ * Адаптив: мобильный вьюпорт (dvh/svh), герой, команда, кейсы.
+ * Правки только в этом файле — snapshot.bundle не трогаем.
+ */
+@media screen and (max-width: 720px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    min-height: min(100vh, 100dvh, 100svh) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__subtitle {
+    margin-top: 24px !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .team-block .team .team__head > h3.kontekstnaya-page__section-heading {
+    margin-left: max(var(--page-gutter-x, 36px), 16px) !important;
+    margin-bottom: 40px !important;
+  }
+}
+
+@media screen and (max-width: 900px) and (min-width: 721px) {
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 78px)), 48px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 78px)), 48px) !important;
+  }
+}
+
+.page-constructor .cases-block__slider .cases-block__slider-swiper-container.swiper-container {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.page-constructor .cases-block__slider .cases-block__slider-swiper-container .swiper-slide {
+  max-width: 100%;
+  box-sizing: border-box;
 }
