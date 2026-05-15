@@ -580,22 +580,18 @@
           </tbody>
         </table>
         <p class="ok-note" id="docs-prod-status">
-          <strong>Сейчас на проде:</strong> при выкладке по <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>
-          (<span class="mono">deploy.sh</span>, <span class="mono">deploy-routing.sh</span>, <span class="mono">deploy-serenity-router-vhost.sh</span>)
-          страница <a href="https://serenity.agency/docs/team-handbook.html"><span class="mono">/docs/team-handbook.html</span></a>
-          на <span class="mono">serenity.agency</span> отдаётся как статический HTML с нового сервера (не Nuxt и не отдельное приложение).
-          В <span class="mono">robots.txt</span> основного домена при той же конфигурации должна быть строка
-          <span class="mono">Disallow: /docs/</span> (файл <span class="mono">robots.production.txt</span> или fallback из корня репо).
+          <strong>Сейчас:</strong> каталог <span class="mono">/docs/</span> выкладывается <strong>только на dev</strong>
+          (<span class="mono">bash scripts/deploy-dev.sh</span> → <span class="mono">/var/www/static-dev/docs/</span>).
+          Публичная ссылка на handbook:
+          <a href="https://static.serenity.agency/docs/team-handbook.html"><span class="mono">https://static.serenity.agency/docs/team-handbook.html</span></a>.
+          На <span class="mono">serenity.agency</span> префикс <span class="mono">/docs/</span> отвечает <strong>HTTP 404</strong> (vhost
+          <span class="mono">nginx/serenity-router.live.conf</span>).
         </p>
         <p class="note" id="docs-vs-legacy-errors">
-          <strong>Если снова сломалось:</strong> по <code>/docs/…</code> вместо файла видна ошибка legacy (WordPress, Nuxt
-          «Server error» и т.п.) или в <span class="mono">robots.txt</span> нет <code>Disallow: /docs/</code> — запрос ушёл не в статический
-          <code>root</code>. Проверьте актуальные файлы (<code>bash deploy.sh</code>), карту
-          <code>nginx/routing.conf</code> (<code>~^/docs(/|$)</code> и <code>deploy-routing.sh</code>), vhost
-          <span class="mono">nginx/serenity-router.live.conf</span> (<code>bash scripts/deploy-serenity-router-vhost.sh</code>,
-          блок <code>location ^~ /docs/</code>). Полный чеклист — в
-          <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
-          Ошибка на <strong>корне</strong> <span class="mono">serenity.agency</span> может быть связана с legacy отдельно от <code>/docs/</code>.
+          <strong>Если сломалось на dev:</strong> по <code>/docs/…</code> на <span class="mono">static.serenity.agency</span> вместо файла — главная или 404:
+          сделайте <code>bash scripts/deploy-dev.sh</code> и при необходимости <code>bash scripts/deploy-static-vhost.sh</code>
+          (блок <code>location ^~ /docs/</code>). На <span class="mono">serenity.agency</span> <code>/docs/</code> всегда 404 — это ожидаемо.
+          Регламент — <a href="https://github.com/sergey-pruss/serenity/blob/main/AGENTS.md"><span class="mono">AGENTS.md</span></a>.
         </p>
       </section>
 
@@ -808,17 +804,14 @@
       </section>
 
       <footer>
-        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — статический HTML из дерева деплоя (после
-        <code>bash deploy.sh</code> на диске <span class="mono">/var/www/static/docs/…</span> на <strong>новом сервере</strong> статики;
-        отдельного Nuxt/приложения под этим URL нет). Публичные ссылки:
-        <a href="https://serenity.agency/docs/team-handbook.html"><span class="mono">https://serenity.agency/docs/team-handbook.html</span></a>,
+        Файл в репозитории: <span class="mono">docs/team-handbook.html</span> — статический HTML; на прод-root не выкладывается.
+        Публичные ссылки (после <code>bash scripts/deploy-dev.sh</code>):
         <a href="https://static.serenity.agency/docs/team-handbook.html"><span class="mono">https://static.serenity.agency/docs/team-handbook.html</span></a>,
         Worker —
-        <a href="https://serenity.sergeyprus.workers.dev/docs/team-handbook.html"><span class="mono">https://serenity.sergeyprus.workers.dev/docs/team-handbook.html</span></a>
-        (последний — после <span class="mono">npx wrangler deploy</span>). Статус выдачи на проде и типичные сбои —
-        <a href="#docs-prod-status">блок «Сейчас на проде»</a> и <a href="#docs-vs-legacy-errors">«Если снова сломалось»</a>.
-        Каталог <span class="mono">/docs/</span> закрыт от индексации (<span class="mono">robots.production.txt</span>,
-        <span class="mono">X-Robots-Tag</span>). Обновляйте дату в «Снимок документа» при существенных правках текста.
+        <a href="https://serenity.sergeyprus.workers.dev/docs/team-handbook.html"><span class="mono">https://serenity.sergeyprus.workers.dev/docs/team-handbook.html</span></a>.
+        На <span class="mono">serenity.agency</span> префикс <span class="mono">/docs/</span> — HTTP 404.
+        Статус и типичные сбои — <a href="#docs-prod-status">блок «Сейчас»</a> и <a href="#docs-vs-legacy-errors">«Если сломалось на dev»</a>.
+        На dev-превью весь хост закрыт от индексации (<span class="mono">robots.static-preview.txt</span>, <span class="mono">X-Robots-Tag</span>).
       </footer>
     </div>
   </body>

@@ -24,6 +24,13 @@
 
 **Dev и prod разнесены:** `**deploy-dev.sh`** по умолчанию пишет в `**/var/www/static-dev/`** и обновляет Worker staging; `**deploy-prod.sh`** по умолчанию пишет в `**/var/www/static/`** и Worker не трогает. `**static.serenity.agency`** должен смотреть на `**/var/www/static-dev`** через `nginx/static.serenity.agency.live.conf`; `**serenity.agency`** — на `**/var/www/static`** через `nginx/serenity-router.live.conf`. Переопределять `**DEPLOY_REMOTE_PATH`** можно только осознанно и после явного подтверждения поверхности деплоя. Алиас прежнего имени: `**bash scripts/deploy-static-preview.sh**` = `**deploy-dev.sh**`.
 
+### Каталог `docs/` (только dev)
+
+- **Выкладка:** каталог `**docs/**` в репозитории попадает на сервер **только** через `**bash scripts/deploy-dev.sh**` → `**/var/www/static-dev/docs/**` (**static.serenity.agency**, Worker staging). `**deploy-prod.sh**` задаёт `DEPLOY_EXCLUDE_DOCS=1`: rsync **без** `docs/`, затем удаление `**/var/www/static/docs/**` на prod-origin.
+- **serenity.agency:** в `**nginx/serenity-router.live.conf**` префикс `**/docs/**` → **HTTP 404** (не legacy, не статика). В `**nginx/routing.conf**` **нет** правила `~^/docs(/|$)`.
+- **robots продакшена:** в `**robots.production.txt**` и корневом `**robots.txt**` **нет** `Disallow: /docs/` — каталога на проде нет.
+- **Ссылка для команды:** после dev-деплоя, например `https://static.serenity.agency/docs/team-handbook.html`.
+
 **Старый основной хост WordPress (legacy)** из этого репозитория **не трогаем**: туда нет `rsync`, нет деплоя темы/плагинов и правок PHP. Он участвует в схеме только как **upstream за прокси** в конфиге Nginx **на новом** сервере — менять эту границу можно только осознанно (файлы в `nginx/`, тесты, выкладка на **новый** сервер).
 
 ---
@@ -32,7 +39,7 @@
 
 Прод-сайт живёт на **отдельной машине** с Nginx и каталогом `/var/www/static`. Изменения в git **никак не затрагивают** её, пока кто‑то с доступом по SSH не выполнит `**bash scripts/deploy-prod.sh`** и при необходимости скрипты Nginx (см. таблицу ниже). `**deploy-dev.sh`** не должен обновлять prod-root.
 
-Если `**https://serenity.agency/robots.txt**` выглядит как правила **WordPress**, поиск `**Disallow: /docs/`** ничего не находит — запрос почти наверняка уходит в **legacy** (прокси на отдельный WordPress‑хост), а не в файлы статики **нового** сервера из репо. То же самое с `**/docs/team-handbook.html`**, если там **500**, страница **Nuxt** или другая ошибка legacy: нужны **актуальные файлы на диске** и **активированная маршрутизация/nginx** под префикс `/docs/`.
+Если `**https://serenity.agency/robots.txt**` выглядит как правила **WordPress** — запрос почти наверняка уходит в **legacy**, а не в файлы статики **нового** сервера из репо. Префикс `**/docs/**` на **serenity.agency** после актуального vhost даёт **404**; живые справочники — только на **static.serenity.agency** / Worker после `**deploy-dev.sh**`.
 
 **Это не блокируют правила Cursor** — их можно менять через файлы в `[.cursor/rules/](.cursor/rules/)`; они лишь подсказывают агенту читать этот регламент. Реальное ограничение — **отсутствие выкладки на сервер**, а не IDE.
 
@@ -65,7 +72,7 @@
   - Всегда по контексту релиза: `**npm run test:layout-smoke`**, `**npm run test:routing-config`**.  
   - После изменений кейсов и карточек: `**npm run test:case-all**` и визуально `**case/all**` на всех трёх поверхностях (после выкладки).
 3. **Статика на сервер**: после явного выбора поверхности. **DEV**: `**bash scripts/deploy-dev.sh`** → rsync в `/var/www/static-dev/`, purge CDN превью и Worker staging. **PROD**: `**bash scripts/deploy-prod.sh`** → rsync в `/var/www/static/` для основного **serenity.agency**; Worker этим шагом не обновляется.
-4. **Nginx «карта» маршрутизации** (если менялся `**nginx/routing.conf`**, включая признаки «новая страница» для `/robots.txt`, `/sitemap.xml`, `/docs/`): `**bash scripts/deploy-routing.sh`**.
+4. **Nginx «карта» маршрутизации** (если менялся `**nginx/routing.conf`**, включая признаки «новая страница» для `/robots.txt`, `/sitemap.xml`): `**bash scripts/deploy-routing.sh`**.
 5. **Продовый vhost основного домена** (если менялся `**nginx/serenity-router.live.conf`**): `**bash scripts/deploy-serenity-router-vhost.sh`** (или ручное копирование в конфиг сервера, затем `nginx -t` и reload).
 6. **Vhost превью static** (если менялся `**nginx/static.serenity.agency.live.conf`**): `**bash scripts/deploy-static-vhost.sh`**.
 7. **Worker**: DEV-деплой обновляет Worker автоматически через `**npx wrangler deploy`**. Отдельный `**npx wrangler deploy`** — только после явного выбора DEV или ВЕЗДЕ.
