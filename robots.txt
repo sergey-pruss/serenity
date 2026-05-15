@@ -1,7 +1,6 @@
 # Синхронно с robots.production.txt (обновляйте оба; см. AGENTS.md).
 User-agent: *
 
-Disallow: /docs/
 Disallow: /cgi-bin
 Disallow: /wp-
 Disallow: /wp/

@@ -13,20 +13,26 @@ deploy_rsync_repo_to_static_root() {
   export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
   local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
   local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
+  local -a rsync_excludes=(
+    --exclude='.git'
+    --exclude='.claude'
+    --exclude='.cursor'
+    --exclude='.codex'
+    --exclude='.continue'
+    --exclude='node_modules'
+    --exclude='.wrangler'
+    --exclude='artifacts'
+    --exclude='tmp/'
+    --exclude='wrangler.toml'
+    --exclude='deploy.sh'
+    --exclude='case/all/*/index 2.html'
+  )
+  if [[ "${DEPLOY_EXCLUDE_DOCS:-}" == "1" ]]; then
+    rsync_excludes+=(--exclude='docs/')
+  fi
   rsync -avz \
     --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
-    --exclude='.git' \
-    --exclude='.claude' \
-    --exclude='.cursor' \
-    --exclude='.codex' \
-    --exclude='.continue' \
-    --exclude='node_modules' \
-    --exclude='.wrangler' \
-    --exclude='artifacts' \
-    --exclude='tmp/' \
-    --exclude='wrangler.toml' \
-    --exclude='deploy.sh' \
-    --exclude='case/all/*/index 2.html' \
+    "${rsync_excludes[@]}" \
     ./ "${host}:${path}"
 }
 
@@ -38,6 +44,19 @@ deploy_remote_scrub_rsync_excluded_tmp() {
   # shellcheck disable=SC2086
   $RSYNC_RSH "${host}" "rm -rf -- '${path}tmp' '${path}.continue'" || true
   echo "🧹 На origin удалены каталоги tmp и .continue (если были): ${host}:${path}tmp ${host}:${path}.continue"
+}
+
+# docs/ — только dev (static-dev + Worker). На prod-root каталог не держим.
+deploy_remote_scrub_docs_on_origin() {
+  if [[ "${DEPLOY_EXCLUDE_DOCS:-}" != "1" ]]; then
+    return 0
+  fi
+  export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
+  local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
+  local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
+  # shellcheck disable=SC2086
+  $RSYNC_RSH "${host}" "rm -rf -- '${path}docs'" || true
+  echo "🧹 На prod-origin удалён каталог docs/ (если был): ${host}:${path}docs"
 }
 
 deploy_worker_staging() {

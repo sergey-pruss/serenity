@@ -15,8 +15,9 @@ const URLS = process.env.SMOKE_URLS
 const VIEWPORT = { width: 1366, height: 900 };
 
 const HANDBOOK_PATH = "/docs/team-handbook.html";
-/** На превью static иногда стоит gate (401 без учёток в CI) — не валим весь smoke. */
-const STATIC_PREVIEW_HOST = "static.serenity.agency";
+/** Origins, где /docs/ должен отдаваться (dev static + Worker). На serenity.agency — 404. */
+const DOCS_ORIGINS = new Set(["static.serenity.agency", "serenity.sergeyprus.workers.dev"]);
+const PROD_CANON_HOST = "serenity.agency";
 /** Уникальный маркер страницы handbook (не главная index.html). */
 const HANDBOOK_MARKER = "Serenity — структура проекта, URL и проверки";
 /** Типичный <title> главной — если он в ответе по /docs/…, nginx отдал SPA-fallback. */
@@ -29,10 +30,18 @@ function assert(condition, message) {
 async function checkHandbookDeployedAtOrigins() {
   const origins = [...new Set(URLS.map((u) => new URL(u).origin))];
   for (const origin of origins) {
+    const host = new URL(origin).hostname;
     const url = `${origin}${HANDBOOK_PATH}`;
+    if (host === PROD_CANON_HOST) {
+      const res = await fetch(url, { redirect: "follow" });
+      assert(res.status === 404, `handbook ${url}: на проде ожидается HTTP 404 (docs только на dev)`);
+      console.log(`OK handbook absent on prod ${url} → ${res.status}`);
+      continue;
+    }
+    if (!DOCS_ORIGINS.has(host)) continue;
+
     const res = await fetch(url, { redirect: "follow" });
-    const host = new URL(url).hostname;
-    if (res.status === 401 && host === STATIC_PREVIEW_HOST) {
+    if (res.status === 401 && host === "static.serenity.agency") {
       console.log(
         `SKIP handbook ${url}: HTTP 401 на static-превью (gate). Полная проверка /docs/ — npm run test:post-deploy-smoke`,
       );
@@ -42,11 +51,11 @@ async function checkHandbookDeployedAtOrigins() {
     assert(res.ok, `handbook ${url}: HTTP ${res.status}`);
     assert(
       text.includes(HANDBOOK_MARKER),
-      `handbook ${url}: нет маркера справочника — часто значит нет файла на диске и nginx отдал /index.html; сделайте bash scripts/deploy-prod.sh и при необходимости bash scripts/deploy-static-vhost.sh`
+      `handbook ${url}: нет маркера справочника — сделайте bash scripts/deploy-dev.sh (docs/ только на static-dev)`
     );
     assert(
       !text.includes(MAIN_INDEX_TITLE_SNIPPET),
-      `handbook ${url}: пришла главная index.html вместо handbook (проверьте deploy-prod.sh и vhost static с location ^~ /docs/)`
+      `handbook ${url}: пришла главная index.html вместо handbook (проверьте deploy-dev.sh и vhost static с location ^~ /docs/)`
     );
     console.log(`OK handbook ${url}`);
   }
