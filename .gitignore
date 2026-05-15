@@ -16,6 +16,8 @@ compare/*
 # OAuth-токены и ключи GSC (создаётся bootstrap, не коммитить).
 secrets/
 .claude/
+# Cursor Continue — локально, не в git и не в rsync/Worker assets.
+.continue/
 dist/
 .astro/
 standalone/
