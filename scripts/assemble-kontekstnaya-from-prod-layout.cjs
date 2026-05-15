@@ -489,6 +489,11 @@ function rewriteProdSlice(html) {
   s = s.replace(/https:\/\/serenity-dev\.ru\//g, "/");
   s = s.replace(/https?:\/\/127\.0\.0\.1(?::\d+)?\//g, "/");
   s = s.replace(/https?:\/\/localhost(?::\d+)?\//g, "/");
+  // Microdata Product: <img itemprop="image"> в display:none Safari всё равно может запрашивать и показывать «битую» иконку.
+  s = s.replace(
+    /<img itemprop="image" src="\/_sa\/img\/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz\.webp">/g,
+    '<link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp" />',
+  );
   // Пустой хвост из Nuxt-гидрации: второй page-constructor только с <!----> ломает стек/DOM.
   s = s.replace(/<div class="page-constructor">\s*<!---->\s*<\/div>\s*<!---->/g, "");
   return s;
@@ -587,18 +592,18 @@ function run() {
     "    <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->",
     "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerFillViewport\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerBlurRestore\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260514kontekstPackagesNativeRow\" />",
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260515asyncCssFaq"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260515deferCssStack\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260515imgEagerSafari\" />",
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260515socialIconsWrap\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260515footerSocialFix\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260514serviceInlineLead7\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260515menuOverlayTopNeg5\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260515burgerLogoPlus5\" />",
     "    <!-- KONTEKST-CSS-BUNDLE-END -->",
   ].join("\n");
 

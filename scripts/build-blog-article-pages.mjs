@@ -149,20 +149,75 @@ function buildStaticArticleFeed(allPosts) {
   return out;
 }
 
+/** Реальные ширины файлов для `srcset` карточек «Читайте ещё» (ключ — канонический URL с `/_sa/`). */
+const listingCardImageWidths = new Map();
+
+function diskPathFromSaUrl(u) {
+  const raw = String(u || "")
+    .split("?")[0]
+    .replace(/^\//, "");
+  if (!raw.startsWith("_sa/")) return "";
+  return path.join(root, raw.slice(4));
+}
+
+/**
+ * Без корректных `…w` в srcset браузер ошибается в выборе кандидата (легаси было 820w/1920w при реальных ~557px).
+ * Заполняем `listingCardImageWidths` для основного и `__m` URL из ленты.
+ */
+async function primeListingCardImageWidths(posts) {
+  listingCardImageWidths.clear();
+  let sharpFn;
+  try {
+    sharpFn = (await import("sharp")).default;
+  } catch (e) {
+    console.warn(
+      "WARN: sharp недоступен — в «Читайте ещё» остаётся только src у превью карточек (без srcset).",
+      e && e.message,
+    );
+    return;
+  }
+  const urls = new Set();
+  for (const p of posts || []) {
+    const im = p?.media?.kind === "video" ? p.media.poster || p.media.image : p?.media?.image;
+    if (!im || typeof im !== "string" || !im.includes("/_sa/img/blog/")) continue;
+    urls.add(im.split("?")[0]);
+    urls.add(im.split("?")[0].replace(/(\.[a-zA-Z0-9]+)$/, "__m$1"));
+  }
+  for (const u of urls) {
+    if (listingCardImageWidths.has(u)) continue;
+    const fp = diskPathFromSaUrl(u);
+    if (!fp || !fs.existsSync(fp)) {
+      listingCardImageWidths.set(u, 0);
+      continue;
+    }
+    try {
+      const meta = await sharpFn(fp, { failOn: "none" }).metadata();
+      listingCardImageWidths.set(u, meta.width || 0);
+    } catch {
+      listingCardImageWidths.set(u, 0);
+    }
+  }
+}
+
 /**
  * Карточка как в js/blog.js renderCard; без target="_blank" (навигация в той же вкладке).
  * Видео — только постер (на странице статьи нет blog.js для отложенной загрузки ролика).
  */
 function blogListingCardImageAttrs(url) {
   if (!url) return { src: "", srcset: "", sizes: "" };
-  const s = String(url);
+  const s = String(url).split("?")[0];
   if (!s.includes("/_sa/img/blog/")) {
     return { src: s, srcset: "", sizes: "" };
   }
-  const mobileSrc = s.replace(/(\.[a-zA-Z0-9]+)(\?.*)?$/, "__m$1$2");
+  const mobileSrc = s.replace(/(\.[a-zA-Z0-9]+)$/, "__m$1");
+  const wMain = listingCardImageWidths.get(s) || 0;
+  const wMob = listingCardImageWidths.get(mobileSrc) || 0;
+  if (!wMain || !wMob || wMob >= wMain) {
+    return { src: s, srcset: "", sizes: "" };
+  }
   return {
     src: s,
-    srcset: `${mobileSrc} 820w, ${s} 1920w`,
+    srcset: `${mobileSrc} ${wMob}w, ${s} ${wMain}w`,
     sizes: "(max-width: 768px) 92vw, (max-width: 1200px) 48vw, 31vw",
   };
 }
@@ -998,7 +1053,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   return typedHtml;
 }
 
-(() => {
+(async () => {
   if (!fs.existsSync(listingPath)) throw new Error(`Нет ${listingPath}`);
 
   let articleSlugs = [];
@@ -1038,6 +1093,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
     }
   }
   const articleFeed = buildStaticArticleFeed(allBlogPosts);
+  await primeListingCardImageWidths(allBlogPosts);
 
   const blogIndex = fs.readFileSync(listingPath, "utf8");
   const startReplace = blogIndex.indexOf('<div class="page-container nuxt case-all-page"');
@@ -1063,7 +1119,12 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
       console.warn(`WARN: нет данных ${jp} — сначала npm run sync:blog-articles (или sync в build:blog)`);
       continue;
     }
-    const data = JSON.parse(fs.readFileSync(jp, "utf8"));
+    const rawArticle = fs.readFileSync(jp, "utf8");
+    if (!rawArticle.trim()) {
+      console.warn(`WARN: пустой JSON ${jp} — пропуск (восстановите файл или удалите slug из манифеста)`);
+      continue;
+    }
+    const data = JSON.parse(rawArticle);
     const typedHtml = renderTypedBlogArticlePage(
       data,
       { readMoreSlug: slug, segment: "article", slug },
@@ -1087,7 +1148,12 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
       console.warn(`WARN: нет данных ${jp} — сначала sync:blog-articles (блок пост-страниц)`);
       continue;
     }
-    const data = JSON.parse(fs.readFileSync(jp, "utf8"));
+    const rawPost = fs.readFileSync(jp, "utf8");
+    if (!rawPost.trim()) {
+      console.warn(`WARN: пустой JSON ${jp} — пропуск`);
+      continue;
+    }
+    const data = JSON.parse(rawPost);
     const typedHtml = renderTypedBlogArticlePage(
       data,
       { readMoreSlug: slug, segment, slug },
@@ -1100,4 +1166,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
     fs.writeFileSync(path.join(outDir, "index.html"), typedHtml, "utf8");
     console.log("OK: blog/", segment, "/", slug, "/");
   }
-})();
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

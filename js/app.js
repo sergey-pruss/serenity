@@ -827,7 +827,7 @@
     const getCtaVisualEl = () => cta.querySelector(".application, .footer__link") || cta;
     const getFooterSocialIcon = () => {
       const block = document.querySelector("footer.footer-modern .footer-modern__social");
-      return block?.querySelector("a");
+      return block?.querySelector(".footer-modern__social-icons > a, :scope > a");
     };
 
     let raf = 0;

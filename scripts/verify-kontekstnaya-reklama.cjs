@@ -194,6 +194,17 @@ async function run() {
   );
 
   assert(
+    html.includes(
+      'link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp"',
+    ),
+    "HTML: Product microdata — itemprop=image через <link href> (без <img> в display:none, Safari не показывает битую иконку)",
+  );
+  assert(
+    !/<img[^>]*\sitemprop=/i.test(html),
+    "HTML: в Product microdata не использовать <img itemprop=…> (WebKit может показать битую иконку при проблемах с загрузкой)",
+  );
+
+  assert(
     html.includes("css__home-snapshot__snapshot.bundle.css"),
     "HTML: нужен snapshot.bundle — иначе бургер-меню и контакты в потоке ломают вёрстку",
   );

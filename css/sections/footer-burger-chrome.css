@@ -83,14 +83,17 @@
 }
 
 .footer-modern .footer-modern__social-icons {
-  display: inline-flex;
+  display: flex;
+  flex: 0 0 100%;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: center;
   column-gap: 25px;
 }
 
-.footer-modern .footer-modern__social-icons > a {
+.footer-modern .footer-modern__social-icons > a,
+.footer-modern .footer-modern__social > a {
   width: 40px !important;
   min-width: 40px !important;
   max-width: 40px !important;
@@ -109,12 +112,14 @@
   opacity: 0.7;
 }
 
-.footer-modern .footer-modern__social-icons > a svg {
+.footer-modern .footer-modern__social-icons > a svg,
+.footer-modern .footer-modern__social > a svg {
   width: 40px;
   height: 40px;
 }
 
-.footer-modern .footer-modern__social-icons > a:hover {
+.footer-modern .footer-modern__social-icons > a:hover,
+.footer-modern .footer-modern__social > a:hover {
   opacity: 1;
 }
 

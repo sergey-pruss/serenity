@@ -805,19 +805,6 @@ body.scroll-menu-open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  /*
-    Бандл при max-width:1024px задаёт .header { height: 0 } — абсолютное меню не тянется на весь экран,
-    сверху остаётся полоса фона body (Safari). Фиксируем на viewport + сплошной слой под backdrop-filter.
-  */
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 100vh;
-  min-height: 100dvh;
-  min-height: -webkit-fill-available;
-  background-color: rgba(8, 8, 10, 0.92);
 }
 
 .header.active .header__top-line .navigation-menu,

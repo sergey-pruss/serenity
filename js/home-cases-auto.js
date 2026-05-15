@@ -22,9 +22,22 @@
     }
   };
 
+  /** `__m` только для каталогов, где sharp реально создаёт вариант (см. build-case-mobile-media). */
+  const pathnameForSa = (absUrl) => {
+    try {
+      return new URL(absUrl).pathname;
+    } catch (_) {
+      return "";
+    }
+  };
+
   const buildResponsiveAttrs = (url) => {
     const src = toAbsoluteUrl(url);
     if (!src) return { src: "", srcset: "", sizes: "" };
+    const p = pathnameForSa(src);
+    if (!p.includes("/_sa/img/case/") && !p.includes("/_sa/img/blog/")) {
+      return { src, srcset: "", sizes: "" };
+    }
     const mobileSrc = src.replace(/(\.[a-zA-Z0-9]+)(\?.*)?$/, "__m$1$2");
     return {
       src,

@@ -1,14 +1,14 @@
 /**
  * Статический HTML kontekstnaya_reklama без гидрации Nuxt.
  *
- * 1) .page-constructor__bg — слой контента выше фиксированного фона.
+ * 1) Z-index: .page-constructor__bg ниже секций; без isolation на .page-constructor (Safari + фон героя).
  * 2) Полноэкранный .overlay-new не перекрывает страницу без модалки.
  *
  * Важно: колонка MAIN в index должна идти уже после </header>, не внутри
  * .new-static-menu — иначе любое display:none на меню скрывает всю страницу.
  */
 .page-constructor {
-  isolation: isolate;
+  /* Без isolation: WebKit иначе иногда не рисует background-image героя рядом с fixed .page-constructor__bg. */
   position: relative;
 }
 
@@ -19,6 +19,28 @@
 .page-constructor__section {
   position: relative;
   z-index: 2;
+}
+
+/*
+ * Герой (первый экран): WebKit + fixed canvas ломают background у внутренних div.
+ * Фото — слой ::before первой секции (тот же URL, что preload / inline на .header-background).
+ * Без <img> в герое: при сбое запроса нет иконки «битой картинки» в центре экрана.
+ */
+.page-constructor > .page-constructor__section:first-of-type::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.page-constructor > .page-constructor__section:first-of-type > * {
+  position: relative;
+  z-index: 1;
 }
 
 .page-constructor ~ .footer-modern {
@@ -102,6 +124,34 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
+ * Safari/WebKit: у .background в бандле z-index:-1 внутри .cases-block__swiper-slide с overflow:hidden —
+ * фон уезжает «под» слайд и не рисуется. Плюс flex-псевдо ::before/::after на слайде: одного z-index:0
+ * на фоне недостаточно (за мокапом «Композит» остаётся пустой тёмный прямоугольник).
+ * Изолируем stacking context слайда, фон z-index:1, контент/текст поверх.
+ */
+.cases-block .cases-block__swiper-slide.swiper-slide-active[data-v-bd2e570a] {
+  isolation: isolate;
+}
+
+.cases-block .cases-block__swiper-slide.swiper-slide-active .background[data-v-bd2e570a] {
+  z-index: 1 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateZ(0) scale(1) !important;
+  -webkit-transform: translateZ(0) scale(1) !important;
+  filter: blur(0) !important;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.cases-block .cases-block__swiper-slide.swiper-slide-active .cases-block__swiper-slide-tags-wrapper[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide.swiper-slide-active .cases-block__swiper-slide-contant[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide.swiper-slide-active .cases-block__swiper-slide-text-contant[data-v-bd2e570a] {
+  position: relative;
+  z-index: 2 !important;
+}
+
+/*
  * Пагинация Swiper у .cases-block: как на prod / `.darktheme` в snapshot — неактивный белый ~50%, активный #fff.
  * Иначе побеждает дефолт Swiper: `.swiper-pagination-bullet-active { background: #007aff }`.
  */
@@ -160,6 +210,37 @@ body:not(.order-popup-open) .overlay-new {
   padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
   padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
   box-sizing: border-box !important;
+}
+
+/*
+ * Сетка more-cases: <a> внутри .case не занимал всю высоту карточки (inline по умолчанию).
+ * Тогда height:100% у .case__media / абсолютного img в WebKit обнуляется — виден только фон-плейсхолдер
+ * (пропадали «Во!Молоко», часть lazy-превью и т.п.).
+ * Важно: на /kontekstnaya_reklama блок идёт после закрытия .page-constructor — привязка только к .more-case-wr__main.
+ */
+.more-case-wr.more-case-wr__main .more-cases .case > a[data-v-c0adc676],
+.more-case-wr.more-case-wr__main .more-cases .case > a {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Превью — отдельный композитный слой (Safari + overflow:hidden на .case). */
+.more-case-wr.more-case-wr__main .more-cases .case__media[data-v-c0adc676] .case__media--front[data-v-c0adc676],
+.more-case-wr.more-case-wr__main .more-cases .case__media .case__media--front {
+  transform: scale(1.01) translateZ(0);
+  -webkit-transform: scale(1.01) translateZ(0);
+}
+
+.more-case-wr.more-case-wr__main .more-cases .case__description[data-v-c0adc676],
+.more-case-wr.more-case-wr__main .more-cases .case__description {
+  z-index: 2 !important;
+}
+
+.more-case-wr.more-case-wr__main .more-cases .case__tags[data-v-c0adc676],
+.more-case-wr.more-case-wr__main .more-cases .case__tags {
+  position: relative;
+  z-index: 2 !important;
 }
 
 /* Герой: левый край текста по линии лого / меню, не по центру слайда. */

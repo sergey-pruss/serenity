@@ -36,8 +36,9 @@ export async function verifyProdRobotsSitemap(opts = {}) {
   const origins = opts.origins?.length ? opts.origins : defaultOrigins;
   const prodExpected = readProdRobotsSnippet();
   assert(
-    prodExpected.includes("Disallow: /docs/") && prodExpected.includes("Sitemap: https://serenity.agency/sitemap.xml"),
-    "robots.production.txt: ожидаемые маркеры для прод-проверки",
+    prodExpected.includes("Sitemap: https://serenity.agency/sitemap.xml") &&
+      !prodExpected.includes("Disallow: /docs/"),
+    "robots.production.txt: Sitemap на проде; Disallow: /docs/ не нужен (docs/ только на dev).",
   );
   const previewExpected = readStaticPreviewRobots();
   assert(/^\s*Disallow:\s*\/\s*$/m.test(previewExpected), "robots.static-preview.txt: Disallow: /");
@@ -62,8 +63,8 @@ export async function verifyProdRobotsSitemap(opts = {}) {
       );
     } else {
       assert(
-        robotsBody.includes("Disallow: /docs/"),
-        `${robotsUrl}: нет Disallow: /docs/ — возможно отдаётся legacy-robots`,
+        !robotsBody.includes("Disallow: /docs/"),
+        `${robotsUrl}: не должно быть Disallow: /docs/ (docs/ не на проде)`,
       );
       assert(
         robotsBody.includes("Sitemap: https://serenity.agency/sitemap.xml"),

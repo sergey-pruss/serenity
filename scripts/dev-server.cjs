@@ -2,6 +2,10 @@
  * Локальная отдача статики с жёстким Cache-Control, чтобы HTML/CSS/JS
  * обновлялись без путаницы (мета в index.html — не то же, что HTTP-заголовки).
  * Запуск: npm run dev
+ *
+ * Шаг `build-blog-mobile-media.mjs` тянет нативный `sharp`; на очень новых Node
+ * (например v25) модуль может не собраться — тогда: `SERENITY_DEV_SKIP_BLOG_MOBILE_MEDIA=1 npm run dev`
+ * или переключитесь на Node 20/22 LTS и выполните `npm rebuild sharp`.
  */
 const http = require("http");
 const fs = require("fs");
@@ -37,13 +41,30 @@ const root = path.resolve(__dirname, "..");
     console.error(rb.stderr || rb.stdout || "build-blog-data failed");
     process.exit(1);
   }
-  const rbm = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-mobile-media.mjs")], {
-    cwd: root,
-    encoding: "utf8",
-  });
-  if (rbm.status !== 0) {
-    console.error(rbm.stderr || rbm.stdout || "build-blog-mobile-media failed");
-    process.exit(1);
+  if (process.env.SERENITY_DEV_SKIP_BLOG_MOBILE_MEDIA === "1") {
+    console.warn(
+      "[dev-server] Пропуск build-blog-mobile-media.mjs (SERENITY_DEV_SKIP_BLOG_MOBILE_MEDIA=1). Превью __m для блога не пересобраны.",
+    );
+  } else {
+    const rbm = spawnSync(process.execPath, [path.join(root, "scripts", "build-blog-mobile-media.mjs")], {
+      cwd: root,
+      encoding: "utf8",
+    });
+    if (rbm.status !== 0) {
+      const errText = `${rbm.stderr || ""}${rbm.stdout || ""}`;
+      console.error(errText || "build-blog-mobile-media failed");
+      const looksLikeSharp = /sharp|require\(\.\.\.\) is not a function|is not a function/i.test(errText);
+      if (looksLikeSharp) {
+        console.warn(
+          "[dev-server] build-blog-mobile-media не выполнен (sharp / нативный модуль). Локальный превью __m пропущен — для полной сборки: Node 20/22 LTS + `npm rebuild sharp`, либо SERENITY_DEV_SKIP_BLOG_MOBILE_MEDIA=1.",
+        );
+      } else {
+        console.error(
+          "[dev-server] Если в логе sharp / нативный модуль: Node 20/22 LTS + `npm rebuild sharp`, либо `SERENITY_DEV_SKIP_BLOG_MOBILE_MEDIA=1 npm run dev` для превью без пересборки __m.",
+        );
+        process.exit(1);
+      }
+    }
   }
   /* Как в npm run build:html: assemble → листинг блога (убирает {{…}} в head) → статьи. */
   const ras = spawnSync(process.execPath, [path.join(root, "scripts", "assemble-html.cjs"), "build"], {

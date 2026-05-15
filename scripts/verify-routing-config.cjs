@@ -34,7 +34,7 @@ assert(
   /~\^\/case\/all\/category\/\[\^\/\]\+\/\[0-9\]\+\/index\\\.html\$\s+1;/.test(content),
   "Missing /case/all/category/{code}/{page}/index.html rule."
 );
-assert(/~\^\/docs\(\/\|\$\)\s+1;/.test(content), "Missing /docs static rule (team handbook and other docs).");
+assert(!/~\^\/docs\(\/\|\$\)\s+1;/.test(content), "/docs/ must not map to new static on prod (dev-only: static.serenity.agency).");
 assert(/~\^\/blog\(\/\|\$\)\s+1;/.test(content), "Missing /blog… static rule (статический блог на новом контуре).");
 assert(!/~\^\/services/.test(content), "Статические URL /services/… не мапим на новый контур — каталог услуг только на legacy.");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
@@ -67,19 +67,23 @@ assert(
   /\bserver_name\s+www\.serenity\.agency\s*;[\s\S]*?\breturn\s+301\s+https:\/\/serenity\.agency\$request_uri\s*;/.test(routerVhost),
   "serenity-router.live.conf: www.serenity.agency must redirect to https://serenity.agency$request_uri."
 );
+assert(
+  /\blocation\s+\^~\s+\/docs\/\s*\{[\s\S]*?\breturn\s+404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: /docs/ on prod must return 404 (docs only on dev static)."
+);
 
 const robotsProdPath = path.join(__dirname, "..", "robots.production.txt");
 const robotsProd = fs.readFileSync(robotsProdPath, "utf8");
 assert(
-  /^Disallow:\s*\/docs\/\s*$/m.test(robotsProd),
-  "robots.production.txt must include \"Disallow: /docs/\" (prod nginx aliases this file for /robots.txt)."
+  !/^Disallow:\s*\/docs\/\s*$/m.test(robotsProd),
+  "robots.production.txt must not Disallow: /docs/ (каталог docs/ не на проде)."
 );
 
 const robotsRootPath = path.join(__dirname, "..", "robots.txt");
 const robotsRoot = fs.readFileSync(robotsRootPath, "utf8");
 assert(
-  /^Disallow:\s*\/docs\/\s*$/m.test(robotsRoot),
-  "robots.txt (root, try_files fallback) must include \"Disallow: /docs/\" — keep in sync with robots.production.txt."
+  !/^Disallow:\s*\/docs\/\s*$/m.test(robotsRoot),
+  "robots.txt must not Disallow: /docs/ — keep in sync with robots.production.txt."
 );
 
 const robotsPreviewPath = path.join(__dirname, "..", "robots.static-preview.txt");

@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Правила агента
 
-**Полный регламент в корне:** [`AGENTS.md`](AGENTS.md). Человекочитаемый нарратив URL/SEO — [`docs/team-handbook.html`](docs/team-handbook.html).
+**Полный регламент в корне:** [`AGENTS.md`](AGENTS.md). Командный handbook (только dev): [`docs/team-handbook.html`](docs/team-handbook.html) → https://static.serenity.agency/docs/team-handbook.html
 
 **Дубликаты:** в кураторных JSON/списках URL не оставлять дважды один и тот же `path`/ключ; пары со слэшем и без — отдельные правила для `location =` (см. раздел «Тесты и сдача» в `AGENTS.md`).
 

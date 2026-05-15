@@ -13,7 +13,7 @@
 - Новый контур отдается как статика из `/var/www/static`.
 - Legacy WordPress остается за прокси для путей, которые еще не переключены в `nginx/routing.conf`.
 - Публичные ассеты нового контура идут под префиксом `/_sa/`.
-- Каталог `docs/` закрыт от индексации.
+- Каталог `docs/` — **только dev** (`static.serenity.agency`, Worker); на прод не выкладывается.
 
 ## Структура проекта
 
@@ -78,4 +78,4 @@ npm run test:post-deploy-smoke
 
 - Правила для задач и выкладки: `AGENTS.md`
 - Архитектура и интеграции: `AGENTS.md`
-- Командный handbook: `docs/team-handbook.html` (публичный URL: https://serenity.agency/docs/team-handbook.html)
+- Командный handbook: `docs/team-handbook.html` — публичный URL: https://static.serenity.agency/docs/team-handbook.html (после `bash scripts/deploy-dev.sh`)
