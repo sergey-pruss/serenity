@@ -19,6 +19,7 @@ deploy_rsync_repo_to_static_root() {
     --exclude='.claude' \
     --exclude='.cursor' \
     --exclude='.codex' \
+    --exclude='.continue' \
     --exclude='node_modules' \
     --exclude='.wrangler' \
     --exclude='artifacts' \
@@ -29,14 +30,14 @@ deploy_rsync_repo_to_static_root() {
     ./ "${host}:${path}"
 }
 
-# Каталог tmp/ (срезы паритета, скриншоты) не кладём на origin. Без --delete rsync старые копии не снимет — чистим по SSH.
+# Каталоги tmp/ и .continue/ не кладём на origin (срезы паритета; локальный Cursor Continue). Без --delete rsync старые копии не снимет — чистим по SSH.
 deploy_remote_scrub_rsync_excluded_tmp() {
   export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
   local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
   local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
   # shellcheck disable=SC2086
-  $RSYNC_RSH "${host}" "rm -rf -- '${path}tmp'" || true
-  echo "🧹 На origin удалён каталог tmp (если был): ${host}:${path}tmp"
+  $RSYNC_RSH "${host}" "rm -rf -- '${path}tmp' '${path}.continue'" || true
+  echo "🧹 На origin удалены каталоги tmp и .continue (если были): ${host}:${path}tmp ${host}:${path}.continue"
 }
 
 deploy_worker_staging() {

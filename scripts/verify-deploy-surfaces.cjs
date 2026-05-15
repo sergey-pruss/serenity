@@ -44,6 +44,10 @@ assert(
   "deploy-lib.sh должен исключать tmp/ из rsync (локальные срезы паритета)",
 );
 assert(
+  /--exclude='\.continue'/.test(deployLib),
+  "deploy-lib.sh должен исключать .continue/ из rsync (локальный Cursor Continue)",
+);
+assert(
   /deploy_remote_scrub_rsync_excluded_tmp/.test(deployLib) &&
     /deploy_remote_scrub_rsync_excluded_tmp/.test(deployDev) &&
     /deploy_remote_scrub_rsync_excluded_tmp/.test(deployProd),
