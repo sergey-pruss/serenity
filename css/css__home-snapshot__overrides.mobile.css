@@ -245,8 +245,8 @@
   }
 
   /* +30% к базовому размеру из parity-sync (40px) */
-  .header .new-static-menu .btns__modal .footer-modern__social > a,
-  .header .new-static-menu .btns__modal .footer-modern__social > a[data-v-ff4f3948] {
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a,
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a[data-v-ff4f3948] {
     width: 52px !important;
     min-width: 52px !important;
     max-width: 52px !important;
@@ -256,8 +256,8 @@
     flex-basis: 52px;
   }
 
-  .header .new-static-menu .btns__modal .footer-modern__social > a svg,
-  .header .new-static-menu .btns__modal .footer-modern__social > a svg[data-v-ff4f3948] {
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a svg,
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a svg[data-v-ff4f3948] {
     width: 52px;
     height: 52px;
   }
@@ -318,8 +318,8 @@
   }
 
   /* +30% к 38px (ниже было в узком брейкпоинте) */
-  .header .new-static-menu .btns__modal .footer-modern__social > a,
-  .header .new-static-menu .btns__modal .footer-modern__social > a[data-v-ff4f3948] {
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a,
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a[data-v-ff4f3948] {
     width: 50px !important;
     min-width: 50px !important;
     max-width: 50px !important;
@@ -329,8 +329,8 @@
     flex-basis: 50px;
   }
 
-  .header .new-static-menu .btns__modal .footer-modern__social > a svg,
-  .header .new-static-menu .btns__modal .footer-modern__social > a svg[data-v-ff4f3948] {
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a svg,
+  .header .new-static-menu .btns__modal .footer-modern__social-icons > a svg[data-v-ff4f3948] {
     width: 50px;
     height: 50px;
   }

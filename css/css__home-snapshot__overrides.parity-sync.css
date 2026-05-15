@@ -716,7 +716,7 @@ body.scroll-menu-open {
   overflow: hidden !important;
 }
 
-/* Верхнее десктоп-меню: базовый размер в бандле 14px; канонический размер и жирность — в sections/header.css (16px / 500). */
+/* Верхнее десктоп-меню: базовый размер в бандле 14px; канонический размер и жирность — в sections/header.css (16px / 300). */
 .navigation-list a[data-v-e5e2adce] {
   font-size: 15px;
 }
@@ -805,6 +805,19 @@ body.scroll-menu-open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  /*
+    Бандл при max-width:1024px задаёт .header { height: 0 } — абсолютное меню не тянется на весь экран,
+    сверху остаётся полоса фона body (Safari). Фиксируем на viewport + сплошной слой под backdrop-filter.
+  */
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  background-color: rgba(8, 8, 10, 0.92);
 }
 
 .header.active .header__top-line .navigation-menu,
@@ -941,6 +954,9 @@ body.scroll-menu-open {
   column-gap: 25px;
   width: max-content !important;
   max-width: max-content !important;
+  /* Ряд «телефоны | соцсети» в .btns__modal: без shrink блок с двумя иконками сжимался до одной (TG за краем). */
+  flex-shrink: 0;
+  min-width: min-content;
   margin-left: auto;
   margin-right: 0;
   text-align: right;
@@ -957,7 +973,16 @@ body.scroll-menu-open {
   text-align: right !important;
 }
 
-.header .btns__modal[data-v-7050ddb2] .footer-modern__social > a {
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social-icons {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  column-gap: 25px;
+  flex-shrink: 0;
+}
+
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social-icons > a {
   width: 40px !important;
   min-width: 40px !important;
   max-width: 40px !important;
@@ -976,12 +1001,12 @@ body.scroll-menu-open {
   opacity: 0.7;
 }
 
-.header .btns__modal[data-v-7050ddb2] .footer-modern__social > a svg {
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social-icons > a svg {
   width: 40px;
   height: 40px;
 }
 
-.header .btns__modal[data-v-7050ddb2] .footer-modern__social > a:hover {
+.header .btns__modal[data-v-7050ddb2] .footer-modern__social-icons > a:hover {
   opacity: 1;
 }
 
@@ -997,6 +1022,8 @@ body.scroll-menu-open {
 /* Keep burger right-side alignment while preserving footer social styles */
 .header .btns__modal[data-v-7050ddb2] {
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
 }
 
 .header .btns__modal[data-v-7050ddb2] .footer-modern__social {

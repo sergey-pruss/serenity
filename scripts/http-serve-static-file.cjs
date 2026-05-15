@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const zlib = require("zlib");
 
 /**
  * Safari и др. для `<video src="…mp4">` часто шлют `Range: bytes=0-1` и ждут `206` + `Content-Range`;
@@ -47,11 +48,28 @@ function parseByteRange(rangeHeader, size) {
   return { start, end: Math.min(end, size - 1) };
 }
 
+const GZIP_TEXT_EXT = new Set([
+  ".html",
+  ".css",
+  ".js",
+  ".mjs",
+  ".cjs",
+  ".json",
+  ".xml",
+  ".svg",
+  ".txt",
+]);
+
+function clientAcceptsGzip(req) {
+  const ae = String(req.headers["accept-encoding"] || "").toLowerCase();
+  return ae.includes("gzip");
+}
+
 /**
  * @param {import("http").IncomingMessage} req
  * @param {import("http").ServerResponse} res
  * @param {string} file
- * @param {{ noCache: Record<string, string>, mimes: Record<string, string>, statusCode?: number }} opts
+ * @param {{ noCache: Record<string, string>, mimes: Record<string, string>, statusCode?: number, gzipText?: boolean }} opts
  */
 function serveStaticFile(req, res, file, opts) {
   const noCache = opts.noCache;
@@ -115,13 +133,32 @@ function serveStaticFile(req, res, file, opts) {
     return;
   }
 
-  res.setHeader("Content-Length", size);
+  const useGzip =
+    opts.gzipText === true &&
+    method === "GET" &&
+    clientAcceptsGzip(req) &&
+    GZIP_TEXT_EXT.has(ext) &&
+    size >= 512;
+
+  if (!useGzip) {
+    res.setHeader("Content-Length", size);
+  }
   if (method === "HEAD") {
     res.writeHead(defaultStatus);
     res.end();
     return;
   }
   if (opts.statusCode != null) res.statusCode = opts.statusCode;
+
+  if (useGzip) {
+    res.setHeader("Content-Encoding", "gzip");
+    res.setHeader("Vary", "Accept-Encoding");
+    const gz = zlib.createGzip({ level: zlib.constants.Z_BEST_SPEED });
+    gz.on("error", () => res.destroy());
+    fs.createReadStream(file).on("error", () => res.destroy()).pipe(gz).pipe(res);
+    return;
+  }
+
   fs.createReadStream(file).on("error", () => res.destroy()).pipe(res);
 }
 

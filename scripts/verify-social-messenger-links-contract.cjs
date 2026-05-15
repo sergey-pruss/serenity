@@ -26,17 +26,33 @@ function read(rel) {
   return fs.readFileSync(path.join(root, rel), "utf8");
 }
 
-/** Блок «Следите за нами» без вложенных <div> — первый закрывающий </div> — граница секции. */
+/**
+ * Ссылки внутри блока `footer-modern__social` (включая обёртку `footer-modern__social-icons`).
+ * Ищем закрывающий `</div>` пары к открывающему блоку, а не первый `</div>` внутри (иначе
+ * ломается при вложенном div ряда иконок).
+ */
 function hrefsInSocialBlock(html, blockClass) {
-  const re = new RegExp(`<div[^>]*class="${blockClass}"[^>]*>([\\s\\S]*?)</div>`, "i");
-  const m = html.match(re);
-  assert(m, `${blockClass}: блок не найден (разметка изменилась?)`);
-  const inner = m[1];
-  const hrefs = [];
-  const hrefRe = /href="([^"]+)"/g;
-  let h;
-  while ((h = hrefRe.exec(inner))) hrefs.push(h[1]);
-  return hrefs;
+  const openRe = new RegExp(`<div[^>]*class="[^"]*\\b${blockClass}\\b[^"]*"[^>]*>`, "i");
+  const open = html.match(openRe);
+  assert(open, `${blockClass}: блок не найден (разметка изменилась?)`);
+  let depth = 0;
+  let i = open.index;
+  for (; i < html.length; i += 1) {
+    if (html.startsWith("<div", i)) {
+      depth += 1;
+    } else if (html.startsWith("</div>", i)) {
+      depth -= 1;
+      if (depth === 0) {
+        const inner = html.slice(open.index + open[0].length, i);
+        const hrefs = [];
+        const hrefRe = /href="([^"]+)"/g;
+        let h;
+        while ((h = hrefRe.exec(inner))) hrefs.push(h[1]);
+        return hrefs;
+      }
+    }
+  }
+  assert(false, `${blockClass}: не найден парный закрывающий </div>`);
 }
 
 (() => {

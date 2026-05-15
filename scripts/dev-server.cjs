@@ -139,7 +139,8 @@ const server = http.createServer((req, res) => {
     res.end("Method Not Allowed");
     return;
   }
-  serveStaticFile(req, res, file, { noCache, mimes, statusCode });
+  const gzipText = process.env.SERENITY_DEV_GZIP !== "0";
+  serveStaticFile(req, res, file, { noCache, mimes, statusCode, gzipText });
 });
 
 const startPort = process.env.PORT ? Number(process.env.PORT) : DEFAULT_DEV_PORT;
@@ -178,6 +179,9 @@ const tryListen = (port) => {
     );
     console.log(
       `Стили/скрипты: ссылки вида /_sa/css/... отдаются из css/... (см. strip-serenity-snapshot-prefix.cjs). Если страница без CSS — перезапусти этот процесс.`,
+    );
+    console.log(
+      "Текстовые ответы (html/css/js/…): gzip при Accept-Encoding: gzip (как на nginx). Отключить: SERENITY_DEV_GZIP=0 npm run dev",
     );
     console.log(
       `(no-store; порт занят — закрой старый dev или: lsof -ti:${DEFAULT_DEV_PORT} | xargs kill)`,

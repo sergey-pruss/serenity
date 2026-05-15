@@ -343,7 +343,7 @@ const readCtaState = async (cdp) =>
     const end = await cdp.send("Runtime.evaluate", {
       expression: `(() => {
         const cta = document.querySelector("#body.body-application .application, #body.body-application .footer__link");
-        const icon = document.querySelector("footer.footer-modern .footer-modern__social > a");
+        const icon = document.querySelector("footer.footer-modern .footer-modern__social-icons > a");
         if (!cta || !icon) return { ok: false, reason: "no nodes" };
         const cr = cta.getBoundingClientRect();
         const ir = icon.getBoundingClientRect();
