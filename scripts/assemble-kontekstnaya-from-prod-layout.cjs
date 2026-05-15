@@ -412,6 +412,70 @@ function moveKontekstnayaFaqSectionBeforeCases(mainHtml) {
   return `${without.slice(0, iInsert2)}\n${block}\n${without.slice(iInsert2)}`;
 }
 
+/** Абсолютный image для Product JSON-LD (как og:image страницы). */
+const KONTEKST_PRODUCT_JSONLD_IMAGE =
+  "https://serenity.agency/_sa/img/storage__2lwfrwamwdjZrXwCGrqHh1iCd0TASXMPCTozoLqM.png";
+
+function stripHtmlForJsonLdDescription(raw) {
+  if (!raw || typeof raw !== "string") return raw;
+  return raw
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<\/i>/gi, " ")
+    .replace(/<i>/gi, " ")
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Product JSON-LD из Nuxt: относительный image и HTML в description — правим для поисковиков. */
+function sanitizeKontekstnayaProductJsonLd(html) {
+  const open = "<script";
+  const needle = 'type="application/ld+json"';
+  let i = 0;
+  let out = "";
+  while (i < html.length) {
+    const j = html.indexOf(open, i);
+    if (j < 0) {
+      out += html.slice(i);
+      break;
+    }
+    out += html.slice(i, j);
+    const tagEnd = html.indexOf(">", j);
+    if (tagEnd < 0) {
+      out += html.slice(j);
+      break;
+    }
+    const openTag = html.slice(j, tagEnd + 1);
+    if (!openTag.includes(needle)) {
+      out += openTag;
+      i = tagEnd + 1;
+      continue;
+    }
+    const close = html.indexOf("</script>", tagEnd + 1);
+    if (close < 0) {
+      out += html.slice(j);
+      break;
+    }
+    const body = html.slice(tagEnd + 1, close);
+    i = close + "</script>".length;
+    try {
+      const o = JSON.parse(body);
+      if (o["@type"] === "Product") {
+        o.image = KONTEKST_PRODUCT_JSONLD_IMAGE;
+        if (typeof o.description === "string") {
+          o.description = stripHtmlForJsonLdDescription(o.description);
+        }
+        out += `${openTag}${JSON.stringify(o)}</script>`;
+      } else {
+        out += `${openTag}${body}</script>`;
+      }
+    } catch {
+      out += `${openTag}${body}</script>`;
+    }
+  }
+  return out;
+}
+
 function rewriteProdSlice(html) {
   let s = html;
   s = s.replace(/https:\/\/serenity\.agency\/storage\//g, "/_sa/img/storage__");
@@ -437,6 +501,14 @@ function buildCssLinks(v) {
   return hrefs.map((h) => `    <link rel="stylesheet" href="${h}?v=${v}" />`).join("\n");
 }
 
+/** Не блокирует первый рендер: как lead-form.css (preload + onload → stylesheet). */
+function deferNonBlockingCss(href) {
+  return [
+    `    <link rel="preload" href="${href}" as="style" onload="this.onload=null;this.rel='stylesheet'" />`,
+    `    <noscript><link rel="stylesheet" href="${href}" /></noscript>`,
+  ].join("\n");
+}
+
 function run() {
   const { path: layoutPath, label: layoutLabel } = resolveLayoutPath();
   if (!layoutPath || !fs.existsSync(layoutPath)) {
@@ -458,6 +530,7 @@ function run() {
     process.exit(1);
   }
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
+  main = sanitizeKontekstnayaProductJsonLd(main);
   main = injectKontekstnayaFaqFromPartial(main);
   main = ensureKontekstnayaPriceCardAdBudgetLines(main);
   main = ensureKontekstnayaPriceCardThreeColumns(main);
@@ -479,15 +552,16 @@ function run() {
   const v = "20260513kontekstBundle2";
   const cssBlock = [
     "    <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->",
+    "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260512categoryScrollEdge\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515ultraInline1576\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260514kontekstPackagesNativeRow\" />",
     buildCssLinks(v),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/kontekstnaya-faq.css?v=20260514kontekstFaqGutterX\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260514kontekstPackagesTitleStack\" />",
-    "    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__slider-arrows.css?v=20260513kontekstSwipers\" />",
+    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260515asyncCssFaq"),
+    deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260515deferCssStack\" />",
+    deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
+    deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260429m\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260502aligngrid\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260514serviceInlineLead7\" />",
