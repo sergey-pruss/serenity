@@ -76,8 +76,10 @@ body.order-popup-open .overlay-new {
   margin-top: 0 !important;
 }
 
-#desktop-order-popup .contact-form__form-title {
-  display: none !important;
+@media (min-width: 1025px) {
+  #desktop-order-popup .contact-form__form-title {
+    display: none !important;
+  }
 }
 
 #desktop-order-popup .contact-form__messenger-links a {
@@ -334,12 +336,23 @@ body.order-popup-open .overlay-new {
   }
 }
 
-@media (max-width: 425px) {
+/* Планшет и мобайл: крестик не прилипает к верху экрана и не уезжает при скролле модалки */
+@media (max-width: 1024px) {
   #desktop-order-popup .modal-close.order-popup__cross,
   #desktop-order-popup .modal-close[data-v-2ee28934] {
-    top: calc(34px + env(safe-area-inset-top, 0px)) !important;
+    position: fixed !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
     right: 10% !important;
     transform: none !important;
+    z-index: 160 !important;
+  }
+
+  #desktop-order-popup .contact-form__form-title {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 30px !important;
+    color: #fff !important;
   }
 }
 
@@ -417,11 +430,6 @@ body.order-popup-open .overlay-new {
     font-size: 18px !important;
     line-height: 1.6 !important;
     margin-bottom: 25px !important;
-  }
-
-  #desktop-order-popup .contact-form__form-title {
-    display: block !important;
-    margin-bottom: 30px !important;
   }
 
   #desktop-order-popup .contact-form__messenger-links {
