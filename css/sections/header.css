@@ -131,3 +131,40 @@
     width: 97px !important;
   }
 }
+
+/*
+ * ≤1250: после скролла app.js ставит header--collapsed и .hide на top-line;
+ * snapshot.bundle тушит .header__container (transform, opacity: 0, pointer-events: none).
+ * Лого визуально на месте, но клик не доходит — чиним: строка с лого остаётся в потоке, меню скрыто.
+ */
+@media screen and (max-width: 1250px) {
+  .compressed.header.header--collapsed:not(.active) .header__top-line.hide,
+  .compressed.header.header--collapsed:not(.active) .header__top-line.hide[data-v-e5e2adce] {
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__container,
+  .compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__container[data-v-e5e2adce] {
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .compressed.header.header--collapsed:not(.active) .header__logo,
+  .compressed.header.header--collapsed:not(.active) .header__logo a,
+  .compressed.header.header--collapsed:not(.active) .header__logo[data-v-e5e2adce],
+  .compressed.header.header--collapsed:not(.active) .header__logo a[data-v-e5e2adce] {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .compressed.header.header--collapsed:not(.active) .header__top-line.hide .navigation-menu,
+  .compressed.header.header--collapsed:not(.active) .header__top-line.hide .navigation-menu[data-v-e5e2adce] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
