@@ -158,14 +158,6 @@ body:not(.order-popup-open) .overlay-new {
   z-index: 2 !important;
 }
 
-/* Точки пагинации Swiper у слайдера кейсов не показываем (навигация — стрелки). */
-.page-constructor .cases-block .swiper-pagination,
-.cases-block[data-v-bd2e570a] .swiper-pagination {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
 /*
  * Вертикальный ритм секций (как на главной: .clients-new-section.home-between — padding-top: var(--home-between)).
  * Токен в css__home-snapshot__overrides.parity-sync.css (:root --home-between 112 / 97 / 60).
@@ -512,7 +504,7 @@ body:not(.order-popup-open) .overlay-new {
  * Заголовок «Пакеты» (section с .content-block непосредственно перед section с .dies): на десктопе по центру,
  * как ряд карточек; в Nuxt .col-6 тянет блок в левую половину контейнера.
  */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1025px) {
   .page-constructor
     > .page-constructor__section:has(+ .page-constructor__section > .dies.modern)
     > .modern.content-block
@@ -549,7 +541,7 @@ body:not(.order-popup-open) .overlay-new {
  * (.page__container[data-v-4ed7dc78] в Nuxt-бандле: width calc(100% - 154px), padding 0),
  * без full-bleed во вьюпорт и без второго горизонтального инсета .prices__cards (65px).
  */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1025px) {
   .page-constructor .page-constructor__section:has(> .dies.modern .prices)
     .dies.modern[data-v-07db1e8a]
     > .page__container[data-v-07db1e8a] {
@@ -577,7 +569,7 @@ body:not(.order-popup-open) .overlay-new {
  * Заголовок h2 и первая карточка — одна вертикаль: у Nuxt .row margin -20px и .col padding 25px сдвигали текст
  * относительно трека; у секции с карточками убираем общий padding-top --home-between между заголовком и рядом.
  */
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1024px) {
   .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
     .modern.content-block
     > .page__container[data-v-4ed7dc78],
@@ -606,16 +598,17 @@ body:not(.order-popup-open) .overlay-new {
     .numbered-header__title-column[data-v-490c7534] {
     padding-left: 0 !important;
     padding-right: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
     .numbered-header[data-v-490c7534] {
-    margin-bottom: 10px !important;
+    margin-bottom: var(--home-ledge, 54px) !important;
   }
 
   .page-constructor > .page-constructor__section:has(> .dies.modern .prices) > .dies.modern[data-v-07db1e8a],
   .page-constructor > .page-constructor__section:has(> .dies.modern .prices) > .dies.modern {
-    padding-top: 20px !important;
+    padding-top: 0 !important;
   }
 
   .page-constructor .page-constructor__section:has(> .dies.modern .prices)
@@ -643,7 +636,7 @@ body:not(.order-popup-open) .overlay-new {
   .page-constructor > .page-constructor__section:has(+ .page-constructor__section > .dies.modern .prices)
     .numbered-header.number-header__empty
     .numbered-header__title-column[data-v-490c7534] {
-    margin-bottom: 16px !important;
+    margin-bottom: 0 !important;
   }
 }
 
@@ -774,10 +767,10 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
- * «Пакеты»: ≥1024px — три колонки без сжатия карточек (flex 1 1 0); ≤1023px — горизонтальный ряд
- * (initRow без fullBleed + padding на .prices__packages-track, см. css).
+ * «Пакеты»: ≥1025px — три колонки без сжатия карточек (flex 1 1 0);
+ * ≤1024px — горизонтальный слайдер (iPad landscape 1024 остаётся в режиме листания).
  */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1025px) {
   .page-constructor .dies .prices .prices__cards--packages.prices__cards.row {
     display: block;
   }
@@ -819,29 +812,106 @@ body:not(.order-popup-open) .overlay-new {
   }
 }
 
-@media screen and (max-width: 1023px) {
-  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+@media screen and (max-width: 1024px) {
+  /* Nuxt .row: width calc(100% + 40px) и отрицательные margin — без сброса хост слайдера шире .prices. */
+  .page-constructor .dies .prices .prices__cards--packages.prices__cards.row[data-v-1505791e],
+  .page-constructor .dies .prices .prices__cards--packages.prices__cards.row {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    /* Как .services-section: не клипать full-bleed слайдера. */
+    overflow: visible !important;
     box-sizing: border-box;
   }
 
-  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
-    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
-    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  .page-constructor .dies.modern .prices[data-v-1505791e],
+  .page-constructor .dies.modern section.prices,
+  .page-constructor > .page-constructor__section:has(> .dies.modern .prices) > .dies.modern {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     box-sizing: border-box;
-    overflow-x: auto !important;
+    overflow-x: visible !important;
+  }
+
+  /* Full-bleed вправо как у услуг; слева margin 0 — линия первой плашки = заголовок (padding-left на треке). */
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + var(--page-gutter-x, 55px));
+    max-width: none;
+    margin-left: 0 !important;
+    margin-right: calc(-1 * var(--page-gutter-x, 55px)) !important;
+    box-sizing: border-box;
+  }
+
+  /* Nuxt .row .col padding на обёртке — лишний inset слева у первой плашки. */
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] .price-card__wrapper[data-v-1444f1fb] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container,
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    touch-action: pan-x pan-y;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    overflow: hidden !important;
+    padding-top: 0 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: -12px !important;
+  }
+
+  /* Свайп на треке: даже до initRow (без data-native-row) — overflow из Swiper-бандла иначе hidden. */
+  .page-constructor .dies .prices .prices__packages-track.swiper-wrapper,
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    box-sizing: border-box;
+    overflow-x: scroll !important;
     overflow-y: hidden !important;
-    touch-action: auto;
+    touch-action: pan-x pan-y;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-top: 20px !important;
+    margin-top: 0 !important;
+    /* Спрятать полосу прокрутки iOS/Safari под clip хоста */
+    margin-bottom: -16px !important;
+    padding-bottom: 16px !important;
+    /* padding-right гаттера — native-row-scroll.css + initRow (не margin последнего слайда). */
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"]::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .swiper-slide:last-child {
+    margin-right: 0 !important;
   }
 
   .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
     flex: 0 0 auto !important;
-    width: min(400px, calc(100vw - 2 * var(--page-gutter-x, 78px)));
+    /* Ширина с «хвостом» за край экрана; не вычитаем 2×gutter — иначе две карточки целиком влезают в поле. */
+    width: min(400px, calc(100vw - var(--page-gutter-x, 55px) - 30px));
     max-width: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px);
+    margin-left: 0 !important;
+    margin-right: -36px !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px);
+    margin-left: 0 !important;
+    margin-right: -36px !important;
   }
 }
 
@@ -865,7 +935,7 @@ body:not(.order-popup-open) .overlay-new {
 
 /* «Команда»: легче, чем у текстовых блоков — только 10 % справа (без 15 %). */
 @media screen and (min-width: 721px) {
-  body .team-block .team .row > [class*="col-"] {
+  body .team-block .team__member-card {
     padding-left: 0;
     padding-right: 10%;
     box-sizing: border-box;
@@ -881,8 +951,137 @@ body:not(.order-popup-open) .overlay-new {
     padding-right: 0;
   }
 
-  body .team-block .team .row > [class*="col-"] {
+  body .team-block .team__member-card {
     padding-right: 0;
+  }
+}
+
+.page-constructor .team-block .team-carousel-block {
+  display: none !important;
+}
+
+/*
+ * «Команда»: ≥1025 — сетка 3×2; ≤1024 — горизонтальный ряд с «хвостом» следующей карточки (как пакеты / услуги).
+ */
+@media screen and (min-width: 1025px) {
+  .page-constructor .team-block .team__cards.team__cards--slider {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor .team-block .team__members-track[data-native-row="1"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor .team-block .team__member-slide.swiper-slide {
+    flex: 0 0 33.333% !important;
+    width: 33.333% !important;
+    max-width: 33.333% !important;
+    margin-right: 0 !important;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  /* Nuxt .team-block { overflow: hidden } — иначе full-bleed слайдера клипается слева/справа. */
+  .page-constructor .team-block,
+  .page-constructor .team-block .page__container {
+    overflow-x: visible !important;
+  }
+
+  .page-constructor .team-block .team__cards.team__cards--slider {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Full-bleed слева и справа: ряд уходит за края экрана (initRow + геометрия хоста). */
+  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 2 * var(--page-gutter-x, 55px));
+    max-width: none;
+    margin-left: calc(-1 * var(--page-gutter-x, 55px)) !important;
+    margin-right: calc(-1 * var(--page-gutter-x, 55px)) !important;
+    box-sizing: border-box;
+    overflow: hidden !important;
+    padding-top: 0 !important;
+    padding-bottom: 8px !important;
+    margin-bottom: -8px !important;
+  }
+
+  .page-constructor .team-block .team__members-track[data-native-row="1"] {
+    box-sizing: border-box;
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
+    touch-action: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    margin-bottom: -12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .page-constructor .team-block .team__members-track[data-native-row="1"]::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .page-constructor .team-block .team__member-slide.swiper-slide {
+    flex: 0 0 auto !important;
+    width: min(300px, calc(100vw - var(--page-gutter-x, 55px) - 30px));
+    max-width: none !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .team-block .team__member-card {
+    padding-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 72px);
+    margin-left: -36px !important;
+    margin-right: -36px !important;
+  }
+
+  .page-constructor .team-block .team__member-slide.swiper-slide {
+    width: min(280px, calc(100vw - 36px - 30px));
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 72px);
+    margin-left: -36px !important;
+    margin-right: -36px !important;
+  }
+}
+
+/* Планшет: зазор «текст шапки → слайдер» (−60% от margin-bottom:180px в Nuxt-бандле). */
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor .team-block .page__container .team__head p[data-v-c03ce8dc],
+  .page-constructor .team-block .page__container .team__head p {
+    margin-bottom: 72px !important;
   }
 }
 
@@ -925,13 +1124,7 @@ body:not(.order-popup-open) .overlay-new {
     box-sizing: border-box !important;
   }
 
-  .page-constructor
-    .page-constructor__section.sa-service-lead-section
-    #sa-inline-lead-root.sa-service-lead-root
-    .order-popup__inner[data-v-2ee28934] {
-    max-width: none !important;
-    width: 100% !important;
-  }
+  /* Горизонтальный inset — в service-inline-lead-form (inner 87%, как у модалки). */
 }
 
 /*
