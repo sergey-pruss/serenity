@@ -597,7 +597,7 @@ function run() {
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260515asyncCssFaq"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260515imgEagerSafari\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516teamColsTextWidth10pct\" />",
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",
