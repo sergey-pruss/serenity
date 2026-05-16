@@ -1189,11 +1189,10 @@
     document.querySelectorAll(".cases-block__slider").forEach((root) => {
       const container = root.querySelector(".cases-block__slider-swiper-container.swiper-container");
       if (!container || container.dataset.saCasesSwiperInit === "1") return;
-      const pagination = root.querySelector(".swiper-pagination");
       const nav = root.querySelector(".swiper__navigation");
       const nextEl = nav && nav.querySelector(".swiper-button-next");
       const prevEl = nav && nav.querySelector(".swiper-button-prev");
-      if (!pagination || !nextEl || !prevEl) return;
+      if (!nextEl || !prevEl) return;
       container.dataset.saCasesSwiperInit = "1";
       /* Дамп Nuxt: инлайновый width:1280px на слайдах — ограничиваем ширину контейнера Swiper. */
       container.querySelectorAll(".swiper-slide").forEach((slide) => {
@@ -1233,10 +1232,6 @@
           sensitivity: 0.85,
           thresholdDelta: 12,
           releaseOnEdges: true,
-        },
-        pagination: {
-          el: pagination,
-          clickable: true,
         },
         navigation: {
           nextEl,
@@ -1293,8 +1288,8 @@
     if (typeof window.Swiper === "undefined") return;
     document.querySelectorAll(".mor-cases-slider").forEach((container) => {
       if (container.dataset.morCasesInit === "1") return;
-      const paginationEl = container.querySelector(".swiper-pagination");
-      const opts = {
+      container.dataset.morCasesInit = "1";
+      new window.Swiper(container, {
         direction: "horizontal",
         slidesPerView: "auto",
         freeMode: true,
@@ -1303,12 +1298,7 @@
         simulateTouch: true,
         threshold: 6,
         passiveListeners: false,
-      };
-      if (paginationEl) {
-        opts.pagination = { el: paginationEl, clickable: true };
-      }
-      container.dataset.morCasesInit = "1";
-      new window.Swiper(container, opts);
+      });
     });
   };
 
