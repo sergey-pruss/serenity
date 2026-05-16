@@ -26,6 +26,13 @@
   };
 
   const currentKey = routeKeyFromPath(window.location.pathname);
+
+  const logoLink = document.querySelector(".header__logo a[href='/']");
+  if (logoLink && currentKey !== "home") {
+    logoLink.classList.remove("nuxt-link-active", "nuxt-link-exact-active");
+    logoLink.removeAttribute("aria-current");
+  }
+
   if (!currentKey || currentKey === "home") return;
 
   const links = document.querySelectorAll(".navigation-list a, .navigation-new__list a");
