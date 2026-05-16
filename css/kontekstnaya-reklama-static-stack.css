@@ -408,14 +408,21 @@ body:not(.order-popup-open) .overlay-new {
 
 @media screen and (max-width: 720px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    /* Нижний inset как на планшете/Nuxt (190px): место для точек внутри фона слайда. */
-    padding: 72px 36px 108px !important;
+    /* Контент сверху; низ слайда — запас до полосы точек (точки вне swiper-container). */
+    padding: 72px 36px 32px !important;
+  }
+
+  /* Пружины ::before/::after центрируют блок; при длинном тексте (DarkRain) кнопка уезжает вниз к точкам. */
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a]::before,
+  .cases-block .cases-block__swiper-slide[data-v-bd2e570a]::after {
+    display: none !important;
+    content: none !important;
   }
 }
 
 @media screen and (max-width: 450px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 64px 36px 100px !important;
+    padding: 64px 36px 28px !important;
   }
 }
 
@@ -751,8 +758,9 @@ body:not(.order-popup-open) .overlay-new {
  */
 .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .swiper-slide,
 .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .prices__packages-slide.swiper-slide {
-  height: auto !important;
-  align-self: stretch;
+  /* height:auto !important ломает align-items:stretch — карточки разной высоты в ряду. */
+  height: unset !important;
+  align-self: stretch !important;
   display: flex;
   flex-direction: column;
 }
@@ -931,12 +939,15 @@ body:not(.order-popup-open) .overlay-new {
     overflow-x: visible !important;
   }
 
-  /* Слева margin 0 — первая плашка по линии заголовка; вправо без bleed (концевой гаттер на треке). */
+  /*
+   * Геометрия ряда как у .services-unified .services__context-slider (native-row-scroll):
+   * первая карточка по линии заголовка, справа — «хвост» следующей плитки.
+   */
   .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
-    width: 100% !important;
-    max-width: 100% !important;
+    width: calc(100% + 55px) !important;
+    max-width: none !important;
     margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-right: -55px !important;
     box-sizing: border-box;
   }
 
@@ -988,11 +999,91 @@ body:not(.order-popup-open) .overlay-new {
     margin-right: 0 !important;
   }
 
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    gap: 30px;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .swiper-slide,
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .prices__packages-slide {
+    margin-right: 0 !important;
+  }
+
   .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
     flex: 0 0 auto !important;
-    /* Ширина с «хвостом» за край экрана; не вычитаем 2×gutter — иначе две карточки целиком влезают в поле. */
-    width: min(400px, calc(100vw - var(--page-gutter-x, 55px) - 30px));
+    box-sizing: border-box;
+    width: 309px !important;
+    max-width: 309px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px) !important;
+    margin-right: -36px !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    width: 270px !important;
+    max-width: 270px !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px) !important;
+    margin-right: -36px !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    width: 270px !important;
+    max-width: 270px !important;
+  }
+}
+
+/*
+ * «Пакеты» ≤719px: первая плитка по левой сетке (--page-inline-start), ширина как у «Синергии»
+ * (viewport − гаттер − 84px peek). Убираем auto-margin у .price-card внутри слайда. Планшет ≥720px — без изменений.
+ */
+@media screen and (max-width: 719px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
     max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 36px)) !important;
+    scroll-padding-inline-start: var(--page-inline-start, var(--page-gutter-x, 36px)) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    flex: 0 0 auto !important;
+    width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    max-width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide .price-card__wrapper[data-v-1444f1fb],
+  .page-constructor .dies .prices .prices__packages-slide .price-card__wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide .price-card.noImg[data-v-1444f1fb],
+  .page-constructor .dies .prices .prices__packages-slide .price-card.noImg {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -1015,7 +1106,8 @@ body:not(.order-popup-open) .overlay-new {
     padding: 0 !important;
     box-sizing: border-box;
     column-gap: 0 !important;
-    row-gap: 0 !important;
+    /* Между двумя .content-block__grid-wrapper (по 3 block-item): без gap схлопывались 3-й и 4-й блоки. */
+    row-gap: 57px !important;
   }
 
   body .modern.content-block .content-block__grid--tablet .content-block__grid-wrapper,
@@ -1033,7 +1125,8 @@ body:not(.order-popup-open) .overlay-new {
 
   body .modern.content-block .content-block__grid--tablet .content-block__grid-wrapper + .content-block__grid-wrapper,
   body .modern.content-block .content-block__grid--tablet > .col-4 + .col-4 {
-    margin-top: 57px;
+    /* Дублирует row-gap сетки: margin: 0 !important на wrapper обнулял прежний margin-top. */
+    margin-top: 0 !important;
   }
 
   body .modern.content-block .content-block__grid--tablet .block-item {
@@ -1335,6 +1428,7 @@ body .page-constructor .team-block .team__member-card {
  */
 /*
  * Кейсы ≤1024px: точки — внутри .cases-block__slider (как на планшете), не у низа section.
+ * Неактивные точки: контраст на тёмном фото (бандл #777 / чёрный на iOS — не читаются).
  */
 @media screen and (max-width: 1024px) {
   .cases-block .cases-block__slider {
@@ -1348,25 +1442,84 @@ body .page-constructor .team-block .team__member-card {
     right: 0 !important;
     width: 100% !important;
     bottom: 28px !important;
-    z-index: 3 !important;
+    z-index: 6 !important;
     margin: 0 !important;
     pointer-events: auto;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+
+  .cases-block .cases-block__slider .swiper-pagination-bullet[data-v-bd2e570a],
+  .cases-block .cases-block__slider .swiper-pagination-bullet {
+    flex: 0 0 auto;
+    width: 7px !important;
+    height: 7px !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4),
+      0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .cases-block .cases-block__slider .swiper-pagination-bullet-active[data-v-bd2e570a],
+  .cases-block .cases-block__slider .swiper-pagination-bullet-active {
+    width: 8px !important;
+    height: 8px !important;
+    background: #fff !important;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.25),
+      0 0 10px rgba(255, 255, 255, 0.45);
   }
 }
 
 @media screen and (max-width: 720px) {
+  .page-constructor__section:has(> .cases-block) {
+    position: relative;
+    z-index: 2;
+  }
+
   .cases-block[data-v-bd2e570a] {
-    padding-bottom: 0 !important;
+    padding-bottom: 12px !important;
   }
 
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    /* Чуть выше полноэкранного min-height — запас под точки внутри слайда. */
-    min-height: max(640px, calc(min(100vh, 100dvh, 100svh) + 32px)) !important;
+    min-height: max(640px, calc(min(100vh, 100dvh, 100svh) - 48px)) !important;
+    height: 100% !important;
+  }
+
+  /*
+   * Одна высота на все слайды: иначе короткий Orange сжимает swiper-container,
+   * точки и низ секции «прыгают» относительно DarkRain и заезжают под «Почему работать…».
+   */
+  .cases-block .cases-block__slider .cases-block__slider-swiper-container.swiper-container,
+  .cases-block .cases-block__slider .cases-block__slider-swiper-container .swiper-wrapper {
+    height: max(640px, calc(min(100vh, 100dvh, 100svh) - 48px)) !important;
+    min-height: max(640px, calc(min(100vh, 100dvh, 100svh) - 48px)) !important;
+  }
+
+  /* Полоса под слайдом: точки не на фото и не под следующей секцией. */
+  .cases-block .cases-block__slider {
+    padding-bottom: 56px !important;
+    box-sizing: border-box;
   }
 
   .cases-block .cases-block__slider .swiper-pagination[data-v-bd2e570a],
   .cases-block .cases-block__slider .swiper-pagination {
-    bottom: 36px !important;
+    bottom: 12px !important;
+    left: 50% !important;
+    right: auto !important;
+    width: auto !important;
+    max-width: calc(100% - 32px);
+    transform: translateX(-50%);
+    padding: 10px 16px !important;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
 }
 
@@ -1381,10 +1534,68 @@ body .page-constructor .team-block .team__member-card {
   }
 }
 
+/*
+ * Мобильный зазор «заголовок секции → контент» (кейсы, FAQ, награды, синергия, команда).
+ * На ≤550px в бандле/FAQ было 20px — выравниваем с ритмом 768px (45px). Планшет ≥720px не трогаем.
+ */
 @media screen and (max-width: 719px) {
-  .team-block .team .team__head > h3.kontekstnaya-page__section-heading {
-    margin-left: max(var(--page-gutter-x, 36px), 16px) !important;
-    margin-bottom: 40px !important;
+  .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
+  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container {
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor .kontekst-synergy-root .services__context-wrapper[data-native-row="1"] {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * «Команда»: один левый край у h2 и абзаца; зазор вводного текста → слайдер = тот же 45px.
+   */
+  .page-constructor .team-block .page__container .team__head {
+    align-items: stretch !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .team-block .page__container .team__head > h2[data-v-c03ce8dc],
+  .page-constructor .team-block .page__container .team__head > h2 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .team-block .page__container .team__head p[data-v-c03ce8dc],
+  .page-constructor .team-block .page__container .team__head p {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 45px !important;
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+    box-sizing: border-box;
   }
 }
 

@@ -157,7 +157,11 @@
         // Если fetch завершился после initMorCasesSlider в app.js — замена DOM ломает отступы spaceBetween.
         if (hadSwiper && typeof window.Swiper === "function") {
           morContainer.dataset.morCasesInit = "1";
-          new window.Swiper(morContainer, {
+          const cs = getComputedStyle(document.documentElement);
+          const raw =
+            cs.getPropertyValue("--page-inline-end").trim() || cs.getPropertyValue("--page-gutter-x").trim();
+          const gutter = Number.parseFloat(raw);
+          const opts = {
             direction: "horizontal",
             slidesPerView: "auto",
             freeMode: true,
@@ -166,7 +170,11 @@
             simulateTouch: true,
             threshold: 6,
             passiveListeners: false,
-          });
+          };
+          if (window.matchMedia("(max-width: 719px)").matches) {
+            opts.slidesOffsetAfter = Number.isFinite(gutter) ? gutter : 36;
+          }
+          new window.Swiper(morContainer, opts);
         }
       }
     })

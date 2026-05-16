@@ -1336,22 +1336,37 @@
     });
   };
 
+  const getPageInlineGutterPx = () => {
+    const cs = getComputedStyle(document.documentElement);
+    const raw =
+      cs.getPropertyValue("--page-inline-end").trim() || cs.getPropertyValue("--page-gutter-x").trim();
+    const n = parseFloat(raw);
+    return Number.isFinite(n) ? n : 36;
+  };
+
+  const morCasesSwiperOpts = () => {
+    const opts = {
+      direction: "horizontal",
+      slidesPerView: "auto",
+      freeMode: true,
+      spaceBetween: 20,
+      grabCursor: true,
+      simulateTouch: true,
+      threshold: 6,
+      passiveListeners: false,
+    };
+    if (window.matchMedia("(max-width: 719px)").matches) {
+      opts.slidesOffsetAfter = getPageInlineGutterPx();
+    }
+    return opts;
+  };
+
   const initMorCasesSlider = () => {
     if (typeof window.Swiper === "undefined") return;
     document.querySelectorAll(".mor-cases-slider").forEach((container) => {
       if (container.dataset.morCasesInit === "1") return;
-      const opts = {
-        direction: "horizontal",
-        slidesPerView: "auto",
-        freeMode: true,
-        spaceBetween: 20,
-        grabCursor: true,
-        simulateTouch: true,
-        threshold: 6,
-        passiveListeners: false,
-      };
       container.dataset.morCasesInit = "1";
-      new window.Swiper(container, opts);
+      new window.Swiper(container, morCasesSwiperOpts());
     });
   };
 
