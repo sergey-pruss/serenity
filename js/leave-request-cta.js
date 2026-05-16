@@ -454,7 +454,11 @@
     if (tmpl && tmpl.tagName === "TEMPLATE") {
       const titleSrc = tmpl.content.querySelector('[data-role="title"]');
       const leadSrc = tmpl.content.querySelector('[data-role="lead"]');
-      if (titleSrc?.textContent?.trim()) titleInnerHtml = escapeHtml(titleSrc.textContent.trim());
+      if (titleSrc?.innerHTML?.trim()) {
+        titleInnerHtml = titleSrc.innerHTML.trim();
+      } else if (titleSrc?.textContent?.trim()) {
+        titleInnerHtml = escapeHtml(titleSrc.textContent.trim());
+      }
       if (leadSrc?.innerHTML?.trim()) leadInnerHtml = leadSrc.innerHTML.trim();
     }
     root.classList.remove("is-thank-you");

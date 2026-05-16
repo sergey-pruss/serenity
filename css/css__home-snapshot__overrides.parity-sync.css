@@ -1685,13 +1685,14 @@ body.order-popup-open .overlay-new {
   }
 }
 
-@media (max-width: 425px) {
-  /* Как .modal-close на serenity.agency (≈34px сверху) + safe-area */
+@media (max-width: 1024px) {
   #desktop-order-popup .modal-close.order-popup__cross,
   #desktop-order-popup .modal-close[data-v-2ee28934] {
-    top: calc(34px + env(safe-area-inset-top, 0px)) !important;
+    position: fixed !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
     right: 10% !important;
     transform: none !important;
+    z-index: 160 !important;
   }
 }
 
@@ -2102,8 +2103,8 @@ body.order-popup-open .overlay-new {
   }
 }
 
-/* Слайдеры кейсов на главной и в .cases-block: без точек пагинации Swiper */
-.cases-block .swiper-pagination,
+/* Горизонтальный слайдер «Ещё кейсы» на главной / внизу услуги: без точек (свободный скролл).
+ * Слайдеры .cases-block__slider на страницах услуг — точки по Nuxt (≤1024px), не трогаем. */
 .more-case-wr .mor-cases-slider-wrapper .swiper-pagination {
   display: none !important;
   visibility: hidden !important;
