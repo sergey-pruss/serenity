@@ -112,8 +112,10 @@
   }
 }
 
-#sa-inline-lead-root .contact-form__form-title {
-  display: none !important;
+@media (min-width: 1025px) {
+  #sa-inline-lead-root .contact-form__form-title {
+    display: none !important;
+  }
 }
 
 /* Заголовок h2: размер/вес — из snapshot / Nuxt; у инлайна нет предка .order-popup, поэтому
@@ -121,6 +123,11 @@
 #sa-inline-lead-root .order-popup__meta h2[data-v-2ee28934],
 #sa-inline-lead-root .order-popup__meta h2 {
   margin-bottom: 30px !important;
+}
+
+/* В .newModal бандл скрывает <br> — для инлайн-заголовка в две строки возвращаем перенос */
+#sa-inline-lead-root.sa-service-lead-root .order-popup__meta h2 br {
+  display: block !important;
 }
 
 #sa-inline-lead-root .order-popup__meta .lead[data-v-2ee28934],
@@ -363,9 +370,37 @@
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  #sa-inline-lead-root .order-popup__inner[data-v-2ee28934] {
+  /*
+   * Паритет #desktop-order-popup (769–1024): Nuxt .newModal даёт padding:76px 0 без горизонтали;
+   * левый «воздух» — inner 87% по центру (как parity-sync / lead-form), не padding на корне.
+   */
+  #sa-inline-lead-root.sa-service-lead-root.newModal[data-v-2ee28934],
+  #sa-inline-lead-root.sa-service-lead-root.newModal {
+    /* Верхний отступ ≈ боковой (inner 87% → ~6.5% с каждой стороны) */
+    padding-top: max(56px, 6.5vw) !important;
+    padding-bottom: clamp(40px, 5vw, 76px) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: none !important;
+  }
+
+  #sa-inline-lead-root .order-popup__meta h2[data-v-2ee28934],
+  #sa-inline-lead-root .order-popup__meta h2 {
+    max-width: none !important;
+    width: 100% !important;
+    text-wrap: balance;
+  }
+
+  .page-constructor
+    .page-constructor__section.sa-service-lead-section
+    #sa-inline-lead-root.sa-service-lead-root
+    .order-popup__inner[data-v-2ee28934],
+  #sa-inline-lead-root .order-popup__inner[data-v-2ee28934] {
+    width: 87% !important;
+    max-width: 87% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     min-height: 0 !important;
     flex-direction: column !important;
     align-items: stretch !important;
@@ -382,6 +417,49 @@
 
   #sa-inline-lead-root .form-wrap[data-v-8ad2fcbc] {
     margin-top: -28px !important;
+    padding-right: 0 !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger[data-v-2ee28934] {
+    margin-top: 50px !important;
+    margin-bottom: 40px !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-title[data-v-2ee28934] {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 25px !important;
+    color: #fff !important;
+  }
+
+  #sa-inline-lead-root .contact-form__form-title {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 30px !important;
+    color: #fff !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links {
+    display: block !important;
+    line-height: 0 !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links a {
+    background: none !important;
+    border-radius: 0 !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    vertical-align: top !important;
+  }
+
+  #sa-inline-lead-root .contact-form__messenger-links a + a {
+    margin-left: 15px !important;
   }
 
   #sa-inline-lead-root .order-popup__meta .lead {
@@ -419,14 +497,23 @@
 
   #sa-inline-lead-root.sa-service-lead-root {
     min-height: 0;
-    padding: 32px 20px 40px;
+    /* Верхний отступ ≈ боковой (inner 80% → 10% с каждой стороны) */
+    padding-top: calc(max(48px, 10vw) + env(safe-area-inset-top, 0px)) !important;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     background: rgb(25, 26, 27) !important;
   }
 
+  .page-constructor
+    .page-constructor__section.sa-service-lead-section
+    #sa-inline-lead-root.sa-service-lead-root
+    .order-popup__inner[data-v-2ee28934],
   #sa-inline-lead-root .order-popup__inner[data-v-2ee28934] {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto !important;
+    width: 80% !important;
+    max-width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
     gap: 36px !important;
@@ -459,7 +546,9 @@
     font-weight: 400 !important;
     letter-spacing: normal !important;
     color: #fff !important;
-    max-width: 260px !important;
+    max-width: none !important;
+    width: 100% !important;
+    text-wrap: balance;
     margin: 0 0 30px !important;
   }
 

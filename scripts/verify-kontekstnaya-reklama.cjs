@@ -393,6 +393,19 @@ async function run() {
     "HTML: подключён kontekstnaya-spoilers.js для FAQ",
   );
 
+  assert(
+    fileExists("js/service-packages-slider.js"),
+    "JS: service-packages-slider.js — слайдер «Пакеты» (только страницы услуг)",
+  );
+  assert(
+    html.includes("service-packages-slider.js"),
+    "HTML: подключён service-packages-slider.js после app.js для «Пакеты»",
+  );
+  assert(
+    !read("js/app.js").includes('.querySelectorAll(".prices__packages-slider")'),
+    "JS: инициализация «Пакеты» не в app.js (service-packages-slider.js)",
+  );
+
   const manPath = "kontekstnaya_reklama/nuxt-css-manifest.json";
   assert(fileExists(manPath), `Отсутствует манифест ${manPath} (скачайте Nuxt CSS)`);
   const man = JSON.parse(read(manPath));

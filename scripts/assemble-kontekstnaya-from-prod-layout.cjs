@@ -171,6 +171,26 @@ function ensureKontekstnayaPackagesSliderMarkup(mainHtml) {
   return s;
 }
 
+/** Сетка «Команда» → native-row слайдер (как «Пакеты» / услуги): ≤1024 свайп, ≥1025 три колонки. */
+function ensureKontekstnayaTeamSliderMarkup(mainHtml) {
+  if (mainHtml.includes("team__members-slider")) return mainHtml;
+  const rowOpen =
+    '<div data-v-c03ce8dc="" class="row"><div data-v-c03ce8dc="" class="col-4 col-md-6">';
+  const sliderOpen =
+    '<div data-v-c03ce8dc="" class="row team__cards team__cards--slider"><div class="team__members-slider swiper-container swiper-container-horizontal swiper-container-free-mode"><div class="team__members-track swiper-wrapper"><div class="team__member-slide swiper-slide" style="margin-right:30px"><div data-v-c03ce8dc="" class="team__member-card">';
+  if (!mainHtml.includes(rowOpen)) return mainHtml;
+  let out = mainHtml.split(rowOpen).join(sliderOpen);
+  out = out.replace(
+    /<\/p><\/div><div data-v-c03ce8dc="" class="col-4 col-md-6">/g,
+    '</p></div></div><div class="team__member-slide swiper-slide" style="margin-right:30px"><div data-v-c03ce8dc="" class="team__member-card">',
+  );
+  out = out.replace(
+    /<\/p><\/div><\/div> <div data-v-3b1bcda9="" data-v-c03ce8dc="" class="team-carousel-block"/,
+    '</p></div></div></div></div></div> <div data-v-3b1bcda9="" data-v-c03ce8dc="" class="team-carousel-block"',
+  );
+  return out;
+}
+
 /** Сразу под заголовком тарифа — градиентные полоски как .live-marketing-block__card-gradient на главной. */
 function ensureKontekstnayaPackageCardTitleRules(mainHtml) {
   let s = mainHtml;
@@ -573,6 +593,7 @@ function run() {
   main = ensureKontekstnayaPriceCardAdBudgetLines(main);
   main = ensureKontekstnayaPriceCardThreeColumns(main);
   main = ensureKontekstnayaPackagesSliderMarkup(main);
+  main = ensureKontekstnayaTeamSliderMarkup(main);
   main = ensureKontekstnayaPackageCardTitleRules(main);
   main = injectKontekstnayaServiceInlineLeadFromPartial(main);
   /** Сначала снимаем legacy «Награды» до первого more-case-wr: после move FAQ окажется внутри [secStart, moreIdx) и будет вырезан. */
@@ -593,17 +614,17 @@ function run() {
     "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerBlurRestore\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260514kontekstPackagesNativeRow\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamNativeRow\" />",
     buildCssLinks(v),
-    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260515asyncCssFaq"),
+    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260516tabletFaqGrid"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516teamColsTextWidth10pct\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516teamMembersSlider\" />",
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260515footerSocialFix\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260514serviceInlineLead7\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260515burgerLogoPlus5\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260516footerSocialIconsGridAlign\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260516serviceInlineLeadTabletInset\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260516collapsedLogoHomeLink\" />",
     "    <!-- KONTEKST-CSS-BUNDLE-END -->",
   ].join("\n");
 

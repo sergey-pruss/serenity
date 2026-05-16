@@ -1,6 +1,6 @@
 /* services.js — page-specific init for /services (gradient canvas).
- * Services card sliders (.services__context-slider) are handled by app.js
- * via initRow (same native-scroll mechanism as homepage). */
+ * Карточки услуг (.services__context-slider) — app.js (initRow).
+ * Блок «Пакеты» (.prices__packages-slider) — service-packages-slider.js после app.js. */
 (function () {
   "use strict";
 
