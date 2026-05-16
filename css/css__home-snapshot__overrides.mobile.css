@@ -18,6 +18,62 @@
   }
 }
 
+/*
+ * Горизонтальный ряд «Кейсы комплексного маркетинга» (more-case-wr): на телефоне плитки выше и шире,
+ * первая по левой сетке, справа peek следующей (как услуги/пакеты). Планшет ≥720px — Nuxt 336×250.
+ */
+@media screen and (max-width: 719px) {
+  .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container[data-v-38965faa],
+  .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container {
+    width: calc(100% + var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    box-sizing: border-box;
+    overflow: visible !important;
+  }
+
+  .mor-cases-slider-wrapper .mor-cases-slide[data-v-38965faa],
+  .mor-cases-slider-wrapper .mor-cases-slide {
+    height: 460px !important;
+    min-height: 460px !important;
+    width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    max-width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  .mor-cases-slider-wrapper .mor-cases-slide_link[data-v-38965faa],
+  .mor-cases-slider-wrapper .mor-cases-slide_link {
+    height: 460px !important;
+    min-height: 460px !important;
+    width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    max-width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+  }
+
+  /* Конец скролла: правая грань последней плитки = правая сетка (--page-inline-end). */
+  .more-case-wr .mor-cases-slider .swiper-wrapper {
+    box-sizing: border-box;
+  }
+
+  .mor-cases-slider-wrapper .mor-cases-slide_link .more-cases-slider__slide-link[data-v-38965faa],
+  .mor-cases-slider-wrapper .mor-cases-slide_link .more-cases-slider__slide-link {
+    font-size: 20px !important;
+    line-height: 130% !important;
+    text-align: center !important;
+  }
+
+  .mor-cases-slider-wrapper .mor-cases-slide_link .more-cases-slider__slide-link a {
+    display: inline-block;
+    text-align: center;
+    line-height: 130%;
+  }
+}
+
 /* Mobile (≤620px) — hero matches snapshot.bundle.css; loads after tablet. */
 @media screen and (max-width: 620px) {
   .component-block[data-v-135dc442] {
