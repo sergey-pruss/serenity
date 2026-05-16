@@ -34,25 +34,25 @@
                                                                                     <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->
     <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />
-    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260516caseSliderDotsRestore" />
-    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamNativeRow" />
+    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260516morCasesLinkSlideBg" />
+    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />
     <link rel="stylesheet" href="/_sa/css/kontekstnaya-reklama-nuxt.bundle.css?v=20260513kontekstBundle2" />
     <link rel="preload" href="/_sa/css/sections/kontekstnaya-faq.css?v=20260516tabletFaqGrid" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="/_sa/css/sections/kontekstnaya-faq.css?v=20260516tabletFaqGrid" /></noscript>
     <link rel="preload" href="/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell" /></noscript>
-    <link rel="stylesheet" href="/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516kontekstTeamTabletBleed" />
+    <link rel="stylesheet" href="/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516kontekstTeamSlide90" />
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" /></noscript>
     <link rel="preload" href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper" /></noscript>
     <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap" />
     <link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260516footerSocialIconsGridAlign" />
-    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260514serviceInlineLeadPad8" />
-    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260516collapsedLogoHomeLink" />
+    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260516leadFormFieldsVisible" />
+    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260516headerLogoScrollHide" />
     <!-- KONTEKST-CSS-BUNDLE-END -->
-    <link rel="preload" href="/_sa/css/sections/lead-form.css?v=20260429b" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="/_sa/css/sections/lead-form.css?v=20260429b" /></noscript>
+    <link rel="preload" href="/_sa/css/sections/lead-form.css?v=20260516leadFormFieldsVisible" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="/_sa/css/sections/lead-form.css?v=20260516leadFormFieldsVisible" /></noscript>
   </head>
   <body>
     <div data-server-rendered="true" id="__nuxt">
@@ -121,6 +121,7 @@
                 <div class="navigation-new__menu" data-v-7050ddb2="">
                   <div class="navigation-new__menu__list-wrapper" data-v-7050ddb2="">
                     <ul class="navigation-new__list" data-v-7050ddb2="">
+                      <li class="navigation-new__item--mobile-only" data-v-7050ddb2=""><a href="/" data-v-7050ddb2="">Главная</a></li>
                       <li data-v-7050ddb2=""><a href="/case/all/" data-v-7050ddb2="">Кейсы</a></li>
                       <li data-v-7050ddb2=""><a href="/services/" data-v-7050ddb2="">Услуги</a></li>
                       <li data-v-7050ddb2=""><a href="https://serenity.agency/about" data-v-7050ddb2="">Агентство</a></li>
@@ -240,6 +241,12 @@
                 class="more-case-wr more-case-wr__main"
               >
                 <div data-v-27a87df0="" class="page__container">
+                  <h3
+                    data-v-56f85d51=""
+                    class="services__title kontekstnaya-page__section-heading more-case-wr__slider-heading"
+                  >
+                    Кейсы комплексного маркетинга
+                  </h3>
                   <div
                     data-v-38965faa=""
                     data-v-27a87df0=""
@@ -413,15 +420,32 @@
                         <div
                           data-v-38965faa=""
                           class="swiper-slide mor-cases-slide mor-cases-slide_link"
+                          style="background-color: #2c2c30"
                         >
-                          <p
-                            data-v-38965faa=""
-                            class="more-cases-slider__slide-link"
-                          >
-                            <a data-v-38965faa="" href="/case/all/" class="">
-                              Смотреть больше кейсов
-                            </a>
-                          </p>
+                          <div data-v-38965faa="" class="mor-cases-slide__cta-fill">
+                            <img
+                              fetchpriority="low"
+                              decoding="async"
+                              data-v-38965faa=""
+                              src="/_sa/img/video__lastBlogGif.gif"
+                              alt=""
+                              loading="eager"
+                              class="mor-cases-slide__cta-gif"
+                            />
+                            <div
+                              data-v-38965faa=""
+                              class="mor-cases-slide__cta-shade"
+                              aria-hidden="true"
+                            ></div>
+                            <p
+                              data-v-38965faa=""
+                              class="more-cases-slider__slide-link"
+                            >
+                              <a data-v-38965faa="" href="/case/all/" class="">
+                                Смотреть больше кейсов
+                              </a>
+                            </p>
+                          </div>
                         </div>
                       </div>
                       <div data-v-38965faa="" class="swiper-pagination"></div>
@@ -1841,9 +1865,9 @@
     <script defer src="/_sa/js/gradient-animation.min.js?v=20260512"></script>
     <script defer src="/_sa/js/page-constructor-gradient.js?v=20260515kontekstBgGradientDefer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
-    <script defer src="/_sa/js/app.js?v=20260516caseSliderDotsRestore"></script>
-    <script defer src="/_sa/js/service-packages-slider.js?v=20260516kontekstPackagesTablet"></script>
-    <script defer src="/_sa/js/service-team-slider.js?v=20260516kontekstTeamTabletBleed"></script>
+    <script defer src="/_sa/js/app.js?v=20260516headerLogoScrollHide"></script>
+    <script defer src="/_sa/js/service-packages-slider.js?v=20260516kontekstPackagesGutter"></script>
+    <script defer src="/_sa/js/service-team-slider.js?v=20260516kontekstTeamDesktopRestore"></script>
     <script type="text/javascript">
       (function (m, e, t, r, i, k, a) {
         m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
@@ -1854,6 +1878,6 @@
       ym(30205029, "init", { clickmap: true, referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/30205029" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <script defer src="/_sa/js/leave-request-cta.js?v=20260514leadCtaShowEarlier2"></script>
+    <script defer src="/_sa/js/leave-request-cta.js?v=20260516leadFormNoSiteFile"></script>
   </body>
 </html>

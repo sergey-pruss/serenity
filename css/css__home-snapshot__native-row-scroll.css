@@ -323,6 +323,11 @@
   height: 0;
 }
 
+.native-row-end-gutter {
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
 .services__context-wrapper[data-native-row="1"] .services__slide,
 .services__context-wrapper[data-native-row="1"] .swiper-slide,
 .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide,
@@ -352,6 +357,35 @@
   .prices__packages-track[data-native-row="1"],
   .team__members-track[data-native-row="1"] {
     padding-right: 78px;
+  }
+
+  /* «Пакеты» на контекстной: три карточки в ряд без запаса под стрелки. */
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    padding-right: 0 !important;
+  }
+
+  /* «Команда» на контекстной: сетка 3×2 без буфера −40px и без stretch слайдов. */
+  .page-constructor .team-block .team__members-track[data-native-row="1"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-right: 0 !important;
+    overflow: visible !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+  }
+
+  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
+    overflow: visible !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor .team-block .team__members-track[data-native-row="1"] > .team__member-slide,
+  .page-constructor .team-block .team__members-track[data-native-row="1"] > .swiper-slide {
+    height: auto !important;
+    align-self: flex-start !important;
   }
 }
 @media screen and (max-width: 768px) {

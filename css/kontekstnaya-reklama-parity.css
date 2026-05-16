@@ -8,8 +8,19 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1024px) and (min-width: 721px) {
   body .modern.content-block .content-block__slider {
     display: none !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  body .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  body .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: flex !important;
+    flex-direction: column !important;
   }
 }

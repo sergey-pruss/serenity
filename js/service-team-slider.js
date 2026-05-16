@@ -18,7 +18,6 @@
         desktopArrowsOnly: true,
         fullBleed: false,
         fullBleedMedia: "(max-width: 1024px)",
-        /* Планшет: карточки уходят за оба края экрана, не обрезаются в контейнере. */
         fullBleedRightOnly: false,
         sidePadGetter: getServicesSidePad,
       });

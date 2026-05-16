@@ -297,10 +297,12 @@
   display: flex !important;
 }
 
+/* Одна колонка полей: перебить snapshot .form__grid-item:last-child { width: 0 } */
 #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:last-child {
-  width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
   margin-left: 0 !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 #sa-inline-lead-root .privacy-check[data-v-8ad2fcbc] {
@@ -476,13 +478,6 @@
     max-width: 100% !important;
   }
 
-  #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:last-child {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    overflow: visible !important;
-  }
-
   #sa-inline-lead-root .form__submit.btn[data-v-111f0665] {
     width: 100% !important;
     max-width: 100% !important;
@@ -602,15 +597,6 @@
     height: 46px !important;
     display: block !important;
     opacity: 1 !important;
-  }
-
-  #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:last-child {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
   }
 
   #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
