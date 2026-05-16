@@ -157,8 +157,7 @@
         // Если fetch завершился после initMorCasesSlider в app.js — замена DOM ломает отступы spaceBetween.
         if (hadSwiper && typeof window.Swiper === "function") {
           morContainer.dataset.morCasesInit = "1";
-          const paginationEl = morContainer.querySelector(".swiper-pagination");
-          const opts = {
+          new window.Swiper(morContainer, {
             direction: "horizontal",
             slidesPerView: "auto",
             freeMode: true,
@@ -167,11 +166,7 @@
             simulateTouch: true,
             threshold: 6,
             passiveListeners: false,
-          };
-          if (paginationEl) {
-            opts.pagination = { el: paginationEl, clickable: true };
-          }
-          new window.Swiper(morContainer, opts);
+          });
         }
       }
     })

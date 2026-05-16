@@ -158,25 +158,12 @@ body:not(.order-popup-open) .overlay-new {
   z-index: 2 !important;
 }
 
-/*
- * Пагинация Swiper у .cases-block: как на prod / `.darktheme` в snapshot — неактивный белый ~50%, активный #fff.
- * Иначе побеждает дефолт Swiper: `.swiper-pagination-bullet-active { background: #007aff }`.
- */
-.page-constructor .cases-block .swiper-pagination-bullet,
-.cases-block[data-v-bd2e570a] .swiper-pagination-bullet {
-  background: hsla(0, 0%, 100%, 0.5) !important;
-  opacity: 1 !important;
-}
-
-.page-constructor .cases-block .swiper-pagination-bullet-active,
-.cases-block[data-v-bd2e570a] .swiper-pagination-bullet-active {
-  background: #fff !important;
-  opacity: 1 !important;
-}
-
-.page-constructor .cases-block .swiper-pagination-clickable .swiper-pagination-bullet:hover,
-.cases-block[data-v-bd2e570a] .swiper-pagination-clickable .swiper-pagination-bullet:hover {
-  background: hsla(0, 0%, 100%, 0.75) !important;
+/* Точки пагинации Swiper у слайдера кейсов не показываем (навигация — стрелки). */
+.page-constructor .cases-block .swiper-pagination,
+.cases-block[data-v-bd2e570a] .swiper-pagination {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /*

@@ -2102,6 +2102,14 @@ body.order-popup-open .overlay-new {
   }
 }
 
+/* Слайдеры кейсов на главной и в .cases-block: без точек пагинации Swiper */
+.cases-block .swiper-pagination,
+.more-case-wr .mor-cases-slider-wrapper .swiper-pagination {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .case-all-pagination {
   margin-top: 56px;
   width: 100%;
