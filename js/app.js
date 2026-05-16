@@ -77,6 +77,8 @@
       fullBleed = false,
       /** Когда `fullBleed: false`, можно задать media-query — геометрия «вылета» как у услуг только на адаптиве (исторически для «Пакеты»; сейчас пакеты — padding на треке, без fullBleed). */
       fullBleedMedia = null,
+      /** Только вылет вправо (margin-right −gutter); слева margin 0 — как .services-unified на /kontekstnaya_reklama «Пакеты». */
+      fullBleedRightOnly = false,
       sidePadGetter = getServicesSidePad,
     } = options;
     if (!host || !track) return;
@@ -120,8 +122,12 @@
       ["width", "max-width", "margin-left", "margin-right", "box-sizing"].forEach((p) => host.style.removeProperty(p));
       track.style.removeProperty("box-sizing");
       track.style.removeProperty("padding-left");
+      track.style.removeProperty("padding-right");
       const lastSlide = track.querySelector(".swiper-slide:last-child");
-      if (lastSlide) lastSlide.style.removeProperty("margin-right");
+      if (lastSlide) {
+        lastSlide.style.removeProperty("margin-right");
+      }
+      track.style.removeProperty("padding-right");
       if (prevBtn) {
         prevBtn.style.removeProperty("left");
         prevBtn.style.removeProperty("right");
@@ -138,25 +144,26 @@
         return;
       }
       const sidePad = sidePadGetter();
-      /* Правый «вылет» сетки: один раз на последнем слайде, до расчёта maxScroll. Иначе inline margin
-         из HTML / старые стили бьют по ширине трека, и отступ визуально не тянется. */
+      /* Правый гаттер — padding-right на треке, не margin у последнего слайда: на iOS margin
+         последнего flex-ребёнка не входит в дистанцию тач-скролла, карточка «липнет» к краю экрана. */
       const lastSlide = track.querySelector(".swiper-slide:last-child");
       if (lastSlide) {
-        lastSlide.style.setProperty("margin-right", `${sidePad}px`, "important");
+        lastSlide.style.setProperty("margin-right", "0", "important");
       }
       const max = maxScroll();
       let current = Math.max(0, Math.min(max, track.scrollLeft || 0));
       if (current <= EPS) current = 0;
       if (max - current <= EPS) current = max;
-      const leftExpose = sidePad;
+      const leftExpose = fullBleedRightOnly ? 0 : sidePad;
       const rightExpose = sidePad;
       host.style.width = `calc(100% + ${leftExpose + rightExpose}px)`;
       host.style.maxWidth = "none";
-      host.style.marginLeft = `-${leftExpose}px`;
+      host.style.marginLeft = fullBleedRightOnly ? "0" : `-${leftExpose}px`;
       host.style.marginRight = `-${rightExpose}px`;
       host.style.boxSizing = "border-box";
       track.style.boxSizing = "border-box";
       track.style.paddingLeft = `${Math.max(0, sidePad - current)}px`;
+      track.style.setProperty("padding-right", `${sidePad}px`, "important");
 
       if (prevBtn) {
         prevBtn.style.left = `${leftExpose}px`;
@@ -422,6 +429,12 @@
     }
   };
 
+  /** Для service-packages-slider.js и service-team-slider.js (блоки «Пакеты» / «Команда»). */
+  window.SerenityNativeRow = {
+    initRow,
+    getServicesSidePad,
+  };
+
   /* На /services/ несколько рядов карточек (по секциям); на главной — один. */
   document.querySelectorAll(".services__context-slider").forEach((servicesHost) => {
     const servicesTrack = servicesHost.querySelector(".services__context-wrapper");
@@ -431,19 +444,6 @@
       slideSelector: ".services__slide, .swiper-slide",
       desktopArrowsOnly: true,
       fullBleed: true,
-      sidePadGetter: getServicesSidePad,
-    });
-  });
-
-  document.querySelectorAll(".prices__packages-slider").forEach((packagesHost) => {
-    const packagesTrack = packagesHost.querySelector(".prices__packages-track");
-    initRow({
-      host: packagesHost,
-      track: packagesTrack,
-      slideSelector: ".prices__packages-slide",
-      desktopArrowsOnly: true,
-      /* Без fullBleed: отступы слева/справа задаём CSS на .prices__packages-track (секция не дублирует сетку с initRow). */
-      fullBleed: false,
       sidePadGetter: getServicesSidePad,
     });
   });
@@ -1192,6 +1192,7 @@
       const nav = root.querySelector(".swiper__navigation");
       const nextEl = nav && nav.querySelector(".swiper-button-next");
       const prevEl = nav && nav.querySelector(".swiper-button-prev");
+      const paginationEl = root.querySelector(".swiper-pagination");
       if (!nextEl || !prevEl) return;
       container.dataset.saCasesSwiperInit = "1";
       /* Дамп Nuxt: инлайновый width:1280px на слайдах — ограничиваем ширину контейнера Swiper. */
@@ -1237,6 +1238,14 @@
           nextEl,
           prevEl,
         },
+        ...(paginationEl
+          ? {
+              pagination: {
+                el: paginationEl,
+                clickable: true,
+              },
+            }
+          : {}),
         keyboard: { enabled: true, onlyInViewport: true },
         a11y: {
           prevSlideMessage: "Предыдущий слайд",
@@ -1288,8 +1297,7 @@
     if (typeof window.Swiper === "undefined") return;
     document.querySelectorAll(".mor-cases-slider").forEach((container) => {
       if (container.dataset.morCasesInit === "1") return;
-      container.dataset.morCasesInit = "1";
-      new window.Swiper(container, {
+      const opts = {
         direction: "horizontal",
         slidesPerView: "auto",
         freeMode: true,
@@ -1298,7 +1306,9 @@
         simulateTouch: true,
         threshold: 6,
         passiveListeners: false,
-      });
+      };
+      container.dataset.morCasesInit = "1";
+      new window.Swiper(container, opts);
     });
   };
 

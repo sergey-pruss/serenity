@@ -1,7 +1,8 @@
 /* Нативный горизонтальный ряд (Apple Store–style): скролл внутри .swiper-wrapper, стрелки в контейнере */
 .services__context-slider.swiper-container[data-native-row="1"],
 .blog-block__swiper-container.swiper-container[data-native-row="1"],
-.prices__packages-slider.swiper-container[data-native-row="1"] {
+.prices__packages-slider.swiper-container[data-native-row="1"],
+.team__members-slider.swiper-container[data-native-row="1"] {
   overflow: hidden !important;
   overscroll-behavior-x: contain;
   position: relative;
@@ -11,7 +12,8 @@
    padding-top слайдера — половина прежнего (--home-ledge и +5px у блога). */
 .services__context-slider.swiper-container[data-native-row="1"],
 .blog-block__swiper-container.swiper-container[data-native-row="1"],
-.prices__packages-slider.swiper-container[data-native-row="1"] {
+.prices__packages-slider.swiper-container[data-native-row="1"],
+.team__members-slider.swiper-container[data-native-row="1"] {
   padding-bottom: 40px;
   margin-top: 0;
   margin-bottom: -40px;
@@ -19,8 +21,15 @@
 
 .services__context-slider.swiper-container[data-native-row="1"],
 .blog-block__swiper-container.swiper-container[data-native-row="1"],
-.prices__packages-slider.swiper-container[data-native-row="1"] {
+.prices__packages-slider.swiper-container[data-native-row="1"],
+.team__members-slider.swiper-container[data-native-row="1"] {
   padding-top: calc(var(--home-ledge) / 2);
+}
+
+.team__members-slider.swiper-container[data-native-row="1"] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 /* Отделяем текстовый блок услуг от карточек фиксированным интервалом. */
@@ -244,7 +253,8 @@
 
 .services__context-wrapper[data-native-row="1"],
 .blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
-.prices__packages-track[data-native-row="1"] {
+.prices__packages-track[data-native-row="1"],
+.team__members-track[data-native-row="1"] {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
@@ -264,7 +274,8 @@
 
 /* Для услуг и пакетов «Контекстная» полностью отключаем ручной X-scroll: только стрелки */
 .services__context-wrapper[data-native-row="1"],
-.prices__packages-track[data-native-row="1"] {
+.prices__packages-track[data-native-row="1"],
+.team__members-track[data-native-row="1"] {
   overflow-x: hidden !important;
   overflow-y: hidden !important;
   /* Буфер под hover glow карточек, чтобы тень не резалась по Y. */
@@ -274,20 +285,23 @@
   margin-bottom: -40px;
 }
 
-/* Адаптив: до ~980px карточки листаются свайпом и без стрелок. */
-@media screen and (max-width: 980px) {
+/* Адаптив: до ~1024px карточки листаются свайпом; концевой гаттер — padding-right трека (не margin последнего слайда). */
+@media screen and (max-width: 1024px) {
   .services__context-wrapper[data-native-row="1"],
   .blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
-  .prices__packages-track[data-native-row="1"] {
+  .prices__packages-track[data-native-row="1"],
+  .team__members-track[data-native-row="1"] {
     overflow-x: auto !important;
     overflow-y: hidden !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 55px));
+    scroll-padding-inline-start: var(--page-inline-start, var(--page-gutter-x, 55px));
     /* Не блокируем вертикальный жест страницы на мобильных:
        pan-x вызывал «залипание» вертикального скролла внутри секций. */
     touch-action: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* На tablet/mobile стрелки услуг и блога полностью отключены. */
+  /* На tablet/mobile стрелки услуг и блога полностью отключены (до 1024 — зона свайпа). */
   .services__context-slider.swiper-container .swiper-button-prev[data-v-56f85d51],
   .services__context-slider.swiper-container .swiper-button-next[data-v-56f85d51],
   .services__context-slider .swiper-button-prev,
@@ -313,45 +327,47 @@
 .services__context-wrapper[data-native-row="1"] .swiper-slide,
 .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide,
 .prices__packages-track[data-native-row="1"] .prices__packages-slide,
-.prices__packages-track[data-native-row="1"] .swiper-slide {
+.prices__packages-track[data-native-row="1"] .swiper-slide,
+.team__members-track[data-native-row="1"] .team__member-slide,
+.team__members-track[data-native-row="1"] .swiper-slide {
   scroll-snap-align: start;
   flex-shrink: 0;
 }
 
-/* Услуги и блог: в конце ряда — правый отступ по сетке. Для блога дублируем без [data-native-row],
-   чтобы fallback работал, если трек ещё не размечен; в js/app.js тот же отступ ещё и задаётся с !important. */
+/* Концевой гаттер: padding-right на треке (см. медиа ≤1024px); margin последнего слайда ломает тач-скролл на iOS. */
 .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
 .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
 .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
 .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
-.prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
-  margin-right: 78px !important;
+.prices__packages-track[data-native-row="1"] .swiper-slide:last-child,
+.team__members-track[data-native-row="1"] .team__member-slide:last-child,
+.team__members-track[data-native-row="1"] .swiper-slide:last-child {
+  margin-right: 0 !important;
 }
-@media screen and (max-width: 1025px) {
-  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
-  .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
-  .prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
-    margin-right: 55px !important;
+
+/* Десктоп (стрелки): запас справа на треке, пока overflow hidden. */
+@media screen and (min-width: 1025px) {
+  .services__context-wrapper[data-native-row="1"],
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
+  .prices__packages-track[data-native-row="1"],
+  .team__members-track[data-native-row="1"] {
+    padding-right: 78px;
   }
 }
 @media screen and (max-width: 768px) {
-  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
-  .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
-  .prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
-    margin-right: 36px !important;
+  .services__context-wrapper[data-native-row="1"],
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
+  .prices__packages-track[data-native-row="1"],
+  .team__members-track[data-native-row="1"] {
+    padding-right: var(--page-inline-end, 36px);
   }
 }
 @media screen and (max-width: 450px) {
-  .services__context-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"] .swiper-slide:last-child,
-  .blog-block__swiper-container .swiper-wrapper .swiper-slide:last-child,
-  .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
-  .prices__packages-track[data-native-row="1"] .swiper-slide:last-child {
-    margin-right: 36px !important;
+  .services__context-wrapper[data-native-row="1"],
+  .blog-block__swiper-container .swiper-wrapper[data-native-row="1"],
+  .prices__packages-track[data-native-row="1"],
+  .team__members-track[data-native-row="1"] {
+    padding-right: var(--page-inline-end, 36px);
   }
 }
 
