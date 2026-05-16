@@ -551,6 +551,25 @@ function extractFirstFooterModernSocialFromHeaderPartial() {
   return null;
 }
 
+/** Пункт «Главная» в бургере (≤1250): в срезе Nuxt его нет — канон из html/partials/header.html. */
+function ensureBurgerMenuGlavnaya(html) {
+  if (
+    /<ul class="navigation-new__list"[^>]*>[\s\S]*?<a\s+href="\/"[^>]*>\s*Главная\s*<\/a>/i.test(
+      html,
+    )
+  ) {
+    return html;
+  }
+  const patched = html.replace(
+    /(<ul class="navigation-new__list"[^>]*>)\s*(?=<li)/i,
+    '$1\n                      <li data-v-7050ddb2=""><a href="/" data-v-7050ddb2="">Главная</a></li>\n                      ',
+  );
+  if (patched === html) {
+    console.warn("assemble: не удалось вставить «Главная» в navigation-new__list");
+  }
+  return patched;
+}
+
 function replaceFirstFooterModernSocialBlock(html, replacement) {
   if (!replacement) return html;
   const needle = '<div class="footer-modern__social"';
@@ -649,6 +668,7 @@ function run() {
   const beforeMain = indexCss.slice(0, iStart + MAIN_START.length);
   const afterMain = indexCss.slice(iEnd);
   let out = `${beforeMain}\n${main}\n${afterMain}`;
+  out = ensureBurgerMenuGlavnaya(out);
   const iMainMarker = out.indexOf(MAIN_START);
   if (iMainMarker > 0) {
     const canon = extractFirstFooterModernSocialFromHeaderPartial();

@@ -229,6 +229,91 @@ body:not(.order-popup-open) .overlay-new {
   z-index: 2 !important;
 }
 
+/*
+ * Кейсы (слайдер ≤768px): заголовок секции в .more-cases скрыт вместе с сеткой — дублируем над каруселью.
+ */
+.more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
+  display: none;
+  margin: 0 0 80px;
+  padding: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 126%;
+  letter-spacing: 0;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
+    display: block;
+    font-size: 28px;
+    line-height: 126%;
+    margin-bottom: 45px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+}
+
+/* CTA «Смотреть больше кейсов»: фон через <img>, как у .last-case в сетке (CSS background в бандле — битый url). */
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link[data-v-38965faa] {
+  overflow: hidden !important;
+  background-image: none !important;
+  background-color: #2c2c30 !important;
+  box-shadow: 0 0 10.91093px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .mor-cases-slide__cta-fill[data-v-38965faa],
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .mor-cases-slide__cta-fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 30px;
+  overflow: hidden;
+  background-color: #2c2c30;
+}
+
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .mor-cases-slide__cta-gif[data-v-38965faa],
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .mor-cases-slide__cta-gif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .mor-cases-slide__cta-shade[data-v-38965faa],
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .mor-cases-slide__cta-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 30px;
+  background: #000;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .more-cases-slider__slide-link[data-v-38965faa],
+.more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link .more-cases-slider__slide-link {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
 /* Герой: левый край текста по линии лого / меню, не по центру слайда. */
 .page-constructor__section .c-title-block .jumbotron {
   align-items: flex-start !important;
@@ -323,13 +408,14 @@ body:not(.order-popup-open) .overlay-new {
 
 @media screen and (max-width: 720px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 34px 36px !important;
+    /* Нижний inset как на планшете/Nuxt (190px): место для точек внутри фона слайда. */
+    padding: 72px 36px 108px !important;
   }
 }
 
 @media screen and (max-width: 450px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 28px 36px !important;
+    padding: 64px 36px 100px !important;
   }
 }
 
@@ -771,8 +857,14 @@ body:not(.order-popup-open) .overlay-new {
  * ≤1024px — горизонтальный слайдер (iPad landscape 1024 остаётся в режиме листания).
  */
 @media screen and (min-width: 1025px) {
+  /* Nuxt .row: width calc(100% + 40px) и margin −20px — сдвиг влево относительно центрированного .page__container. */
+  .page-constructor .dies .prices .prices__cards--packages.prices__cards.row[data-v-1505791e],
   .page-constructor .dies .prices .prices__cards--packages.prices__cards.row {
     display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
@@ -798,6 +890,10 @@ body:not(.order-popup-open) .overlay-new {
     padding-bottom: 0 !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    /* На десктопе все три карточки в кадре — без гаттера под стрелки (78px давал пустое поле справа). */
+    padding-right: 0 !important;
+    gap: 30px;
+    box-sizing: border-box;
   }
 
   .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
@@ -805,6 +901,7 @@ body:not(.order-popup-open) .overlay-new {
     min-width: 0;
     width: auto;
     max-width: none !important;
+    margin-right: 0 !important;
   }
 
   .page-constructor .dies .prices .prices__packages-slide.swiper-slide:last-child {
@@ -834,12 +931,12 @@ body:not(.order-popup-open) .overlay-new {
     overflow-x: visible !important;
   }
 
-  /* Full-bleed вправо как у услуг; слева margin 0 — линия первой плашки = заголовок (padding-left на треке). */
+  /* Слева margin 0 — первая плашка по линии заголовка; вправо без bleed (концевой гаттер на треке). */
   .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
-    width: calc(100% + var(--page-gutter-x, 55px));
-    max-width: none;
+    width: 100% !important;
+    max-width: 100% !important;
     margin-left: 0 !important;
-    margin-right: calc(-1 * var(--page-gutter-x, 55px)) !important;
+    margin-right: 0 !important;
     box-sizing: border-box;
   }
 
@@ -861,22 +958,22 @@ body:not(.order-popup-open) .overlay-new {
     margin-bottom: -12px !important;
   }
 
-  /* Свайп на треке: даже до initRow (без data-native-row) — overflow из Swiper-бандла иначе hidden. */
+  /* Свайп на треке: auto (не scroll), полосу режет overflow:hidden на хосте — как у услуг. */
   .page-constructor .dies .prices .prices__packages-track.swiper-wrapper,
   .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
     box-sizing: border-box;
-    overflow-x: scroll !important;
+    overflow-x: auto !important;
     overflow-y: hidden !important;
-    touch-action: pan-x pan-y;
+    touch-action: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
+    scroll-padding-inline-end: var(--page-inline-end, var(--page-gutter-x, 55px));
     padding-top: 20px !important;
     margin-top: 0 !important;
-    /* Спрятать полосу прокрутки iOS/Safari под clip хоста */
-    margin-bottom: -16px !important;
-    padding-bottom: 16px !important;
-    /* padding-right гаттера — native-row-scroll.css + initRow (не margin последнего слайда). */
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    /* Концевой гаттер — .native-row-end-gutter в initRow (не margin последнего слайда). */
   }
 
   .page-constructor .dies .prices .prices__packages-track[data-native-row="1"]::-webkit-scrollbar {
@@ -899,19 +996,51 @@ body:not(.order-popup-open) .overlay-new {
   }
 }
 
-@media screen and (max-width: 768px) {
-  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
-    width: calc(100% + 36px);
-    margin-left: 0 !important;
-    margin-right: -36px !important;
+/*
+ * «Этапы работы» на телефоне: без горизонтального слайдера — блоки из tablet-сетки
+ * подряд в одну колонку (как на iPad, без второй колонки).
+ */
+@media screen and (max-width: 720px) {
+  body .modern.content-block .content-block__slider {
+    display: none !important;
   }
-}
 
-@media screen and (max-width: 450px) {
-  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
-    width: calc(100% + 36px);
-    margin-left: 0 !important;
-    margin-right: -36px !important;
+  body .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    column-gap: 0 !important;
+    row-gap: 0 !important;
+  }
+
+  body .modern.content-block .content-block__grid--tablet .content-block__grid-wrapper,
+  body .modern.content-block .content-block__grid--tablet > .col-4 {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-basis: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    row-gap: 57px;
+  }
+
+  body .modern.content-block .content-block__grid--tablet .content-block__grid-wrapper + .content-block__grid-wrapper,
+  body .modern.content-block .content-block__grid--tablet > .col-4 + .col-4 {
+    margin-top: 57px;
+  }
+
+  body .modern.content-block .content-block__grid--tablet .block-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    margin-bottom: 0 !important;
   }
 }
 
@@ -933,13 +1062,40 @@ body:not(.order-popup-open) .overlay-new {
   }
 }
 
-/* «Команда»: легче, чем у текстовых блоков — только 10 % справа (без 15 %). */
-@media screen and (min-width: 721px) {
-  body .team-block .team__member-card {
-    padding-left: 0;
-    padding-right: 10%;
-    box-sizing: border-box;
-  }
+/* «Команда»: иллюстрация и текст по центру карточки на всех ширинах (слайдер и сетка 3×2). */
+body .page-constructor .team-block .team__member-card[data-v-c03ce8dc],
+body .page-constructor .team-block .team__member-card {
+  text-align: center !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+
+.page-constructor .team-block .team__member-card figure[data-v-c03ce8dc],
+.page-constructor .team-block .team__member-card figure {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  width: 170px !important;
+  height: 170px !important;
+  max-width: 100% !important;
+  margin: 0 auto 40px !important;
+}
+
+.page-constructor .team-block .team__member-card figure img[data-v-c03ce8dc],
+.page-constructor .team-block .team__member-card figure img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
+.page-constructor .team-block .team__member-card h4[data-v-c03ce8dc],
+.page-constructor .team-block .team__member-card h4,
+.page-constructor .team-block .team__member-card p[data-v-c03ce8dc],
+.page-constructor .team-block .team__member-card p {
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 @media screen and (max-width: 720px) {
@@ -961,14 +1117,16 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
- * «Команда»: ≥1025 — сетка 3×2; ≤1024 — горизонтальный ряд с «хвостом» следующей карточки (как пакеты / услуги).
+ * «Команда»: ≥1025 — сетка 3×2 как на serenity.agency/kontekstnaya_reklama (Nuxt .row / .col-4),
+ * колонки на 15% уже продовых .col-4 (28.333% + column-gap 7.5% = полная ширина ряда); ≤1024 — свайп ниже.
  */
 @media screen and (min-width: 1025px) {
-  .page-constructor .team-block .team__cards.team__cards--slider {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+  .page-constructor .team-block {
+    overflow: visible !important;
+  }
+
+  /* Не перебивать Nuxt .team-block .row: width calc(100% + 40px), margin 0 −20px, row-gap 60px. */
+  .page-constructor .team-block .team__cards.team__cards--slider.row {
     overflow: visible !important;
   }
 
@@ -978,48 +1136,83 @@ body:not(.order-popup-open) .overlay-new {
     margin-left: 0 !important;
     margin-right: 0 !important;
     overflow: visible !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .page-constructor .team-block .team__members-track[data-native-row="1"] {
     display: flex !important;
     flex-wrap: wrap !important;
+    align-items: flex-start !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
+    row-gap: 60px;
+    /* 3×28.333% + 2×7.5% = 100% ряда (как прод 3×33.333%, но колонки уже на 15%). */
+    column-gap: 7.5%;
   }
 
+  /* Прод .col-4: 33.333%; статика: 33.333% × 0.85 = 28.333%, без flex-shrink (иначе «сжатие» ряда). */
   .page-constructor .team-block .team__member-slide.swiper-slide {
-    flex: 0 0 33.333% !important;
-    width: 33.333% !important;
-    max-width: 33.333% !important;
+    flex: 0 0 28.333% !important;
+    max-width: 28.333% !important;
+    width: 28.333% !important;
+    height: auto !important;
+    align-self: flex-start !important;
     margin-right: 0 !important;
     box-sizing: border-box;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
+
 }
 
 @media screen and (max-width: 1024px) {
-  /* Nuxt .team-block { overflow: hidden } — иначе full-bleed слайдера клипается слева/справа. */
+  /*
+   * Nuxt ≤1366px: .team-block .page__container { width: calc(100% - 154px) } — узкая колонка по центру,
+   * из‑за неё по бокам «поля», хотя слайдер уже с отрицательным margin. На планшете — полная полоса, как у «Пакеты».
+   */
+  .page-constructor > .page-constructor__section:has(.team-block),
   .page-constructor .team-block,
-  .page-constructor .team-block .page__container {
+  .page-constructor .team-block .page__container,
+  .page-constructor .team-block .team,
+  .page-constructor .team-block .team__cards.team__cards--slider {
     overflow-x: visible !important;
   }
 
-  .page-constructor .team-block .team__cards.team__cards--slider {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    overflow: visible !important;
+  .page-constructor .team-block {
+    overflow-y: visible !important;
   }
 
-  /* Full-bleed слева и справа: ряд уходит за края экрана (initRow + геометрия хоста). */
-  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
-    width: calc(100% + 2 * var(--page-gutter-x, 55px));
-    max-width: none;
-    margin-left: calc(-1 * var(--page-gutter-x, 55px)) !important;
-    margin-right: calc(-1 * var(--page-gutter-x, 55px)) !important;
+  .page-constructor .team-block .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x)) !important;
+  }
+
+  .page-constructor .team-block .team__cards.team__cards--slider {
+    width: calc(100% + var(--page-inline-start, var(--page-gutter-x)) + var(--page-inline-end, var(--page-gutter-x))) !important;
+    max-width: none !important;
+    margin-left: calc(-1 * var(--page-inline-start, var(--page-gutter-x))) !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x))) !important;
+    overflow: visible !important;
+    box-sizing: border-box;
+  }
+
+  /* Full-bleed: хост на всю ширину .team__cards (компенсация padding контейнера). */
+  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"],
+  .page-constructor .team-block .team__members-slider.swiper-container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     box-sizing: border-box;
     overflow: hidden !important;
     padding-top: 0 !important;
@@ -1029,14 +1222,18 @@ body:not(.order-popup-open) .overlay-new {
 
   .page-constructor .team-block .team__members-track[data-native-row="1"] {
     box-sizing: border-box;
-    overflow-x: scroll !important;
+    overflow-x: auto !important;
     overflow-y: hidden !important;
     touch-action: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
-    margin-bottom: -12px !important;
-    padding-bottom: 12px !important;
+    scroll-padding-inline-start: var(--page-inline-start, var(--page-gutter-x));
+    scroll-padding-inline-end: var(--page-inline-end, var(--page-gutter-x));
+    padding-left: var(--page-inline-start, var(--page-gutter-x)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x)) !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
 
   .page-constructor .team-block .team__members-track[data-native-row="1"]::-webkit-scrollbar {
@@ -1045,9 +1242,16 @@ body:not(.order-popup-open) .overlay-new {
     height: 0 !important;
   }
 
+  /* Карточки на 10% уже — больше зазор между колонками в горизонтальном слайдере (только ≤1024). */
   .page-constructor .team-block .team__member-slide.swiper-slide {
     flex: 0 0 auto !important;
-    width: min(300px, calc(100vw - var(--page-gutter-x, 55px) - 30px));
+    width: min(
+      270px,
+      calc(
+        (100vw - var(--page-inline-start, var(--page-gutter-x)) - var(--page-inline-end, var(--page-gutter-x)) - 30px) *
+          0.9
+      )
+    );
     max-width: none !important;
     box-sizing: border-box;
   }
@@ -1058,22 +1262,20 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 @media screen and (max-width: 768px) {
-  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
-    width: calc(100% + 72px);
-    margin-left: -36px !important;
-    margin-right: -36px !important;
+  .page-constructor .team-block .team__cards.team__cards--slider {
+    width: calc(100% + var(--page-inline-start, var(--page-gutter-x)) + var(--page-inline-end, var(--page-gutter-x))) !important;
+    margin-left: calc(-1 * var(--page-inline-start, var(--page-gutter-x))) !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x))) !important;
   }
 
   .page-constructor .team-block .team__member-slide.swiper-slide {
-    width: min(280px, calc(100vw - 36px - 30px));
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .page-constructor .team-block .team__members-slider.swiper-container[data-native-row="1"] {
-    width: calc(100% + 72px);
-    margin-left: -36px !important;
-    margin-right: -36px !important;
+    width: min(
+      252px,
+      calc(
+        (100vw - var(--page-inline-start, var(--page-gutter-x)) - var(--page-inline-end, var(--page-gutter-x)) - 30px) *
+          0.9
+      )
+    );
   }
 }
 
@@ -1131,9 +1333,40 @@ body:not(.order-popup-open) .overlay-new {
  * Адаптив: мобильный вьюпорт (dvh/svh), герой, команда, кейсы.
  * Правки только в этом файле — snapshot.bundle не трогаем.
  */
+/*
+ * Кейсы ≤1024px: точки — внутри .cases-block__slider (как на планшете), не у низа section.
+ */
+@media screen and (max-width: 1024px) {
+  .cases-block .cases-block__slider {
+    position: relative !important;
+  }
+
+  .cases-block .cases-block__slider .swiper-pagination[data-v-bd2e570a],
+  .cases-block .cases-block__slider .swiper-pagination {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    bottom: 28px !important;
+    z-index: 3 !important;
+    margin: 0 !important;
+    pointer-events: auto;
+  }
+}
+
 @media screen and (max-width: 720px) {
+  .cases-block[data-v-bd2e570a] {
+    padding-bottom: 0 !important;
+  }
+
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    min-height: min(100vh, 100dvh, 100svh) !important;
+    /* Чуть выше полноэкранного min-height — запас под точки внутри слайда. */
+    min-height: max(640px, calc(min(100vh, 100dvh, 100svh) + 32px)) !important;
+  }
+
+  .cases-block .cases-block__slider .swiper-pagination[data-v-bd2e570a],
+  .cases-block .cases-block__slider .swiper-pagination {
+    bottom: 36px !important;
   }
 }
 

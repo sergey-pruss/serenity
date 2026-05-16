@@ -1551,10 +1551,12 @@ body.order-popup-open .overlay-new {
   display: flex !important;
 }
 
+/* Одна колонка полей: перебить snapshot .form__grid-item:last-child { width: 0 } */
 #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
-  width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
   margin-left: 0 !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 #desktop-order-popup .privacy-check[data-v-8ad2fcbc] {
@@ -1669,13 +1671,6 @@ body.order-popup-open .overlay-new {
   #desktop-order-popup .form__grid-item[data-v-8ad2fcbc] {
     width: 100% !important;
     max-width: 100% !important;
-  }
-
-  #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    overflow: visible !important;
   }
 
   #desktop-order-popup .form__submit.btn[data-v-111f0665] {
@@ -1795,15 +1790,6 @@ body.order-popup-open .overlay-new {
     height: 46px !important;
     display: block !important;
     opacity: 1 !important;
-  }
-
-  #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:last-child {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
   }
 
   #desktop-order-popup .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {
@@ -2101,6 +2087,13 @@ body.order-popup-open .overlay-new {
   .case-all-root .case.case--dark-card .case__media--front {
     transform: scale(1.06);
   }
+}
+
+/* CTA «Смотреть больше кейсов» в горизонтальном слайдере: бандл даёт url(../_sa/img/…) → /_sa/_sa/… */
+.mor-cases-slider-wrapper .mor-cases-slide_link[data-v-38965faa] {
+  background-image: url(../img/video__lastBlogGif.gif) !important;
+  background-size: cover !important;
+  background-position: center !important;
 }
 
 /* Горизонтальный слайдер «Ещё кейсы» на главной / внизу услуги: без точек (свободный скролл).

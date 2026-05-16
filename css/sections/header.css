@@ -86,6 +86,16 @@
   }
 }
 
+/* Планшет: бургер +2px вверх (55→53) относительно max-width:1024. */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .header .menu-icon,
+  .header .menu-icon[data-v-e5e2adce],
+  .compressed.header .menu-icon,
+  .compressed.header .menu-icon[data-v-e5e2adce] {
+    top: 53px !important;
+  }
+}
+
 @media screen and (max-width: 426px) {
   .header .menu-icon,
   .header .menu-icon[data-v-e5e2adce],
@@ -126,6 +136,13 @@
   }
 }
 
+/* После max-width:1100 (top:0): одна линия с серединой бургера на планшете. */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .header__logo .header__logo-img {
+    top: -1px !important;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .header__logo .header__logo-img {
     width: 97px !important;
@@ -133,38 +150,35 @@
 }
 
 /*
- * ≤1250: после скролла app.js ставит header--collapsed и .hide на top-line;
- * snapshot.bundle тушит .header__container (transform, opacity: 0, pointer-events: none).
- * Лого визуально на месте, но клик не доходит — чиним: строка с лого остаётся в потоке, меню скрыто.
+ * ≤1250: после скролла — как на десктопе: .header__top-line.hide уезжает вместе с логотипом
+ * (см. snapshot.bundle .header__top-line.hide). Бургер вне top-line — остаётся кликабельным.
+ * Десктопное горизонтальное меню в строке шапки не показываем.
  */
 @media screen and (max-width: 1250px) {
-  .compressed.header.header--collapsed:not(.active) .header__top-line.hide,
-  .compressed.header.header--collapsed:not(.active) .header__top-line.hide[data-v-e5e2adce] {
-    transform: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
-  .compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__container,
-  .compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__container[data-v-e5e2adce] {
-    transform: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
-  .compressed.header.header--collapsed:not(.active) .header__logo,
-  .compressed.header.header--collapsed:not(.active) .header__logo a,
-  .compressed.header.header--collapsed:not(.active) .header__logo[data-v-e5e2adce],
-  .compressed.header.header--collapsed:not(.active) .header__logo a[data-v-e5e2adce] {
-    pointer-events: auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
   .compressed.header.header--collapsed:not(.active) .header__top-line.hide .navigation-menu,
   .compressed.header.header--collapsed:not(.active) .header__top-line.hide .navigation-menu[data-v-e5e2adce] {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
+  }
+}
+
+/* Все ширины: при collapsed скрываем лого вместе со строкой (перебиваем точечные top/visibility в адаптиве). */
+.compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__logo,
+.compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__logo a,
+.compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__logo-img,
+.compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__logo[data-v-e5e2adce],
+.compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__logo a[data-v-e5e2adce],
+.compressed.header.header--collapsed:not(.active) .header__top-line.hide .header__logo-img[data-v-e5e2adce] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* «Главная» в оверлее бургера — только ≤1250; на широком десктопе главная = лого в шапке */
+@media screen and (min-width: 1251px) {
+  .header .new-static-menu .navigation-new__list > li.navigation-new__item--mobile-only,
+  .header .new-static-menu .navigation-new__list > li.navigation-new__item--mobile-only[data-v-7050ddb2] {
+    display: none !important;
   }
 }

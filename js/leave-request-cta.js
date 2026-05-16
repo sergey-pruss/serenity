@@ -115,7 +115,7 @@
         </div>
         <div data-v-8ad2fcbc="" data-v-5c138029="" id="${formWrapId}" class="form-wrap" style="height: unset;">
           <div data-v-2ee28934="" data-v-5c138029="" class="contact-form__messenger-title contact-form__form-title">Отправить форму заявки</div>
-          <form data-v-8ad2fcbc="" action="#" method="post" enctype="multipart/form-data" class="order-popup__form order-form form" novalidate>
+          <form data-v-8ad2fcbc="" action="#" method="post" class="order-popup__form order-form form" novalidate>
             <div data-v-8ad2fcbc="" class="form__grid">
               <div data-v-8ad2fcbc="" class="form__grid-item">
                 <label data-v-8ad2fcbc="" class="form__group">
@@ -138,16 +138,7 @@
                   <input data-v-8ad2fcbc="" type="text" name="manager" class="form__control" />
                 </label>
               </div>
-              <div data-v-8ad2fcbc="" class="form__grid-item">
-                <label data-v-8ad2fcbc="" class="form__group">
-                  <input data-v-8ad2fcbc="" type="text" name="site" placeholder="Сайт" class="form__control" />
-                  <span data-v-8ad2fcbc="" class="form__label">Сайт</span>
-                </label>
-                <label data-v-8ad2fcbc="" class="form__group upload-input">
-                  <input data-v-8ad2fcbc="" type="file" name="file" class="form__control" />
-                  <span data-v-8ad2fcbc="" class="form__label upload-input__label">Прикрепить файл</span>
-                </label>
-              </div>
+
             </div>
             <div data-v-8ad2fcbc="" class="form__group form__group--sub">
               <button data-v-111f0665="" data-v-8ad2fcbc="" class="btn form__submit" type="submit">

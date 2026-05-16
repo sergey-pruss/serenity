@@ -5,6 +5,8 @@
 (() => {
   const EPS = 2;
   const ROW_ARROWS_MIN_WIDTH = 981;
+  /** Концевой гаттер в full-bleed: flex-элемент надёжнее padding-right на iOS. */
+  const NATIVE_ROW_END_GUTTER_CLASS = "native-row-end-gutter";
   /**
    * Единый знак направления для горизонтальных слайдеров (услуги, блог, «Наши клиенты»):
    * колёсико, автоплей ленты клиентов, pointer-свайп. Не плодить отдельные «минусы» по файлу —
@@ -118,11 +120,33 @@
       }
     };
 
+    const removeEndGutterSpacer = () => {
+      track.querySelectorAll(`.${NATIVE_ROW_END_GUTTER_CLASS}`).forEach((el) => el.remove());
+    };
+
+    const syncEndGutterSpacer = (widthPx) => {
+      let spacer = track.querySelector(`.${NATIVE_ROW_END_GUTTER_CLASS}`);
+      if (!spacer) {
+        spacer = document.createElement("span");
+        spacer.className = NATIVE_ROW_END_GUTTER_CLASS;
+        spacer.setAttribute("aria-hidden", "true");
+        track.appendChild(spacer);
+      }
+      const w = `${widthPx}px`;
+      spacer.style.flex = `0 0 ${w}`;
+      spacer.style.width = w;
+      spacer.style.minWidth = w;
+      spacer.style.height = "1px";
+      spacer.style.pointerEvents = "none";
+      spacer.style.display = "block";
+    };
+
     const clearBleedGeometry = () => {
       ["width", "max-width", "margin-left", "margin-right", "box-sizing"].forEach((p) => host.style.removeProperty(p));
       track.style.removeProperty("box-sizing");
       track.style.removeProperty("padding-left");
       track.style.removeProperty("padding-right");
+      removeEndGutterSpacer();
       const lastSlide = track.querySelector(".swiper-slide:last-child");
       if (lastSlide) {
         lastSlide.style.removeProperty("margin-right");
@@ -156,14 +180,18 @@
       if (max - current <= EPS) current = max;
       const leftExpose = fullBleedRightOnly ? 0 : sidePad;
       const rightExpose = sidePad;
-      host.style.width = `calc(100% + ${leftExpose + rightExpose}px)`;
+      /* fullBleedRightOnly: не расширяем хост вправо (margin −gutter), иначе концевой spacer
+         оказывается за физическим краем экрана; гаттер — .native-row-end-gutter на треке. */
+      const hostExtraWidth = fullBleedRightOnly ? leftExpose : leftExpose + rightExpose;
+      host.style.width = `calc(100% + ${hostExtraWidth}px)`;
       host.style.maxWidth = "none";
       host.style.marginLeft = fullBleedRightOnly ? "0" : `-${leftExpose}px`;
-      host.style.marginRight = `-${rightExpose}px`;
+      host.style.marginRight = fullBleedRightOnly ? "0" : `-${rightExpose}px`;
       host.style.boxSizing = "border-box";
       track.style.boxSizing = "border-box";
       track.style.paddingLeft = `${Math.max(0, sidePad - current)}px`;
-      track.style.setProperty("padding-right", `${sidePad}px`, "important");
+      syncEndGutterSpacer(rightExpose);
+      track.style.setProperty("padding-right", "0", "important");
 
       if (prevBtn) {
         prevBtn.style.left = `${leftExpose}px`;
@@ -750,10 +778,24 @@
 
     let collapsed = false;
     const DESKTOP_BREAKPOINT = 1250;
-    const COLLAPSE_Y = 120;
-    const EXPAND_Y = 36;
 
-    const shouldShowFloatingCta = () => (window.scrollY || window.pageYOffset || 0) > COLLAPSE_Y;
+    /** Порог «проскроллили первый экран»: герой / первая секция или ~90vh. Гистерезис — logo снова у верха. */
+    const getScrollThresholds = () => {
+      const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      const first = document.querySelector(".page-constructor > .page-constructor__section:first-of-type");
+      let collapseY = Math.round(vh * 0.9);
+      if (first) {
+        const sectionH = first.offsetHeight || vh;
+        collapseY = Math.round(Math.min(sectionH * 0.65, vh * 0.95));
+      }
+      const expandY = Math.min(48, Math.max(12, Math.round(collapseY * 0.07)));
+      return { collapseY: Math.max(64, collapseY), expandY };
+    };
+
+    const shouldShowFloatingCta = () => {
+      const { collapseY } = getScrollThresholds();
+      return (window.scrollY || window.pageYOffset || 0) > collapseY;
+    };
 
     const setOpen = (open) => {
       header.classList.toggle("active", open);
@@ -800,8 +842,9 @@
 
     const sync = () => {
       const y = window.scrollY || window.pageYOffset || 0;
-      if (!collapsed && y > COLLAPSE_Y) applyState(true);
-      if (collapsed && y < EXPAND_Y) applyState(false);
+      const { collapseY, expandY } = getScrollThresholds();
+      if (!collapsed && y > collapseY) applyState(true);
+      if (collapsed && y < expandY) applyState(false);
       // Подстраховка под штатные классы bundle: если top-line уже скрыт, обязательно показываем бургер.
       if (topLine.classList.contains("hide")) menuIcon.classList.add("show");
       if (bodyApplication && !header.classList.contains("active")) {

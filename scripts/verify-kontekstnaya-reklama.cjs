@@ -40,6 +40,11 @@ async function run() {
   );
 
   assert(
+    /<ul class="navigation-new__list"[^>]*>[\s\S]*?<a\s+href="\/"[^>]*>\s*Главная\s*<\/a>/i.test(html),
+    "HTML: в бургер-меню (navigation-new__list) есть пункт «Главная»",
+  );
+
+  assert(
     /<title>[^<]*Настройка и ведение контекстной рекламы[^<]*<\/title>/.test(html),
     "<title>: должен содержать 'Настройка и ведение контекстной рекламы'",
   );
