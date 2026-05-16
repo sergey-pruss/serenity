@@ -859,7 +859,8 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
- * Этапы (content-block): полоса текста уже на ~15 % за счёт поля справа (слева — по линии контента, как у заголовка).
+ * Этапы / форматы (content-block): полоса текста уже на ~15 % за счёт поля справа
+ * (слева — по линии контента, как у заголовка).
  */
 @media screen and (min-width: 721px) {
   body .modern.content-block .block-item {
@@ -875,12 +876,25 @@ body:not(.order-popup-open) .overlay-new {
   }
 }
 
+/* «Команда»: легче, чем у текстовых блоков — только 10 % справа (без 15 %). */
+@media screen and (min-width: 721px) {
+  body .team-block .team .row > [class*="col-"] {
+    padding-left: 0;
+    padding-right: 10%;
+    box-sizing: border-box;
+  }
+}
+
 @media screen and (max-width: 720px) {
   body .modern.content-block .block-item {
     padding-right: 0;
   }
 
   body .modern .columns-with-progress__column > div:first-child {
+    padding-right: 0;
+  }
+
+  body .team-block .team .row > [class*="col-"] {
     padding-right: 0;
   }
 }
