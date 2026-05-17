@@ -67,6 +67,16 @@
   .header .menu-icon[data-v-e5e2adce] {
     top: 45px !important;
   }
+
+  /*
+   * Горизонтальное меню: .header__logo-img с top: 33px ниже flex-центра .header__container;
+   * у .navigation-list в бандле margin-bottom: 7px — вместе меню уезжает вверх относительно лого.
+   */
+  .header .header__top-line .navigation-menu .navigation-list,
+  .header .header__top-line .navigation-menu .navigation-list[data-v-e5e2adce] {
+    margin-bottom: 0 !important;
+    transform: translateY(4px);
+  }
 }
 
 /* ≤1250: бургер/крестик — те же +5px к топам snapshot.bundle (лого опущено на 5px). */
