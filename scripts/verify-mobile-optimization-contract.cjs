@@ -20,12 +20,12 @@ const mobileCss = read("css/css__home-snapshot__overrides.mobile.css");
 const app = read("js/app.js");
 
 assert(
-  /css__home-snapshot__overrides\.mobile\.css\?v=20260430o/.test(layout),
-  "html/index.layout.html: mobile CSS cache-bust должен быть 20260430o",
+  /css__home-snapshot__overrides\.mobile\.css\?v=20260517morCasesTablet/.test(layout),
+  "html/index.layout.html: mobile CSS cache-bust должен быть 20260517morCasesTablet",
 );
 assert(
-  /src="\/_sa\/js\/app\.js\?v=20260514kontekstCasesSwipe"/.test(layout),
-  "html/index.layout.html: app.js cache-bust должен быть 20260514kontekstCasesSwipe",
+  /src="\/_sa\/js\/app\.js\?v=20260517morCasesTablet"/.test(layout),
+  "html/index.layout.html: app.js cache-bust должен быть 20260517morCasesTablet",
 );
 {
   const iParity = layout.indexOf("css__home-snapshot__overrides.parity-sync.css");

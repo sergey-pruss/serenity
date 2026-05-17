@@ -305,8 +305,26 @@ const readCtaState = async (cdp) =>
     assert(preShowVal?.hasCta, "Перед показом: нет #body.body-application");
     assert(preShowVal.hidden, `Перед показом: CTA-артефакт виден до порога (${JSON.stringify(preShowVal)})`);
 
-    // середина: скролл + зазор
-    await cdp.send("Runtime.evaluate", { expression: "window.scrollTo(0, 220);", returnByValue: true });
+    // середина: после порога показа CTA (как shouldShowFloatingCta в app.js) + зазор 15px
+    const midScroll = await cdp.send("Runtime.evaluate", {
+      expression: `(() => {
+        const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+        const first = document.querySelector(".page-constructor > .page-constructor__section:first-of-type");
+        let collapseY = Math.round(vh * 0.9);
+        if (first) {
+          const sectionH = first.offsetHeight || vh;
+          collapseY = Math.round(Math.min(sectionH * 0.65, vh * 0.95));
+        }
+        collapseY = Math.max(64, collapseY);
+        return collapseY + 24;
+      })()`,
+      returnByValue: true,
+    });
+    const midY = Number(midScroll?.result?.value) || 220;
+    await cdp.send("Runtime.evaluate", {
+      expression: `window.scrollTo(0, ${midY});`,
+      returnByValue: true,
+    });
     await sleep(500);
 
     const mid = await cdp.send("Runtime.evaluate", {
@@ -319,12 +337,20 @@ const readCtaState = async (cdp) =>
         const br = pill ? pill.getBoundingClientRect().bottom : NaN;
         const gap = pill ? (h - br) : NaN;
         const t = cta ? getComputedStyle(cta).transform : "";
-        return { hasCta: Boolean(cta) && Boolean(pill), gap, transform: t };
+        const hidden =
+          !cta ||
+          !pill ||
+          getComputedStyle(cta).display === "none" ||
+          getComputedStyle(cta).visibility === "hidden" ||
+          Number(getComputedStyle(cta).opacity) === 0 ||
+          cta.classList.contains("noactive");
+        return { hasCta: Boolean(cta) && Boolean(pill), gap, transform: t, hidden };
       })()`,
       returnByValue: true,
     });
     const midVal = mid?.result?.value;
     assert(midVal?.hasCta, "Нет #body.body-application");
+    assert(!midVal?.hidden, `Середина: CTA должна быть активна после scrollY≈${midY} (${JSON.stringify(midVal)})`);
     assert(typeof midVal?.gap === "number" && Number.isFinite(midVal.gap), "Не удалось измерить зазор CTA");
     assert(Math.abs(midVal.gap - 15) <= 1, `Середина: ожидается ~15px до низа viewport, получено ${midVal.gap}`);
     assert(

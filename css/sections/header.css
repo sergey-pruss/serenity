@@ -82,17 +82,17 @@
   .header .menu-icon[data-v-e5e2adce],
   .compressed.header .menu-icon,
   .compressed.header .menu-icon[data-v-e5e2adce] {
-    top: 55px !important; /* bundle 50px + 5 */
+    top: 47px !important; /* по центру логотипа (было 55) */
   }
 }
 
-/* Планшет: бургер +2px вверх (55→53) относительно max-width:1024. */
+/* Планшет: бургер по вертикали с логотипом. */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .header .menu-icon,
   .header .menu-icon[data-v-e5e2adce],
   .compressed.header .menu-icon,
   .compressed.header .menu-icon[data-v-e5e2adce] {
-    top: 53px !important;
+    top: 48px !important; /* было 53 */
   }
 }
 
@@ -101,14 +101,14 @@
   .header .menu-icon[data-v-e5e2adce],
   .compressed.header .menu-icon,
   .compressed.header .menu-icon[data-v-e5e2adce] {
-    top: 37px !important; /* bundle 32px + 5 */
+    top: 31px !important; /* по центру логотипа (было 37) */
   }
 }
 
 @media screen and (max-width: 360px) {
   .header.page-top .menu-icon,
   .header.page-top .menu-icon[data-v-e5e2adce] {
-    top: 36px !important; /* bundle .page-top 31px + 5 */
+    top: 30px !important; /* page-top: в ритм с лого (было 36) */
   }
 }
 
