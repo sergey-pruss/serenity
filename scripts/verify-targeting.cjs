@@ -142,6 +142,16 @@ async function run() {
     fileExists("html/partials/services/synergy-targeting.html"),
     "partial synergy-targeting.html",
   );
+  const synergyPartial = read("html/partials/services/synergy-targeting.html");
+  assert(
+    !synergyPartial.includes('href="/targeting/"'),
+    "synergy: без ссылки на текущую услугу /targeting/",
+  );
+  assert(
+    synergyPartial.includes('href="/kontekstnaya_reklama/"') &&
+      synergyPartial.includes("Контекстная реклама"),
+    "synergy: карточка контекстной рекламы вместо таргета",
+  );
   assert(fileExists("targeting/nuxt-css-manifest.json"), "nuxt-css-manifest.json");
 
   const phase2 = !captureBaseline && process.env.TARGETING_VERIFY_PHASE2 === "1";

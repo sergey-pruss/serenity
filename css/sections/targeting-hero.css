@@ -19,7 +19,7 @@
   z-index: 2;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 720px) and (max-width: 1024px) {
   .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header {
     margin-bottom: -50px;
     gap: 24px;
@@ -67,9 +67,50 @@
 }
 
 @media screen and (max-width: 719px) {
-  .page-constructor > .page-constructor__section:first-of-type .c-title-block .case-slider,
-  .page-constructor > .page-constructor__section:first-of-type .case-slider {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    margin-bottom: 32px !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider {
     height: auto !important;
     max-height: none;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__content,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide__content {
+    width: calc(100% - 72px) !important;
+    max-width: calc(100% - 72px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-top: 56px !important;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media > div {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media video {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
   }
 }

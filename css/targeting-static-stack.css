@@ -95,7 +95,7 @@
   .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading,
   .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
     font-size: 26px;
-    margin-bottom: 20px;
+    /* margin-bottom: 45px на ≤719px — см. блок ниже (не 20px из legacy) */
   }
 }
 
@@ -181,6 +181,46 @@
 @media screen and (max-width: 550px) {
   .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
     font-size: 26px !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+/*
+ * Мобильный зазор «заголовок секции → контент» (кейсы, FAQ, награды, синергия) — как kontekstnaya-reklama-static-stack.
+ * На ≤550px в FAQ-partial было 20px; на контексте stack перебивает до 45px — дублируем для /targeting.
+ */
+@media screen and (max-width: 719px) {
+  .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  /* Награды/синергия/кейсы на /targeting — вне .page-constructor (после TARGETING-MAIN-END), без префикса не матчится kontekst stack */
+  .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading,
+  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading,
+  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
+  .kontekst-synergy-root .services__context-slider.swiper-container,
+  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
+  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container {
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .kontekst-synergy-root .services__context-wrapper[data-native-row="1"],
+  .page-constructor .kontekst-synergy-root .services__context-wrapper[data-native-row="1"] {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
 }
