@@ -44,6 +44,10 @@ export async function verifyProdRobotsSitemap(opts = {}) {
     !/Disallow:\s*\*services\/\$/m.test(prodExpected),
     "robots.production.txt: не блокировать листинг /services/ (статический контур, GSC).",
   );
+  assert(
+    /^Allow:\s*\/services\/?\$/m.test(prodExpected),
+    "robots.production.txt: явный Allow для листинга /services.",
+  );
   const previewExpected = readStaticPreviewRobots();
   assert(/^\s*Disallow:\s*\/\s*$/m.test(previewExpected), "robots.static-preview.txt: Disallow: /");
 

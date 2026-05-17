@@ -86,6 +86,10 @@ assert(
   !/Disallow:\s*\*services\/\$/m.test(robotsProd),
   "robots.production.txt must not Disallow: *services/$ (листинг /services/ на статическом контуре)."
 );
+assert(
+  /^Allow:\s*\/services\/?\$/m.test(robotsProd),
+  "robots.production.txt must Allow /services listing explicitly."
+);
 
 const robotsRootPath = path.join(__dirname, "..", "robots.txt");
 const robotsRoot = fs.readFileSync(robotsRootPath, "utf8");
