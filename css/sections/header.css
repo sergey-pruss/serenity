@@ -193,3 +193,9 @@
     display: none !important;
   }
 }
+
+/* На главной пункт «Главная» в бургере не показываем (404 с sa-home-page — исключение) */
+body.sa-home-page:not(.sa-not-found-page) .header .new-static-menu .navigation-new__list > li.navigation-new__item--mobile-only,
+body.sa-home-page:not(.sa-not-found-page) .header .new-static-menu .navigation-new__list > li.navigation-new__item--mobile-only[data-v-7050ddb2] {
+  display: none !important;
+}
