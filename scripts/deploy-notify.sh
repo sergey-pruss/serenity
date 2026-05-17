@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Опциональные уведомления после deploy-dev / deploy-prod (Telegram Bot API).
+# По умолчанию выключены; включить на один запуск: --notify или DEPLOY_NOTIFY=1.
 # Секреты — только локально; агент в Cursor токен не видит, пока вы не положите файл у себя.
 set -euo pipefail
 
@@ -38,9 +39,18 @@ deploy_notify_load_config() {
   done
 }
 
+deploy_notify_apply_cli() {
+  local arg
+  for arg in "$@"; do
+    case "$arg" in
+      --notify) export DEPLOY_NOTIFY=1 ;;
+    esac
+  done
+}
+
 deploy_notify_enabled() {
   deploy_notify_load_config
-  if [[ "${DEPLOY_NOTIFY:-1}" == "0" ]]; then
+  if [[ "${DEPLOY_NOTIFY:-0}" != "1" ]]; then
     return 1
   fi
   [[ -n "${DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN:-}" && -n "${DEPLOY_NOTIFY_TELEGRAM_CHAT_ID:-}" ]]

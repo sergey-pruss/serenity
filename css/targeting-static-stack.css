@@ -33,6 +33,29 @@
   padding-top: var(--home-between, 112px) !important;
 }
 
+/*
+ * «Наш подход» и остальные content-block: на prod /targeting padding-top 172px (Nuxt-бандл),
+ * не 112px из kontekstnaya-reklama-static-stack (--home-between).
+ */
+.page-constructor > .page-constructor__section > .modern.content-block[data-v-4ed7dc78],
+.page-constructor > .page-constructor__section > .modern.content-block {
+  padding-top: 172px !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor > .page-constructor__section > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor > .page-constructor__section > .modern.content-block {
+    padding-top: 130px !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor > .page-constructor__section > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor > .page-constructor__section > .modern.content-block {
+    padding-top: 110px !important;
+  }
+}
+
 .page-constructor > .page-constructor__section:has(.clients-wrapper) {
   display: none !important;
 }
@@ -42,6 +65,40 @@
  * правила kontekstnaya-reklama-static-stack.css с .page-constructor-предком не применяются.
  * Дублируем нужные правила без этого предка.
  */
+
+/*
+ * Заголовок → контент: margin-bottom 80px (как .page-constructor h3.kontekstnaya-page__section-heading).
+ * Без этого зазор «прилипает» — мы обнуляли .awards__header, а margin на h3 не подставился.
+ */
+.more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading,
+.home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  margin: 0 0 80px;
+  padding: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 126%;
+  letter-spacing: 0;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading,
+  .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    font-size: 28px;
+    line-height: 126%;
+    margin-bottom: 45px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading,
+  .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+}
 
 /* Кейсы */
 .more-case-wr.more-case-wr__main {
@@ -103,14 +160,28 @@
   display: none !important;
 }
 
-/* Снапшот-бандл даёт .isNewContent .services__title margin-bottom ~53px/20px;
-   обнуляем (как kontekstnaya-stack, но без .page-constructor-предка). */
-.kontekst-synergy-root .isNewContent h3.services__title {
+/*
+ * Синергия: margin у h3 обнуляем — зазор до карточек даёт padding-top слайдера (как kontekstnaya).
+ * Типографика — как у остальных секционных заголовков.
+ */
+.kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  letter-spacing: 0 !important;
   margin-bottom: 0 !important;
 }
 
 @media screen and (max-width: 768px) {
-  .kontekst-synergy-root .isNewContent h3.services__title {
+  .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    font-size: 28px !important;
+    line-height: 126% !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    font-size: 26px !important;
     margin-bottom: 0 !important;
   }
 }

@@ -1,0 +1,75 @@
+/**
+ * /targeting: герой case-slider — unscoped-правила (в bundle они под [data-v-04503aeb]).
+ * На desktop case-slider-slide имеет position:absolute → без явной высоты контейнер
+ * схлопывается и коллаж не виден. height:700px восстанавливает видимость.
+ */
+.page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 183px;
+  gap: 40px;
+  padding-right: 35px;
+  padding-left: 35px;
+  margin-top: 52px;
+  margin-bottom: 62px;
+  text-wrap: balance;
+  position: relative;
+  z-index: 2;
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header {
+    margin-bottom: -50px;
+    gap: 24px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: 90px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: 70px;
+  }
+}
+
+/* Коллаж: position:absolute у slide → без height контейнер схлопывается */
+.page-constructor > .page-constructor__section:first-of-type,
+.page-constructor > .page-constructor__section:first-of-type .c-title-block {
+  position: relative;
+  overflow: hidden !important;
+}
+
+.page-constructor > .page-constructor__section:first-of-type .c-title-block .case-slider,
+.page-constructor > .page-constructor__section:first-of-type .case-slider {
+  height: 700px !important;
+  max-height: min(700px, 85vh);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.page-constructor > .page-constructor__section:first-of-type .case-slider__wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: hidden !important;
+}
+
+.page-constructor > .page-constructor__section:first-of-type .case-slider .slide-wrapper {
+  overflow: hidden !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor > .page-constructor__section:first-of-type .c-title-block .case-slider,
+  .page-constructor > .page-constructor__section:first-of-type .case-slider {
+    height: auto !important;
+    max-height: none;
+  }
+}

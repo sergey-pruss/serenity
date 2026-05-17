@@ -1,0 +1,189 @@
+#!/usr/bin/env node
+/**
+ * Smoke-тест для /targeting (локальный черновик статики).
+ */
+const fs = require("fs");
+const path = require("path");
+
+const root = path.resolve(__dirname, "..");
+
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function read(relPath) {
+  return fs.readFileSync(path.join(root, relPath), "utf8");
+}
+
+function fileExists(relPath) {
+  return fs.existsSync(path.join(root, relPath));
+}
+
+async function run() {
+  const html = read("targeting/index.html");
+  const captureBaseline =
+    process.env.TARGETING_VERIFY_CAPTURE_ONLY === "1" ||
+    process.env.TARGETING_VERIFY_CAPTURE_ONLY === "true" ||
+    html.includes("targetingCaptureBaseline");
+
+  assert(html.includes("Таргетированная реклама"), "title/контент: Таргетированная реклама");
+  assert(
+    /<title>Таргетированная реклама — Serenity<\/title>/.test(html),
+    "<title> как на проде: Таргетированная реклама — Serenity",
+  );
+  assert(
+    html.includes(
+      'meta name="description" content="Услуги по таргетированной рекламе во всех социальных сетях. Заказать настройку таргетированной рекламы в instagram, vk, фейсбуке',
+    ),
+    "description как на проде",
+  );
+  assert(html.includes('property="og:lowPrice" content="107000.00"'), "og:lowPrice как на проде");
+  assert(
+    /<h1[^>]*>\s*Таргетированная реклама/.test(html),
+    "<h1>: Таргетированная реклама",
+  );
+  assert(html.includes("targeting-nuxt.bundle.css"), "CSS: targeting-nuxt.bundle.css");
+  assert(html.includes("targeting-static-stack.css"), "CSS: targeting-static-stack.css");
+  if (captureBaseline) {
+    assert(html.includes("targetingCaptureBaseline"), "CSS: capture baseline");
+    assert(!html.includes("overrides.parity-sync.css"), "baseline: без kontekst parity-sync");
+    assert(html.includes("targeting-page"), "обёртка targeting-page");
+    assert(html.includes("more-case-wr"), "блок кейсов");
+    assert(
+      html.includes("questions-wr") || html.includes("targeting-faq-mounted"),
+      "FAQ: prod questions-wr или static partial",
+    );
+    assert(
+      read("css/targeting-static-stack.css").includes("targeting-hero.css"),
+      "CSS: targeting-hero",
+    );
+  } else {
+    assert(html.includes('id="targeting-faq-mounted"'), "FAQ: targeting-faq-mounted");
+    assert(html.includes("targeting-faq-section"), "FAQ: targeting-faq-section");
+    assert(html.includes("targeting-page"), "обёртка targeting-page");
+    assert(html.includes('id="sa-inline-lead-root"'), "inline lead root");
+    assert(html.includes("more-case-wr"), "блок кейсов");
+    assert(html.includes('id="targeting-awards-heading"'), "награды partial");
+    assert(html.includes("kontekst-synergy-root"), "синергия partial");
+    assert(html.includes("targeting-static-stack.css"), "CSS: targeting-static-stack (import kontekst stack)");
+    assert(html.includes("overrides.parity-sync.css"), "CSS: kontekst parity-sync");
+    assert(
+      read("css/targeting-static-stack.css").includes("targeting-hero.css"),
+      "CSS: targeting-hero",
+    );
+  }
+  assert(html.includes("<!-- TARGETING-MAIN-START -->"), "маркер MAIN-START");
+  assert(html.includes("<!-- TARGETING-MAIN-END -->"), "маркер MAIN-END");
+  assert(!html.includes("mod.calltouch.ru"), "без Calltouch");
+  assert(html.includes('name="robots" content="noyaca"'), "robots meta как на проде (noyaca)");
+  assert(html.includes('class="case-slider__wrapper"'), "коллаж под заголовком (case-slider)");
+
+  const mainStart = html.indexOf("<!-- TARGETING-MAIN-START -->");
+  const mainEnd = html.indexOf("<!-- TARGETING-MAIN-END -->");
+  const main = html.slice(mainStart, mainEnd);
+  if (!captureBaseline) {
+    const leadIdx = main.indexOf("sa-service-lead-section");
+    const teamIdx = main.indexOf("team-block");
+    const faqIdx = main.indexOf("targeting-faq-mounted");
+    const casesIdx = main.indexOf('class="more-case-wr');
+    assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды (как kontekst)");
+    assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
+  }
+  assert(
+    read("css/targeting-static-stack.css").includes(
+      ".page-constructor > .page-constructor__section:first-of-type::before",
+    ) && read("css/targeting-static-stack.css").includes("display: none !important"),
+    "без фонового фото kontekst ::before в герое",
+  );
+  assert(!html.includes("service-packages-slider.js"), "без packages slider");
+  assert(
+    html.includes("team__members-slider") || html.includes("team-block"),
+    "команда: слайдер или сетка team-block",
+  );
+  if (!captureBaseline) {
+    assert(html.includes("service-team-slider.js"), "service-team-slider.js для команды");
+    assert(html.includes("targeting-spoilers.js"), "targeting-spoilers.js");
+  }
+  assert(html.includes("gradient-canvas"), "gradient-canvas");
+  assert(html.includes("page-constructor-gradient.js"), "page-constructor-gradient.js");
+  assert(html.includes("swiper-bundle.min.js"), "swiper-bundle.min.js");
+  assert(
+    !html.includes('itemprop="image" src="/_sa/img/storage__">'),
+    "нет битого microdata image",
+  );
+  assert(
+    html.includes(
+      'link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp"',
+    ),
+    "Product microdata через link itemprop=image",
+  );
+  assert(!/<img[^>]*\sitemprop=/i.test(html), "нет img itemprop в microdata");
+  assert(!html.includes("<img <link itemprop"), "нет сломанного img+link");
+  assert(
+    fileExists("html/partials/services/hero-targeting.html"),
+    "partial hero-targeting.html",
+  );
+  assert(
+    fileExists("html/partials/services/faq-targeting.html"),
+    "partial faq-targeting.html",
+  );
+  assert(
+    fileExists("html/partials/services/more-cases-targeting.html"),
+    "partial more-cases-targeting.html",
+  );
+  assert(
+    fileExists("html/partials/services/awards-targeting.html"),
+    "partial awards-targeting.html",
+  );
+  assert(
+    fileExists("html/partials/services/synergy-targeting.html"),
+    "partial synergy-targeting.html",
+  );
+  assert(fileExists("targeting/nuxt-css-manifest.json"), "nuxt-css-manifest.json");
+
+  const phase2 = !captureBaseline && process.env.TARGETING_VERIFY_PHASE2 === "1";
+  if (phase2) {
+    assert(html.includes('class="facts"') || html.includes("Наш подход"), "phase2: факты/подход");
+    assert(!html.includes("Наши клиенты"), "phase2: без отдельной секции клиентов (как kontekst)");
+    assert(!html.includes("TARGETING-PHASE2:middle"), "phase2: нет маркера middle");
+    assert(!html.includes("https://serenity.agency/storage/"), "phase2: пути storage переписаны в /_sa/img/");
+    assert(html.includes('class="cases-block"'), "phase2: слайдер cases-block в середине страницы");
+    assert(html.includes("cases-block__slider-swiper-container"), "cases-block: разметка swiper");
+  } else if (!captureBaseline) {
+    assert(
+      html.includes("TARGETING-PHASE2:middle") ||
+        html.includes("TARGETING-PHASE2:clients") ||
+        html.includes('class="facts"'),
+      "phase1: маркеры пропуска секций, facts или phase2 включён",
+    );
+  }
+  if (!captureBaseline) {
+    assert(html.includes("more-case-wr__main"), "кейсы: класс more-case-wr__main");
+    assert(html.includes("more-case-wr__slider-heading"), "кейсы: заголовок слайдера");
+    assert(html.includes("mor-cases-slide__cta-fill"), "кейсы: CTA-слайд с gif");
+  }
+  assert(!html.includes("swiper-container-initialized"), "кейсы: без классов гидрации Swiper");
+  assert(
+    /data-v-[a-z0-9]+=/i.test(main) || html.includes("c-title-block modern"),
+    "main: Nuxt scoped data-v на герое или c-title-block",
+  );
+  assert(html.includes("c-title-block modern"), "герой: c-title-block");
+  if (!captureBaseline) {
+    assert(html.includes("targeting-faq.css"), "CSS: targeting-faq.css");
+  }
+
+  const imgRe = /\/_sa\/img\/[a-zA-Z0-9._/-]+/g;
+  const imgs = [...new Set(html.match(imgRe) || [])];
+  for (const rel of imgs.slice(0, 80)) {
+    const disk = rel.replace(/^\/_sa\//, "");
+    if (disk.includes("..")) continue;
+    assert(fileExists(disk), `файл на диске: ${disk}`);
+  }
+
+  console.log("verify-targeting: ok");
+}
+
+run().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
