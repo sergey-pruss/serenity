@@ -12,7 +12,6 @@ Disallow: */trackback
 Disallow: */feed
 Disallow: */rss
 Disallow: */embed
-Disallow: *services/$
 Disallow: *?*
 Disallow: /xmlrpc.php
 Disallow: *utm*=
