@@ -22,7 +22,6 @@ function run() {
   html = html.replace(/kontekst-faq-mounted/g, "targeting-faq-mounted");
   html = html.replace(/kontekst-faq-root/g, "targeting-faq-root");
   html = html.replace(/kontekst-faq-section/g, "targeting-faq-section");
-  html = html.replace(/kontekstnaya-page__section-heading/g, "targeting-page__section-heading");
   html = html.replace(/<script[^>]*type="application\/ld\+json">[\s\S]*?<\/script>/, (block) => {
     return block.replace(/\sdata-v-[a-z0-9]+=""/gi, "");
   });

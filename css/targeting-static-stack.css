@@ -61,9 +61,8 @@
 }
 
 /*
- * /targeting: 3 нижних блока (Кейсы / Награды / Синергия) находятся ВНЕ .page-constructor —
- * правила kontekstnaya-reklama-static-stack.css с .page-constructor-предком не применяются.
- * Дублируем нужные правила без этого предка.
+ * /targeting: отступы кейсов / наград / синергии — дублируем из kontekst stack
+ * (на случай иных обёрток; блоки внутри .page-constructor targeting-page).
  */
 
 /*
