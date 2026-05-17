@@ -18,6 +18,9 @@ Disallow: *utm*=
 Disallow: *openstat=
 
 Allow: */uploads
+# Листинг услуг на статическом контуре (снято legacy-закрытие листинга services).
+Allow: /services$
+Allow: /services/$
 
 Clean-param: &utm&get&amo&amp
 
