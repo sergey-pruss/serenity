@@ -40,6 +40,10 @@ export async function verifyProdRobotsSitemap(opts = {}) {
       !prodExpected.includes("Disallow: /docs/"),
     "robots.production.txt: Sitemap на проде; Disallow: /docs/ не нужен (docs/ только на dev).",
   );
+  assert(
+    !/Disallow:\s*\*services\/\$/m.test(prodExpected),
+    "robots.production.txt: не блокировать листинг /services/ (статический контур, GSC).",
+  );
   const previewExpected = readStaticPreviewRobots();
   assert(/^\s*Disallow:\s*\/\s*$/m.test(previewExpected), "robots.static-preview.txt: Disallow: /");
 
@@ -69,6 +73,10 @@ export async function verifyProdRobotsSitemap(opts = {}) {
       assert(
         robotsBody.includes("Sitemap: https://serenity.agency/sitemap.xml"),
         `${robotsUrl}: нет строки Sitemap на канонический sitemap.xml`,
+      );
+      assert(
+        !/Disallow:\s*\*services\/\$/m.test(robotsBody),
+        `${robotsUrl}: не должно быть Disallow: *services/$ (листинг услуг индексируем)`,
       );
     }
 

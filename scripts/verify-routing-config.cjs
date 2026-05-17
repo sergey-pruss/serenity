@@ -82,12 +82,20 @@ assert(
   !/^Disallow:\s*\/docs\/\s*$/m.test(robotsProd),
   "robots.production.txt must not Disallow: /docs/ (каталог docs/ не на проде)."
 );
+assert(
+  !/Disallow:\s*\*services\/\$/m.test(robotsProd),
+  "robots.production.txt must not Disallow: *services/$ (листинг /services/ на статическом контуре)."
+);
 
 const robotsRootPath = path.join(__dirname, "..", "robots.txt");
 const robotsRoot = fs.readFileSync(robotsRootPath, "utf8");
 assert(
   !/^Disallow:\s*\/docs\/\s*$/m.test(robotsRoot),
   "robots.txt must not Disallow: /docs/ — keep in sync with robots.production.txt."
+);
+assert(
+  !/Disallow:\s*\*services\/\$/m.test(robotsRoot),
+  "robots.txt must not Disallow: *services/$ — keep in sync with robots.production.txt."
 );
 
 const robotsPreviewPath = path.join(__dirname, "..", "robots.static-preview.txt");
