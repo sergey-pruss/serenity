@@ -9,6 +9,7 @@ source "${ROOT}/scripts/deploy-lib.sh"
 export DEPLOY_NOTIFY_ROOT="$ROOT"
 # shellcheck disable=SC1091
 source "${ROOT}/scripts/deploy-notify.sh"
+deploy_notify_apply_cli "$@"
 
 export DEPLOY_REMOTE_PATH="${DEPLOY_REMOTE_PATH:-/var/www/static-dev/}"
 export DEPLOY_SURFACE=dev

@@ -1,0 +1,21 @@
+/**
+ * /targeting: точечные правила команды (без .targeting-page-обёртки).
+ * Секционные заголовки используют kontekstnaya-page__section-heading
+ * (стилизуется в kontekstnaya-reklama-static-stack.css без родительского класса).
+ */
+.page-constructor .team-block .team__head > h2 {
+  margin: 0;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor .team-block .team .team__head > h2 {
+    margin-left: 90px;
+    margin-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 559px) {
+  .page-constructor .team-block .team .team__head > h2 {
+    margin-left: 36px;
+  }
+}
