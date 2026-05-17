@@ -36,7 +36,11 @@ assert(
 );
 assert(!/~\^\/docs\(\/\|\$\)\s+1;/.test(content), "/docs/ must not map to new static on prod (dev-only: static.serenity.agency).");
 assert(/~\^\/blog\(\/\|\$\)\s+1;/.test(content), "Missing /blog… static rule (статический блог на новом контуре).");
-assert(!/~\^\/services/.test(content), "Статические URL /services/… не мапим на новый контур — каталог услуг только на legacy.");
+assert(/~\^\/services\/\?\$\s+1;/.test(content), "Missing exact /services listing rule (листинг на новом контуре).");
+assert(/~\^\/services\/index\\\.html\$\s+1;/.test(content), "Missing /services/index.html rule.");
+assert(!/~\^\/services\(\/\|\$\)\s+1;/.test(content), "Forbidden broad rule: /services($|/) catches subpages — они остаются на legacy.");
+assert(/~\^\/kontekstnaya_reklama\/\?\$\s+1;/.test(content), "Missing /kontekstnaya_reklama listing rule.");
+assert(/~\^\/kontekstnaya_reklama\/index\\\.html\$\s+1;/.test(content), "Missing /kontekstnaya_reklama/index.html rule.");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 
