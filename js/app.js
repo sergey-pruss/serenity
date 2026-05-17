@@ -1355,7 +1355,7 @@
       threshold: 6,
       passiveListeners: false,
     };
-    if (window.matchMedia("(max-width: 719px)").matches) {
+    if (window.matchMedia("(max-width: 768px)").matches) {
       opts.slidesOffsetAfter = getPageInlineGutterPx();
     }
     return opts;

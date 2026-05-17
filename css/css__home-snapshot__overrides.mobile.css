@@ -19,10 +19,10 @@
 }
 
 /*
- * Горизонтальный ряд «Кейсы комплексного маркетинга» (more-case-wr): на телефоне плитки выше и шире,
- * первая по левой сетке, справа peek следующей (как услуги/пакеты). Планшет ≥720px — Nuxt 336×250.
+ * Горизонтальный ряд «Кейсы комплексного маркетинга» (more-case-wr): на телефоне и планшете (слайдер
+ * в бандле ≤768px) плитки выше и шире, первая по левой сетке, справа peek следующей (как услуги/пакеты).
  */
-@media screen and (max-width: 719px) {
+@media screen and (max-width: 768px) {
   .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container[data-v-38965faa],
   .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container {
     width: calc(100% + var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
