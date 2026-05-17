@@ -326,6 +326,14 @@ function rewriteProdSlice(html) {
   );
   s = s.replace(/<img\s+<link itemprop="image"/g, '<link itemprop="image"');
   s = s.replace(/(<motion\.motion-div[^>]*class="case-slider"|<div[^>]*class="case-slider") style="height:\s*\d+px;"/g, "$1");
+  s = s.replace(
+    /class="case-slider__wrapper"(?![^"]*case-slider__margin-fix)/g,
+    'class="case-slider__wrapper case-slider__margin-fix"',
+  );
+  s = s.replace(
+    /(<img[^>]*alt="Таргетированная реклама - img 1"[^>]*)\sloading="lazy"/g,
+    '$1 loading="eager" fetchpriority="high" width="906" height="515"',
+  );
   return s;
 }
 

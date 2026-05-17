@@ -780,15 +780,25 @@
     let menuCollapseYCache = null;
     const DESKTOP_BREAKPOINT = 1250;
 
-    /** Сворачивание top-line: как только прокрутили ниже шапки (не ждём 65% героя / 90vh). */
-    const getMenuCollapseY = () => {
-      if (menuCollapseYCache != null) return menuCollapseYCache;
+    /**
+     * Порог сворачивания top-line (px scrollY).
+     * Только rect.bottom (+2px): для position:fixed шапки нижний край в viewport не зависит от scrollY.
+     * Старый y + rect.bottom при первом sync со scrollY>0 (bfcache/restore) завышал порог — меню «залипало».
+     */
+    const measureMenuCollapseY = () => {
       const container = header.querySelector(".header__container");
       const measure = container || topLine;
       const rect = measure.getBoundingClientRect();
-      const y = window.scrollY || window.pageYOffset || 0;
-      menuCollapseYCache = Math.max(32, Math.round(y + rect.bottom + 2));
+      return Math.max(32, Math.round(rect.bottom + 2));
+    };
+
+    const getMenuCollapseY = () => {
+      if (menuCollapseYCache == null) menuCollapseYCache = measureMenuCollapseY();
       return menuCollapseYCache;
+    };
+
+    const resetMenuCollapseYCache = () => {
+      menuCollapseYCache = null;
     };
 
     /** Порог плавающей CTA (tablet/mobile): герой / первая секция или ~90vh. */
@@ -870,10 +880,34 @@
     };
 
     window.addEventListener("scroll", sync, { passive: true });
+    document.addEventListener("scroll", sync, { passive: true, capture: true });
     window.addEventListener("resize", () => {
-      menuCollapseYCache = null;
+      resetMenuCollapseYCache();
       sync();
     });
+    window.addEventListener(
+      "pageshow",
+      (event) => {
+        if (event.persisted) {
+          resetMenuCollapseYCache();
+          collapsed = false;
+          header.classList.remove("header--collapsed");
+          header.classList.add("page-top");
+          topLine.classList.remove("hide");
+          menuIcon.classList.remove("show");
+        }
+        sync();
+      },
+      { passive: true },
+    );
+    if (typeof ResizeObserver !== "undefined") {
+      const container = header.querySelector(".header__container") || topLine;
+      const ro = new ResizeObserver(() => {
+        resetMenuCollapseYCache();
+        sync();
+      });
+      ro.observe(container);
+    }
     sync();
   };
 

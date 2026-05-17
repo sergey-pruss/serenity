@@ -41,6 +41,8 @@ assert(/~\^\/services\/index\\\.html\$\s+1;/.test(content), "Missing /services/i
 assert(!/~\^\/services\(\/\|\$\)\s+1;/.test(content), "Forbidden broad rule: /services($|/) catches subpages — они остаются на legacy.");
 assert(/~\^\/kontekstnaya_reklama\/\?\$\s+1;/.test(content), "Missing /kontekstnaya_reklama listing rule.");
 assert(/~\^\/kontekstnaya_reklama\/index\\\.html\$\s+1;/.test(content), "Missing /kontekstnaya_reklama/index.html rule.");
+assert(/~\^\/targeting\/\?\$\s+1;/.test(content), "Missing /targeting listing rule.");
+assert(/~\^\/targeting\/index\\\.html\$\s+1;/.test(content), "Missing /targeting/index.html rule.");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 

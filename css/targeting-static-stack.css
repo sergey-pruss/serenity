@@ -2,6 +2,14 @@
  * /targeting: kontekst static stack + точечные правки (без jumbotron-героя kontekst).
  */
 @import url("kontekstnaya-reklama-static-stack.css");
+
+/* После targeting-nuxt.bundle: при скролле top-line скрывается через app.js (header--collapsed). */
+.header.header--collapsed:not(.active) .header__top-line .navigation-menu,
+.header.header--collapsed:not(.active) .header__top-line .navigation-menu[data-v-e5e2adce] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 @import url("sections/targeting-page.css");
 @import url("sections/targeting-faq.css");
 @import url("sections/targeting-hero.css");
@@ -31,6 +39,20 @@
 .page-constructor > .page-constructor__section > .facts,
 .page-constructor > .page-constructor__section > .advantages {
   padding-top: var(--home-between, 112px) !important;
+}
+
+/* Планшет: зазор коллаж → блок facts (не 112px + пустота 700px слайдера). */
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.targeting-page > .page-constructor__section > .facts {
+    padding-top: 48px !important;
+  }
+}
+
+/* Телефон: зазор коллаж → заголовок facts (не 112px из kontekst stack). */
+@media screen and (max-width: 719px) {
+  .page-constructor.targeting-page > .page-constructor__section:nth-of-type(2) > .facts {
+    padding-top: 0 !important;
+  }
 }
 
 /*
@@ -223,4 +245,110 @@
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
+}
+
+/*
+ * Коллаж героя /targeting: на desktop/tablet (>719px) Nuxt — slide absolute, .case-slider без высоты.
+ * Prod: .case-slider__margin-fix даёт height:700px; плюс слайд/img в потоке (hero.css).
+ */
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper.case-slider__margin-fix .case-slider[data-v-2c71f199],
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__margin-fix .case-slider[data-v-2c71f199] {
+  overflow: visible !important;
+  min-height: 1px;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block {
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider .slide-wrapper {
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199] {
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  justify-content: flex-start !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    margin-bottom: 1lh !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: 40px !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199] {
+    padding: 0 !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199],
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper.case-slider__margin-fix .case-slider[data-v-2c71f199] {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide[data-v-77cabad6] {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+  display: block !important;
+  position: relative !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img[data-v-77cabad6] {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media video:not([src]) {
+  display: none !important;
 }
