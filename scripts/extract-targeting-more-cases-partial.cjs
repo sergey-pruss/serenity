@@ -42,7 +42,6 @@ function run() {
   let slice = extractMoreCasesSection(main);
   slice = rewriteProdSlice(slice);
   slice = sanitizeMoreCasesCapture(slice);
-  slice = slice.replace(/kontekstnaya-page__section-heading/g, "targeting-page__section-heading");
   const typo = processTypographyHtml(slice, { force: true });
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(

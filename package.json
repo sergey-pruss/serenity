@@ -78,6 +78,7 @@
     "refresh:kontekstnaya-from-local-nuxt": "node scripts/refresh-kontekstnaya-from-local-nuxt.cjs",
     "test:targeting": "node scripts/verify-targeting.cjs",
     "refresh:targeting-from-prod": "node scripts/capture-prod-targeting-full-html.cjs && node scripts/extract-targeting-phase2-slices.cjs && node scripts/extract-targeting-more-cases-partial.cjs && node scripts/build-faq-targeting-static.cjs && node scripts/download-nuxt-css-prod-targeting.cjs && node scripts/build-awards-targeting-partial.cjs && TARGETING_INCLUDE_PHASE2=1 node scripts/assemble-targeting-from-prod-layout.cjs && node scripts/sync-targeting-sa-images.cjs && TARGETING_VERIFY_PHASE2=1 npm run test:targeting",
+    "build:targeting-team": "node scripts/build-team-targeting-from-kontekst.cjs",
     "refresh:targeting-from-prod-full": "TARGETING_INCLUDE_PHASE2=1 TARGETING_VERIFY_PHASE2=1 npm run refresh:targeting-from-prod",
     "refresh:targeting-from-local-nuxt": "node scripts/refresh-targeting-from-local-nuxt.cjs",
     "test:layout-smoke": "npm run test:html-assemble && npm run test:analytics-bundle && npm run test:social-links-contract && npm run test:clients && npm run test:home-cases && npm run test:case-all && npm run test:blog && npm run test:floating-cta && npm run test:nginx-compression && npm run test:snapshot-prefix && npm run test:docs-handbook-local && npm run test:mobile-optimization && npm run test:404-page && npm run test:semantic-core && npm run verify:meta-description && npm run test:sa-img-disk",

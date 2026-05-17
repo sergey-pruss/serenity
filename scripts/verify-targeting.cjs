@@ -47,7 +47,7 @@ async function run() {
   if (captureBaseline) {
     assert(html.includes("targetingCaptureBaseline"), "CSS: capture baseline");
     assert(!html.includes("overrides.parity-sync.css"), "baseline: без kontekst parity-sync");
-    assert(html.includes("targeting-page"), "обёртка targeting-page");
+    assert(/class="page-constructor targeting-page"/.test(html), "обёртка page-constructor targeting-page");
     assert(html.includes("more-case-wr"), "блок кейсов");
     assert(
       html.includes("questions-wr") || html.includes("targeting-faq-mounted"),
@@ -60,7 +60,8 @@ async function run() {
   } else {
     assert(html.includes('id="targeting-faq-mounted"'), "FAQ: targeting-faq-mounted");
     assert(html.includes("targeting-faq-section"), "FAQ: targeting-faq-section");
-    assert(html.includes("targeting-page"), "обёртка targeting-page");
+    assert(/class="page-constructor targeting-page"/.test(html), "обёртка page-constructor targeting-page");
+    assert(!html.includes("targeting-page__section-heading"), "заголовки: kontekstnaya-page__section-heading");
     assert(html.includes('id="sa-inline-lead-root"'), "inline lead root");
     assert(html.includes("more-case-wr"), "блок кейсов");
     assert(html.includes('id="targeting-awards-heading"'), "награды partial");
@@ -101,6 +102,8 @@ async function run() {
     "команда: слайдер или сетка team-block",
   );
   if (!captureBaseline) {
+    assert(html.includes("team__members-slider"), "команда: слайдер team__members-slider");
+    assert(!main.includes('class="col-4 col-md-6"'), "команда: без сетки col-4 col-md-6");
     assert(html.includes("service-team-slider.js"), "service-team-slider.js для команды");
     assert(html.includes("targeting-spoilers.js"), "targeting-spoilers.js");
   }

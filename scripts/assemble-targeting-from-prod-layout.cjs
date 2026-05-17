@@ -5,6 +5,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 const { sanitizeMoreCasesCapture } = require("./sanitize-more-cases-capture.cjs");
 const { stripNuxtScopedMarkup } = require("./strip-nuxt-scoped-markup.cjs");
@@ -49,10 +50,7 @@ function readPartial(rel) {
     console.warn("assemble: нет partial —", p);
     return null;
   }
-  return stripNuxtScopedMarkup(fs.readFileSync(p, "utf8").trim()).replace(
-    /kontekstnaya-page__section-heading/g,
-    "targeting-page__section-heading",
-  );
+  return stripNuxtScopedMarkup(fs.readFileSync(p, "utf8").trim());
 }
 
 function replaceBetween(html, startNeedle, endNeedle, replacement) {
@@ -152,7 +150,7 @@ function readMoreCasesPartial() {
   if (!fs.existsSync(p)) return null;
   let html = fs.readFileSync(p, "utf8").trim();
   html = html.replace(/^<!--[\s\S]*?-->\s*/, "");
-  return html.replace(/kontekstnaya-page__section-heading/g, "targeting-page__section-heading");
+  return html;
 }
 
 function injectTargetingMoreCases(mainHtml) {
@@ -399,9 +397,11 @@ function deferNonBlockingCss(href) {
   ].join("\n");
 }
 
-/** Сетка col-4 → слайдер team__members-slider (как /kontekstnaya_reklama), контент — с prod /targeting. */
-function ensureTargetingTeamSliderMarkup(mainHtml) {
-  return mainHtml;
+function runTargetingTeamSliderBuild() {
+  execSync("node scripts/build-team-targeting-from-kontekst.cjs", {
+    cwd: root,
+    stdio: "inherit",
+  });
 }
 
 function ensureTargetingPageShell(mainHtml) {
@@ -506,7 +506,6 @@ function run() {
   main = moveTargetingInlineLeadBeforeTeam(main);
   main = moveTargetingFaqSectionBeforeCases(main);
   main = ensureTargetingMoreCasesMainClass(main);
-  main = ensureTargetingTeamSliderMarkup(main);
   main = ensureTargetingPageShell(main);
   /* data-v не снимаем с main: Nuxt bundle targeting-nuxt.bundle.css завязан на scoped-атрибуты героя/case-slider */
   main = main.replace(/\s*swiper-container-initialized/g, "");
@@ -569,7 +568,16 @@ function run() {
   }
   fs.writeFileSync(indexPath, out, "utf8");
   const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });
-  fs.writeFileSync(indexPath, typo.html.replace(/\n+$/, "\n"), "utf8");
+  let finalHtml = typo.html.replace(/\n+$/, "\n");
+  fs.writeFileSync(indexPath, finalHtml, "utf8");
+
+  if (!captureOnly && process.env.TARGETING_SKIP_TEAM_BUILD !== "1") {
+    runTargetingTeamSliderBuild();
+    finalHtml = fs.readFileSync(indexPath, "utf8");
+    const typoAfterTeam = processTypographyHtml(finalHtml, { force: true });
+    fs.writeFileSync(indexPath, typoAfterTeam.html.replace(/\n+$/, "\n"), "utf8");
+  }
+
   console.log("assemble-targeting-from-prod-layout: ok, main bytes", main.length);
 }
 
