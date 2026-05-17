@@ -1,0 +1,116 @@
+/**
+ * /targeting: kontekst static stack + точечные правки (без jumbotron-героя kontekst).
+ */
+@import url("kontekstnaya-reklama-static-stack.css");
+@import url("sections/targeting-page.css");
+@import url("sections/targeting-faq.css");
+@import url("sections/targeting-hero.css");
+
+.page-constructor > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.team-block .team__head > h2 {
+  margin: 0;
+}
+
+@media screen and (max-width: 719px) {
+  .team-block .team .team__head > h2 {
+    margin-left: 90px;
+    margin-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 559px) {
+  .team-block .team .team__head > h2 {
+    margin-left: 36px;
+  }
+}
+
+.page-constructor > .page-constructor__section > .facts,
+.page-constructor > .page-constructor__section > .advantages {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor > .page-constructor__section:has(.clients-wrapper) {
+  display: none !important;
+}
+
+/*
+ * /targeting: 3 нижних блока (Кейсы / Награды / Синергия) находятся ВНЕ .page-constructor —
+ * правила kontekstnaya-reklama-static-stack.css с .page-constructor-предком не применяются.
+ * Дублируем нужные правила без этого предка.
+ */
+
+/* Кейсы */
+.more-case-wr.more-case-wr__main {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.more-case-wr.more-case-wr__main .page__container[data-v-27a87df0] {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+@media screen and (min-width: 769px) {
+  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper.more-cases--active {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .more-case-wr.more-case-wr__main .more-cases:not(.more-cases--new) {
+    display: none !important;
+  }
+
+  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper.more-cases--active {
+    display: block !important;
+  }
+}
+
+/* Награды: те же отступы, что у kontekstnaya (без .page-constructor-предка) */
+.home-awards-block .awards__header {
+  margin-bottom: 0 !important;
+}
+
+.home-awards-block .awards {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: var(--home-ledge, 54px) !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+}
+
+/* Синергия: те же отступы (без .page-constructor-предка) */
+.kontekst-synergy-root .services-unified,
+.kontekst-synergy-root .services-unified[data-v-56f85d51] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+/*
+ * На kontekstnaya Nuxt скрывает block-padding_* через [data-v-56f85d51]-скоупед CSS.
+ * В targeting этого скоупа нет — скрываем все три div-а; ритм берёт services-unified.
+ */
+.kontekst-synergy-root .block-padding {
+  display: none !important;
+}
+
+/* Снапшот-бандл даёт .isNewContent .services__title margin-bottom ~53px/20px;
+   обнуляем (как kontekstnaya-stack, но без .page-constructor-предка). */
+.kontekst-synergy-root .isNewContent h3.services__title {
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .kontekst-synergy-root .isNewContent h3.services__title {
+    margin-bottom: 0 !important;
+  }
+}
