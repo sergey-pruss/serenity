@@ -1,9 +1,9 @@
 /**
- * /targeting: герой case-slider — unscoped-правила (в bundle они под [data-v-04503aeb]).
- * На desktop case-slider-slide имеет position:absolute → без явной высоты контейнер
- * схлопывается и коллаж не виден. height:700px восстанавливает видимость.
+ * /targeting: герой + коллаж case-slider.
+ * Nuxt: .case-slider — flex + overflow:hidden; .case-slider-slide — position:absolute.
+ * Обёртка слайда получает высоту 0 → коллаж не виден. На всех брейкпоинтах держим слайд и картинку в потоке.
  */
-.page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -19,98 +19,190 @@
   z-index: 2;
 }
 
-@media screen and (min-width: 720px) and (max-width: 1024px) {
-  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header {
-    margin-bottom: -50px;
-    gap: 24px;
-  }
-}
-
 @media screen and (max-width: 768px) {
-  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
     padding-top: 90px;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
     padding-top: 70px;
   }
 }
 
-/* Коллаж: position:absolute у slide → без height контейнер схлопывается */
-.page-constructor > .page-constructor__section:first-of-type,
-.page-constructor > .page-constructor__section:first-of-type .c-title-block {
-  position: relative;
-  overflow: hidden !important;
-}
-
-.page-constructor > .page-constructor__section:first-of-type .c-title-block .case-slider,
-.page-constructor > .page-constructor__section:first-of-type .case-slider {
-  height: 700px !important;
-  max-height: min(700px, 85vh);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.page-constructor > .page-constructor__section:first-of-type .case-slider__wrapper {
-  position: relative;
-  z-index: 1;
-  overflow: hidden !important;
-}
-
-.page-constructor > .page-constructor__section:first-of-type .case-slider .slide-wrapper {
-  overflow: hidden !important;
-}
-
-@media screen and (max-width: 719px) {
+@media screen and (min-width: 720px) and (max-width: 1024px) {
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
-    margin-bottom: 32px !important;
+    padding-top: 128px !important;
+    margin-top: 0 !important;
+    margin-bottom: 28px !important;
+    gap: 20px !important;
   }
 
-  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
-  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider {
-    height: auto !important;
-    max-height: none;
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+    margin-top: 0 !important;
     padding-top: 0 !important;
-    padding-bottom: 0 !important;
   }
 
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__content,
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide__content {
-    width: calc(100% - 72px) !important;
+    max-width: calc(100% - 110px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  /* Зазор подзаголовок → коллаж ≈ одна строка (как на макете) */
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    margin-bottom: 1lh !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: 40px !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199] {
+    padding: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__content,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide__content {
     max-width: calc(100% - 72px) !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* --- Коллаж: всегда в потоке документа (desktop / tablet / mobile) --- */
+.page-constructor.targeting-page > .page-constructor__section:first-of-type,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block {
+  position: relative;
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199] {
+  position: relative;
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin-bottom: 0;
+  justify-content: flex-start !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper.case-slider__margin-fix {
+  position: relative;
+  z-index: 1;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider .slide-wrapper {
+  position: relative !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide[data-v-77cabad6] {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__content {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-top: 0 !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media > div {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img,
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img[data-v-77cabad6] {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/*
+ * ≥720px: в Nuxt img остаётся absolute + padding-top 56.25% у .case-slider-slide__media.
+ * Если снять только padding-top, блок схлопывается — коллаж не виден (desktop/tablet).
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide[data-v-77cabad6] {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+    display: block !important;
+    position: relative !important;
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: 906px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-  }
-
-  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-top: 56px !important;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
-
-  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media > div {
-    width: 100% !important;
-    max-width: 100% !important;
+    overflow: visible !important;
   }
 
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img,
-  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media video {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media img[data-v-77cabad6] {
+    position: static !important;
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
-    display: block;
+    object-fit: contain !important;
   }
+}
+
+/* Пустой video из Nuxt-гидрации без src — не занимает место */
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider-slide__media video:not([src]) {
+  display: none !important;
 }

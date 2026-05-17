@@ -77,7 +77,8 @@ async function run() {
   assert(html.includes("<!-- TARGETING-MAIN-END -->"), "маркер MAIN-END");
   assert(!html.includes("mod.calltouch.ru"), "без Calltouch");
   assert(html.includes('name="robots" content="noyaca"'), "robots meta как на проде (noyaca)");
-  assert(html.includes('class="case-slider__wrapper"'), "коллаж под заголовком (case-slider)");
+  assert(html.includes("case-slider__wrapper"), "коллаж под заголовком (case-slider)");
+  assert(html.includes("case-slider__margin-fix"), "герой: case-slider__margin-fix (высота коллажа desktop/tablet)");
 
   const mainStart = html.indexOf("<!-- TARGETING-MAIN-START -->");
   const mainEnd = html.indexOf("<!-- TARGETING-MAIN-END -->");
@@ -192,6 +193,57 @@ async function run() {
     if (disk.includes("..")) continue;
     assert(fileExists(disk), `файл на диске: ${disk}`);
   }
+
+  const appJs = read("js/app.js");
+  assert(
+    /measureMenuCollapseY[\s\S]*?rect\.bottom \+ 2/.test(appJs),
+    "app.js: порог сворачивания шапки — rect.bottom, без scrollY в сумме",
+  );
+  assert(
+    !/menuCollapseYCache = Math\.max\(32, Math\.round\(y \+ rect\.bottom/.test(appJs),
+    "app.js: не кэшировать y + rect.bottom (ломает fixed header после restore scroll)",
+  );
+  assert(
+    read("css/targeting-static-stack.css").includes(".header.header--collapsed:not(.active)"),
+    "CSS: скрытие navigation-menu при header--collapsed на targeting",
+  );
+
+  const heroCollageSrc = "storage__kdf27Tl7T5MVvim1JcSZcnXiQzm4QOhE3IycP5bV.webp";
+  assert(html.includes(heroCollageSrc), "герой: коллаж webp в HTML");
+  assert(fileExists(`img/${heroCollageSrc}`), "герой: файл коллажа на диске");
+
+  const heroCss = read("css/sections/targeting-hero.css");
+  assert(
+    !/height:\s*700px\s*!important/.test(heroCss),
+    "герой CSS: без фиксированных 700px (ломает flex+absolute в Nuxt)",
+  );
+  assert(
+    /\.page-constructor\.targeting-page[\s\S]*case-slider-slide[\s\S]*position:\s*static !important/.test(
+      heroCss,
+    ),
+    "герой CSS: slide в потоке на всех брейкпоинтах",
+  );
+  assert(
+    /\.page-constructor\.targeting-page[\s\S]*case-slider-slide__media img[\s\S]*position:\s*static !important/.test(
+      heroCss,
+    ),
+    "герой CSS: img коллажа position:static (не скрыт padding-box Nuxt)",
+  );
+  assert(
+    /\.page-constructor\.targeting-page[\s\S]*\.case-slider[\s\S]*overflow:\s*visible !important/.test(
+      heroCss,
+    ),
+    "герой CSS: case-slider overflow:visible",
+  );
+  const stackCss = read("css/targeting-static-stack.css");
+  assert(
+    /targeting-page > \.page-constructor__section:first-of-type[\s\S]*z-index:\s*2/.test(stackCss),
+    "stack CSS: герой выше .facts (z-index)",
+  );
+  assert(
+    /case-slider-slide__media img\[data-v-77cabad6\][\s\S]*position:\s*static !important/.test(stackCss),
+    "stack CSS: коллаж img в потоке (scoped Nuxt)",
+  );
 
   console.log("verify-targeting: ok");
 }

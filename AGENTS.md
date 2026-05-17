@@ -102,7 +102,7 @@
 
 - Агентство: Serenity (serenity.agency).
 - Репозиторий: [https://github.com/sergey-pruss/serenity](https://github.com/sergey-pruss/serenity).
-- Папка проекта: `~/Documents/GitHub/serenity`.
+- Папка проекта: `~/GitHub/serenity`.
 - Новый сервер статического контура: `168.222.142.141`, каталог: `/var/www/static`.
 - Legacy WordPress: отдельный upstream, из этого репозитория не деплоится (только проксируется Nginx-роутером на новом сервере).
 - Прод-URL: `https://serenity.agency`.
