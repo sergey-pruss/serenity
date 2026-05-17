@@ -91,6 +91,22 @@ function escapeXml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/** Лид под H1: экранируем текст, фразы про контекстную рекламу — ссылка на услугу. */
+function linkContextualAdsPhrasesInLead(plain) {
+  const raw = String(plain ?? "");
+  const re = /(контекстн[а-яё]*\s+реклам[а-яё]*)/gi;
+  let out = "";
+  let last = 0;
+  let m;
+  while ((m = re.exec(raw))) {
+    out += escapeXml(raw.slice(last, m.index));
+    out += `<a href="/kontekstnaya_reklama/">${escapeXml(m[1])}</a>`;
+    last = m.index + m[1].length;
+  }
+  out += escapeXml(raw.slice(last));
+  return out;
+}
+
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
 const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260504blogWideMediaMt10" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogCaptionStripDline" />
@@ -610,7 +626,7 @@ function renderBlogArticlePageTop({
       : "") +
     `</p>`;
   const desc = description != null && String(description).trim() ? String(description).trim() : "";
-  const lead = desc ? `<p class="blog-article-page-top__lead">${escapeXml(desc)}</p>` : "";
+  const lead = desc ? `<p class="blog-article-page-top__lead">${linkContextualAdsPhrasesInLead(desc)}</p>` : "";
   return `<div class="blog-article-page-top">
 ${BLOG_ARTICLE_PAGE_TOP_GRADIENT}
             <div data-v-6f8a040c="" style="z-index: 10">
