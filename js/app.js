@@ -777,10 +777,22 @@
     if (!header || !topLine || !menuIcon) return;
 
     let collapsed = false;
+    let menuCollapseYCache = null;
     const DESKTOP_BREAKPOINT = 1250;
 
-    /** Порог «проскроллили первый экран»: герой / первая секция или ~90vh. Гистерезис — logo снова у верха. */
-    const getScrollThresholds = () => {
+    /** Сворачивание top-line: как только прокрутили ниже шапки (не ждём 65% героя / 90vh). */
+    const getMenuCollapseY = () => {
+      if (menuCollapseYCache != null) return menuCollapseYCache;
+      const container = header.querySelector(".header__container");
+      const measure = container || topLine;
+      const rect = measure.getBoundingClientRect();
+      const y = window.scrollY || window.pageYOffset || 0;
+      menuCollapseYCache = Math.max(32, Math.round(y + rect.bottom + 2));
+      return menuCollapseYCache;
+    };
+
+    /** Порог плавающей CTA (tablet/mobile): герой / первая секция или ~90vh. */
+    const getCtaCollapseY = () => {
       const vh = window.innerHeight || document.documentElement.clientHeight || 800;
       const first = document.querySelector(".page-constructor > .page-constructor__section:first-of-type");
       let collapseY = Math.round(vh * 0.9);
@@ -788,13 +800,18 @@
         const sectionH = first.offsetHeight || vh;
         collapseY = Math.round(Math.min(sectionH * 0.65, vh * 0.95));
       }
-      const expandY = Math.min(48, Math.max(12, Math.round(collapseY * 0.07)));
-      return { collapseY: Math.max(64, collapseY), expandY };
+      return Math.max(64, collapseY);
+    };
+
+    const getScrollThresholds = () => {
+      const collapseY = getMenuCollapseY();
+      const expandY = Math.min(48, Math.max(12, Math.round(collapseY * 0.12)));
+      return { collapseY, expandY };
     };
 
     const shouldShowFloatingCta = () => {
-      const { collapseY } = getScrollThresholds();
-      return (window.scrollY || window.pageYOffset || 0) > collapseY;
+      const y = window.scrollY || window.pageYOffset || 0;
+      return y > getCtaCollapseY();
     };
 
     const setOpen = (open) => {
@@ -853,7 +870,10 @@
     };
 
     window.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
+    window.addEventListener("resize", () => {
+      menuCollapseYCache = null;
+      sync();
+    });
     sync();
   };
 
