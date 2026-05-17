@@ -17,7 +17,7 @@ Disallow: *utm*=
 Disallow: *openstat=
 
 Allow: */uploads
-# Листинг услуг на статическом контуре (снято legacy-закрытие листинга services).
+# Static services listing (legacy Disallow *services/$ removed).
 Allow: /services$
 Allow: /services/$
 
