@@ -9,6 +9,7 @@ const path = require("path");
 
 const root = path.join(__dirname, "..");
 const services = [
+  { slug: "services", path: "/services" },
   { slug: "targeting", path: "/targeting" },
   { slug: "kontekstnaya_reklama", path: "/kontekstnaya_reklama" },
 ];
@@ -32,14 +33,22 @@ async function main() {
       html.includes(`rel="canonical" href="${url}"`) || html.includes(`content="${url}"`),
       `${slug}/index.html: canonical/og на ${url}`,
     );
-    assert(!html.includes(canonUrl(slashPath)), `${slug}: URL со слэшем в canonical/og запрещён`);
+    const badCanon = new RegExp(
+      `rel="canonical"\\s+href="${canonUrl(slashPath).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`,
+    );
+    const badOg = new RegExp(
+      `property="og:url"\\s+content="${canonUrl(slashPath).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`,
+    );
+    assert(!badCanon.test(html) && !badOg.test(html), `${slug}: canonical/og со слэшем запрещён`);
 
     const sitemap = read("sitemap.xml");
     assert(sitemap.includes(`<loc>${url}</loc>`), `sitemap: ${canonPath}`);
     assert(!sitemap.includes(`<loc>${canonUrl(slashPath)}</loc>`), `sitemap: ${slashPath} запрещён`);
 
-    const cfg = JSON.parse(read(`json/services/${slug}/service.config.json`));
-    assert(cfg.urlPath === canonPath, `service.config.json urlPath для ${slug}`);
+    if (slug !== "services") {
+      const cfg = JSON.parse(read(`json/services/${slug}/service.config.json`));
+      assert(cfg.urlPath === canonPath, `service.config.json urlPath для ${slug}`);
+    }
   }
 
   const indexHtml = read("index.html");
@@ -47,6 +56,12 @@ async function main() {
   assert(!indexHtml.includes('href="/targeting/"'), "index.html: без /targeting/");
   assert(indexHtml.includes('href="/kontekstnaya_reklama"'), "index.html: ссылка kontekstnaya");
   assert(!indexHtml.includes('href="/kontekstnaya_reklama/"'), "index.html: без kontekstnaya со слэшем");
+  assert(indexHtml.includes('href="/services"'), "index.html: ссылка /services");
+  assert(!indexHtml.includes('href="/services/"'), "index.html: без /services/");
+
+  const header = read("html/partials/header.html");
+  assert(header.includes('href="/services"'), "header.html: /services");
+  assert(!header.includes('href="/services/"'), "header.html: без /services/");
 
   const origin = process.env.ORIGIN?.replace(/\/+$/, "");
   if (origin) {

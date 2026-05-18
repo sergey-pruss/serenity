@@ -37,7 +37,7 @@
 
 ### Канон URL страниц услуг (статика)
 
-- **`/targeting`**, **`/kontekstnaya_reklama`** — без завершающего слэша: sitemap, canonical, внутренние `href`, nginx (`location = /…` + 301 с варианта `/…/`). Исключение: **`/blog/`** — канон со слэшем.
+- **`/services`**, **`/targeting`**, **`/kontekstnaya_reklama`** — без завершающего слэша: sitemap, canonical, меню и `href` на статике, nginx (`location = /…` + 301 с `/…/`). Подстраницы **`/services/…`** (кроме листинга) — legacy. Исключение: **`/blog/`**, **`/case/all/`** — канон со слэшем.
 - Проверка: `npm run test:service-page-urls`; в цепочке `test:routing-config`. После деплоя vhost: `ORIGIN=https://serenity.agency npm run test:service-page-urls`. Правило Cursor: [`.cursor/rules/service-pages-canonical-no-slash.mdc`](.cursor/rules/service-pages-canonical-no-slash.mdc).
 
 Правки конфига **не смешивать** в одном коммите с несвязанными задачами (блог, вёрстка, SEO-тексты), если пользователь отдельно не попросил один релиз «контент + маршрут».
