@@ -1,5 +1,5 @@
 /**
- * Канон URL статического контура: без завершающего слэша (кроме корня `/`).
+ * Канон URL статического контура: без завершающего слэша (включая главную).
  * CJS-дубликат: canonical-url.cjs
  */
 export const SITE_ORIGIN = "https://serenity.agency";
@@ -11,17 +11,27 @@ export function pathnameNoTrailingSlash(pathname) {
   return p || "/";
 }
 
+/** Абсолютный канон: https://serenity.agency или https://serenity.agency/path */
+export function formatCanonicalUrl(urlLike) {
+  const u = new URL(
+    String(urlLike).includes("://")
+      ? urlLike
+      : `${SITE_ORIGIN}${String(urlLike).startsWith("/") ? urlLike : `/${urlLike}`}`,
+  );
+  const p = pathnameNoTrailingSlash(u.pathname);
+  if (p === "/" && !u.search && !u.hash) return u.origin;
+  return `${u.origin}${p}${u.search}${u.hash}`;
+}
+
 export function canonicalUrlFromPath(pathname) {
-  return `${SITE_ORIGIN}${pathnameNoTrailingSlash(pathname)}`;
+  return formatCanonicalUrl(pathname);
 }
 
 export function ensureCanonicalUrlNoSlash(url) {
   const raw = String(url || "").trim();
-  if (!raw) return `${SITE_ORIGIN}/`;
+  if (!raw) return SITE_ORIGIN;
   try {
-    const u = new URL(raw.includes("://") ? raw : `${SITE_ORIGIN}${raw.startsWith("/") ? raw : `/${raw}`}`);
-    u.pathname = pathnameNoTrailingSlash(u.pathname);
-    return `${u.origin}${u.pathname}${u.search}${u.hash}`;
+    return formatCanonicalUrl(raw);
   } catch {
     return canonicalUrlFromPath(raw);
   }

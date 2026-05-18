@@ -5,7 +5,7 @@ globs: targeting/**,kontekstnaya_reklama/**,blog/**,case/all/**,services/**,ngin
 
 # URL статики без слэша
 
-**Исключение:** только главная — `https://serenity.agency/` (корень со слэшем).
+**Главная:** `https://serenity.agency` (без слэша), как и остальные URL.
 
 Всё остальное на **новом статическом контуре** (`routing.conf` → `$is_new_page = 1`):
 
