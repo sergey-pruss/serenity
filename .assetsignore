@@ -1,3 +1,2 @@
-# Исключения для Workers Static Assets (корень репо = directory ".", см. wrangler.jsonc).
-# Формат как у .gitignore.
-.continue/
+# Cloudflare Workers ASSETS: лимит 25 MiB на файл; крупные видео — только с origin/CDN.
+*.mp4
