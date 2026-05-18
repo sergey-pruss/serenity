@@ -46,6 +46,21 @@
   z-index: 1;
 }
 
+/* Один герой: desktop/mobile в разметке; правило — в Nuxt-бандле (.desctop / .mobile). Запас, если бандл не на диске. */
+.page-constructor > .page-constructor__section:first-of-type .header-background.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor > .page-constructor__section:first-of-type .header-background.desctop {
+    display: none !important;
+  }
+
+  .page-constructor > .page-constructor__section:first-of-type .header-background.mobile {
+    display: block !important;
+  }
+}
+
 .page-constructor ~ .footer-modern {
   position: relative;
   z-index: 1;
