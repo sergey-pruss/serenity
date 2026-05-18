@@ -15,8 +15,6 @@
     { "segment": "case", "slug": "kak-my-organizovali-fotosessiyu-komandy" },
     { "segment": "article", "slug": "cjm-put-ot-znakomstva-do-trudoustrojstva" },
     { "segment": "article", "slug": "marketolog-proektov" },
-    { "segment": "card", "slug": "kak-prevratit-klientov-v-poklonnikov" },
-    { "segment": "card", "slug": "marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing" },
     { "segment": "life", "slug": "shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge" },
     { "segment": "article", "slug": "kak-sozdat-konkurentosposobnoe-imya" },
     { "segment": "article", "slug": "ekspress-instruktsiya-kak-ne-slit-reklamnyj-byudzhet" },
@@ -31,20 +29,13 @@
       "tryPaths": ["/blog/sovety/litso-brenda-zadachi-razrabotki-firmennogo-stilya/"]
     },
     {
-      "segment": "article",
-      "slug": "vystuplenie-sergeya-prussa-na-digitale-masterstvo",
-      "tryPaths": ["/blog/video/vystuplenie-sergeya-prussa-na-digitale-masterstvo/"]
-    },
-    {
       "segment": "case",
       "slug": "digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej",
       "tryPaths": ["/blog/digitale/digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej/"]
     },
-    { "segment": "card", "slug": "reklama-protiv-marketinga-kto-kogo" },
     { "segment": "article", "slug": "tsifrovoj-brending" },
     { "segment": "article", "slug": "digital-voronka-dlya-uvelicheniya-prodazh" },
     { "segment": "article", "slug": "kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu" },
-    { "segment": "card", "slug": "kak-dostich-masterstva" },
     {
       "segment": "article",
       "slug": "lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram",
@@ -52,11 +43,6 @@
         "/blog/sovety/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/",
         "/blog/targeting/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/"
       ]
-    },
-    {
-      "segment": "article",
-      "slug": "videokontent-kak-emotsionalnyj-kontakt-s-brendom",
-      "tryPaths": ["/blog/video/videokontent-kak-emotsionalnyj-kontakt-s-brendom/"]
     },
     { "segment": "article", "slug": "s-chego-nachat-kontent-marketing-poshagovoe-rukovodstvo" },
     {
@@ -83,7 +69,6 @@
       "tryPaths": ["/blog/digitale/sedmye-po-seo-v-peterburge/"]
     },
     { "segment": "case", "slug": "kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh" },
-    { "segment": "card", "slug": "vrednye-sovety" },
     { "segment": "article", "slug": "moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov" },
     { "segment": "article", "slug": "kontent-marketing-dlya-kliniki-plasticheskoj-hirurgii" },
     {

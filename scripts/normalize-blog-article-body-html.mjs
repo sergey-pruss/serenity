@@ -95,11 +95,71 @@ const BLOG_HEADER_BG_DIV_RE = /<div\b[^>]*\bblog-header__bg\b[^>]*>\s*<\/div>\s*
  */
 const EMPTY_NBSP_ONLY_P_RE = /<p\b[^>]*>(?:\s|&nbsp;|&#160;|&#xa0;|&#XA0;)+<\/p>\s*/gi;
 
+/** Nuxt `.article-slider` (swiper): на статике без JS все слайды в одну линию — дубль контента. */
+const ARTICLE_SLIDER_SECTION_RE =
+  /<section\b(\s[^>]*\barticle_section_l\b[^>]*)>\s*<div\b[^>]*\barticle-slider\b[^>]*>[\s\S]*?<\/section>/gi;
+
+/**
+ * @param {string} sliderSectionHtml
+ * @returns {string}
+ */
+function extractFirstArticleSliderSlideInner(sliderSectionHtml) {
+  const open = sliderSectionHtml.match(/<div class="swiper-slide\b[^>]*>/i);
+  if (!open || open.index === undefined) return "";
+  const i = open.index + open[0].length;
+  const rest = sliderSectionHtml.slice(i);
+  const m = rest.match(
+    /^([\s\S]*?)(?=<\/div>\s*<div class="swiper-slide\b|<\/div>\s*<\/div>\s*<div class="swiper-pagination\b)/i,
+  );
+  return m ? m[1] : rest;
+}
+
+/**
+ * @param {string} slideInner
+ * @returns {string}
+ */
+function articleSliderSlideToBodyMediaHtml(slideInner) {
+  const imgMatch = String(slideInner || "").match(/<img\b([^>]*)>/i);
+  if (!imgMatch) return "";
+  let attrs = imgMatch[1] || "";
+  attrs = attrs
+    .replace(/\bclass="[^"]*"/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!/\balt\s*=/.test(attrs)) attrs += ' alt=""';
+  if (!/\bloading\s*=/.test(attrs)) attrs += ' loading="lazy"';
+  const imgTag = `<img ${attrs}>`;
+
+  const capMatch = slideInner.match(/<p class="case-slider__text"[^>]*>([\s\S]*?)<\/p>/i);
+  let caption = "";
+  if (capMatch) {
+    const text = capMatch[1].replace(/<[^>]+>/g, "").trim();
+    if (text) caption = `<p class="sa-blog-media__caption"><small>${text}</small></p>`;
+  }
+  return `<p class="sa-blog-body-media sa-blog-body-media--wide">${imgTag}</p>${caption}`;
+}
+
+/**
+ * @param {string} html
+ * @returns {string}
+ */
+export function collapseLegacyArticleSlidersToFirstImage(html) {
+  return String(html || "").replace(ARTICLE_SLIDER_SECTION_RE, (full, sectionAttrs) => {
+    const inner = extractFirstArticleSliderSlideInner(full);
+    const media = articleSliderSlideToBodyMediaHtml(inner);
+    if (!media) return "";
+    return `<section${sectionAttrs}><div class="row" data-v-3da4b226 data-v-96fb7d6e> <div class="article-section text-content" data-v-3da4b226> <div class="article-section__info" data-v-3da4b226><div data-v-3da4b226>${media}</div> </div></div></div></section>`;
+  });
+}
+
 export function normalizeBlogArticleBodyHtml(html) {
   let s = unwrapExcludedBlogArticleLinks(String(html || ""))
     .replace(/https:\/\/serenity\.agency\/_sa\//g, "/_sa/")
     .replace(BLOG_HEADER_BG_DIV_RE, "")
-    .replace(EMPTY_NBSP_ONLY_P_RE, "");
+    .replace(EMPTY_NBSP_ONLY_P_RE, "")
+    /* WP aligncenter в теле статей — в статике колонка текста влево (см. blog-article-prose.css) */
+    .replace(/\baligncenter\b/g, "alignnone");
+  s = collapseLegacyArticleSlidersToFirstImage(s);
   s = normalizeWpVideoShortcodeForWebKit(s);
   if (!s.includes("specialist-mention")) return s;
   if (/<\/section>\s*<section class="darktheme"[^>]*data-v-96fb7d6e[^>]*>\s*<div class="specialist-mention"/i.test(s)) {

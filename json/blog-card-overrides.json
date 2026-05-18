@@ -7,9 +7,56 @@
   },
   "/blog/article/avtotargeting-v-yandeks-direkt/": {
     "linkClass": "dark-text",
-    "mediaObjectPosition": "50% 18%"
+    "cardModifier": "case--card-wood-header"
   },
   "/blog/article/kak-sozdat-konkurentosposobnoe-imya/": {
     "cardModifier": "case--title-scrim"
+  },
+  "/blog/article/kak-stat-idealnym-klientom-seo-spetsialista/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header"
+  },
+  "/blog/case/firmennyj-stil-dlya-x-clinic/": {
+    "linkClass": "dark-text"
+  },
+  "/blog/case/analitika-dlya-kliniki-kompozit/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header"
+  },
+  "/blog/article/vizualnyj-kontent/": {
+    "linkClass": "dark-text"
+  },
+  "/blog/article/kontent-marketing-kak-vystroit-otnosheniya-s-klientom/": {
+    "linkClass": "dark-text"
+  },
+  "/blog/article/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header"
+  },
+  "/blog/life/digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header"
+  },
+  "/blog/article/instrumenty-tsifrovogo-brendinga/": {
+    "linkClass": "dark-text"
+  },
+  "/blog/article/digital-voronka-dlya-uvelicheniya-prodazh/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header"
+  },
+  "/blog/article/tsifrovoj-brending/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header"
+  },
+  "/blog/life/1-mesto-za-prodvizhenie-digitale-007/": {
+    "linkClass": "dark-text"
+  },
+  "/blog/life/5-mesto-sredi-dizajn-studij-v-sankt-peterburge/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header case--card-media-bottom"
+  },
+  "/blog/article/marketolog-proektov/": {
+    "linkClass": "dark-text",
+    "cardModifier": "case--card-wood-header case--card-media-bottom"
   }
 }

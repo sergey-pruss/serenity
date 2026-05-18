@@ -2493,6 +2493,49 @@ body.order-popup-open .overlay-new {
   mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
 }
 
+/* Автотаргетинг: фото чуть выше + мягкий градиент в цвет карточки под заголовок. */
+#blog-grid .case.case--card-wood-header:not(.case--card-media-bottom) .case__media--front[data-v-c0adc676],
+.blog-read-more .case.case--card-wood-header:not(.case--card-media-bottom) .case__media--front[data-v-c0adc676] {
+  object-position: 50% 22% !important;
+  transform: scale(1.26) translateY(-6%) !important;
+  transform-origin: 50% 28% !important;
+}
+
+/* Ландшафтное фото (карандаши): поворот и сдвиг — кадр снизу карточки. */
+#blog-grid .case.case--card-media-bottom .case__media--front[data-v-c0adc676],
+.blog-read-more .case.case--card-media-bottom .case__media--front[data-v-c0adc676] {
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  transform: scale(1.42) rotate(-90deg) translate(10%, 14%) !important;
+  transform-origin: 50% 100% !important;
+}
+
+#blog-grid .case.case--card-wood-header .case__media[data-v-c0adc676]::after,
+.blog-read-more .case.case--card-wood-header .case__media[data-v-c0adc676]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 68%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    #e8e8ea 0%,
+    rgba(232, 232, 234, 0.94) 12%,
+    rgba(232, 232, 234, 0.62) 32%,
+    rgba(232, 232, 234, 0.28) 50%,
+    rgba(232, 232, 234, 0.06) 62%,
+    transparent 100%
+  ) !important;
+}
+
+#blog-grid .case.case--card-wood-header > a[data-v-c0adc676]::before,
+.blog-read-more .case.case--card-wood-header > a[data-v-c0adc676]::before {
+  display: none !important;
+}
+
 #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
 #blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
 .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],
@@ -2532,6 +2575,11 @@ body.order-popup-open .overlay-new {
   .blog-read-more .case.case--dark-card:hover .case__media.zoom .case__media--front[data-v-c0adc676],
   .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
     transform: scale(1.2);
+  }
+
+  #blog-grid .case.case--card-media-bottom:hover .case__media.zoom .case__media--front[data-v-c0adc676],
+  .blog-read-more .case.case--card-media-bottom:hover .case__media.zoom .case__media--front[data-v-c0adc676] {
+    transform: scale(1.5) rotate(-90deg) translate(10%, 14%) !important;
   }
 }
 
@@ -2576,4 +2624,95 @@ body.order-popup-open .overlay-new {
   .blog-read-more .case.case--dark-card:hover .case__media.video .case__media--front[data-v-c0adc676] {
     transform: none !important;
   }
+}
+
+/*
+ * «Читайте ещё» на страницах статей/life/case: карточки .case из листинга в горизонтальном ряду.
+ * padding на .case при overlay даёт серую полосу (фон dark-card) — только padding: 0 на .case.
+ * Отступы bundle (26px 32px 33px) переносим на > a; иначе теги в потоке у y=0 и обрезаются при hover.
+ * .case__top { top: 26px } рассчитан на ту же геометрию — не менять без синхронного padding на > a.
+ */
+html:has(.blog-article-page-top) .blog-read-more .blog-block__content-box-slide .case[data-v-c0adc676] {
+  max-width: none;
+  width: 100%;
+  height: 500px;
+  max-height: min(500px, 72vh);
+  margin: 0;
+  padding: 0 !important;
+}
+
+html:has(.blog-article-page-top) .blog-read-more .case.more-blog-case > a[data-v-c0adc676],
+html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
+  padding: 26px 32px 33px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1000px) {
+  html:has(.blog-article-page-top) .blog-read-more .case.more-blog-case > a[data-v-c0adc676],
+  html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media screen and (max-width: 938px) {
+  html:has(.blog-article-page-top) .blog-read-more .case.more-blog-case > a[data-v-c0adc676],
+  html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
+    padding-left: 37px;
+    padding-right: 37px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  html:has(.blog-article-page-top) .blog-read-more .case.more-blog-case > a[data-v-c0adc676],
+  html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card > a[data-v-c0adc676] {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  html:has(.blog-article-page-top) .blog-read-more .blog-block__content-box-slide .case[data-v-c0adc676] {
+    height: 430px;
+    max-height: 430px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  html:has(.blog-article-page-top) .blog-read-more .blog-block__content-box-slide .case[data-v-c0adc676] {
+    height: 400px;
+    max-height: 400px;
+  }
+}
+
+html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card[data-v-c0adc676],
+html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card[data-v-c0adc676] > a.dark-text[data-v-c0adc676],
+html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card[data-v-c0adc676] .case__media[data-v-c0adc676] {
+  background-color: #1d1d1f !important;
+}
+
+html:has(.blog-article-page-top)
+  .blog-read-more
+  .case.case--dark-card[data-v-c0adc676]
+  > a.dark-text[data-v-c0adc676]::before,
+html:has(.blog-article-page-top)
+  .blog-read-more
+  .case.case--dark-card[data-v-c0adc676]
+  > a.dark-text[data-v-c0adc676]::after {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+html:has(.blog-article-page-top)
+  .blog-read-more
+  .case.case--dark-card:not(.case--card-wood-header)
+  .case__description.case__description--static[data-v-c0adc676],
+html:has(.blog-article-page-top) .blog-read-more .case.case--dark-card:not(.case--card-wood-header) .case__tag[data-v-c0adc676] {
+  color: #fff;
+}
+
+html:has(.blog-article-page-top) .blog-read-more .case .case__media--front[data-v-c0adc676] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

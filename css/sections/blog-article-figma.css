@@ -1430,3 +1430,42 @@ html:has(.blog-article-page-top) .blog-read-more.isNewContent .services__title {
   }
 }
 
+/*
+ * Карусель `.article-slider` (легаси Nuxt): в snapshot.bundle — padding 5% и inline-картинки по центру слайда.
+ * Выравниваем с колонкой текста: ширина как у `.row`, внутренний gutter, картинка влево.
+ */
+.blog-article-page-top ~ section.lighttheme.article_section_l > .article-slider {
+  width: 90%;
+  max-width: 1574px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--blog-article-gutter);
+  padding-right: var(--blog-article-gutter);
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 1401px) {
+  .blog-article-page-top ~ section.lighttheme.article_section_l > .article-slider {
+    width: calc(100% - 156px);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  html:has(.blog-article-page-top) .blog-article-page-top ~ section.lighttheme.article_section_l > .article-slider {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.blog-article-page-top ~ section.lighttheme.article_section_l > .article-slider .swiper-slide {
+  text-align: left;
+}
+
+.blog-article-page-top ~ section.lighttheme.article_section_l > .article-slider .article-slider__img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-left: 0;
+  margin-right: auto;
+}
+

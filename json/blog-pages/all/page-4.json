@@ -3,7 +3,7 @@
   "currentPage": 4,
   "totalPages": 5,
   "perPage": 24,
-  "totalItems": 112,
+  "totalItems": 105,
   "filters": [
     {
       "code": "",
@@ -78,7 +78,7 @@
         "kind": "picture",
         "image": "/_sa/img/blog/avtotargeting-v-yandeks-direkt/success-1955256_1920.jpg"
       },
-      "mediaObjectPosition": "50% 18%"
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/kak-sozdat-konkurentosposobnoe-imya/",
@@ -115,13 +115,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2019-09-18T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/kak-stat-idealnym-klientom-seo-spetsialista/fotooboi-shesterenki-10517.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/cjm-put-ot-znakomstva-do-trudoustrojstva/",
@@ -262,7 +263,7 @@
       "tagCodesNorm": [
         "case"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-11-30T12:00:00.000Z",
       "media": {
@@ -283,13 +284,14 @@
       "tagCodesNorm": [
         "case"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-10-15T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/case__analitika-dlya-kliniki-kompozit/photo-1515863149848-223cbed59017.jpeg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/vizualnyj-kontent/",
@@ -304,7 +306,7 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-10-04T12:00:00.000Z",
       "media": {
@@ -368,7 +370,7 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-05-18T12:00:00.000Z",
       "media": {
@@ -410,13 +412,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-04-03T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/john-o-nolan-644335-unsplash.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/life/digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/",
@@ -431,13 +434,14 @@
       "tagCodesNorm": [
         "life"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-02-08T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/life__digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/9328-1nk3561-1.png"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/life/itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing/",
@@ -494,7 +498,7 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2017-10-02T12:00:00.000Z",
       "media": {
@@ -536,13 +540,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2017-07-13T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/digital-voronka-dlya-uvelicheniya-prodazh/guillaume-bolduc-259596-unsplash.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     }
   ]
 }

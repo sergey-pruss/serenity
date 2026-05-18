@@ -62,7 +62,7 @@
     "test:clients": "node scripts/verify-clients.cjs",
     "test:home-cases": "node scripts/verify-home-cases.cjs",
     "test:case-all": "node scripts/verify-case-all.cjs",
-    "test:blog": "node scripts/verify-blog.cjs && node scripts/verify-home-blog-slider.cjs && node scripts/verify-blog-article-mp4-range.cjs && node scripts/verify-blog-article-img-paths.cjs",
+    "test:blog": "node scripts/verify-blog.cjs && node scripts/verify-blog-read-more.cjs && node scripts/verify-home-blog-slider.cjs && node scripts/verify-blog-article-mp4-range.cjs && node scripts/verify-blog-article-img-paths.cjs",
     "test:case-all-visual": "node scripts/verify-case-all-visual-parity.cjs",
     "test:menu": "node scripts/verify-menu-screen.cjs",
     "test:leave-cta": "node scripts/verify-leave-request-cta.cjs",

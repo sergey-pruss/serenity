@@ -4,9 +4,11 @@
  * из json/blog-articles/<slug>.json и оболочки blog/index.html (без листинга, без blog.js).
  * Стабильные классы разметки и стилей — комментарий «Контракт разметки» в css/sections/blog-article-figma.css;
  * импорт богатого HTML — css/sections/blog-article-prose.css и обёртка .sa-blog-prose.
- * Блок «Читайте ещё» — из json/blogs-all.json (только /blog/article/<slug>), порядок как в ленте:
- * до 4 карточек раньше и 4 позже; у края ленты — 8 вперёд или 8 назад (см. .cursor/rules/blog-articles-static.mdc).
+ * Блок «Читайте ещё» — из json/blogs-all.json, порядок как в ленте:
+ * /blog/article/ — только статьи; life/case/card — вся лента posts.
+ * до 4 карточек раньше и 4 позже; у края — 8 вперёд или 8 назад (см. .cursor/rules/blog-articles-static.mdc).
  * Ряд карточек как на главной (blog-block__swiper-container + app.js initRow).
+ * В разметке «Читайте ещё» не ставить data-native-row — атрибут выставляет initRow; иначе ряд не скроллится.
  *
  * Перед записью — типографика неразрывных пробелов (как npm run typography:nbsp для главной),
  * т.к. в шаблоне уже стоит data-typography-nbsp="1" — прогон с { force: true }.
@@ -110,8 +112,8 @@ function linkContextualAdsPhrasesInLead(plain) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260504blogWideMediaMt10" />
-    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260503blogCaptionStripDline" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260518blogArticleSliderLeft" />
+    <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260518blogBodyMediaLeft" />
 `;
 
 function stripBlogListingJsonPreload(html) {
@@ -152,6 +154,14 @@ function articleSlugFromHref(href) {
   const p = normBlogPath(href);
   const m = p.match(/^\/blog\/article\/([^/]+)$/);
   return m && m[1] !== "article" ? m[1] : "";
+}
+
+/** Канонический путь материала для подборки «Читайте ещё». */
+function postPathFromCtx(ctx) {
+  const segment = String(ctx?.segment || "article").trim();
+  const slug = String(ctx?.slug || ctx?.readMoreSlug || "").trim();
+  if (!slug) return "";
+  return normBlogPath(`/blog/${segment}/${slug}`);
 }
 
 /** Порядок постов как в blogs-all: только свои материалы /blog/article/<slug>/. */
@@ -240,7 +250,7 @@ function blogListingCardImageAttrs(url) {
   };
 }
 
-function renderListingCard(c, idx) {
+function renderListingCard(c, idx, { forReadMore = false } = {}) {
   const tagsHtml = (c.tags || [])
     .map((t) => `<span class="case__tag" data-v-c0adc676="">${escapeXml(t)}</span>`)
     .join("");
@@ -267,15 +277,21 @@ function renderListingCard(c, idx) {
   const cls = (c.linkClass || "white-text").trim();
   const href = escapeXml(c.href || "#");
   const isDarkCard = c.linkClass === "dark-text";
-  const cardModifier = String(c.cardModifier || "").trim();
+  let cardModifier = String(c.cardModifier || "").trim();
+  if (forReadMore && cardModifier && !/\bcase--title-scrim\b/.test(cardModifier)) {
+    const hasWoodHeader = /\bcase--card-wood-header\b/.test(cardModifier);
+    if (!hasWoodHeader) cardModifier = `${cardModifier} case--title-scrim`.trim();
+  } else if (forReadMore && !cardModifier) {
+    cardModifier = "case--title-scrim";
+  }
   const caseClass = [
     isDarkCard ? "case case--dark-card" : "case more-blog-case case--resource case-cutted articles",
     cardModifier ? escapeXml(cardModifier) : "",
   ]
     .filter(Boolean)
     .join(" ");
-  const caseStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
-  const linkStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
+  const caseStyle = isDarkCard && !forReadMore ? ' style="background-color:#e8e8ea;"' : "";
+  const linkStyle = isDarkCard && !forReadMore ? ' style="background-color:#e8e8ea;"' : "";
   const subtitleBody = c.subtitle ? escapeXml(c.subtitle) : "";
   const tagsBlock = tagsHtml ? `<div data-v-c0adc676="" class="case__tags">${tagsHtml}</div>` : "";
   const topBlock = `<div data-v-c0adc676="" class="case__top">
@@ -894,36 +910,52 @@ function relocateOrphanQuoteIntoSpecialistRail(html) {
   return out.join("");
 }
 
-function buildReadMoreSection(currentSlug, articleFeed) {
-  if (!Array.isArray(articleFeed) || articleFeed.length === 0) return "";
-  const idx = articleFeed.findIndex((p) => articleSlugFromHref(p.href) === currentSlug);
+function buildReadMoreSection(ctx, articleFeed, fullFeed) {
+  const currentPath = postPathFromCtx(ctx);
+  const useArticleOnlyFeed = String(ctx?.segment || "article") === "article";
+  const rawFeed =
+    useArticleOnlyFeed && Array.isArray(articleFeed) && articleFeed.length > 0
+      ? articleFeed
+      : Array.isArray(fullFeed) && fullFeed.length > 0
+        ? fullFeed
+        : articleFeed;
+  /* Внешние URL (vc.ru, mave) не участвуют в порядке «8 до / после». */
+  const feed = (rawFeed || []).filter((p) => normBlogPath(p.href).startsWith("/blog/"));
+  if (!feed.length || !currentPath) return "";
+
+  const isCurrent = (p) => normBlogPath(p.href) === currentPath;
+  const idx = feed.findIndex(isCurrent);
   let related = [];
   if (idx === -1) {
-    related = articleFeed
+    if (!useArticleOnlyFeed) return "";
+    const currentSlug = String(ctx?.readMoreSlug || ctx?.slug || "").trim();
+    related = feed
       .filter((p) => articleSlugFromHref(p.href) !== currentSlug)
       .slice(0, READ_MORE_EDGE);
   } else {
     const beforeCount = idx;
-    const afterCount = articleFeed.length - 1 - idx;
-    if (beforeCount < READ_MORE_NEIGHBORS || afterCount < READ_MORE_NEIGHBORS) {
-      if (beforeCount < READ_MORE_NEIGHBORS) {
-        related = articleFeed.slice(idx + 1, idx + 1 + READ_MORE_EDGE);
-      } else {
-        related = articleFeed.slice(Math.max(0, idx - READ_MORE_EDGE), idx);
-      }
+    const afterCount = feed.length - 1 - idx;
+    if (beforeCount < READ_MORE_NEIGHBORS) {
+      related = feed.slice(idx + 1, idx + 1 + READ_MORE_EDGE);
+    } else if (afterCount < READ_MORE_EDGE) {
+      /* У конца ленты (< 8 новее): 8 материалов раньше по порядку posts. */
+      related = feed.slice(Math.max(0, idx - READ_MORE_EDGE), idx);
     } else {
       related = [
-        ...articleFeed.slice(idx - READ_MORE_NEIGHBORS, idx),
-        ...articleFeed.slice(idx + 1, idx + 1 + READ_MORE_NEIGHBORS),
+        ...feed.slice(idx - READ_MORE_NEIGHBORS, idx),
+        ...feed.slice(idx + 1, idx + 1 + READ_MORE_NEIGHBORS),
       ];
     }
   }
   if (related.length === 0) return "";
 
-  /* Самый свежий пост (первый в ленте) — в «Читайте ещё», если это не текущая статья и его ещё нет в подборке. */
-  const newest = articleFeed[0];
-  const newestSlug = newest ? articleSlugFromHref(newest.href) : "";
-  if (newestSlug && newestSlug !== currentSlug) {
+  const afterCountForNewest = idx === -1 ? READ_MORE_EDGE : feed.length - 1 - idx;
+  const usedBackwardEdge =
+    idx !== -1 && afterCountForNewest < READ_MORE_EDGE && idx >= READ_MORE_NEIGHBORS;
+
+  /* Самый свежий пост (первый в ленте) — в «Читайте ещё», если это не текущая страница и его ещё нет в подборке. */
+  const newest = feed[0];
+  if (!usedBackwardEdge && newest && !isCurrent(newest)) {
     const newestHref = normBlogPath(newest.href);
     const already = related.some((p) => normBlogPath(p.href) === newestHref);
     if (!already) {
@@ -943,7 +975,7 @@ function buildReadMoreSection(currentSlug, articleFeed) {
 
   const slides = related
     .map((c, slideIdx) => {
-      const card = renderListingCard(c, slideIdx);
+      const card = renderListingCard(c, slideIdx, { forReadMore: true });
       return `<div class="swiper-slide blog-block__content-box-slide" style="margin-right:30px" data-v-25bf775d="">
 ${card}
 </div>`;
@@ -969,7 +1001,7 @@ const postPagesJsonRoot = path.join(root, "json", "blog-post-pages");
  * @param {object} data — json статьи или json/blog-post-pages/segment/slug.json
  * @param {{ readMoreSlug: string, segment: string, slug: string }} ctx — segment «article» для /blog/article/
  */
-function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, suffix) {
+function renderTypedBlogArticlePage(data, ctx, articleFeed, fullFeed, prefixArticleShell, suffix) {
   const { readMoreSlug, segment, slug } = ctx;
   const rawBodyHtml = data.bodyHtml || "";
   let bodyForArticle = normalizeBlogArticleBodyHtml(rawBodyHtml);
@@ -1000,7 +1032,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   body = transformBlockquoteArticlesMarkup(body);
   body = relocateOrphanQuoteIntoSpecialistRail(body);
   body = stripGuillemetsFromArticleQuoteBlocks(body);
-  const readAlso = buildReadMoreSection(readMoreSlug, articleFeed);
+  const readAlso = buildReadMoreSection(ctx, articleFeed, fullFeed);
   const title = stripBlogCategoryFromTitle(data.title) || slug;
   let metaDescription = normalizeBlogMetaDescription(data.description || "");
   if (!metaDescription) {
@@ -1140,6 +1172,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
       data,
       { readMoreSlug: slug, segment: "article", slug },
       articleFeed,
+      allBlogPosts,
       prefixArticleShell,
       suffix,
     );
@@ -1169,6 +1202,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
       data,
       { readMoreSlug: slug, segment, slug },
       articleFeed,
+      allBlogPosts,
       prefixArticleShell,
       suffix,
     );

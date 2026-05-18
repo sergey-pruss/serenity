@@ -296,13 +296,14 @@
       "tagCodesNorm": [
         "life"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-02-08T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/life__digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/9328-1nk3561-1.png"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/life/itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing/",
@@ -338,7 +339,7 @@
       "tagCodesNorm": [
         "life"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2015-12-15T12:00:00.000Z",
       "media": {
@@ -401,13 +402,14 @@
       "tagCodesNorm": [
         "life"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2014-12-10T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/life__5-mesto-sredi-dizajn-studij-v-sankt-peterburge/kelli-tungay-324329-unsplash.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header case--card-media-bottom"
     }
   ]
 }

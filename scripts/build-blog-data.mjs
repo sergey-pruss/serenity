@@ -440,6 +440,10 @@ function parseAnimation(animationContent) {
   posts = sortPostsByPublishDate(posts, manualHrefKeys);
 
   posts = applyBlogCardOverrides(posts, root);
+  posts = posts.filter((p) => {
+    const k = canonBlogHref(p.href);
+    return k && !EXCLUDED_BLOG_HREFS.has(k);
+  });
   posts = posts.map((p) => ({ ...p, href: absoluteLegacyBlogPath(p.href) }));
   posts = normalizeMyshelovkaPodcastCardTags(posts);
 

@@ -3,7 +3,7 @@
   "currentPage": 4,
   "totalPages": 4,
   "perPage": 24,
-  "totalItems": 91,
+  "totalItems": 84,
   "filters": [
     {
       "code": "",
@@ -50,7 +50,7 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-10-04T12:00:00.000Z",
       "media": {
@@ -92,7 +92,7 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-05-18T12:00:00.000Z",
       "media": {
@@ -113,13 +113,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2018-04-03T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/john-o-nolan-644335-unsplash.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/instrumenty-tsifrovogo-brendinga/",
@@ -134,7 +135,7 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2017-10-02T12:00:00.000Z",
       "media": {
@@ -176,13 +177,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2017-07-13T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/digital-voronka-dlya-uvelicheniya-prodazh/guillaume-bolduc-259596-unsplash.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/tsifrovoj-brending/",
@@ -197,13 +199,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2016-11-16T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/tsifrovoj-brending/al-x-407225-unsplash-1.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/dlinnaya-voronka/",
@@ -260,53 +263,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2014-08-15T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/marketolog-proektov/joanna-kosinska-538711-unsplash.jpg"
-      }
-    },
-    {
-      "href": "/blog/card/kak-prevratit-klientov-v-poklonnikov/",
-      "description": "Блог",
-      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/card__kak-prevratit-klientov-v-poklonnikov/apple_store_iphone_7_europe_2-1.jpg"
-      }
-    },
-    {
-      "href": "/blog/card/marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing/",
-      "description": "Блог",
-      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/card__marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing/nick-fewings-600900-unsplash.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header case--card-media-bottom"
     },
     {
       "href": "/blog/article/litso-brenda-zadachi-razrabotki-firmennogo-stilya/",
@@ -326,108 +290,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/litso-brenda-zadachi-razrabotki-firmennogo-stilya/luke-jones-38Tm9xZPxIw-unsplash.png"
-      }
-    },
-    {
-      "href": "/blog/article/vystuplenie-sergeya-prussa-na-digitale-masterstvo/",
-      "description": "Блог",
-      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": false,
-      "skipCardMedia": true,
-      "media": {
-        "kind": "picture",
-        "image": ""
-      }
-    },
-    {
-      "href": "/blog/card/reklama-protiv-marketinga-kto-kogo/",
-      "description": "Реклама против маркетинга — кто кого?",
-      "subtitle": "Многие полагают, что маркетинг и реклама — одно и то же. Доказываем обратное.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/card__reklama-protiv-marketinga-kto-kogo/rawpixel-620247-unsplash.jpg"
-      }
-    },
-    {
-      "href": "/blog/card/kak-dostich-masterstva/",
-      "description": "Блог",
-      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/card__kak-dostich-masterstva/steven-lelham-342930-unsplash.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/videokontent-kak-emotsionalnyj-kontakt-s-brendom/",
-      "description": "Блог",
-      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": false,
-      "skipCardMedia": true,
-      "media": {
-        "kind": "picture",
-        "image": ""
-      }
-    },
-    {
-      "href": "/blog/card/vrednye-sovety/",
-      "description": "Блог",
-      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/card__vrednye-sovety/rawpixel-781970-unsplash.jpg"
       }
     }
   ]

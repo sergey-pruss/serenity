@@ -378,13 +378,17 @@
  */
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info div.sa-blog-body-media,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose div.sa-blog-body-media,
-.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media {
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose div.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info p.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose p.sa-blog-body-media,
+.blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose p.sa-blog-body-media {
   margin-top: 0;
   margin-bottom: 0;
   display: block;
   box-sizing: border-box;
   margin-left: 0 !important;
   margin-right: auto !important;
+  text-align: left;
 }
 
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .sa-blog-body-media.sa-blog-body-media--bleed,
@@ -421,6 +425,8 @@
   width: 100%;
   max-width: 100%;
   height: auto;
+  margin-left: 0;
+  margin-right: auto;
 }
 
 /*
@@ -469,12 +475,14 @@
   }
 }
 
-.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .aligncenter,
+/* WP aligncenter в теле — в колонку текста влево, не по центру слайда/колонки */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .article-section__info .aligncenter,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section .sa-blog-prose .aligncenter,
 .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .aligncenter {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left;
 }
 
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section .alignleft,
@@ -498,7 +506,7 @@
   .blog-article-page-top ~ section.lighttheme.article_section_l .sa-blog-prose .alignright {
     float: none;
     display: block;
-    margin: 1em auto;
+    margin: 1em 0;
     max-width: 100%;
   }
 }

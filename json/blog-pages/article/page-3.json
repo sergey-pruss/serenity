@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 4,
   "perPage": 24,
-  "totalItems": 91,
+  "totalItems": 84,
   "filters": [
     {
       "code": "",
@@ -441,7 +441,7 @@
         "kind": "picture",
         "image": "/_sa/img/blog/avtotargeting-v-yandeks-direkt/success-1955256_1920.jpg"
       },
-      "mediaObjectPosition": "50% 18%"
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/kak-sozdat-konkurentosposobnoe-imya/",
@@ -478,13 +478,14 @@
       "tagCodesNorm": [
         "article"
       ],
-      "linkClass": "white-text",
+      "linkClass": "dark-text",
       "isResource": false,
       "publishDate": "2019-09-18T12:00:00.000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/kak-stat-idealnym-klientom-seo-spetsialista/fotooboi-shesterenki-10517.jpg"
-      }
+      },
+      "cardModifier": "case--card-wood-header"
     },
     {
       "href": "/blog/article/cjm-put-ot-znakomstva-do-trudoustrojstva/",

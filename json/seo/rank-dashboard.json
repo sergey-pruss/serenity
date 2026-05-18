@@ -51,6 +51,32 @@
           "text": "таргетинговая реклама"
         }
       ]
+    },
+    {
+      "id": "marketing",
+      "title": "Комплексный маркетинг",
+      "path": "/services/marketing",
+      "url": "https://serenity.agency/services/marketing",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "kompleksnyj",
+          "text": "услуги комплексного маркетинга"
+        }
+      ]
+    },
+    {
+      "id": "kompleksnoye-prodvizheniye",
+      "title": "Комплексное продвижение",
+      "path": "/kompleksnoye-prodvizheniye",
+      "url": "https://serenity.agency/kompleksnoye-prodvizheniye",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "prodvizhenie",
+          "text": "комплексное продвижение"
+        }
+      ]
     }
   ],
   "checks": [
@@ -357,12 +383,102 @@
           "outOfTop20": true,
           "matchedUrl": null,
           "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
         }
       ]
     }
   ],
   "panels": {
-    "fetchedAt": "2026-05-18T06:11:30.090Z",
+    "fetchedAt": "2026-05-18T14:10:27.783Z",
     "period": {
       "startDate": "2026-04-18",
       "endDate": "2026-05-15"
@@ -447,6 +563,22 @@
         "normalizedKey": "таргетинговая реклама",
         "google": null,
         "yandex": null
+      },
+      "marketing|kompleksnyj": {
+        "pageId": "marketing",
+        "queryId": "kompleksnyj",
+        "queryText": "услуги комплексного маркетинга",
+        "normalizedKey": "услуги комплексного маркетинга",
+        "google": {
+          "avgPosition": 12.53,
+          "clicks": 0,
+          "impressions": 58
+        },
+        "yandex": {
+          "avgShowPosition": 8.11,
+          "shows": 711,
+          "clicks": 0
+        }
       }
     },
     "popular": {

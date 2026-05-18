@@ -5,8 +5,14 @@
  */
 export const EXCLUDED_BLOG_HREFS = new Set([
   "/blog/card/seo-v-youtube-pochemu-stoit-zanyatsya-optimizatsiej-video/",
-  "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+  "/blog/card/kak-prevratit-klientov-v-poklonnikov/",
+  "/blog/card/marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing/",
+  "/blog/card/kak-dostich-masterstva/",
+  "/blog/card/vrednye-sovety/",
+  "/blog/article/vystuplenie-sergeya-prussa-na-digitale-masterstvo/",
+  "/blog/article/videokontent-kak-emotsionalnyj-kontakt-s-brendom/",
   "/blog/article/ashan-tsifrovye-tehnologii-i-razvitie-klientotsentrichnosti/",
+  "/blog/card/reklama-protiv-marketinga-kto-kogo/",
 ]);
 
 function escapeRe(s) {
@@ -14,15 +20,19 @@ function escapeRe(s) {
 }
 
 /** Варианты href в теле статей (относительные и абсолютные, со слэшем и без). */
-export function excludedBlogArticleHrefVariants() {
+export function excludedBlogHrefVariants() {
   const out = [];
   for (const h of EXCLUDED_BLOG_HREFS) {
-    if (!String(h).includes("/blog/article/")) continue;
     const withSlash = h.endsWith("/") ? h : `${h}/`;
     const noSlash = withSlash.replace(/\/+$/, "");
     out.push(withSlash, noSlash, `https://serenity.agency${withSlash}`, `https://serenity.agency${noSlash}`);
   }
   return [...new Set(out.filter(Boolean))];
+}
+
+/** @deprecated используйте excludedBlogHrefVariants */
+export function excludedBlogArticleHrefVariants() {
+  return excludedBlogHrefVariants();
 }
 
 /** Оставляем текст ссылки, убираем мёртвый URL (без «дыры» в предложении). */
@@ -38,7 +48,7 @@ function unwrapAnchorsByHref(html, href) {
 /** Убрать ссылки на исключённые материалы из HTML тела статьи. */
 export function unwrapExcludedBlogArticleLinks(html) {
   let s = String(html || "");
-  for (const href of excludedBlogArticleHrefVariants()) {
+  for (const href of excludedBlogHrefVariants()) {
     s = unwrapAnchorsByHref(s, href);
   }
   return s;

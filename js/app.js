@@ -476,17 +476,18 @@
     });
   });
 
-  const blogContainer = document.querySelector(".blog-block__swiper-container");
-  const blogTrack = blogContainer?.querySelector(".swiper-wrapper");
-  initRow({
-    host: blogContainer,
-    track: blogTrack,
-    slideSelector: ".swiper-slide",
-    buttonRoot: blogContainer,
-    ensureButtons: true,
-    desktopArrowsOnly: true,
-    fullBleed: true,
-    sidePadGetter: getServicesSidePad,
+  document.querySelectorAll(".blog-block__swiper-container").forEach((blogContainer) => {
+    const blogTrack = blogContainer?.querySelector(".swiper-wrapper");
+    initRow({
+      host: blogContainer,
+      track: blogTrack,
+      slideSelector: ".swiper-slide",
+      buttonRoot: blogContainer,
+      ensureButtons: true,
+      desktopArrowsOnly: true,
+      fullBleed: true,
+      sidePadGetter: getServicesSidePad,
+    });
   });
 
   /**

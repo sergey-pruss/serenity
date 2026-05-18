@@ -1,25 +1,5 @@
 [
   {
-    "segment": "card",
-    "slug": "kak-dostich-masterstva"
-  },
-  {
-    "segment": "card",
-    "slug": "kak-prevratit-klientov-v-poklonnikov"
-  },
-  {
-    "segment": "card",
-    "slug": "marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing"
-  },
-  {
-    "segment": "card",
-    "slug": "reklama-protiv-marketinga-kto-kogo"
-  },
-  {
-    "segment": "card",
-    "slug": "vrednye-sovety"
-  },
-  {
     "segment": "case",
     "slug": "analitika-dlya-kliniki-kompozit"
   },
@@ -70,6 +50,10 @@
   {
     "segment": "life",
     "slug": "itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing"
+  },
+  {
+    "segment": "life",
+    "slug": "kak-my-prevratili-rabotu-v-igru"
   },
   {
     "segment": "life",
