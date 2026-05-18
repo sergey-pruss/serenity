@@ -30,7 +30,7 @@ run("node scripts/capture-prod-targeting-full-html.cjs");
 run("node scripts/extract-targeting-phase2-slices.cjs");
 run("node scripts/download-nuxt-css-prod-targeting.cjs");
 process.env.TARGETING_INCLUDE_PHASE2 = "1";
-run("node scripts/assemble-targeting-from-prod-layout.cjs");
+run("npm run assemble:service:targeting");
 process.env.TARGETING_VERIFY_PHASE2 = "1";
 run("npm run test:targeting");
 

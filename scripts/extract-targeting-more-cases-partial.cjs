@@ -50,6 +50,11 @@ function run() {
     "utf8",
   );
   console.log("wrote", outPath, typo.html.length, "bytes");
+  const { execSync } = require("child_process");
+  execSync("node scripts/build-service-more-cases-partials.cjs --extract", {
+    cwd: root,
+    stdio: "inherit",
+  });
 }
 
 run();

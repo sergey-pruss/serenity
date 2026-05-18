@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
+const { loadServiceConfig } = require("./lib/load-service-config.cjs");
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -20,6 +21,7 @@ function fileExists(relPath) {
 }
 
 async function run() {
+  loadServiceConfig("targeting");
   const html = read("targeting/index.html");
   const captureBaseline =
     process.env.TARGETING_VERIFY_CAPTURE_ONLY === "1" ||
@@ -106,7 +108,7 @@ async function run() {
     assert(html.includes("team__members-slider"), "команда: слайдер team__members-slider");
     assert(!main.includes('class="col-4 col-md-6"'), "команда: без сетки col-4 col-md-6");
     assert(html.includes("service-team-slider.js"), "service-team-slider.js для команды");
-    assert(html.includes("targeting-spoilers.js"), "targeting-spoilers.js");
+    assert(html.includes("service-spoilers.js"), "service-spoilers.js");
   }
   assert(html.includes("gradient-canvas"), "gradient-canvas");
   assert(html.includes("page-constructor-gradient.js"), "page-constructor-gradient.js");
@@ -132,12 +134,44 @@ async function run() {
     "partial faq-targeting.html",
   );
   assert(
+    fileExists("json/services/targeting/faq.json"),
+    "FAQ JSON: json/services/targeting/faq.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-faq.shell.html"),
+    "FAQ shell: _service-faq.shell.html",
+  );
+  assert(
+    fileExists("json/services/targeting/synergy.json"),
+    "synergy JSON: json/services/targeting/synergy.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-synergy.shell.html"),
+    "synergy shell: _service-synergy.shell.html",
+  );
+  assert(
     fileExists("html/partials/services/more-cases-targeting.html"),
     "partial more-cases-targeting.html",
   );
   assert(
+    fileExists("json/services/targeting/more-cases.json"),
+    "more-cases JSON: json/services/targeting/more-cases.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-more-cases.shell.html"),
+    "more-cases shell: _service-more-cases.shell.html",
+  );
+  assert(
     fileExists("html/partials/services/awards-targeting.html"),
     "partial awards-targeting.html",
+  );
+  assert(
+    fileExists("json/services/targeting/awards.json"),
+    "awards JSON: json/services/targeting/awards.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-awards.shell.html"),
+    "awards shell: _service-awards.shell.html",
   );
   assert(
     fileExists("html/partials/services/synergy-targeting.html"),
@@ -183,7 +217,7 @@ async function run() {
   );
   assert(html.includes("c-title-block modern"), "герой: c-title-block");
   if (!captureBaseline) {
-    assert(html.includes("targeting-faq.css"), "CSS: targeting-faq.css");
+    assert(html.includes("service-faq.css"), "CSS: service-faq.css");
   }
 
   const imgRe = /\/_sa\/img\/[a-zA-Z0-9._/-]+/g;
@@ -243,6 +277,10 @@ async function run() {
   assert(
     /case-slider-slide__media img\[data-v-77cabad6\][\s\S]*position:\s*static !important/.test(stackCss),
     "stack CSS: коллаж img в потоке (scoped Nuxt)",
+  );
+  assert(
+    /max-width:\s*719px\)[\s\S]*\.facts[\s\S]*--page-gutter-x/.test(stackCss),
+    "stack CSS: .facts на телефоне — поля как у hero (--page-gutter-x)",
   );
 
   console.log("verify-targeting: ok");

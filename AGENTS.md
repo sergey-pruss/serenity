@@ -18,6 +18,31 @@
 
 ---
 
+## Изменение конфигов Nginx и маршрутизации
+
+Перед **любой** правкой в репозитории (и перед коммитом) файлов:
+
+- `nginx/routing.conf` (карта `map $uri $is_new_page` — какой URL на **serenity.agency** отдаёт статику, а какой уходит в legacy);
+- `nginx/serenity-router.live.conf`, `nginx/static.serenity.agency.live.conf` и другие `nginx/*.live.conf`;
+- `json/nginx-edge-intercepts.json`;
+- `wrangler.toml` — если меняются маршруты, влияющие на поведение Worker.
+
+агент **обязан сначала спросить пользователя**:
+
+> Точно меняем конфиг? (да / нет)
+
+и кратко перечислить суть правки (какой URL, какое правило). **Без явного «да»** или без формулировки в задаче уровня «добавь в `routing.conf` …», «включи `/path/` на статике» — **не менять** эти файлы.
+
+**Не считать** подтверждением: появление статической страницы в репо, ссылки в блоге на `/targeting/` или аналогию с уже включённой `/kontekstnaya_reklama/`. Go-live маршрута на проде — **отдельное** решение от контента и от `deploy-prod.sh`.
+
+Правки конфига **не смешивать** в одном коммите с несвязанными задачами (блог, вёрстка, SEO-тексты), если пользователь отдельно не попросил один релиз «контент + маршрут».
+
+После подтверждения и правки в git выкладка на сервер — по таблице ниже (`deploy-routing.sh`, vhost-скрипты) и только с явным **DEV / PROD / ВЕЗДЕ** (см. «Перед любой выкладкой»).
+
+Краткое правило для Cursor: [`.cursor/rules/nginx-config-confirm.mdc`](.cursor/rules/nginx-config-confirm.mdc).
+
+---
+
 ## Только новый сервер (статический контур)
 
 Все шаги выкладки из этого регламента относятся **только к новому серверу** со статикой и Nginx-роутером: `**bash scripts/deploy-dev.sh`** (превью **static.serenity.agency**, отдельный каталог `**/var/www/static-dev/`** + Worker), `**bash scripts/deploy-prod.sh`** (основной **serenity.agency**, каталог `**/var/www/static/`**), корневой `**deploy.sh`** (= `**deploy-prod.sh`**), `**bash scripts/deploy-routing.sh**`, `**bash scripts/deploy-serenity-router-vhost.sh**`, `**bash scripts/deploy-static-vhost.sh**` работают с **этой** машиной и Nginx-конфигами на ней.

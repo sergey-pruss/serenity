@@ -1,6 +1,5 @@
 /**
- * Статическая страница /kontekstnaya_reklama: срез Nuxt без Vue — спойлеры FAQ
- * (.spoiler / .spoiler__head / .spoiler__content) не раскрываются без этого скрипта.
+ * @deprecated В index подключайте service-spoilers.js. Файл сохранён для отката.
  */
 (function () {
   var root = document.getElementById("kontekst-faq-mounted");

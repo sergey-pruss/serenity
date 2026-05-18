@@ -13,3 +13,15 @@ if (!html.includes("Serenity — структура проекта, URL и пр�
   process.exit(1);
 }
 console.log("OK: docs/team-handbook.html present in repo");
+
+const rankDash = path.join(__dirname, "..", "docs", "seo-rank-dashboard.html");
+if (!fs.existsSync(rankDash)) {
+  console.error("verify-docs-handbook-local: missing", rankDash, "(npm run seo:rank-dashboard:build)");
+  process.exit(1);
+}
+const rankHtml = fs.readFileSync(rankDash, "utf8");
+if (!rankHtml.includes("rank-dashboard-data")) {
+  console.error("verify-docs-handbook-local: seo-rank-dashboard.html без данных");
+  process.exit(1);
+}
+console.log("OK: docs/seo-rank-dashboard.html present in repo");

@@ -1,0 +1,216 @@
+/**
+ * Общие стили FAQ «Вопрос-ответ» на страницах услуг (page-constructor).
+ * Контент — в html/partials/services/faq-<slug>.html (свой на каждую услугу).
+ * Корни: .kontekst-faq-root / .targeting-faq-root (id *-faq-mounted).
+ * Базовые .spoiler — из Nuxt bundle страницы услуги.
+ */
+
+.kontekst-faq-root.page__container_admin,
+.targeting-faq-root.page__container_admin {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+.kontekst-faq-root.questions-wr,
+.targeting-faq-root.questions-wr {
+  padding-top: var(--home-between, 112px);
+  padding-bottom: 0;
+}
+
+.page-constructor__section.kontekst-faq-section,
+.page-constructor__section.targeting-faq-section {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 4;
+  overflow: visible;
+}
+
+.kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+.targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+  color: #fff !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 46px !important;
+  line-height: 126% !important;
+  margin: 0 0 80px !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media screen and (max-width: 768px) {
+  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+  .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    font-size: 28px !important;
+    line-height: 126% !important;
+    margin-bottom: 45px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+  .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    font-size: 26px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+.kontekst-faq-root .questions,
+.targeting-faq-root .questions {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  box-sizing: border-box;
+}
+
+.kontekst-faq-root .questions .questions__blocks,
+.targeting-faq-root .questions .questions__blocks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(16px, 2vw, 32px);
+  row-gap: clamp(24px, 3vw, 42px);
+  width: 100%;
+  margin: 0;
+}
+
+.kontekst-faq-root .blocks__column,
+.targeting-faq-root .blocks__column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 42px);
+  min-width: 0;
+}
+
+.kontekst-faq-root .block,
+.targeting-faq-root .block {
+  padding: 36px;
+  background: #272727;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+  filter: drop-shadow(0 0 10px rgba(116, 11, 160, 0.35));
+  border-radius: 30px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+  .kontekst-faq-root .block,
+  .targeting-faq-root .block {
+    padding: 26px 26px 26px 40px;
+  }
+}
+
+.kontekst-faq-root .block .block__question,
+.targeting-faq-root .block .block__question {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .kontekst-faq-root .block .block__question,
+  .targeting-faq-root .block .block__question {
+    font-size: 20px;
+  }
+}
+
+.kontekst-faq-root .block .block__content,
+.targeting-faq-root .block .block__content {
+  padding-top: 30px;
+  color: #969696;
+}
+
+@media (min-width: 721px) and (max-width: 1024px) {
+  .kontekst-faq-root .blocks__column,
+  .targeting-faq-root .blocks__column {
+    display: contents;
+  }
+
+  .kontekst-faq-root .questions .questions__blocks,
+  .targeting-faq-root .questions .questions__blocks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(1) .spoiler:nth-child(1),
+  .targeting-faq-root .blocks__column:nth-child(1) .spoiler:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(1) .spoiler:nth-child(2),
+  .targeting-faq-root .blocks__column:nth-child(1) .spoiler:nth-child(2) {
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(1) .spoiler:nth-child(3),
+  .targeting-faq-root .blocks__column:nth-child(1) .spoiler:nth-child(3) {
+    grid-row: 3;
+    grid-column: 1;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(2) .spoiler:nth-child(1),
+  .targeting-faq-root .blocks__column:nth-child(2) .spoiler:nth-child(1) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(2) .spoiler:nth-child(2),
+  .targeting-faq-root .blocks__column:nth-child(2) .spoiler:nth-child(2) {
+    grid-row: 2;
+    grid-column: 2;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(2) .spoiler:nth-child(3),
+  .targeting-faq-root .blocks__column:nth-child(2) .spoiler:nth-child(3) {
+    grid-row: 3;
+    grid-column: 2;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(3) .spoiler:nth-child(1),
+  .targeting-faq-root .blocks__column:nth-child(3) .spoiler:nth-child(1) {
+    grid-row: 4;
+    grid-column: 1;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(3) .spoiler:nth-child(2),
+  .targeting-faq-root .blocks__column:nth-child(3) .spoiler:nth-child(2) {
+    grid-row: 4;
+    grid-column: 2;
+  }
+
+  .kontekst-faq-root .blocks__column:nth-child(3) .spoiler:nth-child(3),
+  .targeting-faq-root .blocks__column:nth-child(3) .spoiler:nth-child(3) {
+    grid-row: 5;
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .kontekst-faq-root .questions .questions__blocks,
+  .targeting-faq-root .questions .questions__blocks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .kontekst-faq-root .questions,
+  .targeting-faq-root .questions {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px);
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px);
+  }
+
+  .kontekst-faq-root .block,
+  .targeting-faq-root .block {
+    padding: 22px 22px 22px 28px;
+  }
+}

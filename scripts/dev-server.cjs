@@ -9,6 +9,7 @@
  */
 const http = require("http");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 const { spawnSync } = require("child_process");
 const { stripSerenitySnapshotPrefix } = require("./strip-serenity-snapshot-prefix.cjs");
@@ -135,6 +136,23 @@ function resolveStaticFile(urlPath) {
 
 const custom404Path = path.join(root, "404.html");
 
+/** IPv4 хоста в LAN (Wi‑Fi/Ethernet), не loopback — для открытия с телефона/iPad. */
+function getLanIPv4Addresses() {
+  const seen = new Set();
+  const out = [];
+  for (const entries of Object.values(os.networkInterfaces())) {
+    if (!entries) continue;
+    for (const iface of entries) {
+      const v4 = iface.family === "IPv4" || iface.family === 4;
+      if (!v4 || iface.internal || !iface.address) continue;
+      if (seen.has(iface.address)) continue;
+      seen.add(iface.address);
+      out.push(iface.address);
+    }
+  }
+  return out;
+}
+
 /** Порт по умолчанию сменён с 8765: меньше конфликтов со «старой» локалкой в другом терминале. Переопределение: `PORT=… npm run dev`. */
 const DEFAULT_DEV_PORT = 8895;
 const DEV_PORT_SCAN_MAX = DEFAULT_DEV_PORT + 50;
@@ -191,9 +209,25 @@ const tryListen = (port) => {
     }
     console.log("");
     console.log("══ Serenity static dev ══");
-    console.log(`  Главная:     http://127.0.0.1:${port}/`);
+    console.log(`  На Mac:      http://127.0.0.1:${port}/`);
     console.log(`  Контекстная: http://127.0.0.1:${port}/kontekstnaya_reklama/`);
+    console.log(`  Таргетинг:   http://127.0.0.1:${port}/targeting/`);
     console.log(`  (или localhost:${port} — тот же процесс)`);
+    const lanIps = getLanIPv4Addresses();
+    console.log("");
+    if (lanIps.length) {
+      console.log("  С телефона / iPad (та же Wi‑Fi, в Safari укажите :порт):");
+      for (const ip of lanIps) {
+        console.log(`    http://${ip}:${port}/targeting/`);
+        console.log(`    http://${ip}:${port}/kontekstnaya_reklama/`);
+      }
+    } else {
+      console.log(
+        "  С телефона / iPad: http://<IP-Mac>:" +
+          port +
+          "/targeting/  (IP: Системные настройки → Сеть или: ipconfig getifaddr en0)",
+      );
+    }
     console.log("");
     console.log(
       "В Safari в адресной строке без «:порт» открывается только порт 80 — это другой сервер, не npm run dev.",

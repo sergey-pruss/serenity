@@ -1,5 +1,5 @@
 import path from "node:path";
-import { ARTIFACTS_DIR, ENGINES, REGIONS, ROOT, serpMatrixKey } from "./serp-shared.mjs";
+import { ARTIFACTS_DIR, ENGINES, GAP_REGION_IDS, REGIONS, ROOT, serpMatrixKey } from "./serp-shared.mjs";
 
 export const SNAPSHOT_DATE =
   process.env.SERP_SNAPSHOT_DATE ||
@@ -128,8 +128,7 @@ export function getSerpCampaign(id) {
   if (!c) {
     throw new Error(`Unknown SERP_CAMPAIGN: ${key}`);
   }
-  const serpCount =
-    c.queries.length * ENGINES.length * Object.keys(REGIONS).length;
+  const serpCount = c.queries.length * ENGINES.length * GAP_REGION_IDS.length;
   return {
     ...c,
     serpCount,

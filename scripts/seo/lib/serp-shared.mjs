@@ -1,5 +1,5 @@
 /** @typedef {'yandex' | 'google'} SearchEngine */
-/** @typedef {'moscow' | 'spb'} RegionId */
+/** @typedef {'moscow' | 'spb' | 'rf'} RegionId */
 
 export const ORGANIC_TARGET = 20;
 
@@ -19,7 +19,17 @@ export const REGIONS = {
     lat: 59.9343,
     lon: 30.3351,
   },
+  rf: {
+    label: "Россия",
+    yandexLr: 225,
+    googleCanon: "Russia",
+    lat: 55.7558,
+    lon: 37.6173,
+  },
 };
+
+/** Регионы для gap/SERP-кампаний kontekstnaya и targeting (без РФ). */
+export const GAP_REGION_IDS = /** @type {const} */ (["moscow", "spb"]);
 
 /** @type {SearchEngine[]} */
 export const ENGINES = ["yandex", "google"];

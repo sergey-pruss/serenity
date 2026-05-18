@@ -1,0 +1,45 @@
+{
+  "slug": "targeting",
+  "urlPath": "/targeting/",
+  "hero": {
+    "variant": "title-collage"
+  },
+  "sections": {
+    "packages": false,
+    "facts": true,
+    "advantages": true
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "TARGETING_LAYOUT_SOURCE",
+    "tmpFull": "targeting-prod-full.html",
+    "tmpParity": "targeting-parity-prod-layout.html",
+    "pageDir": "targeting",
+    "cssStack": "targeting-static-stack.css",
+    "partials": {
+      "faq": "faq-targeting.html",
+      "inlineLead": "service-inline-lead-targeting.html",
+      "moreCases": "more-cases-targeting.html",
+      "awards": "awards-targeting.html",
+      "synergy": "synergy-targeting.html"
+    },
+    "markers": {
+      "mainStart": "TARGETING-MAIN-START",
+      "mainEnd": "TARGETING-MAIN-END",
+      "cssBundleStart": "TARGETING-CSS-BUNDLE-START",
+      "cssBundleEnd": "TARGETING-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "targeting-faq-mounted",
+      "sectionClass": "targeting-faq-section",
+      "rootClass": "targeting-faq-root"
+    },
+    "phase2": true
+  }
+}

@@ -10,7 +10,8 @@
  *   - "parity": только tmp/kontekst-parity-prod-layout.html.
  *
  * После среза: блок «Вопрос-ответ» — partial html/partials/services/faq-kontekstnaya-reklama.html
- * + css/sections/kontekstnaya-faq.css (см. index); legacy-блок «Награды» Nuxt снимается до переноса FAQ
+ * (контент json/services/kontekstnaya_reklama/faq.json, сборка npm run build:service-faq)
+ * + css/sections/service-faq.css (см. index); legacy-блок «Награды» Nuxt снимается до переноса FAQ
  * (иначе FAQ после move попадает в интервал strip и исчезнет); затем moveKontekstnayaFaqSectionBeforeCases — сразу перед блоком кейсов
  * (ниже формы заявки в потоке страницы). Partial наград
  * после блока кейсов и до «Синергии» — insertKontekstnayaAwardsPartialBeforeSynergy. more-case-wr — partial
@@ -28,9 +29,15 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 
 const root = path.resolve(__dirname, "..");
+
+function buildServicePartials() {
+  if (process.env.SKIP_SERVICE_PARTIALS_BUILD === "1") return;
+  execSync("npm run build:service-partials", { cwd: root, stdio: "inherit" });
+}
 const fullHtmlPath = path.join(root, "tmp", "kontekst-prod-full.html");
 const parityLayoutPath = path.join(root, "tmp", "kontekst-parity-prod-layout.html");
 const indexPath = path.join(root, "kontekstnaya_reklama", "index.html");
@@ -70,7 +77,7 @@ function findLegacyAwardsSectionStart(mainHtml) {
   return beforeTitle.lastIndexOf('<section class="page-constructor__section"><section');
 }
 
-/** Заменяет prod-Nuxt блок «Вопрос-ответ» на partial (локальная разметка + kontekstnaya-faq.css). */
+/** Заменяет prod-Nuxt блок «Вопрос-ответ» на partial (локальная разметка + service-faq.css). */
 function injectKontekstnayaFaqFromPartial(mainHtml) {
   const partialPath = path.join(root, "html", "partials", "services", "faq-kontekstnaya-reklama.html");
   if (!fs.existsSync(partialPath)) {
@@ -587,6 +594,7 @@ function replaceFirstFooterModernSocialBlock(html, replacement) {
 }
 
 function run() {
+  buildServicePartials();
   const { path: layoutPath, label: layoutLabel } = resolveLayoutPath();
   if (!layoutPath || !fs.existsSync(layoutPath)) {
     console.error(
@@ -635,7 +643,7 @@ function run() {
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerBlurRestore\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamNativeRow\" />",
     buildCssLinks(v),
-    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-faq.css?v=20260516tabletFaqGrid"),
+    deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260518serviceFaqPhase1"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516teamMembersSlider\" />",
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
@@ -685,4 +693,8 @@ function run() {
   console.log("assemble-kontekstnaya-from-prod-layout: ok, bytes main", main.length);
 }
 
-run();
+if (require.main === module) {
+  run();
+}
+
+module.exports = { run };

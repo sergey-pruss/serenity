@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Сборка targeting/index.html: срез prod/Nuxt + partials (FAQ, форма, кейсы, награды, синергия).
+ * Сборка targeting/index.html: срез prod/Nuxt + partials (FAQ из json/services/targeting/faq.json — npm run build:service-faq, форма, кейсы, награды, синергия).
  * TARGETING_INCLUDE_PHASE2=1 — вставить html/partials/services/targeting-phase2-*.html (факты, этапы, клиенты).
  */
 const fs = require("fs");
@@ -11,6 +11,12 @@ const { sanitizeMoreCasesCapture } = require("./sanitize-more-cases-capture.cjs"
 const { stripNuxtScopedMarkup } = require("./strip-nuxt-scoped-markup.cjs");
 
 const root = path.resolve(__dirname, "..");
+
+function buildServicePartials() {
+  if (process.env.SKIP_SERVICE_PARTIALS_BUILD === "1") return;
+  execSync("npm run build:service-partials", { cwd: root, stdio: "inherit" });
+}
+
 const fullHtmlPath = path.join(root, "tmp", "targeting-prod-full.html");
 const parityLayoutPath = path.join(root, "tmp", "targeting-parity-prod-layout.html");
 const indexPath = path.join(root, "targeting", "index.html");
@@ -424,21 +430,21 @@ function ensureTargetingPageShell(mainHtml) {
 }
 
 function ensureTargetingFaqScript(html) {
-  const targetingNeedle = 'src="/_sa/js/targeting-spoilers.js';
-  if (html.includes(targetingNeedle)) return html;
-  const kontekstRe =
-    /<script defer src="\/_sa\/js\/kontekstnaya-spoilers\.js[^"]*"><\/script>\s*/;
-  if (kontekstRe.test(html)) {
+  const serviceNeedle = 'src="/_sa/js/service-spoilers.js';
+  if (html.includes(serviceNeedle)) return html;
+  const legacyRe =
+    /<script defer src="\/_sa\/js\/(?:kontekstnaya|targeting)-spoilers\.js[^"]*"><\/script>\s*/;
+  if (legacyRe.test(html)) {
     return html.replace(
-      kontekstRe,
-      '<script defer src="/_sa/js/targeting-spoilers.js?v=20260517targetingFaqRoot"></script>\n    ',
+      legacyRe,
+      '<script defer src="/_sa/js/service-spoilers.js?v=20260518serviceFaqPhase1"></script>\n    ',
     );
   }
   const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
   if (html.includes(appJs)) {
     return html.replace(
       appJs,
-      '<script defer src="/_sa/js/targeting-spoilers.js?v=20260517targetingFaqRoot"></script>\n    ' + appJs,
+      '<script defer src="/_sa/js/service-spoilers.js?v=20260518serviceFaqPhase1"></script>\n    ' + appJs,
     );
   }
   return html;
@@ -465,6 +471,7 @@ function ensureBurgerMenuGlavnaya(html) {
 }
 
 function run() {
+  buildServicePartials();
   const { path: layoutPath, label: layoutLabel } = resolveLayoutPath();
   if (!layoutPath || !fs.existsSync(layoutPath)) {
     console.error("Нет дампа: capture tmp/targeting-prod-full.html");
@@ -544,7 +551,7 @@ function run() {
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260516morCasesLinkSlideBg" />',
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
         buildCssLinks(v),
-        deferNonBlockingCss("/_sa/css/sections/targeting-faq.css?v=20260517targetingFaqStatic"),
+        deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260518serviceFaqPhase1"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
         '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260517targetingMoreCasesFix2" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
@@ -589,4 +596,8 @@ function run() {
   console.log("assemble-targeting-from-prod-layout: ok, main bytes", main.length);
 }
 
-run();
+if (require.main === module) {
+  run();
+}
+
+module.exports = { run };

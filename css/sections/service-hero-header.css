@@ -1,0 +1,54 @@
+/**
+ * Единый верхний отступ заголовка hero на страницах услуг.
+ *
+ * Jumbotron (контекст): Nuxt — .header-background { height: 100vh }, .jumbotron { justify-content: center }.
+ * Коллаж (таргет): .c-title-block__header — на ≥1025px ритм как jumbotron + --service-hero-desktop-extra-top.
+ */
+
+@media screen and (min-width: 1025px) {
+  .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) !important;
+    margin-top: var(--service-hero-desktop-header-margin-top, 0) !important;
+  }
+
+  .page-constructor > .page-constructor__section:first-of-type .c-title-block .jumbotron {
+    padding-top: var(--service-hero-jumbotron-padding-top, 70px) !important;
+  }
+}
+
+/* Коллаж под заголовком: зазор «описание → изображение» (только если есть case-slider) */
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor > .page-constructor__section:first-of-type:has(.case-slider__wrapper)
+    .c-title-block.modern
+    .c-title-block__header:not(.video-header) {
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 30px)) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor > .page-constructor__section:first-of-type:has(.case-slider__wrapper)
+    .c-title-block.modern
+    .c-title-block__header:not(.video-header) {
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 20px)) !important;
+  }
+
+  /*
+   * Единый зазор «конец hero → первый заголовок контента» (kontekst + targeting).
+   * Контекст: снимаем 100vh у .header-background (Nuxt), отступ — padding снизу секции.
+   * Таргет с коллажем: тот же токен на .case-slider__wrapper; у 2-й секции padding-top: 0.
+   */
+  .page-constructor > .page-constructor__section:first-of-type .header-background.desctop,
+  .page-constructor > .page-constructor__section:first-of-type .header-background {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Зазор до 2-й секции — padding снизу hero; сверху у контента — --home-between (как kontekst). */
+  .page-constructor > .page-constructor__section:first-of-type {
+    padding-bottom: var(--service-hero-mobile-to-content, 48px) !important;
+  }
+
+  .page-constructor > .page-constructor__section:first-of-type:has(.case-slider__wrapper) .case-slider__wrapper {
+    margin-bottom: 0 !important;
+  }
+}

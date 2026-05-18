@@ -130,12 +130,13 @@ export async function warnIfWrongRegion(page, regionId) {
     return true;
   }
   const ok =
+    regionId === "rf" ||
     (regionId === "moscow" && (body.includes("москв") || body.includes("moscow"))) ||
     (regionId === "spb" &&
       (body.includes("санкт-петербург") ||
         body.includes("петербург") ||
         body.includes("saint petersburg")));
-  if (!ok && body.length > 500) {
+  if (!ok && body.length > 500 && regionId !== "rf") {
     console.warn(
       `\n⚠️  Не видно явной привязки к «${expected}» в тексте страницы — проверьте регион вручную.\n`,
     );

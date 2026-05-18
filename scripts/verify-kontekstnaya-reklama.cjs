@@ -12,6 +12,7 @@ const path = require("path");
 const http = require("http");
 
 const root = path.resolve(__dirname, "..");
+const { loadServiceConfig } = require("./lib/load-service-config.cjs");
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -32,6 +33,7 @@ function httpGet(url) {
 }
 
 async function run() {
+  loadServiceConfig("kontekstnaya_reklama");
   const html = read("kontekstnaya_reklama/index.html");
 
   assert(
@@ -279,6 +281,14 @@ async function run() {
     fileExists("html/partials/services/more-cases-kontekstnaya-from-services.html"),
     "Частичный блок кейсов (services): html/partials/services/more-cases-kontekstnaya-from-services.html",
   );
+  assert(
+    fileExists("json/services/kontekstnaya_reklama/more-cases.json"),
+    "more-cases JSON: json/services/kontekstnaya_reklama/more-cases.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-more-cases.shell.html"),
+    "more-cases shell: _service-more-cases.shell.html",
+  );
 
   assert(
     html.includes("more-case-wr more-case-wr__main"),
@@ -288,6 +298,14 @@ async function run() {
   assert(
     fileExists("html/partials/services/awards-kontekstnaya-reklama.html"),
     "Частичный блок наград: html/partials/services/awards-kontekstnaya-reklama.html",
+  );
+  assert(
+    fileExists("json/services/kontekstnaya_reklama/awards.json"),
+    "awards JSON: json/services/kontekstnaya_reklama/awards.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-awards.shell.html"),
+    "awards shell: _service-awards.shell.html",
   );
 
   assert(
@@ -323,15 +341,31 @@ async function run() {
     fileExists("html/partials/services/faq-kontekstnaya-reklama.html"),
     "Частичный блок FAQ: html/partials/services/faq-kontekstnaya-reklama.html",
   );
-
   assert(
-    fileExists("css/sections/kontekstnaya-faq.css"),
-    "Локальные стили FAQ: css/sections/kontekstnaya-faq.css",
+    fileExists("json/services/kontekstnaya_reklama/faq.json"),
+    "FAQ JSON: json/services/kontekstnaya_reklama/faq.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-faq.shell.html"),
+    "FAQ shell: html/partials/services/_service-faq.shell.html",
+  );
+  assert(
+    fileExists("json/services/kontekstnaya_reklama/synergy.json"),
+    "synergy JSON: json/services/kontekstnaya_reklama/synergy.json",
+  );
+  assert(
+    fileExists("html/partials/services/_service-synergy.shell.html"),
+    "synergy shell: _service-synergy.shell.html",
   );
 
   assert(
-    html.includes('id="kontekst-faq-mounted"') && html.includes("kontekstnaya-faq.css"),
-    "HTML: FAQ — #kontekst-faq-mounted и подключение kontekstnaya-faq.css",
+    fileExists("css/sections/service-faq.css"),
+    "Общие стили FAQ: css/sections/service-faq.css",
+  );
+
+  assert(
+    html.includes('id="kontekst-faq-mounted"') && html.includes("service-faq.css"),
+    "HTML: FAQ — #kontekst-faq-mounted и подключение service-faq.css",
   );
 
   const iPackagesHeading = html.indexOf(">Пакеты</h2>");
@@ -389,13 +423,13 @@ async function run() {
   );
 
   assert(
-    fileExists("js/kontekstnaya-spoilers.js"),
-    "JS: kontekstnaya-spoilers.js — раскрытие блока «Вопрос-ответ» (Nuxt-спойлеры без Vue)",
+    fileExists("js/service-spoilers.js"),
+    "JS: service-spoilers.js — раскрытие FAQ на страницах услуг",
   );
 
   assert(
-    html.includes("kontekstnaya-spoilers.js"),
-    "HTML: подключён kontekstnaya-spoilers.js для FAQ",
+    html.includes("service-spoilers.js"),
+    "HTML: подключён service-spoilers.js для FAQ",
   );
 
   assert(
@@ -432,7 +466,7 @@ async function run() {
     "_sa/img/storage__R16Tij6hzShVdtyA5ZbyTu0bM19BmNBE9eTlnQRT.png",
     "css/kontekstnaya-reklama-nuxt.bundle.css",
     "css/kontekstnaya-reklama-static-stack.css",
-    "css/sections/kontekstnaya-faq.css",
+    "css/sections/service-faq.css",
     "css/sections/home-awards.css",
     "_sa/js/gradient-animation.min.js",
   ];
