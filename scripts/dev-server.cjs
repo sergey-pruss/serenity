@@ -162,6 +162,7 @@ function serviceCanonicalRedirect(pathname, rawQuery) {
   const map = {
     "/targeting/": "/targeting",
     "/kontekstnaya_reklama/": "/kontekstnaya_reklama",
+    "/services/": "/services",
   };
   const target = map[pathname];
   if (!target) return null;
