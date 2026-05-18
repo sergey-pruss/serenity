@@ -62,6 +62,10 @@
         {
           "id": "kompleksnyj",
           "text": "услуги комплексного маркетинга"
+        },
+        {
+          "id": "agentstvo",
+          "text": "агентство комплексного маркетинга"
         }
       ]
     },
@@ -75,6 +79,23 @@
         {
           "id": "prodvizhenie",
           "text": "комплексное продвижение"
+        }
+      ]
+    },
+    {
+      "id": "korporativnyj-sajt",
+      "title": "Корпоративный сайт",
+      "path": "/korporativnyj_sajt",
+      "url": "https://serenity.agency/korporativnyj_sajt",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "sozdanie",
+          "text": "создание корпоративного сайта"
+        },
+        {
+          "id": "razrabotka",
+          "text": "разработка корпоративного сайта"
         }
       ]
     }
@@ -473,12 +494,222 @@
           "outOfTop20": true,
           "matchedUrl": null,
           "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
         }
       ]
     }
   ],
   "panels": {
-    "fetchedAt": "2026-05-18T14:10:27.783Z",
+    "fetchedAt": "2026-05-18T14:20:55.485Z",
     "period": {
       "startDate": "2026-04-18",
       "endDate": "2026-05-15"
@@ -578,6 +809,46 @@
           "avgShowPosition": 8.11,
           "shows": 711,
           "clicks": 0
+        }
+      },
+      "kompleksnoye-prodvizheniye|prodvizhenie": {
+        "pageId": "kompleksnoye-prodvizheniye",
+        "queryId": "prodvizhenie",
+        "queryText": "комплексное продвижение",
+        "normalizedKey": "комплексное продвижение",
+        "google": {
+          "avgPosition": 20.34,
+          "clicks": 0,
+          "impressions": 310
+        },
+        "yandex": {
+          "avgShowPosition": 7.6,
+          "shows": 428,
+          "clicks": 4
+        }
+      },
+      "korporativnyj-sajt|sozdanie": {
+        "pageId": "korporativnyj-sajt",
+        "queryId": "sozdanie",
+        "queryText": "создание корпоративного сайта",
+        "normalizedKey": "создание корпоративного сайта",
+        "google": null,
+        "yandex": {
+          "avgShowPosition": 12.55,
+          "shows": 363,
+          "clicks": 1
+        }
+      },
+      "korporativnyj-sajt|razrabotka": {
+        "pageId": "korporativnyj-sajt",
+        "queryId": "razrabotka",
+        "queryText": "разработка корпоративного сайта",
+        "normalizedKey": "разработка корпоративного сайта",
+        "google": null,
+        "yandex": {
+          "avgShowPosition": 12.5,
+          "shows": 444,
+          "clicks": 3
         }
       }
     },
