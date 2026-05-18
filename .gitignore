@@ -23,6 +23,8 @@ dist/
 standalone/
 public/img/
 tmp/
+# Видео статей блога — на origin/CDN; в git не храним (см. scripts/sync-blog-article-mp4-from-prod.mjs).
+img/blog/**/*.mp4
 # Локальный симлинк `/_sa/` → корень репозитория (удобство dev); в git и rsync не кладём.
 _sa
 artifacts/
