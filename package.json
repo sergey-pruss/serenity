@@ -16,6 +16,7 @@
     "audit:blog-media": "node scripts/audit-blog-media.mjs",
     "prune:blog-media-orphans": "node scripts/prune-blog-media-orphans.mjs",
     "prune:blog-article-srcset": "node scripts/prune-blog-article-srcset.mjs",
+    "convert:blog-media-webp": "node scripts/convert-blog-media-webp.mjs",
     "seo:import-topvisor-links": "node scripts/seo/import-topvisor-links.mjs",
     "seo:import-topvisor-images": "node scripts/seo/import-topvisor-images.mjs",
     "seo:import-topvisor-js": "node scripts/seo/import-topvisor-js.mjs",
