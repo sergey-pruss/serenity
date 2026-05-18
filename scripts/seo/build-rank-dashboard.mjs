@@ -6,6 +6,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadRankDashboard, DEFAULT_RANK_DASHBOARD_PATH } from "./lib/rank-dashboard-utils.mjs";
+import { REGIONS as SERP_REGIONS } from "./lib/serp-shared.mjs";
+
+/** Регионы для URL выдачи (lr / uule) — как в serp-region-context.mjs */
+const serpRegionsJson = JSON.stringify(
+  Object.fromEntries(
+    Object.entries(SERP_REGIONS).map(([id, r]) => [id, { yandexLr: r.yandexLr, googleCanon: r.googleCanon }]),
+  ),
+);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..", "..");
@@ -133,6 +141,16 @@ const html = `<!DOCTYPE html>
       font-size: 0.95rem;
       position: relative;
     }
+    .cell-pos a.serp-link {
+      color: inherit;
+      text-decoration: none;
+    }
+    .cell-pos a.serp-link:hover { text-decoration: underline; }
+    .cell-pos a.serp-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
     .cell-pos .delta {
       display: block;
       font-size: 0.68rem;
@@ -147,6 +165,29 @@ const html = `<!DOCTYPE html>
     .p-11-20 { background: var(--pos-11-20-bg); color: var(--pos-11-20); }
     .p-out { background: var(--pos-out-bg); color: var(--pos-out); }
     .empty { color: var(--muted); font-style: italic; }
+    th.panel-group { text-align: center; font-size: 0.8rem; color: var(--muted); border-left: 2px solid var(--border); }
+    .cell-panel {
+      text-align: center;
+      min-width: 52px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f8f9fb;
+      border-left: 2px solid var(--border);
+    }
+    .cell-panel.has-data { color: var(--accent); background: #eef3f8; }
+    .cell-panel.panel-warn { color: #b54708; background: #fff4e5; }
+    .cell-panel .sub { display: block; font-size: 0.62rem; font-weight: 500; color: var(--muted); }
+    .gaps-box {
+      font-size: 0.88rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+    .gaps-box ul { margin: 8px 0 0; padding-left: 1.2em; }
     .hist-wrap { margin-top: 8px; }
     .hist-wrap h2 { font-size: 1.05rem; margin: 0 0 10px; }
     .badge {
@@ -161,6 +202,37 @@ const html = `<!DOCTYPE html>
     footer { font-size: 0.82rem; color: var(--muted); margin-top: 24px; }
     footer a { color: var(--accent); }
     .stale { color: #b54708; font-weight: 600; }
+    .popular-block { margin: 28px 0 0; }
+    .popular-block h2 { font-size: 1.15rem; margin: 0 0 6px; }
+    .popular-block .popular-note { font-size: 0.85rem; color: var(--muted); margin: 0 0 12px; max-width: 900px; }
+    .popular-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 960px) { .popular-grid { grid-template-columns: 1fr; } }
+    .popular-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .popular-card h3 {
+      margin: 0;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      background: var(--code);
+      border-bottom: 1px solid var(--border);
+    }
+    .popular-card table { font-size: 0.8rem; border: none; }
+    .popular-card th, .popular-card td { padding: 6px 8px; }
+    .popular-card th.num, .popular-card td.num { text-align: right; white-space: nowrap; }
+    .popular-card th.abbr { cursor: help; border-bottom: 1px dotted var(--muted); }
+    .popular-card tr.tracked td { background: #f0f7fc; }
+    .popular-card tr.tracked td:first-child { font-weight: 600; }
+    .popular-card a { color: var(--accent); text-decoration: none; word-break: break-all; }
+    .popular-card a:hover { text-decoration: underline; }
+    .popular-empty { padding: 12px; color: var(--muted); font-size: 0.85rem; }
   </style>
 </head>
 <body>
@@ -177,15 +249,20 @@ const html = `<!DOCTYPE html>
       <span style="font-size:0.85rem;color:var(--muted)">Москва, СПб и РФ — в колонках (Яндекс и Google)</span>
     </div>
 
-    <div class="summary" id="summary"></div>
-
     <p class="legend">
       <span><i style="background:var(--pos-1-3-bg)"></i>1–3</span>
       <span><i style="background:var(--pos-4-10-bg)"></i>4–10</span>
       <span><i style="background:var(--pos-11-20-bg)"></i>11–20</span>
       <span><i style="background:var(--pos-out-bg)"></i>&gt;20 / нет данных</span>
-      <span>Дельта — к прошлому снимку</span>
+      <span>Дельта — к прошлому снимку (SERP)</span>
+      <span>Клик по позиции — выдача в этом регионе и ПС</span>
+      <span><i style="background:#eef3f8"></i>GSC / Я.ВМ — средняя позиция панелей, без регионов</span>
     </p>
+    <p class="subtitle" id="meta-panels" style="margin-top:8px"></p>
+
+    <div class="gaps-box" id="gaps-box"></div>
+
+    <div class="summary" id="summary"></div>
 
     <div class="table-scroll">
       <table id="main-table">
@@ -193,6 +270,18 @@ const html = `<!DOCTYPE html>
         <tbody id="table-body"></tbody>
       </table>
     </div>
+
+    <section class="popular-block" id="popular-queries-block" aria-labelledby="popular-queries-title">
+      <h2 id="popular-queries-title">Популярные запросы из поиска <span class="badge">GSC / Я.ВМ</span></h2>
+      <p class="popular-note" id="popular-queries-note"></p>
+      <div class="popular-grid" id="popular-queries-grid"></div>
+    </section>
+
+    <section class="popular-block" id="popular-pages-block" aria-labelledby="popular-pages-title">
+      <h2 id="popular-pages-title">Страницы из поиска <span class="badge">GSC / Я.ВМ</span></h2>
+      <p class="popular-note" id="popular-pages-note"></p>
+      <div class="popular-grid" id="popular-pages-grid"></div>
+    </section>
 
     <footer>
       <p>Сборка: <span id="built-at"></span>. Источник: <code>json/seo/rank-dashboard.json</code>.
@@ -216,8 +305,130 @@ const html = `<!DOCTYPE html>
     }
   }
   const MAX_HISTORY = 12;
+  const PANEL_COLS = 2;
+  const SERP_COLS = SLICES.length;
+  const SERP_REGIONS = ${serpRegionsJson};
+
+  function encodeGoogleUule(canonical) {
+    const bytes = new TextEncoder().encode(canonical);
+    let bin = "";
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return "w+CAIQICI" + btoa(bin);
+  }
+
+  function buildSerpUrl(engine, regionId, query) {
+    const r = SERP_REGIONS[regionId];
+    if (!r) return "#";
+    if (engine === "yandex") {
+      const params = new URLSearchParams({
+        text: query,
+        lr: String(r.yandexLr),
+        lang: "ru",
+      });
+      return "https://yandex.ru/search/?" + params.toString();
+    }
+    const params = new URLSearchParams({
+      q: query,
+      gl: "ru",
+      hl: "ru",
+      cr: "countryRU",
+      pws: "0",
+      num: "30",
+      uule: encodeGoogleUule(r.googleCanon),
+    });
+    return "https://www.google.ru/search?" + params.toString();
+  }
 
   let viewMode = "latest";
+
+  function getPanelRow(pageId, queryId) {
+    const panels = DATA.panels;
+    if (!panels || !panels.byQuery) return null;
+    return panels.byQuery[pageId + "|" + queryId] || null;
+  }
+
+  function formatPanelAvg(n) {
+    if (n == null || Number.isNaN(n)) return "—";
+    const r = Math.round(n * 10) / 10;
+    return String(r);
+  }
+
+  function panelGscHint() {
+    const src = DATA.panels && DATA.panels.sources;
+    if (!DATA.panels) return "Запустите: npm run seo:rank-dashboard:panels";
+    if (src && src.gscError) {
+      let msg = "GSC не загружен: " + src.gscError.slice(0, 220);
+      if (/permission|insufficient|403/i.test(src.gscError) && src.gscAuthMethod === "service_account") {
+        msg += " — нужен OAuth (см. npm run mcp:gsc-help)";
+      }
+      return msg;
+    }
+    if (src && src.gscSkipped) return "GSC пропущен (SEO_SKIP_GSC=1)";
+    if (src && src.gscAuthMethod === "oauth") return "GSC (OAuth), нет показов по фразе за период";
+    return "Нет показов по фразе в GSC за период (или фраза не в отчёте)";
+  }
+
+  function panelYwmHint() {
+    if (!DATA.panels) return "Запустите: npm run seo:rank-dashboard:panels";
+    return "Нет в топе популярных запросов Вебмастера за период (мало показов)";
+  }
+
+  function renderPanelCells(pageId, queryId) {
+    const row = getPanelRow(pageId, queryId);
+    const g = row && row.google;
+    const y = row && row.yandex;
+    const gPos = g && g.avgPosition != null ? g.avgPosition : null;
+    const yPos = y && y.avgShowPosition != null ? y.avgShowPosition : null;
+    const gscGlobalEmpty =
+      DATA.panels &&
+      !DATA.panels.sources?.gscSkipped &&
+      !DATA.panels.sources?.gscRowCount &&
+      DATA.panels.sources?.gscError;
+    let gTitle = panelGscHint();
+    if (g) {
+      gTitle =
+        "GSC ср. поз. " +
+        g.avgPosition +
+        ", клики " +
+        g.clicks +
+        ", показы " +
+        g.impressions;
+    }
+    let yTitle = panelYwmHint();
+    if (y) {
+      yTitle = "Я.ВМ ср. поз. " + y.avgShowPosition + ", показы " + y.shows + ", клики " + y.clicks;
+    }
+    const gText = gPos != null ? formatPanelAvg(gPos) : gscGlobalEmpty ? "!" : "—";
+    const yText = yPos != null ? formatPanelAvg(yPos) : "—";
+    return (
+      '<td class="cell-panel' +
+      (gPos != null ? " has-data" : gscGlobalEmpty ? " panel-warn" : "") +
+      '" title="' +
+      escapeAttr(gTitle) +
+      '">' +
+      escapeHtml(gText) +
+      (g && g.clicks != null
+        ? '<span class="sub">' + escapeHtml(String(g.clicks)) + " кл</span>"
+        : gscGlobalEmpty
+          ? '<span class="sub">GSC</span>'
+          : gPos == null
+            ? '<span class="sub">нет</span>'
+            : "") +
+      "</td>" +
+      '<td class="cell-panel' +
+      (yPos != null ? " has-data" : "") +
+      '" title="' +
+      escapeAttr(yTitle) +
+      '">' +
+      escapeHtml(yText) +
+      (y && y.shows != null
+        ? '<span class="sub">' + escapeHtml(String(y.shows)) + " пок</span>"
+        : yPos == null
+          ? '<span class="sub">нет</span>'
+          : "") +
+      "</td>"
+    );
+  }
 
   const sortedChecks = [...(DATA.checks || [])].sort((a, b) => a.date.localeCompare(b.date));
   const dates = sortedChecks.map((c) => c.date);
@@ -232,9 +443,21 @@ const html = `<!DOCTYPE html>
   }
 
   function formatPos(entry) {
-    if (!entry) return { text: "—", cls: "p-out empty", delta: null };
-    if (entry.outOfTop20 || entry.position == null) return { text: ">20", cls: "p-out", delta: null };
-    return { text: String(entry.position), cls: posClass(entry.position, false), delta: null };
+    if (!entry) return { text: "—", cls: "p-out empty", title: "Нет снимка SERP для этой ячейки", delta: null };
+    if (entry.outOfTop20 || entry.position == null) {
+      return {
+        text: ">20",
+        cls: "p-out",
+        title: "Serenity не в топ-20 органики (наша съёмка)",
+        delta: null,
+      };
+    }
+    return {
+      text: String(entry.position),
+      cls: posClass(entry.position, false),
+      title: "Позиция в органике, съёмка " + (latestDate || ""),
+      delta: null,
+    };
   }
 
   function findEntry(check, pageId, queryId, engine, region) {
@@ -248,20 +471,34 @@ const html = `<!DOCTYPE html>
     );
   }
 
-  function renderPosCell(entry, prevEntry) {
+  function renderPosCell(entry, prevEntry, queryText, engine, region) {
     const f = formatPos(entry);
     const d = delta(prevEntry, entry);
     let deltaHtml = "";
     if (d && prevEntry) {
       deltaHtml = '<span class="delta ' + d.cls + '">' + escapeHtml(d.text) + "</span>";
     }
+    const serpHref = buildSerpUrl(engine, region, queryText);
+    const serpLinkTitle =
+      "Открыть выдачу: " + ENGINE_LABELS[engine] + ", " + REGION_LABELS[region] + " — " + queryText;
+    const title =
+      serpLinkTitle +
+      (entry && entry.matchedUrl ? " · " + entry.matchedUrl : f.title ? " · " + f.title : "");
+    const posLink =
+      '<a class="serp-link" href="' +
+      escapeAttr(serpHref) +
+      '" target="_blank" rel="noopener noreferrer" title="' +
+      escapeAttr(serpLinkTitle) +
+      '">' +
+      escapeHtml(f.text) +
+      "</a>";
     return (
       '<td class="cell-pos ' +
       f.cls +
       '" title="' +
-      escapeAttr(f.text) +
+      escapeAttr(title) +
       '">' +
-      escapeHtml(f.text) +
+      posLink +
       deltaHtml +
       "</td>"
     );
@@ -273,14 +510,16 @@ const html = `<!DOCTYPE html>
     ).join("");
     return (
       "<tr><th class=\\"sticky-col\\" rowspan=\\"2\\">Страница / запрос</th>" +
-      '<th class="engine-group" colspan="3">' +
-      escapeHtml(ENGINE_LABELS.yandex) +
-      "</th>" +
-      '<th class="engine-group" colspan="3">' +
-      escapeHtml(ENGINE_LABELS.google) +
-      "</th></tr><tr>" +
+      '<th class="engine-group" colspan="' +
+      SERP_COLS +
+      '">SERP (наша съёмка)</th>' +
+      '<th class="panel-group" colspan="' +
+      PANEL_COLS +
+      '">Панели</th></tr><tr>' +
       regionHeaders +
       regionHeaders +
+      '<th class="region-col" title="Search Console, средняя позиция">GSC</th>' +
+      '<th class="region-col" title="Яндекс Вебмастер, AVG_SHOW_POSITION">Я.ВМ</th>' +
       "</tr>"
     );
   }
@@ -338,7 +577,7 @@ const html = `<!DOCTYPE html>
   function renderTable() {
     const head = document.getElementById("table-head");
     const body = document.getElementById("table-body");
-    const colSpan = 1 + SLICES.length;
+    const colSpan = 1 + SERP_COLS + PANEL_COLS;
 
     if (viewMode === "latest") {
       head.innerHTML = latestTableHead();
@@ -363,8 +602,12 @@ const html = `<!DOCTYPE html>
             rows += renderPosCell(
               findEntry(check, page.id, q.id, sl.engine, sl.region),
               findEntry(prevCheck, page.id, q.id, sl.engine, sl.region),
+              q.text,
+              sl.engine,
+              sl.region,
             );
           }
+          rows += renderPanelCells(page.id, q.id);
           rows += "</tr>";
         }
       }
@@ -374,7 +617,7 @@ const html = `<!DOCTYPE html>
       head.innerHTML =
         "<tr><th class=\\"sticky-col\\">Страница / запрос</th>" +
         cols
-          .map((d) => '<th colspan="' + SLICES.length + '">' + escapeHtml(d) + "</th>")
+          .map((d) => '<th colspan="' + (SERP_COLS + PANEL_COLS) + '">' + escapeHtml(d) + "</th>")
           .join("") +
         "</tr><tr><th class=\\"sticky-col\\"></th>" +
         cols
@@ -386,7 +629,8 @@ const html = `<!DOCTYPE html>
                 '">' +
                 escapeHtml(ENGINE_LABELS[sl.engine].charAt(0) + " " + REGION_LABELS[sl.region]) +
                 "</th>",
-            ).join(""),
+            ).join("") +
+            '<th class="region-col">GSC</th><th class="region-col">Я.ВМ</th>',
           )
           .join("") +
         "</tr>";
@@ -394,7 +638,7 @@ const html = `<!DOCTYPE html>
       for (const page of DATA.pages) {
         rows +=
           '<tr class="page-row"><td class="sticky-col" colspan="' +
-          (1 + cols.length * SLICES.length) +
+          (1 + cols.length * (SERP_COLS + PANEL_COLS)) +
           '"><a href="' +
           escapeAttr(page.url) +
           '">' +
@@ -405,8 +649,15 @@ const html = `<!DOCTYPE html>
           for (const d of cols) {
             const check = sortedChecks.find((c) => c.date === d);
             for (const sl of SLICES) {
-              rows += renderPosCell(findEntry(check, page.id, q.id, sl.engine, sl.region), null);
+              rows += renderPosCell(
+                findEntry(check, page.id, q.id, sl.engine, sl.region),
+                null,
+                q.text,
+                sl.engine,
+                sl.region,
+              );
             }
+            rows += renderPanelCells(page.id, q.id);
           }
           rows += "</tr>";
         }
@@ -426,9 +677,204 @@ const html = `<!DOCTYPE html>
     return escapeHtml(s).replace(/'/g, "&#39;");
   }
 
+  function normalizeKey(s) {
+    return String(s)
+      .replace(/\\u00a0/g, " ")
+      .trim()
+      .toLowerCase()
+      .replace(/\\s+/g, " ");
+  }
+
+  function trackedQueryKeys() {
+    const set = new Set();
+    for (const page of DATA.pages) {
+      for (const q of page.queries) set.add(normalizeKey(q.text));
+    }
+    return set;
+  }
+
+  function trackedPaths() {
+    return DATA.pages.map((p) => {
+      const path = p.path.replace(/\\/\\$/, "") || "/";
+      return path;
+    });
+  }
+
+  function pathnameFromUrl(url) {
+    try {
+      const u = new URL(url);
+      return u.pathname.replace(/\\/\\$/, "") || "/";
+    } catch {
+      return "";
+    }
+  }
+
+  function isTrackedPage(url) {
+    const p = pathnameFromUrl(url);
+    return trackedPaths().some((tp) => p === tp || (tp !== "/" && p.startsWith(tp + "/")));
+  }
+
+  function popularCard(title, thead, tbody) {
+    const inner = tbody
+      ? '<div class="table-scroll"><table><thead>' +
+        thead +
+        "</thead><tbody>" +
+        tbody +
+        "</tbody></table></div>"
+      : '<p class="popular-empty">Нет данных за период</p>';
+    return '<div class="popular-card"><h3>' + escapeHtml(title) + "</h3>" + inner + "</div>";
+  }
+
+  function renderPopularQueries() {
+    const note = document.getElementById("popular-queries-note");
+    const grid = document.getElementById("popular-queries-grid");
+    const pop = DATA.panels && DATA.panels.popular;
+    if (!pop || !DATA.panels.period) {
+      note.textContent = "Загрузите панели: npm run seo:rank-dashboard:panels";
+      grid.innerHTML =
+        popularCard("Google Search Console", "", "") + popularCard("Яндекс Вебмастер", "", "");
+      return;
+    }
+    const per = DATA.panels.period;
+    note.textContent =
+      "Топ-" +
+      pop.limit +
+      " за " +
+      per.startDate +
+      " … " +
+      per.endDate +
+      " (те же API, что MCP). Выделены запросы из таблицы выше.";
+    const tracked = trackedQueryKeys();
+    const gHead =
+      "<tr><th>#</th><th>Запрос</th><th>Клики</th><th>Показы</th><th>Поз.</th></tr>";
+    let gBody = "";
+    pop.queries.google.forEach((r, i) => {
+      const tr = tracked.has(normalizeKey(r.text)) ? ' class="tracked"' : "";
+      gBody +=
+        "<tr" +
+        tr +
+        "><td>" +
+        (i + 1) +
+        "</td><td>" +
+        escapeHtml(r.text) +
+        "</td><td>" +
+        r.clicks +
+        "</td><td>" +
+        r.impressions +
+        "</td><td>" +
+        escapeHtml(String(r.position)) +
+        "</td></tr>";
+    });
+    const yHead =
+      "<tr><th>#</th><th>Запрос</th><th>Показы</th><th>Клики</th><th>Поз.</th></tr>";
+    let yBody = "";
+    pop.queries.yandex.forEach((r, i) => {
+      const tr = tracked.has(normalizeKey(r.text)) ? ' class="tracked"' : "";
+      yBody +=
+        "<tr" +
+        tr +
+        "><td>" +
+        (i + 1) +
+        "</td><td>" +
+        escapeHtml(r.text) +
+        "</td><td>" +
+        r.shows +
+        "</td><td>" +
+        r.clicks +
+        "</td><td>" +
+        (r.avgShowPosition != null ? escapeHtml(String(r.avgShowPosition)) : "—") +
+        "</td></tr>";
+    });
+    grid.innerHTML =
+      popularCard("Google Search Console", gHead, gBody) +
+      popularCard("Яндекс Вебмастер", yHead, yBody);
+  }
+
+  function renderPopularPages() {
+    const note = document.getElementById("popular-pages-note");
+    const grid = document.getElementById("popular-pages-grid");
+    const pop = DATA.panels && DATA.panels.popular;
+    if (!pop || !DATA.panels.period) {
+      note.textContent = "Загрузите панели: npm run seo:rank-dashboard:panels";
+      grid.innerHTML =
+        popularCard("Google Search Console", "", "") + popularCard("Яндекс Вебмастер", "", "");
+      return;
+    }
+    const per = DATA.panels.period;
+    const pagesLimit = pop.pagesLimit || 10;
+    let noteText =
+      "Топ-" +
+      pagesLimit +
+      " страниц за " +
+      per.startDate +
+      " … " +
+      per.endDate +
+      ". Выделены URL из списка страниц дашборда.";
+    if (pop.notes && pop.notes.pagesYandex) noteText += " " + pop.notes.pagesYandex;
+    note.textContent = noteText;
+    const gHead =
+      "<tr><th>#</th><th>Страница</th><th>Клики</th><th>Показы</th><th>Поз.</th></tr>";
+    let gBody = "";
+    pop.pages.google.forEach((r, i) => {
+      const tr = isTrackedPage(r.url) ? ' class="tracked"' : "";
+      gBody +=
+        "<tr" +
+        tr +
+        "><td>" +
+        (i + 1) +
+        '</td><td><a href="' +
+        escapeAttr(r.url) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        escapeHtml(r.url) +
+        "</a></td><td>" +
+        r.clicks +
+        "</td><td>" +
+        r.impressions +
+        "</td><td>" +
+        escapeHtml(String(r.position)) +
+        "</td></tr>";
+    });
+    const yHead =
+      "<tr><th>#</th><th>Страница</th>" +
+      '<th class="num abbr" title="Метрика: визиты, organic, поисковая система Яндекс">Переходы</th>' +
+      '<th class="num abbr" title="Яндекс Вебмастер: клики по запросу, если фраза привязана к URL">Клики ВМ</th>' +
+      '<th class="num abbr" title="Яндекс Вебмастер: показы по запросу, если фраза привязана к URL">Показы</th>' +
+      '<th class="num abbr" title="Яндекс Вебмастер: средняя позиция показа">Поз.</th></tr>';
+    let yBody = "";
+    pop.pages.yandex.forEach((r, i) => {
+      const tr = isTrackedPage(r.url) ? ' class="tracked"' : "";
+      const visits = r.visits != null ? r.visits : 0;
+      const wmClicks =
+        r.wmClicks != null ? r.wmClicks : r.clicks != null && r.clicks !== visits ? r.clicks : 0;
+      yBody +=
+        "<tr" +
+        tr +
+        "><td>" +
+        (i + 1) +
+        '</td><td><a href="' +
+        escapeAttr(r.url) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        escapeHtml(r.url) +
+        '</a></td><td class="num">' +
+        (visits > 0 ? visits : "—") +
+        '</td><td class="num">' +
+        (wmClicks > 0 ? wmClicks : "—") +
+        '</td><td class="num">' +
+        (r.shows > 0 ? r.shows : "—") +
+        '</td><td class="num">' +
+        (r.avgShowPosition != null ? escapeHtml(String(r.avgShowPosition)) : "—") +
+        "</td></tr>";
+    });
+    grid.innerHTML =
+      popularCard("Google Search Console", gHead, gBody) +
+      popularCard("Яндекс Вебмастер", yHead, yBody);
+  }
+
   function refresh() {
     renderSummary();
     renderTable();
+    renderPopularQueries();
+    renderPopularPages();
   }
 
   document.getElementById("btn-view-latest").addEventListener("click", () => {
@@ -465,6 +911,84 @@ const html = `<!DOCTYPE html>
     ? new Date(DATA.builtAt).toLocaleString("ru-RU")
     : "—";
 
+  function renderGapsBox() {
+    const el = document.getElementById("gaps-box");
+    if (!latestDate) {
+      el.innerHTML = "<strong>Нет снимка SERP.</strong> Запустите <code>npm run seo:rank-dashboard:serp:interactive</code>";
+      return;
+    }
+    const check = sortedChecks.find((c) => c.date === latestDate);
+    let serpIn = 0;
+    let serpOut = 0;
+    for (const page of DATA.pages) {
+      for (const q of page.queries) {
+        for (const sl of SLICES) {
+          const e = findEntry(check, page.id, q.id, sl.engine, sl.region);
+          if (!e) continue;
+          if (!e.outOfTop20 && e.position != null) serpIn++;
+          else serpOut++;
+        }
+      }
+    }
+    let gscN = 0;
+    let ywmN = 0;
+    if (DATA.panels && DATA.panels.byQuery) {
+      for (const row of Object.values(DATA.panels.byQuery)) {
+        if (row.google) gscN++;
+        if (row.yandex) ywmN++;
+      }
+    }
+    const qCount = DATA.pages.reduce((n, p) => n + p.queries.length, 0);
+    el.innerHTML =
+      "<strong>Почему не везде цифры</strong><ul>" +
+      "<li><strong>SERP &gt;20</strong> (" +
+      serpOut +
+      " из " +
+      serpIn +
+      serpOut +
+      ") — в нашей съёмке выдачи Serenity нет в первых 20 органических ссылках (это не «пропуск», а результат проверки).</li>" +
+      "<li><strong>GSC</strong> — колонка заполняется только если есть показы в Search Console за период; сейчас с данными: " +
+      gscN +
+      " из " +
+      qCount +
+      " запросов." +
+      (DATA.panels && DATA.panels.sources && DATA.panels.sources.gscError
+        ? " Ошибка GSC — <code>npm run seo:rank-dashboard:panels</code> (OAuth: <code>gsc-oauth-desktop.json</code>, см. <code>npm run mcp:gsc-help</code>)."
+        : !gscN
+          ? " Запустите <code>npm run seo:rank-dashboard:panels</code>."
+          : "") +
+      "</li>" +
+      "<li><strong>Я.ВМ</strong> — только фразы с достаточными показами в отчёте «популярные запросы»; сейчас: " +
+      ywmN +
+      " из " +
+      qCount +
+      ". У услуг часто пусто — это нормально.</li>" +
+      "</ul>";
+  }
+
+  const metaPanels = document.getElementById("meta-panels");
+  if (DATA.panels && DATA.panels.period) {
+    const src = DATA.panels.sources || {};
+    let warn = "";
+    if (src.gscError) warn += " GSC: " + src.gscError + ".";
+    if (src.yandexError) warn += " Яндекс: " + src.yandexError + ".";
+    metaPanels.innerHTML =
+      "Панели (GSC / Вебмастер): <strong>" +
+      DATA.panels.period.startDate +
+      " … " +
+      DATA.panels.period.endDate +
+      "</strong>" +
+      (DATA.panels.fetchedAt
+        ? ", обновлено " + new Date(DATA.panels.fetchedAt).toLocaleString("ru-RU")
+        : "") +
+      (warn ? " <span class=\\"stale\\">" + escapeHtml(warn.trim()) + "</span>" : "") +
+      ' — <code>npm run seo:rank-dashboard:panels</code>';
+  } else {
+    metaPanels.textContent =
+      "Панели не загружены — npm run seo:rank-dashboard:panels (нужны secrets/mcp/env.sh)";
+  }
+
+  renderGapsBox();
   refresh();
 })();
   </script>

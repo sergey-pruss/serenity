@@ -126,6 +126,13 @@ export function validateRankDashboard(data) {
       }
     });
   }
+  if (o.panels !== undefined && o.panels !== null) {
+    if (typeof o.panels !== "object") errors.push("panels должен быть объектом");
+    else {
+      const p = /** @type {Record<string, unknown>} */ (o.panels);
+      if (p.byQuery != null && typeof p.byQuery !== "object") errors.push("panels.byQuery должен быть объектом");
+    }
+  }
   if (errors.length) return { ok: false, errors };
   return { ok: true, data: /** @type {RankDashboard} */ (o) };
 }
