@@ -53,6 +53,22 @@ assert(
   "serenity-router.live.conf: missing location = /blog → 308 https://serenity.agency/blog/$is_args$args (canonical listing /blog/)."
 );
 assert(
+  /\blocation\s*=\s*\/targeting\s*\{[\s\S]*?try_files\s+\/targeting\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /targeting → try_files /targeting/index.html (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/targeting\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/targeting\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /targeting/ → 301 /targeting."
+);
+assert(
+  /\blocation\s*=\s*\/kontekstnaya_reklama\s*\{[\s\S]*?try_files\s+\/kontekstnaya_reklama\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /kontekstnaya_reklama → try_files (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/kontekstnaya_reklama\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/kontekstnaya_reklama\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /kontekstnaya_reklama/ → 301 без слэша."
+);
+assert(
   /\bsub_filter\s+'<a href="\/blog"'\s+'<a href="\/blog\/"'/.test(routerVhost),
   "serenity-router.live.conf: missing sub_filter for legacy <a href=\"/blog\" → /blog/ (same pattern as /case/all/)."
 );

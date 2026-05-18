@@ -1,0 +1,17 @@
+---
+description: Канон URL страниц услуг на статике — без завершающего слэша
+globs: targeting/**,kontekstnaya_reklama/**,nginx/serenity-router.live.conf,nginx/static.serenity.agency.live.conf,sitemap.xml,html/partials/section-services.html
+---
+
+# URL услуг без слэша
+
+Страницы услуг на статическом контуре (`/targeting`, `/kontekstnaya_reklama` и будущие по тому же шаблону):
+
+- **Канон** — **без** завершающего `/` (как legacy/Nuxt и `sitemap.xml`).
+- **canonical**, **og:url**, **`<loc>` в sitemap**, **`href` внутренних ссылок**, **`urlPath` в `json/services/*/service.config.json`** — один и тот же путь без слэша.
+- **Nginx** (`serenity-router.live.conf`, `static.serenity.agency.live.conf`): `location = /targeting` → `try_files /targeting/index.html`; `location = /targeting/` → **301** на `/targeting` (аналогично для `/kontekstnaya_reklama`).
+- **Не путать** с блогом: листинг **`/blog/`** — канон **со** слэшем (отдельные правила в vhost).
+
+Проверки: `npm run test:service-page-urls`, `npm run test:routing-config`. После выкладки vhost: `ORIGIN=https://serenity.agency npm run test:service-page-urls`.
+
+Полный регламент: [`AGENTS.md`](../AGENTS.md).

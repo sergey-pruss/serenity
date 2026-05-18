@@ -183,7 +183,7 @@ async function run() {
     "synergy: без ссылки на текущую услугу /targeting/",
   );
   assert(
-    synergyPartial.includes('href="/kontekstnaya_reklama/"') &&
+    synergyPartial.includes('href="/kontekstnaya_reklama"') &&
       synergyPartial.includes("Контекстная реклама"),
     "synergy: карточка контекстной рекламы вместо таргета",
   );

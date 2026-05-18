@@ -157,8 +157,29 @@ function getLanIPv4Addresses() {
 const DEFAULT_DEV_PORT = 8895;
 const DEV_PORT_SCAN_MAX = DEFAULT_DEV_PORT + 50;
 
+/** Канон услуг без слэша — как nginx на проде. */
+function serviceCanonicalRedirect(pathname, rawQuery) {
+  const map = {
+    "/targeting/": "/targeting",
+    "/kontekstnaya_reklama/": "/kontekstnaya_reklama",
+  };
+  const target = map[pathname];
+  if (!target) return null;
+  const q = rawQuery ? `?${rawQuery}` : "";
+  return `${target}${q}`;
+}
+
 const server = http.createServer((req, res) => {
-  const urlPath = (req.url || "/").split("?")[0];
+  const rawUrl = req.url || "/";
+  const qIdx = rawUrl.indexOf("?");
+  const urlPath = qIdx === -1 ? rawUrl : rawUrl.slice(0, qIdx);
+  const rawQuery = qIdx === -1 ? "" : rawUrl.slice(qIdx + 1);
+  const redir = serviceCanonicalRedirect(urlPath, rawQuery);
+  if (redir) {
+    res.writeHead(301, { ...noCache, Location: redir });
+    res.end();
+    return;
+  }
   let file = resolveStaticFile(urlPath);
   let statusCode;
   if (!file) {
@@ -210,22 +231,22 @@ const tryListen = (port) => {
     console.log("");
     console.log("══ Serenity static dev ══");
     console.log(`  На Mac:      http://127.0.0.1:${port}/`);
-    console.log(`  Контекстная: http://127.0.0.1:${port}/kontekstnaya_reklama/`);
-    console.log(`  Таргетинг:   http://127.0.0.1:${port}/targeting/`);
+    console.log(`  Контекстная: http://127.0.0.1:${port}/kontekstnaya_reklama`);
+    console.log(`  Таргетинг:   http://127.0.0.1:${port}/targeting`);
     console.log(`  (или localhost:${port} — тот же процесс)`);
     const lanIps = getLanIPv4Addresses();
     console.log("");
     if (lanIps.length) {
       console.log("  С телефона / iPad (та же Wi‑Fi, в Safari укажите :порт):");
       for (const ip of lanIps) {
-        console.log(`    http://${ip}:${port}/targeting/`);
-        console.log(`    http://${ip}:${port}/kontekstnaya_reklama/`);
+        console.log(`    http://${ip}:${port}/targeting`);
+        console.log(`    http://${ip}:${port}/kontekstnaya_reklama`);
       }
     } else {
       console.log(
         "  С телефона / iPad: http://<IP-Mac>:" +
           port +
-          "/targeting/  (IP: Системные настройки → Сеть или: ipconfig getifaddr en0)",
+          "/targeting  (IP: Системные настройки → Сеть или: ipconfig getifaddr en0)",
       );
     }
     console.log("");

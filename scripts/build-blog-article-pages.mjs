@@ -100,7 +100,7 @@ function linkContextualAdsPhrasesInLead(plain) {
   let m;
   while ((m = re.exec(raw))) {
     out += escapeXml(raw.slice(last, m.index));
-    out += `<a href="/kontekstnaya_reklama/">${escapeXml(m[1])}</a>`;
+    out += `<a href="/kontekstnaya_reklama">${escapeXml(m[1])}</a>`;
     last = m.index + m[1].length;
   }
   out += escapeXml(raw.slice(last));

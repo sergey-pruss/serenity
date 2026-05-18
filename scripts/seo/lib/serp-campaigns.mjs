@@ -12,7 +12,7 @@ export const SERP_CAMPAIGNS = {
   kontekstnaya: {
     id: "kontekstnaya",
     serenityUrl:
-      process.env.SERENITY_KONTEKST_URL || "https://serenity.agency/kontekstnaya_reklama/",
+      process.env.SERENITY_KONTEKST_URL || "https://serenity.agency/kontekstnaya_reklama",
     queries: [
       { id: "nastroyka", text: "настройка контекстной рекламы" },
       { id: "vedenie", text: "ведение контекстной рекламы" },
@@ -21,11 +21,11 @@ export const SERP_CAMPAIGNS = {
     docOut: path.join(ROOT, "docs", "kontekstnaya-serp-content-gap.html"),
     snapshotsBasename: "kontekstnaya-serp-snapshots",
     auditBasename: "kontekstnaya-serp-audit",
-    reportTitle: "Serenity — gap-анализ /kontekstnaya_reklama/ (SERP)",
+    reportTitle: "Serenity — gap-анализ /kontekstnaya_reklama (SERP)",
     reportH1: "Gap-анализ: контекстная реклама (SERP)",
     reportSubtitleQueries:
       "с органической выдачей топ-20 по 2 запросам, Яндекс и Google, Москва и Санкт-Петербург",
-    serenityPathLabel: "/kontekstnaya_reklama/",
+    serenityPathLabel: "/kontekstnaya_reklama",
     excludeBlocksFromPriority: ["focus_nastroyka", "focus_vedenie"],
     aggregatePriorityThresholds: { p1: 6, p2: 4, p3: 2 },
     querySectionNote: (block) =>
@@ -50,7 +50,7 @@ export const SERP_CAMPAIGNS = {
         "Форма в DOM для краулера.",
         "CWV и актуальный <code>?v=</code> на <code>/_sa/</code>.",
         "Внутренние ссылки на статьи блога про контекст/B2B/Директ.",
-        "Канон на <code>/kontekstnaya_reklama/</code>, sitemap, переобход в Вебмастере/GSC.",
+        "Канон на <code>/kontekstnaya_reklama</code>, sitemap, переобход в Вебмастере/GSC.",
       ],
       optional: [
         "Калькулятор/квиз бюджета.",
@@ -64,17 +64,17 @@ export const SERP_CAMPAIGNS = {
   targeting: {
     id: "targeting",
     serenityUrl:
-      process.env.SERENITY_TARGETING_URL || "https://serenity.agency/targeting/",
+      process.env.SERENITY_TARGETING_URL || "https://serenity.agency/targeting",
     queries: [{ id: "targetirovka", text: "таргетинговая реклама" }],
     poolsFixture: "targeting-serp-url-pools.json",
     docOut: path.join(ROOT, "docs", "targeting-serp-content-gap.html"),
     snapshotsBasename: "targeting-serp-snapshots",
     auditBasename: "targeting-serp-audit",
-    reportTitle: "Serenity — gap-анализ /targeting/ (SERP)",
+    reportTitle: "Serenity — gap-анализ /targeting (SERP)",
     reportH1: "Gap-анализ: таргетинговая реклама (SERP)",
     reportSubtitleQueries:
       "с органической выдачей топ-20 по запросу «таргетинговая реклама», Яндекс и Google, Москва и Санкт-Петербург",
-    serenityPathLabel: "/targeting/",
+    serenityPathLabel: "/targeting",
     excludeBlocksFromPriority: ["focus_nastroyka", "focus_vedenie", "platforms_direct"],
     aggregatePriorityThresholds: { p1: 3, p2: 2, p3: 1 },
     querySectionNote: () =>
@@ -95,7 +95,7 @@ export const SERP_CAMPAIGNS = {
       technical: [
         "Title/H1 — «таргетинговая реклама» + соцсети + Москва/СПб; description без переспама.",
         "FAQPage / Product — JSON-LD совпадает с видимым FAQ.",
-        "Форма заявки в DOM; канон <code>/targeting/</code>.",
+        "Форма заявки в DOM; канон <code>/targeting</code>.",
         "CWV: Nuxt CSS, <code>?v=</code> на <code>/_sa/</code>, LCP hero.",
         "Перелинковка на статьи блога про VK/Telegram/таргет.",
         "Sitemap и переобход после выкладки.",
