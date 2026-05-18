@@ -1,14 +1,14 @@
 {
   "filterCode": "",
   "currentPage": 2,
-  "totalPages": 3,
+  "totalPages": 5,
   "perPage": 24,
-  "totalItems": 64,
+  "totalItems": 112,
   "filters": [
     {
       "code": "",
       "label": "Все",
-      "totalPages": 3,
+      "totalPages": 5,
       "href": "/blog"
     },
     {
@@ -26,7 +26,7 @@
     {
       "code": "article",
       "label": "Статьи",
-      "totalPages": 3,
+      "totalPages": 4,
       "href": "/blog/article"
     },
     {
@@ -52,6 +52,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-12-20T08:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/Mg3PVvezisXKgUba4CiQdztzYD58HBKyCWMVbcfm.webp"
@@ -72,6 +73,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-12-11T08:11:11.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/IVipzkWJpI1qytG4Sv3dALRVrlKfOC2lVwXH0T2q.webp"
@@ -94,6 +96,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-12-11T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/3IHrfdwO12TCeLIT21fsrOGzw0uR2NgxYETYiyzf.webp"
@@ -114,6 +117,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-11-25T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/wUyg5TFiLIL0oZ6XyVreGwcy45LNejWWY0y2CGUk.webp"
@@ -134,6 +138,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-11-11T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/VOrXJOhwZVB1cQqcLWn4JvalilRZMYZSt9Uv49Pb.webp"
@@ -154,6 +159,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-10-30T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/j5WZN26AZK96bjdB9UUKEeMH3rb2veqEGlTYE0WK.webp"
@@ -174,6 +180,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-10-16T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/y9FxAYOmklatOiMgXiQZfXPyQj3M8MpUen6mBX2h.webp"
@@ -194,6 +201,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-09-30T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/IT3MrGLr0nEUJrqagghdTzBVd9if7vfKsWMOStM5.webp"
@@ -214,6 +222,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2024-09-29T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/nM2qigeO46uv6gwjyIilVWRWeR8sf03Nu3tHyFUY.webp"
@@ -234,6 +243,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-08-28T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/omsd7rIxegBTRB7YRFzTMENsGad2YdfLr6ByqrkM.webp"
@@ -256,6 +266,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-08-08T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/1uRoMZmmwNnyFRoAcnMRklGDm4C8w2FuZDAd4P6s.webp"
@@ -276,6 +287,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-08-01T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/lvXTsf67IptFAbuOK0ZnKCEa8CVNotAiIDOnuNEy.webp"
@@ -299,6 +311,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-07-29T04:07:55.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/M99VkdyMXQIKJX0CFY8yi3GMX991Txoo8tm87zRH.webp"
@@ -319,6 +332,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-05-23T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/xWHkMBZuxBd6uSqfF8I2aqAZSmKTjboLLFXrl0Hn.webp"
@@ -339,6 +353,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2024-02-01T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/ssFPMUTbksRTGtMS59Pr2R2oY0Kr2fJZrcNNllbE.webp"
@@ -359,6 +374,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-01-25T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/09HNu8CgoRfKl5IU9ZI2DgYESksIzb3D6r9HO5jt.webp"
@@ -379,6 +395,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2023-12-22T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/YT7NPKwl84fJGF4YjCiDYjX9uqT77JNvRaVoBYDn.webp"
@@ -399,6 +416,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-10-26T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/wcY51evm7xmkT9g71icbK3ddWQBzv60pvIUoaljK.webp"
@@ -422,6 +440,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-09-26T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/Mti8ntS3wtY0DjuKbVrQQg3oSZ5rHEOFWkoh0GwV.webp"
@@ -442,9 +461,31 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-09-12T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/iWG9APvQoXEYyyeozg3lHndSPZzAso8WDodvMQmd.webp"
+      }
+    },
+    {
+      "href": "/blog/article/proektirovanie-internet-magazinov-i-marketplejsov-marketingovyj-podhod/",
+      "description": "Проектирование интернет-магазинов и маркетплейсов: маркетинговый подход",
+      "subtitle": "Этапы проектирования интернет-магазина: исследования, разработка, аналитика.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2023-08-11T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/proektirovanie-internet-magazinov-i-marketplejsov-marketingovyj-podhod/Oblozhka.png"
       }
     },
     {
@@ -465,6 +506,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-07-14T08:12:45.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/9oFGQ99Mkoo3zZZyzaHbWrElQGgSlnr6lzsSMV9e.webp"
@@ -485,6 +527,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-02-16T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/Gq8atSD9iDUptVPxHxvc8wkn1EN7AWNbS3gDJLJE.webp"
@@ -505,29 +548,10 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-01-25T08:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/dX3x4ZYwfE3JisKSY2A0IO8fxEbiPzRGIEcjRc4m.webp"
-      }
-    },
-    {
-      "href": "https://serenity.mave.digital/ep-1",
-      "description": "Важность команды и культуры в кризисное время",
-      "subtitle": "Обсуждают Сергей Прусс и Екатерина Русакова в подкасте «Мышеловка».",
-      "tags": [
-        "Наша жизнь"
-      ],
-      "tagCodes": [
-        "nashsaizn"
-      ],
-      "tagCodesNorm": [
-        "life"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.webp"
       }
     }
   ]

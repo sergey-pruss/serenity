@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { handleLeadRequest } from "../src/lead-api.mjs";
+import { finalizeLeadUtm, inferUtmFromSearchParams, normalizeLeadUtm } from "../src/lead-utm.mjs";
 
 const originalFetch = globalThis.fetch;
 
@@ -214,6 +215,81 @@ await withFetchMock(
 
     assert.equal(response.status, 500);
     assert.deepEqual(await json(response), { error: "Ошибка отправки. Пожалуйста, свяжитесь с нами напрямую." });
+  },
+);
+
+{
+  assert.deepEqual(
+    normalizeLeadUtm({}, "https://serenity.agency/kontekstnaya_reklama"),
+    {
+      utm_source: "direct",
+      utm_medium: "none",
+    },
+  );
+  assert.deepEqual(
+    normalizeLeadUtm(
+      {},
+      "https://serenity.agency/kontekstnaya_reklama?yclid=123456789",
+    ),
+    {
+      utm_source: "yandex",
+      utm_medium: "cpc",
+    },
+  );
+  assert.equal(
+    inferUtmFromSearchParams(new URLSearchParams("utm_source=yadirect&utm_medium=cpc")).utm_source,
+    "yandex",
+  );
+  assert.deepEqual(finalizeLeadUtm({ utm_source: "vkontakte" }), {
+    utm_source: "vkontakte",
+    utm_medium: "none",
+  });
+}
+
+await withFetchMock(
+  async (url, init) => {
+    if (url === "https://api.resend.com/emails") return Response.json({ id: "email_123" });
+
+    const path = String(url).replace("https://serenity.amocrm.ru/api/v4", "");
+    const body = JSON.parse(init.body);
+
+    if (path === "/leads/unsorted/forms") {
+      const byField = Object.fromEntries(
+        (body[0]._embedded.leads[0].custom_fields_values || []).map((cf) => [cf.field_id, cf.values[0].value]),
+      );
+      assert.equal(byField[777], "direct");
+      assert.equal(byField[888], "none");
+      return Response.json({ _embedded: { unsorted: [{ _embedded: { leads: [{ id: 11 }] } }] } });
+    }
+    if (path === "/leads/11/notes") {
+      assert.match(body[0].params.text, /utm_source: direct/);
+      assert.match(body[0].params.text, /utm_medium: none/);
+      return Response.json({ _embedded: { notes: [{ id: 12 }] } });
+    }
+    throw new Error(`Unexpected AmoCRM path: ${path}`);
+  },
+  async () => {
+    const response = await handleLeadRequest(
+      formRequest({
+        name: "Никита",
+        phone: "+7 999 000-00-00",
+        email: "nikita@example.com",
+        source: "https://serenity.agency/kontekstnaya_reklama",
+        utm_source: "direct",
+        utm_medium: "none",
+      }),
+      {
+        RESEND_API_KEY: "resend-token",
+        AMO_SUBDOMAIN: "serenity",
+        AMO_CLIENT_ID: "cid",
+        AMO_CLIENT_SECRET: "sec",
+        AMO_ACCESS_TOKEN: "amo-token",
+        AMO_REFRESH_TOKEN: "amo-refresh",
+        AMO_UTM_SOURCE_FIELD_ID: "777",
+        AMO_UTM_MEDIUM_FIELD_ID: "888",
+      },
+    );
+    assert.equal(response.status, 200);
   },
 );
 

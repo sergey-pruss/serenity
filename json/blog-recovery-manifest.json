@@ -1,0 +1,121 @@
+{
+  "comment": "Канонические пути для восстановления из Wayback. tryPaths — legacy URL, если снимок по канону не найден.",
+  "entries": [
+    { "segment": "article", "slug": "proektirovanie-internet-magazinov-i-marketplejsov-marketingovyj-podhod" },
+    { "segment": "article", "slug": "effektivnyj-marketing-dlya-biznesa-kompleksnost-i-ili-spetsializatsiya" },
+    { "segment": "article", "slug": "vyhod-kazahstanskih-produktov-i-uslug-na-rossijskij-rynok" },
+    { "segment": "case", "slug": "firmennyj-stil-dlya-x-clinic" },
+    { "segment": "article", "slug": "strategiya-digital-marketinga-5-shagov-chtoby-proverit-vashu-strategiyu" },
+    {
+      "segment": "article",
+      "slug": "instrumenty-tsifrovogo-brendinga",
+      "tryPaths": ["/blog/sovety/instrumenty-tsifrovogo-brendinga/"]
+    },
+    { "segment": "article", "slug": "yandeks-auditorii-4-novyh-istochnika-klientov" },
+    { "segment": "case", "slug": "kak-my-organizovali-fotosessiyu-komandy" },
+    { "segment": "article", "slug": "cjm-put-ot-znakomstva-do-trudoustrojstva" },
+    { "segment": "article", "slug": "marketolog-proektov" },
+    { "segment": "card", "slug": "kak-prevratit-klientov-v-poklonnikov" },
+    { "segment": "card", "slug": "marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing" },
+    { "segment": "life", "slug": "shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge" },
+    { "segment": "article", "slug": "kak-sozdat-konkurentosposobnoe-imya" },
+    { "segment": "article", "slug": "ekspress-instruktsiya-kak-ne-slit-reklamnyj-byudzhet" },
+    {
+      "segment": "article",
+      "slug": "vizualnyj-kontent",
+      "tryPaths": ["/blog/sovety/vizualnyj-kontent/"]
+    },
+    {
+      "segment": "article",
+      "slug": "litso-brenda-zadachi-razrabotki-firmennogo-stilya",
+      "tryPaths": ["/blog/sovety/litso-brenda-zadachi-razrabotki-firmennogo-stilya/"]
+    },
+    {
+      "segment": "article",
+      "slug": "vystuplenie-sergeya-prussa-na-digitale-masterstvo",
+      "tryPaths": ["/blog/video/vystuplenie-sergeya-prussa-na-digitale-masterstvo/"]
+    },
+    {
+      "segment": "case",
+      "slug": "digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej",
+      "tryPaths": ["/blog/digitale/digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej/"]
+    },
+    { "segment": "card", "slug": "reklama-protiv-marketinga-kto-kogo" },
+    { "segment": "article", "slug": "tsifrovoj-brending" },
+    { "segment": "article", "slug": "digital-voronka-dlya-uvelicheniya-prodazh" },
+    { "segment": "article", "slug": "kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu" },
+    { "segment": "card", "slug": "kak-dostich-masterstva" },
+    {
+      "segment": "article",
+      "slug": "lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram",
+      "tryPaths": [
+        "/blog/sovety/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/",
+        "/blog/targeting/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/"
+      ]
+    },
+    {
+      "segment": "article",
+      "slug": "videokontent-kak-emotsionalnyj-kontakt-s-brendom",
+      "tryPaths": ["/blog/video/videokontent-kak-emotsionalnyj-kontakt-s-brendom/"]
+    },
+    { "segment": "article", "slug": "s-chego-nachat-kontent-marketing-poshagovoe-rukovodstvo" },
+    {
+      "segment": "article",
+      "slug": "dlinnaya-voronka",
+      "tryPaths": ["/blog/sovety/dlinnaya-voronka/", "/blog/targeting/dlinnaya-voronka/"]
+    },
+    { "segment": "life", "slug": "itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing" },
+    { "segment": "case", "slug": "analitika-dlya-kliniki-kompozit" },
+    { "segment": "case", "slug": "kejs-kontekstnaya-reklama-dlya-kompanii-pervaya-mebelnaya-fabrika" },
+    { "segment": "article", "slug": "zagolovok-vybor-effektivnoj-crm-sistemy" },
+    { "segment": "case", "slug": "strategiya-dlya-kliniki-na-petrovke" },
+    { "segment": "article", "slug": "kak-stat-idealnym-klientom-seo-spetsialista" },
+    {
+      "segment": "article",
+      "slug": "sistemy-ranzhirovaniya-google-poiska",
+      "tryPaths": ["/blog/sovety/sistemy-ranzhirovaniya-google-poiska/"]
+    },
+    { "segment": "article", "slug": "kontent-marketing-kak-vystroit-otnosheniya-s-klientom" },
+    { "segment": "article", "slug": "avtotargeting-v-yandeks-direkt" },
+    {
+      "segment": "life",
+      "slug": "sedmye-po-seo-v-peterburge",
+      "tryPaths": ["/blog/digitale/sedmye-po-seo-v-peterburge/"]
+    },
+    { "segment": "case", "slug": "kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh" },
+    { "segment": "card", "slug": "vrednye-sovety" },
+    { "segment": "article", "slug": "moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov" },
+    { "segment": "article", "slug": "kontent-marketing-dlya-kliniki-plasticheskoj-hirurgii" },
+    {
+      "segment": "life",
+      "slug": "digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt",
+      "tryPaths": ["/blog/digitale/digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/"]
+    },
+    {
+      "segment": "life",
+      "slug": "5-mesto-sredi-dizajn-studij-v-sankt-peterburge",
+      "tryPaths": ["/blog/digitale/5-mesto-sredi-dizajn-studij-v-sankt-peterburge/"]
+    },
+    {
+      "segment": "life",
+      "slug": "1-mesto-za-prodvizhenie-digitale-007",
+      "tryPaths": ["/blog/digitale/1-mesto-za-prodvizhenie-digitale-007/"]
+    },
+    {
+      "segment": "article",
+      "slug": "geotargeting-dlya-malogo-i-srednego-biznesa",
+      "tryPaths": ["/blog/targeting/geotargeting-dlya-malogo-i-srednego-biznesa/"]
+    },
+    {
+      "segment": "article",
+      "slug": "kejs-digitale-cchaste",
+      "tryPaths": ["/blog/digitale/kejs-digitale-cchaste/"]
+    },
+    { "segment": "article", "slug": "poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu" },
+    {
+      "segment": "life",
+      "slug": "8-mesto-sredi-seo-agentstv-v-sankt-peterburge",
+      "tryPaths": ["/blog/digitale/8-mesto-sredi-seo-agentstv-v-sankt-peterburge/"]
+    }
+  ]
+}

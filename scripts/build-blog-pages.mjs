@@ -9,7 +9,8 @@ import fs from "fs";
 import path from "path";
 
 const root = path.resolve(process.cwd());
-const sourceHtmlPath = path.join(root, "blog", "index.html");
+/** Шаблон только для сборки; `blog/index.html` перезаписывается на выходе — не читать его как source. */
+const sourceHtmlPath = path.join(root, "html", "blog-listing-build.template.html");
 const sourceDataPath = path.join(root, "json", "blogs-all.json");
 const outJsonDir = path.join(root, "json", "blog-pages");
 const perPage = 24;
@@ -182,11 +183,11 @@ const filterPosts = (posts, code) => {
   const htmlTemplate = fs.readFileSync(sourceHtmlPath, "utf8");
   if (!htmlTemplate.includes(JSON_PRELOAD_MARKER)) {
     throw new Error(
-      `blog/index.html: нет маркера ${JSON_PRELOAD_MARKER} — сначала node scripts/assemble-html.cjs build`,
+      `${path.relative(root, sourceHtmlPath)}: нет маркера ${JSON_PRELOAD_MARKER} — обновите html/blog-listing-build.template.html`,
     );
   }
   if (htmlTemplate.includes("<!-- @partial")) {
-    throw new Error("blog/index.html: остались <!-- @partial — сначала node scripts/assemble-html.cjs build");
+    throw new Error(`${path.relative(root, sourceHtmlPath)}: остались <!-- @partial — сначала assemble`);
   }
   const data = JSON.parse(fs.readFileSync(sourceDataPath, "utf8"));
   const posts = Array.isArray(data.posts) ? data.posts : [];

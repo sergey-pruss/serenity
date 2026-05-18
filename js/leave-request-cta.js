@@ -67,18 +67,50 @@
     }
   };
 
-  const utmFromSearch = (search) => {
+  const pickUtmScalar = (value) => {
+    if (value == null) return "";
+    const s = String(value).trim();
+    if (!s || s === "(not set)" || s === "(none)") return "";
+    return s;
+  };
+
+  const inferUtmFromSearchParams = (sp) => {
     const out = {};
-    let sp;
-    try {
-      sp = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
-    } catch {
-      return out;
-    }
+    if (!sp) return out;
     for (const k of UTM_KEYS) {
-      const v = sp.get(k);
-      if (v && String(v).trim()) out[k] = String(v).trim();
+      const v = pickUtmScalar(sp.get(k));
+      if (v) out[k] = v;
     }
+    if (pickUtmScalar(sp.get("yclid"))) {
+      if (!out.utm_source) out.utm_source = "yandex";
+      if (!out.utm_medium) out.utm_medium = "cpc";
+    }
+    if (pickUtmScalar(sp.get("gclid"))) {
+      if (!out.utm_source) out.utm_source = "google";
+      if (!out.utm_medium) out.utm_medium = "cpc";
+    }
+    if (pickUtmScalar(sp.get("fbclid"))) {
+      if (!out.utm_source) out.utm_source = "facebook";
+      if (!out.utm_medium) out.utm_medium = "cpc";
+    }
+    if (out.utm_source === "yadirect") out.utm_source = "yandex";
+    return out;
+  };
+
+  const utmFromSearch = (search) => {
+    try {
+      const sp = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
+      return inferUtmFromSearchParams(sp);
+    } catch {
+      return {};
+    }
+  };
+
+  /** Как в src/lead-utm.mjs: без меток — direct / none (согласовано с Amo и Метрикой). */
+  const finalizeLeadUtm = (utm) => {
+    const out = { ...utm };
+    if (!out.utm_source) out.utm_source = "direct";
+    if (!out.utm_medium) out.utm_medium = "none";
     return out;
   };
 
@@ -195,12 +227,12 @@
   const getUtmForLeadSubmit = () => {
     const stored = readStoredUtm();
     const current = utmFromSearch(window.location.search || "");
-    const out = {};
+    const merged = {};
     for (const k of UTM_KEYS) {
       const v = stored[k] || current[k];
-      if (v) out[k] = v;
+      if (v) merged[k] = v;
     }
-    return out;
+    return finalizeLeadUtm(merged);
   };
 
   const isDesktop = () => window.innerWidth > BOTTOM_BAR_MAX_WIDTH;
@@ -383,7 +415,7 @@
     data.set("source", window.location.href);
     const utm = getUtmForLeadSubmit();
     for (const k of UTM_KEYS) {
-      if (utm[k]) data.set(k, utm[k]);
+      data.set(k, utm[k] || "");
     }
     return data;
   };

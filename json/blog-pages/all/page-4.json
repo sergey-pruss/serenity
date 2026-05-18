@@ -1,0 +1,548 @@
+{
+  "filterCode": "",
+  "currentPage": 4,
+  "totalPages": 5,
+  "perPage": 24,
+  "totalItems": 112,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 5,
+      "href": "/blog"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 4,
+      "href": "/blog/article"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast"
+    }
+  ],
+  "posts": [
+    {
+      "href": "/blog/article/poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu/",
+      "description": "Получили «Прометей», а потом собрали вал клиентов на Черную пятницу",
+      "subtitle": "Получили «Прометей», а потом собрали вал клиентов на Черную пятницу",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "publishDate": "2020-03-06T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu/dr.png"
+      }
+    },
+    {
+      "href": "/blog/article/avtotargeting-v-yandeks-direkt/",
+      "description": "Автотаргетинг в Яндекс.Директ",
+      "subtitle": "В статье рассказывается о том, что такое автотаргетинг в Яндекс Директ, как он формирует запросы, на основании каких данных и как отрабатывает в РСЯ. Поделимся своими отзывами и расскажем нужен ли автотаргетинг в директе. Ответим на вопрос нужен ли автотаргетинг и когда стоит его использовать.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "publishDate": "2019-12-17T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/avtotargeting-v-yandeks-direkt/success-1955256_1920.jpg"
+      },
+      "mediaObjectPosition": "50% 18%"
+    },
+    {
+      "href": "/blog/article/kak-sozdat-konkurentosposobnoe-imya/",
+      "description": "Как создать крутое имя",
+      "subtitle": "В статье рассказывается о создании крутого имени бренда, приведен кейс разработки имени бренда одежды Jistory. Поделимся способами и этапами создания имени бренда, методикой и рекомендациями как пройти регистрацию имени и получить патент на имя, бренд.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-09-23T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kak-sozdat-konkurentosposobnoe-imya/IMG_3922-e1568902560336.jpg"
+      },
+      "cardModifier": "case--title-scrim"
+    },
+    {
+      "href": "/blog/article/kak-stat-idealnym-klientom-seo-spetsialista/",
+      "description": "Как стать идеальным клиентом SEO-специалиста",
+      "subtitle": "В статье рассказывается об основных ошибках клиентов по SEO, раскрываются основные ошибки SEO клиентов, даются рекомендации как выстроить правильную коммуникацию и стратегию seo продвижения сайта.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-09-18T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kak-stat-idealnym-klientom-seo-spetsialista/fotooboi-shesterenki-10517.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/cjm-put-ot-znakomstva-do-trudoustrojstva/",
+      "description": "CJM: путь от знакомства до трудоустройства",
+      "subtitle": "Что такое customer journey map? Приведем примеры карты cjm, коснемся cjm маркетинга, а также расскажем о customer journey map для сайтов и интернет магазинов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-05-10T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/cjm-put-ot-znakomstva-do-trudoustrojstva/kees-streefkerk-341657-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov/",
+      "description": "Модерация: как увеличить лояльность и число клиентов",
+      "subtitle": "Статья о преимуществах модерации в социальных сетях, в инстаграм, ответов и модерации отзывов, комментариев и материалов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-01-31T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov/1010028773.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/kak-my-organizovali-fotosessiyu-komandy/",
+      "description": "Как мы организовали фотосессию команды",
+      "subtitle": "За съемкой команды Serenity стоит 4 недели подготовки, масштабная организация и дружная команда, без которой никак. Подробнее о том, как мы обзавелись новым имиджем, читайте в этой статье.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-01-24T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__kak-my-organizovali-fotosessiyu-komandy/web-serenity.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge/",
+      "description": "Шестые среди агентств перфоманс-маркетинга в Санкт-Петербурге",
+      "subtitle": "Мы вошли в топ-100 маркетинговых агентств по рейтингу Tagline и заняли шестое место в Санкт-Петербурге 58 место в России.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-30T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge/6-gperformans-markeing.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/strategiya-dlya-kliniki-na-petrovke/",
+      "description": "Стратегия для «Клиники на Петровке»",
+      "subtitle": "Провели исследование, разработали позиционирование и составили план по продвижению клиники на 2 года.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-13T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__strategiya-dlya-kliniki-na-petrovke/shirly-niv-marton-377770-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/",
+      "description": "Лидформы: как увеличить объем заявок из Facebook и Instagram",
+      "subtitle": "В статье раскрывается тема по созданию, настройке, интеграции в фейсбуке и инстаграм. Подскажем как лучше тестировать и сделать лид форму эффективной в Facebook и Instagram",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-11T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/zhifei-zhou-689004-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/firmennyj-stil-dlya-x-clinic/",
+      "description": "Фирменный стиль для X Clinic",
+      "subtitle": "На примере X Clinic рассказали о нашем подходе к созданию фирменного стиля и показали, какие задачи он решает",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-11-30T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__firmennyj-stil-dlya-x-clinic/papki.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/analitika-dlya-kliniki-kompozit/",
+      "description": "Аналитика для клиники «Композит»",
+      "subtitle": "Аналитика для клиники «Композит»",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-10-15T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__analitika-dlya-kliniki-kompozit/photo-1515863149848-223cbed59017.jpeg"
+      }
+    },
+    {
+      "href": "/blog/article/vizualnyj-kontent/",
+      "description": "Визуальный контент",
+      "subtitle": "Как качественные изображения помогают вашему бизнесу.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-10-04T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/vizualnyj-kontent/4-kopiya-e1547827279789.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/yandeks-auditorii-4-novyh-istochnika-klientov/",
+      "description": "Яндекс.Аудитории: 4 новых источника клиентов",
+      "subtitle": "Показывать рекламу в интернете теперь можно и вашей офлайн-аудитории. Рассказали, как это делать, и поделились ещё несколькими способами использования Яндекс.Аудиторий.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-07-09T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/yandeks-auditorii-4-novyh-istochnika-klientov/iStock-491962870.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej/",
+      "description": "Digitale «Мастерство»: как привлечь 51% заявок из соцсетей",
+      "subtitle": "Создали воронку вовлечения, определили типы контента, настроили рекламу — и собрали рекордное количество участников.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "skipCardMedia": true,
+      "publishDate": "2018-05-25T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": ""
+      }
+    },
+    {
+      "href": "/blog/article/kontent-marketing-kak-vystroit-otnosheniya-s-klientom/",
+      "description": "Контент-маркетинг: как выстроить отношения с клиентом",
+      "subtitle": "Как выстраивать отношения с клиентами с помощью социальных сетей, email-маркетинга и качественного контента.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-05-18T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kontent-marketing-kak-vystroit-otnosheniya-s-klientom/joshua-coleman-582803-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/kejs-kontekstnaya-reklama-dlya-kompanii-pervaya-mebelnaya-fabrika/",
+      "description": "Контекстная реклама для компании «Первая Мебельная Фабрика»",
+      "subtitle": "Рассказываем, как мы достигли повышения безотказного трафика на 58% и в 2,5 раза увеличили число заявок благодаря оптимизации контекстной рекламы.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-05-08T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__kejs-kontekstnaya-reklama-dlya-kompanii-pervaya-mebelnaya-fabrika/liam-pozz-248765-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/",
+      "description": "Как локальному бизнесу подготовиться к Чемпионату Мира по футболу",
+      "subtitle": "Подготовили рекомендации по подготовке к Чемпионату в digital-среде.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-04-03T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/john-o-nolan-644335-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/",
+      "description": "Digitale «Меняй мир» — лучший образовательный проект",
+      "subtitle": "По итогам голосования наша Digitale «Меняй мир» стала лучшим образовательный проектом в Петербурге.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-02-08T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/9328-1nk3561-1.png"
+      }
+    },
+    {
+      "href": "/blog/life/itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing/",
+      "description": "Итоги семинара «Рекомендации. Репутация. Локальный маркетинг»",
+      "subtitle": "13 декабря мы провели семинар для предпринимателей и маркетологов «Рекомендации. Репутация. Локальный маркетинг». В четырех выступлениях рассказали об инструментах рекламы, продажах и формировании репутации.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-12-21T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing/3797-1jtcpaz.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh/",
+      "description": "Комплексное продвижение завода: от фирстиля до продаж",
+      "subtitle": "Завод «Каскад» делает системы ограждения: заборные секции и металлические сетки. Производство в Санкт-Петербурге, филиалы и склады — в восьми городах по России. До недавнего времени завод принадлежал сети гипермаркетов «Метрика» и через нее продавал товары.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-11-22T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh/photo-1496247749665-49cf5b1022e9.jpeg"
+      }
+    },
+    {
+      "href": "/blog/article/instrumenty-tsifrovogo-brendinga/",
+      "description": "Инструменты цифрового брендинга",
+      "subtitle": "Ремаркетинг, таргетинг и промотирование - об эффективных инструментах цифрового брендинга рассказывают специалисты агентства Serenity",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-10-02T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/instrumenty-tsifrovogo-brendinga/tim-mossholder-322350-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/geotargeting-dlya-malogo-i-srednego-biznesa/",
+      "description": "Геотаргетинг для малого и среднего бизнеса",
+      "subtitle": "Из всех компаний, которые к нам обращались, 60% не работали с геотаргетингом, либо настраивали его неправильно.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-08-14T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/geotargeting-dlya-malogo-i-srednego-biznesa/martin-adams-736967-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/digital-voronka-dlya-uvelicheniya-prodazh/",
+      "description": "Digital-воронка для увеличения продаж",
+      "subtitle": "Из всех компаний, которые обратились в Serenity, о пользе воронки продаж слышали 9 из 10. При этом, только 5% измеряет воронку от рекламной кампании до продажи. Замерять воронку до продажи нужно, чтобы выявить слабые места и превратить их в преимущества. В этой статье мы рассказали как это сделать.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-07-13T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/digital-voronka-dlya-uvelicheniya-prodazh/guillaume-bolduc-259596-unsplash.jpg"
+      }
+    }
+  ]
+}

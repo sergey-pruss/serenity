@@ -1,14 +1,14 @@
 {
   "filterCode": "",
   "currentPage": 3,
-  "totalPages": 3,
+  "totalPages": 5,
   "perPage": 24,
-  "totalItems": 64,
+  "totalItems": 112,
   "filters": [
     {
       "code": "",
       "label": "Все",
-      "totalPages": 3,
+      "totalPages": 5,
       "href": "/blog"
     },
     {
@@ -26,7 +26,7 @@
     {
       "code": "article",
       "label": "Статьи",
-      "totalPages": 3,
+      "totalPages": 4,
       "href": "/blog/article"
     },
     {
@@ -37,6 +37,48 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/sistemy-ranzhirovaniya-google-poiska/",
+      "description": "Системы ранжирования Google-поиска",
+      "subtitle": "Системы ранжирования Google-поиска",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-12-26T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/sistemy-ranzhirovaniya-google-poiska/milad-fakurian-UYgrVfIhBec-unsplash.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.mave.digital/ep-1",
+      "description": "Важность команды и культуры в кризисное время",
+      "subtitle": "Обсуждают Сергей Прусс и Екатерина Русакова в подкасте «Мышеловка».",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "nashsaizn"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2022-12-06T07:10:10.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.webp"
+      }
+    },
     {
       "href": "https://vc.ru/marketing/495512-perevesti-nelzya-adaptirovat-ili-pochemu-kontent-prosto-perevedennyi-na-drugoi-yazyk-ne-rabotaet",
       "description": "«Перевести нельзя адаптировать»",
@@ -52,6 +94,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-09-14T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/1jX9u2xjUxeWdype49GVhnhlmyNbDWUWigbSn8X7.webp"
@@ -72,6 +115,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2022-09-10T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/HndAl3a0vt6OfisGqh3QQyXS33kMKkju7V6d0T5b.webp"
@@ -92,6 +136,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2022-08-30T05:08:08.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/CXrZv1eEn2uQohiWxWaFoRp5SOhU8yOiafh7TphS.webp"
@@ -112,6 +157,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-07-22T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/7wRtXlXNInnhnfmV0C6SrYC4fyeSJSME9eho89Lg.webp"
@@ -132,9 +178,52 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2022-05-13T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/yPxxY1Sk9fxG73td4yGPSZMQTJxZifOXbKb5p98H.webp"
+      }
+    },
+    {
+      "href": "/blog/article/vyhod-kazahstanskih-produktov-i-uslug-na-rossijskij-rynok/",
+      "description": "Выход казахстанских продуктов и услуг на российский рынок",
+      "subtitle": "Наш официальный представитель в Казахстане — Малика Кирзнева, поделилась, почему выгодно развивать сотрудничество Казахстана с Россией и как сейчас качественно внедрить новые продукты на рынок.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-04-20T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/vyhod-kazahstanskih-produktov-i-uslug-na-rossijskij-rynok/travel-with-Bbok0gkUbq4-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/zagolovok-vybor-effektivnoj-crm-sistemy/",
+      "description": "Выбор эффективной CRM-системы",
+      "subtitle": "Как повысить продажи и автоматизировать управление бизнесом, рассказывает лидер маркетинга продаж — Павел Кожинов",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-04-12T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/zagolovok-vybor-effektivnoj-crm-sistemy/Szhatoe-imgonline-com-ua-CompressBySize-rxd80LkaJShW7mp.jpg"
       }
     },
     {
@@ -152,6 +241,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-03-12T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/rMqYwwbvGgrQdDBfARLw39JkaYkmKvqVPquD2XqW.webp"
@@ -172,6 +262,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-03-10T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/TRrqOSSESFPYr7DfKJVk2PDusgEgNWVQuawjwJrH.webp"
@@ -192,9 +283,31 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-02-12T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/BQr3bAppjAqG0UfcD6DESNF04qO8Iu0bLMu3qC1b.webp"
+      }
+    },
+    {
+      "href": "/blog/article/effektivnyj-marketing-dlya-biznesa-kompleksnost-i-ili-spetsializatsiya/",
+      "description": "Эффективный маркетинг: комплексность и/или специализация?",
+      "subtitle": "Рассказываем, как выбирать подрядчиков под маркетинговые задачи",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-02-02T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/effektivnyj-marketing-dlya-biznesa-kompleksnost-i-ili-spetsializatsiya/javier-allegue-barros-C7B-ExXpOIE-unsplash.jpg"
       }
     },
     {
@@ -215,6 +328,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-01-28T08:11:11.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/rh1u7ZQWjB09Uk4SDRGgSBgKgjFSAj7MYwwXioqa.webp"
@@ -235,6 +349,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2021-12-10T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/pALu3dFhaVdCIWx64kFpNEaQrxFoungjZfb2ie8j.webp"
@@ -255,6 +370,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-11-15T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/MZrOAHDi14fxVPTJKnvHTmH3lif4XXx6vVsIZTFj.webp"
@@ -275,6 +391,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-11-09T17:20:20.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/z1z5T9pJ0tFhJyoDVsncmY5cPXvT3CPIIHudl3oS.webp"
@@ -295,9 +412,31 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2021-10-28T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/gOOxtrdzfjdTSyAP6syEWnfpS6Nb8Ma0NhSn52Cv.webp"
+      }
+    },
+    {
+      "href": "/blog/article/ekspress-instruktsiya-kak-ne-slit-reklamnyj-byudzhet/",
+      "description": "Экспресс-инструкция, как не слить рекламный бюджет",
+      "subtitle": "Обычно, если нас спрашивают, как сделать так, чтобы реклама работала и приносила прибыль, мы отвечаем: начать с digital-стратегии. Но бывает не до того: нет времени, нужно срочно запустить контекст или купить рекламу у инфлюенсера. Наш лидер направления стратегии Екатерина Русакова рекомендует, что проверить до запуска, чтобы не потратить деньги впустую.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2021-09-09T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/ekspress-instruktsiya-kak-ne-slit-reklamnyj-byudzhet/Statya-oblozhka-2-1-1-1-1.png"
       }
     },
     {
@@ -315,6 +454,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-08-23T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/ocruoRPFuFJVjt797dJb6nQhpPoh1mlHNnuwAirT.webp"
@@ -335,9 +475,31 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-08-18T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/3rWBDqcTBdzrEX1NAfTLmSv103Y5245GRh1f3RYj.webp"
+      }
+    },
+    {
+      "href": "/blog/article/s-chego-nachat-kontent-marketing-poshagovoe-rukovodstvo/",
+      "description": "С чего начать контент-маркетинг. Пошаговое руководство",
+      "subtitle": "Контент-лидер Артем Пак делится пошаговым руководством по созданию контент-маркетинга в любой компании.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2020-12-28T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/s-chego-nachat-kontent-marketing-poshagovoe-rukovodstvo/oblozhka-1.png"
       }
     },
     {
@@ -358,9 +520,31 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2020-11-12T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kejs-digitale-cchaste/",
+      "description": "Кейс: Digitale «‎Cчастье»",
+      "subtitle": "Кейс: Digitale «‎Cчастье»",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2020-07-31T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kejs-digitale-cchaste/di.png"
       }
     }
   ]

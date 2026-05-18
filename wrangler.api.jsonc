@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "serenity",
+  "main": "./src/worker-api.mjs",
+  "compatibility_date": "2026-04-26",
+  "kv_namespaces": [
+    {
+      "binding": "AMO_TOKENS_KV",
+      "id": "25e31271bdee40ab8d0210d978feed31"
+    }
+  ]
+}

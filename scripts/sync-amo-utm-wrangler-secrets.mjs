@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Тянет список пользовательских полей СДЕЛКИ из Amo API и записывает в Cloudflare Worker
- * секреты AMO_UTM_* (и опционально AMO_SOURCE_FIELD_ID), затем можно выполнить wrangler deploy.
+ * секреты AMO_UTM_* (и опционально AMO_SOURCE_FIELD_ID), затем npm run deploy:worker-api.
  *
  * Токен Amo в репозиторий не кладём — передаётся только в переменной окружения на время запуска.
  *

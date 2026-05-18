@@ -8,7 +8,7 @@
     {
       "code": "",
       "label": "Все",
-      "totalPages": 3,
+      "totalPages": 5,
       "href": "/blog"
     },
     {
@@ -26,7 +26,7 @@
     {
       "code": "article",
       "label": "Статьи",
-      "totalPages": 3,
+      "totalPages": 4,
       "href": "/blog/article"
     },
     {
@@ -54,6 +54,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2025-06-11T11:04:19.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/4rd77wPh8GwqYEMfMCSxb3AHwrCFEEEaKtxSDbAB.webp"
@@ -76,6 +77,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2025-03-17T08:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/4OKhXLGFMWItU2VRf6DzRBpsRvOlEQ8SCFSU38WA.webp"
@@ -98,6 +100,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-12-11T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/3IHrfdwO12TCeLIT21fsrOGzw0uR2NgxYETYiyzf.webp"
@@ -120,6 +123,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-08-08T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/1uRoMZmmwNnyFRoAcnMRklGDm4C8w2FuZDAd4P6s.webp"
@@ -140,6 +144,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-02-16T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/Gq8atSD9iDUptVPxHxvc8wkn1EN7AWNbS3gDJLJE.webp"

@@ -3,12 +3,12 @@
   "currentPage": 1,
   "totalPages": 1,
   "perPage": 24,
-  "totalItems": 3,
+  "totalItems": 10,
   "filters": [
     {
       "code": "",
       "label": "Все",
-      "totalPages": 3,
+      "totalPages": 5,
       "href": "/blog"
     },
     {
@@ -26,7 +26,7 @@
     {
       "code": "article",
       "label": "Статьи",
-      "totalPages": 3,
+      "totalPages": 4,
       "href": "/blog/article"
     },
     {
@@ -52,6 +52,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-08-28T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/omsd7rIxegBTRB7YRFzTMENsGad2YdfLr6ByqrkM.webp"
@@ -75,6 +76,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-09-26T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/Mti8ntS3wtY0DjuKbVrQQg3oSZ5rHEOFWkoh0GwV.webp"
@@ -98,9 +100,158 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-01-28T08:11:11.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/rh1u7ZQWjB09Uk4SDRGgSBgKgjFSAj7MYwwXioqa.webp"
+      }
+    },
+    {
+      "href": "/blog/case/kak-my-organizovali-fotosessiyu-komandy/",
+      "description": "Как мы организовали фотосессию команды",
+      "subtitle": "За съемкой команды Serenity стоит 4 недели подготовки, масштабная организация и дружная команда, без которой никак. Подробнее о том, как мы обзавелись новым имиджем, читайте в этой статье.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-01-24T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__kak-my-organizovali-fotosessiyu-komandy/web-serenity.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/strategiya-dlya-kliniki-na-petrovke/",
+      "description": "Стратегия для «Клиники на Петровке»",
+      "subtitle": "Провели исследование, разработали позиционирование и составили план по продвижению клиники на 2 года.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-13T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__strategiya-dlya-kliniki-na-petrovke/shirly-niv-marton-377770-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/firmennyj-stil-dlya-x-clinic/",
+      "description": "Фирменный стиль для X Clinic",
+      "subtitle": "На примере X Clinic рассказали о нашем подходе к созданию фирменного стиля и показали, какие задачи он решает",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-11-30T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__firmennyj-stil-dlya-x-clinic/papki.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/analitika-dlya-kliniki-kompozit/",
+      "description": "Аналитика для клиники «Композит»",
+      "subtitle": "Аналитика для клиники «Композит»",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-10-15T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__analitika-dlya-kliniki-kompozit/photo-1515863149848-223cbed59017.jpeg"
+      }
+    },
+    {
+      "href": "/blog/case/digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej/",
+      "description": "Digitale «Мастерство»: как привлечь 51% заявок из соцсетей",
+      "subtitle": "Создали воронку вовлечения, определили типы контента, настроили рекламу — и собрали рекордное количество участников.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "skipCardMedia": true,
+      "publishDate": "2018-05-25T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": ""
+      }
+    },
+    {
+      "href": "/blog/case/kejs-kontekstnaya-reklama-dlya-kompanii-pervaya-mebelnaya-fabrika/",
+      "description": "Контекстная реклама для компании «Первая Мебельная Фабрика»",
+      "subtitle": "Рассказываем, как мы достигли повышения безотказного трафика на 58% и в 2,5 раза увеличили число заявок благодаря оптимизации контекстной рекламы.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-05-08T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__kejs-kontekstnaya-reklama-dlya-kompanii-pervaya-mebelnaya-fabrika/liam-pozz-248765-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/case/kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh/",
+      "description": "Комплексное продвижение завода: от фирстиля до продаж",
+      "subtitle": "Завод «Каскад» делает системы ограждения: заборные секции и металлические сетки. Производство в Санкт-Петербурге, филиалы и склады — в восьми городах по России. До недавнего времени завод принадлежал сети гипермаркетов «Метрика» и через нее продавал товары.",
+      "tags": [
+        "Кейсы"
+      ],
+      "tagCodes": [
+        "case"
+      ],
+      "tagCodesNorm": [
+        "case"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-11-22T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/case__kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh/photo-1496247749665-49cf5b1022e9.jpeg"
       }
     }
   ]

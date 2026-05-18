@@ -1,5 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
+  // Полный staging с ASSETS (весь репо) — только вручную: npx wrangler deploy -c wrangler.jsonc
+  // Обычный DEV-деплой: wrangler.api.jsonc (только /api/lead, без сборки статики).
   "name": "serenity",
   "main": "./src/worker.mjs",
   "compatibility_date": "2026-04-26",

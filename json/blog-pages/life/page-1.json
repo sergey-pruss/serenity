@@ -3,12 +3,12 @@
   "currentPage": 1,
   "totalPages": 1,
   "perPage": 24,
-  "totalItems": 10,
+  "totalItems": 17,
   "filters": [
     {
       "code": "",
       "label": "Все",
-      "totalPages": 3,
+      "totalPages": 5,
       "href": "/blog"
     },
     {
@@ -26,7 +26,7 @@
     {
       "code": "article",
       "label": "Статьи",
-      "totalPages": 3,
+      "totalPages": 4,
       "href": "/blog/article"
     },
     {
@@ -55,6 +55,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2025-04-09T08:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/2xIPVhE3Dn9NbeCXNQDcuDN9qn07h7li9U3adMT5.webp"
@@ -78,6 +79,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2025-02-13T08:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/UIF0Qyex9i9Su3P3nFcAyKeZvkSS6gxKBRjw5eA4.webp"
@@ -101,6 +103,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-07-29T04:07:55.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/M99VkdyMXQIKJX0CFY8yi3GMX991Txoo8tm87zRH.webp"
@@ -121,6 +124,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2024-01-25T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/09HNu8CgoRfKl5IU9ZI2DgYESksIzb3D6r9HO5jt.webp"
@@ -144,6 +148,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2023-07-14T08:12:45.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/9oFGQ99Mkoo3zZZyzaHbWrElQGgSlnr6lzsSMV9e.webp"
@@ -164,6 +169,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-12-06T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/YoYXpJWBYJ71k3IjLUyeTePzKaBWw52elifUbdVt.webp"
@@ -184,6 +190,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2022-09-10T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/HndAl3a0vt6OfisGqh3QQyXS33kMKkju7V6d0T5b.webp"
@@ -204,6 +211,7 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2021-12-10T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/pALu3dFhaVdCIWx64kFpNEaQrxFoungjZfb2ie8j.webp"
@@ -224,6 +232,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-08-18T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/3rWBDqcTBdzrEX1NAfTLmSv103Y5245GRh1f3RYj.webp"
@@ -247,9 +256,157 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2020-11-12T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.webp"
+      }
+    },
+    {
+      "href": "/blog/life/shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge/",
+      "description": "Шестые среди агентств перфоманс-маркетинга в Санкт-Петербурге",
+      "subtitle": "Мы вошли в топ-100 маркетинговых агентств по рейтингу Tagline и заняли шестое место в Санкт-Петербурге 58 место в России.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-30T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge/6-gperformans-markeing.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/",
+      "description": "Digitale «Меняй мир» — лучший образовательный проект",
+      "subtitle": "По итогам голосования наша Digitale «Меняй мир» стала лучшим образовательный проектом в Петербурге.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-02-08T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt/9328-1nk3561-1.png"
+      }
+    },
+    {
+      "href": "/blog/life/itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing/",
+      "description": "Итоги семинара «Рекомендации. Репутация. Локальный маркетинг»",
+      "subtitle": "13 декабря мы провели семинар для предпринимателей и маркетологов «Рекомендации. Репутация. Локальный маркетинг». В четырех выступлениях рассказали об инструментах рекламы, продажах и формировании репутации.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-12-21T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing/3797-1jtcpaz.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/1-mesto-za-prodvizhenie-digitale-007/",
+      "description": "1 место за продвижение Digitale 007",
+      "subtitle": "Сообщество электронных компаний Петербурга наградило нас за многоканальную кампанию Digitale 007",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2015-12-15T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__1-mesto-za-prodvizhenie-digitale-007/rawpixel-648580-unsplash-e1548059350946.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/sedmye-po-seo-v-peterburge/",
+      "description": "Седьмые по SEO в Петербурге",
+      "subtitle": "По оценкам клиентов SEO-услуг.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2015-07-16T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__sedmye-po-seo-v-peterburge/clem-onojeghuo-217352-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/8-mesto-sredi-seo-agentstv-v-sankt-peterburge/",
+      "description": "8 место среди SEO-агентств в Санкт-Петербурге",
+      "subtitle": "Согласно рейтингу Ruward.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2015-06-04T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__8-mesto-sredi-seo-agentstv-v-sankt-peterburge/anthony-martino-335460-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/5-mesto-sredi-dizajn-studij-v-sankt-peterburge/",
+      "description": "5 место среди дизайн-студий в Санкт-Петербурге",
+      "subtitle": "Tagline оценила лидеров среди дизайн-студий в digital-среде.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2014-12-10T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/life__5-mesto-sredi-dizajn-studij-v-sankt-peterburge/kelli-tungay-324329-unsplash.jpg"
       }
     }
   ]

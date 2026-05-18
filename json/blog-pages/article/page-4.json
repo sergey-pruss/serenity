@@ -1,0 +1,434 @@
+{
+  "filterCode": "article",
+  "currentPage": 4,
+  "totalPages": 4,
+  "perPage": 24,
+  "totalItems": 91,
+  "filters": [
+    {
+      "code": "",
+      "label": "Все",
+      "totalPages": 5,
+      "href": "/blog"
+    },
+    {
+      "code": "life",
+      "label": "Наша жизнь",
+      "totalPages": 1,
+      "href": "/blog/life"
+    },
+    {
+      "code": "case",
+      "label": "Кейсы",
+      "totalPages": 1,
+      "href": "/blog/case"
+    },
+    {
+      "code": "article",
+      "label": "Статьи",
+      "totalPages": 4,
+      "href": "/blog/article"
+    },
+    {
+      "code": "podcast",
+      "label": "Подкаст",
+      "totalPages": 1,
+      "href": "/blog/podcast"
+    }
+  ],
+  "posts": [
+    {
+      "href": "/blog/article/vizualnyj-kontent/",
+      "description": "Визуальный контент",
+      "subtitle": "Как качественные изображения помогают вашему бизнесу.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-10-04T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/vizualnyj-kontent/4-kopiya-e1547827279789.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/yandeks-auditorii-4-novyh-istochnika-klientov/",
+      "description": "Яндекс.Аудитории: 4 новых источника клиентов",
+      "subtitle": "Показывать рекламу в интернете теперь можно и вашей офлайн-аудитории. Рассказали, как это делать, и поделились ещё несколькими способами использования Яндекс.Аудиторий.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-07-09T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/yandeks-auditorii-4-novyh-istochnika-klientov/iStock-491962870.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kontent-marketing-kak-vystroit-otnosheniya-s-klientom/",
+      "description": "Контент-маркетинг: как выстроить отношения с клиентом",
+      "subtitle": "Как выстраивать отношения с клиентами с помощью социальных сетей, email-маркетинга и качественного контента.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-05-18T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kontent-marketing-kak-vystroit-otnosheniya-s-klientom/joshua-coleman-582803-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/",
+      "description": "Как локальному бизнесу подготовиться к Чемпионату Мира по футболу",
+      "subtitle": "Подготовили рекомендации по подготовке к Чемпионату в digital-среде.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-04-03T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kak-lokalnomu-biznesu-podgotovitsya-k-chempionatu-mira-po-futbolu/john-o-nolan-644335-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/instrumenty-tsifrovogo-brendinga/",
+      "description": "Инструменты цифрового брендинга",
+      "subtitle": "Ремаркетинг, таргетинг и промотирование - об эффективных инструментах цифрового брендинга рассказывают специалисты агентства Serenity",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-10-02T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/instrumenty-tsifrovogo-brendinga/tim-mossholder-322350-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/geotargeting-dlya-malogo-i-srednego-biznesa/",
+      "description": "Геотаргетинг для малого и среднего бизнеса",
+      "subtitle": "Из всех компаний, которые к нам обращались, 60% не работали с геотаргетингом, либо настраивали его неправильно.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-08-14T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/geotargeting-dlya-malogo-i-srednego-biznesa/martin-adams-736967-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/digital-voronka-dlya-uvelicheniya-prodazh/",
+      "description": "Digital-воронка для увеличения продаж",
+      "subtitle": "Из всех компаний, которые обратились в Serenity, о пользе воронки продаж слышали 9 из 10. При этом, только 5% измеряет воронку от рекламной кампании до продажи. Замерять воронку до продажи нужно, чтобы выявить слабые места и превратить их в преимущества. В этой статье мы рассказали как это сделать.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2017-07-13T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/digital-voronka-dlya-uvelicheniya-prodazh/guillaume-bolduc-259596-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/tsifrovoj-brending/",
+      "description": "Цифровой брендинг",
+      "subtitle": "Создание бренда стало возможно даже для маленьких компаний с небольшими бюджетами и малой целевой аудиторией. Делюсь мыслями, как можно этого достигнуть.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2016-11-16T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/tsifrovoj-brending/al-x-407225-unsplash-1.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/dlinnaya-voronka/",
+      "description": "Длинная воронка",
+      "subtitle": "Прогрессивные компании считают две воронки. Первая — от посещения до обращения (компетенция маркетолога), вторая — от лида до продажи (компетенция руководителя продаж, а теперь и маркетолога).",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2015-09-06T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/dlinnaya-voronka/rawpixel-760069-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/strategiya-digital-marketinga-5-shagov-chtoby-proverit-vashu-strategiyu/",
+      "description": "Стратегия digital-маркетинга, 5 шагов, чтобы проверить вашу стратегию",
+      "subtitle": "Оригинал этой статьи вы можете найти в блоге The Next Web.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2015-04-01T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/strategiya-digital-marketinga-5-shagov-chtoby-proverit-vashu-strategiyu/sergiu-valena-468074-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/marketolog-proektov/",
+      "description": "Маркетолог проектов",
+      "subtitle": "Кто такой, зачем нужен и за что отвечает.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2014-08-15T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/marketolog-proektov/joanna-kosinska-538711-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/card/kak-prevratit-klientov-v-poklonnikov/",
+      "description": "Блог",
+      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/card__kak-prevratit-klientov-v-poklonnikov/apple_store_iphone_7_europe_2-1.jpg"
+      }
+    },
+    {
+      "href": "/blog/card/marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing/",
+      "description": "Блог",
+      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/card__marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing/nick-fewings-600900-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/litso-brenda-zadachi-razrabotki-firmennogo-stilya/",
+      "description": "Лицо бренда: задачи разработки фирменного стиля",
+      "subtitle": "Рассказываем о задачах фирменного стиля: от логотипа до корпоративной культуры и коммуникаций. Узнайте, как айдентика выделяет бренд и формирует доверие.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/litso-brenda-zadachi-razrabotki-firmennogo-stilya/luke-jones-38Tm9xZPxIw-unsplash.png"
+      }
+    },
+    {
+      "href": "/blog/article/vystuplenie-sergeya-prussa-na-digitale-masterstvo/",
+      "description": "Блог",
+      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "skipCardMedia": true,
+      "media": {
+        "kind": "picture",
+        "image": ""
+      }
+    },
+    {
+      "href": "/blog/card/reklama-protiv-marketinga-kto-kogo/",
+      "description": "Реклама против маркетинга — кто кого?",
+      "subtitle": "Многие полагают, что маркетинг и реклама — одно и то же. Доказываем обратное.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/card__reklama-protiv-marketinga-kto-kogo/rawpixel-620247-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/card/kak-dostich-masterstva/",
+      "description": "Блог",
+      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/card__kak-dostich-masterstva/steven-lelham-342930-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/videokontent-kak-emotsionalnyj-kontakt-s-brendom/",
+      "description": "Блог",
+      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "skipCardMedia": true,
+      "media": {
+        "kind": "picture",
+        "image": ""
+      }
+    },
+    {
+      "href": "/blog/card/vrednye-sovety/",
+      "description": "Блог",
+      "subtitle": "Полезные материалы о маркетинге, кейсы, жизнь агентства",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/card__vrednye-sovety/rawpixel-781970-unsplash.jpg"
+      }
+    }
+  ]
+}

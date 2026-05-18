@@ -1,14 +1,14 @@
 {
   "filterCode": "article",
   "currentPage": 3,
-  "totalPages": 3,
+  "totalPages": 4,
   "perPage": 24,
-  "totalItems": 57,
+  "totalItems": 91,
   "filters": [
     {
       "code": "",
       "label": "Все",
-      "totalPages": 3,
+      "totalPages": 5,
       "href": "/blog"
     },
     {
@@ -26,7 +26,7 @@
     {
       "code": "article",
       "label": "Статьи",
-      "totalPages": 3,
+      "totalPages": 4,
       "href": "/blog/article"
     },
     {
@@ -37,6 +37,90 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kak-sdelat-brend-kotoryj-polyubyat-klienty/",
+      "description": "Как сделать бренд, который полюбят клиенты?",
+      "subtitle": "Рассказывает Елизавета Румянцева, лидер направлений «Брендинг» и «Веб-дизайн».",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2022-07-22T07:10:10.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/7wRtXlXNInnhnfmV0C6SrYC4fyeSJSME9eho89Lg.webp"
+      }
+    },
+    {
+      "href": "/blog/article/brending-i-performance-marketing-pochemu-odno-bez-drugogo-sliv-byudzheta/",
+      "description": "Performance-маркетинг и брендинг",
+      "subtitle": "Почему одно без другого — слив бюджета?",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "publishDate": "2022-05-13T07:10:10.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/yPxxY1Sk9fxG73td4yGPSZMQTJxZifOXbKb5p98H.webp"
+      }
+    },
+    {
+      "href": "/blog/article/vyhod-kazahstanskih-produktov-i-uslug-na-rossijskij-rynok/",
+      "description": "Выход казахстанских продуктов и услуг на российский рынок",
+      "subtitle": "Наш официальный представитель в Казахстане — Малика Кирзнева, поделилась, почему выгодно развивать сотрудничество Казахстана с Россией и как сейчас качественно внедрить новые продукты на рынок.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-04-20T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/vyhod-kazahstanskih-produktov-i-uslug-na-rossijskij-rynok/travel-with-Bbok0gkUbq4-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/zagolovok-vybor-effektivnoj-crm-sistemy/",
+      "description": "Выбор эффективной CRM-системы",
+      "subtitle": "Как повысить продажи и автоматизировать управление бизнесом, рассказывает лидер маркетинга продаж — Павел Кожинов",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-04-12T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/zagolovok-vybor-effektivnoj-crm-sistemy/Szhatoe-imgonline-com-ua-CompressBySize-rxd80LkaJShW7mp.jpg"
+      }
+    },
     {
       "href": "https://vc.ru/marketing/513260-kak-protivostoyat-toksichnym-kommunikaciyam-vystraivaem-zdorovoe-partnerstvo-bez-manipulyacii",
       "description": "Как противостоять токсичным коммуникациям",
@@ -52,6 +136,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-03-12T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/rMqYwwbvGgrQdDBfARLw39JkaYkmKvqVPquD2XqW.webp"
@@ -72,6 +157,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-03-10T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/TRrqOSSESFPYr7DfKJVk2PDusgEgNWVQuawjwJrH.webp"
@@ -92,9 +178,31 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-02-12T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/BQr3bAppjAqG0UfcD6DESNF04qO8Iu0bLMu3qC1b.webp"
+      }
+    },
+    {
+      "href": "/blog/article/effektivnyj-marketing-dlya-biznesa-kompleksnost-i-ili-spetsializatsiya/",
+      "description": "Эффективный маркетинг: комплексность и/или специализация?",
+      "subtitle": "Рассказываем, как выбирать подрядчиков под маркетинговые задачи",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2022-02-02T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/effektivnyj-marketing-dlya-biznesa-kompleksnost-i-ili-spetsializatsiya/javier-allegue-barros-C7B-ExXpOIE-unsplash.jpg"
       }
     },
     {
@@ -115,6 +223,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2022-01-28T08:11:11.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/rh1u7ZQWjB09Uk4SDRGgSBgKgjFSAj7MYwwXioqa.webp"
@@ -135,6 +244,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-11-15T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/MZrOAHDi14fxVPTJKnvHTmH3lif4XXx6vVsIZTFj.webp"
@@ -155,6 +265,7 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-11-09T17:20:20.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/z1z5T9pJ0tFhJyoDVsncmY5cPXvT3CPIIHudl3oS.webp"
@@ -175,9 +286,31 @@
       ],
       "linkClass": "dark-text",
       "isResource": true,
+      "publishDate": "2021-10-28T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/gOOxtrdzfjdTSyAP6syEWnfpS6Nb8Ma0NhSn52Cv.webp"
+      }
+    },
+    {
+      "href": "/blog/article/ekspress-instruktsiya-kak-ne-slit-reklamnyj-byudzhet/",
+      "description": "Экспресс-инструкция, как не слить рекламный бюджет",
+      "subtitle": "Обычно, если нас спрашивают, как сделать так, чтобы реклама работала и приносила прибыль, мы отвечаем: начать с digital-стратегии. Но бывает не до того: нет времени, нужно срочно запустить контекст или купить рекламу у инфлюенсера. Наш лидер направления стратегии Екатерина Русакова рекомендует, что проверить до запуска, чтобы не потратить деньги впустую.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2021-09-09T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/ekspress-instruktsiya-kak-ne-slit-reklamnyj-byudzhet/Statya-oblozhka-2-1-1-1-1.png"
       }
     },
     {
@@ -195,9 +328,31 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2021-08-23T07:00:00.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/ocruoRPFuFJVjt797dJb6nQhpPoh1mlHNnuwAirT.webp"
+      }
+    },
+    {
+      "href": "/blog/article/s-chego-nachat-kontent-marketing-poshagovoe-rukovodstvo/",
+      "description": "С чего начать контент-маркетинг. Пошаговое руководство",
+      "subtitle": "Контент-лидер Артем Пак делится пошаговым руководством по созданию контент-маркетинга в любой компании.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2020-12-28T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/s-chego-nachat-kontent-marketing-poshagovoe-rukovodstvo/oblozhka-1.png"
       }
     },
     {
@@ -218,9 +373,180 @@
       ],
       "linkClass": "white-text",
       "isResource": true,
+      "publishDate": "2020-11-12T07:10:10.000000Z",
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.webp"
+      }
+    },
+    {
+      "href": "/blog/article/kejs-digitale-cchaste/",
+      "description": "Кейс: Digitale «‎Cчастье»",
+      "subtitle": "Кейс: Digitale «‎Cчастье»",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2020-07-31T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kejs-digitale-cchaste/di.png"
+      }
+    },
+    {
+      "href": "/blog/article/poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu/",
+      "description": "Получили «Прометей», а потом собрали вал клиентов на Черную пятницу",
+      "subtitle": "Получили «Прометей», а потом собрали вал клиентов на Черную пятницу",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "publishDate": "2020-03-06T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu/dr.png"
+      }
+    },
+    {
+      "href": "/blog/article/avtotargeting-v-yandeks-direkt/",
+      "description": "Автотаргетинг в Яндекс.Директ",
+      "subtitle": "В статье рассказывается о том, что такое автотаргетинг в Яндекс Директ, как он формирует запросы, на основании каких данных и как отрабатывает в РСЯ. Поделимся своими отзывами и расскажем нужен ли автотаргетинг в директе. Ответим на вопрос нужен ли автотаргетинг и когда стоит его использовать.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "publishDate": "2019-12-17T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/avtotargeting-v-yandeks-direkt/success-1955256_1920.jpg"
+      },
+      "mediaObjectPosition": "50% 18%"
+    },
+    {
+      "href": "/blog/article/kak-sozdat-konkurentosposobnoe-imya/",
+      "description": "Как создать крутое имя",
+      "subtitle": "В статье рассказывается о создании крутого имени бренда, приведен кейс разработки имени бренда одежды Jistory. Поделимся способами и этапами создания имени бренда, методикой и рекомендациями как пройти регистрацию имени и получить патент на имя, бренд.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-09-23T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kak-sozdat-konkurentosposobnoe-imya/IMG_3922-e1568902560336.jpg"
+      },
+      "cardModifier": "case--title-scrim"
+    },
+    {
+      "href": "/blog/article/kak-stat-idealnym-klientom-seo-spetsialista/",
+      "description": "Как стать идеальным клиентом SEO-специалиста",
+      "subtitle": "В статье рассказывается об основных ошибках клиентов по SEO, раскрываются основные ошибки SEO клиентов, даются рекомендации как выстроить правильную коммуникацию и стратегию seo продвижения сайта.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-09-18T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kak-stat-idealnym-klientom-seo-spetsialista/fotooboi-shesterenki-10517.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/cjm-put-ot-znakomstva-do-trudoustrojstva/",
+      "description": "CJM: путь от знакомства до трудоустройства",
+      "subtitle": "Что такое customer journey map? Приведем примеры карты cjm, коснемся cjm маркетинга, а также расскажем о customer journey map для сайтов и интернет магазинов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-05-10T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/cjm-put-ot-znakomstva-do-trudoustrojstva/kees-streefkerk-341657-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov/",
+      "description": "Модерация: как увеличить лояльность и число клиентов",
+      "subtitle": "Статья о преимуществах модерации в социальных сетях, в инстаграм, ответов и модерации отзывов, комментариев и материалов.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2019-01-31T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov/1010028773.jpg"
+      }
+    },
+    {
+      "href": "/blog/article/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/",
+      "description": "Лидформы: как увеличить объем заявок из Facebook и Instagram",
+      "subtitle": "В статье раскрывается тема по созданию, настройке, интеграции в фейсбуке и инстаграм. Подскажем как лучше тестировать и сделать лид форму эффективной в Facebook и Instagram",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-11T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/zhifei-zhou-689004-unsplash.jpg"
       }
     }
   ]

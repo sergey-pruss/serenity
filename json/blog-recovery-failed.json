@@ -1,0 +1,11 @@
+{
+  "comment": "Материалы из manifest без снимка Wayback (CDX пустой на всех проверенных путях).",
+  "entries": [
+    {
+      "segment": "article",
+      "slug": "kontent-marketing-dlya-kliniki-plasticheskoj-hirurgii",
+      "canonical": "/blog/article/kontent-marketing-dlya-kliniki-plasticheskoj-hirurgii/",
+      "reason": "нет снимка Wayback (article, sovety, case)"
+    }
+  ]
+}

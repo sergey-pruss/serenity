@@ -31,6 +31,7 @@ import { applyBlogArticleMediaCaptionMarkup } from "./blog-article-body-caption-
 import { applyBlogArticleBodyImageSrcsetSizes } from "./blog-article-body-image-srcset-sizes.mjs";
 import { applyBlogArticleStageHeadingMarkup } from "./blog-article-stage-heading-markup.mjs";
 import { normalizeBlogMetaDescription } from "./normalize-blog-meta-description.mjs";
+import { stripBlogCategoryFromTitle } from "./normalize-blog-article-title.mjs";
 
 const require = createRequire(import.meta.url);
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
@@ -252,8 +253,11 @@ function renderListingCard(c, idx) {
   const srcsetAttr = ia.srcset
     ? ` srcset="${escapeXml(ia.srcset)}" sizes="${escapeXml(ia.sizes)}"`
     : "";
+  const mediaPos = c.mediaObjectPosition
+    ? ` style="object-position:${escapeXml(String(c.mediaObjectPosition))}"`
+    : "";
   const imgOpen = ia.src
-    ? `<img data-v-c0adc676="" class="case__media--front" alt="" src="${escapeXml(ia.src)}"${srcsetAttr} fetchpriority="${fetchPriority}" decoding="async" loading="${loading}" />`
+    ? `<img data-v-c0adc676="" class="case__media--front" alt="" src="${escapeXml(ia.src)}"${srcsetAttr}${mediaPos} fetchpriority="${fetchPriority}" decoding="async" loading="${loading}" />`
     : "";
 
   const media = `<div class="case__media zoom" data-v-c0adc676="">
@@ -263,9 +267,13 @@ function renderListingCard(c, idx) {
   const cls = (c.linkClass || "white-text").trim();
   const href = escapeXml(c.href || "#");
   const isDarkCard = c.linkClass === "dark-text";
-  const caseClass = isDarkCard
-    ? "case case--dark-card"
-    : "case more-blog-case case--resource case-cutted articles";
+  const cardModifier = String(c.cardModifier || "").trim();
+  const caseClass = [
+    isDarkCard ? "case case--dark-card" : "case more-blog-case case--resource case-cutted articles",
+    cardModifier ? escapeXml(cardModifier) : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   const caseStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
   const linkStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
   const subtitleBody = c.subtitle ? escapeXml(c.subtitle) : "";
@@ -993,7 +1001,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   body = relocateOrphanQuoteIntoSpecialistRail(body);
   body = stripGuillemetsFromArticleQuoteBlocks(body);
   const readAlso = buildReadMoreSection(readMoreSlug, articleFeed);
-  const title = data.title || slug;
+  const title = stripBlogCategoryFromTitle(data.title) || slug;
   let metaDescription = normalizeBlogMetaDescription(data.description || "");
   if (!metaDescription) {
     metaDescription = deriveDescriptionFromArticleBody(body);

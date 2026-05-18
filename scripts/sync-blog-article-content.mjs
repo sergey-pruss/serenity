@@ -18,6 +18,7 @@ import fs from "fs";
 import path from "path";
 import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html.mjs";
 import { normalizeBlogMetaDescription } from "./normalize-blog-meta-description.mjs";
+import { stripBlogCategoryFromTitle } from "./normalize-blog-article-title.mjs";
 
 const ORIGIN = "https://serenity.agency";
 const MANIFEST = path.join(process.cwd(), "json", "blog-articles-manifest.json");
@@ -54,7 +55,7 @@ function parseMeta(pageHtml) {
   const canonM = pageHtml.match(/<link[^>]+rel="canonical"[^>]+href="([^"]*)"/i);
   const rawDesc = descM ? descM[1].trim() : "";
   return {
-    title: titleM ? titleM[1].replace(/\s*—\s*Статья\s*—\s*Serenity\s*$/i, "").trim() : "",
+    title: titleM ? stripBlogCategoryFromTitle(titleM[1]) : "",
     description: normalizeBlogMetaDescription(rawDesc),
     canonical: canonM ? canonM[1].trim() : "",
   };

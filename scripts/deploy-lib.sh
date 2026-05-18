@@ -34,6 +34,17 @@ deploy_rsync_repo_to_static_root() {
     --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
     "${rsync_excludes[@]}" \
     ./ "${host}:${path}"
+  deploy_remote_fix_static_permissions
+}
+
+# На origin nginx (www-data) должен читать файлы. С внешних дисков macOS rsync иногда
+# оставляет 0700 (drwx------) несмотря на --chmod — после каждой выкладки выравниваем права.
+deploy_remote_fix_static_permissions() {
+  export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
+  local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
+  local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
+  # shellcheck disable=SC2086
+  $RSYNC_RSH "${host}" "chmod -R u=rwX,go=rX -- '${path%/}/'" || true
 }
 
 # Каталоги tmp/ и .continue/ не кладём на origin (срезы паритета; локальный Cursor Continue). Без --delete rsync старые копии не снимет — чистим по SSH.
@@ -60,9 +71,8 @@ deploy_remote_scrub_docs_on_origin() {
 }
 
 deploy_worker_staging() {
-  echo "→ Worker deploy: https://serenity.sergeyprus.workers.dev …"
-  # wrangler индексирует весь репозиторий как assets (см. wrangler.jsonc); без лимита Node падает по heap.
-  NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=8192}" npx wrangler deploy
+  echo "→ Worker deploy (только API формы / Amo): https://serenity.sergeyprus.workers.dev …"
+  npx wrangler deploy -c wrangler.api.jsonc
 }
 
 # Edge Yandex CDN перед static.serenity.agency (см. AGENTS.md). DEV purge нужен после rsync в static-dev.

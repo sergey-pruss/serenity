@@ -2461,6 +2461,38 @@ body.order-popup-open .overlay-new {
     -webkit-backdrop-filter 0.3s linear;
 }
 
+/* Листинг блога: плотный верхний скрим + лёгкое размытие под заголовком (светлый текст). */
+#blog-grid .case.case--title-scrim > a[data-v-c0adc676]::before,
+.blog-read-more .case.case--title-scrim > a[data-v-c0adc676]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 12, 16, 0.78) 0%,
+    rgba(12, 12, 16, 0.42) 42%,
+    transparent 68%
+  );
+}
+
+#blog-grid .case.case--title-scrim .case__media[data-v-c0adc676]::after,
+.blog-read-more .case.case--title-scrim .case__media[data-v-c0adc676]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 58%;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+}
+
 #blog-grid .case.more-blog-case:hover .blur[data-v-c0adc676],
 #blog-grid .case.case--dark-card:hover .blur[data-v-c0adc676],
 .blog-read-more .case.more-blog-case:hover .blur[data-v-c0adc676],

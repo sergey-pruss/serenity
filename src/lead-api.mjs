@@ -1,3 +1,5 @@
+import { normalizeLeadUtm } from "./lead-utm.mjs";
+
 /**
  * Обработка заявок с сайта serenity.agency
  * Отправляет письмо через Resend и создаёт лид в AmoCRM.
@@ -115,30 +117,9 @@ function pickTrimmed(data, key) {
   return String(v).trim();
 }
 
-function parseUtmFromPageUrl(sourceUrl) {
-  const out = {};
-  if (!sourceUrl) return out;
-  try {
-    const u = new URL(sourceUrl);
-    for (const [param] of UTM_PARAM_TO_ENV) {
-      const v = u.searchParams.get(param);
-      if (v && String(v).trim()) out[param] = String(v).trim();
-    }
-  } catch {
-    // ignore invalid URL
-  }
-  return out;
-}
-
-/** Явные поля формы перекрывают значения из query в source. */
+/** Явные поля формы перекрывают значения из query в source; без меток — direct / none. */
 function mergeUtmFromRequest(data, source) {
-  const fromUrl = parseUtmFromPageUrl(source);
-  const merged = { ...fromUrl };
-  for (const [param] of UTM_PARAM_TO_ENV) {
-    const direct = pickTrimmed(data, param);
-    if (direct) merged[param] = direct;
-  }
-  return merged;
+  return normalizeLeadUtm(data, source);
 }
 
 function appendUtmToAmoValues(env, utm, paramToEnvKey, targetArray) {

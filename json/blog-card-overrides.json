@@ -1,5 +1,15 @@
 {
   "/blog/article/geo-seo-kak-ne-popast-v-lovushku-trendov-i-ne-slit-byudzhet/": {
     "subtitle": "Механики, ограничения и условия эффективного продвижения в AI-поиске"
+  },
+  "/blog/article/poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu/": {
+    "linkClass": "dark-text"
+  },
+  "/blog/article/avtotargeting-v-yandeks-direkt/": {
+    "linkClass": "dark-text",
+    "mediaObjectPosition": "50% 18%"
+  },
+  "/blog/article/kak-sozdat-konkurentosposobnoe-imya/": {
+    "cardModifier": "case--title-scrim"
   }
 }

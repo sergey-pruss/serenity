@@ -1,7 +1,75 @@
 [
   {
+    "segment": "card",
+    "slug": "kak-dostich-masterstva"
+  },
+  {
+    "segment": "card",
+    "slug": "kak-prevratit-klientov-v-poklonnikov"
+  },
+  {
+    "segment": "card",
+    "slug": "marketingovoe-agentstvo-polnogo-tsikla-i-digital-marketing"
+  },
+  {
+    "segment": "card",
+    "slug": "reklama-protiv-marketinga-kto-kogo"
+  },
+  {
+    "segment": "card",
+    "slug": "vrednye-sovety"
+  },
+  {
+    "segment": "case",
+    "slug": "analitika-dlya-kliniki-kompozit"
+  },
+  {
+    "segment": "case",
+    "slug": "digitale-masterstvo-kak-privlech-51-zayavok-iz-sotssetej"
+  },
+  {
+    "segment": "case",
+    "slug": "firmennyj-stil-dlya-x-clinic"
+  },
+  {
+    "segment": "case",
+    "slug": "kak-my-organizovali-fotosessiyu-komandy"
+  },
+  {
+    "segment": "case",
+    "slug": "kejs-kontekstnaya-reklama-dlya-kompanii-pervaya-mebelnaya-fabrika"
+  },
+  {
+    "segment": "case",
+    "slug": "kompleksnoe-prodvizhenie-zavoda-ot-firstilya-do-prodazh"
+  },
+  {
     "segment": "case",
     "slug": "neiming-kak-sozdayutsya-silnye-brendi"
+  },
+  {
+    "segment": "case",
+    "slug": "strategiya-dlya-kliniki-na-petrovke"
+  },
+  {
+    "segment": "life",
+    "slug": "1-mesto-za-prodvizhenie-digitale-007"
+  },
+  {
+    "segment": "life",
+    "slug": "5-mesto-sredi-dizajn-studij-v-sankt-peterburge"
+  },
+  {
+    "segment": "life",
+    "slug": "8-mesto-sredi-seo-agentstv-v-sankt-peterburge"
+  },
+  {
+    "segment": "life",
+    "slug": "digitale-menyaj-mir-luchshij-obrazovatelnyj-proekt"
+  },
+  {
+    "segment": "life",
+    "slug": "itogi-seminara-rekomendatsii-reputatsiya-lokalnyj-marketing"
   },
   {
     "segment": "life",
@@ -10,6 +78,14 @@
   {
     "segment": "life",
     "slug": "ot-prodzhekta-do-lidera-za-god"
+  },
+  {
+    "segment": "life",
+    "slug": "sedmye-po-seo-v-peterburge"
+  },
+  {
+    "segment": "life",
+    "slug": "shestye-sredi-agentstv-perfomans-marketinga-v-sankt-peterburge"
   },
   {
     "segment": "life",

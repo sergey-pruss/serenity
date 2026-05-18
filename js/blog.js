@@ -40,12 +40,13 @@
     };
   };
 
-  const imgTagAttrs = (attrs, fetchPriority, loading) => {
+  const imgTagAttrs = (attrs, fetchPriority, loading, objectPosition) => {
     if (!attrs.src) return "";
     const rs = attrs.srcset
       ? ` srcset="${esc(attrs.srcset)}" sizes="${esc(attrs.sizes)}"`
       : "";
-    return `src="${esc(attrs.src)}"${rs} fetchpriority="${fetchPriority}" decoding="async" loading="${loading}"`;
+    const pos = objectPosition ? ` style="object-position:${esc(objectPosition)}"` : "";
+    return `src="${esc(attrs.src)}"${rs}${pos} fetchpriority="${fetchPriority}" decoding="async" loading="${loading}"`;
   };
 
   const parseRoute = () => {
@@ -79,14 +80,18 @@
     const tagsHtml = (c.tags || [])
       .map((t) => `<span class="case__tag" data-v-c0adc676="">${esc(t)}</span>`)
       .join("");
+    const skipCardMedia = c.skipCardMedia === true;
     const imageUrl = c.media?.kind === "video" ? c.media.poster : c.media?.image;
     const imageAttrs = buildBlogImageAttrs(imageUrl);
     const fetchPriority = idx < 2 ? "high" : "low";
     const loading = idx < 2 ? "eager" : "lazy";
-    const imgOpen = `<img data-v-c0adc676="" class="case__media--front" alt="" ${imgTagAttrs(imageAttrs, fetchPriority, loading)} />`;
+    const imgOpen = skipCardMedia
+      ? ""
+      : `<img data-v-c0adc676="" class="case__media--front" alt="" ${imgTagAttrs(imageAttrs, fetchPriority, loading, c.mediaObjectPosition)} />`;
 
-    const media =
-      c.media && c.media.kind === "video"
+    const media = skipCardMedia
+      ? ""
+      : c.media && c.media.kind === "video"
         ? `<div class="case__media video" data-v-c0adc676="">
             ${imgOpen}
             <video data-v-c0adc676="" playsinline="" autoplay="autoplay" muted="muted" loop="loop"
@@ -103,9 +108,13 @@
     const href = esc(c.href || "#");
 
     const isDarkCard = c.linkClass === "dark-text";
-    const caseClass = isDarkCard
-      ? "case case--dark-card"
-      : "case more-blog-case case--resource case-cutted articles";
+    const cardModifier = String(c.cardModifier || "").trim();
+    const caseClass = [
+      isDarkCard ? "case case--dark-card" : "case more-blog-case case--resource case-cutted articles",
+      cardModifier,
+    ]
+      .filter(Boolean)
+      .join(" ");
     const caseStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
     const linkStyle = isDarkCard ? ' style="background-color:#e8e8ea;"' : "";
     const subtitleBody = c.subtitle ? esc(c.subtitle) : "";

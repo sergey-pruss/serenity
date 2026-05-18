@@ -5,8 +5,8 @@
  * - json/blogs-all.json
  * - js/blogs-all-data.js (опциональный снимок для отладки)
  *
- * Порядок ленты: сначала posts из manual (как в файле), затем API без дубликата по
- * каноническому href (ручная запись перекрывает API).
+ * Порядок ленты: merge API + json/blog-posts-recovered.json + json/blog-posts-manual.json
+ * (при совпадении href: manual > recovered > API), сортировка по publishDate (новые выше).
  */
 import fs from "fs";
 import path from "path";
@@ -96,6 +96,11 @@ function applyBlogCardOverrides(posts, root) {
     const next = { ...post };
     if ("description" in o && o.description != null) next.description = String(o.description);
     if ("subtitle" in o && o.subtitle != null) next.subtitle = String(o.subtitle);
+    if ("linkClass" in o && o.linkClass != null) next.linkClass = String(o.linkClass);
+    if ("mediaObjectPosition" in o && o.mediaObjectPosition != null) {
+      next.mediaObjectPosition = String(o.mediaObjectPosition);
+    }
+    if ("cardModifier" in o && o.cardModifier != null) next.cardModifier = String(o.cardModifier);
     return next;
   });
 }
@@ -124,14 +129,49 @@ function blogMediaUrl(filename) {
   if (!filename) return "";
   const safe = path.basename(String(filename));
   if (!safe) return "";
-  const blogPath = path.join(process.cwd(), "img", "blog", safe);
-  if (fs.existsSync(blogPath)) {
-    return `/_sa/img/blog/${safe}`;
+  const blogDir = path.join(process.cwd(), "img", "blog");
+  const candidates = [safe];
+  if (/\.jpe?g$/i.test(safe)) {
+    candidates.push(safe.replace(/\.jpe?g$/i, ".webp"));
+  }
+  for (const name of candidates) {
+    if (fs.existsSync(path.join(blogDir, name))) {
+      return `/_sa/img/blog/${name}`;
+    }
   }
   return `https://serenity.agency/storage/${safe}`;
 }
 
+/** Локальный /_sa/ или storage/ → blogMediaUrl по имени файла (после merge manual/recovered). */
+function resolveListingMediaImage(imageUrl) {
+  const s = String(imageUrl || "").trim();
+  if (!s) return s;
+  if (s.startsWith("/_sa/img/blog/")) {
+    const rel = s.replace(/^\/_sa\//, "");
+    if (fs.existsSync(path.join(process.cwd(), rel))) return s;
+  }
+  const storageMatch = s.match(/\/storage\/([^/?#]+)/i);
+  const fileFromPath = storageMatch ? storageMatch[1] : path.basename(s);
+  return blogMediaUrl(fileFromPath);
+}
+
+function normalizePostListingMedia(post) {
+  const media = post?.media;
+  if (!media || typeof media !== "object") return post;
+  if (media.kind === "video") {
+    const next = { ...media };
+    if (next.poster) next.poster = resolveListingMediaImage(next.poster);
+    if (next.videoSrc && !String(next.videoSrc).startsWith("http")) {
+      next.videoSrc = blogMediaUrl(path.basename(String(next.videoSrc)));
+    }
+    return { ...post, media: next };
+  }
+  if (!media.image) return post;
+  return { ...post, media: { ...media, image: resolveListingMediaImage(media.image) } };
+}
+
 const MANUAL_POSTS_JSON = path.join("json", "blog-posts-manual.json");
+const RECOVERED_POSTS_JSON = path.join("json", "blog-posts-recovered.json");
 
 /** Ручной пост: тот же контракт полей, что у элемента posts в blogs-all.json. */
 function normalizeManualPostEntry(raw, index) {
@@ -162,7 +202,8 @@ function normalizeManualPostEntry(raw, index) {
       return null;
     }
   } else if (media.kind === "picture" || !media.kind) {
-    if (!media.image || !String(media.image).trim()) {
+    const skipCardMedia = raw.skipCardMedia === true;
+    if (!skipCardMedia && (!media.image || !String(media.image).trim())) {
       console.warn(`WARN: blog-posts-manual.json [${index}] пропущен: picture без image`);
       return null;
     }
@@ -182,6 +223,11 @@ function normalizeManualPostEntry(raw, index) {
     ? raw.tags.map((t) => String(t || "").trim()).filter(Boolean)
     : [];
 
+  const publishDate =
+    raw.publishDate != null && String(raw.publishDate).trim()
+      ? String(raw.publishDate).trim()
+      : "";
+
   return {
     href,
     description: String(raw.description != null ? raw.description : "").trim(),
@@ -191,6 +237,10 @@ function normalizeManualPostEntry(raw, index) {
     tagCodesNorm,
     linkClass: raw.linkClass === "dark-text" ? "dark-text" : "white-text",
     isResource: raw.isResource !== false,
+    ...(raw.skipCardMedia === true ? { skipCardMedia: true } : {}),
+    ...(raw.mediaObjectPosition ? { mediaObjectPosition: String(raw.mediaObjectPosition) } : {}),
+    ...(raw.cardModifier ? { cardModifier: String(raw.cardModifier) } : {}),
+    ...(publishDate ? { publishDate } : {}),
     media:
       media.kind === "video"
         ? {
@@ -203,6 +253,66 @@ function normalizeManualPostEntry(raw, index) {
             image: String(media.image || "").trim(),
           },
   };
+}
+
+function loadRecoveredPostsForMerge(root) {
+  const recoveredPath = path.join(root, RECOVERED_POSTS_JSON);
+  if (!fs.existsSync(recoveredPath)) return [];
+  let doc;
+  try {
+    doc = JSON.parse(fs.readFileSync(recoveredPath, "utf8"));
+  } catch (e) {
+    console.warn("WARN: blog-posts-recovered.json:", e.message);
+    return [];
+  }
+  const arr = Array.isArray(doc?.posts) ? doc.posts : [];
+  const out = [];
+  const seenHref = new Set();
+  for (let i = 0; i < arr.length; i++) {
+    const n = normalizeManualPostEntry(arr[i], i);
+    if (!n) continue;
+    const k = canonBlogHref(n.href);
+    if (seenHref.has(k)) continue;
+    seenHref.add(k);
+    out.push(n);
+  }
+  return out;
+}
+
+/** Объединяет ленты; при совпадении href побеждает более поздний источник (manual > recovered > API). */
+function mergeBlogPostsByHref(apiList, manualList, recoveredList) {
+  const map = new Map();
+  for (const p of apiList) {
+    const k = canonBlogHref(p.href);
+    if (k) map.set(k, p);
+  }
+  for (const p of recoveredList) {
+    const k = canonBlogHref(p.href);
+    if (k) map.set(k, p);
+  }
+  for (const p of manualList) {
+    const k = canonBlogHref(p.href);
+    if (k) map.set(k, p);
+  }
+  return [...map.values()];
+}
+
+function sortPostsByPublishDate(posts, manualHrefKeys = new Set()) {
+  return [...posts].sort((a, b) => {
+    const da = String(a.publishDate || "");
+    const db = String(b.publishDate || "");
+    if (da && db) {
+      const byDate = db.localeCompare(da);
+      if (byDate !== 0) return byDate;
+      const aManual = manualHrefKeys.has(canonBlogHref(a.href));
+      const bManual = manualHrefKeys.has(canonBlogHref(b.href));
+      if (aManual !== bManual) return aManual ? -1 : 1;
+      return 0;
+    }
+    if (db) return 1;
+    if (da) return -1;
+    return 0;
+  });
 }
 
 function loadManualPostsForMerge(root) {
@@ -232,16 +342,6 @@ function loadManualPostsForMerge(root) {
   return out;
 }
 
-/** Ручные посты — в начало; дубликаты по href из API удаляются. */
-function mergeManualPostsFirst(manualList, apiList) {
-  const seen = new Set();
-  for (const p of manualList) {
-    const k = canonBlogHref(p.href);
-    if (k) seen.add(k);
-  }
-  const rest = apiList.filter((p) => !seen.has(canonBlogHref(p.href)));
-  return [...manualList, ...rest];
-}
 
 function parseAnimation(animationContent) {
   let parsed = [];
@@ -308,6 +408,11 @@ function parseAnimation(animationContent) {
             image: blogMediaUrl(imageFile),
           };
 
+    const publishDate =
+      item.publish_date != null && String(item.publish_date).trim()
+        ? String(item.publish_date).trim()
+        : "";
+
     return {
       href: absoluteLegacyBlogPath(toSitePath(item.link)),
       description: item.name || "",
@@ -317,6 +422,7 @@ function parseAnimation(animationContent) {
       tagCodesNorm,
       linkClass,
       isResource: Number(item.foreign_resource) === 1,
+      publishDate,
       media,
     };
   }).filter((p) => {
@@ -327,7 +433,11 @@ function parseAnimation(animationContent) {
   });
 
   const manualPosts = loadManualPostsForMerge(root);
-  posts = mergeManualPostsFirst(manualPosts, posts);
+  const recoveredPosts = loadRecoveredPostsForMerge(root);
+  const manualHrefKeys = new Set(manualPosts.map((p) => canonBlogHref(p.href)).filter(Boolean));
+  posts = mergeBlogPostsByHref(posts, manualPosts, recoveredPosts);
+  posts = posts.map(normalizePostListingMedia);
+  posts = sortPostsByPublishDate(posts, manualHrefKeys);
 
   posts = applyBlogCardOverrides(posts, root);
   posts = posts.map((p) => ({ ...p, href: absoluteLegacyBlogPath(p.href) }));
@@ -337,7 +447,9 @@ function parseAnimation(animationContent) {
     builtAt: new Date().toISOString(),
     source: API_BASE,
     sourceManual: "json/blog-posts-manual.json",
+    sourceRecovered: "json/blog-posts-recovered.json",
     manualPostsCount: manualPosts.length,
+    recoveredPostsCount: recoveredPosts.length,
     filters: FILTERS,
     posts,
   };
