@@ -73,6 +73,23 @@ function isoLastmodFromFile(filePath) {
   return m;
 }
 
+/** lastmod из mtime index.html для страниц из json/services/<slug>/service.config.json */
+function servicePageLastmodsByPathname() {
+  const map = new Map();
+  const servicesRoot = path.join(root, "json", "services");
+  if (!fs.existsSync(servicesRoot)) return map;
+  for (const slug of fs.readdirSync(servicesRoot)) {
+    const cfgPath = path.join(servicesRoot, slug, "service.config.json");
+    if (!fs.existsSync(cfgPath)) continue;
+    const cfg = JSON.parse(fs.readFileSync(cfgPath, "utf8"));
+    const urlPath = String(cfg.urlPath || "").replace(/\/+$/, "");
+    if (!urlPath) continue;
+    const idx = path.join(root, slug, "index.html");
+    if (fs.existsSync(idx)) map.set(urlPath, isoLastmodFromFile(idx));
+  }
+  return map;
+}
+
 function buildUrlXml(loc, lastmod) {
   const lm = lastmod || new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   return (
@@ -115,10 +132,15 @@ function main() {
   }
   blogEntries.sort((a, b) => a.loc.localeCompare(b.loc, "ru"));
 
+  const serviceLastmod = servicePageLastmodsByPathname();
   const chunks = [];
   for (const e of coreEntries) {
     if (!keepSitemapLoc(e.loc)) continue;
-    const lm = e.lastmod || new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+    const p = pathnameFromLoc(e.loc);
+    const lm =
+      (p && serviceLastmod.get(p)) ||
+      e.lastmod ||
+      new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
     chunks.push(buildUrlXml(e.loc, lm));
   }
   for (const e of blogEntries) {
