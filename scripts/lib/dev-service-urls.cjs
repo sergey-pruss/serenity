@@ -7,8 +7,8 @@ const os = require("os");
 const DEFAULT_DEV_PORT = 8895;
 
 const SERVICE_PATHS = {
-  kontekst: "/kontekstnaya_reklama/",
-  targeting: "/targeting/",
+  kontekst: "/kontekstnaya_reklama",
+  targeting: "/targeting",
 };
 
 function getLanIPv4Addresses() {
@@ -71,8 +71,8 @@ function formatDevServiceUrlsMarkdown() {
     lines.push(
       "**Телефон / планшет:** подставьте IP Mac — `ipconfig getifaddr en0` — вместо `<IP>`:",
     );
-    lines.push(`- http://<IP>:${port}/kontekstnaya_reklama/`);
-    lines.push(`- http://<IP>:${port}/targeting/`);
+    lines.push(`- http://<IP>:${port}/kontekstnaya_reklama`);
+    lines.push(`- http://<IP>:${port}/targeting`);
   }
   return lines.join("\n");
 }
