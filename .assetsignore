@@ -1,2 +1,13 @@
-# Cloudflare Workers ASSETS: лимит 25 MiB на файл; крупные видео — только с origin/CDN.
+# Cloudflare Workers ASSETS (wrangler.jsonc directory: ".")
+# Видео и тяжёлые файлы — только static origin; лимит Worker 25 MiB/файл.
 *.mp4
+
+# Локальный symlink _sa → . (dev); иначе _sa/_sa/… и весь репо в индексе.
+_sa
+_sa/
+
+node_modules/
+.git/
+tmp/
+.cursor/
+.continue/
