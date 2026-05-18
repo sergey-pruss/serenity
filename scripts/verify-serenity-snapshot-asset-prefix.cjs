@@ -13,7 +13,10 @@ const livePath = path.join(__dirname, "..", "nginx", "serenity-router.live.conf"
 const content = fs.readFileSync(livePath, "utf8");
 
 assert(content.includes("location ^~ /_sa/"), "Ожидался блок location ^~ /_sa/");
-assert(content.includes("location ^~ /blog"), "Ожидался блок location ^~ /blog (статический блог, обход legacy).");
+assert(
+  /location \/blog\s*\{/.test(content) && !content.includes("location ^~ /blog"),
+  "Ожидался location /blog без ^~ (иначе не срабатывает 301 со слэша для статей).",
+);
 assert(content.includes("alias /var/www/static/"), "Ожидался alias /var/www/static/ для /_sa/");
 assert(!content.includes("location ^~ /css/"), "Не должно быть перехвата location ^~ /css/");
 assert(!content.includes("location ^~ /js/"), "Не должно быть перехвата location ^~ /js/");
