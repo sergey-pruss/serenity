@@ -568,9 +568,9 @@
   }
 }
 
-/* Главная: на 4 колонках CTA "Смотреть больше кейсов" должен закрывать второй ряд */
+/* Главная: на 4 колонках CTA "Смотреть больше кейсов" закрывает 8-ю ячейку (не /case/all/) */
 @media screen and (min-width: 1501px) {
-  .more-case-wr__main .more-cases__item > .case:nth-of-type(8) {
+  body:not(.case-all-body) .more-case-wr__main .more-cases__item > .case:nth-of-type(8) {
     display: none;
   }
 }
