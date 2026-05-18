@@ -55,8 +55,8 @@ const codeFolder = (code) => (code ? code : "all");
 const routePath = (code, pageNum) => {
   const c = normalizeCode(code);
   const p = Number(pageNum) || 1;
-  if (!c) return p <= 1 ? "/blog/" : `/blog/${p}/`;
-  return p <= 1 ? `/blog/${c}/` : `/blog/${c}/${p}/`;
+  if (!c) return p <= 1 ? "/blog" : `/blog/${p}`;
+  return p <= 1 ? `/blog/${c}` : `/blog/${c}/${p}`;
 };
 
 const writeHtmlAtRoute = (route, html) => {
@@ -110,7 +110,7 @@ function buildBlogListingBreadcrumbJsonLd({ title, canonicalUrl, filterCode, fil
   }
 
   if (!code && p > 1) {
-    elements.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog/` });
+    elements.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog` });
     elements.push({ "@type": "ListItem", position: 3, name: title, item: canonicalUrl });
     return {
       "@context": "https://schema.org",
@@ -119,7 +119,7 @@ function buildBlogListingBreadcrumbJsonLd({ title, canonicalUrl, filterCode, fil
     };
   }
 
-  elements.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog/` });
+  elements.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog` });
   elements.push({
     "@type": "ListItem",
     position: 3,

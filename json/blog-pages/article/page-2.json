@@ -9,31 +9,31 @@
       "code": "",
       "label": "Все",
       "totalPages": 3,
-      "href": "/blog/"
+      "href": "/blog"
     },
     {
       "code": "life",
       "label": "Наша жизнь",
       "totalPages": 1,
-      "href": "/blog/life/"
+      "href": "/blog/life"
     },
     {
       "code": "case",
       "label": "Кейсы",
       "totalPages": 1,
-      "href": "/blog/case/"
+      "href": "/blog/case"
     },
     {
       "code": "article",
       "label": "Статьи",
       "totalPages": 3,
-      "href": "/blog/article/"
+      "href": "/blog/article"
     },
     {
       "code": "podcast",
       "label": "Подкаст",
       "totalPages": 1,
-      "href": "/blog/podcast/"
+      "href": "/blog/podcast"
     }
   ],
   "posts": [

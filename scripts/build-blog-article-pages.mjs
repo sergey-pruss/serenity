@@ -18,11 +18,12 @@
  * Легаси `.specialist-mention` из синка снимается: имя/роль/фото сливаются в тот же rail, текст blockquote — лид в первой колонке перед H2.
  *
  * SEO/GEO: полный блок head (description, OG article, Twitter, og:image из материала или дефолт главной,
- * canonical со слэшем, robots, geo, JSON-LD @graph: BlogPosting, BreadcrumbList, Person при авторе).
+ * canonical без завершающего слэша, robots, geo, JSON-LD @graph: BlogPosting, BreadcrumbList, Person при авторе).
  */
 import fs from "fs";
 import path from "path";
 import { createRequire } from "module";
+import { ensureCanonicalUrlNoSlash, SITE_ORIGIN as CANON_SITE_ORIGIN } from "./lib/canonical-url.mjs";
 import { normalizeBlogArticleBodyHtml } from "./normalize-blog-article-body-html.mjs";
 import { applyBlogArticleBodyListMarkup } from "./blog-article-body-list-markup.mjs";
 import { applyBlogArticleBodyMediaMarkup } from "./blog-article-body-media-markup.mjs";
@@ -336,22 +337,7 @@ const BLOG_SHELL_OG_CANON_RE =
   /[ \t]*\n[ \t]*<meta property="og:title" content="[^"]*" \/>\s*(?:<meta\s+[\s\S]*?property="og:description"[\s\S]*?\/>)?\s*<meta property="og:type" content="[^"]*" \/>\s*<meta property="og:url" content="[^"]*" \/>\s*<link rel="canonical" href="[^"]*" \/>/;
 
 function ensureTrailingSlashOnCanonical(url) {
-  const u = String(url || "").trim();
-  if (!u) return `${SITE_ORIGIN}/`;
-  const q = u.indexOf("?");
-  const h = u.indexOf("#");
-  if (q !== -1) {
-    const base = u.slice(0, q);
-    const rest = u.slice(q);
-    const b = base.endsWith("/") ? base : `${base}/`;
-    return b + rest;
-  }
-  if (h !== -1) {
-    const base = u.slice(0, h);
-    const frag = u.slice(h);
-    return (base.endsWith("/") ? base : `${base}/`) + frag;
-  }
-  return u.endsWith("/") ? u : `${u}/`;
+  return ensureCanonicalUrlNoSlash(url || `${CANON_SITE_ORIGIN}/`);
 }
 
 function ogImageMimeFromUrl(url) {
@@ -414,7 +400,7 @@ function resolveArticleOgImageUrl(rawBodyHtml, data) {
 }
 
 function blogSectionIndexUrl(href) {
-  const h = String(href || "").trim() || "/blog/article/";
+  const h = String(href || "").trim() || "/blog/article";
   const pathOnly = h.startsWith("/") ? h : `/${h}`;
   return ensureTrailingSlashOnCanonical(`${SITE_ORIGIN}${pathOnly}`);
 }
@@ -478,7 +464,7 @@ function buildArticleStructuredDataScript({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Serenity", item: `${SITE_ORIGIN}/` },
-      { "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog/` },
+      { "@type": "ListItem", position: 2, name: "Блог", item: `${SITE_ORIGIN}/blog` },
       {
         "@type": "ListItem",
         position: 3,
@@ -614,10 +600,10 @@ function renderBlogArticlePageTop({
   description,
   datePublished,
   metaCategoryLabel = "Статьи",
-  metaCategoryHref = "/blog/article/",
+  metaCategoryHref = "/blog/article",
 }) {
   const catLabel = String(metaCategoryLabel || "Статьи").trim() || "Статьи";
-  const catHref = String(metaCategoryHref || "/blog/article/").trim() || "/blog/article/";
+  const catHref = String(metaCategoryHref || "/blog/article").trim() || "/blog/article";
   const metaParts =
     `<p class="blog-article-page-top__meta" data-v-27a87df0="">` +
     `<a href="${escapeXml(catHref)}" class="blog-article-page-top__meta-link">${escapeXml(catLabel)}</a>` +
@@ -1027,19 +1013,19 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, prefixArticleShell, 
   const authorPersonName = authorResolved?.name ? String(authorResolved.name).trim() : "";
 
   let metaCategoryLabel = "Статьи";
-  let metaCategoryHref = "/blog/article/";
+  let metaCategoryHref = "/blog/article";
   if (segment === "case") {
     metaCategoryLabel = "Кейсы";
-    metaCategoryHref = "/blog/case/";
+    metaCategoryHref = "/blog/case";
   } else if (segment === "card") {
     metaCategoryLabel = "Карточки";
-    metaCategoryHref = "/blog/card/";
+    metaCategoryHref = "/blog/card";
   } else if (segment === "life") {
     metaCategoryLabel = "Наша жизнь";
-    metaCategoryHref = "/blog/life/";
+    metaCategoryHref = "/blog/life";
   } else if (segment === "article" && articleMentionsMyshelovka(data)) {
     metaCategoryLabel = "Подкаст";
-    metaCategoryHref = "/blog/podcast/";
+    metaCategoryHref = "/blog/podcast";
   }
   const pageTopHtml = renderBlogArticlePageTop({
     title,

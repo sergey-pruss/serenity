@@ -2,51 +2,51 @@
   {
     "path": "/seminar/7",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/"
+    "expectLocation": "https://serenity.agency/blog"
   },
   {
     "path": "/seminar/7/",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/"
+    "expectLocation": "https://serenity.agency/blog"
   },
   {
     "path": "/information/uslugi-marketingovyh-agentstv-v-rossii",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/information/uslugi-marketingovyh-agentstv-v-rossii/",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/information/chto-takoe-brend-i-kak-ego-sozdat",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/information/chto-takoe-brend-i-kak-ego-sozdat/",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/information/internet-marketing",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/information/internet-marketing/",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/blog/null/preimushhestva-kompleksnogo-marketinga",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   },
   {
     "path": "/blog/null/preimushhestva-kompleksnogo-marketinga/",
     "expectStatus": 301,
-    "expectLocation": "https://serenity.agency/blog/article/"
+    "expectLocation": "https://serenity.agency/blog/article"
   }
 ]

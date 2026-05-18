@@ -63,7 +63,7 @@ function walkBlogIndexFiles() {
 
 function blogRelToLoc(rel) {
   const dir = path.posix.dirname(rel.replace(/\\/g, "/"));
-  const urlPath = dir === "." ? "/blog/" : `/blog/${dir}/`;
+  const urlPath = dir === "." ? "/blog" : `/blog/${dir}`;
   return `${ORIGIN}${urlPath}`;
 }
 
