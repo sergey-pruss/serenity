@@ -11,8 +11,9 @@
   pointer-events: none !important;
 }
 @import url("sections/targeting-page.css");
-@import url("sections/targeting-faq.css");
+@import url("sections/service-faq.css");
 @import url("sections/targeting-hero.css");
+@import url("sections/service-hero-header.css");
 
 .page-constructor > .page-constructor__section:first-of-type::before {
   display: none !important;
@@ -48,10 +49,49 @@
   }
 }
 
-/* Телефон: зазор коллаж → заголовок facts (не 112px из kontekst stack). */
+/* Телефон: зазор коллаж → facts как у kontekst (service-hero-mobile-to-content + --home-between). */
 @media screen and (max-width: 719px) {
-  .page-constructor.targeting-page > .page-constructor__section:nth-of-type(2) > .facts {
-    padding-top: 0 !important;
+  /*
+   * Блок под коллажем: Nuxt .facts .page__container { width: calc(100% - 118px) } + .lead { margin-left: auto }
+   * даёт лишний отступ слева относительно hero (--page-gutter-x). Как у kontekstnaya / шапки.
+   */
+  .page-constructor.targeting-page > .page-constructor__section > .facts .page__container.desktop,
+  .page-constructor.targeting-page > .page-constructor__section > .facts .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section > .facts .facts-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 24px;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section > .facts .facts-header .col-6.page__title,
+  .page-constructor.targeting-page > .page-constructor__section > .facts .facts-header .description-item {
+    flex: 0 0 auto !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section > .facts .facts-header .title,
+  .page-constructor.targeting-page > .page-constructor__section > .facts .facts-header .lead {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
@@ -136,21 +176,7 @@
   box-sizing: border-box !important;
 }
 
-@media screen and (min-width: 769px) {
-  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper.more-cases--active {
-    display: none !important;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .more-case-wr.more-case-wr__main .more-cases:not(.more-cases--new) {
-    display: none !important;
-  }
-
-  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper.more-cases--active {
-    display: block !important;
-  }
-}
+/* Кейсы: сетка vs слайдер — service-more-cases.css (:has для контекста; таргет — слайдер на всех брейкпоинтах). */
 
 /* Награды: те же отступы, что у kontekstnaya (без .page-constructor-предка) */
 .home-awards-block .awards__header {
@@ -285,14 +311,26 @@
   justify-content: flex-start !important;
 }
 
-@media screen and (max-width: 719px) {
+@media screen and (min-width: 720px) and (max-width: 1024px) {
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
-    margin-bottom: 1lh !important;
+    margin-bottom: var(--service-hero-tablet-header-to-collage, calc(1lh + 10px)) !important;
   }
 
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
     margin-top: 0 !important;
-    margin-bottom: 40px !important;
+    margin-bottom: var(--service-hero-tablet-collage-bottom, 52px) !important;
+    padding-top: 0 !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 20px)) !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
     padding-top: 0 !important;
   }
 

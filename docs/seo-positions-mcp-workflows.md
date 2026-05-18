@@ -215,6 +215,41 @@ npm run seo:import-topvisor-css -- --input ~/Desktop/css.csv --sort problems --o
 
 Паттерн интеграции: экспорт/API трекера → CSV/JSON с колонками `query`, `position_google`, `position_yandex`, `checked_at` → маленький join-скрипт (по желанию — рядом с `fetch-positions-report.mjs`, общая нормализация из `lib/normalize-query.mjs`).
 
+## SEO-дашборд позиций (топ-20, dev-static)
+
+Команда ведёт **страницы → 1–2 запроса → позиция в органике топ-20** по Яндекс/Google и регионам **Москва / СПб / Россия**. Источник правды: [`json/seo/rank-dashboard.json`](../json/seo/rank-dashboard.json). HTML после сборки: [`docs/seo-rank-dashboard.html`](seo-rank-dashboard.html) (только **static.serenity.agency** / Worker после `bash scripts/deploy-dev.sh`).
+
+**Еженедельный ритуал (на своей машине, с браузером):**
+
+1. Интерактивная SERP-съёмка (капча в Chromium, Enter в терминале):
+
+   ```bash
+   npm run seo:rank-dashboard:serp:interactive
+   ```
+
+   Скрипт обходит все комбинации страниц/запросов/ПС/регионов, ищет `serenity.agency` в топ-20 и пишет снимок с датой `RANK_CHECK_DATE` (по умолчанию сегодня). Продолжить с пропуском уже записанных ячеек: `SERP_RESUME=1`. Пропуск ячеек: `SERP_SKIP_KEYS=home|brand|yandex|moscow`.
+
+2. Ручная правка одной ячейки:
+
+   ```bash
+   npm run seo:rank-dashboard:record -- --date 2026-05-18 --page home --query brand \\
+     --engine yandex --region moscow --position 8
+   ```
+
+   Вне топ-20: `--out-of-top20` вместо `--position`.
+
+3. Сборка HTML и проверка:
+
+   ```bash
+   npm run seo:rank-dashboard:build
+   npm run test:rank-dashboard
+   ```
+
+4. Коммит `json/seo/rank-dashboard.json` + `docs/seo-rank-dashboard.html` → `bash scripts/deploy-dev.sh` → открыть  
+   `https://static.serenity.agency/docs/seo-rank-dashboard.html`
+
+**Добавить страницу или запрос:** отредактируйте `json/seo/rank-dashboard.json` (до 2 запросов на страницу), затем `npm run seo:rank-dashboard:build`. Схема: [`json/seo/rank-dashboard.schema.json`](../json/seo/rank-dashboard.schema.json).
+
 ## Кластер «главная» (пересборка ядра)
 
 - Команда: `**npm run seo:gen-semantic-core-home`** — перезаписывает `[json/seo/semantic-core.json](../json/seo/semantic-core.json)` кластером `**главная**` с `targetUrl` на корень сайта, дедуп по `[scripts/seo/lib/normalize-query.mjs](../scripts/seo/lib/normalize-query.mjs)`. Перед коммитом при необходимости отредактируйте списки в `[scripts/seo/gen-semantic-core-home.mjs](../scripts/seo/gen-semantic-core-home.mjs)` (слои `meta` / `ywm` / `wordstat`).

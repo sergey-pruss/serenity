@@ -18,6 +18,7 @@ import { getSerpCampaign, SNAPSHOT_DATE } from "./lib/serp-campaigns.mjs";
 import {
   ARTIFACTS_DIR,
   ENGINES,
+  GAP_REGION_IDS,
   ORGANIC_TARGET,
   REGIONS,
   isDeniedSerpHost,
@@ -354,8 +355,8 @@ async function main() {
   if (process.env.SERP_SKIP_PLAYWRIGHT === "1") {
     for (const q of QUERIES) {
       for (const engine of ENGINES) {
-        for (const regionId of Object.keys(REGIONS)) {
-          const rid = /** @type {import('./lib/kontekstnaya-serp-config.mjs').RegionId} */ (regionId);
+        for (const regionId of GAP_REGION_IDS) {
+          const rid = /** @type {import('./lib/serp-shared.mjs').RegionId} */ (regionId);
           const key = serpMatrixKey(q.id, engine, rid);
           const block = mergeWithBaseline(q.text, engine, rid, "", true, []);
           matrix[key] = {
@@ -423,10 +424,8 @@ async function main() {
 
   for (const q of QUERIES) {
     for (const engine of ENGINES) {
-      for (const regionId of Object.keys(REGIONS)) {
-        const rid = /** @type {import('./lib/kontekstnaya-serp-config.mjs').RegionId} */ (
-          regionId
-        );
+      for (const regionId of GAP_REGION_IDS) {
+        const rid = /** @type {import('./lib/serp-shared.mjs').RegionId} */ (regionId);
         const key = serpMatrixKey(q.id, engine, rid);
         if (skipKeys.has(key)) {
           console.log(`SERP: пропуск ${key} (SERP_SKIP_KEYS)`);

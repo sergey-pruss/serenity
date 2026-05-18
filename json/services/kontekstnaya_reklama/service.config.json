@@ -1,0 +1,44 @@
+{
+  "slug": "kontekstnaya_reklama",
+  "urlPath": "/kontekstnaya_reklama/",
+  "hero": {
+    "variant": "jumbotron-fullbleed"
+  },
+  "sections": {
+    "packages": true,
+    "facts": false,
+    "advantages": false
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "KONTEKST_LAYOUT_SOURCE",
+    "tmpFull": "kontekst-prod-full.html",
+    "tmpParity": "kontekst-parity-prod-layout.html",
+    "pageDir": "kontekstnaya_reklama",
+    "cssStack": "kontekstnaya-reklama-static-stack.css",
+    "partials": {
+      "faq": "faq-kontekstnaya-reklama.html",
+      "inlineLead": "service-inline-lead-kontekstnaya-reklama.html",
+      "moreCases": "more-cases-kontekstnaya-from-services.html",
+      "awards": "awards-kontekstnaya-reklama.html",
+      "synergy": "synergy-kontekstnaya-reklama.html"
+    },
+    "markers": {
+      "mainStart": "KONTEKST-MAIN-START",
+      "mainEnd": "KONTEKST-MAIN-END",
+      "cssBundleStart": "KONTEKST-CSS-BUNDLE-START",
+      "cssBundleEnd": "KONTEKST-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "kontekst-faq-mounted",
+      "sectionClass": "kontekst-faq-section",
+      "rootClass": "kontekst-faq-root"
+    }
+  }
+}

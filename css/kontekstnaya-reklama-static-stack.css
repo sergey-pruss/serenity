@@ -7,6 +7,9 @@
  * Важно: колонка MAIN в index должна идти уже после </header>, не внутри
  * .new-static-menu — иначе любое display:none на меню скрывает всю страницу.
  */
+@import url("sections/service-hero-header.css");
+@import url("sections/service-more-cases.css");
+
 .page-constructor {
   /* Без isolation: WebKit иначе иногда не рисует background-image героя рядом с fixed .page-constructor__bg. */
   position: relative;
@@ -230,7 +233,7 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
- * Кейсы (слайдер ≤768px): заголовок секции в .more-cases скрыт вместе с сеткой — дублируем над каруселью.
+ * Кейсы (слайдер ≤719px): заголовок в .more-cases скрыт с сеткой — дублируем .more-case-wr__slider-heading над каруселью.
  */
 .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
   display: none;
@@ -245,7 +248,7 @@ body:not(.order-popup-open) .overlay-new {
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 719px) {
   .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
     display: block;
     font-size: 28px;
@@ -314,7 +317,7 @@ body:not(.order-popup-open) .overlay-new {
   margin: 0;
 }
 
-/* Герой: левый край текста по линии лого / меню, не по центру слайда. */
+/* Герой: мобилка — текст слева по сетке; десктоп ≥720px — по центру (см. media ниже). */
 .page-constructor__section .c-title-block .jumbotron {
   align-items: flex-start !important;
   box-sizing: border-box;
@@ -334,6 +337,46 @@ body:not(.order-popup-open) .overlay-new {
   text-align: left !important;
   margin: 40px 0 0 !important;
   max-width: min(590px, 100%) !important;
+}
+
+/* Десктоп: заголовок и подзаголовок по центру (мобилка — слева, см. базовые правила выше). */
+@media screen and (min-width: 720px) {
+  .page-constructor__section .c-title-block .jumbotron {
+    align-items: center !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__title,
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__title-small {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__subtitle {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Планшет: зазор h1→описание 40px (как --service-hero-mobile-title-gap), центр сохранён. */
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor__section .c-title-block .jumbotron {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: var(--service-hero-tablet-title-gap, 40px) !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__title,
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__title-small {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__subtitle {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
 }
 
 /* «Команда»: поля контейнера = шапка; заголовок h2 — в одну линию с первой колонкой сетки (.row с margin -20px). */
@@ -1524,13 +1567,29 @@ body .page-constructor .team-block .team__member-card {
 }
 
 @media screen and (max-width: 719px) {
-  .page-constructor__section .c-title-block .jumbotron-img-aurora__subtitle {
-    margin-top: 24px !important;
-  }
-
+  /*
+   * Герой мобилка: верх как до правки (flex-start + --service-hero-mobile-top), зазор h1→описание 40px
+   * как /targeting/ (--service-hero-mobile-title-gap). Без justify-content:center — иначе едет верх.
+   */
   .page-constructor__section .c-title-block .jumbotron {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: var(--service-hero-mobile-title-gap, 40px) !important;
+    padding-top: var(--service-hero-mobile-top, 222px) !important;
+    min-height: auto !important;
     padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
     padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__title,
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__title-small {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor__section .c-title-block .jumbotron-img-aurora__subtitle {
+    margin: 0 !important;
   }
 }
 

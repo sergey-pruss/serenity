@@ -19,10 +19,10 @@
 }
 
 /*
- * Горизонтальный ряд «Кейсы комплексного маркетинга» (more-case-wr): на телефоне и планшете (слайдер
- * в бандле ≤768px) плитки выше и шире, первая по левой сетке, справа peek следующей (как услуги/пакеты).
+ * Горизонтальный ряд «Кейсы» (more-case-wr): только телефон ≤719 (слайдер в бандле ≤768px).
+ * Планшет 720–1024 — css/sections/service-more-cases.css (узкие плитки / сетка на контексте).
  */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 719px) {
   .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container[data-v-38965faa],
   .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container {
     width: calc(100% + var(--page-inline-end, var(--page-gutter-x, 36px))) !important;

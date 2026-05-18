@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://serenity.agency/schema/rank-dashboard.json",
+  "title": "RankDashboard",
+  "description": "Дашборд позиций Serenity: страницы, запросы, снимки проверок.",
+  "type": "object",
+  "required": ["version", "site", "pages", "checks"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "site": {
+      "type": "object",
+      "required": ["primaryDomain"],
+      "additionalProperties": false,
+      "properties": {
+        "primaryDomain": { "type": "string", "minLength": 1 }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/page" }
+    },
+    "checks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/check" }
+    }
+  },
+  "$defs": {
+    "page": {
+      "type": "object",
+      "required": ["id", "title", "path", "url", "priority", "queries"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9_-]+$" },
+        "title": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "minLength": 1 },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 99 },
+        "queries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/query" }
+        }
+      }
+    },
+    "query": {
+      "type": "object",
+      "required": ["id", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9_-]+$" },
+        "text": { "type": "string", "minLength": 1 }
+      }
+    },
+    "check": {
+      "type": "object",
+      "required": ["date", "entries"],
+      "additionalProperties": false,
+      "properties": {
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "label": { "type": "string" },
+        "entries": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/entry" }
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "required": ["pageId", "queryId", "engine", "region", "outOfTop20"],
+      "additionalProperties": false,
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1 },
+        "queryId": { "type": "string", "minLength": 1 },
+        "engine": { "enum": ["yandex", "google"] },
+        "region": { "enum": ["moscow", "spb", "rf"] },
+        "position": { "type": ["integer", "null"], "minimum": 1, "maximum": 20 },
+        "outOfTop20": { "type": "boolean" },
+        "matchedUrl": { "type": ["string", "null"] },
+        "source": { "type": "string" }
+      }
+    }
+  }
+}

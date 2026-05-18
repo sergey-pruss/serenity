@@ -1,0 +1,478 @@
+#!/usr/bin/env node
+/**
+ * Сборка docs/seo-rank-dashboard.html из json/seo/rank-dashboard.json
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { loadRankDashboard, DEFAULT_RANK_DASHBOARD_PATH } from "./lib/rank-dashboard-utils.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.join(__dirname, "..", "..");
+const OUT = path.join(ROOT, "docs", "seo-rank-dashboard.html");
+
+const dashPath = process.env.RANK_DASHBOARD_PATH || DEFAULT_RANK_DASHBOARD_PATH;
+const dash = loadRankDashboard(dashPath);
+const builtAt = new Date().toISOString();
+const dataJson = JSON.stringify({ ...dash, builtAt }).replace(/</g, "\\u003c");
+
+const html = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Serenity — SEO-дашборд позиций</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #fff;
+      --text: #1a1d21;
+      --muted: #5c6570;
+      --border: #d8dee6;
+      --accent: #1e5a8c;
+      --code: #f0f3f7;
+      --pos-1-3: #0d6b4f;
+      --pos-1-3-bg: #e6f4ee;
+      --pos-4-10: #1e5a8c;
+      --pos-4-10-bg: #e8f2fa;
+      --pos-11-20: #b54708;
+      --pos-11-20-bg: #fff4e5;
+      --pos-out: #5c6570;
+      --pos-out-bg: #eef1f4;
+      --delta-up: #0d6b4f;
+      --delta-down: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .wrap { max-width: 1480px; margin: 0 auto; padding: 24px 20px 48px; }
+    h1 { font-size: 1.6rem; margin: 0 0 6px; letter-spacing: -0.02em; }
+    .subtitle { color: var(--muted); font-size: 0.95rem; max-width: 720px; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      align-items: center;
+      margin: 20px 0;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .toolbar label { font-size: 0.85rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+    .toolbar select, .toolbar button {
+      font: inherit;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+    .toolbar button { cursor: pointer; color: var(--accent); }
+    .toolbar button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .summary .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .summary .stat strong { display: block; font-size: 1.35rem; }
+    .summary .stat span { font-size: 0.8rem; color: var(--muted); }
+    .legend {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+    }
+    .legend i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .table-scroll { overflow-x: auto; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: var(--card); }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: middle; }
+    th { background: var(--code); font-weight: 600; white-space: nowrap; }
+    th.engine-group { text-align: center; font-size: 0.8rem; color: var(--accent); }
+    th.region-col { text-align: center; font-size: 0.78rem; min-width: 64px; }
+    th.sticky-col, td.sticky-col {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: var(--card);
+      min-width: 200px;
+      max-width: 280px;
+    }
+    tr.page-row td.sticky-col { background: #fafbfc; }
+    th.sticky-col { z-index: 2; }
+    tr.page-row td { background: #fafbfc; font-weight: 600; }
+    tr.page-row a { color: var(--accent); text-decoration: none; }
+    tr.page-row a:hover { text-decoration: underline; }
+    .query-text { color: var(--muted); font-size: 0.86rem; }
+    .cell-pos {
+      text-align: center;
+      min-width: 56px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      position: relative;
+    }
+    .cell-pos .delta {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .delta.up { color: var(--delta-up); }
+    .delta.down { color: var(--delta-down); }
+    .delta.flat { color: var(--muted); }
+    .p-1-3 { background: var(--pos-1-3-bg); color: var(--pos-1-3); }
+    .p-4-10 { background: var(--pos-4-10-bg); color: var(--pos-4-10); }
+    .p-11-20 { background: var(--pos-11-20-bg); color: var(--pos-11-20); }
+    .p-out { background: var(--pos-out-bg); color: var(--pos-out); }
+    .empty { color: var(--muted); font-style: italic; }
+    .hist-wrap { margin-top: 8px; }
+    .hist-wrap h2 { font-size: 1.05rem; margin: 0 0 10px; }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--code);
+      color: var(--muted);
+      margin-left: 8px;
+    }
+    footer { font-size: 0.82rem; color: var(--muted); margin-top: 24px; }
+    footer a { color: var(--accent); }
+    .stale { color: #b54708; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>SEO-дашборд позиций</h1>
+      <p class="subtitle">Органическая выдача топ-20: основные страницы и запросы. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
+      <p class="subtitle" id="meta-last-check"></p>
+    </header>
+
+    <div class="toolbar" role="group" aria-label="Режим">
+      <button type="button" id="btn-view-latest" aria-pressed="true">Последний снимок</button>
+      <button type="button" id="btn-view-history" aria-pressed="false">История (даты)</button>
+      <span style="font-size:0.85rem;color:var(--muted)">Москва, СПб и РФ — в колонках (Яндекс и Google)</span>
+    </div>
+
+    <div class="summary" id="summary"></div>
+
+    <p class="legend">
+      <span><i style="background:var(--pos-1-3-bg)"></i>1–3</span>
+      <span><i style="background:var(--pos-4-10-bg)"></i>4–10</span>
+      <span><i style="background:var(--pos-11-20-bg)"></i>11–20</span>
+      <span><i style="background:var(--pos-out-bg)"></i>&gt;20 / нет данных</span>
+      <span>Дельта — к прошлому снимку</span>
+    </p>
+
+    <div class="table-scroll">
+      <table id="main-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <footer>
+      <p>Сборка: <span id="built-at"></span>. Источник: <code>json/seo/rank-dashboard.json</code>.
+        <a href="seo-positions-mcp-workflows.md">Как обновлять позиции</a> ·
+        <a href="team-handbook.html">Team handbook</a></p>
+    </footer>
+  </div>
+
+  <script type="application/json" id="rank-dashboard-data">${dataJson}</script>
+  <script>
+(function () {
+  const DATA = JSON.parse(document.getElementById("rank-dashboard-data").textContent);
+  const REGION_LABELS = { moscow: "Москва", spb: "СПб", rf: "РФ" };
+  const ENGINE_LABELS = { yandex: "Яндекс", google: "Google" };
+  const REGIONS = ["moscow", "spb", "rf"];
+  const ENGINES = ["yandex", "google"];
+  const SLICES = [];
+  for (const engine of ENGINES) {
+    for (const region of REGIONS) {
+      SLICES.push({ engine, region, key: engine + "|" + region });
+    }
+  }
+  const MAX_HISTORY = 12;
+
+  let viewMode = "latest";
+
+  const sortedChecks = [...(DATA.checks || [])].sort((a, b) => a.date.localeCompare(b.date));
+  const dates = sortedChecks.map((c) => c.date);
+  const latestDate = dates.length ? dates[dates.length - 1] : null;
+  const historyDates = dates.slice(-MAX_HISTORY);
+
+  function posClass(n, out) {
+    if (out || n == null) return "p-out";
+    if (n <= 3) return "p-1-3";
+    if (n <= 10) return "p-4-10";
+    return "p-11-20";
+  }
+
+  function formatPos(entry) {
+    if (!entry) return { text: "—", cls: "p-out empty", delta: null };
+    if (entry.outOfTop20 || entry.position == null) return { text: ">20", cls: "p-out", delta: null };
+    return { text: String(entry.position), cls: posClass(entry.position, false), delta: null };
+  }
+
+  function findEntry(check, pageId, queryId, engine, region) {
+    if (!check) return null;
+    return check.entries.find(
+      (e) =>
+        e.pageId === pageId &&
+        e.queryId === queryId &&
+        e.engine === engine &&
+        e.region === region,
+    );
+  }
+
+  function renderPosCell(entry, prevEntry) {
+    const f = formatPos(entry);
+    const d = delta(prevEntry, entry);
+    let deltaHtml = "";
+    if (d && prevEntry) {
+      deltaHtml = '<span class="delta ' + d.cls + '">' + escapeHtml(d.text) + "</span>";
+    }
+    return (
+      '<td class="cell-pos ' +
+      f.cls +
+      '" title="' +
+      escapeAttr(f.text) +
+      '">' +
+      escapeHtml(f.text) +
+      deltaHtml +
+      "</td>"
+    );
+  }
+
+  function latestTableHead() {
+    const regionHeaders = REGIONS.map(
+      (r) => '<th class="region-col">' + escapeHtml(REGION_LABELS[r]) + "</th>",
+    ).join("");
+    return (
+      "<tr><th class=\\"sticky-col\\" rowspan=\\"2\\">Страница / запрос</th>" +
+      '<th class="engine-group" colspan="3">' +
+      escapeHtml(ENGINE_LABELS.yandex) +
+      "</th>" +
+      '<th class="engine-group" colspan="3">' +
+      escapeHtml(ENGINE_LABELS.google) +
+      "</th></tr><tr>" +
+      regionHeaders +
+      regionHeaders +
+      "</tr>"
+    );
+  }
+
+  function delta(prev, curr) {
+    if (!prev || !curr) return null;
+    const a = prev.outOfTop20 || prev.position == null ? 21 : prev.position;
+    const b = curr.outOfTop20 || curr.position == null ? 21 : curr.position;
+    const d = a - b;
+    if (d === 0) return { text: "0", cls: "flat" };
+    if (d > 0) return { text: "+" + d, cls: "up" };
+    return { text: String(d), cls: "down" };
+  }
+
+  function renderSummary() {
+    const el = document.getElementById("summary");
+    if (!latestDate) {
+      el.innerHTML = '<div class="stat"><strong>—</strong><span>Нет снимков</span></div>';
+      return;
+    }
+    const check = sortedChecks.find((c) => c.date === latestDate);
+    let total = 0;
+    let top10 = 0;
+    let top20 = 0;
+    for (const page of DATA.pages) {
+      for (const q of page.queries) {
+        for (const sl of SLICES) {
+          const e = findEntry(check, page.id, q.id, sl.engine, sl.region);
+          if (!e) continue;
+          total++;
+          if (!e.outOfTop20 && e.position != null) {
+            if (e.position <= 10) top10++;
+            if (e.position <= 20) top20++;
+          }
+        }
+      }
+    }
+    const pct10 = total ? Math.round((top10 / total) * 100) : 0;
+    const pct20 = total ? Math.round((top20 / total) * 100) : 0;
+    el.innerHTML =
+      '<div class="stat"><strong>' +
+      total +
+      '</strong><span>запросов в снимке</span></div>' +
+      '<div class="stat"><strong>' +
+      pct10 +
+      '%</strong><span>в топ-10</span></div>' +
+      '<div class="stat"><strong>' +
+      pct20 +
+      '%</strong><span>в топ-20</span></div>' +
+      '<div class="stat"><strong>' +
+      latestDate +
+      "</strong><span>последний снимок</span></div>";
+  }
+
+  function renderTable() {
+    const head = document.getElementById("table-head");
+    const body = document.getElementById("table-body");
+    const colSpan = 1 + SLICES.length;
+
+    if (viewMode === "latest") {
+      head.innerHTML = latestTableHead();
+      let rows = "";
+      const check = latestDate ? sortedChecks.find((c) => c.date === latestDate) : null;
+      const prevIdx = dates.indexOf(latestDate) - 1;
+      const prevCheck = prevIdx >= 0 ? sortedChecks[prevIdx] : null;
+      for (const page of DATA.pages) {
+        rows +=
+          '<tr class="page-row"><td class="sticky-col" colspan="' +
+          colSpan +
+          '"><a href="' +
+          escapeAttr(page.url) +
+          '" target="_blank" rel="noopener">' +
+          escapeHtml(page.title) +
+          "</a> <span class=\\"badge\\">" +
+          escapeHtml(page.path) +
+          "</span></td></tr>";
+        for (const q of page.queries) {
+          rows += '<tr><td class="sticky-col query-text">' + escapeHtml(q.text) + "</td>";
+          for (const sl of SLICES) {
+            rows += renderPosCell(
+              findEntry(check, page.id, q.id, sl.engine, sl.region),
+              findEntry(prevCheck, page.id, q.id, sl.engine, sl.region),
+            );
+          }
+          rows += "</tr>";
+        }
+      }
+      body.innerHTML = rows;
+    } else {
+      const cols = historyDates.length ? historyDates : ["—"];
+      head.innerHTML =
+        "<tr><th class=\\"sticky-col\\">Страница / запрос</th>" +
+        cols
+          .map((d) => '<th colspan="' + SLICES.length + '">' + escapeHtml(d) + "</th>")
+          .join("") +
+        "</tr><tr><th class=\\"sticky-col\\"></th>" +
+        cols
+          .map(() =>
+            SLICES.map(
+              (sl) =>
+                '<th class="region-col" title="' +
+                escapeAttr(ENGINE_LABELS[sl.engine] + ", " + REGION_LABELS[sl.region]) +
+                '">' +
+                escapeHtml(ENGINE_LABELS[sl.engine].charAt(0) + " " + REGION_LABELS[sl.region]) +
+                "</th>",
+            ).join(""),
+          )
+          .join("") +
+        "</tr>";
+      let rows = "";
+      for (const page of DATA.pages) {
+        rows +=
+          '<tr class="page-row"><td class="sticky-col" colspan="' +
+          (1 + cols.length * SLICES.length) +
+          '"><a href="' +
+          escapeAttr(page.url) +
+          '">' +
+          escapeHtml(page.title) +
+          "</a></td></tr>";
+        for (const q of page.queries) {
+          rows += '<tr><td class="sticky-col query-text">' + escapeHtml(q.text) + "</td>";
+          for (const d of cols) {
+            const check = sortedChecks.find((c) => c.date === d);
+            for (const sl of SLICES) {
+              rows += renderPosCell(findEntry(check, page.id, q.id, sl.engine, sl.region), null);
+            }
+          }
+          rows += "</tr>";
+        }
+      }
+      body.innerHTML = rows;
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function escapeAttr(s) {
+    return escapeHtml(s).replace(/'/g, "&#39;");
+  }
+
+  function refresh() {
+    renderSummary();
+    renderTable();
+  }
+
+  document.getElementById("btn-view-latest").addEventListener("click", () => {
+    viewMode = "latest";
+    document.getElementById("btn-view-latest").setAttribute("aria-pressed", "true");
+    document.getElementById("btn-view-history").setAttribute("aria-pressed", "false");
+    refresh();
+  });
+  document.getElementById("btn-view-history").addEventListener("click", () => {
+    viewMode = "history";
+    document.getElementById("btn-view-latest").setAttribute("aria-pressed", "false");
+    document.getElementById("btn-view-history").setAttribute("aria-pressed", "true");
+    refresh();
+  });
+
+  const meta = document.getElementById("meta-last-check");
+  if (latestDate) {
+    const days = Math.floor(
+      (Date.now() - new Date(latestDate + "T12:00:00").getTime()) / 86400000,
+    );
+    let stale = "";
+    if (days > 7) stale = ' <span class="stale">проверка старше 7 дней</span>';
+    meta.innerHTML =
+      "Последний снимок: <strong>" +
+      latestDate +
+      "</strong> (" +
+      days +
+      " дн. назад)." +
+      stale;
+  } else {
+    meta.textContent = "Снимков пока нет — npm run seo:rank-dashboard:serp:interactive";
+  }
+  document.getElementById("built-at").textContent = DATA.builtAt
+    ? new Date(DATA.builtAt).toLocaleString("ru-RU")
+    : "—";
+
+  refresh();
+})();
+  </script>
+</body>
+</html>
+`;
+
+
+fs.mkdirSync(path.dirname(OUT), { recursive: true });
+fs.writeFileSync(OUT, html, "utf8");
+console.log("OK:", OUT, `(${dash.pages.length} pages, ${dash.checks.length} checks)`);

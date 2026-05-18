@@ -1,0 +1,363 @@
+{
+  "version": 1,
+  "site": {
+    "primaryDomain": "serenity.agency"
+  },
+  "pages": [
+    {
+      "id": "home",
+      "title": "Главная страница",
+      "path": "/",
+      "url": "https://serenity.agency/",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "brand",
+          "text": "маркетинговое агентство"
+        },
+        {
+          "id": "agency",
+          "text": "агентство маркетинга"
+        }
+      ]
+    },
+    {
+      "id": "kontekstnaya",
+      "title": "Контекстная реклама",
+      "path": "/kontekstnaya_reklama/",
+      "url": "https://serenity.agency/kontekstnaya_reklama/",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "nastroyka",
+          "text": "настройка контекстной рекламы"
+        },
+        {
+          "id": "vedenie",
+          "text": "ведение контекстной рекламы"
+        }
+      ]
+    },
+    {
+      "id": "targeting",
+      "title": "Таргетинговая реклама",
+      "path": "/targeting/",
+      "url": "https://serenity.agency/targeting/",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "targetirovka",
+          "text": "таргетинговая реклама"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "date": "2026-05-18",
+      "label": "2026-05-18",
+      "entries": [
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "google",
+          "region": "moscow",
+          "position": 2,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "google",
+          "region": "rf",
+          "position": 11,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 9,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "rf",
+          "position": 6,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "google",
+          "region": "rf",
+          "position": 10,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "yandex",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive-blocked"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "google",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "google",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        }
+      ]
+    }
+  ]
+}

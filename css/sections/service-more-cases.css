@@ -1,0 +1,57 @@
+/**
+ * Кейсы (more-case-wr): планшет 720–1024 vs телефон ≤719.
+ * Телефон — широкие плитки с peek в overrides.mobile.css.
+ */
+
+/* Планшет: плитки слайдера как в Nuxt-бандле (~250px), не на всю ширину viewport */
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide[data-v-38965faa],
+  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide {
+    width: 250px !important;
+    max-width: 250px !important;
+    height: 336px !important;
+    min-height: 336px !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link[data-v-38965faa],
+  .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper .mor-cases-slide_link {
+    width: 250px !important;
+    max-width: 250px !important;
+    height: 336px !important;
+    min-height: 336px !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+  }
+}
+
+/*
+ * Контекст (есть сетка .more-cases): на планшете — сетка 2 колонки из бандла, слайдер скрыт.
+ * Таргет (только слайдер в partial) — :has() не срабатывает, остаётся слайдер с узкими плитками выше.
+ */
+@media screen and (min-width: 720px) {
+  .more-case-wr.more-case-wr__main:has(.more-cases:not(.more-cases--new))
+    .mor-cases-slider-wrapper.more-cases--active {
+    display: none !important;
+  }
+
+  /* Контекст: заголовок только в сетке, не дублировать .more-case-wr__slider-heading */
+  .more-case-wr.more-case-wr__main:has(.more-cases:not(.more-cases--new)) .more-case-wr__slider-heading {
+    display: none !important;
+  }
+
+  /* Таргет (без сетки): один заголовок над слайдером */
+  .more-case-wr.more-case-wr__main:not(:has(.more-cases:not(.more-cases--new))) .more-case-wr__slider-heading {
+    display: block !important;
+    font-size: 28px !important;
+    line-height: 126% !important;
+    margin-bottom: 45px !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 768px) {
+  .more-case-wr.more-case-wr__main:has(.more-cases:not(.more-cases--new)) .more-cases:not(.more-cases--new) {
+    display: block !important;
+  }
+}

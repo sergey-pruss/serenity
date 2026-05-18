@@ -3,20 +3,37 @@
  * Nuxt: .case-slider — flex + overflow:hidden; .case-slider-slide — position:absolute.
  * Обёртка слайда получает высоту 0 → коллаж не виден. На всех брейкпоинтах держим слайд и картинку в потоке.
  */
+/* Герой: мобилка — слева по сетке; десктоп ≥720px — по центру. */
 .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
   color: #fff;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  box-sizing: border-box;
   padding-top: 183px;
   gap: 40px;
-  padding-right: 35px;
-  padding-left: 35px;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
   margin-top: 52px;
   margin-bottom: 62px;
   text-wrap: balance;
   position: relative;
   z-index: 2;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__title {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: min(1108px, 100%) !important;
+  width: 100%;
+}
+
+.page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+  text-align: left !important;
+  margin: 0 !important;
+  max-width: min(590px, 100%) !important;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -31,16 +48,43 @@
   }
 }
 
-@media screen and (min-width: 720px) and (max-width: 1024px) {
+@media screen and (min-width: 720px) {
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
-    padding-top: 128px !important;
+    align-items: center;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  /*
+   * Вертикаль h1 как у kontekst: .jumbotron в .header-background{height:100vh} + justify-content:center.
+   * Замер Playwright 720–1024px: calc(50vh - 154px) ≈ позиция .jumbotron-img-aurora__title.
+   */
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: var(--service-hero-tablet-header-padding-top, calc(50vh - 154px)) !important;
     margin-top: 0 !important;
-    margin-bottom: 28px !important;
-    gap: 20px !important;
+    margin-bottom: var(--service-hero-tablet-header-to-collage, calc(1lh + 10px)) !important;
+    gap: var(--service-hero-tablet-title-gap, 40px) !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
   }
 
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
     margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-collage-bottom, 52px) !important;
     padding-top: 0 !important;
   }
 
@@ -51,14 +95,26 @@
 }
 
 @media screen and (max-width: 719px) {
-  /* Зазор подзаголовок → коллаж ≈ одна строка (как на макете) */
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
-    margin-bottom: 1lh !important;
+    padding-top: var(--service-hero-mobile-top, 222px) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-mobile-title-gap, 40px) !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  /* Зазор подзаголовок → коллаж — service-hero-collage-gap-after-lead в parity-sync */
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 20px)) !important;
   }
 
   .page-constructor.targeting-page > .page-constructor__section:first-of-type .case-slider__wrapper {
     margin-top: 0 !important;
-    margin-bottom: 40px !important;
+    margin-bottom: 0 !important;
     padding-top: 0 !important;
   }
 

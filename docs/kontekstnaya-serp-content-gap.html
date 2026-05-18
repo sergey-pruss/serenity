@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Serenity — gap-анализ /kontekstnaya_reklama/ (SERP)</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #fff;
+      --text: #1a1d21;
+      --muted: #5c6570;
+      --border: #d8dee6;
+      --accent: #1e5a8c;
+      --warn: #8b4513;
+      --gap-high: #b42318;
+      --gap-vol: #b54708;
+      --ok: #0d6b4f;
+      --code: #f0f3f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px 48px; }
+    h1 { font-size: 1.65rem; margin: 0 0 8px; }
+    .subtitle { color: var(--muted); max-width: 820px; }
+    nav.toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+    nav.toc a {
+      color: var(--accent);
+      text-decoration: none;
+      display: block;
+      padding: 3px 0;
+      font-size: 0.88rem;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    h2 { font-size: 1.12rem; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 1rem; margin: 18px 0 8px; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+    .warn { color: var(--warn); background: #fef6f0; padding: 10px 12px; border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--code); font-weight: 600; }
+    .table-scroll { overflow-x: auto; margin: 8px 0 16px; }
+    .mono { font-family: ui-monospace, Menlo, monospace; font-size: 0.85em; }
+    code { background: var(--code); padding: 2px 5px; border-radius: 4px; font-size: 0.85em; }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--code);
+      color: var(--muted);
+    }
+    .gap-high { background: #fde8e8; color: var(--gap-high); }
+    .gap-vol { background: #fff4e5; color: var(--gap-vol); }
+    .gap-ok { background: #e6f4ee; color: var(--ok); }
+    .pri-p1 { background: #fde8e8; color: var(--gap-high); }
+    .pri-p2 { background: #fff4e5; color: var(--gap-vol); }
+    .pri-p3 { background: var(--code); }
+    a { color: var(--accent); }
+    ul { margin: 8px 0; padding-left: 1.2em; }
+    .executive-box {
+      border: 2px solid var(--accent);
+      background: #f0f6fc;
+    }
+    .executive-box h2 { border-bottom-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Gap-анализ: контекстная реклама (SERP)</h1>
+      <p class="subtitle">
+        Сравнение <a href="https://serenity.agency/kontekstnaya_reklama/">https://serenity.agency/kontekstnaya_reklama/</a>
+        с органической выдачей топ-20 по 2 запросам, Яндекс и Google, Москва и Санкт-Петербург.
+        Снимок: <strong>2026-05-17</strong>.
+        Метод SERP: playwright+curated-baseline, playwright; аудит: fetch HTML. Выдача динамична — ориентир для доработки страницы под топ-10.
+      </p>
+    </header>
+
+    
+    <section id="executive" class="executive-box">
+      <h2>Общий вывод: что добавить и изменить для топ-10</h2>
+      <p class="muted">На основе SERP-снимка (Playwright, май 2026) и аудита посадочных. Служебные URL Яндекса в сравнении не участвуют.</p>
+
+      <h3>Сильные стороны Serenity (сохранить)</h3>
+      <ul><li>Hero + CTA</li>
+<li>Логотипы клиентов / доверие</li>
+<li>Этапы / процесс</li>
+<li>Сетка услуг / форматов</li>
+<li>Тарифы / пакеты</li>
+<li>Кейсы / портфолио</li>
+<li>Отзывы</li>
+<li>Команда</li>
+<li>FAQ</li>
+<li>Награды / сертификаты</li>
+<li>Яндекс Директ / Google Ads</li>
+<li>Москва / СПб в тексте</li>
+<li>Гарантии / SLA</li>
+<li>Видео</li></ul>
+
+      <h3>Контент: приоритетные доработки</h3>
+      <ol>
+        <li><strong>Полоса KPI над сгибом</strong> — 3–4 цифры (проекты, годы, лиды/кампании, сертификация Яндекс). У большинства лидеров выдачи это есть; у нас отдельного блока нет.</li>
+        <li><strong>Доверие: логотипы клиентов</strong> — горизонтальная лента «нам доверяют» сразу под hero (не путать с кейсами).</li>
+        <li><strong>Отзывы</strong> — отдельная секция с рейтингом/цитатами; кейсы не заменяют social proof.</li>
+        <li><strong>Гео в первом экране</strong> — для Москвы/СПб: «настраиваем и ведём Директ в Москве и Санкт-Петербурге» (не только в FAQ).</li>
+        <li><strong>Два коммерческих интента</strong> — развести акценты:
+          <ul>
+            <li>запрос «<em>настройка</em>» — H2/абзац про запуск, аудит, семантику, первые 14–30 дней;</li>
+            <li>запрос «<em>ведение</em>» — H2 про ежемесячное ведение, отчёты, SLA, оптимизацию бюджета.</li>
+          </ul>
+        </li>
+        <li><strong>Сравнение пакетов</strong> — таблица «что входит» (Старт / Расширенный / Премиум) в дополнение к слайдеру карточек.</li>
+        <li><strong>Гарантии и условия</strong> — сроки, формат отчётности, что входит в ведение, маркировка (у вас есть в FAQ — вынести видимым блоком).</li>
+      </ol>
+      <h3>Gap по матрице блоков (автодетект)</h3><ul><li><strong>Цифры KPI</strong> — у ~98% в топ-20; нет у нас в 8/8 выдач.</li></ul>
+      <h3>Объём относительно медианы топ-20</h3><ul><li><strong>число H2</strong>: у нас 5, медиана топ-20 — 10, P25 — 9.</li></ul>
+
+      <h3>Технические и SEO-факторы</h3>
+      <ol>
+        <li><strong>Title и H1</strong> — оставить связку «настройка» + «ведение»; в description — Москва/СПб и «Яндекс Директ» без переспама.</li>
+        <li><strong>Микроразметка</strong> — FAQPage и Product/Offer уже есть; после правок FAQ синхронизировать JSON-LD с видимым текстом.</li>
+        <li><strong>Форма в HTML</strong> — инлайн-заявка должна быть в DOM для краулера (не только после JS); проверить видимость полей без скриптов.</li>
+        <li><strong>Скорость (CWV)</strong> — тяжёлый CSS Nuxt: не грузить лишнее above-the-fold; держать актуальный <code>?v=</code> на <code>/_sa/</code>; LCP hero + не блокировать рендер FAQ/слайдеров.</li>
+        <li><strong>Внутренние ссылки</strong> — блок «Читайте в блоге» (3–4 статьи про контекст/B2B/Директ) с анкорами под кластер.</li>
+        <li><strong>Индексация</strong> — канон на <code>/kontekstnaya_reklama/</code>, в sitemap, без дублей с legacy; после выкладки — переобход в Вебмастере/GSC.</li>
+        <li><strong>Региональность</strong> — при таргете МСК/СПб: явные сигналы в тексте + NAP/офис в футере; при необходимости отдельные посадочные под регион (долгий горизонт).</li>
+      </ol>
+
+      <h3>Что не обязательно для топ-10, но усиливает</h3>
+      <ul>
+        <li>Калькулятор/квиз бюджета (есть у части конкурентов).</li>
+        <li>Короткое видео (эксперт или кейс) — чаще в Google-выдаче.</li>
+        <li>Онлайн-чат — только при реальной обработке диалогов.</li>
+      </ul>
+
+      <h3>Порядок внедрения (рекомендуемый)</h3>
+      <p><span class="badge pri-p1">1</span> KPI + гео в hero → <span class="badge pri-p1">2</span> логотипы + отзывы → <span class="badge pri-p2">3</span> таблица пакетов + блок «ведение»/«настройка» → <span class="badge pri-p2">4</span> гарантии/SLA → <span class="badge pri-p3">5</span> блог-тизер и тех. проверка CWV/schema.</p>
+    </section>
+
+    <nav class="toc">
+      <strong>Содержание</strong>
+      <a href="#executive"><strong>Общий вывод (топ-10)</strong></a>
+      <a href="#summary">Сводка gap-блоков</a>
+      <a href="#serenity-map">Что уже есть у Serenity</a>
+      <a href="#domains">Частота доменов</a>
+      <a href="#nastroyka__yandex__moscow">настройка контекстной рекламы · Яндекс · Москва</a>
+<a href="#nastroyka__yandex__spb">настройка контекстной рекламы · Яндекс · Санкт-Петербург</a>
+<a href="#nastroyka__google__moscow">настройка контекстной рекламы · Google · Москва</a>
+<a href="#nastroyka__google__spb">настройка контекстной рекламы · Google · Санкт-Петербург</a>
+<a href="#vedenie__yandex__moscow">ведение контекстной рекламы · Яндекс · Москва</a>
+<a href="#vedenie__yandex__spb">ведение контекстной рекламы · Яндекс · Санкт-Петербург</a>
+<a href="#vedenie__google__moscow">ведение контекстной рекламы · Google · Москва</a>
+<a href="#vedenie__google__spb">ведение контекстной рекламы · Google · Санкт-Петербург</a>
+      <a href="#errors">Ошибки загрузки</a>
+    </nav>
+
+    <section id="summary">
+      <h2>Сводка для топ-10 (агрегат 8 выдач)</h2>
+      <p class="muted">Приоритет: P1 — блок отсутствует у нас в ≥6 выдачах при ≥50% конкурентов; P2 — ≥4; P3 — ≥2.</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Приор.</th><th>Блок</th><th>Ср. % в топ-20</th><th>Нет у нас (выдач)</th><th>Рекомендация</th></tr>
+          </thead>
+          <tbody><tr>
+        <td><span class="badge pri-p1">P1</span></td>
+        <td>Цифры KPI</td>
+        <td>100%</td>
+        <td>8 / 8</td>
+        <td>Полоса KPI: проекты, лиды, опыт, сертификация Директа.</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="serenity-map">
+      <h2>Блоки на странице Serenity (детект)</h2>
+      <ul><li><code>hero_cta</code> — Hero + CTA</li>
+<li><code>trust_logos</code> — Логотипы клиентов / доверие</li>
+<li><code>process_steps</code> — Этапы / процесс</li>
+<li><code>services_grid</code> — Сетка услуг / форматов</li>
+<li><code>pricing_packages</code> — Тарифы / пакеты</li>
+<li><code>cases</code> — Кейсы / портфолио</li>
+<li><code>testimonials</code> — Отзывы</li>
+<li><code>team</code> — Команда</li>
+<li><code>faq</code> — FAQ</li>
+<li><code>awards_certs</code> — Награды / сертификаты</li>
+<li><code>platforms_direct</code> — Яндекс Директ / Google Ads</li>
+<li><code>geo_moscow_spb</code> — Москва / СПб в тексте</li>
+<li><code>guarantees</code> — Гарантии / SLA</li>
+<li><code>video</code> — Видео</li>
+<li><code>lead_form</code> — Форма на странице</li>
+<li><code>b2b_focus</code> — B2B-оффер</li>
+<li><code>ecommerce_focus</code> — E-commerce</li>
+<li><code>seo_footer_text</code> — SEO-текст внизу</li>
+<li><code>schema_product</code> — Schema Product/Offer</li>
+<li><code>schema_faq</code> — Schema FAQPage</li>
+<li><code>focus_vedenie</code> — Акцент «ведение»</li>
+<li><code>focus_nastroyka</code> — Акцент «настройка»</li></ul>
+      <p class="muted">Объём: 3913 слов,
+        H2: 5,
+        FAQ (оценка): 9.</p>
+    </section>
+
+    <section id="domains">
+      <h2>Частота доменов в выдачах</h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Домен</th><th>Появлений</th></tr></thead>
+          <tbody><tr><td class="mono">elama.ru</td><td>5 / 8</td></tr>
+<tr><td class="mono">serpstat.com</td><td>4 / 8</td></tr>
+<tr><td class="mono">aspro.ru</td><td>4 / 8</td></tr>
+<tr><td class="mono">calltouch.ru</td><td>4 / 8</td></tr>
+<tr><td class="mono">habr.com</td><td>4 / 8</td></tr>
+<tr><td class="mono">avito.ru</td><td>3 / 8</td></tr>
+<tr><td class="mono">kinetica.su</td><td>3 / 8</td></tr>
+<tr><td class="mono">intervolga.ru</td><td>3 / 8</td></tr>
+<tr><td class="mono">netpeak.net</td><td>2 / 8</td></tr>
+<tr><td class="mono">medium.com</td><td>2 / 8</td></tr>
+<tr><td class="mono">ads-pro.pro</td><td>2 / 8</td></tr>
+<tr><td class="mono">omelyanenko.pro</td><td>2 / 8</td></tr>
+<tr><td class="mono">adpass.ru</td><td>2 / 8</td></tr>
+<tr><td class="mono">kokoc.com</td><td>2 / 8</td></tr>
+<tr><td class="mono">a25.ru</td><td>2 / 8</td></tr>
+<tr><td class="mono">blog.click.ru</td><td>2 / 8</td></tr>
+<tr><td class="mono">sv-digital.com</td><td>2 / 8</td></tr>
+<tr><td class="mono">demis.ru</td><td>2 / 8</td></tr>
+<tr><td class="mono">promoexpert.pro</td><td>2 / 8</td></tr>
+<tr><td class="mono">nimax.ru</td><td>2 / 8</td></tr>
+<tr><td class="mono">tgu-dpo.ru</td><td>2 / 8</td></tr>
+<tr><td class="mono">creative.bz</td><td>2 / 8</td></tr>
+<tr><td class="mono">blog.promopult.ru</td><td>1 / 8</td></tr>
+<tr><td class="mono">aaccent.ru</td><td>1 / 8</td></tr>
+<tr><td class="mono">practicum.yandex.ru</td><td>1 / 8</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="nastroyka__yandex__moscow">
+    <h2>настройка контекстной рекламы — Яндекс — Москва</h2>
+    <p class="warn">Playwright: 17 URL; дополнено curated baseline до 17</p>
+    <p class="muted">Запрос про <strong>настройку</strong>: в топе чаще запуск, аудит, семантика — смотрите <code>focus_nastroyka</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">netpeak.net</td>
+        <td><a href="https://netpeak.net/ru/blog/rukovodstvo-dlya-malogo-biznesa-kak-dat-kontekstnuyu-reklamu-v-poiske-google-s-pomoshch-yu-adwords/" rel="noopener">https://netpeak.net/ru/blog/rukovodstvo-dlya-malogo-biznesa-kak-dat-kont…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">medium.com</td>
+        <td><a href="https://medium.com/@tsockol/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BD%D0%B0%D1%8F-%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D0%B0-%D0%BA%D0%B0%D0%BA-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D1%8C-%D1%81%D0%B0%D0%BC%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE-b66ab6cefe1" rel="noopener">https://medium.com/@tsockol/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">serpstat.com</td>
+        <td><a href="https://serpstat.com/ru/blog/google-adwords-rukovodstvo-po-nastrojke-reklami/" rel="noopener">https://serpstat.com/ru/blog/google-adwords-rukovodstvo-po-nastrojke-rek…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">avito.ru</td>
+        <td><a href="https://www.avito.ru/moskva/predlozheniya_uslug?q=%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0+%D1%8F%D0%BD%D0%B4%D0%B5%D0%BA%D1%81+%D0%B4%D0%B8%D1%80%D0%B5%D0%BA%D1%82" rel="noopener">https://www.avito.ru/moskva/predlozheniya_uslug?q=%D0%BD%D0%B0%D1%81%D1%…</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">blog.promopult.ru</td>
+        <td><a href="https://blog.promopult.ru/ppc/kak-rabotaet-reklama-v-yandeks-direkte.html" rel="noopener">https://blog.promopult.ru/ppc/kak-rabotaet-reklama-v-yandeks-direkte.htm…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">ads-pro.pro</td>
+        <td><a href="https://ads-pro.pro/kontekstnaya-reklama/" rel="noopener">https://ads-pro.pro/kontekstnaya-reklama/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">aaccent.ru</td>
+        <td><a href="https://www.aaccent.ru/nastrojka-kontekstnoj-reklamy/" rel="noopener">https://www.aaccent.ru/nastrojka-kontekstnoj-reklamy/</a></td>
+        <td>agency_landing</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>57%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>86%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>29%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>29%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>86%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>57%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>86%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>43%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>86%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>3372</td>
+        <td>2565</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>10</td>
+        <td>9</td>
+        <td><span class="badge gap-vol">объём</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>6</td>
+        <td>1</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>75</td>
+        <td>39</td>
+        <td><span class="badge">—</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="nastroyka__yandex__spb">
+    <h2>настройка контекстной рекламы — Яндекс — Санкт-Петербург</h2>
+    <p class="warn">Playwright: 17 URL; дополнено curated baseline до 17</p>
+    <p class="muted">Запрос про <strong>настройку</strong>: в топе чаще запуск, аудит, семантика — смотрите <code>focus_nastroyka</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">netpeak.net</td>
+        <td><a href="https://netpeak.net/ru/blog/rukovodstvo-dlya-malogo-biznesa-kak-dat-kontekstnuyu-reklamu-v-poiske-google-s-pomoshch-yu-adwords/" rel="noopener">https://netpeak.net/ru/blog/rukovodstvo-dlya-malogo-biznesa-kak-dat-kont…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">avito.ru</td>
+        <td><a href="https://www.avito.ru/sankt-peterburg/predlozheniya_uslug?q=%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0+%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BD%D0%BE%D0%B9+%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%8B" rel="noopener">https://www.avito.ru/sankt-peterburg/predlozheniya_uslug?q=%D0%BD%D0%B0%…</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">serpstat.com</td>
+        <td><a href="https://serpstat.com/ru/blog/google-adwords-rukovodstvo-po-nastrojke-reklami/" rel="noopener">https://serpstat.com/ru/blog/google-adwords-rukovodstvo-po-nastrojke-rek…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">medium.com</td>
+        <td><a href="https://medium.com/@tsockol/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BD%D0%B0%D1%8F-%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D0%B0-%D0%BA%D0%B0%D0%BA-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D1%8C-%D1%81%D0%B0%D0%BC%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE-b66ab6cefe1" rel="noopener">https://medium.com/@tsockol/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">ads-pro.pro</td>
+        <td><a href="https://ads-pro.pro/kontekstnaya-reklama/" rel="noopener">https://ads-pro.pro/kontekstnaya-reklama/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">practicum.yandex.ru</td>
+        <td><a href="https://practicum.yandex.ru/blog/kak-nastroit-i-zapustit-reklamu-v-direkte/" rel="noopener">https://practicum.yandex.ru/blog/kak-nastroit-i-zapustit-reklamu-v-direk…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">kinetica.su</td>
+        <td><a href="https://kinetica.su/kontekstnaya-reklama-v-yandex-direct/" rel="noopener">https://kinetica.su/kontekstnaya-reklama-v-yandex-direct/</a></td>
+        <td>aggregator</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>43%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>86%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>29%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>29%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>57%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>14%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>29%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>57%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>71%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>3366</td>
+        <td>1977</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>14</td>
+        <td>7</td>
+        <td><span class="badge gap-vol">объём</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>4</td>
+        <td>1</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>83</td>
+        <td>36</td>
+        <td><span class="badge">—</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="nastroyka__google__moscow">
+    <h2>настройка контекстной рекламы — Google — Москва</h2>
+    <p class="warn">Playwright: 10 URL; дополнено curated baseline до 10</p>
+    <p class="muted">Запрос про <strong>настройку</strong>: в топе чаще запуск, аудит, семантика — смотрите <code>focus_nastroyka</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">intervolga.ru</td>
+        <td><a href="https://www.intervolga.ru/adv/context/" rel="noopener">https://www.intervolga.ru/adv/context/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">aspro.ru</td>
+        <td><a href="https://aspro.ru/services/context-reklama/?srsltid=AfmBOopa4iiWpE9DI_76uI9rXYwEh23u0X22Nb2oA7tVf1kOC4BMreRM" rel="noopener">https://aspro.ru/services/context-reklama/?srsltid=AfmBOopa4iiWpE9DI_76u…</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">omelyanenko.pro</td>
+        <td><a href="https://omelyanenko.pro/ru/" rel="noopener">https://omelyanenko.pro/ru/</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">adpass.ru</td>
+        <td><a href="https://adpass.ru/kak-nastroit-i-zapustit-kontekstnuyu-reklamu-v-2026-godu-rukovodstvo-bez-illyuzij/" rel="noopener">https://adpass.ru/kak-nastroit-i-zapustit-kontekstnuyu-reklamu-v-2026-go…</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">calltouch.ru</td>
+        <td><a href="https://www.calltouch.ru/blog/kontekstnaya-reklama/" rel="noopener">https://www.calltouch.ru/blog/kontekstnaya-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">elama.ru</td>
+        <td><a href="https://elama.ru/blog/kak-zapustit-kontekstnuyu-reklamu-chek-list/" rel="noopener">https://elama.ru/blog/kak-zapustit-kontekstnuyu-reklamu-chek-list/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">kokoc.com</td>
+        <td><a href="https://kokoc.com/blog/kontekstnaya-reklama/" rel="noopener">https://kokoc.com/blog/kontekstnaya-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td class="mono">a25.ru</td>
+        <td><a href="https://a25.ru/uslugi/target/" rel="noopener">https://a25.ru/uslugi/target/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td class="mono">blog.click.ru</td>
+        <td><a href="https://blog.click.ru/direct-yandex/kak-nastroit-i-zapustit-kontekstnuyu-reklamu-samomu/" rel="noopener">https://blog.click.ru/direct-yandex/kak-nastroit-i-zapustit-kontekstnuyu…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>10</td>
+        <td class="mono">habr.com</td>
+        <td><a href="https://habr.com/ru/articles/731858/" rel="noopener">https://habr.com/ru/articles/731858/</a></td>
+        <td>article</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>60%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>90%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>30%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>20%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>90%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>60%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>40%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>20%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>3029</td>
+        <td>1726</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>8</td>
+        <td>6</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>9</td>
+        <td>4</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>26</td>
+        <td>15</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="nastroyka__google__spb">
+    <h2>настройка контекстной рекламы — Google — Санкт-Петербург</h2>
+    <p class="warn">Playwright: 13 URL; дополнено curated baseline до 13</p>
+    <p class="muted">Запрос про <strong>настройку</strong>: в топе чаще запуск, аудит, семантика — смотрите <code>focus_nastroyka</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">intervolga.ru</td>
+        <td><a href="https://www.intervolga.ru/adv/context/" rel="noopener">https://www.intervolga.ru/adv/context/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">aspro.ru</td>
+        <td><a href="https://aspro.ru/services/context-reklama/?srsltid=AfmBOopQVaax9a5hXklIb7uiUMY8jaTLDgc9n0cwZgRGmImqMzP4Y1ty" rel="noopener">https://aspro.ru/services/context-reklama/?srsltid=AfmBOopQVaax9a5hXklIb…</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">novelsite.ru</td>
+        <td><a href="https://www.novelsite.ru/chto-vhodit-nastroiku-vedenie-kontekstnoi-reklamy.html" rel="noopener">https://www.novelsite.ru/chto-vhodit-nastroiku-vedenie-kontekstnoi-rekla…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">ricmedia.ru</td>
+        <td><a href="https://ricmedia.ru/pravilo_7_v_reklame/" rel="noopener">https://ricmedia.ru/pravilo_7_v_reklame/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">roistat.com</td>
+        <td><a href="https://roistat.com/rublog/ctr/" rel="noopener">https://roistat.com/rublog/ctr/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">omelyanenko.pro</td>
+        <td><a href="https://omelyanenko.pro/ru/" rel="noopener">https://omelyanenko.pro/ru/</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">adpass.ru</td>
+        <td><a href="https://adpass.ru/kak-nastroit-i-zapustit-kontekstnuyu-reklamu-v-2026-godu-rukovodstvo-bez-illyuzij/" rel="noopener">https://adpass.ru/kak-nastroit-i-zapustit-kontekstnuyu-reklamu-v-2026-go…</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td class="mono">calltouch.ru</td>
+        <td><a href="https://www.calltouch.ru/blog/kontekstnaya-reklama/" rel="noopener">https://www.calltouch.ru/blog/kontekstnaya-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td class="mono">elama.ru</td>
+        <td><a href="https://elama.ru/blog/kak-zapustit-kontekstnuyu-reklamu-chek-list/" rel="noopener">https://elama.ru/blog/kak-zapustit-kontekstnuyu-reklamu-chek-list/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>10</td>
+        <td class="mono">kokoc.com</td>
+        <td><a href="https://kokoc.com/blog/kontekstnaya-reklama/" rel="noopener">https://kokoc.com/blog/kontekstnaya-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>11</td>
+        <td class="mono">a25.ru</td>
+        <td><a href="https://a25.ru/uslugi/target/" rel="noopener">https://a25.ru/uslugi/target/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>12</td>
+        <td class="mono">blog.click.ru</td>
+        <td><a href="https://blog.click.ru/direct-yandex/kak-nastroit-i-zapustit-kontekstnuyu-reklamu-samomu/" rel="noopener">https://blog.click.ru/direct-yandex/kak-nastroit-i-zapustit-kontekstnuyu…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>13</td>
+        <td class="mono">habr.com</td>
+        <td><a href="https://habr.com/ru/articles/731858/" rel="noopener">https://habr.com/ru/articles/731858/</a></td>
+        <td>article</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>54%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>54%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>46%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>46%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>85%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>15%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>23%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>38%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>85%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>15%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>77%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>92%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>46%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>69%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>46%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>85%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>62%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>85%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>69%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>15%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>8%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>92%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>92%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>2068</td>
+        <td>1377</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>7</td>
+        <td>6</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>7</td>
+        <td>4</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>24</td>
+        <td>15</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="vedenie__yandex__moscow">
+    <h2>ведение контекстной рекламы — Яндекс — Москва</h2>
+    <p class="warn">Playwright: 19 URL; дополнено curated baseline до 19</p>
+    <p class="muted">Запрос про <strong>ведение</strong>: в топе чаще акцент на отчёты, ежемесячную оптимизацию и SLA — проверьте строки <code>focus_vedenie</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">kinetica.su</td>
+        <td><a href="https://kinetica.su/kontekstnaya-reklama-v-yandex-direct/" rel="noopener">https://kinetica.su/kontekstnaya-reklama-v-yandex-direct/</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">craftpromotion.ru</td>
+        <td><a href="https://craftpromotion.ru/promotion/kontekstnaya-reklama" rel="noopener">https://craftpromotion.ru/promotion/kontekstnaya-reklama</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">serpstat.com</td>
+        <td><a href="https://serpstat.com/ru/blog/chto-takoe-kontekstnaja-reklama/" rel="noopener">https://serpstat.com/ru/blog/chto-takoe-kontekstnaja-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">candydigital.ru</td>
+        <td><a href="https://candydigital.ru/context" rel="noopener">https://candydigital.ru/context</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">sv-digital.com</td>
+        <td><a href="https://sv-digital.com/" rel="noopener">https://sv-digital.com/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">demis.ru</td>
+        <td><a href="https://www.demis.ru/services/kontekstnaja-reklama/" rel="noopener">https://www.demis.ru/services/kontekstnaja-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">ra-tgr.ru</td>
+        <td><a href="https://ra-tgr.ru/yandeks-direkt/" rel="noopener">https://ra-tgr.ru/yandeks-direkt/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td class="mono">abc-context.ru</td>
+        <td><a href="https://abc-context.ru/" rel="noopener">https://abc-context.ru/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td class="mono">promoexpert.pro</td>
+        <td><a href="https://promoexpert.pro/kontekstnaya-reklama/" rel="noopener">https://promoexpert.pro/kontekstnaya-reklama/</a></td>
+        <td>agency_landing</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>89%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>56%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>22%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>11%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>56%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>44%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>33%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>89%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>89%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>11%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>33%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>11%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>67%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>1944</td>
+        <td>1209</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>10</td>
+        <td>7</td>
+        <td><span class="badge gap-vol">объём</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>5</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>65</td>
+        <td>17</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="vedenie__yandex__spb">
+    <h2>ведение контекстной рекламы — Яндекс — Санкт-Петербург</h2>
+    
+    <p class="muted">Запрос про <strong>ведение</strong>: в топе чаще акцент на отчёты, ежемесячную оптимизацию и SLA — проверьте строки <code>focus_vedenie</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">serpstat.com</td>
+        <td><a href="https://serpstat.com/ru/blog/chto-takoe-kontekstnaja-reklama/" rel="noopener">https://serpstat.com/ru/blog/chto-takoe-kontekstnaja-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">avito.ru</td>
+        <td><a href="https://www.avito.ru/sankt-peterburg/predlozheniya_uslug?q=%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0+%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BD%D0%BE%D0%B9+%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%8B" rel="noopener">https://www.avito.ru/sankt-peterburg/predlozheniya_uslug?q=%D0%BD%D0%B0%…</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">kinetica.su</td>
+        <td><a href="https://kinetica.su/kontekstnaya-reklama-v-yandex-direct/" rel="noopener">https://kinetica.su/kontekstnaya-reklama-v-yandex-direct/</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">cosmos-web.ru</td>
+        <td><a href="https://www.cosmos-web.ru/sankt-peterburg/marketing/ppc/" rel="noopener">https://www.cosmos-web.ru/sankt-peterburg/marketing/ppc/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">sv-digital.com</td>
+        <td><a href="https://sv-digital.com/" rel="noopener">https://sv-digital.com/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">elama.ru</td>
+        <td><a href="https://elama.ru/services/" rel="noopener">https://elama.ru/services/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">promoexpert.pro</td>
+        <td><a href="https://promoexpert.pro/kontekstnaya-reklama/" rel="noopener">https://promoexpert.pro/kontekstnaya-reklama/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td class="mono">context-target.ru</td>
+        <td><a href="https://context-target.ru/direkt/" rel="noopener">https://context-target.ru/direkt/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td class="mono">rosait.ru</td>
+        <td><a href="https://rosait.ru/add/context-ad/" rel="noopener">https://rosait.ru/add/context-ad/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>10</td>
+        <td class="mono">habr.com</td>
+        <td><a href="https://habr.com/ru/articles/731858/" rel="noopener">https://habr.com/ru/articles/731858/</a></td>
+        <td>article</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>60%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>90%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>40%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>40%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>90%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>30%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>90%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>40%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>1883</td>
+        <td>1055</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>8</td>
+        <td>7</td>
+        <td><span class="badge gap-vol">объём</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>10</td>
+        <td>5</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>34</td>
+        <td>16</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="vedenie__google__moscow">
+    <h2>ведение контекстной рекламы — Google — Москва</h2>
+    <p class="warn">Playwright: 9 URL; дополнено curated baseline до 9</p>
+    <p class="muted">Запрос про <strong>ведение</strong>: в топе чаще акцент на отчёты, ежемесячную оптимизацию и SLA — проверьте строки <code>focus_vedenie</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">elama.ru</td>
+        <td><a href="https://elama.ru/blog/kontekstnaya-reklama-osnovy/" rel="noopener">https://elama.ru/blog/kontekstnaya-reklama-osnovy/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">aspro.ru</td>
+        <td><a href="https://aspro.ru/services/context-reklama/?srsltid=AfmBOori45bwbTJroHuBrcaHjCWABEIiiR-bCUaoIFYz39Wm8Iw1SPBt" rel="noopener">https://aspro.ru/services/context-reklama/?srsltid=AfmBOori45bwbTJroHuBr…</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">nimax.ru</td>
+        <td><a href="https://www.nimax.ru/context/" rel="noopener">https://www.nimax.ru/context/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">calltouch.ru</td>
+        <td><a href="https://www.calltouch.ru/blog/kontekstnaya-reklama/" rel="noopener">https://www.calltouch.ru/blog/kontekstnaya-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">tgu-dpo.ru</td>
+        <td><a href="https://www.tgu-dpo.ru/news/2023/04/18/chto-takoe-kontekstnaya-reklama/" rel="noopener">https://www.tgu-dpo.ru/news/2023/04/18/chto-takoe-kontekstnaya-reklama/</a></td>
+        <td>other</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">creative.bz</td>
+        <td><a href="https://creative.bz/blog/internet-reklama/zadachi-po-vedeniyu-kontekstnoy-reklame/" rel="noopener">https://creative.bz/blog/internet-reklama/zadachi-po-vedeniyu-kontekstno…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">intervolga.ru</td>
+        <td><a href="https://www.intervolga.ru/adv/context/" rel="noopener">https://www.intervolga.ru/adv/context/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td class="mono">remarka.agency</td>
+        <td><a href="https://remarka.agency/kontekst" rel="noopener">https://remarka.agency/kontekst</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td class="mono">habr.com</td>
+        <td><a href="https://habr.com/ru/articles/731858/" rel="noopener">https://habr.com/ru/articles/731858/</a></td>
+        <td>article</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>33%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>67%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>56%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>67%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>89%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>11%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>56%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>22%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>56%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>56%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>11%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>56%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>78%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>89%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>67%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>22%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>2068</td>
+        <td>1304</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>6</td>
+        <td>6</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>6</td>
+        <td>4</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>28</td>
+        <td>16</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+<section id="vedenie__google__spb">
+    <h2>ведение контекстной рекламы — Google — Санкт-Петербург</h2>
+    <p class="warn">Playwright: 10 URL; дополнено curated baseline до 10</p>
+    <p class="muted">Запрос про <strong>ведение</strong>: в топе чаще акцент на отчёты, ежемесячную оптимизацию и SLA — проверьте строки <code>focus_vedenie</code>.</p>
+    <h3>Топ-20 органики</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Домен</th><th>URL</th><th>Тип</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td class="mono">profi.ru</td>
+        <td><a href="https://profi.ru/it_freelance/marketing/internet-marketing/kontekstnaya-reklama/?srsltid=AfmBOooC9afFj90ymYC-nF1TQ_0MxF6LJJB8xAw5YAgCCYo-E5hrV8eb" rel="noopener">https://profi.ru/it_freelance/marketing/internet-marketing/kontekstnaya-…</a></td>
+        <td>aggregator</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td class="mono">seo.ru</td>
+        <td><a href="https://seo.ru/rates/context/" rel="noopener">https://seo.ru/rates/context/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td class="mono">demis.ru</td>
+        <td><a href="https://www.demis.ru/services/kontekstnaja-reklama/" rel="noopener">https://www.demis.ru/services/kontekstnaja-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td class="mono">elama.ru</td>
+        <td><a href="https://elama.ru/blog/kontekstnaya-reklama-osnovy/" rel="noopener">https://elama.ru/blog/kontekstnaya-reklama-osnovy/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td class="mono">aspro.ru</td>
+        <td><a href="https://aspro.ru/services/context-reklama/?srsltid=AfmBOop7dTHTjhGxWxul31LPPyLJJF8PPxPpXzCiyhYXKIiJ5HZXRhkC" rel="noopener">https://aspro.ru/services/context-reklama/?srsltid=AfmBOop7dTHTjhGxWxul3…</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td class="mono">tgu-dpo.ru</td>
+        <td><a href="https://www.tgu-dpo.ru/news/2023/04/18/chto-takoe-kontekstnaya-reklama/" rel="noopener">https://www.tgu-dpo.ru/news/2023/04/18/chto-takoe-kontekstnaya-reklama/</a></td>
+        <td>other</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td class="mono">calltouch.ru</td>
+        <td><a href="https://www.calltouch.ru/blog/kontekstnaya-reklama/" rel="noopener">https://www.calltouch.ru/blog/kontekstnaya-reklama/</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td class="mono">sheer.ru</td>
+        <td><a href="https://sheer.ru/moscow/kontekstnaya-reklama/" rel="noopener">https://sheer.ru/moscow/kontekstnaya-reklama/</a></td>
+        <td>agency_landing</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td class="mono">creative.bz</td>
+        <td><a href="https://creative.bz/blog/internet-reklama/zadachi-po-vedeniyu-kontekstnoy-reklame/" rel="noopener">https://creative.bz/blog/internet-reklama/zadachi-po-vedeniyu-kontekstno…</a></td>
+        <td>article</td>
+      </tr>
+<tr>
+        <td>10</td>
+        <td class="mono">nimax.ru</td>
+        <td><a href="https://www.nimax.ru/context/" rel="noopener">https://www.nimax.ru/context/</a></td>
+        <td>agency_landing</td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Блоки: Serenity vs топ-20</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Блок</th><th>Serenity</th><th>% в топ-20</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Hero + CTA</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Логотипы клиентов / доверие</td>
+        <td>✓</td>
+        <td>60%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Цифры KPI</td>
+        <td>—</td>
+        <td>100%</td>
+        <td><span class="badge gap-high">нет у нас</span></td>
+      </tr>
+<tr>
+        <td>Этапы / процесс</td>
+        <td>✓</td>
+        <td>50%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Сетка услуг / форматов</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Тарифы / пакеты</td>
+        <td>✓</td>
+        <td>90%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Таблица сравнения тарифов</td>
+        <td>—</td>
+        <td>40%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Калькулятор</td>
+        <td>—</td>
+        <td>20%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Кейсы / портфолио</td>
+        <td>✓</td>
+        <td>60%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Отзывы</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Команда</td>
+        <td>✓</td>
+        <td>20%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>FAQ</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Награды / сертификаты</td>
+        <td>✓</td>
+        <td>20%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Яндекс Директ / Google Ads</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Москва / СПб в тексте</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Гарантии / SLA</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Видео</td>
+        <td>✓</td>
+        <td>10%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Блок статей</td>
+        <td>—</td>
+        <td>30%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Форма на странице</td>
+        <td>✓</td>
+        <td>80%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Чат / виджет</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>B2B-оффер</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>E-commerce</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>SEO-текст внизу</td>
+        <td>✓</td>
+        <td>70%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema Product/Offer</td>
+        <td>✓</td>
+        <td>30%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Schema FAQPage</td>
+        <td>✓</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Акцент «ведение»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Акцент «настройка»</td>
+        <td>✓</td>
+        <td>100%</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+    <h3>Объёмы контента</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Метрика</th><th>Serenity</th><th>Медиана топ-20</th><th>P25</th><th>Gap</th></tr></thead>
+        <tbody><tr>
+        <td>Слов в контенте</td>
+        <td>3913</td>
+        <td>2541</td>
+        <td>1304</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H2</td>
+        <td>5</td>
+        <td>6</td>
+        <td>6</td>
+        <td><span class="badge">—</span></td>
+      </tr>
+<tr>
+        <td>Заголовков H3</td>
+        <td>72</td>
+        <td>13</td>
+        <td>4</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Элементов FAQ (оценка)</td>
+        <td>9</td>
+        <td>3</td>
+        <td>3</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>Изображений</td>
+        <td>70</td>
+        <td>48</td>
+        <td>28</td>
+        <td><span class="badge gap-ok">ок</span></td>
+      </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+    <section id="errors">
+      <h2>Ошибки загрузки URL</h2>
+      <p class="muted">Служебные ссылки Яндекса (<code>yabs.yandex.ru</code>, редиректы <code>/count/</code>) из топ-20 и аудита исключены — это не посадочные конкурентов.</p>
+      <ul><li>Нет (после фильтрации служебных ссылок)</li></ul>
+    </section>
+  </div>
+</body>
+</html>

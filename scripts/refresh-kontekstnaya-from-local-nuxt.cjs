@@ -36,7 +36,7 @@ console.log("KONTEKST_NUXT_ORIGIN=", process.env.KONTEKST_NUXT_ORIGIN);
 
 run("node scripts/capture-prod-kontekst-full-html.cjs");
 run("node scripts/download-nuxt-css-prod-kontekstnaya.cjs");
-run("node scripts/assemble-kontekstnaya-from-prod-layout.cjs");
+run("npm run assemble:service:kontekstnaya");
 run("npm run test:kontekstnaya-reklama");
 
 console.log("refresh-kontekstnaya-from-local-nuxt: ok");
