@@ -78,7 +78,12 @@ async function run() {
   assert(html.includes("<!-- TARGETING-MAIN-START -->"), "маркер MAIN-START");
   assert(html.includes("<!-- TARGETING-MAIN-END -->"), "маркер MAIN-END");
   assert(!html.includes("mod.calltouch.ru"), "без Calltouch");
-  assert(html.includes('name="robots" content="noyaca"'), "robots meta как на проде (noyaca)");
+  assert(
+    html.includes(
+      'name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"',
+    ),
+    "SEO: robots как у kontekstnaya (index, follow + лимиты сниппета)",
+  );
   assert(html.includes("case-slider__wrapper"), "коллаж под заголовком (case-slider)");
   assert(html.includes("case-slider__margin-fix"), "герой: case-slider__margin-fix (высота коллажа desktop/tablet)");
 
