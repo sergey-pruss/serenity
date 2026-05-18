@@ -36,6 +36,28 @@ if (!html.includes("rank-dashboard-data")) {
   console.error("docs/seo-rank-dashboard.html: нет встроенных данных rank-dashboard-data");
   process.exit(1);
 }
+if (!html.includes("popular-queries-block") || !html.includes("popular-pages-block")) {
+  console.error("docs/seo-rank-dashboard.html: нет блоков популярных запросов/страниц");
+  process.exit(1);
+}
+if (!html.includes("buildSerpUrl") || !html.includes('class="serp-link"')) {
+  console.error("docs/seo-rank-dashboard.html: нет ссылок на выдачу (buildSerpUrl / serp-link)");
+  process.exit(1);
+}
+const jsStart = html.indexOf("<script>\n(function () {");
+const jsEnd = html.indexOf("})();\n  </script>", jsStart);
+if (jsStart < 0 || jsEnd < 0) {
+  console.error("docs/seo-rank-dashboard.html: не найден блок скрипта дашборда");
+  process.exit(1);
+}
+const dashJs = html.slice(jsStart + 8, jsEnd + 4);
+try {
+  new Function(dashJs);
+} catch (e) {
+  const msg = e instanceof Error ? e.message : String(e);
+  console.error("docs/seo-rank-dashboard.html: синтаксическая ошибка в inline JS:", msg);
+  process.exit(1);
+}
 if (!/<title>[^<]*SEO[^<]*дашборд/i.test(html)) {
   console.error("docs/seo-rank-dashboard.html: неожиданный <title>");
   process.exit(1);

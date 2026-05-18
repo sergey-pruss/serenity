@@ -261,10 +261,8 @@ export function aggregateYandexPagesFromMetrikaAndWm(yandexVisitsByUrl, phraseRo
   return [...byUrl.values()].map((a) => ({
     url: a.url,
     visits: a.yandexVisits,
-    yandexVisits: a.yandexVisits,
-    shows: a.shows,
     wmClicks: a.wmClicks,
-    clicks: a.wmClicks > 0 ? a.wmClicks : a.yandexVisits,
+    shows: a.shows,
     avgShowPosition: a.posDen > 0 ? a.posNum / a.posDen : null,
   }));
 }

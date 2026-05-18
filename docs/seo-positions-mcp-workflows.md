@@ -250,6 +250,17 @@ npm run seo:import-topvisor-css -- --input ~/Desktop/css.csv --sort problems --o
 
 **Добавить страницу или запрос:** отредактируйте `json/seo/rank-dashboard.json` (до 2 запросов на страницу), затем `npm run seo:rank-dashboard:build`. Схема: [`json/seo/rank-dashboard.schema.json`](../json/seo/rank-dashboard.schema.json).
 
+**Колонки GSC и Я.ВМ (без капчи):** те же API, что MCP Search Console и Вебмастер — средняя позиция за ~28 дней, **без** разбивки Москва/СПб/РФ (сравнивать с SERP осторожно):
+
+```bash
+npm run seo:rank-dashboard:panels
+npm run seo:rank-dashboard:build
+```
+
+Нужны `secrets/mcp/env.sh` (`YANDEX_WEBMASTER_TOKEN`) и GSC через **OAuth Desktop** (`secrets/mcp/gsc-oauth-desktop.json`, как MCP — см. `npm run mcp:gsc-help`) или SA-ключ. `SEO_SKIP_GSC=1` — только Яндекс. Период: `REPORT_START_DATE` / `REPORT_END_DATE`.
+
+**Ниже на странице дашборда** — блоки «Популярные запросы» (топ-50) и «Страницы из поиска» (топ-10): GSC `dimensions: query|page`; Яндекс — `get-popular-queries` + страницы через **Метрику** (органика, `ym:s:startURL`) с показами/кликами **Вебмастера** по связанным фразам. Нужны `YANDEX_WEBMASTER_TOKEN` и `YANDEX_METRIKA_TOKEN` в `secrets/mcp/env.sh`. Лимиты: `RANK_DASHBOARD_POPULAR_LIMIT=50`, `RANK_DASHBOARD_POPULAR_PAGES_LIMIT=10`.
+
 ## Кластер «главная» (пересборка ядра)
 
 - Команда: `**npm run seo:gen-semantic-core-home`** — перезаписывает `[json/seo/semantic-core.json](../json/seo/semantic-core.json)` кластером `**главная**` с `targetUrl` на корень сайта, дедуп по `[scripts/seo/lib/normalize-query.mjs](../scripts/seo/lib/normalize-query.mjs)`. Перед коммитом при необходимости отредактируйте списки в `[scripts/seo/gen-semantic-core-home.mjs](../scripts/seo/gen-semantic-core-home.mjs)` (слои `meta` / `ywm` / `wordstat`).

@@ -68,18 +68,18 @@ export function sortGscPages(rows, limit) {
 }
 
 /**
- * @param {Array<{ url: string, visits: number, shows: number, clicks: number, avgShowPosition: number | null }>} rows
+ * @param {Array<{ url: string, visits: number, wmClicks?: number, shows: number, avgShowPosition: number | null }>} rows
  * @param {number} limit
  */
 export function sortYandexPages(rows, limit) {
   return [...rows]
-    .sort((a, b) => b.visits - a.visits || b.shows - a.shows || b.clicks - a.clicks)
+    .sort((a, b) => b.visits - a.visits || b.shows - a.shows || (b.wmClicks ?? 0) - (a.wmClicks ?? 0))
     .slice(0, limit)
     .map((r) => ({
       url: r.url,
-      shows: r.shows,
-      clicks: r.clicks,
       visits: r.visits,
+      wmClicks: r.wmClicks ?? 0,
+      shows: r.shows,
       avgShowPosition:
         r.avgShowPosition != null ? Math.round(r.avgShowPosition * 100) / 100 : null,
     }));
@@ -105,7 +105,7 @@ export function buildPopularBlock(maps) {
     notes: {
       pagesYandex:
         maps.yandexPagesSource === "metrika+webmaster"
-          ? "Яндекс: переходы из поиска Яндекса (Метрика); показы и клики Вебмастера — если фраза привязана к URL. Без фразы в колонке «Показы» — «—»."
+          ? "Яндекс: «Переходы» — Метрика (organic, только поиск Яндекса). «Клики ВМ», «Показы», «Поз.» — Вебмастер по запросу, если фраза привязана к URL; иначе «—»."
           : maps.yandexPagesError ||
             "Нужны YANDEX_METRIKA_TOKEN и счётчик serenity.agency (или YANDEX_METRIKA_COUNTER_ID).",
     },
