@@ -14,7 +14,7 @@ function sanitizeMoreCasesCapture(html) {
   if (!s.includes("more-case-wr__slider-heading")) {
     s = s.replace(
       /<h2[^>]*class="case__title-mobile"[^>]*>[\s\S]*?<\/h2>\s*<!---->\s*/,
-      `<h3 data-v-56f85d51="" class="services__title kontekstnaya-page__section-heading more-case-wr__slider-heading">Кейсы комплексного маркетинга</h3>\n`,
+      `<h3 data-v-56f85d51="" class="services__title kontekstnaya-page__section-heading more-case-wr__slider-heading">Кейсы</h3>\n`,
     );
   }
   s = s.replace(

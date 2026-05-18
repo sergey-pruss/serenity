@@ -2,6 +2,14 @@
  * /targeting: kontekst static stack + точечные правки (без jumbotron-героя kontekst).
  */
 @import url("kontekstnaya-reklama-static-stack.css");
+@import url("kontekstnaya-reklama-parity.css");
+
+/* Телефон: без Nuxt-скоупа десктопная сетка desc остаётся в потоке — дубль с tablet. */
+@media screen and (max-width: 720px) {
+  .page-constructor.targeting-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+}
 
 /* После targeting-nuxt.bundle: при скролле top-line скрывается через app.js (header--collapsed). */
 .header.header--collapsed:not(.active) .header__top-line .navigation-menu,

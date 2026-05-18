@@ -45,6 +45,7 @@ async function run() {
     "<h1>: Таргетированная реклама",
   );
   assert(html.includes("targeting-nuxt.bundle.css"), "CSS: targeting-nuxt.bundle.css");
+  assert(fileExists("css/targeting-nuxt.bundle.css"), "файл на диске: css/targeting-nuxt.bundle.css");
   assert(html.includes("targeting-static-stack.css"), "CSS: targeting-static-stack.css");
   if (captureBaseline) {
     assert(html.includes("targetingCaptureBaseline"), "CSS: capture baseline");
@@ -213,6 +214,10 @@ async function run() {
   if (!captureBaseline) {
     assert(html.includes("more-case-wr__main"), "кейсы: класс more-case-wr__main");
     assert(html.includes("more-case-wr__slider-heading"), "кейсы: заголовок слайдера");
+    assert(
+      !html.includes("Кейсы комплексного маркетинга"),
+      "кейсы: заголовок — «Кейсы», не «Кейсы комплексного маркетинга»",
+    );
     assert(html.includes("mor-cases-slide__cta-fill"), "кейсы: CTA-слайд с gif");
   }
   assert(!html.includes("swiper-container-initialized"), "кейсы: без классов гидрации Swiper");
