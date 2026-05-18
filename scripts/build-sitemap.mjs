@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { keepSitemapLoc } from "./apply-sitemap-serenity-routing-policy.mjs";
+import { ensureCanonicalUrlNoSlash } from "./lib/canonical-url.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
@@ -91,10 +92,11 @@ function servicePageLastmodsByPathname() {
 }
 
 function buildUrlXml(loc, lastmod) {
+  const normLoc = ensureCanonicalUrlNoSlash(loc);
   const lm = lastmod || new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   return (
     `        <url>\n` +
-    `            <loc>${loc}</loc>\n` +
+    `            <loc>${normLoc}</loc>\n` +
     `            <lastmod>${lm}</lastmod>\n` +
     `            <changefreq>weekly</changefreq>\n` +
     `            <priority>1.0</priority>\n` +

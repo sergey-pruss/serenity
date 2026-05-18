@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Канон URL статического контура: без завершающего слэша (кроме https://serenity.agency/).
+ * Канон URL статического контура: без завершающего слэша (включая главную).
  * Запуск: node scripts/verify-static-canonical-urls.cjs
  * После выкладки: ORIGIN=https://serenity.agency node scripts/verify-static-canonical-urls.cjs
  */
@@ -47,6 +47,10 @@ function expectNoSlashPath(p) {
   return p === "/" || !p.endsWith("/");
 }
 
+function canonicalHrefOk(href) {
+  return typeof href === "string" && !href.endsWith("/");
+}
+
 const htmlFiles = [
   "index.html",
   "404.html",
@@ -70,16 +74,16 @@ for (const rel of htmlFiles) {
     issues.push({ rel, type: "bad-canonical", canon });
     continue;
   }
-  if (!expectNoSlashPath(canonPath)) {
-    issues.push({ rel, type: "canonical-has-slash", canonPath });
+  if (!canonicalHrefOk(canon)) {
+    issues.push({ rel, type: "canonical-has-slash", canon });
   }
 }
 
 const sitemap = read("sitemap.xml");
 for (const m of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {
-  const p = new URL(m[1]).pathname;
-  if (p !== "/" && p.endsWith("/")) {
-    issues.push({ type: "sitemap-has-slash", loc: m[1] });
+  const loc = m[1].trim();
+  if (loc.endsWith("/")) {
+    issues.push({ type: "sitemap-has-slash", loc });
   }
 }
 
@@ -130,7 +134,7 @@ async function liveChecks() {
     process.exit(1);
   }
   console.log(
-    `OK: static canonical/sitemap/href — ${htmlFiles.length} HTML, без слэша (кроме /)${process.env.ORIGIN ? `; live ${process.env.ORIGIN}` : ""}.`,
+    `OK: static canonical/sitemap/href — ${htmlFiles.length} HTML, без слэша${process.env.ORIGIN ? `; live ${process.env.ORIGIN}` : ""}.`,
   );
 })().catch((e) => {
   console.error(e.message || e);
