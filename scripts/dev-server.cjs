@@ -157,17 +157,14 @@ function getLanIPv4Addresses() {
 const DEFAULT_DEV_PORT = 8895;
 const DEV_PORT_SCAN_MAX = DEFAULT_DEV_PORT + 50;
 
-/** Канон услуг без слэша — как nginx на проде. */
+/** Канон без слэша (кроме корня `/`) — как nginx на проде. */
 function serviceCanonicalRedirect(pathname, rawQuery) {
-  const map = {
-    "/targeting/": "/targeting",
-    "/kontekstnaya_reklama/": "/kontekstnaya_reklama",
-    "/services/": "/services",
-  };
-  const target = map[pathname];
-  if (!target) return null;
-  const q = rawQuery ? `?${rawQuery}` : "";
-  return `${target}${q}`;
+  if (!pathname || pathname === "/") return null;
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    const q = rawQuery ? `?${rawQuery}` : "";
+    return `${pathname.slice(0, -1)}${q}`;
+  }
+  return null;
 }
 
 const server = http.createServer((req, res) => {

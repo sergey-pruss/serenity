@@ -1,17 +1,21 @@
 ---
-description: Канон URL страниц услуг на статике — без завершающего слэша
-globs: targeting/**,kontekstnaya_reklama/**,nginx/serenity-router.live.conf,nginx/static.serenity.agency.live.conf,sitemap.xml,html/partials/section-services.html
+description: Канон URL на статическом контуре — без завершающего слэша
+globs: targeting/**,kontekstnaya_reklama/**,blog/**,case/all/**,services/**,nginx/serenity-router.live.conf,nginx/static.serenity.agency.live.conf,sitemap.xml,html/partials/header.html,html/partials/section-*.html
 ---
 
-# URL услуг без слэша
+# URL статики без слэша
 
-Страницы на статическом контуре без слэша в каноне: листинг **`/services`**, **`/targeting`**, **`/kontekstnaya_reklama`** (и будущие по тому же шаблону):
+**Исключение:** только главная — `https://serenity.agency/` (корень со слэшем).
 
-- **Канон** — **без** завершающего `/` (как legacy/Nuxt и `sitemap.xml`).
-- **canonical**, **og:url**, **`<loc>` в sitemap**, **`href` внутренних ссылок**, **`urlPath` в `json/services/*/service.config.json`** — один и тот же путь без слэша.
-- **Nginx** (`serenity-router.live.conf`, `static.serenity.agency.live.conf`): `location = /path` → `try_files /path/index.html`; `location = /path/` → **301** на `/path` (для `/services`, `/targeting`, `/kontekstnaya_reklama`). Подстраницы `/services/seo` и т.п. — legacy, не путать с листингом `/services`.
-- **Не путать** с блогом: листинг **`/blog/`** — канон **со** слэшем (отдельные правила в vhost).
+Всё остальное на **новом статическом контуре** (`routing.conf` → `$is_new_page = 1`):
 
-Проверки: `npm run test:service-page-urls`, `npm run test:routing-config`. После выкладки vhost: `ORIGIN=https://serenity.agency npm run test:service-page-urls`.
+- **Без** завершающего `/`: `/blog`, `/blog/article/<slug>`, `/case/all`, `/services`, `/targeting`, `/kontekstnaya_reklama`, пагинация и категории.
+- **canonical**, **og:url**, **`<loc>` в sitemap**, **внутренние `href`**, JSON-LD `item` — один и тот же путь без слэша.
+- **Nginx:** `location = /path` → `try_files …/index.html`; `location = /path/` и `^(/prefix/.+)/$` → **301** на канон без слэша; `try_files $uri $uri/index.html` (не `$uri/`).
+- **Legacy proxy:** не добавлять слэш через `sub_filter` для `/blog` и `/case/all`.
 
-Полный регламент: [`AGENTS.md`](../AGENTS.md).
+Проверки: `npm run test:static-canonical-urls`, `npm run test:routing-config`. После деплоя vhost: `ORIGIN=https://serenity.agency npm run test:static-canonical-urls`.
+
+Пересборка: `npm run build:blog-pages`, `node scripts/build-case-all-pages.mjs`, `npm run build:blog-articles`, `npm run build:sitemap`; ссылки в partials — `node scripts/strip-static-internal-hrefs.mjs`.
+
+Регламент: [`AGENTS.md`](../AGENTS.md).

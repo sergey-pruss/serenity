@@ -57,8 +57,8 @@ const codeFolder = (code) => (code ? code : "all");
 const routePath = (code, pageNum) => {
   const c = normalizeCode(code);
   const p = Number(pageNum) || 1;
-  if (!c) return p <= 1 ? "/case/all/" : `/case/all/${p}/`;
-  return p <= 1 ? `/case/all/category/${c}/` : `/case/all/category/${c}/${p}/`;
+  if (!c) return p <= 1 ? "/case/all" : `/case/all/${p}`;
+  return p <= 1 ? `/case/all/category/${c}` : `/case/all/category/${c}/${p}`;
 };
 
 const writeHtmlAtRoute = (route, html) => {
@@ -98,14 +98,14 @@ function buildCaseListingBreadcrumbJsonLd({ title, canonicalUrl, filterCode, fil
     };
   }
 
-  elements.push({ "@type": "ListItem", position: 2, name: "Кейсы", item: `${SITE_ORIGIN}/case/all/` });
+  elements.push({ "@type": "ListItem", position: 2, name: "Кейсы", item: `${SITE_ORIGIN}/case/all` });
 
   if (code) {
     elements.push({
       "@type": "ListItem",
       position: 3,
       name: String(filterLabel || "").trim() || code,
-      item: `${SITE_ORIGIN}/case/all/category/${code}/`,
+      item: `${SITE_ORIGIN}/case/all/category/${code}`,
     });
   }
 
@@ -179,8 +179,7 @@ function buildCaseListingBreadcrumbJsonLd({ title, canonicalUrl, filterCode, fil
       const folder = codeFolder(code);
       const preloadTag = `    <link rel="preload" href="/_sa/json/case-all-pages/${folder}/page-${pageNum}.json" as="fetch" crossorigin="anonymous" />\n`;
       const route = routePath(code, pageNum);
-      const pathPart = route.endsWith("/") ? route.slice(0, -1) : route;
-      const canonicalUrl = `${SITE_ORIGIN}${pathPart}/`;
+      const canonicalUrl = `${SITE_ORIGIN}${route}`;
       const title = buildListingTitle(code, pageNum, filter.label);
       const description = buildListingDescription(pageNum);
       let pageHtml = htmlTemplate.replace(CASE_JSON_PRELOAD_MARKER, preloadTag);

@@ -49,8 +49,16 @@ assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /
 const routerVhostPath = path.join(__dirname, "..", "nginx", "serenity-router.live.conf");
 const routerVhost = fs.readFileSync(routerVhostPath, "utf8");
 assert(
-  /\blocation\s*=\s*\/blog\s*\{[\s\S]*?return\s+308\s+https:\/\/serenity\.agency\/blog\/\$is_args\$args\s*;/.test(routerVhost),
-  "serenity-router.live.conf: missing location = /blog → 308 https://serenity.agency/blog/$is_args$args (canonical listing /blog/)."
+  /\blocation\s*=\s*\/blog\s*\{[\s\S]*?try_files\s+\/blog\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /blog → try_files (канон /blog без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/blog\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/blog\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /blog/ → 301 /blog."
+);
+assert(
+  /\blocation\s*=\s*\/case\/all\s*\{[\s\S]*?try_files\s+\/case\/all\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /case/all (канон без слэша)."
 );
 assert(
   /\blocation\s*=\s*\/targeting\s*\{[\s\S]*?try_files\s+\/targeting\/index\.html\s+=404\s*;/.test(routerVhost),
@@ -77,13 +85,12 @@ assert(
   "serenity-router.live.conf: missing location = /services/ → 301 /services."
 );
 assert(
-  /\bsub_filter\s+'<a href="\/blog"'\s+'<a href="\/blog\/"'/.test(routerVhost),
-  "serenity-router.live.conf: missing sub_filter for legacy <a href=\"/blog\" → /blog/ (same pattern as /case/all/)."
+  !/\bsub_filter\s+'<a href="\/blog"'\s+'<a href="\/blog\/"'/.test(routerVhost),
+  "serenity-router.live.conf: legacy sub_filter не должен добавлять слэш к /blog."
 );
 assert(
-  routerVhost.includes('if(href==="/blog"||href==="https://serenity.agency/blog"') &&
-    routerVhost.includes('return"/blog/"'),
-  "serenity-router.live.conf: legacy click-normalize script must rewrite /blog → /blog/."
+  !routerVhost.includes('return"/blog/"'),
+  "serenity-router.live.conf: legacy click-normalize не должен переписывать /blog → /blog/."
 );
 assert(
   !/\bserver_name\s+serenity\.agency\s+www\.serenity\.agency\s*;/.test(routerVhost),
@@ -133,8 +140,8 @@ const robotsPreview = fs.readFileSync(robotsPreviewPath, "utf8");
 assert(/^\s*Disallow:\s*\/\s*$/m.test(robotsPreview), "robots.static-preview.txt must Disallow: / for static host.");
 
 assert(
-  /\blocation\s*=\s*\/seminar\/7\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/blog\/\s*;/.test(routerVhost),
-  "serenity-router.live.conf: edge intercept /seminar/7 → /blog/ (полный список — json/nginx-edge-intercepts.json, verify-nginx-edge-intercepts.cjs; тот же стиль, что для /blog/article/7-raz-otmer…)."
+  /\blocation\s*=\s*\/seminar\/7\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/blog\s*;/.test(routerVhost),
+  "serenity-router.live.conf: edge intercept /seminar/7 → /blog (полный список — json/nginx-edge-intercepts.json, verify-nginx-edge-intercepts.cjs; тот же стиль, что для /blog/article/7-raz-otmer…)."
 );
 
 assert(

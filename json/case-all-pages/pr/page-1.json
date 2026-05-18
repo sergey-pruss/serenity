@@ -9,31 +9,31 @@
       "code": "",
       "label": "Все",
       "totalPages": 3,
-      "href": "/case/all/"
+      "href": "/case/all"
     },
     {
       "code": "pr",
       "label": "Продвижение",
       "totalPages": 1,
-      "href": "/case/all/category/pr/"
+      "href": "/case/all/category/pr"
     },
     {
       "code": "brending",
       "label": "Брендинг",
       "totalPages": 2,
-      "href": "/case/all/category/brending/"
+      "href": "/case/all/category/brending"
     },
     {
       "code": "sites",
       "label": "Сайты",
       "totalPages": 2,
-      "href": "/case/all/category/sites/"
+      "href": "/case/all/category/sites"
     },
     {
       "code": "strategiya",
       "label": "Стратегия",
       "totalPages": 1,
-      "href": "/case/all/category/strategiya/"
+      "href": "/case/all/category/strategiya"
     }
   ],
   "cases": [
