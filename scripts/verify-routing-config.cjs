@@ -38,7 +38,9 @@ assert(!/~\^\/docs\(\/\|\$\)\s+1;/.test(content), "/docs/ must not map to new st
 assert(/~\^\/blog\(\/\|\$\)\s+1;/.test(content), "Missing /blog… static rule (статический блог на новом контуре).");
 assert(/~\^\/services\/\?\$\s+1;/.test(content), "Missing exact /services listing rule (листинг на новом контуре).");
 assert(/~\^\/services\/index\\\.html\$\s+1;/.test(content), "Missing /services/index.html rule.");
-assert(!/~\^\/services\(\/\|\$\)\s+1;/.test(content), "Forbidden broad rule: /services($|/) catches subpages — они остаются на legacy.");
+assert(/~\^\/services\/marketing\/\?\$\s+1;/.test(content), "Missing /services/marketing listing rule.");
+assert(/~\^\/services\/marketing\/index\\\.html\$\s+1;/.test(content), "Missing /services/marketing/index.html rule.");
+assert(!/~\^\/services\(\/\|\$\)\s+1;/.test(content), "Forbidden broad rule: /services($|/) catches subpages — только /services и /services/marketing на статике.");
 assert(/~\^\/kontekstnaya_reklama\/\?\$\s+1;/.test(content), "Missing /kontekstnaya_reklama listing rule.");
 assert(/~\^\/kontekstnaya_reklama\/index\\\.html\$\s+1;/.test(content), "Missing /kontekstnaya_reklama/index.html rule.");
 assert(/~\^\/targeting\/\?\$\s+1;/.test(content), "Missing /targeting listing rule.");
@@ -83,6 +85,14 @@ assert(
 assert(
   /\blocation\s*=\s*\/services\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/services\$is_args\$args\s*;/.test(routerVhost),
   "serenity-router.live.conf: missing location = /services/ → 301 /services."
+);
+assert(
+  /\blocation\s*=\s*\/services\/marketing\s*\{[\s\S]*?try_files\s+\/services\/marketing\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /services/marketing → try_files (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/services\/marketing\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/services\/marketing\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /services/marketing/ → 301 без слэша."
 );
 assert(
   !/\bsub_filter\s+'<a href="\/blog"'\s+'<a href="\/blog\/"'/.test(routerVhost),

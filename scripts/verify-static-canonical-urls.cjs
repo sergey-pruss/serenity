@@ -55,6 +55,7 @@ const htmlFiles = [
   "index.html",
   "404.html",
   "services/index.html",
+  "services/marketing/index.html",
   "targeting/index.html",
   "kontekstnaya_reklama/index.html",
   ...walk("blog", []),
@@ -106,6 +107,8 @@ async function liveChecks() {
     "/services/",
     "/targeting",
     "/targeting/",
+    "/services/marketing",
+    "/services/marketing/",
   ];
   for (const p of samples) {
     const res = await fetch(`${origin}${p}`, { redirect: "manual" });
