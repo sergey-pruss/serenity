@@ -273,9 +273,39 @@ body:has(.page-constructor.marketing-page) .header .header__container {
   }
 }
 
-.marketing-page .marketing-sales-grid.content-block__grid--desc.blocks > .col-4 {
-  flex: 0 0 calc((100% - 75px) / 2);
-  max-width: calc((100% - 75px) / 2);
+/* Продажи: 2 колонки как prod .grid_two (40% + 10%), не 3-col desc-сетка с gap 75px */
+@media screen and (min-width: 721px) {
+  .marketing-page .marketing-sales-grid.content-block__grid--desc.blocks {
+    column-gap: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .marketing-page .marketing-sales-grid.content-block__grid--desc.blocks > .col-4 {
+    flex: 0 0 40% !important;
+    flex-grow: 0 !important;
+    flex-basis: 40% !important;
+    max-width: 40% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    row-gap: 80px;
+  }
+
+  .marketing-page .marketing-sales-grid.content-block__grid--desc.blocks > .col-4:first-child {
+    margin-right: 10% !important;
+  }
+
+  .marketing-page .marketing-sales-grid > .col-4 > .col-4.block-item {
+    flex: none !important;
+    flex-grow: 0 !important;
+    flex-basis: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+  }
 }
 
 /* Секция «Бренд»: сначала «Контент-стратегия», затем слайдер, затем h2 «Бренд» */

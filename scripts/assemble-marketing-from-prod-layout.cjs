@@ -172,10 +172,21 @@ function extractMarketingMain(layout) {
   return layout.slice(start, end);
 }
 
+/** Как rewriteProdSlice / targeting: относительные пути для локалки и статики. */
+function rewriteMarketingCasesHrefs(html) {
+  let s = html;
+  for (const [from, to] of HREF_CANON) {
+    s = s.split(`href="${from}"`).join(`href="${to}"`);
+  }
+  s = s.replace(/href="https:\/\/serenity\.agency\//g, 'href="/');
+  return s;
+}
+
 function prepareMarketingCasesBlock() {
   let cases = readPartialKeepScoped("html/partials/section-home-cases.html");
   if (!cases) return "";
   cases = sanitizeMoreCasesCapture(cases);
+  cases = rewriteMarketingCasesHrefs(cases);
   cases = cases.replace(
     /\s*<div class="cases-block__header home-ledge" data-v-27a87df0="">[\s\S]*?<\/div>\s*/i,
     "\n",
@@ -278,7 +289,7 @@ function buildCssBlock(v) {
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
     kontekstNuxt,
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260520marketingParity44" />',
+    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260520marketingParity45" />',
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
@@ -420,7 +431,7 @@ function run() {
   assembled = assembled.replace(/\s*swiper-container-free-mode/g, "");
   assembled = assembled.replace(/<span class="swiper-notification"[^>]*><\/span>/g, "");
 
-  const v = "20260520marketingParity44";
+  const v = "20260520marketingParity45";
   let index = fs.readFileSync(indexPath, "utf8");
   const cssStart = index.indexOf(CSS_START);
   const cssEnd = index.indexOf(CSS_END);
