@@ -292,6 +292,44 @@ async function run() {
     /max-width:\s*719px\)[\s\S]*\.facts[\s\S]*--page-gutter-x/.test(stackCss),
     "stack CSS: .facts на телефоне — поля как у hero (--page-gutter-x)",
   );
+  assert(
+    /min-width:\s*721px\)[\s\S]*content-block__grid--desc[\s\S]*display:\s*flex !important/.test(
+      stackCss,
+    ),
+    "stack CSS: desc-сетка на десктопе (override parity, без legacy slider)",
+  );
+  assert(
+    !main.includes('class="content-block__slider'),
+    "HTML: без legacy content-block__slider (columns-with-progress)",
+  );
+  const motionClose = String.fromCharCode(60, 47, 109, 111, 116, 105, 111, 110, 46, 100, 105, 118, 62);
+  assert(!main.includes(motionClose), "HTML: без битых </motion.div> (desc не в .row)");
+  assert(
+    /Исследование<\/h2>[\s\S]{0,1200}numbered-header__subtitle-column/.test(main),
+    "этап «Исследование»: subtitle-column в шапке (статика без Nuxt-scroll)",
+  );
+  assert(
+    /Наш подход<\/h2>[\s\S]{0,1200}numbered-header__subtitle-column/.test(main),
+    "блок «Наш подход»: subtitle-column в шапке",
+  );
+  assert(
+    !/<\/p>(?:<\/motion.div>){4,}\s*<motion.div[^>]*class="content-block__grid content-block__grid--desc/.test(
+      main,
+    ),
+    "HTML: не более трёх </div> между subtitle и desc-сеткой (иначе рвётся .page-constructor)",
+  );
+  for (const step of ["Исследование", "Первые шаги", "Ведение", "Оптимизация"]) {
+    const h2 = main.indexOf(`>${step}</h2>`);
+    assert(h2 >= 0, `этап «${step}»: заголовок h2`);
+    const desc = main.indexOf("content-block__grid--desc", h2);
+    assert(desc > h2, `этап «${step}»: desc-сетка в блоке`);
+    const beforeDesc = main.slice(h2, desc);
+    const closeRun = beforeDesc.match(/<\/p>((?:<\/div>)+)/);
+    if (closeRun) {
+      const n = (closeRun[1].match(/<\/div>/g) || []).length;
+      assert(n <= 3, `этап «${step}»: между </p> и desc не больше 3×</div> (сейчас ${n})`);
+    }
+  }
 
   console.log("verify-targeting: ok");
 }

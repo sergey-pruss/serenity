@@ -104,6 +104,7 @@
     "refresh:kontekstnaya-from-prod": "node scripts/capture-prod-kontekst-full-html.cjs && node scripts/download-nuxt-css-prod-kontekstnaya.cjs && npm run assemble:service:kontekstnaya && npm run test:kontekstnaya-reklama",
     "refresh:kontekstnaya-from-local-nuxt": "node scripts/refresh-kontekstnaya-from-local-nuxt.cjs",
     "test:targeting": "node scripts/verify-targeting.cjs",
+    "test:targeting-layout": "node scripts/verify-targeting-layout-viewports.cjs",
     "refresh:targeting-from-prod": "node scripts/capture-prod-targeting-full-html.cjs && node scripts/extract-targeting-phase2-slices.cjs && node scripts/extract-targeting-more-cases-partial.cjs && node scripts/build-faq-targeting-static.cjs && node scripts/download-nuxt-css-prod-targeting.cjs && npm run build:service-awards && TARGETING_INCLUDE_PHASE2=1 npm run assemble:service:targeting && node scripts/sync-targeting-sa-images.cjs && TARGETING_VERIFY_PHASE2=1 npm run test:targeting",
     "build:targeting-team": "node scripts/build-team-targeting-from-kontekst.cjs",
     "refresh:targeting-from-prod-full": "TARGETING_INCLUDE_PHASE2=1 TARGETING_VERIFY_PHASE2=1 npm run refresh:targeting-from-prod",

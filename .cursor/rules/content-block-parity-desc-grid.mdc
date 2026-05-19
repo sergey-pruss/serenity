@@ -1,0 +1,32 @@
+---
+description: content-block parity — не скрывать desc-сетку без Nuxt-слайдера
+globs: css/**/*parity*.css,css/*-static-stack.css,css/marketing-static-stack.css,css/targeting-static-stack.css,scripts/verify-targeting.cjs,scripts/verify-marketing.cjs,scripts/verify-kontekstnaya-reklama.cjs
+alwaysApply: true
+---
+
+# `kontekstnaya-reklama-parity.css` и видимость контента
+
+Файл `css/kontekstnaya-reklama-parity.css` имитирует Nuxt:
+
+- **≥1025px:** `display: none` на `.content-block__grid--desc`
+- **721–1024px:** скрыт `.content-block__slider`
+- **≤720px:** слайдер скрыт, видна `.content-block__grid--tablet`
+
+На **статике без Nuxt** горизонтальный `.content-block__slider` (`.horisontal-scroll`) **не работает** — нет JS прокрутки/синхронизации колонок.
+
+## Обязательный override в static-stack страницы
+
+Если страница подключает `kontekstnaya-reklama-parity.css` через `*-static-stack.css`, **добавить переопределение** (как в `marketing-static-stack.css` и `targeting-static-stack.css`):
+
+1. **Только desc + tablet, без слайдера** (marketing): на `min-width: 721px` снова показать `.content-block__grid--desc`, скрыть `--tablet`.
+2. **Desc + subtitle** (targeting): `injectContentBlockSubtitles` + `stripContentBlockSliders` в assemble; на `min-width: 721px` — desc-сетка (`block__name` / `block__description`), slider удалён из HTML. Legacy `.content-block__slider` / `columns-with-progress` на статике не использовать.
+
+## Перед сдачей
+
+- Визуально на **десктопе** (≥1025px): блоки «Этапы» / карточки услуг — **не пустые** справа от заголовка.
+- `npm run test:targeting` / `npm run test:marketing` — в stack CSS есть соответствующий override.
+- После правки stack — **поднять `?v=`** в `index.html` страницы и в `assemble-*-from-prod-layout.cjs`.
+
+## Антипаттерн
+
+Не подключать `kontekstnaya-reklama-parity.css` к новой статической услуге **без** проверки всех вариантов разметки `content-block` (desc / tablet / slider / subtitle-column).

@@ -31,6 +31,7 @@ const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
+const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -630,6 +631,11 @@ function run() {
   main = injectKontekstnayaMoreCasesFromServicesPartial(main);
   if (stripAwards.ok) main = insertKontekstnayaAwardsPartialBeforeSynergy(main);
   main = injectKontekstnayaSynergyFromPartial(main);
+  {
+    const { html: stripped, removed } = stripContentBlockSliders(main);
+    main = stripped;
+    if (removed) console.log("assemble-kontekstnaya: stripContentBlockSliders:", removed);
+  }
 
   const index = fs.readFileSync(indexPath, "utf8");
   const MAIN_START = "<!-- KONTEKST-MAIN-START -->";

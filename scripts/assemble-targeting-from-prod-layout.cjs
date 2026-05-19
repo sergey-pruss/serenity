@@ -9,6 +9,9 @@ const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 const { sanitizeMoreCasesCapture } = require("./sanitize-more-cases-capture.cjs");
 const { stripNuxtScopedMarkup } = require("./strip-nuxt-scoped-markup.cjs");
+const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.cjs");
+const { repairContentBlockMotionDivTags } = require("./lib/repair-content-block-motion-div-tags.cjs");
+const { repairNumberedHeaderExtraCloses } = require("./lib/repair-numbered-header-extra-closes.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -470,6 +473,93 @@ function ensureBurgerMenuGlavnaya(html) {
   );
 }
 
+/** Subtitle внутри .numbered-header__title (ошибка inject) → в колонку справа. */
+function repairMisplacedSubtitles(html) {
+  return html.replace(
+    /(<div data-v-490c7534="" class="numbered-header__title"><h2 data-v-490c7534="">[^<]+<\/h2>)\s*<div data-v-490c7534="" class="col-6 col-md-12 numbered-header__subtitle-column">(<p[\s\S]*?<\/p>)<\/div>\s*/g,
+    "$1 <!----> ",
+  ).replace(
+    /(numbered-header__title-column">[\s\S]*?<\/motion.div>\s*<\/motion.div>\s*)<!---->(\s*<\/motion.div>\s*<\/motion.div>\s*<div data-v-4ed7dc78="" class="content-block__slider)/g,
+    (match, prefix, suffix, offset, full) => {
+      const after = full.slice(offset + match.length - suffix.length, offset + match.length + 400);
+      if (after.includes("numbered-header__subtitle-column")) return match;
+      const blockStart = full.lastIndexOf('class="modern content-block"', offset);
+      const blockEnd = full.indexOf('class="content-block__slider', offset);
+      const text = extractContentBlockSubtitleHtml(full.slice(blockStart, blockEnd));
+      if (!text) return match;
+      const subtitle =
+        `<div data-v-490c7534="" class="col-6 col-md-12 numbered-header__subtitle-column">` +
+        `<p data-v-4ed7dc78="" data-v-490c7534="" class="content-block__desc">${text}</p></div> `;
+      return `${prefix}${subtitle}<!---->${suffix}`;
+    },
+  );
+}
+
+/** Первый абзац колонок этапа — в subtitle-column (как шаги 2–4), иначе справа пусто без Nuxt-scroll. */
+function extractContentBlockSubtitleHtml(blockHtml) {
+  const m =
+    blockHtml.match(
+      /columns-with-progress__content[\s\S]*?<p[^>]*data-v-356d6131[^>]*>([\s\S]*?)<\/p>/,
+    ) ||
+    blockHtml.match(/columns-with-progress__column--scroll-fix[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/) ||
+    blockHtml.match(/class="block__description"[^>]*>([\s\S]*?)<\/p>/);
+  return m ? m[1].trim() : null;
+}
+
+function injectContentBlockSubtitles(html) {
+  let out = html;
+  let pos = 0;
+  let injected = 0;
+  while (pos < out.length) {
+    const nhIdx = out.indexOf('class="numbered-header', pos);
+    if (nhIdx < 0) break;
+    const blockStart = out.lastIndexOf('class="modern content-block"', nhIdx);
+    if (blockStart < 0) {
+      pos = nhIdx + 1;
+      continue;
+    }
+    const sliderIdx = out.indexOf('class="content-block__slider', nhIdx);
+    if (sliderIdx < 0) {
+      pos = nhIdx + 1;
+      continue;
+    }
+    const subIdx = out.indexOf("numbered-header__subtitle-column", nhIdx);
+    if (subIdx >= 0 && subIdx < sliderIdx) {
+      pos = sliderIdx + 1;
+      continue;
+    }
+    const nextBlock = out.indexOf('class="modern content-block"', nhIdx + 1);
+    const blockEnd = nextBlock > 0 ? nextBlock : sliderIdx + 12000;
+    const text = extractContentBlockSubtitleHtml(out.slice(blockStart, blockEnd));
+    if (!text) {
+      pos = nhIdx + 1;
+      continue;
+    }
+    const headerSlice = out.slice(nhIdx, sliderIdx);
+    const titleColRel = headerSlice.indexOf("numbered-header__title-column");
+    if (titleColRel < 0) {
+      pos = nhIdx + 1;
+      continue;
+    }
+    const titleColClose = headerSlice.match(
+      /numbered-header__title-column">[\s\S]*?<\/div>\s*<\/div>\s*<!---->/,
+    );
+    if (!titleColClose) {
+      pos = nhIdx + 1;
+      continue;
+    }
+    const phIdx = nhIdx + titleColClose.index + titleColClose[0].length - "<!---->".length;
+    const subtitle =
+      `<div data-v-490c7534="" class="col-6 col-md-12 numbered-header__subtitle-column">` +
+      `<p data-v-4ed7dc78="" data-v-490c7534="" class="content-block__desc">${text}</p></div> `;
+    out = out.slice(0, phIdx) + subtitle + out.slice(phIdx + "<!---->".length);
+    injected += 1;
+    pos = phIdx + subtitle.length;
+  }
+  if (injected) console.log("assemble-targeting: injectContentBlockSubtitles:", injected);
+  return out;
+}
+
 function run() {
   buildServicePartials();
   const { path: layoutPath, label: layoutLabel } = resolveLayoutPath();
@@ -521,6 +611,15 @@ function run() {
   main = moveTargetingInlineLeadBeforeTeam(main);
   main = moveTargetingFaqSectionBeforeCases(main);
   main = ensureTargetingMoreCasesMainClass(main);
+  main = injectContentBlockSubtitles(main);
+  main = repairMisplacedSubtitles(main);
+  main = repairNumberedHeaderExtraCloses(main);
+  main = repairContentBlockMotionDivTags(main);
+  {
+    const { html: stripped, removed } = stripContentBlockSliders(main);
+    main = stripped;
+    if (removed) console.log("assemble-targeting: stripContentBlockSliders:", removed);
+  }
   main = ensureTargetingPageShell(main);
   /* data-v не снимаем с main: Nuxt bundle targeting-nuxt.bundle.css завязан на scoped-атрибуты героя/case-slider */
   main = main.replace(/\s*swiper-container-initialized/g, "");
@@ -553,7 +652,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260518serviceFaqPhase1"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260517targetingMoreCasesFix2" />',
+        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260519targetingPageGutter" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',

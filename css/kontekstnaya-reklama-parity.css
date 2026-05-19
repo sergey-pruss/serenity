@@ -1,6 +1,9 @@
 /**
  * Локальная статика: prod Nuxt скрывает дубль «карточек» через scoped-CSS.
  * Без этого видны и горизонтальные колонки этапов, и тёмная сетка block-item.
+ *
+ * В static-stack страницы без Nuxt-слайдера — обязательный override (см.
+ * .cursor/rules/content-block-parity-desc-grid.mdc, marketing/targeting-static-stack.css).
  */
 @media screen and (min-width: 1025px) {
   body .modern.content-block .content-block__grid.content-block__grid--desc {

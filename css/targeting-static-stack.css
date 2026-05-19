@@ -3,11 +3,107 @@
  */
 @import url("kontekstnaya-reklama-static-stack.css");
 @import url("kontekstnaya-reklama-parity.css");
+@import url("sections/targeting-page.css");
+@import url("sections/service-faq.css");
+@import url("sections/targeting-hero.css");
+@import url("sections/service-hero-header.css");
 
 /* Телефон: без Nuxt-скоупа десктопная сетка desc остаётся в потоке — дубль с tablet. */
 @media screen and (max-width: 720px) {
   .page-constructor.targeting-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
     display: none !important;
+  }
+}
+
+/* Планшет/десктоп: шапка этапа + desc-сетка под ней (как marketing, override parity). */
+@media screen and (min-width: 721px) {
+  .page-constructor.targeting-page .modern.content-block > .page__container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    /* width 100% вместо calc(100% - 154px): поля как у prod через --page-gutter-x */
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.targeting-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.targeting-page .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .page-constructor.targeting-page .numbered-header__title-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.targeting-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.targeting-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.targeting-page .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.targeting-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    order: 2;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.targeting-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.targeting-page .numbered-header .row > .content-block__grid.content-block__grid--desc {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 10;
+  }
+}
+
+/* Три колонки desc-сетки (gap 75px × 2), как marketing */
+.page-constructor.targeting-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+  flex: 1 1 0;
+  max-width: calc((100% - 150px) / 3);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.targeting-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
   }
 }
 
@@ -18,10 +114,6 @@
   visibility: hidden !important;
   pointer-events: none !important;
 }
-@import url("sections/targeting-page.css");
-@import url("sections/service-faq.css");
-@import url("sections/targeting-hero.css");
-@import url("sections/service-hero-header.css");
 
 .page-constructor > .page-constructor__section:first-of-type::before {
   display: none !important;
