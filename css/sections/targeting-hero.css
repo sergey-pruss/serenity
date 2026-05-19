@@ -14,7 +14,7 @@
   gap: 40px;
   padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
   padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
-  margin-top: 52px;
+  margin-top: 0;
   margin-bottom: 62px;
   text-wrap: balance;
   position: relative;
@@ -63,6 +63,14 @@
     text-align: center !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+}
+
+/* Десктоп: h1 на одной линии с kontekst (.jumbotron в 100vh + padding 70px); замер −6px к calc. */
+@media screen and (min-width: 1025px) {
+  .page-constructor.targeting-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: calc(var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) - 6px) !important;
+    margin-top: 0 !important;
   }
 }
 
