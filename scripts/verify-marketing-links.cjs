@@ -28,7 +28,7 @@ const EXPECTED_BY_TEXT = {
   SMM: "/services/smm",
   SEO: "/services/seo",
   Продажи: "/services/salesmarketing",
-  "Бренд-стратегия": "/services/strategy",
+  "Бренд-стратегия": "/services/brend-strategy",
 };
 
 const DIAGRAM_ANCHORS = {

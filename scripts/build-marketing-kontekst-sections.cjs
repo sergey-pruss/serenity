@@ -16,7 +16,9 @@ const HREF_CANON = {
   "/services/content-strategy": "/content-strategy",
   "/services/context": "/kontekstnaya_reklama",
   "/services/targeting": "/targeting",
-  "/services/strategy": "/services/strategy",
+  "/services/strategy": "/services/brend-strategy",
+  "https://serenity.agency/services/strategy": "/services/brend-strategy",
+  "https://serenity.agency/services/brend-strategy": "/services/brend-strategy",
   "/services/seo": "/services/seo",
   "/services/smm": "/services/smm",
   "/services/content": "/services/content",
@@ -28,6 +30,7 @@ const CB = " data-v-4ed7dc78";
 
 const SECTION_LINKS = {
   "Cтратегия": "/services#services-strategy",
+  "Бренд-стратегия": "/services/brend-strategy",
   Бренд: "/services#services-branding",
   "Измеримое продвижение": "/services#services-promotion",
   Сайт: "/services#services-sites",
@@ -476,7 +479,7 @@ function buildStrategySection($, row) {
   const cards1 = collectCardsFromSlice($, $grid1);
 
   const $nested = row.children().eq(4);
-  const subHead = parseSectionInfoHeader($, $nested.find(".section-info").first());
+  const subHead = applySubheadLink(parseSectionInfoHeader($, $nested.find(".section-info").first()));
 
   const $grid2 = $("<div></div>");
   $grid2.append($nested.find(".section-info").eq(1).clone());

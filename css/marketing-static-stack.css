@@ -701,14 +701,14 @@ body:has(.page-constructor.marketing-page) .header .header__container {
   }
 }
 
-/* Desktop/tablet: сетка .more-cases, слайдер скрыт (как kontekst; :has в бандле иногда не срабатывает до гидрации). */
+/* Desktop/tablet: сетка .more-cases, слайдер скрыт (как kontekst; :has() в service-more-cases иногда не срабатывает). */
 @media screen and (min-width: 720px) {
   .marketing-cases-section .more-case-wr.more-case-wr__main .mor-cases-slider-wrapper.more-cases--active {
     display: none !important;
   }
 
-  .marketing-cases-section .more-case-wr.more-case-wr__main .more-case-wr__slider-heading {
-    display: none !important;
+  .marketing-cases-section .more-case-wr.more-case-wr__main .more-cases:not(.more-cases--new) {
+    display: block !important;
   }
 }
 
@@ -737,12 +737,12 @@ body:has(.page-constructor.marketing-page) .header .header__container {
 }
 
 .marketing-cases-section .mor-cases-slider:not([data-mor-cases-init="1"]) {
-  visibility: hidden;
+  opacity: 0;
   min-height: 336px;
 }
 
 .marketing-cases-section .mor-cases-slider[data-mor-cases-init="1"] {
-  visibility: visible;
+  opacity: 1;
 }
 
 /* Слайдер кейсов: без двойного padding на .mor-cases-slide + __link (иначе светлая «рамка» по периметру) */
@@ -768,8 +768,55 @@ body:has(.page-constructor.marketing-page) .header .header__container {
   box-shadow: none !important;
 }
 
-.marketing-cases-section .cases-block__header {
-  display: none !important;
+/* Шапка кейсов — как на главной (центр, .cases-block__header-title + subtitle). */
+.marketing-cases-section .cases-block__header.home-ledge,
+.marketing-cases-section .cases-block__header.home-ledge[data-v-27a87df0] {
+  max-width: 610px !important;
+  width: 100% !important;
+  margin: 0 auto 94px !important;
+  text-align: center !important;
+}
+
+.marketing-cases-section .cases-block__header-title[data-v-27a87df0],
+.marketing-cases-section .cases-block__header-title {
+  font-size: 54px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.marketing-cases-section .cases-block__header-subtitle[data-v-27a87df0],
+.marketing-cases-section .cases-block__header-subtitle {
+  font-size: 18px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  color: #c4c4c4;
+  text-align: center;
+}
+
+@media screen and (max-width: 780px) {
+  .marketing-cases-section .cases-block__header.home-ledge,
+  .marketing-cases-section .cases-block__header.home-ledge[data-v-27a87df0] {
+    max-width: 507px !important;
+  }
+
+  .marketing-cases-section .cases-block__header-title[data-v-27a87df0],
+  .marketing-cases-section .cases-block__header-title {
+    font-size: 50px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .marketing-cases-section .cases-block__header.home-ledge,
+  .marketing-cases-section .cases-block__header.home-ledge[data-v-27a87df0] {
+    max-width: 295px !important;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .marketing-cases-section .cases-block__header-title[data-v-27a87df0],
+  .marketing-cases-section .cases-block__header-title {
+    font-size: 28px;
+  }
 }
 
 .marketing-hero-section {
@@ -937,7 +984,7 @@ body:has(.page-constructor.marketing-page) .header .header__container {
   }
 
   .marketing-cases-section .mor-cases-slider-wrapper {
-    overflow: visible !important;
+    overflow: hidden;
   }
 
   .marketing-cases-section .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container[data-v-38965faa],

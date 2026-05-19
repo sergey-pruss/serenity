@@ -153,9 +153,38 @@ async function run() {
   assert(!html.includes('">Команда</h2>'), "без заголовка «Команда»");
   assert(html.includes('id="sa-inline-lead-root"'), "inline lead");
   assert(html.includes("more-case-wr more-case-wr__main"), "кейсы с главной");
-  assert(html.includes("more-case-wr__slider-heading"), "заголовок слайдера кейсов");
+  assert(html.includes("cases-block__header-title"), "заголовок кейсов как на главной");
+  assert(html.includes("cases-block__header-subtitle"), "подзаголовок кейсов");
+  assert(
+    /cases-block__header-title[^>]*>[\s\S]*?Кейсы/.test(html),
+    "текст «Кейсы» в .cases-block__header-title",
+  );
   assert(html.includes('data-v-27a87df0=""'), "кейсы: data-v для CSS бандла");
   assert(html.includes("marketing-cases-section"), "секция marketing-cases-section");
+  assert(
+    /<div class="page-constructor marketing-page">[\s\S]*marketing-cases-section[\s\S]*<\/div>\s*<!-- MARKETING-MAIN-END/.test(
+      html,
+    ),
+    "кейсы и награды внутри .page-constructor.marketing-page",
+  );
+  const casesChunk = html.match(/marketing-cases-section[\s\S]*?<\/section>/);
+  assert(casesChunk, "блок кейсов");
+  assert(
+    /class="page__container"[\s\S]*?mor-cases-slider-wrapper/.test(casesChunk[0]),
+    "слайдер кейсов внутри .page__container",
+  );
+  assert(
+    /<\/a>\s*<\/div>\s*<div[^>]*swiper-slide mor-cases-slide/.test(casesChunk[0]),
+    "после первого слайда mor-cases-slide есть закрывающий </div>",
+  );
+  assert(
+    /mor-cases-slider-wrapper[\s\S]*?<\/motion.div>\s*<div[^>]*class="more-cases"/.test(
+      casesChunk[0].replace(/motion\./g, ""),
+    ) || /mor-cases-slider-wrapper[\s\S]*?<\/div>\s*<div[^>]*class="more-cases"/.test(
+      casesChunk[0],
+    ),
+    "сетка .more-cases — сиблинг слайдера, не внутри .mor-cases-slider-wrapper",
+  );
   assert(!html.includes("home-cases-auto.js"), "без home-cases-auto (как targeting)");
   assert(html.includes("sa-home-awards-mounted"), "награды с главной");
   assert(html.includes('class="awards__card"'), "карточки наград в DOM");

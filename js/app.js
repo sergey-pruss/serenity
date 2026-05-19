@@ -1555,12 +1555,13 @@
   };
 
   const initMorCasesSlider = () => {
-    if (typeof window.Swiper === "undefined") return;
+    if (typeof window.Swiper === "undefined") return false;
     document.querySelectorAll(".mor-cases-slider").forEach((container) => {
       if (container.dataset.morCasesInit === "1") return;
       container.dataset.morCasesInit = "1";
       new window.Swiper(container, morCasesSwiperOpts());
     });
+    return true;
   };
 
   const tripleHomeAwardsStripSlides = (mountRoot) => {
@@ -1634,7 +1635,9 @@
   initSynergyContextSwiper();
   bootMarketingCmWideSlider();
   bootMarketingSitesSlider();
-  initMorCasesSlider();
+  if (!initMorCasesSlider()) {
+    window.addEventListener("load", () => initMorCasesSlider(), { once: true });
+  }
 
   /* Страницы не-главная (услуги и т.п.): блок наград уже в DOM, но mountHomeAwardsTemplate
      не запускается (нет sa-home-page). Инициализируем ленту и тройной loop вручную. */

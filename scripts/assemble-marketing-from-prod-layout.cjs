@@ -187,20 +187,11 @@ function prepareMarketingCasesBlock() {
   if (!cases) return "";
   cases = sanitizeMoreCasesCapture(cases);
   cases = rewriteMarketingCasesHrefs(cases);
-  cases = cases.replace(
-    /\s*<div class="cases-block__header home-ledge" data-v-27a87df0="">[\s\S]*?<\/div>\s*/i,
-    "\n",
-  );
+  /* Заголовок как на главной: .cases-block__header.home-ledge (не h3.more-case-wr__slider-heading). */
   cases = cases.replace(/\s*style="z-index:\s*10"/gi, "");
   cases = cases.replace(/^<div data-v-6f8a040c="">\s*/m, "");
-  cases = cases.replace(/\s*<\/motion.div>\s*$/m, "");
-  if (!cases.includes("more-case-wr__slider-heading")) {
-    cases = cases.replace(
-      /(<div data-v-27a87df0="" class="page__container">)/,
-      `$1
-                  <h3 data-v-56f85d51="" class="services__title kontekstnaya-page__section-heading more-case-wr__slider-heading">Кейсы</h3>`,
-    );
-  }
+  /* Без флага m: иначе снимается первый </div> в конце строки (часто — первый swiper-slide). */
+  cases = cases.replace(/\s*<\/div>\s*$/, "");
   if (!cases.startsWith("<section")) {
     cases = `<section class="page-constructor__section marketing-cases-section">\n${cases}\n</section>`;
   }
@@ -289,7 +280,7 @@ function buildCssBlock(v) {
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
     kontekstNuxt,
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260520marketingParity45" />',
+    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260520marketingParity46" />',
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
@@ -421,9 +412,9 @@ function run() {
     hero,
     kontekstSections,
     inlineLead || "",
-    `</div>`,
     casesBlock,
     awardsBlock,
+    `</div>`,
   ];
   let assembled = parts.filter(Boolean).join("\n");
   assembled = assembled.replace(/\s*swiper-container-initialized/g, "");
@@ -431,7 +422,7 @@ function run() {
   assembled = assembled.replace(/\s*swiper-container-free-mode/g, "");
   assembled = assembled.replace(/<span class="swiper-notification"[^>]*><\/span>/g, "");
 
-  const v = "20260520marketingParity45";
+  const v = "20260520marketingCasesHeader";
   let index = fs.readFileSync(indexPath, "utf8");
   const cssStart = index.indexOf(CSS_START);
   const cssEnd = index.indexOf(CSS_END);
