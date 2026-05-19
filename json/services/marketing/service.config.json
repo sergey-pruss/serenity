@@ -1,0 +1,35 @@
+{
+  "slug": "marketing",
+  "urlPath": "/services/marketing",
+  "hero": {
+    "variant": "blog-header"
+  },
+  "sections": {
+    "packages": false,
+    "facts": false,
+    "advantages": false
+  },
+  "content": {
+    "inlineLead": "inline-lead.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "MARKETING_LAYOUT_SOURCE",
+    "tmpFull": "marketing-prod-full.html",
+    "tmpParity": "marketing-parity-prod-layout.html",
+    "pageDir": "services/marketing",
+    "cssStack": "marketing-static-stack.css",
+    "partials": {
+      "faq": "faq-targeting.html",
+      "inlineLead": "service-inline-lead-marketing.html",
+      "moreCases": "more-cases-targeting.html",
+      "awards": "awards-targeting.html",
+      "synergy": "synergy-targeting.html"
+    },
+    "markers": {
+      "mainStart": "MARKETING-MAIN-START",
+      "mainEnd": "MARKETING-MAIN-END",
+      "cssBundleStart": "MARKETING-CSS-BUNDLE-START",
+      "cssBundleEnd": "MARKETING-CSS-BUNDLE-END"
+    }
+  }
+}

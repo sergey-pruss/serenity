@@ -419,7 +419,7 @@
    Лента на всю ширину вьюпорта: компенсируем padding .clients-wrapper (--page-gutter-x), max-width бандла снимаем,
    padding хоста — 0. Иначе на широком экране полоса 1366px по центру + зазоры; при overflow-y:hidden у предка
    нельзя оставить только overflow-x:visible — он схлопывается в auto и снова клипает. */
-.swiper-container-clients-new[data-clients-strip="1"] {
+.swiper-container-clients-new[data-clients-strip="1"]:not(.marketing-cm-strip__host) {
   overflow-x: visible !important;
   overflow-y: visible !important;
   overscroll-behavior-x: contain;
@@ -431,6 +431,18 @@
   box-sizing: border-box !important;
   margin-left: calc(-1 * var(--page-gutter-x)) !important;
   margin-right: calc(-1 * var(--page-gutter-x)) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* /services/marketing: full-bleed задаёт .marketing-cm-strip (100vw), не gutter-margin на host */
+.marketing-page .marketing-cm-strip__host[data-clients-strip="1"] {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }

@@ -1,0 +1,169 @@
+/**
+ * Диаграмма «комплексный маркетинг» — parity с prod .cm-page.darktheme .cm-about.
+ */
+.marketing-page.page-constructor > .page-constructor__section.marketing-synergy-section,
+.marketing-synergy-section {
+  background-color: #191a1b !important;
+  padding: 0;
+}
+
+.marketing-synergy-section__container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  box-sizing: border-box;
+}
+
+.marketing-synergy-diagram {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 90px;
+  padding-bottom: 90px;
+  color: #fff;
+}
+
+.marketing-synergy-diagram__figure {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.marketing-synergy-diagram__item {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 250px;
+  text-align: center;
+}
+
+.marketing-synergy-diagram__title {
+  margin: 0 0 10px;
+  width: 100%;
+  font-size: 2em;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-align: center;
+}
+
+.marketing-synergy-diagram__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.marketing-synergy-diagram__link:hover,
+.marketing-synergy-diagram__link:focus,
+.marketing-synergy-diagram__link:active,
+.marketing-synergy-diagram__link:focus-visible {
+  color: inherit;
+  text-decoration: none;
+}
+
+.marketing-synergy-diagram__text {
+  margin: 0;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  text-align: center;
+}
+
+.marketing-synergy-diagram__item--top {
+  left: 50%;
+  top: 110px;
+  transform: translateX(-50%);
+}
+
+.marketing-synergy-diagram__item--left {
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.marketing-synergy-diagram__item--right {
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+
+.marketing-synergy-diagram__item--bottom {
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 1024px) {
+  .marketing-synergy-diagram {
+    width: 100%;
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .marketing-synergy-diagram__figure {
+    max-width: 80%;
+  }
+
+  .marketing-synergy-diagram__item {
+    max-width: 200px;
+  }
+
+  .marketing-synergy-diagram__title {
+    font-size: 24px;
+  }
+
+  .marketing-synergy-diagram__text {
+    font-size: 14px;
+  }
+
+  .marketing-synergy-diagram__item--left {
+    transform: translateY(-50%);
+  }
+
+  .marketing-synergy-diagram__item--right {
+    transform: translateY(-50%);
+  }
+}
+
+@media screen and (max-width: 667px) {
+  .marketing-synergy-diagram {
+    width: 100%;
+    padding: 2.5rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .marketing-synergy-diagram__figure {
+    order: 0;
+    max-width: 88%;
+  }
+
+  .marketing-synergy-diagram__item {
+    position: static;
+    transform: none;
+    max-width: 22rem;
+    order: 1;
+  }
+
+  .marketing-synergy-diagram__item--top {
+    order: -1;
+  }
+}
+
+/* Телефон: схема после героя не читается — якоря остаются в секциях ниже */
+@media screen and (max-width: 719px) {
+  .marketing-page .marketing-synergy-section {
+    display: none !important;
+  }
+}

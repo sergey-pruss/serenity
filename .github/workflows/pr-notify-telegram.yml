@@ -1,0 +1,90 @@
+# Уведомление в Telegram при новом PR (opened / reopened / ready for review).
+# Секреты репозитория GitHub → Settings → Secrets → Actions:
+#   DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN
+#   DEPLOY_NOTIFY_TELEGRAM_CHAT_ID
+# (те же имена, что в secrets/deploy-notify.env для деплоя)
+name: PR → Telegram
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: >-
+      ${{ github.event.pull_request.user.login != 'dependabot[bot]' }}
+    steps:
+      - name: Проверка секретов
+        id: secrets
+        env:
+          BOT_TOKEN: ${{ secrets.DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.DEPLOY_NOTIFY_TELEGRAM_CHAT_ID }}
+        run: |
+          if [[ -z "$BOT_TOKEN" || -z "$CHAT_ID" ]]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::PR → Telegram: задайте DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN и DEPLOY_NOTIFY_TELEGRAM_CHAT_ID в Secrets репозитория."
+            exit 0
+          fi
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+
+      - name: Отправить в Telegram
+        if: steps.secrets.outputs.configured == 'true'
+        env:
+          BOT_TOKEN: ${{ secrets.DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.DEPLOY_NOTIFY_TELEGRAM_CHAT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_DRAFT: ${{ github.event.pull_request.draft }}
+        run: |
+          python3 <<'PY'
+          import html
+          import json
+          import os
+          import urllib.parse
+          import urllib.request
+
+          action = os.environ["PR_ACTION"]
+          action_ru = {
+              "opened": "открыт",
+              "reopened": "снова открыт",
+              "ready_for_review": "готов к ревью",
+          }.get(action, action)
+
+          draft = os.environ["PR_DRAFT"] == "true"
+          draft_line = "\n⚠️ Черновик (draft)" if draft else ""
+
+          text = (
+              f"🔀 <b>Новый PR в serenity</b> ({html.escape(action_ru)}){draft_line}\n\n"
+              f"<b>#{html.escape(os.environ['PR_NUMBER'])}</b> "
+              f"{html.escape(os.environ['PR_TITLE'])}\n"
+              f"Автор: <code>{html.escape(os.environ['PR_USER'])}</code>\n"
+              f"Ветка: <code>{html.escape(os.environ['PR_HEAD'])}</code> → "
+              f"<code>{html.escape(os.environ['PR_BASE'])}</code>\n\n"
+              f"{html.escape(os.environ['PR_URL'])}"
+          )
+
+          data = urllib.parse.urlencode(
+              {
+                  "chat_id": os.environ["CHAT_ID"],
+                  "parse_mode": "HTML",
+                  "disable_web_page_preview": "true",
+                  "text": text,
+              }
+          ).encode()
+
+          req = urllib.request.Request(
+              f"https://api.telegram.org/bot{os.environ['BOT_TOKEN']}/sendMessage",
+              data=data,
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=30) as resp:
+              body = json.loads(resp.read().decode())
+          if not body.get("ok"):
+              raise SystemExit(f"Telegram API error: {body}")
+          PY

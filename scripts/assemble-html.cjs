@@ -32,6 +32,7 @@ const EXTRA_PARTIALS = [
   "analytics-counters",
   "section-home-awards-slides",
   "section-home-awards-local-template",
+  "section-home-cases",
 ];
 
 /** 1-based inclusive line ranges → partial file (без .html) */

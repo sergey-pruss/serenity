@@ -6,12 +6,31 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadRankDashboard, DEFAULT_RANK_DASHBOARD_PATH } from "./seo/lib/rank-dashboard-utils.mjs";
+import {
+  googleSearchUrl,
+  isPollutedGoogleSearchUrl,
+} from "./seo/lib/serp-region-context.mjs";
+import { yandexOrganicUrlFromPathText } from "./seo/lib/yandex-organic-url.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
 
 const dash = loadRankDashboard(DEFAULT_RANK_DASHBOARD_PATH);
 console.log("OK: json/seo/rank-dashboard.json", `(${dash.pages.length} pages, ${dash.checks.length} checks)`);
+
+const googleUrl = googleSearchUrl("тест", "spb");
+if (/uule|countryRU|pws=0|num=30/.test(googleUrl) || isPollutedGoogleSearchUrl(googleUrl)) {
+  console.error("googleSearchUrl: ожидается только q, hl, gl — получено:", googleUrl);
+  process.exit(1);
+}
+console.log("OK: googleSearchUrl без uule/cr/pws");
+
+const yandexPathUrl = yandexOrganicUrlFromPathText("serenity.agency › korporativnyj_sajt");
+if (yandexPathUrl !== "https://serenity.agency/korporativnyj_sajt") {
+  console.error("yandexOrganicUrlFromPathText:", yandexPathUrl);
+  process.exit(1);
+}
+console.log("OK: yandexOrganicUrlFromPathText (serenity.agency › korporativnyj_sajt)");
 
 for (const page of dash.pages) {
   for (const q of page.queries) {

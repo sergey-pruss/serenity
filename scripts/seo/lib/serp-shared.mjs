@@ -3,6 +3,23 @@
 
 export const ORGANIC_TARGET = 20;
 
+export const YANDEX_SEARCH_ORIGIN = (
+  process.env.SERP_YANDEX_ORIGIN || "https://yandex.ru"
+).replace(/\/$/, "");
+
+/** Интерактивная съёмка: WebKit (Safari). Откат: SERP_BROWSER=chromium или SERP_YANDEX_BROWSER=chromium */
+export function serpUseWebKit() {
+  const browser = process.env.SERP_BROWSER || process.env.SERP_YANDEX_BROWSER;
+  if (browser === "chromium") return false;
+  if (browser === "webkit") return true;
+  return process.env.SERP_INTERACTIVE === "1";
+}
+
+/** @deprecated используйте serpUseWebKit */
+export function yandexUseWebKit() {
+  return serpUseWebKit();
+}
+
 /** @type {Record<RegionId, { label: string; yandexLr: number; googleCanon: string; lat: number; lon: number }>} */
 export const REGIONS = {
   moscow: {

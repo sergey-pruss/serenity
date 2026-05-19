@@ -5,13 +5,25 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadRankDashboard, DEFAULT_RANK_DASHBOARD_PATH } from "./lib/rank-dashboard-utils.mjs";
+import {
+  saveRankDashboard,
+  validateRankDashboard,
+  DEFAULT_RANK_DASHBOARD_PATH,
+  DASHBOARD_YANDEX_REGIONS,
+  DASHBOARD_GOOGLE_REGIONS,
+  migrateGoogleEntriesToRf,
+  sortRankDashboardByResults,
+} from "./lib/rank-dashboard-utils.mjs";
 import { REGIONS as SERP_REGIONS } from "./lib/serp-shared.mjs";
 
-/** Регионы для URL выдачи (lr / uule) — как в serp-region-context.mjs */
+/** Регионы для URL выдачи (lr Яндекс; Google — gl/hl) */
+const serpRegionIds = [...DASHBOARD_YANDEX_REGIONS, ...DASHBOARD_GOOGLE_REGIONS];
 const serpRegionsJson = JSON.stringify(
   Object.fromEntries(
-    Object.entries(SERP_REGIONS).map(([id, r]) => [id, { yandexLr: r.yandexLr, googleCanon: r.googleCanon }]),
+    serpRegionIds.map((id) => [
+      id,
+      { yandexLr: SERP_REGIONS[id].yandexLr, googleCanon: SERP_REGIONS[id].googleCanon },
+    ]),
   ),
 );
 
@@ -20,7 +32,27 @@ const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, "docs", "seo-rank-dashboard.html");
 
 const dashPath = process.env.RANK_DASHBOARD_PATH || DEFAULT_RANK_DASHBOARD_PATH;
-const dash = loadRankDashboard(dashPath);
+const dashAbs = path.resolve(dashPath);
+let dashRaw;
+try {
+  dashRaw = JSON.parse(fs.readFileSync(dashAbs, "utf8"));
+} catch (e) {
+  throw new Error(`JSON parse ${dashAbs}: ${/** @type {Error} */ (e).message}`);
+}
+const migrated = migrateGoogleEntriesToRf(dashRaw);
+const dashValidated = validateRankDashboard(dashRaw);
+if (!dashValidated.ok) {
+  throw new Error(`${dashAbs}:\n${dashValidated.errors.join("\n")}`);
+}
+const dash = dashValidated.data;
+if (migrated > 0) {
+  console.log(`Google → колонка РФ: объединено/удалено записей: ${migrated}`);
+}
+const sortChanged = sortRankDashboardByResults(dash);
+if (migrated > 0 || sortChanged) {
+  saveRankDashboard(dash, dashPath);
+  if (sortChanged) console.log("Порядок страниц/запросов: по лучшим позициям (контекстная и таргетинг — в конце)");
+}
 const builtAt = new Date().toISOString();
 const dataJson = JSON.stringify({ ...dash, builtAt }).replace(/</g, "\\u003c");
 
@@ -60,7 +92,11 @@ const html = `<!DOCTYPE html>
       color: var(--text);
       background: var(--bg);
     }
-    .wrap { max-width: 1480px; margin: 0 auto; padding: 24px 20px 48px; }
+    .wrap {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+    }
     h1 { font-size: 1.6rem; margin: 0 0 6px; letter-spacing: -0.02em; }
     .subtitle { color: var(--muted); font-size: 0.95rem; max-width: 720px; }
     .toolbar {
@@ -98,26 +134,57 @@ const html = `<!DOCTYPE html>
     }
     .summary .stat strong { display: block; font-size: 1.35rem; }
     .summary .stat span { font-size: 0.8rem; color: var(--muted); }
-    .legend {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-bottom: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 16px;
+    #rank-table-head-sentinel {
+      height: 1px;
+      margin: 0;
+      pointer-events: none;
     }
-    .legend i {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
+    .rank-table-sticky-clone {
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      overflow: hidden;
+      background: var(--code);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+      border-bottom: 1px solid var(--border);
+    }
+    .rank-table-sticky-clone[hidden] { display: none !important; }
+    .rank-table-sticky-clone table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.88rem;
+      table-layout: fixed;
+    }
+    .rank-table-sticky-clone th {
+      background: var(--code);
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
       vertical-align: middle;
-      margin-right: 4px;
     }
-    .table-scroll { overflow-x: auto; margin-bottom: 24px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: var(--card); }
+    .rank-table-sticky-clone th.engine-group { text-align: center; font-size: 0.8rem; color: var(--accent); }
+    .rank-table-sticky-clone th.region-col { text-align: center; font-size: 0.78rem; }
+    .table-scroll { margin-bottom: 24px; }
+    #main-table { width: 100%; min-width: 960px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.88rem; background: var(--card); }
     th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: middle; }
     th { background: var(--code); font-weight: 600; white-space: nowrap; }
+    #main-table thead th {
+      position: -webkit-sticky;
+      position: sticky;
+      top: var(--rank-thead-top, 0);
+      background: var(--code);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    #main-table thead tr:last-child th {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    #main-table thead.is-stuck tr:last-child th {
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    }
     th.engine-group { text-align: center; font-size: 0.8rem; color: var(--accent); }
     th.region-col { text-align: center; font-size: 0.78rem; min-width: 64px; }
     th.sticky-col, td.sticky-col {
@@ -128,8 +195,13 @@ const html = `<!DOCTYPE html>
       min-width: 200px;
       max-width: 280px;
     }
+    #main-table thead th.sticky-col {
+      background: var(--code);
+      z-index: 30;
+      box-shadow: 2px 1px 0 var(--border), 2px 4px 8px rgba(0, 0, 0, 0.06);
+    }
     tr.page-row td.sticky-col { background: #fafbfc; }
-    th.sticky-col { z-index: 2; }
+    #main-table tbody td.sticky-col { z-index: 2; }
     tr.page-row td { background: #fafbfc; font-weight: 600; }
     tr.page-row a { color: var(--accent); text-decoration: none; }
     tr.page-row a:hover { text-decoration: underline; }
@@ -164,6 +236,7 @@ const html = `<!DOCTYPE html>
     .p-4-10 { background: var(--pos-4-10-bg); color: var(--pos-4-10); }
     .p-11-20 { background: var(--pos-11-20-bg); color: var(--pos-11-20); }
     .p-out { background: var(--pos-out-bg); color: var(--pos-out); }
+    .cell-missing { background: #fafbfc; }
     .empty { color: var(--muted); font-style: italic; }
     th.panel-group { text-align: center; font-size: 0.8rem; color: var(--muted); border-left: 2px solid var(--border); }
     .cell-panel {
@@ -178,16 +251,6 @@ const html = `<!DOCTYPE html>
     .cell-panel.has-data { color: var(--accent); background: #eef3f8; }
     .cell-panel.panel-warn { color: #b54708; background: #fff4e5; }
     .cell-panel .sub { display: block; font-size: 0.62rem; font-weight: 500; color: var(--muted); }
-    .gaps-box {
-      font-size: 0.88rem;
-      color: var(--muted);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-    }
-    .gaps-box ul { margin: 8px 0 0; padding-left: 1.2em; }
     .hist-wrap { margin-top: 8px; }
     .hist-wrap h2 { font-size: 1.05rem; margin: 0 0 10px; }
     .badge {
@@ -246,24 +309,15 @@ const html = `<!DOCTYPE html>
     <div class="toolbar" role="group" aria-label="Режим">
       <button type="button" id="btn-view-latest" aria-pressed="true">Последний снимок</button>
       <button type="button" id="btn-view-history" aria-pressed="false">История (даты)</button>
-      <span style="font-size:0.85rem;color:var(--muted)">Москва, СПб и РФ — в колонках (Яндекс и Google)</span>
+      <span style="font-size:0.85rem;color:var(--muted)">Яндекс и Google: только Москва и СПб</span>
     </div>
-
-    <p class="legend">
-      <span><i style="background:var(--pos-1-3-bg)"></i>1–3</span>
-      <span><i style="background:var(--pos-4-10-bg)"></i>4–10</span>
-      <span><i style="background:var(--pos-11-20-bg)"></i>11–20</span>
-      <span><i style="background:var(--pos-out-bg)"></i>&gt;20 / нет данных</span>
-      <span>Дельта — к прошлому снимку (SERP)</span>
-      <span>Клик по позиции — выдача в этом регионе и ПС</span>
-      <span><i style="background:#eef3f8"></i>GSC / Я.ВМ — средняя позиция панелей, без регионов</span>
-    </p>
-    <p class="subtitle" id="meta-panels" style="margin-top:8px"></p>
-
-    <div class="gaps-box" id="gaps-box"></div>
 
     <div class="summary" id="summary"></div>
 
+    <div id="rank-table-head-sentinel" aria-hidden="true"></div>
+    <div id="rank-table-sticky-clone" class="rank-table-sticky-clone" hidden aria-hidden="true">
+      <table id="rank-table-sticky-clone-table" aria-hidden="true"></table>
+    </div>
     <div class="table-scroll">
       <table id="main-table">
         <thead id="table-head"></thead>
@@ -296,25 +350,19 @@ const html = `<!DOCTYPE html>
   const DATA = JSON.parse(document.getElementById("rank-dashboard-data").textContent);
   const REGION_LABELS = { moscow: "Москва", spb: "СПб", rf: "РФ" };
   const ENGINE_LABELS = { yandex: "Яндекс", google: "Google" };
-  const REGIONS = ["moscow", "spb", "rf"];
-  const ENGINES = ["yandex", "google"];
+  const YANDEX_REGIONS = ${JSON.stringify(DASHBOARD_YANDEX_REGIONS)};
+  const GOOGLE_REGIONS = ${JSON.stringify(DASHBOARD_GOOGLE_REGIONS)};
   const SLICES = [];
-  for (const engine of ENGINES) {
-    for (const region of REGIONS) {
-      SLICES.push({ engine, region, key: engine + "|" + region });
-    }
+  for (const region of YANDEX_REGIONS) {
+    SLICES.push({ engine: "yandex", region, key: "yandex|" + region });
+  }
+  for (const region of GOOGLE_REGIONS) {
+    SLICES.push({ engine: "google", region, key: "google|" + region });
   }
   const MAX_HISTORY = 12;
   const PANEL_COLS = 2;
   const SERP_COLS = SLICES.length;
   const SERP_REGIONS = ${serpRegionsJson};
-
-  function encodeGoogleUule(canonical) {
-    const bytes = new TextEncoder().encode(canonical);
-    let bin = "";
-    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    return "w+CAIQICI" + btoa(bin);
-  }
 
   function buildSerpUrl(engine, regionId, query) {
     const r = SERP_REGIONS[regionId];
@@ -329,12 +377,8 @@ const html = `<!DOCTYPE html>
     }
     const params = new URLSearchParams({
       q: query,
-      gl: "ru",
       hl: "ru",
-      cr: "countryRU",
-      pws: "0",
-      num: "30",
-      uule: encodeGoogleUule(r.googleCanon),
+      gl: "ru",
     });
     return "https://www.google.ru/search?" + params.toString();
   }
@@ -433,7 +477,36 @@ const html = `<!DOCTYPE html>
   const sortedChecks = [...(DATA.checks || [])].sort((a, b) => a.date.localeCompare(b.date));
   const dates = sortedChecks.map((c) => c.date);
   const latestDate = dates.length ? dates[dates.length - 1] : null;
-  const historyDates = dates.slice(-MAX_HISTORY);
+  /** В истории слева — самая новая дата */
+  const historyDates = dates.slice(-MAX_HISTORY).reverse();
+
+  /** Сводка снимков до даты включительно (Google Москва/СПб → РФ) */
+  function mergeChecksUpTo(upToDate) {
+    if (!upToDate) return null;
+    /** @type {Map<string, object>} */
+    const map = new Map();
+    for (const ch of sortedChecks) {
+      if (ch.date > upToDate) continue;
+      for (const e of ch.entries) {
+        if (e.engine === "yandex" && e.region === "rf") continue;
+        let region = e.region;
+        if (e.engine === "google" && region !== "rf") region = "rf";
+        const k = e.pageId + "|" + e.queryId + "|" + e.engine + "|" + region;
+        map.set(k, Object.assign({}, e, { region, snapshotDate: ch.date }));
+      }
+    }
+    return { date: upToDate, label: upToDate, entries: [...map.values()] };
+  }
+
+  function checkForDate(date) {
+    const ch = sortedChecks.find((c) => c.date === date);
+    if (!ch) return null;
+    return {
+      date: ch.date,
+      label: ch.label,
+      entries: ch.entries.filter((e) => !(e.engine === "yandex" && e.region === "rf")),
+    };
+  }
 
   function posClass(n, out) {
     if (out || n == null) return "p-out";
@@ -442,37 +515,67 @@ const html = `<!DOCTYPE html>
     return "p-11-20";
   }
 
+  /** Съёмка SERP выполнена (есть результат «в топ-20» или «>20») */
+  function entryHasSerpResult(entry) {
+    if (!entry) return false;
+    if (entry.source === "manual") return true;
+    const src = String(entry.source || "");
+    if (!src || /blocked|error:/i.test(src)) return false;
+    return true;
+  }
+
   function formatPos(entry) {
-    if (!entry) return { text: "—", cls: "p-out empty", title: "Нет снимка SERP для этой ячейки", delta: null };
+    if (!entryHasSerpResult(entry)) {
+      return { text: "", cls: "cell-missing", title: "Съёмка не выполнена", delta: null };
+    }
     if (entry.outOfTop20 || entry.position == null) {
       return {
         text: ">20",
         cls: "p-out",
-        title: "Serenity не в топ-20 органики (наша съёмка)",
+        title: "Serenity не в топ-20 органики (съёмка выполнена)",
         delta: null,
       };
     }
+    const snap = entry.snapshotDate ? " (снимок " + entry.snapshotDate + ")" : "";
     return {
       text: String(entry.position),
       cls: posClass(entry.position, false),
-      title: "Позиция в органике, съёмка " + (latestDate || ""),
+      title: "Позиция в органике" + snap,
       delta: null,
     };
   }
 
   function findEntry(check, pageId, queryId, engine, region) {
     if (!check) return null;
-    return check.entries.find(
+    const lookupRegion = engine === "google" ? "rf" : region;
+    let entry = check.entries.find(
       (e) =>
         e.pageId === pageId &&
         e.queryId === queryId &&
         e.engine === engine &&
-        e.region === region,
+        e.region === lookupRegion,
     );
+    if (!entry && engine === "google") {
+      entry = check.entries.find(
+        (e) =>
+          e.pageId === pageId &&
+          e.queryId === queryId &&
+          e.engine === "google" &&
+          (e.region === "moscow" || e.region === "spb"),
+      );
+    }
+    return entry;
   }
 
   function renderPosCell(entry, prevEntry, queryText, engine, region) {
     const f = formatPos(entry);
+    if (!entryHasSerpResult(entry)) {
+      return (
+        '<td class="cell-pos cell-missing" title="' +
+        escapeAttr(f.title) +
+        '"></td>'
+      );
+    }
     const d = delta(prevEntry, entry);
     let deltaHtml = "";
     if (d && prevEntry) {
@@ -504,28 +607,167 @@ const html = `<!DOCTYPE html>
     );
   }
 
+  function serpRegionHeaders(engine) {
+    const regs = engine === "yandex" ? YANDEX_REGIONS : GOOGLE_REGIONS;
+    return regs
+      .filter((r) => SERP_REGIONS[r])
+      .map(
+        (r) =>
+          '<th class="region-col" title="' +
+          escapeAttr(ENGINE_LABELS[engine] + ", " + REGION_LABELS[r]) +
+          '">' +
+          escapeHtml(REGION_LABELS[r]) +
+          "</th>",
+      )
+      .join("");
+  }
+
   function latestTableHead() {
-    const regionHeaders = REGIONS.map(
-      (r) => '<th class="region-col">' + escapeHtml(REGION_LABELS[r]) + "</th>",
-    ).join("");
     return (
-      "<tr><th class=\\"sticky-col\\" rowspan=\\"2\\">Страница / запрос</th>" +
+      '<tr class="head-row head-row-1"><th class="sticky-col" rowspan="3">Страница / запрос</th>' +
       '<th class="engine-group" colspan="' +
       SERP_COLS +
       '">SERP (наша съёмка)</th>' +
       '<th class="panel-group" colspan="' +
       PANEL_COLS +
-      '">Панели</th></tr><tr>' +
-      regionHeaders +
-      regionHeaders +
-      '<th class="region-col" title="Search Console, средняя позиция">GSC</th>' +
-      '<th class="region-col" title="Яндекс Вебмастер, AVG_SHOW_POSITION">Я.ВМ</th>' +
+      '">Панели</th></tr>' +
+      '<tr class="head-row head-row-2">' +
+      '<th class="engine-group" colspan="' +
+      YANDEX_REGIONS.length +
+      '">Яндекс</th>' +
+      '<th class="engine-group" colspan="' +
+      GOOGLE_REGIONS.length +
+      '">Google</th>' +
+      '<th class="region-col" rowspan="2" title="Google Search Console, средняя позиция">GSC</th>' +
+      '<th class="region-col" rowspan="2" title="Яндекс Вебмастер, AVG_SHOW_POSITION">Я.ВМ</th>' +
+      "</tr>" +
+      '<tr class="head-row head-row-3">' +
+      serpRegionHeaders("yandex") +
+      serpRegionHeaders("google") +
       "</tr>"
     );
   }
 
+  /** Три строки шапки — разный top, чтобы все ряды липли под верх экрана */
+  function syncRankTableStickyHead() {
+    const thead = document.querySelector("#main-table thead");
+    if (!thead) return;
+    const rows = [...thead.querySelectorAll("tr")];
+    let offset = 0;
+    rows.forEach((row, rowIdx) => {
+      const rowH = row.getBoundingClientRect().height;
+      for (const th of row.querySelectorAll(":scope > th")) {
+        th.style.top = offset + "px";
+        const z = th.classList.contains("sticky-col") ? 30 + rowIdx : 20 - rowIdx;
+        th.style.zIndex = String(z);
+      }
+      offset += rowH;
+    });
+  }
+
+  function refreshRankStickyClone() {
+    const main = document.getElementById("main-table");
+    const cloneTable = document.getElementById("rank-table-sticky-clone-table");
+    const bar = document.getElementById("rank-table-sticky-clone");
+    if (!main || !cloneTable || !bar) return;
+    const thead = main.querySelector("thead");
+    if (!thead) return;
+    cloneTable.innerHTML = "";
+    const cloneThead = document.createElement("thead");
+    cloneThead.innerHTML = thead.innerHTML;
+    cloneTable.appendChild(cloneThead);
+    const mainRows = [...thead.querySelectorAll("tr")];
+    const cloneRows = [...cloneThead.querySelectorAll("tr")];
+    mainRows.forEach((row, ri) => {
+      const cloneRow = cloneRows[ri];
+      if (!cloneRow) return;
+      const mainCells = [...row.querySelectorAll("th")];
+      const cloneCells = [...cloneRow.querySelectorAll("th")];
+      mainCells.forEach((th, ci) => {
+        const w = th.getBoundingClientRect().width;
+        if (cloneCells[ci]) {
+          cloneCells[ci].style.width = w + "px";
+          cloneCells[ci].style.minWidth = w + "px";
+          cloneCells[ci].style.maxWidth = w + "px";
+        }
+      });
+    });
+    cloneTable.style.width = main.offsetWidth + "px";
+    updateRankStickyCloneLayout();
+  }
+
+  function updateRankStickyCloneLayout() {
+    const main = document.getElementById("main-table");
+    const bar = document.getElementById("rank-table-sticky-clone");
+    if (!main || !bar || bar.hidden) return;
+    const rect = main.getBoundingClientRect();
+    bar.style.left = Math.max(0, rect.left) + "px";
+    bar.style.width = rect.width + "px";
+  }
+
+  function setRankStickyCloneVisible(show) {
+    const bar = document.getElementById("rank-table-sticky-clone");
+    if (!bar) return;
+    if (show) {
+      refreshRankStickyClone();
+      bar.hidden = false;
+      bar.setAttribute("aria-hidden", "false");
+    } else {
+      bar.hidden = true;
+      bar.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  function checkRankStickyClone() {
+    const main = document.getElementById("main-table");
+    const bar = document.getElementById("rank-table-sticky-clone");
+    if (!main || !bar) return;
+
+    const tableRect = main.getBoundingClientRect();
+    const thead = main.querySelector("thead");
+    const theadRect = thead?.getBoundingClientRect();
+    const barH = bar.offsetHeight || 0;
+
+    // Пока прокручиваем тело таблицы; выше — шапка оригинала видна, ниже — ушли к блокам GSC/популярным
+    const inTableViewport =
+      tableRect.top < 2 && tableRect.bottom > barH + 8;
+    const theadOffscreen = !theadRect || theadRect.bottom <= 2;
+
+    const show = inTableViewport && theadOffscreen;
+
+    if (show !== !bar.hidden) setRankStickyCloneVisible(show);
+    else if (show) updateRankStickyCloneLayout();
+  }
+
+  function initRankTableStickyHead() {
+    const main = document.getElementById("main-table");
+    const thead = main?.querySelector("thead");
+    if (!thead) return;
+    syncRankTableStickyHead();
+    refreshRankStickyClone();
+    checkRankStickyClone();
+    if (!window.__rankStickyCloneScroll) {
+      window.__rankStickyCloneScroll = true;
+      window.addEventListener("scroll", checkRankStickyClone, { passive: true });
+      window.addEventListener("resize", () => {
+        syncRankTableStickyHead();
+        refreshRankStickyClone();
+        checkRankStickyClone();
+      });
+    }
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(() => {
+        syncRankTableStickyHead();
+        refreshRankStickyClone();
+        checkRankStickyClone();
+      });
+      ro.observe(thead);
+      ro.observe(main);
+    }
+  }
+
   function delta(prev, curr) {
-    if (!prev || !curr) return null;
+    if (!entryHasSerpResult(prev) || !entryHasSerpResult(curr)) return null;
     const a = prev.outOfTop20 || prev.position == null ? 21 : prev.position;
     const b = curr.outOfTop20 || curr.position == null ? 21 : curr.position;
     const d = a - b;
@@ -548,7 +790,7 @@ const html = `<!DOCTYPE html>
       for (const q of page.queries) {
         for (const sl of SLICES) {
           const e = findEntry(check, page.id, q.id, sl.engine, sl.region);
-          if (!e) continue;
+          if (!entryHasSerpResult(e)) continue;
           total++;
           if (!e.outOfTop20 && e.position != null) {
             if (e.position <= 10) top10++;
@@ -568,10 +810,7 @@ const html = `<!DOCTYPE html>
       '%</strong><span>в топ-10</span></div>' +
       '<div class="stat"><strong>' +
       pct20 +
-      '%</strong><span>в топ-20</span></div>' +
-      '<div class="stat"><strong>' +
-      latestDate +
-      "</strong><span>последний снимок</span></div>";
+      '%</strong><span>в топ-20</span></div>';
   }
 
   function renderTable() {
@@ -582,9 +821,9 @@ const html = `<!DOCTYPE html>
     if (viewMode === "latest") {
       head.innerHTML = latestTableHead();
       let rows = "";
-      const check = latestDate ? sortedChecks.find((c) => c.date === latestDate) : null;
+      const check = mergeChecksUpTo(latestDate);
       const prevIdx = dates.indexOf(latestDate) - 1;
-      const prevCheck = prevIdx >= 0 ? sortedChecks[prevIdx] : null;
+      const prevCheck = prevIdx >= 0 ? mergeChecksUpTo(dates[prevIdx]) : null;
       for (const page of DATA.pages) {
         rows +=
           '<tr class="page-row"><td class="sticky-col" colspan="' +
@@ -612,14 +851,15 @@ const html = `<!DOCTYPE html>
         }
       }
       body.innerHTML = rows;
+      initRankTableStickyHead();
     } else {
       const cols = historyDates.length ? historyDates : ["—"];
       head.innerHTML =
-        "<tr><th class=\\"sticky-col\\">Страница / запрос</th>" +
+        '<tr class="head-row head-row-1"><th class="sticky-col">Страница / запрос</th>' +
         cols
           .map((d) => '<th colspan="' + (SERP_COLS + PANEL_COLS) + '">' + escapeHtml(d) + "</th>")
           .join("") +
-        "</tr><tr><th class=\\"sticky-col\\"></th>" +
+        '</tr><tr class="head-row head-row-2"><th class="sticky-col"></th>' +
         cols
           .map(() =>
             SLICES.map(
@@ -647,7 +887,7 @@ const html = `<!DOCTYPE html>
         for (const q of page.queries) {
           rows += '<tr><td class="sticky-col query-text">' + escapeHtml(q.text) + "</td>";
           for (const d of cols) {
-            const check = sortedChecks.find((c) => c.date === d);
+            const check = checkForDate(d);
             for (const sl of SLICES) {
               rows += renderPosCell(
                 findEntry(check, page.id, q.id, sl.engine, sl.region),
@@ -663,6 +903,7 @@ const html = `<!DOCTYPE html>
         }
       }
       body.innerHTML = rows;
+      initRankTableStickyHead();
     }
   }
 
@@ -890,6 +1131,10 @@ const html = `<!DOCTYPE html>
     refresh();
   });
 
+  window.addEventListener("resize", () => {
+    requestAnimationFrame(initRankTableStickyHead);
+  });
+
   const meta = document.getElementById("meta-last-check");
   if (latestDate) {
     const days = Math.floor(
@@ -898,12 +1143,7 @@ const html = `<!DOCTYPE html>
     let stale = "";
     if (days > 7) stale = ' <span class="stale">проверка старше 7 дней</span>';
     meta.innerHTML =
-      "Последний снимок: <strong>" +
-      latestDate +
-      "</strong> (" +
-      days +
-      " дн. назад)." +
-      stale;
+      "Последний снимок: <strong>" + latestDate + "</strong>." + stale;
   } else {
     meta.textContent = "Снимков пока нет — npm run seo:rank-dashboard:serp:interactive";
   }
@@ -911,85 +1151,8 @@ const html = `<!DOCTYPE html>
     ? new Date(DATA.builtAt).toLocaleString("ru-RU")
     : "—";
 
-  function renderGapsBox() {
-    const el = document.getElementById("gaps-box");
-    if (!latestDate) {
-      el.innerHTML = "<strong>Нет снимка SERP.</strong> Запустите <code>npm run seo:rank-dashboard:serp:interactive</code>";
-      return;
-    }
-    const check = sortedChecks.find((c) => c.date === latestDate);
-    let serpIn = 0;
-    let serpOut = 0;
-    for (const page of DATA.pages) {
-      for (const q of page.queries) {
-        for (const sl of SLICES) {
-          const e = findEntry(check, page.id, q.id, sl.engine, sl.region);
-          if (!e) continue;
-          if (!e.outOfTop20 && e.position != null) serpIn++;
-          else serpOut++;
-        }
-      }
-    }
-    let gscN = 0;
-    let ywmN = 0;
-    if (DATA.panels && DATA.panels.byQuery) {
-      for (const row of Object.values(DATA.panels.byQuery)) {
-        if (row.google) gscN++;
-        if (row.yandex) ywmN++;
-      }
-    }
-    const qCount = DATA.pages.reduce((n, p) => n + p.queries.length, 0);
-    el.innerHTML =
-      "<strong>Почему не везде цифры</strong><ul>" +
-      "<li><strong>SERP &gt;20</strong> (" +
-      serpOut +
-      " из " +
-      serpIn +
-      serpOut +
-      ") — в нашей съёмке выдачи Serenity нет в первых 20 органических ссылках (это не «пропуск», а результат проверки).</li>" +
-      "<li><strong>GSC</strong> — колонка заполняется только если есть показы в Search Console за период; сейчас с данными: " +
-      gscN +
-      " из " +
-      qCount +
-      " запросов." +
-      (DATA.panels && DATA.panels.sources && DATA.panels.sources.gscError
-        ? " Ошибка GSC — <code>npm run seo:rank-dashboard:panels</code> (OAuth: <code>gsc-oauth-desktop.json</code>, см. <code>npm run mcp:gsc-help</code>)."
-        : !gscN
-          ? " Запустите <code>npm run seo:rank-dashboard:panels</code>."
-          : "") +
-      "</li>" +
-      "<li><strong>Я.ВМ</strong> — только фразы с достаточными показами в отчёте «популярные запросы»; сейчас: " +
-      ywmN +
-      " из " +
-      qCount +
-      ". У услуг часто пусто — это нормально.</li>" +
-      "</ul>";
-  }
-
-  const metaPanels = document.getElementById("meta-panels");
-  if (DATA.panels && DATA.panels.period) {
-    const src = DATA.panels.sources || {};
-    let warn = "";
-    if (src.gscError) warn += " GSC: " + src.gscError + ".";
-    if (src.yandexError) warn += " Яндекс: " + src.yandexError + ".";
-    metaPanels.innerHTML =
-      "Панели (GSC / Вебмастер): <strong>" +
-      DATA.panels.period.startDate +
-      " … " +
-      DATA.panels.period.endDate +
-      "</strong>" +
-      (DATA.panels.fetchedAt
-        ? ", обновлено " + new Date(DATA.panels.fetchedAt).toLocaleString("ru-RU")
-        : "") +
-      (warn ? " <span class=\\"stale\\">" + escapeHtml(warn.trim()) + "</span>" : "") +
-      ' — <code>npm run seo:rank-dashboard:panels</code>';
-  } else {
-    metaPanels.textContent =
-      "Панели не загружены — npm run seo:rank-dashboard:panels (нужны secrets/mcp/env.sh)";
-  }
-
-  renderGapsBox();
   refresh();
+  initRankTableStickyHead();
 })();
   </script>
 </body>

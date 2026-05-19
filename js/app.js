@@ -1416,6 +1416,144 @@
     return opts;
   };
 
+  const marketingCmWideSwiperOpts = (container, { prevEl, nextEl, paginationEl, slideCount }) => ({
+    slidesPerView: 1,
+    spaceBetween: 0,
+    speed: 650,
+    loop: slideCount > 1,
+    loopAdditionalSlides: slideCount > 1 ? 2 : 0,
+    watchOverflow: true,
+    observer: true,
+    observeParents: true,
+    allowTouchMove: true,
+    simulateTouch: true,
+    grabCursor: true,
+    followFinger: true,
+    threshold: 6,
+    touchAngle: 65,
+    touchReleaseOnEdges: true,
+    passiveListeners: false,
+    shortSwipes: true,
+    longSwipes: true,
+    mousewheel: {
+      enabled: true,
+      forceToAxis: true,
+      sensitivity: 0.85,
+      thresholdDelta: 12,
+      releaseOnEdges: true,
+    },
+    autoplay:
+      slideCount > 1 ? { delay: 5500, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+    navigation: { prevEl, nextEl },
+    ...(paginationEl
+      ? {
+          pagination: {
+            el: paginationEl,
+            clickable: true,
+          },
+        }
+      : {}),
+    keyboard: { enabled: true, onlyInViewport: true },
+    a11y: {
+      prevSlideMessage: "Предыдущий слайд",
+      nextSlideMessage: "Следующий слайд",
+    },
+  });
+
+  const initMarketingCmWideSlider = () => {
+    if (typeof window.Swiper === "undefined") return false;
+    let inited = false;
+    document.querySelectorAll(".marketing-cm-wide-slider__host").forEach((container) => {
+      if (container.dataset.saMarketingWideInit === "1") return;
+      const prevEl = container.querySelector(".swiper-button-prev");
+      const nextEl = container.querySelector(".swiper-button-next");
+      const paginationEl = container.querySelector(".swiper-pagination");
+      if (!prevEl || !nextEl) return;
+      container.dataset.saMarketingWideInit = "1";
+      inited = true;
+      container.querySelectorAll(".swiper-slide").forEach((slide) => {
+        slide.style.width = "";
+        slide.style.removeProperty("width");
+      });
+      const wrap = container.querySelector(".swiper-wrapper");
+      if (wrap) {
+        wrap.style.transform = "";
+        wrap.style.removeProperty("transform");
+        wrap.style.height = "";
+        wrap.style.removeProperty("height");
+      }
+      container.querySelectorAll(".case-slider__img").forEach((img) => {
+        img.setAttribute("draggable", "false");
+      });
+      const slideCount = container.querySelectorAll(".swiper-slide").length;
+      const swiper = new window.Swiper(
+        container,
+        marketingCmWideSwiperOpts(container, { prevEl, nextEl, paginationEl, slideCount }),
+      );
+      container._saMarketingWideSwiper = swiper;
+      const bump = () => {
+        requestAnimationFrame(() => swiper.update());
+      };
+      bump();
+      container.querySelectorAll("img").forEach((img) => {
+        if (img.complete) return;
+        img.addEventListener("load", bump, { once: true });
+        img.addEventListener("error", bump, { once: true });
+      });
+    });
+    return inited;
+  };
+
+  const bootMarketingCmWideSlider = () => {
+    const ok = initMarketingCmWideSlider();
+    if (ok) return;
+    const pending = document.querySelector(
+      ".marketing-cm-wide-slider__host:not([data-sa-marketing-wide-init='1'])",
+    );
+    if (!pending) return;
+    window.addEventListener("load", () => initMarketingCmWideSlider(), { once: true });
+  };
+
+  const initMarketingSitesSlider = () => {
+    if (typeof window.Swiper === "undefined") return false;
+    let inited = false;
+    document.querySelectorAll(".marketing-sites-slider__host").forEach((container) => {
+      if (container.dataset.saMarketingSitesInit === "1") return;
+      const prevEl = container.querySelector(".swiper-button-prev");
+      const nextEl = container.querySelector(".swiper-button-next");
+      const paginationEl = container.querySelector(".swiper-pagination");
+      if (!prevEl || !nextEl) return;
+      container.dataset.saMarketingSitesInit = "1";
+      inited = true;
+      const slideCount = container.querySelectorAll(".swiper-slide").length;
+      const swiper = new window.Swiper(
+        container,
+        marketingCmWideSwiperOpts(container, { prevEl, nextEl, paginationEl, slideCount }),
+      );
+      container._saMarketingSitesSwiper = swiper;
+      const bump = () => {
+        requestAnimationFrame(() => swiper.update());
+      };
+      bump();
+      container.querySelectorAll("img").forEach((img) => {
+        if (img.complete) return;
+        img.addEventListener("load", bump, { once: true });
+        img.addEventListener("error", bump, { once: true });
+      });
+    });
+    return inited;
+  };
+
+  const bootMarketingSitesSlider = () => {
+    const ok = initMarketingSitesSlider();
+    if (ok) return;
+    const pending = document.querySelector(
+      ".marketing-sites-slider__host:not([data-sa-marketing-sites-init='1'])",
+    );
+    if (!pending) return;
+    window.addEventListener("load", () => initMarketingSitesSlider(), { once: true });
+  };
+
   const initMorCasesSlider = () => {
     if (typeof window.Swiper === "undefined") return;
     document.querySelectorAll(".mor-cases-slider").forEach((container) => {
@@ -1494,6 +1632,8 @@
   initClientsStrip();
   initCasesBlockSwipers();
   initSynergyContextSwiper();
+  bootMarketingCmWideSlider();
+  bootMarketingSitesSlider();
   initMorCasesSlider();
 
   /* Страницы не-главная (услуги и т.п.): блок наград уже в DOM, но mountHomeAwardsTemplate

@@ -7,7 +7,7 @@ const path = require("path");
 const root = path.resolve(__dirname, "..", "..");
 const servicesRoot = path.join(root, "json", "services");
 
-const KNOWN_SLUGS = ["kontekstnaya_reklama", "targeting"];
+const KNOWN_SLUGS = ["kontekstnaya_reklama", "targeting", "marketing"];
 
 function listServiceSlugs() {
   if (!fs.existsSync(servicesRoot)) return [];

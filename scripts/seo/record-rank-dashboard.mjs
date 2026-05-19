@@ -4,9 +4,10 @@
  */
 import {
   DASHBOARD_ENGINES,
-  DASHBOARD_REGIONS,
   DEFAULT_RANK_DASHBOARD_PATH,
+  dashboardRegionsForEngine,
   getPage,
+  isDashboardRegionForEngine,
   loadRankDashboard,
   saveRankDashboard,
   upsertCheckEntry,
@@ -19,7 +20,7 @@ function usage() {
     --page PAGE_ID \\
     --query QUERY_ID \\
     --engine yandex|google \\
-    --region moscow|spb|rf \\
+    --region moscow|spb|rf (google — только rf) \\
     --position N|--out-of-top20
 
 Пример:
@@ -79,8 +80,10 @@ function main() {
   if (!DASHBOARD_ENGINES.includes(/** @type {'yandex'|'google'} */ (o.engine))) {
     die("--engine: yandex|google");
   }
-  if (!DASHBOARD_REGIONS.includes(/** @type {'moscow'|'spb'|'rf'} */ (o.region))) {
-    die("--region: moscow|spb|rf");
+  const engine = /** @type {'yandex'|'google'} */ (o.engine);
+  const region = /** @type {'moscow'|'spb'|'rf'} */ (o.region);
+  if (!isDashboardRegionForEngine(engine, region)) {
+    die(`--region: для ${engine} — ${dashboardRegionsForEngine(engine).join("|")}`);
   }
 
   const dash = loadRankDashboard(o.path);
@@ -107,8 +110,8 @@ function main() {
   upsertCheckEntry(dash, o.date, {
     pageId: o.page,
     queryId: o.query,
-    engine: /** @type {'yandex'|'google'} */ (o.engine),
-    region: /** @type {'moscow'|'spb'|'rf'} */ (o.region),
+    engine,
+    region,
     position,
     outOfTop20,
     matchedUrl: o.matchedUrl || null,

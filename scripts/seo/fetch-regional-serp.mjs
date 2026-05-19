@@ -456,7 +456,7 @@ async function main() {
           };
           if (block.warning) warnings.push(`${key}: ${block.warning}`);
           if (engine === "google" && INTERACTIVE && context) {
-            await saveGoogleState(context);
+            await saveGoogleState(context, rid);
           }
         } catch (e) {
           const msg = e instanceof Error ? e.message : String(e);

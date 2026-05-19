@@ -3,7 +3,7 @@
   "currentPage": 4,
   "totalPages": 5,
   "perPage": 24,
-  "totalItems": 105,
+  "totalItems": 106,
   "filters": [
     {
       "code": "",
@@ -248,6 +248,27 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/zhifei-zhou-689004-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+      "description": "Как мы превратили работу в игру",
+      "subtitle": "Руководитель агентства Serenity Сергей Прусс поделился экспериментом над корпоративной культурой, который мы проводим в своей компании.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2018-12-03T07:00:00.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/0UPPnQUrMuOKwkNt0H6SBuIwtvTbKhmHo8WBjwJp.webp"
       }
     },
     {
@@ -526,28 +547,6 @@
         "kind": "picture",
         "image": "/_sa/img/blog/geotargeting-dlya-malogo-i-srednego-biznesa/martin-adams-736967-unsplash.jpg"
       }
-    },
-    {
-      "href": "/blog/article/digital-voronka-dlya-uvelicheniya-prodazh/",
-      "description": "Digital-воронка для увеличения продаж",
-      "subtitle": "Из всех компаний, которые обратились в Serenity, о пользе воронки продаж слышали 9 из 10. При этом, только 5% измеряет воронку от рекламной кампании до продажи. Замерять воронку до продажи нужно, чтобы выявить слабые места и превратить их в преимущества. В этой статье мы рассказали как это сделать.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": false,
-      "publishDate": "2017-07-13T12:00:00.000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/digital-voronka-dlya-uvelicheniya-prodazh/guillaume-bolduc-259596-unsplash.jpg"
-      },
-      "cardModifier": "case--card-wood-header"
     }
   ]
 }

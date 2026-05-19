@@ -1,0 +1,75 @@
+/**
+ * /services/marketing: hero jumbotron — те же отступы, что .c-title-block__header на /targeting.
+ */
+.marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block > div {
+  padding-top: 0 !important;
+}
+
+.marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  box-sizing: border-box;
+  gap: var(--service-hero-title-gap, 40px) !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  margin-top: 52px;
+  padding-top: 183px;
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
+/* Только gap между h1 и h4 — как .c-title-block__header на /targeting (без margin-top 40px из kontekst stack). */
+.marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron-img-aurora__title,
+.marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron-img-aurora__title-small,
+.marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron-img-aurora__subtitle {
+  margin: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+    padding-top: 90px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+    padding-top: 70px;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+    align-items: center !important;
+    gap: var(--service-hero-title-gap, 40px) !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+    padding-top: var(--service-hero-tablet-header-padding-top, calc(50vh - 154px)) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-tablet-title-gap, 40px) !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding-top: var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-title-gap, 40px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .marketing-page.page-constructor > .page-constructor__section.marketing-hero-section .c-title-block .jumbotron {
+    padding-top: var(--service-hero-mobile-top, 222px) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-mobile-title-gap, 40px) !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+}

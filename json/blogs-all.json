@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-05-18T13:15:45.461Z",
+  "builtAt": "2026-05-19T08:55:14.981Z",
   "source": "https://serenity.agency/api/blog",
   "sourceManual": "json/blog-posts-manual.json",
   "sourceRecovered": "json/blog-posts-recovered.json",
@@ -46,7 +46,7 @@
       "publishDate": "2026-03-31T10:17:01.000000Z",
       "media": {
         "kind": "picture",
-        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.webp"
+        "image": "/_sa/img/blog/kontekstnaya-i-georeklama-premium-segment/card.webp"
       }
     },
     {
@@ -539,7 +539,7 @@
       "publishDate": "2025-01-31T08:00:00.000000Z",
       "media": {
         "kind": "picture",
-        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.webp"
+        "image": "/_sa/img/blog/kontekstnaya-i-georeklama-premium-segment/card.webp"
       }
     },
     {
@@ -1780,6 +1780,27 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/zhifei-zhou-689004-unsplash.jpg"
+      }
+    },
+    {
+      "href": "/blog/life/kak-my-prevratili-rabotu-v-igru/",
+      "description": "Как мы превратили работу в игру",
+      "subtitle": "Руководитель агентства Serenity Сергей Прусс поделился экспериментом над корпоративной культурой, который мы проводим в своей компании.",
+      "tags": [
+        "Наша жизнь"
+      ],
+      "tagCodes": [
+        "life"
+      ],
+      "tagCodesNorm": [
+        "life"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2018-12-03T07:00:00.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "https://serenity.agency/storage/0UPPnQUrMuOKwkNt0H6SBuIwtvTbKhmHo8WBjwJp.webp"
       }
     },
     {

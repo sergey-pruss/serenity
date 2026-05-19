@@ -10,7 +10,46 @@ export const DEFAULT_RANK_DASHBOARD_PATH = path.join(ROOT, "json", "seo", "rank-
 /** @typedef {'moscow' | 'spb' | 'rf'} DashboardRegionId */
 
 export const DASHBOARD_ENGINES = /** @type {const} */ (["yandex", "google"]);
-export const DASHBOARD_REGIONS = /** @type {const} */ (["moscow", "spb", "rf"]);
+/** Яндекс: Москва и СПб; Google: только РФ (город в URL Google ненадёжен). */
+export const DASHBOARD_YANDEX_REGIONS = /** @type {const} */ (["moscow", "spb"]);
+export const DASHBOARD_GOOGLE_REGIONS = /** @type {const} */ (["rf"]);
+export const DASHBOARD_SERP_REGIONS = /** @type {const} */ ([
+  ...DASHBOARD_YANDEX_REGIONS,
+  ...DASHBOARD_GOOGLE_REGIONS,
+]);
+/** Страницы в конце таблицы (хуже средний SERP / ниже приоритет). */
+export const RANK_DASHBOARD_TAIL_PAGE_IDS = /** @type {const} */ (["kontekstnaya", "targeting"]);
+/** @deprecated используйте DASHBOARD_YANDEX_REGIONS / dashboardRegionsForEngine */
+export const DASHBOARD_REGIONS = DASHBOARD_YANDEX_REGIONS;
+
+/** @param {SearchEngine} engine */
+export function dashboardRegionsForEngine(engine) {
+  return engine === "google" ? DASHBOARD_GOOGLE_REGIONS : DASHBOARD_YANDEX_REGIONS;
+}
+
+/** @param {SearchEngine} engine @param {DashboardRegionId} region */
+export function isDashboardRegionForEngine(engine, region) {
+  return dashboardRegionsForEngine(engine).includes(region);
+}
+
+/** @type {Record<DashboardRegionId, number>} */
+const DASHBOARD_REGION_SORT = { moscow: 0, spb: 1, rf: 2 };
+
+/**
+ * Съёмка: Москва → СПб; внутри региона — Яндекс, потом Google.
+ * @param {{ page: { id: string }; q: { id: string }; engine: SearchEngine; region: DashboardRegionId }[]} items
+ */
+export function sortPendingSerpCells(items) {
+  return [...items].sort((a, b) => {
+    const ra = DASHBOARD_REGION_SORT[a.region] ?? 9;
+    const rb = DASHBOARD_REGION_SORT[b.region] ?? 9;
+    if (ra !== rb) return ra - rb;
+    if (a.engine !== b.engine) return a.engine === "yandex" ? -1 : 1;
+    const pc = a.page.id.localeCompare(b.page.id);
+    if (pc !== 0) return pc;
+    return a.q.id.localeCompare(b.q.id);
+  });
+}
 
 /**
  * @param {string} pageId
@@ -104,8 +143,12 @@ export function validateRankDashboard(data) {
           if (en.engine !== "yandex" && en.engine !== "google") {
             errors.push(`checks[${i}].entries[${j}].engine: yandex|google`);
           }
-          if (!DASHBOARD_REGIONS.includes(/** @type {DashboardRegionId} */ (en.region))) {
-            errors.push(`checks[${i}].entries[${j}].region: moscow|spb|rf`);
+          const region = /** @type {DashboardRegionId} */ (en.region);
+          const engine = /** @type {SearchEngine} */ (en.engine);
+          if (!isDashboardRegionForEngine(engine, region)) {
+            errors.push(
+              `checks[${i}].entries[${j}].region: для ${engine} — ${dashboardRegionsForEngine(engine).join("|")}`,
+            );
           }
           if (en.outOfTop20 === true) {
             if (en.position != null) {
@@ -149,8 +192,13 @@ export function loadRankDashboard(filePath = DEFAULT_RANK_DASHBOARD_PATH) {
   } catch (e) {
     throw new Error(`JSON parse ${abs}: ${/** @type {Error} */ (e).message}`);
   }
+  const migrated = migrateGoogleEntriesToRf(data);
   const v = validateRankDashboard(data);
   if (!v.ok) throw new Error(`${abs}:\n${v.errors.join("\n")}`);
+  if (migrated > 0) {
+    saveRankDashboard(v.data, abs);
+    console.log(`rank-dashboard: Google Москва/СПб → РФ (${migrated} записей)`);
+  }
   return v.data;
 }
 
@@ -165,6 +213,49 @@ export function saveRankDashboard(dash, filePath = DEFAULT_RANK_DASHBOARD_PATH) 
 }
 
 /**
+ * Google: Москва/СПб → одна колонка РФ; убрать yandex+rf.
+ * @param {RankDashboard} dash
+ * @returns {number} число удалённых/слитых записей
+ */
+export function migrateGoogleEntriesToRf(dash) {
+  let n = 0;
+  for (const check of dash.checks) {
+    /** @type {RankEntry[]} */
+    const kept = [];
+    /** @type {Map<string, RankEntry>} */
+    const googleRf = new Map();
+    for (const e of check.entries) {
+      if (e.engine === "yandex" && e.region === "rf") {
+        n++;
+        continue;
+      }
+      if (e.engine !== "google") {
+        kept.push(e);
+        continue;
+      }
+      const rfKey = entryKey(e.pageId, e.queryId, "google", "rf");
+      if (e.region === "rf") {
+        googleRf.set(rfKey, e);
+        continue;
+      }
+      if (e.region === "moscow" || e.region === "spb") {
+        const prev = googleRf.get(rfKey);
+        if (!prev) googleRf.set(rfKey, { ...e, region: "rf" });
+        else if (e.position != null && prev.position == null) {
+          googleRf.set(rfKey, { ...e, region: "rf" });
+        }
+        n++;
+        continue;
+      }
+      kept.push(e);
+    }
+    for (const e of googleRf.values()) kept.push(e);
+    if (kept.length !== check.entries.length) check.entries = kept;
+  }
+  return n;
+}
+
+/**
  * @param {RankDashboard} dash
  * @param {string} pageId
  */
@@ -175,42 +266,218 @@ export function getPage(dash, pageId) {
 }
 
 /**
+ * Ключ сортировки: 1 = лучше, 100 = >20, 1000 = нет съёмки.
+ * @param {RankEntry | null | undefined} entry
+ */
+export function serpPositionSortKey(entry) {
+  if (!entry || !entryHasSerpCapture(entry)) return 1000;
+  if (entry.outOfTop20 || entry.position == null) return 100;
+  return entry.position;
+}
+
+/**
+ * @param {RankEntry[]} entries
+ * @param {string} pageId
+ * @param {string} queryId
+ * @param {SearchEngine} engine
+ * @param {DashboardRegionId} region
+ */
+function findEntryInList(entries, pageId, queryId, engine, region) {
+  let e = entries.find(
+    (x) =>
+      x.pageId === pageId &&
+      x.queryId === queryId &&
+      x.engine === engine &&
+      x.region === region,
+  );
+  if (!e && engine === "google") {
+    e = entries.find(
+      (x) =>
+        x.pageId === pageId &&
+        x.queryId === queryId &&
+        x.engine === "google" &&
+        (x.region === "moscow" || x.region === "spb"),
+    );
+  }
+  return e;
+}
+
+/**
+ * Страницы и запросы: лучшие позиции выше; kontekstnaya и targeting — в конце.
+ * @param {RankDashboard} dash
+ * @param {string} [checkDate]
+ * @returns {boolean} изменился порядок pages/queries
+ */
+export function sortRankDashboardByResults(dash, checkDate) {
+  const dates = [...dash.checks].map((c) => c.date).sort();
+  const date = checkDate || dates[dates.length - 1];
+  const check = dash.checks.find((c) => c.date === date);
+  const entries = check?.entries || [];
+
+  /** @type {{ engine: SearchEngine; region: DashboardRegionId }[]} */
+  const slices = [];
+  for (const engine of DASHBOARD_ENGINES) {
+    for (const region of dashboardRegionsForEngine(engine)) {
+      slices.push({ engine, region });
+    }
+  }
+
+  const queryScore = (pageId, queryId) => {
+    let best = 1000;
+    for (const sl of slices) {
+      const e = findEntryInList(entries, pageId, queryId, sl.engine, sl.region);
+      best = Math.min(best, serpPositionSortKey(e));
+    }
+    return best;
+  };
+
+  const pageScore = (page) => {
+    let best = 1000;
+    for (const q of page.queries) {
+      best = Math.min(best, queryScore(page.id, q.id));
+    }
+    return best;
+  };
+
+  const orderKey = () =>
+    dash.pages
+      .map((p) => `${p.id}:${p.queries.map((q) => q.id).join(",")}`)
+      .join("|");
+
+  const before = orderKey();
+
+  for (const page of dash.pages) {
+    page.queries.sort((a, b) => {
+      const d = queryScore(page.id, a.id) - queryScore(page.id, b.id);
+      if (d !== 0) return d;
+      return a.text.localeCompare(b.text, "ru");
+    });
+  }
+
+  dash.pages.sort((a, b) => {
+    const aTail = RANK_DASHBOARD_TAIL_PAGE_IDS.includes(
+      /** @type {(typeof RANK_DASHBOARD_TAIL_PAGE_IDS)[number]} */ (a.id),
+    );
+    const bTail = RANK_DASHBOARD_TAIL_PAGE_IDS.includes(
+      /** @type {(typeof RANK_DASHBOARD_TAIL_PAGE_IDS)[number]} */ (b.id),
+    );
+    if (aTail !== bTail) return aTail ? 1 : -1;
+    if (aTail && bTail) {
+      return (
+        RANK_DASHBOARD_TAIL_PAGE_IDS.indexOf(
+          /** @type {(typeof RANK_DASHBOARD_TAIL_PAGE_IDS)[number]} */ (a.id),
+        ) -
+        RANK_DASHBOARD_TAIL_PAGE_IDS.indexOf(
+          /** @type {(typeof RANK_DASHBOARD_TAIL_PAGE_IDS)[number]} */ (b.id),
+        )
+      );
+    }
+    const d = pageScore(a) - pageScore(b);
+    if (d !== 0) return d;
+    return a.title.localeCompare(b.title, "ru");
+  });
+
+  return orderKey() !== before;
+}
+
+/**
+ * Успешная SERP-съёмка ячейки (есть позиция 1–20 или подтверждённый «>20»).
+ * @param {RankEntry | null | undefined} entry
+ */
+export function entryHasSerpCapture(entry) {
+  if (!entry) return false;
+  if (entry.source === "manual") return true;
+  const src = String(entry.source || "");
+  if (!src || /blocked|error:/i.test(src)) return false;
+  return (
+    src === "serp-interactive" ||
+    src === "serp-interactive-verified" ||
+    src === "serp-interactive-google-p1" ||
+    /^serp-interactive\b/.test(src)
+  );
+}
+
+/**
+ * Ячейки, которые стоит переснять: Google (регион/URL менялись), Яндекс 11–20 (риск парсера).
+ * @param {RankEntry} entry
+ */
+/**
+ * Яндекс: в отчёте >20, но в Вебмастере средняя позиция ≤20 — переснять.
+ * @param {RankDashboard} dash
+ * @param {RankEntry} entry
+ */
+export function entryYandexRecheckSuggested(dash, entry) {
+  if (!entry || entry.engine !== "yandex") return false;
+  if (!entryHasSerpCapture(entry)) return true;
+  if (/error:/i.test(entry.source || "") || entry.source === "serp-interactive-blocked") {
+    return true;
+  }
+  if (!entry.outOfTop20 && entry.position != null) {
+    return false;
+  }
+  if (entry.outOfTop20) {
+    const row = dash.panels?.byQuery?.[`${entry.pageId}|${entry.queryId}`];
+    const avg = row?.yandex?.avgShowPosition;
+    if (avg != null && avg <= 20) return true;
+    if (entry.source === "serp-interactive-verified") return true;
+  }
+  return false;
+}
+
+export function entryIsDoubtfulForRefetch(entry) {
+  if (!entry || entry.source === "manual") return false;
+  if (entry.source === "serp-interactive-verified") return false;
+  if (entry.source === "serp-interactive-google-p1") return false;
+  if (!entryHasSerpCapture(entry)) return false;
+  if (entry.engine === "google") return true;
+  if (entry.engine === "yandex") {
+    if (process.env.SERP_REFETCH_DOUBTFUL_YANDEX_OUT === "1" && entry.outOfTop20) {
+      return true;
+    }
+    return (
+      !entry.outOfTop20 &&
+      typeof entry.position === "number" &&
+      entry.position >= 11
+    );
+  }
+  return false;
+}
+
+/**
  * @param {{ url: string; position: number }[]} results
  * @param {string} primaryDomain
  * @param {string} [preferredPath]
  */
 export function findSerenityPosition(results, primaryDomain, preferredPath) {
   const domain = primaryDomain.replace(/^www\./i, "").toLowerCase();
-  const normPath = preferredPath
-    ? preferredPath.replace(/\/$/, "") || "/"
-    : null;
+  const want = preferredPath ? preferredPath.replace(/\/$/, "") || "/" : null;
+
+  /** @type {{ position: number; url: string } | null} */
+  let bestAny = null;
+  /** @type {{ position: number; url: string } | null} */
+  let bestPath = null;
 
   for (const r of results) {
     try {
       const u = new URL(r.url);
       const host = u.hostname.replace(/^www\./i, "").toLowerCase();
       if (host !== domain && !host.endsWith(`.${domain}`)) continue;
-      if (normPath != null) {
+      const hit = { position: r.position, url: r.url };
+      if (!bestAny || hit.position < bestAny.position) bestAny = hit;
+      if (want != null) {
         const p = u.pathname.replace(/\/$/, "") || "/";
-        const want = normPath.replace(/\/$/, "") || "/";
-        if (p !== want && !u.pathname.startsWith(want + "/")) continue;
-      }
-      return { position: r.position, matchedUrl: r.url };
-    } catch {
-      continue;
-    }
-  }
-  for (const r of results) {
-    try {
-      const host = new URL(r.url).hostname.replace(/^www\./i, "").toLowerCase();
-      if (host === domain || host.endsWith(`.${domain}`)) {
-        return { position: r.position, matchedUrl: r.url };
+        if (p === want || u.pathname.startsWith(`${want}/`)) {
+          if (!bestPath || hit.position < bestPath.position) bestPath = hit;
+        }
       }
     } catch {
       continue;
     }
   }
-  return { position: null, matchedUrl: null };
+
+  const pick = bestPath || bestAny;
+  if (!pick) return { position: null, matchedUrl: null };
+  return { position: pick.position, matchedUrl: pick.url };
 }
 
 /**

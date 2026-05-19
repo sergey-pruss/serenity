@@ -149,6 +149,7 @@
 - **Локальные блоки поверх среза (как на главной):** FAQ «Вопрос-ответ» — `html/partials/services/faq-kontekstnaya-reklama.html` + `css/sections/kontekstnaya-faq.css` + `js/kontekstnaya-spoilers.js`; также partials наград / кейсов / синергии — всё подставляет `assemble-kontekstnaya-from-prod-layout.cjs` (тексты FAQ и JSON-LD править в partial, не в `tmp/`).
 - **Переменные захвата:** `KONTEKST_CAPTURE_URL` — полный URL страницы для Playwright (`scripts/capture-prod-kontekst-full-html.cjs`); `KONTEKST_NUXT_ORIGIN` — origin для скачивания `/_nuxt/css/*.css`. В `npm run refresh:kontekstnaya-from-local-nuxt`, если `KONTEKST_NUXT_ORIGIN` не задан, он **берётся из origin `KONTEKST_CAPTURE_URL`** (удобно при смене порта). Цепочка prod: `npm run refresh:kontekstnaya-from-prod`.
 - **Проверка UI:** не полагаться только на встроенный браузер IDE; `curl -I` на dev-URL и внешний браузер (Console/Network). Проблемы Nuxt/API — вне зоны правок `serenity`.
+- **`kontekstnaya-reklama-parity.css`:** при подключении через `*-static-stack.css` обязательны override для desc/tablet/slider (см. [.cursor/rules/content-block-parity-desc-grid.mdc](.cursor/rules/content-block-parity-desc-grid.mdc)) — иначе на `/targeting` и `/services/marketing` этапы без подзаголовка остаются пустыми на десктопе.
 
 ### Тайтлы HTML (статический контур)
 
@@ -179,6 +180,7 @@
 ## Тесты и сдача задачи
 
 - На задачу — **реальные тесты**; результат принимается только после их успешного прохода; **временные** проверки после фиксации в коммите **удалять**.
+- **Вёрстка / parity страниц:** перед ответом «готово» — визуально проверить и сравнить с эталоном (скриншот, Playwright); не отдавать результат только по зелёным `verify-*.cjs`. См. [`.cursor/rules/visual-verify-before-handoff.mdc`](.cursor/rules/visual-verify-before-handoff.mdc).
 - **Продуктовые инварианты** (дефолт города в переключателе телефонов — **Москва**, и т.п.) не менять ради «согласования» с HTML или тестами: при расхождении — **уточнить ТЗ**, поправить тесты/разметку и зафиксировать требование в коде (комментарий рядом с логикой) или здесь одной строкой.
 - **Кураторные списки и манифесты** (массивы в JSON, таблицы редиректов, edge-интерцепты и т.п.): перед коммитом убедиться, что **нет дубликатов одного и того же ключа** (например, двух объектов с одинаковым `path`). Пара записей `/foo` и `/foo/` — это **два разных** правила для точного `location =` в nginx, а не «дублирование»; дважды один и тот же `path` — ошибка. Для `json/nginx-edge-intercepts.json` дубликаты `path` ловит `**npm run test:routing-config**` (скрипт `verify-nginx-edge-intercepts.cjs`).
 
