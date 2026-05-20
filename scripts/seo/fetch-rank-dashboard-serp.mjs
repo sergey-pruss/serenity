@@ -51,6 +51,7 @@ function usage() {
   SERP_BROWSER=webkit          Safari/WebKit для Яндекс и Google (по умолчанию в interactive)
   SERP_BROWSER=chromium        откат на Chromium
   SERP_SKIP_KEYS=a|b|c         пропуск pageId|queryId|engine|region через запятую
+  SERP_ONLY_KEYS=a|b|c         снять только эти ячейки (с SERP_RESUME=1)
   SERP_RESUME=1                не перезаписывать ячейки, уже есть в снимке за дату
   SERP_ONLY_MISSING=1          только без успешной съёмки (пусто / blocked / error)
                                (= SERP_RESUME; npm run seo:rank-dashboard:serp:missing)
@@ -131,6 +132,12 @@ async function main() {
   const dash = loadRankDashboard(dashPath);
   const skipKeys = new Set(
     (process.env.SERP_SKIP_KEYS || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
+  );
+  const onlyKeys = new Set(
+    (process.env.SERP_ONLY_KEYS || "")
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean),
@@ -235,6 +242,7 @@ async function main() {
   const pending = sortPendingSerpCells(
     queue.filter(({ page, q, engine, region }) => {
       const cellKey = `${page.id}|${q.id}|${engine}|${region}`;
+      if (onlyKeys.size > 0 && !onlyKeys.has(cellKey)) return false;
       return !skipKeys.has(cellKey) && !existing.has(cellKey);
     }),
   );
