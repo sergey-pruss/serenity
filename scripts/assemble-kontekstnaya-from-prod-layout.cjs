@@ -128,11 +128,11 @@ function ensureKontekstnayaPriceCardAdBudgetLines(mainHtml) {
     ],
     [
       'От 128 000 <span data-v-1444f1fb="">¤</span></span> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Оптимальный"',
-      'От 128 000 <span data-v-1444f1fb="">¤</span></span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 350 000&nbsp;₽</i></p> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Оптимальный"',
+      'От 128 000 <span data-v-1444f1fb="">¤</span></span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 500 000&nbsp;₽</i></p> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Оптимальный"',
     ],
     [
       'от 149 000 <span data-v-1444f1fb="">¤</span></span> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Расширенный"',
-      'от 149 000 <span data-v-1444f1fb="">¤</span></span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 400 000&nbsp;₽</i></p> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Расширенный"',
+      'от 149 000 <span data-v-1444f1fb="">¤</span></span> <p data-v-1444f1fb=""><i>Рекламный бюджет от 800 000&nbsp;₽</i></p> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Расширенный"',
     ],
   ];
   let out = mainHtml;
