@@ -1003,3 +1003,51 @@ body:has(.page-constructor.marketing-page) .header .header__container {
     max-width: calc(100vw - max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) - 84px) !important;
   }
 }
+
+/* «Награды»: lead со ссылкой на главную (брендовый ВЧ, только /services/marketing). */
+.marketing-page .home-awards-block .awards__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 32px !important;
+}
+
+.marketing-page #marketing-awards-heading,
+.marketing-page .home-awards-block .awards__header h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  margin: 0 0 15px !important;
+}
+
+.marketing-page .marketing-awards__lead {
+  margin: 0 0 7px;
+  max-width: 640px;
+  color: #c4c4c4;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 150%;
+  font-family: MuseoSansCyrl, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.marketing-page .marketing-awards__lead a {
+  color: #f6f6f6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.marketing-page .marketing-awards__lead a:hover {
+  opacity: 0.85;
+}
+
+@media screen and (max-width: 768px) {
+  .marketing-page #marketing-awards-heading,
+  .marketing-page .home-awards-block .awards__header h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    margin-bottom: 15px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .marketing-page .marketing-awards__lead {
+    margin: 0 0 7px;
+    font-size: 16px;
+  }
+}

@@ -210,8 +210,15 @@ function buildMarketingAwardsBlock() {
     .replace(/\s*swiper-container-free-mode/g, "")
     .replace(/<span class="swiper-notification"[^>]*><\/span>/g, "")
     .trim();
+  const awardsLead = `<p class="marketing-awards__lead">
+              Serenity — <a href="/">маркетинговое агентство</a> полного цикла.
+            </p>`;
   shell = shell
     .replace("__HEADING_ID__", "marketing-awards-heading")
+    .replace(
+      /(<h3 class="home-clients-awards__title kontekstnaya-page__section-heading" data-v-08586076="" id="marketing-awards-heading">Награды<\/h3>)/,
+      `$1\n            ${awardsLead}`,
+    )
     .replace("__SLIDES_HTML__", slidesHtml);
   return `<!-- Награды marketing: слайды с главной (section-home-awards-slides) + home-awards.css -->\n${shell.trim()}`;
 }
@@ -280,7 +287,7 @@ function buildCssBlock(v) {
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
     kontekstNuxt,
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260520marketingParity46" />',
+    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260521marketingAwardsH3Mb15" />',
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
