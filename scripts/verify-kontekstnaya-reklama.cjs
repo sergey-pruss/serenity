@@ -139,6 +139,49 @@ async function run() {
   );
 
   assert(
+    html.includes('id="kontekst-packages-compare-mounted"') &&
+      html.includes("kontekst-packages-compare__table") &&
+      !html.includes("kontekst-packages-compare__title") &&
+      html.includes('class="kontekst-packages-compare__plan-name">Минимальный</span>'),
+    "HTML: таблица сравнения пакетов внутри блока «Пакеты» (без отдельного h3-заголовка)",
+  );
+  assert(
+    !html.includes("kontekst-packages-compare-section"),
+    "HTML: таблица пакетов — не отдельная page-constructor__section",
+  );
+  {
+    const iSlider = html.indexOf("prices__packages-slider");
+    const iCompare = html.indexOf("kontekst-packages-compare-mounted");
+    const iLead = html.indexOf("sa-service-lead-section");
+    assert(
+      iSlider >= 0 && iCompare > iSlider && iLead > iCompare,
+      "HTML: порядок — слайдер пакетов → таблица сравнения → инлайн-форма",
+    );
+  }
+  assert(
+    /<link[^>]+href="\/_sa\/css\/sections\/kontekstnaya-packages-compare\.css/.test(html),
+    "HTML: в head подключён kontekstnaya-packages-compare.css (link rel)",
+  );
+  {
+    const compareCss = fs.readFileSync(
+      path.join(root, "css/sections/kontekstnaya-packages-compare.css"),
+      "utf8",
+    );
+    assert(
+      compareCss.includes("max-width: 1024px") &&
+        compareCss.includes(".kontekst-packages-compare") &&
+        compareCss.includes("display: none"),
+      "CSS: таблица скрыта на viewport ≤1024px",
+    );
+    assert(
+      compareCss.includes("min-width: 1025px") &&
+        compareCss.includes(".prices__cards--packages") &&
+        /prices__cards--packages[\s\S]*display:\s*none/.test(compareCss),
+      "CSS: на десктопе скрыты карточки пакетов (остаётся таблица)",
+    );
+  }
+
+  assert(
     html.includes("css__home-snapshot__native-row-scroll.css"),
     "HTML: native-row-scroll — горизонтальный scroll ленты наград/клиентов (overflow-x на треке при data-clients-strip)",
   );
