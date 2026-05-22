@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 2,
   "perPage": 24,
-  "totalItems": 33,
+  "totalItems": 34,
   "filters": [
     {
       "code": "",
@@ -14,7 +14,7 @@
     {
       "code": "pr",
       "label": "Продвижение",
-      "totalPages": 1,
+      "totalPages": 2,
       "href": "/case/all/category/pr"
     },
     {
@@ -77,7 +77,7 @@
       "media": {
         "kind": "video",
         "poster": "/_sa/img/case/vFWM4QdLPxCBHKSUe5oimLe9wFnVfJs5mze3T9Eo.jpg",
-        "videoSrc": "https://serenity.agency/storage/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
+        "videoSrc": "/_sa/img/case/VMUSZGv1omUnmqum5P2tC6bwwCppZc4cwJvNAfo9.mp4"
       }
     },
     {
@@ -192,6 +192,26 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/h0riEHPJjkp9PYyIuo1EWJbPx2SSBWXgjJP9apVJ.jpg"
+      }
+    },
+    {
+      "href": "https://serenity.agency/case/all/miramarhome",
+      "description": "Разработка лендинга и комплексное продвижение для европейского девелопера элитного жилья",
+      "tags": [
+        "Продвижение",
+        "Сайт",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "sites",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/wFdMdff7Tb1Bk1adDHVWJJksdwcEpILSQVYFPdhI.jpg"
       }
     }
   ]
