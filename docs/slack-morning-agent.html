@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Slack — утренний агент Serenity</title>
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --card: #fff;
+        --text: #1a1d21;
+        --muted: #5c6570;
+        --border: #d8dee6;
+        --accent: #1e5a8c;
+        --code: #f0f3f7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+        color: var(--text);
+        background: var(--bg);
+      }
+      .wrap {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+      h1 {
+        font-size: 1.55rem;
+        margin: 0 0 8px;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px 20px;
+        margin-bottom: 18px;
+      }
+      h2 {
+        font-size: 1.1rem;
+        margin: 0 0 12px;
+      }
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.88rem;
+      }
+      code {
+        background: var(--code);
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      pre {
+        background: var(--code);
+        padding: 12px 14px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.92rem;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+      }
+      th {
+        background: var(--code);
+      }
+      a {
+        color: var(--accent);
+      }
+      ol,
+      ul {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+      li {
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Slack: утренние сообщения</h1>
+        <p class="subtitle">
+          Бот публикует короткое вдохновляющее сообщение в канал по будням в 09:00 МСК.
+          Запуск — GitHub Actions; код в
+          <code>integrations/slack/</code>.
+        </p>
+      </header>
+
+      <section>
+        <h2>1. Slack App (один раз)</h2>
+        <ol>
+          <li>
+            <a href="https://api.slack.com/apps" target="_blank" rel="noopener"
+              >api.slack.com/apps</a
+            >
+            → <strong>Create New App</strong> → From scratch (например «Serenity Morning»).
+          </li>
+          <li>
+            <strong>OAuth &amp; Permissions</strong> → Bot Token Scopes:
+            <code>chat:write</code>; при необходимости
+            <code>chat:write.public</code> для публичного канала без инвайта.
+          </li>
+          <li><strong>Install to Workspace</strong> → скопировать Bot Token (<code>xoxb-…</code>).</li>
+          <li>В канале: <code>/invite @Serenity Morning</code> (имя бота как в App).</li>
+          <li>
+            Channel ID: канал → About → внизу, или из URL
+            (<code>C01234ABCDE</code>).
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>2. Секреты GitHub Actions</h2>
+        <p>
+          Репозиторий
+          <a href="https://github.com/sergey-pruss/serenity/settings/secrets/actions"
+            >Settings → Secrets and variables → Actions</a
+          >:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Secret</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>SLACK_MORNING_BOT_TOKEN</code></td>
+              <td><code>xoxb-…</code></td>
+            </tr>
+            <tr>
+              <td><code>SLACK_MORNING_CHANNEL_ID</code></td>
+              <td><code>C…</code></td>
+            </tr>
+            <tr>
+              <td><code>SLACK_MORNING_LLM_API_KEY</code></td>
+              <td>ключ OpenAI (или совместимого API)</td>
+            </tr>
+            <tr>
+              <td><code>SLACK_MORNING_LLM_MODEL</code></td>
+              <td>опционально, по умолчанию <code>gpt-4o-mini</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Локальный шаблон:
+          <code>integrations/slack/secrets.example.env</code> →
+          <code>secrets.env</code> (не коммитить).
+        </p>
+      </section>
+
+      <section>
+        <h2>3. Проверка и расписание</h2>
+        <ul>
+          <li>
+            Workflow:
+            <a
+              href="https://github.com/sergey-pruss/serenity/actions/workflows/slack-morning-inspiration.yml"
+              >Slack Morning Inspiration</a
+            >
+            → <strong>Run workflow</strong>.
+          </li>
+          <li>Cron: <code>0 6 * * 1-5</code> (UTC) = <strong>09:00 МСК, пн–пт</strong>.</li>
+          <li>
+            При сбое LLM уходит запасная фраза из
+            <code>integrations/slack/fallback-quotes.ru.json</code>.
+          </li>
+        </ul>
+        <table>
+          <caption style="caption-side: top; text-align: left; margin-bottom: 8px">
+            Смена времени (GitHub cron только UTC)
+          </caption>
+          <thead>
+            <tr>
+              <th>МСК</th>
+              <th>cron (UTC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>08:00</td>
+              <td><code>0 5 * * 1-5</code></td>
+            </tr>
+            <tr>
+              <td>09:00 (сейчас)</td>
+              <td><code>0 6 * * 1-5</code></td>
+            </tr>
+            <tr>
+              <td>10:00</td>
+              <td><code>0 7 * * 1-5</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>4. Локальный запуск</h2>
+        <pre>cp integrations/slack/secrets.example.env integrations/slack/secrets.env
+# отредактировать secrets.env
+set -a &amp;&amp; source integrations/slack/secrets.env &amp;&amp; set +a
+python3 integrations/slack/send_morning_message.py</pre>
+        <p>Только fallback (без LLM):</p>
+        <pre>SLACK_MORNING_FORCE_FALLBACK=1 python3 integrations/slack/send_morning_message.py</pre>
+      </section>
+
+      <section>
+        <h2>5. Редактирование тона</h2>
+        <ul>
+          <li>Системный промпт: <code>integrations/slack/morning-prompt.md</code></li>
+          <li>Запасные фразы: <code>integrations/slack/fallback-quotes.ru.json</code></li>
+        </ul>
+        <p>
+          После merge в <code>main</code> workflow подхватывает изменения автоматически.
+          Справочник доступен на dev после <code>bash scripts/deploy-dev.sh</code>:
+          <code>/docs/slack-morning-agent.html</code>.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>
