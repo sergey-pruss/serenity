@@ -15,7 +15,6 @@ compare/*
 !.cursor/mcp.json.example
 # OAuth-токены и ключи GSC (создаётся bootstrap, не коммитить).
 secrets/
-integrations/slack/secrets.env
 .claude/
 # Cursor Continue — локально, не в git и не в rsync/Worker assets.
 .continue/
