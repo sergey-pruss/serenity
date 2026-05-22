@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { ORGANIC_TARGET, ORGANIC_PAGE_SLOTS } from "./serp-shared.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const ROOT = path.join(__dirname, "..", "..", "..");
@@ -95,8 +96,8 @@ export function validateRankDashboard(data) {
         if (pageIds.has(row.id)) errors.push(`дубликат pages[].id: ${row.id}`);
         pageIds.add(row.id);
       }
-      if (!Array.isArray(row.queries) || row.queries.length < 1 || row.queries.length > 2) {
-        errors.push(`pages[${i}].queries: от 1 до 2 запросов`);
+      if (!Array.isArray(row.queries) || row.queries.length < 1 || row.queries.length > 3) {
+        errors.push(`pages[${i}].queries: от 1 до 3 запросов`);
       } else {
         const qids = new Set();
         row.queries.forEach((q, j) => {
@@ -154,8 +155,14 @@ export function validateRankDashboard(data) {
             if (en.position != null) {
               errors.push(`checks[${i}].entries[${j}]: outOfTop20=true требует position=null`);
             }
-          } else if (!Number.isInteger(en.position) || en.position < 1 || en.position > 20) {
-            errors.push(`checks[${i}].entries[${j}].position: 1..20 или outOfTop20=true`);
+          } else if (
+            !Number.isInteger(en.position) ||
+            en.position < 1 ||
+            en.position > ORGANIC_TARGET
+          ) {
+            errors.push(
+              `checks[${i}].entries[${j}].position: 1..${ORGANIC_TARGET} или outOfTop20=true`,
+            );
           }
           const k = entryKey(
             String(en.pageId),
@@ -418,7 +425,7 @@ export function entryYandexRecheckSuggested(dash, entry) {
   if (entry.outOfTop20) {
     const row = dash.panels?.byQuery?.[`${entry.pageId}|${entry.queryId}`];
     const avg = row?.yandex?.avgShowPosition;
-    if (avg != null && avg <= 20) return true;
+    if (avg != null && avg <= ORGANIC_TARGET) return true;
     if (entry.source === "serp-interactive-verified") return true;
   }
   return false;
@@ -437,7 +444,7 @@ export function entryIsDoubtfulForRefetch(entry) {
     return (
       !entry.outOfTop20 &&
       typeof entry.position === "number" &&
-      entry.position >= 11
+      entry.position >= ORGANIC_PAGE_SLOTS + 1
     );
   }
   return false;

@@ -1,11 +1,36 @@
 /**
- * Клиент GSC: OAuth Desktop (как MCP) или сервисный аккаунт + перебор siteUrl.
+ * Клиент GSC: refresh token → OAuth Desktop → сервисный аккаунт.
+ * Аккаунт Search Console: sergeyprus@gmail.com (см. gsc-auth-hints.mjs).
  */
 import fs from "node:fs";
 import path from "node:path";
+import { formatGscErrorForUi } from "./gsc-auth-hints.mjs";
 import { ROOT } from "./serp-shared.mjs";
 
 const GSC_SCOPE = "https://www.googleapis.com/auth/webmasters.readonly";
+
+const DEFAULT_GSC_CLIENT = path.join(ROOT, "secrets", "mcp", "gsc-oauth-desktop.json");
+const DEFAULT_GSC_TOKEN = path.join(ROOT, "secrets", "mcp", "gsc-oauth-token.json");
+const DEFAULT_SA = path.join(ROOT, "secrets", "mcp", "google-search-console-sa.json");
+
+/**
+ * @param {string} oauthClientPath
+ * @returns {Promise<import('google-auth-library').OAuth2Client | null>}
+ */
+async function oauth2FromTokenFile(oauthClientPath, tokenPath) {
+  const { google } = await import("googleapis");
+  const rawClient = JSON.parse(fs.readFileSync(oauthClientPath, "utf8"));
+  const installed = rawClient.installed || rawClient.web;
+  if (!installed?.client_id || !installed?.client_secret) return null;
+  const redirect = installed.redirect_uris?.[0] || "http://localhost";
+  const oauth2 = new google.auth.OAuth2(
+    installed.client_id,
+    installed.client_secret,
+    redirect,
+  );
+  oauth2.setCredentials(JSON.parse(fs.readFileSync(tokenPath, "utf8")));
+  return oauth2;
+}
 
 /**
  * @param {import('googleapis').searchconsole_v1.Searchconsole} searchconsole
@@ -77,12 +102,32 @@ export function gscSiteUrlCandidates(preferred) {
  */
 export async function createGscSearchConsole() {
   const { google } = await import("googleapis");
-  const oauthPath =
-    process.env.GSC_OAUTH_CLIENT_FILE || path.join(ROOT, "secrets", "mcp", "gsc-oauth-desktop.json");
-  const saPath =
-    process.env.GSC_SERVICE_ACCOUNT_KEY_FILE ||
-    path.join(ROOT, "secrets", "mcp", "google-search-console-sa.json");
+  const oauthPath = process.env.GSC_OAUTH_CLIENT_FILE || DEFAULT_GSC_CLIENT;
+  const tokenPath = process.env.GSC_OAUTH_TOKEN_FILE || DEFAULT_GSC_TOKEN;
+  const saPath = process.env.GSC_SERVICE_ACCOUNT_KEY_FILE || DEFAULT_SA;
   const forceSa = process.env.GSC_FORCE_SERVICE_ACCOUNT === "1";
+
+  if (!forceSa && fs.existsSync(tokenPath) && fs.existsSync(oauthPath)) {
+    try {
+      const auth = await oauth2FromTokenFile(oauthPath, tokenPath);
+      if (auth) {
+        return {
+          searchconsole: google.searchconsole({ version: "v1", auth }),
+          authMethod: "oauth",
+          authDetail: tokenPath,
+          error: null,
+        };
+      }
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return {
+        searchconsole: null,
+        authMethod: null,
+        authDetail: tokenPath,
+        error: formatGscErrorForUi(`OAuth token GSC: ${msg}`),
+      };
+    }
+  }
 
   if (!forceSa && fs.existsSync(oauthPath)) {
     try {
@@ -103,7 +148,7 @@ export async function createGscSearchConsole() {
         searchconsole: null,
         authMethod: null,
         authDetail: oauthPath,
-        error: `OAuth GSC: ${msg}`,
+        error: formatGscErrorForUi(`OAuth GSC: ${msg}`),
       };
     }
   }
@@ -126,7 +171,7 @@ export async function createGscSearchConsole() {
         searchconsole: null,
         authMethod: null,
         authDetail: saPath,
-        error: `SA GSC: ${msg}`,
+        error: formatGscErrorForUi(`SA GSC: ${msg}`),
       };
     }
   }
@@ -136,9 +181,11 @@ export async function createGscSearchConsole() {
     authMethod: null,
     authDetail: null,
     error:
-      "нет учётных данных GSC: положите secrets/mcp/gsc-oauth-desktop.json (npm run mcp:gsc-install-oauth) или SA-ключ",
+      "нет учётных данных GSC: gsc-oauth-desktop.json + npm run seo:gsc-oauth-token:install (вход sergeyprus@gmail.com)",
   };
 }
+
+export { formatGscErrorForUi } from "./gsc-auth-hints.mjs";
 
 /**
  * @param {import('googleapis').searchconsole_v1.Searchconsole} searchconsole

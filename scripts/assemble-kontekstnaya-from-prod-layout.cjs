@@ -17,6 +17,8 @@
  * после блока кейсов и до «Синергии» — insertKontekstnayaAwardsPartialBeforeSynergy. more-case-wr — partial
  * html/partials/services/more-cases-kontekstnaya-from-services.html (как на /services/).
  * Блок «Синергия с услугами» — partial html/partials/services/synergy-kontekstnaya-reklama.html.
+ * Таблица «Сравнение пакетов» — partial html/partials/services/packages-compare-kontekstnaya-reklama.html
+ * (внутри .dies/.prices после слайдера карточек; css/sections/kontekstnaya-packages-compare.css).
  *
  * Порядок секций в срезе prod: «Пакеты» + тарифы + inline-форма до блока «Вопрос-ответ» (partial); перенос не делаем.
  * Строки «Рекламный бюджет» под ценой — ensureKontekstnayaPriceCardAdBudgetLines;
@@ -353,6 +355,32 @@ function injectKontekstnayaSynergyFromPartial(mainHtml) {
   return `${mainHtml.slice(0, i0)}${partial}\n${mainHtml.slice(i1)}`;
 }
 
+/** Таблица «Сравнение пакетов» внутри .dies после слайдера тарифов (дополнение к блоку «Пакеты»). */
+function injectKontekstnayaPackagesCompareFromPartial(mainHtml) {
+  if (mainHtml.includes('id="kontekst-packages-compare-mounted"')) return mainHtml;
+  const partialPath = path.join(
+    root,
+    "html",
+    "partials",
+    "services",
+    "packages-compare-kontekstnaya-reklama.html",
+  );
+  if (!fs.existsSync(partialPath)) {
+    console.warn("assemble: нет partial packages-compare —", partialPath);
+    return mainHtml;
+  }
+  const partial = fs.readFileSync(partialPath, "utf8").trim();
+  const insertRe =
+    /("price":"149000\.00","availability":"https:\/\/schema\.org\/InStock"}}<\/script><\/div><\/div><\/div><\/div><\/div>)(<\/section><\/div><\/div><\/section>)/;
+  if (!insertRe.test(mainHtml)) {
+    console.warn(
+      "assemble: не найден якорь вставки таблицы пакетов (Расширенный JSON-LD + закрытие .dies) — пропущено",
+    );
+    return mainHtml;
+  }
+  return mainHtml.replace(insertRe, `$1\n${partial}\n$2`);
+}
+
 /**
  * Заменяет Nuxt-блок «forms modern» на partial инлайн-формы (как модалка; meta в template).
  */
@@ -522,6 +550,15 @@ function rewriteProdSlice(html) {
     /<img itemprop="image" src="\/_sa\/img\/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz\.webp">/g,
     '<link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp" />',
   );
+  // GSC Product/AggregateOffer: lowPrice обязателен (тарифы 107k–149k, три пакета).
+  s = s.replace(
+    /<div itemprop="offers" itemscope="itemscope" itemtype="http:\/\/schema\.org\/AggregateOffer"><span itemprop="priceCurrency" content="RUB"><\/span>\s*(?:<!---->)?\s*<\/div>/g,
+    '<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/AggregateOffer"><span itemprop="priceCurrency" content="RUB"></span> <span itemprop="lowPrice" content="107000.00">107000.00</span> <span itemprop="highPrice" content="149000.00">149000.00</span> <span itemprop="offerCount" content="3">3</span></div>',
+  );
+  // Nuxt-дамп: флаги «swiper уже init» без живого JS — снимаем, иначе app.js пропускает init.
+  s = s.replace(/\sdata-sa-cases-swiper-init="1"/g, "");
+  s = s.replace(/\sdata-mor-cases-init="1"/g, "");
+  s = s.replace(/\sdata-native-row="1"/g, "");
   // Пустой хвост из Nuxt-гидрации: второй page-constructor только с <!----> ломает стек/DOM.
   s = s.replace(/<div class="page-constructor">\s*<!---->\s*<\/div>\s*<!---->/g, "");
   return s;
@@ -623,6 +660,7 @@ function run() {
   main = ensureKontekstnayaPackagesSliderMarkup(main);
   main = ensureKontekstnayaTeamSliderMarkup(main);
   main = ensureKontekstnayaPackageCardTitleRules(main);
+  main = injectKontekstnayaPackagesCompareFromPartial(main);
   main = injectKontekstnayaServiceInlineLeadFromPartial(main);
   /** Сначала снимаем legacy «Награды» до первого more-case-wr: после move FAQ окажется внутри [secStart, moreIdx) и будет вырезан. */
   const stripAwards = stripProdKontekstnayaAwardsBlock(main);
@@ -649,9 +687,10 @@ function run() {
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerBlurRestore\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamNativeRow\" />",
     buildCssLinks(v),
-    deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260518serviceFaqPhase1"),
+    deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260516teamMembersSlider\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260521kontekstPackagesCompareG\" />",
+    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260521kontekstPackagesCompareG"),
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",

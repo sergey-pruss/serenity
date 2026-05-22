@@ -217,7 +217,7 @@ npm run seo:import-topvisor-css -- --input ~/Desktop/css.csv --sort problems --o
 
 ## SEO-дашборд позиций (топ-20, dev-static)
 
-Команда ведёт **страницы → 1–2 запроса → позиция в органике топ-20** по Яндекс/Google и регионам **Москва / СПб / Россия**. Источник правды: [`json/seo/rank-dashboard.json`](../json/seo/rank-dashboard.json). HTML после сборки: [`docs/seo-rank-dashboard.html`](seo-rank-dashboard.html) (только **static.serenity.agency** / Worker после `bash scripts/deploy-dev.sh`).
+Команда ведёт **страницы → до 3 запросов → позиция в органике топ-50** (ручная SERP-съёмка) по Яндекс/Google и регионам **Москва / СПб / Россия**. Источник правды: [`json/seo/rank-dashboard.json`](../json/seo/rank-dashboard.json). HTML после сборки: [`docs/seo-rank-dashboard.html`](seo-rank-dashboard.html) (только **static.serenity.agency** / Worker после `bash scripts/deploy-dev.sh`).
 
 **Еженедельный ритуал (на своей машине, с браузером):**
 
@@ -227,7 +227,7 @@ npm run seo:import-topvisor-css -- --input ~/Desktop/css.csv --sort problems --o
    npm run seo:rank-dashboard:serp:interactive
    ```
 
-   Скрипт обходит все комбинации страниц/запросов/ПС/регионов, ищет `serenity.agency` в топ-20 и пишет снимок с датой `RANK_CHECK_DATE` (по умолчанию сегодня). Продолжить с пропуском уже записанных ячеек: `SERP_RESUME=1`. Пропуск ячеек: `SERP_SKIP_KEYS=home|brand|yandex|moscow`.
+   Скрипт обходит все комбинации страниц/запросов/ПС/регионов, ищет `serenity.agency` в топ-20 и пишет снимок с датой `RANK_CHECK_DATE` (по умолчанию сегодня). Продолжить с пропуском уже записанных ячеек: `SERP_RESUME=1`. Пропуск ячеек: `SERP_SKIP_KEYS=home|brand|yandex|moscow`. В интерактиве между запросами пауза ~4–6 с (`SERP_CELL_DELAY_MS`, `SERP_DELAY_JITTER_MS`); при частой капче — увеличить, например `SERP_CELL_DELAY_MS=6000 SERP_DELAY_JITTER_MS=3000`.
 
 2. Ручная правка одной ячейки:
 
@@ -238,14 +238,9 @@ npm run seo:import-topvisor-css -- --input ~/Desktop/css.csv --sort problems --o
 
    Вне топ-20: `--out-of-top20` вместо `--position`.
 
-3. Сборка HTML и проверка:
+3. После интерактивной съёмки (`serp:missing` / `serp:interactive`) скрипт сам запускает `seo:rank-dashboard:build`, `test:rank-dashboard` и `bash scripts/deploy-dev.sh`. Отключить: `RANK_DASHBOARD_SKIP_DEV_DEPLOY=1`. Для `serp:full` deploy один раз в конце `finish` (панели GSC/Я.ВМ уже в HTML).
 
-   ```bash
-   npm run seo:rank-dashboard:build
-   npm run test:rank-dashboard
-   ```
-
-4. Коммит `json/seo/rank-dashboard.json` + `docs/seo-rank-dashboard.html` → `bash scripts/deploy-dev.sh` → открыть  
+4. Коммит `json/seo/rank-dashboard.json` + `docs/seo-rank-dashboard.html` при необходимости в git. Дашборд на dev:  
    `https://static.serenity.agency/docs/seo-rank-dashboard.html`
 
 **Добавить страницу или запрос:** отредактируйте `json/seo/rank-dashboard.json` (до 2 запросов на страницу), затем `npm run seo:rank-dashboard:build`. Схема: [`json/seo/rank-dashboard.schema.json`](../json/seo/rank-dashboard.schema.json).

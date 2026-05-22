@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 # Настройка MCP Google Search Console: сначала OAuth Desktop (без SA в GSC), затем опционально SA.
 cat <<'EOF'
-=== MCP Google Search Console — рекомендуемый обход (OAuth Desktop) ===
+=== Два разных Google OAuth (не путать) ===
 
-Не нужно добавлять сервисный аккаунт в Search Console: API ходит от вашего
-личного Google, у которого уже есть доступ к свойству Serenity.
+• GSC + колонка «GSC» в дашборде позиций → sergeyprus@gmail.com
+  OAuth-клиент: secrets/mcp/gsc-oauth-desktop.json (проект sergeypruss, API Search Console включён)
+  Токен без браузера: npm run seo:gsc-oauth-token:install
 
-1) Google Cloud → проект (например sergeypruss):
+• Таблица миграции в Google Sheets → prus@serenity.ru
+  OAuth-клиент: secrets/mcp/google-sheets-oauth-client.json (проект Serenity SEO, API Sheets)
+  Токен: npm run seo:sheets-oauth:install
+
+Не подменяйте gsc-oauth-desktop.json клиентом Serenity SEO — в дашборде будет «API disabled».
+
+=== MCP Google Search Console — OAuth Desktop ===
+
+Не нужно добавлять сервисный аккаунт в Search Console: API ходит от
+sergeyprus@gmail.com (доступ к свойству serenity.agency).
+
+1) Google Cloud → проект sergeypruss (не Serenity SEO):
    https://console.cloud.google.com/apis/library/searchconsole.googleapis.com
    Включите API «Google Search Console API».
 
@@ -17,19 +29,20 @@ cat <<'EOF'
    • npm run mcp:gsc-install-oauth -- "/полный/путь/client_secret_….json"
      → копия окажется в secrets/mcp/gsc-oauth-desktop.json
    • или npm run mcp:gsc-sync-oauth
-     → копирует из пути в ~/Documents/GitHub/sergey-pruss.github.io/.cursor/mcp.json
+     → ищет GSC_OAUTH_CLIENT_FILE в ~/.cursor/mcp.json и др.; иначе подсказка
+   • или npm run mcp:gsc-sync-oauth -- "/путь/client_secret_….json"
    • или в secrets/mcp/env.sh:
        export GSC_OAUTH_CLIENT_FILE="/полный/путь/к/desktop-client.json"
 
-4) OAuth consent screen → раздел «Test users» / «Тестовые пользователи»:
-   добавьте email того Google, под которым входите (например sergeyprus@gmail.com).
-   Иначе после входа будет «403: access_denied» — приложение в режиме Testing.
+4) OAuth consent screen → Test users: sergeyprus@gmail.com
+   (prus@serenity.ru — только для Sheets, не для GSC).
 
-5) Перезапуск MCP «google-search-console» в Cursor (или перезапуск окна).
-   При первом обращении к GSC откроется браузер — войдите тем Google,
-   который имеет доступ к Search Console для serenity.agency.
+5) npm run seo:gsc-oauth-token:install — вход sergeyprus@gmail.com, токен в secrets/mcp/gsc-oauth-token.json
 
-6) Принудительно использовать SA (если OAuth и SA оба на диске):
+6) Перезапуск MCP «google-search-console» в Cursor.
+   При первом запросе — браузер, снова sergeyprus@gmail.com.
+
+7) Принудительно использовать SA (если OAuth и SA оба на диске):
      export GSC_FORCE_SERVICE_ACCOUNT=1
    (по умолчанию при наличии OAuth SA не передаётся в MCP.)
 

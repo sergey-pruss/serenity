@@ -14,6 +14,14 @@
    * +1: прямой знак; при обратной ощутимой прокрутке на вашей среде поставьте -1.
    */
   const HORIZ_SLIDER_SIGN = 1;
+  /** Nuxt-дамп может содержать data-* «уже инициализировано» без живого Swiper — не пропускать init. */
+  const isLiveSwiper = (el) => {
+    try {
+      return Boolean(el && el.swiper && el.swiper.el === el && !el.swiper.destroyed);
+    } catch {
+      return false;
+    }
+  };
   const getServicesSidePad = (w = window.innerWidth) => {
     if (w <= 450) return 36;
     if (w <= 768) return 36;
@@ -84,7 +92,8 @@
       sidePadGetter = getServicesSidePad,
     } = options;
     if (!host || !track) return;
-    if (host.dataset.nativeRow === "1") return;
+    if (host.__saNativeRow === "1") return;
+    host.__saNativeRow = "1";
     host.dataset.nativeRow = "1";
     track.dataset.nativeRow = "1";
 
@@ -498,7 +507,8 @@
   const initOneClientsStrip = (host) => {
     const track = host ? host.querySelector(".clients-new__context-wrapper") : null;
     if (!host || !track) return;
-    if (host.dataset.clientsStrip === "1") return;
+    if (host.dataset.clientsStripInit === "1") return;
+    host.dataset.clientsStripInit = "1";
     host.dataset.clientsStrip = "1";
     host.classList.add("clients-strip");
 
@@ -1286,7 +1296,8 @@
     }
     document.querySelectorAll(".cases-block__slider").forEach((root) => {
       const container = root.querySelector(".cases-block__slider-swiper-container.swiper-container");
-      if (!container || container.dataset.saCasesSwiperInit === "1") return;
+      if (!container || isLiveSwiper(container)) return;
+      delete container.dataset.saCasesSwiperInit;
       const nav = root.querySelector(".swiper__navigation");
       const nextEl = nav && nav.querySelector(".swiper-button-next");
       const prevEl = nav && nav.querySelector(".swiper-button-prev");
@@ -1369,7 +1380,8 @@
   const initSynergyContextSwiper = () => {
     if (typeof window.Swiper === "undefined") return;
     document.querySelectorAll(".synergy__context-slider.swiper-container").forEach((container) => {
-      if (container.dataset.saSynergySwiperInit === "1") return;
+      if (isLiveSwiper(container)) return;
+      delete container.dataset.saSynergySwiperInit;
       const nextEl = container.querySelector(".swiper-button-next");
       const prevEl = container.querySelector(".swiper-button-prev");
       if (!nextEl || !prevEl) return;
@@ -1464,7 +1476,8 @@
     if (typeof window.Swiper === "undefined") return false;
     let inited = false;
     document.querySelectorAll(".marketing-cm-wide-slider__host").forEach((container) => {
-      if (container.dataset.saMarketingWideInit === "1") return;
+      if (isLiveSwiper(container)) return;
+      delete container.dataset.saMarketingWideInit;
       const prevEl = container.querySelector(".swiper-button-prev");
       const nextEl = container.querySelector(".swiper-button-next");
       const paginationEl = container.querySelector(".swiper-pagination");
@@ -1518,7 +1531,8 @@
     if (typeof window.Swiper === "undefined") return false;
     let inited = false;
     document.querySelectorAll(".marketing-sites-slider__host").forEach((container) => {
-      if (container.dataset.saMarketingSitesInit === "1") return;
+      if (isLiveSwiper(container)) return;
+      delete container.dataset.saMarketingSitesInit;
       const prevEl = container.querySelector(".swiper-button-prev");
       const nextEl = container.querySelector(".swiper-button-next");
       const paginationEl = container.querySelector(".swiper-pagination");
@@ -1557,7 +1571,8 @@
   const initMorCasesSlider = () => {
     if (typeof window.Swiper === "undefined") return false;
     document.querySelectorAll(".mor-cases-slider").forEach((container) => {
-      if (container.dataset.morCasesInit === "1") return;
+      if (isLiveSwiper(container)) return;
+      delete container.dataset.morCasesInit;
       container.dataset.morCasesInit = "1";
       new window.Swiper(container, morCasesSwiperOpts());
     });

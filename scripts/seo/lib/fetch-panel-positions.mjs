@@ -95,6 +95,7 @@ export async function yandexFetchPopularQueries(token, userId, hostId, dateFrom,
 
 import {
   createGscSearchConsole,
+  formatGscErrorForUi,
   gscSiteUrlCandidates,
   gscFetchQueriesWithSiteFallback,
   gscFetchPagesWithSiteFallback,
@@ -178,11 +179,7 @@ export async function fetchPanelMaps(site, opts = {}) {
           });
         }
       } catch (e) {
-        gscError = e instanceof Error ? e.message : String(e);
-        if (gscAuthMethod === "service_account" && /permission|403|insufficient/i.test(gscError)) {
-          gscError +=
-            " — у SA нет доступа к свойству; используйте OAuth: npm run mcp:gsc-install-oauth и не задавайте GSC_FORCE_SERVICE_ACCOUNT=1";
-        }
+        gscError = formatGscErrorForUi(e instanceof Error ? e.message : String(e));
       }
     }
   }

@@ -14,7 +14,7 @@ import {
   migrateGoogleEntriesToRf,
   sortRankDashboardByResults,
 } from "./lib/rank-dashboard-utils.mjs";
-import { REGIONS as SERP_REGIONS } from "./lib/serp-shared.mjs";
+import { ORGANIC_TARGET, REGIONS as SERP_REGIONS } from "./lib/serp-shared.mjs";
 
 /** Регионы для URL выдачи (lr Яндекс; Google — gl/hl) */
 const serpRegionIds = [...DASHBOARD_YANDEX_REGIONS, ...DASHBOARD_GOOGLE_REGIONS];
@@ -54,6 +54,7 @@ if (migrated > 0 || sortChanged) {
   if (sortChanged) console.log("Порядок страниц/запросов: по лучшим позициям (контекстная и таргетинг — в конце)");
 }
 const builtAt = new Date().toISOString();
+const organicDepth = dash.site.organicDepth ?? ORGANIC_TARGET;
 const dataJson = JSON.stringify({ ...dash, builtAt }).replace(/</g, "\\u003c");
 
 const html = `<!DOCTYPE html>
@@ -78,6 +79,8 @@ const html = `<!DOCTYPE html>
       --pos-4-10-bg: #e8f2fa;
       --pos-11-20: #b54708;
       --pos-11-20-bg: #fff4e5;
+      --pos-21-50: #6b4c9a;
+      --pos-21-50-bg: #f3effa;
       --pos-out: #5c6570;
       --pos-out-bg: #eef1f4;
       --delta-up: #0d6b4f;
@@ -235,6 +238,7 @@ const html = `<!DOCTYPE html>
     .p-1-3 { background: var(--pos-1-3-bg); color: var(--pos-1-3); }
     .p-4-10 { background: var(--pos-4-10-bg); color: var(--pos-4-10); }
     .p-11-20 { background: var(--pos-11-20-bg); color: var(--pos-11-20); }
+    .p-21-50 { background: var(--pos-21-50-bg); color: var(--pos-21-50); }
     .p-out { background: var(--pos-out-bg); color: var(--pos-out); }
     .cell-missing { background: #fafbfc; }
     .empty { color: var(--muted); font-style: italic; }
@@ -302,7 +306,7 @@ const html = `<!DOCTYPE html>
   <div class="wrap">
     <header>
       <h1>SEO-дашборд позиций</h1>
-      <p class="subtitle">Органическая выдача топ-20: основные страницы и запросы. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
+      <p class="subtitle">Органическая выдача топ-${organicDepth}: основные страницы и запросы. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
       <p class="subtitle" id="meta-last-check"></p>
     </header>
 
@@ -363,6 +367,7 @@ const html = `<!DOCTYPE html>
   const PANEL_COLS = 2;
   const SERP_COLS = SLICES.length;
   const SERP_REGIONS = ${serpRegionsJson};
+  const ORGANIC_DEPTH = (DATA.site && DATA.site.organicDepth) || ${organicDepth};
 
   function buildSerpUrl(engine, regionId, query) {
     const r = SERP_REGIONS[regionId];
@@ -401,9 +406,11 @@ const html = `<!DOCTYPE html>
     const src = DATA.panels && DATA.panels.sources;
     if (!DATA.panels) return "Запустите: npm run seo:rank-dashboard:panels";
     if (src && src.gscError) {
-      let msg = "GSC не загружен: " + src.gscError.slice(0, 220);
-      if (/permission|insufficient|403/i.test(src.gscError) && src.gscAuthMethod === "service_account") {
-        msg += " — нужен OAuth (см. npm run mcp:gsc-help)";
+      let msg = "GSC не загружен: " + src.gscError.slice(0, 280);
+      if (/has not been used in project|is disabled/i.test(src.gscError)) {
+        msg += " — восстановите gsc-oauth-desktop.json (sergeypruss), npm run mcp:gsc-help";
+      } else if (/permission|insufficient|403/i.test(src.gscError)) {
+        msg += " — OAuth sergeyprus@gmail.com: npm run seo:gsc-oauth-token:install";
       }
       return msg;
     }
@@ -512,10 +519,11 @@ const html = `<!DOCTYPE html>
     if (out || n == null) return "p-out";
     if (n <= 3) return "p-1-3";
     if (n <= 10) return "p-4-10";
-    return "p-11-20";
+    if (n <= 20) return "p-11-20";
+    return "p-21-50";
   }
 
-  /** Съёмка SERP выполнена (есть результат «в топ-20» или «>20») */
+  /** Съёмка SERP выполнена (есть результат в топ-N или «>N») */
   function entryHasSerpResult(entry) {
     if (!entry) return false;
     if (entry.source === "manual") return true;
@@ -530,9 +538,9 @@ const html = `<!DOCTYPE html>
     }
     if (entry.outOfTop20 || entry.position == null) {
       return {
-        text: ">20",
+        text: ">" + ORGANIC_DEPTH,
         cls: "p-out",
-        title: "Serenity не в топ-20 органики (съёмка выполнена)",
+        title: "Serenity не в топ-" + ORGANIC_DEPTH + " органики (съёмка выполнена)",
         delta: null,
       };
     }
@@ -768,8 +776,8 @@ const html = `<!DOCTYPE html>
 
   function delta(prev, curr) {
     if (!entryHasSerpResult(prev) || !entryHasSerpResult(curr)) return null;
-    const a = prev.outOfTop20 || prev.position == null ? 21 : prev.position;
-    const b = curr.outOfTop20 || curr.position == null ? 21 : curr.position;
+    const a = prev.outOfTop20 || prev.position == null ? ORGANIC_DEPTH + 1 : prev.position;
+    const b = curr.outOfTop20 || curr.position == null ? ORGANIC_DEPTH + 1 : curr.position;
     const d = a - b;
     if (d === 0) return { text: "0", cls: "flat" };
     if (d > 0) return { text: "+" + d, cls: "up" };
@@ -786,6 +794,7 @@ const html = `<!DOCTYPE html>
     let total = 0;
     let top10 = 0;
     let top20 = 0;
+    let top50 = 0;
     for (const page of DATA.pages) {
       for (const q of page.queries) {
         for (const sl of SLICES) {
@@ -795,12 +804,13 @@ const html = `<!DOCTYPE html>
           if (!e.outOfTop20 && e.position != null) {
             if (e.position <= 10) top10++;
             if (e.position <= 20) top20++;
+            if (e.position <= ORGANIC_DEPTH) top50++;
           }
         }
       }
     }
     const pct10 = total ? Math.round((top10 / total) * 100) : 0;
-    const pct20 = total ? Math.round((top20 / total) * 100) : 0;
+    const pct50 = total ? Math.round((top50 / total) * 100) : 0;
     el.innerHTML =
       '<div class="stat"><strong>' +
       total +
@@ -809,8 +819,10 @@ const html = `<!DOCTYPE html>
       pct10 +
       '%</strong><span>в топ-10</span></div>' +
       '<div class="stat"><strong>' +
-      pct20 +
-      '%</strong><span>в топ-20</span></div>';
+      pct50 +
+      '%</strong><span>в топ-' +
+      ORGANIC_DEPTH +
+      "</span></div>";
   }
 
   function renderTable() {

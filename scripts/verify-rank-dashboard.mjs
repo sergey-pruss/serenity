@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadRankDashboard, DEFAULT_RANK_DASHBOARD_PATH } from "./seo/lib/rank-dashboard-utils.mjs";
+import { rankingsForMigrationPath } from "./seo/lib/migration-sheet-rankings.mjs";
 import {
   googleSearchUrl,
   isPollutedGoogleSearchUrl,
@@ -17,6 +18,29 @@ const root = path.join(__dirname, "..");
 
 const dash = loadRankDashboard(DEFAULT_RANK_DASHBOARD_PATH);
 console.log("OK: json/seo/rank-dashboard.json", `(${dash.pages.length} pages, ${dash.checks.length} checks)`);
+
+const latest = [...(dash.checks || [])].sort((a, b) =>
+  String(b.date).localeCompare(String(a.date)),
+)[0];
+if (latest?.date === "2026-05-21") {
+  const mkt = rankingsForMigrationPath("/services/marketing", dash);
+  if (mkt.serpYandexMsk !== "5") {
+    console.error(
+      "migration rankings: marketing Я Москва ожидается 5 (лучший из запросов), получено:",
+      mkt.serpYandexMsk,
+    );
+    process.exit(1);
+  }
+  const home = rankingsForMigrationPath("/", dash);
+  if (home.serpYandexMsk !== "8") {
+    console.error(
+      "migration rankings: home Я Москва ожидается 8 (лучший из запросов), получено:",
+      home.serpYandexMsk,
+    );
+    process.exit(1);
+  }
+  console.log("OK: migration-sheet — лучшая позиция среди запросов");
+}
 
 const googleUrl = googleSearchUrl("тест", "spb");
 if (/uule|countryRU|pws=0|num=30/.test(googleUrl) || isPollutedGoogleSearchUrl(googleUrl)) {

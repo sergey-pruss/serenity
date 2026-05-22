@@ -3,7 +3,7 @@
   "currentPage": 1,
   "totalPages": 2,
   "perPage": 24,
-  "totalItems": 33,
+  "totalItems": 34,
   "filters": [
     {
       "code": "",
@@ -14,7 +14,7 @@
     {
       "code": "pr",
       "label": "Продвижение",
-      "totalPages": 1,
+      "totalPages": 2,
       "href": "/case/all/category/pr"
     },
     {
@@ -173,7 +173,7 @@
       "media": {
         "kind": "video",
         "poster": "/_sa/img/case/chL4LbnmmiU2maPGxKZgbFOkCsbzoA5kgg4YSpUh.jpg",
-        "videoSrc": "https://serenity.agency/storage/ij7e8Ec8XMQfEsHTcwnqEDv8vkZrgZzwoDCFyK1l.mp4"
+        "videoSrc": "/_sa/img/case/ij7e8Ec8XMQfEsHTcwnqEDv8vkZrgZzwoDCFyK1l.mp4"
       }
     },
     {
@@ -236,7 +236,7 @@
       "media": {
         "kind": "video",
         "poster": "/_sa/img/case/omenJLrtzpcr02LEG0JYGCJQ1PYvsTHFqS29l7Tf.jpg",
-        "videoSrc": "https://serenity.agency/storage/YLaTiBuwJ0QqqSddxBKdY67Gp5gx6Hbwo20di76j.mp4"
+        "videoSrc": "/_sa/img/case/YLaTiBuwJ0QqqSddxBKdY67Gp5gx6Hbwo20di76j.mp4"
       }
     },
     {
@@ -381,7 +381,7 @@
       "media": {
         "kind": "video",
         "poster": "/_sa/img/case/vIPEujjDwnUUk1fIB2sNEpOImN6jaNOiQgRrWcTu.jpg",
-        "videoSrc": "https://serenity.agency/storage/Z5DRfhD6mMz1PaLGG8KQ6cYsQV7PawPLPdgm1ugC.mp4"
+        "videoSrc": "/_sa/img/case/Z5DRfhD6mMz1PaLGG8KQ6cYsQV7PawPLPdgm1ugC.mp4"
       }
     },
     {
@@ -436,7 +436,7 @@
       "media": {
         "kind": "video",
         "poster": "/_sa/img/case/HbC4EO97JZt8OalYGsRHcFczrSySJNPMRpLfahDJ.jpg",
-        "videoSrc": "https://serenity.agency/storage/unWqAVcgtLnSshOUoI4DVOvaRefe63px7bSslaO5.mp4"
+        "videoSrc": "/_sa/img/case/unWqAVcgtLnSshOUoI4DVOvaRefe63px7bSslaO5.mp4"
       }
     },
     {
@@ -456,7 +456,7 @@
       "isResource": false,
       "media": {
         "kind": "picture",
-        "image": "https://serenity.agency/storage/x9jwIVSkRFUQWMTPWzUUf83JBX8hAUipfetHUvFg.jpg"
+        "image": "/_sa/img/case/x9jwIVSkRFUQWMTPWzUUf83JBX8hAUipfetHUvFg.jpg"
       }
     },
     {

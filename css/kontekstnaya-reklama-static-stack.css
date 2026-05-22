@@ -923,6 +923,12 @@ body:not(.order-popup-open) .overlay-new {
  * ≤1024px — горизонтальный слайдер (iPad landscape 1024 остаётся в режиме листания).
  */
 @media screen and (min-width: 1025px) {
+  /* Десктоп: таблица сравнения вместо карточек — скрыть слайдер (градиентные title-rule не должны накладываться на таблицу). */
+  .page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row[data-v-1505791e],
+  .page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row {
+    display: none !important;
+  }
+
   /* Nuxt .row: width calc(100% + 40px) и margin −20px — сдвиг влево относительно центрированного .page__container. */
   .page-constructor .dies .prices .prices__cards--packages.prices__cards.row[data-v-1505791e],
   .page-constructor .dies .prices .prices__cards--packages.prices__cards.row {

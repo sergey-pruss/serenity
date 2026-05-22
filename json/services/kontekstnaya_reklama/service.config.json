@@ -27,7 +27,8 @@
       "inlineLead": "service-inline-lead-kontekstnaya-reklama.html",
       "moreCases": "more-cases-kontekstnaya-from-services.html",
       "awards": "awards-kontekstnaya-reklama.html",
-      "synergy": "synergy-kontekstnaya-reklama.html"
+      "synergy": "synergy-kontekstnaya-reklama.html",
+      "packagesCompare": "packages-compare-kontekstnaya-reklama.html"
     },
     "markers": {
       "mainStart": "KONTEKST-MAIN-START",
