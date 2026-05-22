@@ -1,18 +1,32 @@
 {
+  "generated": "2026-05-18T11:51:10.438Z",
   "hrefs": [
-    "/_sa/css/marketing-nuxt.bundle.css"
+    "/_sa/css/targeting-nuxt.bundle.css"
   ],
-  "sourceHrefs": [
-    "/_nuxt/css/a9a7fd7.css",
-    "/_nuxt/css/d24a734.css",
-    "/_nuxt/css/829e43c.css",
-    "/_nuxt/css/c6885ad.css",
-    "/_nuxt/css/971a2a8.css",
-    "/_nuxt/css/a8917c1.css",
-    "/_nuxt/css/9d2035a.css",
-    "/_nuxt/css/d4b312c.css",
-    "/_nuxt/css/3be9c60.css",
-    "/_nuxt/css/006baa1.css",
-    "/_nuxt/css/b8af13e.css"
-  ]
+  "sourceChunks": [
+    "a9a7fd7.css",
+    "d24a734.css",
+    "3be9c60.css",
+    "7e19a74.css",
+    "444b3de.css",
+    "1ecf430.css",
+    "ba56fce.css",
+    "9a5a9e2.css",
+    "0aa759a.css",
+    "0c1e066.css",
+    "8760deb.css",
+    "f044bfc.css",
+    "12f79fe.css",
+    "21878cb.css",
+    "fcaf6fb.css",
+    "945ea1a.css",
+    "a0aaf1e.css",
+    "a8917c1.css",
+    "9d2035a.css",
+    "d4b312c.css",
+    "006baa1.css",
+    "b8af13e.css",
+    "6ab4bc8.css"
+  ],
+  "nuxtOrigin": "https://serenity.agency"
 }

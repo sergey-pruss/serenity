@@ -1,0 +1,28 @@
+{
+  "version": "result1",
+  "date": "2026-05-22T14:50:34.110Z",
+  "files": [
+    "services/marketing/index.html",
+    "scripts/assemble-marketing-from-prod-layout.cjs",
+    "scripts/lib/marketing-h2-anchors.cjs",
+    "scripts/verify-marketing.cjs",
+    "scripts/verify-marketing-links.cjs",
+    "scripts/compare-marketing-prod-local-text.cjs",
+    "css/targeting-static-stack.css",
+    "json/services/marketing/service.config.json",
+    "html/partials/services/marketing-advertising-block.html",
+    "html/partials/services/marketing-brand-awareness-block.html",
+    "html/partials/services/marketing-brand-block.html",
+    "html/partials/services/marketing-brand-strategy-block.html",
+    "html/partials/services/marketing-cm-wide-slider-block.html",
+    "html/partials/services/marketing-content-marketing-block.html",
+    "html/partials/services/marketing-content-marketing-channels-block.html",
+    "html/partials/services/marketing-content-strategy-block.html",
+    "html/partials/services/marketing-measurable-promotion-block.html",
+    "html/partials/services/marketing-phase2-middle.html",
+    "html/partials/services/marketing-sales-block.html",
+    "html/partials/services/marketing-seo-block.html",
+    "html/partials/services/marketing-site-block.html",
+    "html/partials/services/marketing-tools-block.html"
+  ]
+}

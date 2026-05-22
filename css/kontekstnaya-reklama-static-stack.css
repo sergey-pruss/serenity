@@ -615,7 +615,7 @@ body:not(.order-popup-open) .overlay-new {
  * Сверху секции — полный шаг --home-between от предыдущего блока; снизу — --home-ledge (не второй --home-between,
  * чтобы вместе с padding-top «Синергии» не получить двойной зазор).
  */
-.page-constructor .home-awards-block .awards__header {
+.page-constructor .home-awards-block .awards__header:not(.marketing-awards-header) {
   margin-bottom: 0 !important;
 }
 

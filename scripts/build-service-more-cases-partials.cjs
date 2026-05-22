@@ -22,6 +22,11 @@ const SERVICES = [
     partial: "more-cases-targeting.html",
     comment: "<!-- Кейсы targeting: json/services/targeting/more-cases.json (prod capture). -->\n",
   },
+  {
+    slug: "marketing",
+    partial: "more-cases-marketing.html",
+    comment: "<!-- Кейсы marketing: json/services/marketing/more-cases.json. -->\n",
+  },
 ];
 
 function stripLeadingComment(html) {

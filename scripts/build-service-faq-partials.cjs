@@ -26,6 +26,14 @@ const SERVICES = [
     rootClass: "targeting-faq-root",
     comment: "<!-- FAQ targeting: json/services/targeting/faq.json + service-faq.css. -->\n",
   },
+  {
+    slug: "marketing",
+    partial: "faq-marketing.html",
+    mountId: "targeting-faq-mounted",
+    sectionClass: "targeting-faq-section",
+    rootClass: "targeting-faq-root",
+    comment: "<!-- FAQ marketing: json/services/marketing/faq.json + service-faq.css. -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {

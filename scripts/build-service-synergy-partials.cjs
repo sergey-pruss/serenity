@@ -26,6 +26,14 @@ const SERVICES = [
     comment:
       "<!-- Синергия targeting: json/services/targeting/synergy.json (карточки своей услуги). -->\n",
   },
+  {
+    slug: "marketing",
+    partial: "synergy-marketing.html",
+    mountId: "kontekst-synergy-mounted",
+    rootClass: "kontekst-synergy-root",
+    comment:
+      "<!-- Синергия marketing: json/services/marketing/synergy.json (карточки своей услуги). -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {

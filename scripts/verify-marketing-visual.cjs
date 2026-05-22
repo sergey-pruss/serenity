@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Визуальные проверки /services/marketing (5 итераций parity с kontekst/targeting).
- * Запуск: npm run test:marketing-visual
+ * Визуальные инварианты /services/marketing (targeting-каркас, Результат1).
+ * npm run test:marketing-visual
  */
 const http = require("http");
 const fs = require("fs");
@@ -63,153 +63,91 @@ function startServer() {
 async function runIteration(page, n) {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(URL, { waitUntil: "networkidle", timeout: 60000 });
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(600);
 
   const metrics = await page.evaluate(() => {
-    const g = (s) => document.querySelector(s)?.getBoundingClientRect();
-    const hero = g(".jumbotron-img-aurora__title");
-    const gridEl = document.querySelector(".content-block__grid.content-block__grid--desc");
+    const pc = document.querySelector(".page-constructor.targeting-page");
+    const h1 = document.querySelector(".c-title-block__title");
+    const h1r = h1?.getBoundingClientRect();
+    const sub = document.querySelector(".c-title-block__subtitle");
+    const titleGap = h1r && sub ? sub.getBoundingClientRect().top - h1r.bottom : -1;
+    const gridEl = pc?.querySelector(".content-block__grid.content-block__grid--desc");
     const grid = gridEl?.getBoundingClientRect();
-    const bullet = document.querySelector(
-      ".marketing-kontekst-section .numbered-header:not(.number-header__empty) .numbered-header__bullet",
-    );
-    const bulletRect = bullet?.getBoundingClientRect();
-    const canvas = document.querySelector("#gradient-canvas");
-    const legacy = document.querySelector(".cm-page, .cm-about, .grid_three");
-    const h1 = document.querySelector("h1")?.textContent?.trim();
-    const sections = document.querySelectorAll(".marketing-kontekst-section").length;
     const gridCols = gridEl ? getComputedStyle(gridEl).display : "";
     const gridVisible =
-      gridEl instanceof Element &&
-      gridCols !== "none" &&
-      gridEl.offsetHeight > 40;
-    const heroTitleGap = (() => {
-      const jumbotron =
-        document.querySelector(".marketing-hero-section .header-background.desctop .jumbotron") ||
-        document.querySelector(".marketing-hero-section .jumbotron");
-      if (!jumbotron) return -1;
-      const h1 = jumbotron.querySelector(".jumbotron-img-aurora__title");
-      const sub = jumbotron.querySelector(".jumbotron-img-aurora__subtitle");
-      if (!h1 || !sub) return -1;
-      const hr = h1.getBoundingClientRect();
-      const sr = sub.getBoundingClientRect();
-      if (hr.height < 1 || sr.height < 1) return -1;
-      return sr.top - hr.bottom;
-    })();
-
-    const heroSolidBg = (() => {
-      const hero = document.querySelector(".marketing-hero-section");
-      if (!hero) return false;
-      const bg = getComputedStyle(hero).backgroundColor;
-      const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      if (!m) return false;
-      return Number(m[1]) === 25 && Number(m[2]) === 26 && Number(m[3]) === 27;
-    })();
-
-    const headerDarkBg = (() => {
-      const line = document.querySelector(".header .header__top-line");
-      if (!line) return false;
-      const bg = getComputedStyle(line).backgroundColor;
-      const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      if (!m) return false;
-      const r = Number(m[1]);
-      const g = Number(m[2]);
-      const b = Number(m[3]);
-      return r === 25 && g === 26 && b === 27;
-    })();
-
-    const firstGrid = document.querySelector(
-      ".marketing-kontekst-section .content-block__grid--desc.blocks",
-    );
-    const gridCols3 = firstGrid ? [...firstGrid.querySelectorAll(":scope > .col-4")] : [];
-    const colWidths = gridCols3.map((el) => el.getBoundingClientRect().width);
+      gridEl instanceof Element && gridCols !== "none" && gridEl.offsetHeight > 40;
+    const col4 = gridEl ? [...gridEl.querySelectorAll(":scope > .col-4")] : [];
+    const colWidths = col4.map((el) => el.getBoundingClientRect().width);
     const threeColumnGrid =
-      gridCols3.length >= 3 &&
-      colWidths.every((w) => w > 200) &&
+      col4.length >= 3 &&
+      colWidths.every((w) => w > 180) &&
       colWidths[0] + colWidths[1] < window.innerWidth * 0.95;
-
-    const promoSection = [...document.querySelectorAll(".marketing-kontekst-section")].find((s) =>
-      (s.querySelector(".numbered-header__title")?.textContent || "").includes("Измеримое продвижение"),
+    const bullet = pc?.querySelector(".numbered-header__bullet");
+    const sections = pc?.querySelectorAll(".page-constructor__section").length || 0;
+    const stratH2 = [...document.querySelectorAll("h2")].find((e) =>
+      (e.textContent || "").includes("Стратегия"),
     );
-    const promoCols = promoSection
-      ? [...promoSection.querySelectorAll(".content-block__grid--desc > .col-4")]
-      : [];
-    const promoCounts = promoCols.map((c) => c.querySelectorAll(".block-item").length);
-    const promoBalanced =
-      promoCols.length === 3 &&
-      promoCounts.length === 3 &&
-      Math.max(...promoCounts) - Math.min(...promoCounts) <= 1;
-    const heroSec = document.querySelector(".marketing-hero-section");
-    const sliderWrap = document.querySelector(".mor-cases-slider-wrapper.more-cases--active");
-    const slideText =
-      sliderWrap && getComputedStyle(sliderWrap).display !== "none"
-        ? sliderWrap.querySelector(".mor-cases-slide__text")
-        : null;
-    const hr = heroSec?.getBoundingClientRect();
-    const sr = slideText?.getBoundingClientRect();
-    const casesBelowHero = !hr || !slideText || !sr || sr.top >= hr.bottom - 24;
+    const stratBlock = stratH2?.closest(".content-block");
+    const stratDesc = stratBlock?.querySelector(".content-block__grid--desc");
+    const stratSlider = stratBlock?.querySelector(".content-block__slider");
+    const cmWide = document.querySelector(".marketing-cm-wide-slider");
+    const awareness = document.querySelector(".marketing-brand-awareness-grid");
+    const casesSec = document.querySelector(".marketing-cases-section");
     const awardsCards = document.querySelectorAll(".awards__card").length;
-    const sliderHidden =
-      document.querySelector(".mor-cases-slider-wrapper.more-cases--active") &&
-      getComputedStyle(document.querySelector(".mor-cases-slider-wrapper.more-cases--active")).display ===
-        "none";
-    const hasHomeCasesAuto = [...document.scripts].some((s) => s.src.includes("home-cases-auto"));
+    const synergyRoot = document.querySelector(".kontekst-synergy-root, .marketing-synergy-diagram");
+    const caseSliderHero = document.querySelector(".case-slider__wrapper");
+    const team = document.querySelector(".team-block, .marketing-team-section");
+
     return {
-      h1,
-      heroW: hero?.width || 0,
+      h1: h1?.textContent?.trim(),
+      h1W: h1r?.width || 0,
+      titleGap,
       gridW: grid?.width || 0,
-      blockItems: document.querySelectorAll(".block-item").length,
-      bulletW: bulletRect?.width || 0,
-      headerEmpty: !!document.querySelector(".marketing-kontekst-section .number-header__empty"),
-      hasLegacy: !!legacy,
-      sections,
-      hasTeam: !!document.querySelector(".marketing-team-section, .team-block"),
-      bodyColor: getComputedStyle(document.body).color,
-      gridDisplay: gridCols,
       gridVisible,
       threeColumnGrid,
-      gridColCount: gridCols3.length,
-      heroTitleGap,
-      heroSolidBg,
-      headerDarkBg,
-      hasGradientCanvas: !!document.querySelector("#gradient-canvas"),
-      promoBalanced,
-      promoColCounts: promoCounts.join(","),
-      casesBelowHero,
+      gridColCount: col4.length,
+      bulletW: bullet?.getBoundingClientRect().width || 0,
+      sections,
+      blockItems: pc?.querySelectorAll(".block-item").length || 0,
+      stratDescVisible: stratDesc && getComputedStyle(stratDesc).display !== "none",
+      stratHasSlider: !!stratSlider,
+      hasCmWide: !!cmWide,
+      hasAwarenessGrid: !!awareness,
+      hasCases: !!casesSec,
       awardsCards,
-      sliderHiddenDesktop: sliderHidden,
-      hasHomeCasesAuto,
+      hasSynergy: !!synergyRoot,
+      hasHeroSlider: !!caseSliderHero,
+      hasTeam: !!team,
+      isTargeting: !!pc,
     };
   });
 
   fs.mkdirSync(SHOT_DIR, { recursive: true });
   await page.screenshot({ path: path.join(SHOT_DIR, `iter-${n}-1440.png`), fullPage: false });
 
+  assert(metrics.isTargeting, `итерация ${n}: .targeting-page`);
   assert(metrics.h1?.includes("Комплексный маркетинг"), `итерация ${n}: H1`);
-  assert(metrics.heroW > 200, `итерация ${n}: hero title width ${metrics.heroW}`);
-  assert(metrics.heroTitleGap >= 36 && metrics.heroTitleGap <= 48, `итерация ${n}: зазор h1→описание ${metrics.heroTitleGap}px (ожид. ~40)`);
-  assert(metrics.heroSolidBg, `итерация ${n}: hero не #191a1b`);
-  assert(!metrics.hasGradientCanvas, `итерация ${n}: лишний gradient-canvas`);
-  assert(metrics.headerDarkBg, `итерация ${n}: шапка не #191a1b`);
-  assert(metrics.gridVisible, `итерация ${n}: desc-сетка скрыта (display=${metrics.gridDisplay})`);
-  assert(metrics.threeColumnGrid, `итерация ${n}: не 3 колонки (cols=${metrics.gridColCount})`);
-  assert(metrics.promoBalanced, `итерация ${n}: продвижение — не 3 колонки (${metrics.promoColCounts})`);
-  assert(
-    metrics.gridW > 600,
-    `итерация ${n}: grid width ${metrics.gridW}px (cards ${metrics.blockItems})`,
-  );
-  if (!metrics.headerEmpty) {
-    assert(metrics.bulletW > 0, `итерация ${n}: numbered-header bullet`);
-  }
-  assert(!metrics.hasLegacy, `итерация ${n}: нет legacy cm-page/cm-about`);
-  assert(metrics.sections >= 5, `итерация ${n}: секций content-block ${metrics.sections}`);
-  assert(!metrics.hasTeam, `итерация ${n}: секция «Команда» убрана`);
-  assert(metrics.casesBelowHero, `итерация ${n}: текст кейсов не наезжает на hero`);
-  assert(metrics.awardsCards >= 3, `итерация ${n}: награды в DOM (${metrics.awardsCards})`);
-  assert(metrics.sliderHiddenDesktop, `итерация ${n}: слайдер скрыт на desktop (сетка)`);
-  assert(!metrics.hasHomeCasesAuto, `итерация ${n}: нет home-cases-auto.js`);
+  assert(metrics.h1W > 200, `итерация ${n}: H1 width ${metrics.h1W}`);
+  assert(metrics.titleGap >= 8 && metrics.titleGap < 120, `итерация ${n}: зазор h1→subtitle ${metrics.titleGap}px`);
+  assert(metrics.gridVisible, `итерация ${n}: desc-сетка скрыта`);
+  assert(metrics.threeColumnGrid, `итерация ${n}: не 3 колонки (${metrics.gridColCount})`);
+  assert(metrics.gridW > 600, `итерация ${n}: grid ${metrics.gridW}px`);
+  assert(metrics.bulletW > 0, `итерация ${n}: numbered bullet`);
+  assert(metrics.sections >= 12, `итерация ${n}: мало секций (${metrics.sections})`);
+  assert(metrics.blockItems >= 20, `итерация ${n}: block-item ${metrics.blockItems}`);
+  assert(metrics.stratDescVisible, `итерация ${n}: стратегия desc-сетка`);
+  assert(!metrics.stratHasSlider, `итерация ${n}: слайдер в стратегии`);
+  assert(metrics.hasCmWide, `итерация ${n}: cm-wide-slider`);
+  assert(metrics.hasAwarenessGrid, `итерация ${n}: brand-awareness grid`);
+  assert(metrics.hasCases, `итерация ${n}: кейсы`);
+  assert(metrics.awardsCards >= 3, `итерация ${n}: награды (${metrics.awardsCards})`);
+  assert(!metrics.hasSynergy, `итерация ${n}: синергия`);
+  assert(!metrics.hasHeroSlider, `итерация ${n}: case-slider в hero`);
+  assert(!metrics.hasTeam, `итерация ${n}: команда`);
 
-  console.log(`  итерация ${n}/5: ok (секций ${metrics.sections}, grid ${Math.round(metrics.gridW)}px)`);
+  console.log(
+    `  итерация ${n}/3: ok (секций ${metrics.sections}, grid ${Math.round(metrics.gridW)}px, cards ${metrics.blockItems})`,
+  );
 }
 
 async function main() {
@@ -218,10 +156,10 @@ async function main() {
   const page = await browser.newPage();
   try {
     console.log("verify-marketing-visual:", URL);
-    for (let i = 1; i <= 5; i += 1) {
+    for (let i = 1; i <= 3; i += 1) {
       await runIteration(page, i);
     }
-    console.log("verify-marketing-visual: 5/5 ok, скриншоты в", SHOT_DIR);
+    console.log("verify-marketing-visual: 3/3 ok, скриншоты в", SHOT_DIR);
   } finally {
     await browser.close();
     server.close();

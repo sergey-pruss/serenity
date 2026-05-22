@@ -265,3 +265,64 @@
   word-break: break-word;
   overflow-wrap: anywhere;
 }
+
+/*
+ * /services/marketing: заголовок над подписью (не в строку как у targeting/kontekst).
+ * Этот файл грузится после targeting-static-stack — правила должны быть здесь.
+ */
+.home-awards-block .awards__header.marketing-awards-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  /* Зазор lead → ряд венков: 72px (блок marketing вне .page-constructor) */
+  margin: 0 0 72px !important;
+}
+
+.home-awards-block .marketing-awards-header #marketing-awards-heading,
+.home-awards-block .marketing-awards-header h3.home-clients-awards__title {
+  margin: 0 0 15px !important;
+  width: 100%;
+  max-width: none;
+}
+
+.home-awards-block .marketing-awards__lead {
+  display: block !important;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+  color: #c4c4c4 !important;
+  font-size: 18px !important;
+  font-weight: 300 !important;
+  line-height: 150% !important;
+  font-family: MuseoSansCyrl, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+.home-awards-block .marketing-awards__lead a {
+  color: #f6f6f6 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+}
+
+.home-awards-block .marketing-awards__lead a:hover {
+  opacity: 0.85;
+}
+
+@media screen and (max-width: 768px) {
+  .home-awards-block .awards__header.marketing-awards-header {
+    margin-bottom: var(--home-ledge, 40px) !important;
+  }
+
+  .home-awards-block .marketing-awards-header #marketing-awards-heading,
+  .home-awards-block .marketing-awards-header h3.home-clients-awards__title {
+    margin-bottom: 15px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .home-awards-block .marketing-awards__lead {
+    font-size: 16px !important;
+  }
+}
