@@ -498,7 +498,8 @@
   const initOneClientsStrip = (host) => {
     const track = host ? host.querySelector(".clients-new__context-wrapper") : null;
     if (!host || !track) return;
-    if (host.dataset.clientsStrip === "1") return;
+    if (host.dataset.clientsStripInit === "1") return;
+    host.dataset.clientsStripInit = "1";
     host.dataset.clientsStrip = "1";
     host.classList.add("clients-strip");
 
