@@ -164,8 +164,11 @@
         <p>
           Локальный шаблон:
           <code>integrations/slack/secrets.example.env</code> →
-          <code>secrets.env</code> (не коммитить).
+          <code>secrets.env</code> (не коммитить). Одной командой в GitHub:
         </p>
+        <pre>cp integrations/slack/secrets.example.env integrations/slack/secrets.env
+# заполнить три значения
+bash scripts/set-slack-morning-github-secrets.sh</pre>
       </section>
 
       <section>

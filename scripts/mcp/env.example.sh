@@ -3,13 +3,13 @@
 # Токены: npx yandex-webmaster-mcp auth | npx yandex-metrika-mcp auth (нужны YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET)
 export YANDEX_WEBMASTER_TOKEN=""
 export YANDEX_METRIKA_TOKEN=""
-# Google Search Console MCP — рекомендуется OAuth Desktop (не нужно добавлять SA в GSC):
-# npm run mcp:gsc-install-oauth -- "$HOME/Downloads/client_secret_….json"
-#   → secrets/mcp/gsc-oauth-desktop.json (лаунчер подхватывает сам)
-# или: npm run mcp:gsc-sync-oauth  (копия из sergey-pruss.github.io/.cursor/mcp.json)
-# или явный путь:
-# export GSC_OAUTH_CLIENT_FILE="/абсолютный/путь/к/oauth-desktop.json"
-# Принудительно SA вместо OAuth (если оба файла есть): export GSC_FORCE_SERVICE_ACCOUNT=1
+# GSC / дашборд — sergeyprus@gmail.com, клиент sergeypruss (не Serenity SEO):
+# npm run mcp:gsc-sync-oauth  или mcp:gsc-install-oauth → secrets/mcp/gsc-oauth-desktop.json
+# npm run seo:gsc-oauth-token:install
+# Google Таблица миграции — prus@serenity.ru, клиент Serenity SEO:
+# secrets/mcp/google-sheets-oauth-client.json + npm run seo:sheets-oauth:install
+# export GSC_OAUTH_CLIENT_FILE=…  export GOOGLE_SHEETS_OAUTH_CLIENT_FILE=…
+# Принудительно SA для GSC (обычно не нужно): export GSC_FORCE_SERVICE_ACCOUNT=1
 # Сервисный аккаунт (опционально, для npm run seo:positions-report по Google):
 # export GSC_SERVICE_ACCOUNT_KEY_FILE="/абсолютный/путь/к/service-account.json"
 #

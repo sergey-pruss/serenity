@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Интерактивная съёмка SERP для rank-dashboard: топ-20, позиция serenity.agency.
+ * Интерактивная съёмка SERP для rank-dashboard: топ-50 (ORGANIC_TARGET), позиция serenity.agency.
  * SERP_INTERACTIVE=1 — капча в браузере, Enter в терминале.
  */
 import { chromium } from "playwright";
@@ -18,7 +18,7 @@ import {
   sortPendingSerpCells,
   upsertCheckEntry,
 } from "./lib/rank-dashboard-utils.mjs";
-import { REGIONS, serpUseWebKit } from "./lib/serp-shared.mjs";
+import { ORGANIC_TARGET, organicOutOfTopLabel, REGIONS, serpUseWebKit } from "./lib/serp-shared.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import {
@@ -32,8 +32,13 @@ import {
   fetchOrganicTop20,
   isSerpPageOpen,
   resetYandexInteractiveSession,
-  safePageDelay,
+  pauseBetweenSerpCells,
   saveGoogleState,
+  serpCellDelayMs,
+  serpDelayJitterMs,
+  serpFetchDelayMs,
+  serpPageFlipDelayMs,
+  serpPageFlipJitterMs,
 } from "./lib/serp-fetch-organic.mjs";
 
 function todayIso() {
@@ -48,6 +53,14 @@ function usage() {
   RANK_CHECK_DATE=YYYY-MM-DD   дата снимка (по умолчанию сегодня)
   RANK_DASHBOARD_PATH=…        путь к JSON
   SERP_INTERACTIVE=1           капча + Enter (npm run seo:rank-dashboard:serp:interactive)
+  SERP_FETCH_DELAY_MS=…        пауза после открытия выдачи (интерактив ~2500)
+  SERP_CELL_DELAY_MS=…         пауза между ячейками дашборда (интерактив ~4000)
+  SERP_DELAY_JITTER_MS=…       случайная добавка к паузе между ячейками (интерактив ~2000)
+  SERP_PAGE_FLIP_DELAY_MS=…    пауза перед стр. 2–5 выдачи (интерактив ~8000)
+  SERP_PAGE_FLIP_JITTER_MS=…   джиттер к листанию (интерактив ~6000)
+  SERP_HUMAN_SCROLL=0          без прокрутки между страницами
+  SERP_VERBOSE_DELAY=1         логировать каждую паузу
+  RANK_DASHBOARD_SKIP_DEV_DEPLOY=1  не выкладывать на static-dev после съёмки
   SERP_BROWSER=webkit          Safari/WebKit для Яндекс и Google (по умолчанию в interactive)
   SERP_BROWSER=chromium        откат на Chromium
   SERP_SKIP_KEYS=a|b|c         пропуск pageId|queryId|engine|region через запятую
@@ -261,6 +274,17 @@ async function main() {
   }
 
   if (SERP_INTERACTIVE) {
+    const cellBase = serpCellDelayMs();
+    const cellJit = serpDelayJitterMs();
+    const flipBase = serpPageFlipDelayMs();
+    const flipJit = serpPageFlipJitterMs();
+    console.log(
+      `Паузы: после загрузки ${serpFetchDelayMs()} ms; между запросами ${cellBase}` +
+        (cellJit > 0 ? `–${cellBase + cellJit}` : "") +
+        ` ms; листание стр. 2–5: ${flipBase}` +
+        (flipJit > 0 ? `–${flipBase + flipJit}` : "") +
+        ` ms (+ прокрутка). SERP_PAGE_FLIP_* / SERP_CELL_*`,
+    );
     const yM = pending.filter((c) => c.region === "moscow").length;
     const yS = pending.filter((c) => c.region === "spb").length;
     const browserLabel = serpUseWebKit() ? "WebKit (Safari)" : "Chromium";
@@ -405,7 +429,10 @@ async function main() {
     }
 
     try {
-      const block = await fetchOrganicTop20(pwPage, q.text, engine, region);
+      const block = await fetchOrganicTop20(pwPage, q.text, engine, region, {
+        primaryDomain: dash.site.primaryDomain,
+        preferredPath: page.path,
+      });
       const hit = findSerenityPosition(
         block.results,
         dash.site.primaryDomain,
@@ -424,7 +451,7 @@ async function main() {
       };
       upsertCheckEntry(dash, date, entry);
       saveRankDashboard(dash, dashPath);
-      const posLabel = hit.position != null ? String(hit.position) : ">20";
+      const posLabel = hit.position != null ? String(hit.position) : organicOutOfTopLabel();
       console.log(`  → Serenity: ${posLabel}${hit.matchedUrl ? ` (${hit.matchedUrl})` : ""}`);
       if (engine === "google" && SERP_INTERACTIVE && context) {
         await saveGoogleState(context, region);
@@ -452,9 +479,8 @@ async function main() {
     }
     if (engine === "google" && isSerpPageOpen(pwPage) && !useWebKit) {
       await pwPage.close().catch(() => {});
-    } else {
-      await safePageDelay(pwPage, 800);
     }
+    await pauseBetweenSerpCells(pwPage);
   }
 
   await closeGoogleContext();
@@ -464,8 +490,34 @@ async function main() {
   }
   if (chromiumBrowser) await chromiumBrowser.close();
 
-  console.log(`\nГотово. Снимок ${date} → ${dashPath}`);
-  console.log("Соберите HTML: npm run seo:rank-dashboard:build");
+  console.log(`\nГотово. Снимок ${date} → ${dashPath} (${pending.length} ячеек)`);
+
+  if (process.env.MIGRATION_SHEET_SKIP_UPDATE !== "1") {
+    try {
+      const { updateMigrationSheetRankings } = await import(
+        "./lib/migration-sheet-update-rankings.mjs"
+      );
+      const r = await updateMigrationSheetRankings();
+      console.log(
+        `Таблица миграции: позиции обновлены (лист «${r.title}», ячеек: ${r.updates})`,
+      );
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.warn(`Таблица миграции: не обновлена (${msg})`);
+      console.warn("  npm run seo:migration-sheet:update-rankings");
+    }
+  }
+
+  if (process.env.RANK_DASHBOARD_SKIP_DEV_DEPLOY !== "1") {
+    const { deployRankDashboardToDev } = await import(
+      "./lib/deploy-rank-dashboard-dev.mjs"
+    );
+    await deployRankDashboardToDev();
+  } else {
+    console.log(
+      "Dev-deploy пропущен (RANK_DASHBOARD_SKIP_DEV_DEPLOY=1). Сборка: npm run seo:rank-dashboard:build",
+    );
+  }
 }
 
 main().catch((e) => {

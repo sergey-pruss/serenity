@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Копирует OAuth Desktop JSON для GSC MCP из пути, указанного в
- * ~/Documents/GitHub/sergey-pruss.github.io/.cursor/mcp.json
- * → secrets/mcp/gsc-oauth-desktop.json (лаунчер подхватывает автоматически).
+ * Копирует OAuth Desktop JSON для GSC → secrets/mcp/gsc-oauth-desktop.json
+ * Ищет путь в mcp.json (несколько типовых мест) или принимает файл аргументом.
+ *
+ * npm run mcp:gsc-sync-oauth
+ * npm run mcp:gsc-sync-oauth -- /путь/к/client_secret_….json
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -11,53 +13,109 @@ import { execSync } from "node:child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..", "..");
-const personalMcp = path.join(
-  process.env.HOME || "",
-  "Documents",
-  "GitHub",
-  "sergey-pruss.github.io",
-  ".cursor",
-  "mcp.json"
-);
+const home = process.env.HOME || "";
 const dest = path.join(root, "secrets", "mcp", "gsc-oauth-desktop.json");
 
-if (!fs.existsSync(personalMcp)) {
-  console.error("Не найден личный конфиг:", personalMcp);
-  process.exit(1);
+/** @returns {string[]} */
+function mcpJsonCandidates() {
+  const extra = process.env.GSC_SYNC_MCP_JSON?.trim();
+  return [
+    ...(extra ? [extra] : []),
+    path.join(home, "Documents", "GitHub", "sergey-pruss.github.io", ".cursor", "mcp.json"),
+    path.join(home, "GitHub", "sergey-pruss.github.io", ".cursor", "mcp.json"),
+    path.join(home, ".cursor", "mcp.json"),
+    path.join(root, ".cursor", "mcp.json"),
+  ].filter((p, i, a) => p && a.indexOf(p) === i);
 }
 
-let src;
-try {
-  const j = JSON.parse(fs.readFileSync(personalMcp, "utf8"));
-  src = j?.mcpServers?.["google-search-console"]?.env?.GSC_OAUTH_CLIENT_FILE;
-} catch (e) {
-  console.error("Не удалось прочитать", personalMcp, e.message);
-  process.exit(1);
+/**
+ * @param {string} mcpPath
+ * @returns {string | null}
+ */
+function oauthPathFromMcpJson(mcpPath) {
+  try {
+    const j = JSON.parse(fs.readFileSync(mcpPath, "utf8"));
+    const env = j?.mcpServers?.["google-search-console"]?.env;
+    const src = env?.GSC_OAUTH_CLIENT_FILE;
+    return typeof src === "string" && src.trim() ? src.trim() : null;
+  } catch {
+    return null;
+  }
 }
 
-if (!src || typeof src !== "string") {
-  console.error("В", personalMcp, "нет mcpServers.google-search-console.env.GSC_OAUTH_CLIENT_FILE");
-  process.exit(1);
+/**
+ * @param {string} src
+ */
+function copyOAuthClient(src) {
+  if (!fs.existsSync(src)) {
+    throw new Error(`Файл не найден: ${src}`);
+  }
+  const data = JSON.parse(fs.readFileSync(src, "utf8"));
+  if (!data.installed && !data.web) {
+    throw new Error("Ожидается OAuth JSON с полем installed (Desktop) или web");
+  }
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(src, dest);
+  const st = fs.statSync(dest);
+  console.log("Скопировано:", dest, `(${st.size} bytes)`);
+  console.log("Далее: npm run seo:gsc-oauth-token:install  (вход sergeyprus@gmail.com)");
+  console.log("       npm run seo:rank-dashboard:panels");
 }
 
-if (!fs.existsSync(src)) {
-  console.error("Файл OAuth клиента не найден по пути из личного mcp.json:\n  ", src);
-  console.error("\nСкачайте JSON для OAuth-клиента «Desktop» в Google Cloud → APIs & Services → Credentials");
-  console.error("и либо положите его по этому пути, либо обновите путь в sergey-pruss.github.io/.cursor/mcp.json");
+function printHelp() {
+  console.error("Не найден OAuth-клиент GSC (sergeypruss).\n");
+  console.error("Вариант A — указать JSON Desktop-клиента из Google Cloud (проект sergeypruss):");
+  console.error('  npm run mcp:gsc-install-oauth -- "$HOME/Downloads/client_secret_….json"\n');
+  console.error("Вариант B — положить путь в любой из mcp.json и повторить sync:");
+  for (const p of mcpJsonCandidates()) {
+    console.error("  ", p);
+  }
+  console.error(
+    '\n  google-search-console.env.GSC_OAUTH_CLIENT_FILE = "/полный/путь/client_secret….json"',
+  );
+  console.error("\nНе используйте клиент Serenity SEO (prus@) — только GSC-клиент sergeypruss.");
   if (process.platform === "darwin") {
     try {
-      execSync("open 'https://console.cloud.google.com/apis/credentials'", { stdio: "inherit" });
-      execSync(`open "${path.dirname(src)}"`, { stdio: "inherit" });
+      execSync("open 'https://console.cloud.google.com/apis/credentials'", {
+        stdio: "inherit",
+      });
     } catch {
       /* ignore */
     }
   }
+}
+
+function main() {
+  const arg = process.argv[2]?.trim();
+  if (arg) {
+    try {
+      copyOAuthClient(path.resolve(arg));
+      return;
+    } catch (e) {
+      console.error(e instanceof Error ? e.message : e);
+      process.exit(1);
+    }
+  }
+
+  for (const mcpPath of mcpJsonCandidates()) {
+    if (!fs.existsSync(mcpPath)) continue;
+    const src = oauthPathFromMcpJson(mcpPath);
+    if (!src) {
+      console.error("В", mcpPath, "нет google-search-console → GSC_OAUTH_CLIENT_FILE");
+      continue;
+    }
+    try {
+      console.log("Источник:", mcpPath);
+      copyOAuthClient(src);
+      return;
+    } catch (e) {
+      console.error(e instanceof Error ? e.message : e);
+      if (fs.existsSync(src)) process.exit(1);
+    }
+  }
+
+  printHelp();
   process.exit(1);
 }
 
-fs.mkdirSync(path.dirname(dest), { recursive: true });
-fs.copyFileSync(src, dest);
-const st = fs.statSync(dest);
-console.log("Скопировано:", dest, `(${st.size} bytes)`);
-console.log("Перезапустите MCP в Cursor.");
-console.log("Альтернатива без личного mcp.json: npm run mcp:gsc-install-oauth -- /путь/к/client_secret_….json");
+main();

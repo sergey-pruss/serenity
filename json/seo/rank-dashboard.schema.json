@@ -40,7 +40,7 @@
         "queries": {
           "type": "array",
           "minItems": 1,
-          "maxItems": 2,
+          "maxItems": 3,
           "items": { "$ref": "#/$defs/query" }
         }
       }
@@ -76,7 +76,7 @@
         "queryId": { "type": "string", "minLength": 1 },
         "engine": { "enum": ["yandex", "google"] },
         "region": { "enum": ["moscow", "spb", "rf"] },
-        "position": { "type": ["integer", "null"], "minimum": 1, "maximum": 20 },
+        "position": { "type": ["integer", "null"], "minimum": 1, "maximum": 50 },
         "outOfTop20": { "type": "boolean" },
         "matchedUrl": { "type": ["string", "null"] },
         "source": { "type": "string" }

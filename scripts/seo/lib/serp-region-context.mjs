@@ -20,7 +20,7 @@ const WRONG_REGION_HINTS = [
  * в браузере и «Результаты для …» в подвале; в ссылке из дашборда — только RU.
  * @param {string} query
  * @param {RegionId} [_regionId]
- * @param {number} [page] 0 — первая страница, 1 — вторая (start=10, позиции 11–20)
+ * @param {number} [page] 0 — первая (start=0), 1 — start=10, … (по 10 органики)
  */
 export function googleSearchUrl(query, _regionId, page = 0) {
   const params = new URLSearchParams({
@@ -36,7 +36,7 @@ export function googleSearchUrl(query, _regionId, page = 0) {
 
 /**
  * @param {RegionId} regionId
- * @param {number} [page] 0 — первая страница, 1 — вторая (позиции ~11–20)
+ * @param {number} [page] 0 — первая, 1+ — p=1,2… (по ~10 органики)
  */
 export function yandexSearchUrl(query, regionId, page = 0) {
   const r = REGIONS[regionId];

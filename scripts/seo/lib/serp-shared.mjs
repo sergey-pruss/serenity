@@ -1,7 +1,31 @@
 /** @typedef {'yandex' | 'google'} SearchEngine */
 /** @typedef {'moscow' | 'spb' | 'rf'} RegionId */
 
-export const ORGANIC_TARGET = 20;
+/** Глубина ручной съёмки органики (позиции 1…N). По умолчанию 50. */
+export const ORGANIC_TARGET = (() => {
+  const n = Number(process.env.SERP_ORGANIC_DEPTH || "50");
+  if (!Number.isFinite(n) || n < 10) return 50;
+  return Math.min(100, Math.floor(n));
+})();
+
+export const ORGANIC_PAGE_SLOTS = 10;
+
+/** Сколько страниц выдачи (по ~10 органики): 50 → 5. */
+export const ORGANIC_SERP_PAGES = Math.ceil(ORGANIC_TARGET / ORGANIC_PAGE_SLOTS);
+
+/** Подпись «нет в органике» в JSON поле outOfTop20 сохранено для совместимости. */
+export function organicOutOfTopLabel() {
+  return `>${ORGANIC_TARGET}`;
+}
+
+/**
+ * После нахождения serenity.agency на текущей странице выдачи не открывать следующие.
+ * Полная пагинация: SERP_PAGINATE_ALL_PAGES=1
+ */
+export function serpStopWhenSerenityFound() {
+  const v = (process.env.SERP_PAGINATE_ALL_PAGES || "").trim().toLowerCase();
+  return !(v === "1" || v === "true" || v === "yes");
+}
 
 export const YANDEX_SEARCH_ORIGIN = (
   process.env.SERP_YANDEX_ORIGIN || "https://yandex.ru"

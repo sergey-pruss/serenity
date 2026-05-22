@@ -13,7 +13,7 @@ GSC_OAUTH_DEFAULT="$ROOT/secrets/mcp/gsc-oauth-desktop.json"
 if [[ -z "${GSC_OAUTH_CLIENT_FILE:-}" && -f "$GSC_OAUTH_DEFAULT" ]]; then
   export GSC_OAUTH_CLIENT_FILE="$GSC_OAUTH_DEFAULT"
 fi
-# Как MCP: OAuth от личного Google (доступ к GSC без SA в свойстве).
+# GSC: sergeyprus@gmail.com + gsc-oauth-desktop.json (sergeypruss). Не клиент Serenity SEO для Sheets.
 if [[ "${GSC_FORCE_SERVICE_ACCOUNT:-}" != "1" && -n "${GSC_OAUTH_CLIENT_FILE:-}" && -f "$GSC_OAUTH_CLIENT_FILE" ]]; then
   unset GSC_SERVICE_ACCOUNT_KEY_FILE GSC_SERVICE_ACCOUNT_KEY || true
 else

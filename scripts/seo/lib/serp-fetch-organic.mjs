@@ -1,21 +1,25 @@
 /**
- * Съёмка органической выдачи (топ-20) для дашборда позиций и gap-отчётов.
+ * Съёмка органической выдачи (топ-N, по умолчанию 50) для дашборда и gap-отчётов.
  *
  * Интерактивный Яндекс (порядок шагов):
  * 1) открыть URL запроса;
  * 2) капча — ждём, пока сами откроется /search (без Enter на showcaptcha);
  * 3) регион в подвале — один раз на город (Москва, потом СПб), Enter;
  * 4) следующие запросы того же города — только новый URL, Enter на готовой выдаче;
- * 5) съёмка топ-20 (Яндекс: страница 1, при необходимости p=1 для 11–20).
+ * 5) съёмка топ-N (Яндекс/Google: до 5 страниц выдачи по ~10 органики).
  */
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import {
   ORGANIC_TARGET,
+  ORGANIC_PAGE_SLOTS,
+  ORGANIC_SERP_PAGES,
   REGIONS,
   YANDEX_SEARCH_ORIGIN,
   isDeniedSerpHost,
+  serpStopWhenSerenityFound,
 } from "./serp-shared.mjs";
+import { findSerenityPosition } from "./rank-dashboard-utils.mjs";
 import {
   createRegionalContext,
   googleSearchUrl,
@@ -32,7 +36,120 @@ import {
 } from "./yandex-organic-url.mjs";
 
 export const SERP_INTERACTIVE = process.env.SERP_INTERACTIVE === "1";
-const DELAY_MS = Number(process.env.SERP_FETCH_DELAY_MS || "1500");
+
+/** @typedef {{ primaryDomain: string; preferredPath?: string }} SerpStopContext */
+
+/**
+ * @param {{ position: number; url: string }[]} merged
+ * @param {SerpStopContext | null | undefined} stopCtx
+ */
+function shouldStopSerpPagination(merged, stopCtx) {
+  if (!stopCtx || !serpStopWhenSerenityFound()) return false;
+  const hit = findSerenityPosition(
+    merged,
+    stopCtx.primaryDomain,
+    stopCtx.preferredPath,
+  );
+  return hit.position != null;
+}
+
+/** Пауза после открытия выдачи / между страницами пагинации (мс). */
+export function serpFetchDelayMs() {
+  if (process.env.SERP_FETCH_DELAY_MS != null && process.env.SERP_FETCH_DELAY_MS !== "") {
+    return Number(process.env.SERP_FETCH_DELAY_MS);
+  }
+  return SERP_INTERACTIVE ? 2500 : 1500;
+}
+
+/** Пауза между ячейками дашборда (мс) — снижает частоту капчи. */
+export function serpCellDelayMs() {
+  if (process.env.SERP_CELL_DELAY_MS != null && process.env.SERP_CELL_DELAY_MS !== "") {
+    return Number(process.env.SERP_CELL_DELAY_MS);
+  }
+  return SERP_INTERACTIVE ? 4000 : 1200;
+}
+
+/** Случайная добавка к паузе между ячейками (0 … N мс). */
+export function serpDelayJitterMs() {
+  if (process.env.SERP_DELAY_JITTER_MS != null && process.env.SERP_DELAY_JITTER_MS !== "") {
+    return Number(process.env.SERP_DELAY_JITTER_MS);
+  }
+  return SERP_INTERACTIVE ? 2000 : 0;
+}
+
+/** Пауза между листанием стр. 2–5 выдачи (мс) — дольше, чем после первого открытия. */
+export function serpPageFlipDelayMs() {
+  if (process.env.SERP_PAGE_FLIP_DELAY_MS != null && process.env.SERP_PAGE_FLIP_DELAY_MS !== "") {
+    return Number(process.env.SERP_PAGE_FLIP_DELAY_MS);
+  }
+  return SERP_INTERACTIVE ? 8000 : 2000;
+}
+
+/** Джиттер к паузе между страницами пагинации. */
+export function serpPageFlipJitterMs() {
+  if (process.env.SERP_PAGE_FLIP_JITTER_MS != null && process.env.SERP_PAGE_FLIP_JITTER_MS !== "") {
+    return Number(process.env.SERP_PAGE_FLIP_JITTER_MS);
+  }
+  return SERP_INTERACTIVE ? 6000 : 0;
+}
+
+/**
+ * Пауза перед переходом на следующую страницу SERP (+ лёгкая прокрутка).
+ * @param {import('playwright').Page | null | undefined} page
+ * @param {number} nextPageIndex 1-based номер следующей страницы
+ */
+export async function pauseBetweenSerpPageFlips(page, nextPageIndex) {
+  const base = serpPageFlipDelayMs();
+  const jitter = serpPageFlipJitterMs();
+  const extra = jitter > 0 ? Math.floor(Math.random() * (jitter + 1)) : 0;
+  const total = base + extra;
+  if (process.env.SERP_VERBOSE_DELAY === "1") {
+    console.log(`  … пауза перед стр. ${nextPageIndex}: ${(total / 1000).toFixed(1)} с`);
+  }
+  if (isSerpPageOpen(page) && process.env.SERP_HUMAN_SCROLL !== "0") {
+    await humanLikeScrollOnPage(page);
+  }
+  if (isSerpPageOpen(page)) {
+    await safePageDelay(page, total);
+  } else {
+    await new Promise((r) => setTimeout(r, total));
+  }
+}
+
+/** @param {import('playwright').Page} page */
+async function humanLikeScrollOnPage(page) {
+  try {
+    const steps = 1 + Math.floor(Math.random() * 2);
+    for (let i = 0; i < steps; i++) {
+      await page.evaluate(() => {
+        const step = 180 + Math.floor(Math.random() * 420);
+        window.scrollBy({ top: step, behavior: "smooth" });
+      });
+      await page.waitForTimeout(500 + Math.floor(Math.random() * 900));
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
+/**
+ * Пауза между запросами в rank-dashboard (с джиттером).
+ * @param {import('playwright').Page | null | undefined} page
+ */
+export async function pauseBetweenSerpCells(page) {
+  const base = serpCellDelayMs();
+  const jitter = serpDelayJitterMs();
+  const extra = jitter > 0 ? Math.floor(Math.random() * (jitter + 1)) : 0;
+  const total = base + extra;
+  if (process.env.SERP_VERBOSE_DELAY === "1") {
+    console.log(`  … пауза ${total} ms`);
+  }
+  if (isSerpPageOpen(page)) {
+    await safePageDelay(page, total);
+  } else {
+    await new Promise((r) => setTimeout(r, total));
+  }
+}
 
 /** @param {import('playwright').Page | null | undefined} page */
 export function isSerpPageOpen(page) {
@@ -49,15 +166,16 @@ export async function safePageDelay(page, ms) {
     return false;
   }
 }
-/** Яндекс: после 1-й страницы открыть p=1 для позиций 11–20 (0 — только первая страница). */
+/** Яндекс: страницы p=1… (0 — только первая). Для топ-50 нужны все страницы. */
 const YANDEX_PAGINATE =
-  process.env.SERP_YANDEX_PAGINATE !== "0" && process.env.SERP_YANDEX_PAGINATE !== "false";
-/** Слотов органики на первой странице (вторая = 11–20). */
-const YANDEX_PAGE1_SLOTS = 10;
-const GOOGLE_PAGE1_SLOTS = 10;
-/** Google: вторая страница (start=10). Отключить: SERP_GOOGLE_PAGINATE=0 */
+  process.env.SERP_YANDEX_PAGINATE !== "0" &&
+  process.env.SERP_YANDEX_PAGINATE !== "false" &&
+  ORGANIC_SERP_PAGES > 1;
+/** Google: start=10,20,… Отключить: SERP_GOOGLE_PAGINATE=0 */
 const GOOGLE_PAGINATE =
-  process.env.SERP_GOOGLE_PAGINATE !== "0" && process.env.SERP_GOOGLE_PAGINATE !== "false";
+  process.env.SERP_GOOGLE_PAGINATE !== "0" &&
+  process.env.SERP_GOOGLE_PAGINATE !== "false" &&
+  ORGANIC_SERP_PAGES > 1;
 
 /** @type {import('./serp-shared.mjs').RegionId | null} */
 let yandexFooterRegionLocked = null;
@@ -402,7 +520,7 @@ function buildOrganicResults(raw, maxCount = ORGANIC_TARGET) {
  * @param {{ position: number; title: string; url: string; displayDomain: string }[]} page1
  * @param {{ title: string; url: string; snippet: string }[]} raw2
  */
-function mergeYandexPage1And2(page1, raw2) {
+function mergeOrganicSlices(page1, raw2) {
   /** @type {Map<string, { position: number; title: string; url: string; displayDomain: string }>} */
   const seen = new Map();
   for (const r of page1) {
@@ -438,99 +556,147 @@ function mergeYandexPage1And2(page1, raw2) {
 }
 
 /**
- * Яндекс: стр. 1 (до 10 органики) + всегда p=1 для 11–20.
+ * Яндекс: до ORGANIC_SERP_PAGES страниц (топ-50 по умолчанию).
  * @param {import('playwright').Page} page
  * @param {string} query
  * @param {import('./serp-shared.mjs').RegionId} regionId
- * @param {{ afterPage1?: () => Promise<void> }} [hooks]
+ * @param {{ afterPage?: (pageIndex: number) => Promise<void> }} [hooks]
+ * @param {SerpStopContext | null} [stopCtx]
  */
-async function collectYandexOrganicTop20(page, query, regionId, hooks = {}) {
-  const raw1 = await extractOrganic(page, "yandex");
-  const page1 = buildOrganicResults(raw1, YANDEX_PAGE1_SLOTS);
-  const serenityOnP1 = page1.find((r) => /serenity\.agency/i.test(r.url));
-  console.log(`  · страница 1: ${page1.length} органических (макс. ${YANDEX_PAGE1_SLOTS})`);
-  if (page1.length > 0) {
-    console.log(
-      `  · топ: ${page1.map((r) => `${r.position}) ${r.displayDomain}`).join(", ")}`,
-    );
-  }
-  if (serenityOnP1) {
-    console.log(`  · Serenity на стр. 1: #${serenityOnP1.position} (${serenityOnP1.url})`);
-  } else if (raw1.some((r) => /serenity\.agency/i.test(r.url))) {
-    console.warn(
-      "  ⚠️ serenity.agency есть в сырой выдаче, но не в топ-10 — лишние блоки или порядок парсера",
-    );
+async function collectYandexOrganicTop(page, query, regionId, hooks = {}, stopCtx = null) {
+  let merged = [];
+  const maxPages = YANDEX_PAGINATE ? ORGANIC_SERP_PAGES : 1;
+
+  for (let p = 0; p < maxPages; p++) {
+    if (p > 0) {
+      await pauseBetweenSerpPageFlips(page, p + 1);
+      const url = yandexSearchUrl(query, regionId, p);
+      const from = p * ORGANIC_PAGE_SLOTS + 1;
+      const to = Math.min((p + 1) * ORGANIC_PAGE_SLOTS, ORGANIC_TARGET);
+      console.log(`  → Яндекс стр. ${p + 1} (поз. ${from}–${to}): ${url}`);
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90000 });
+      await safePageDelay(page, serpFetchDelayMs());
+      if (hooks.afterPage) await hooks.afterPage(p);
+    }
+
+    const raw = await extractOrganic(page, "yandex");
+    if (p === 0) {
+      merged = buildOrganicResults(raw, ORGANIC_PAGE_SLOTS);
+      console.log(`  · страница 1: ${merged.length} органических (макс. ${ORGANIC_PAGE_SLOTS})`);
+      const serenityOnP1 = merged.find((r) => /serenity\.agency/i.test(r.url));
+      if (serenityOnP1) {
+        console.log(`  · Serenity на стр. 1: #${serenityOnP1.position} (${serenityOnP1.url})`);
+      } else if (raw.some((r) => /serenity\.agency/i.test(r.url))) {
+        console.warn(
+          "  ⚠️ serenity.agency в сырой выдаче, но не в топ-10 — лишние блоки или порядок парсера",
+        );
+      }
+    } else {
+      const before = merged.length;
+      merged = mergeOrganicSlices(merged, raw);
+      const serenity = merged.find((r) => /serenity\.agency/i.test(r.url));
+      if (serenity && serenity.position > before) {
+        console.log(`  · Serenity: #${serenity.position} (${serenity.url})`);
+      }
+    }
+
+    if (stopCtx && shouldStopSerpPagination(merged, stopCtx)) {
+      const hit = findSerenityPosition(
+        merged,
+        stopCtx.primaryDomain,
+        stopCtx.preferredPath,
+      );
+      console.log(
+        `  · Serenity на поз. ${hit.position} — остальные страницы выдачи не открываем`,
+      );
+      break;
+    }
+
+    if (merged.length >= ORGANIC_TARGET) break;
   }
 
-  if (!YANDEX_PAGINATE) {
-    return buildOrganicResults(raw1);
-  }
-
-  const page2Url = yandexSearchUrl(query, regionId, 1);
-  console.log(`  → вторая страница выдачи (p=1, позиции 11–20): ${page2Url}`);
-  await page.goto(page2Url, { waitUntil: "domcontentloaded", timeout: 90000 });
-  await safePageDelay(page, DELAY_MS);
-  if (hooks.afterPage1) await hooks.afterPage1();
-  const raw2 = await extractOrganic(page, "yandex");
-  const merged = mergeYandexPage1And2(page1, raw2);
-  const serenityOnP2 = merged.find((r) => /serenity\.agency/i.test(r.url));
-  if (serenityOnP2 && !serenityOnP1) {
-    console.log(`  · Serenity на стр. 2: #${serenityOnP2.position} (${serenityOnP2.url})`);
-  }
-  return merged;
+  return merged.slice(0, ORGANIC_TARGET);
 }
 
 /**
- * Google: стр. 1 (до 10 органики) + start=10 для 11–20.
+ * Google: до ORGANIC_SERP_PAGES страниц (start=0,10,20…).
  * @param {import('playwright').Page} page
  * @param {string} query
  * @param {import('./serp-shared.mjs').RegionId} regionId
- * @param {{ alreadyOnPage1?: boolean; afterPage1?: () => Promise<void> }} [opts]
+ * @param {{ alreadyOnPage1?: boolean; afterPage?: (pageIndex: number) => Promise<void> }} [opts]
+ * @param {SerpStopContext | null} [stopCtx]
  */
-async function collectGoogleOrganicTop20(page, query, regionId, opts = {}) {
+async function collectGoogleOrganicTop(page, query, regionId, opts = {}, stopCtx = null) {
   if (!isSerpPageOpen(page)) {
     throw new Error("Окно браузера закрыто — не снимаем выдачу");
   }
-  if (!opts.alreadyOnPage1) {
-    await gotoCleanGoogleSearch(page, query, regionId, 0);
-    await safePageDelay(page, DELAY_MS);
+
+  let merged = [];
+  const maxPages = GOOGLE_PAGINATE ? ORGANIC_SERP_PAGES : 1;
+
+  for (let p = 0; p < maxPages; p++) {
+    if (!isSerpPageOpen(page)) {
+      throw new Error(`Окно браузера закрыто на стр. ${p + 1} — перезапустите съёмку`);
+    }
+    if (p === 0) {
+      if (!opts.alreadyOnPage1) {
+        await gotoCleanGoogleSearch(page, query, regionId, 0);
+        await safePageDelay(page, serpFetchDelayMs());
+      }
+    } else {
+      await pauseBetweenSerpPageFlips(page, p + 1);
+      const from = p * ORGANIC_PAGE_SLOTS + 1;
+      const to = Math.min((p + 1) * ORGANIC_PAGE_SLOTS, ORGANIC_TARGET);
+      console.log(
+        `  → Google стр. ${p + 1} (поз. ${from}–${to}): ${googleSearchUrl(query, regionId, p)}`,
+      );
+      await gotoCleanGoogleSearch(page, query, regionId, p);
+      await safePageDelay(page, serpFetchDelayMs());
+      if (opts.afterPage) await opts.afterPage(p);
+    }
+
+    const raw = await extractOrganic(page, "google");
+    if (p === 0) {
+      merged = buildOrganicResults(raw, ORGANIC_PAGE_SLOTS);
+      console.log(`  · Google стр. 1: ${merged.length} органических (макс. ${ORGANIC_PAGE_SLOTS})`);
+      const serenityOnP1 = merged.find((r) => /serenity\.agency/i.test(r.url));
+      if (serenityOnP1) {
+        console.log(`  · Serenity на стр. 1: #${serenityOnP1.position} (${serenityOnP1.url})`);
+      }
+    } else {
+      const before = merged.length;
+      merged = mergeOrganicSlices(merged, raw);
+      const serenity = merged.find((r) => /serenity\.agency/i.test(r.url));
+      if (serenity && serenity.position > before) {
+        console.log(`  · Serenity: #${serenity.position} (${serenity.url})`);
+      }
+    }
+
+    if (stopCtx && shouldStopSerpPagination(merged, stopCtx)) {
+      const hit = findSerenityPosition(
+        merged,
+        stopCtx.primaryDomain,
+        stopCtx.preferredPath,
+      );
+      console.log(
+        `  · Serenity на поз. ${hit.position} — остальные страницы выдачи не открываем`,
+      );
+      break;
+    }
+
+    if (merged.length >= ORGANIC_TARGET) break;
   }
 
-  const raw1 = await extractOrganic(page, "google");
-  const page1 = buildOrganicResults(raw1, GOOGLE_PAGE1_SLOTS);
-  const serenityOnP1 = page1.find((r) => /serenity\.agency/i.test(r.url));
-  console.log(`  · Google стр. 1: ${page1.length} органических (макс. ${GOOGLE_PAGE1_SLOTS})`);
-  if (serenityOnP1) {
-    console.log(`  · Serenity на стр. 1: #${serenityOnP1.position} (${serenityOnP1.url})`);
-  }
-
-  if (!GOOGLE_PAGINATE) {
-    return buildOrganicResults(raw1);
-  }
-
-  const page2Url = googleSearchUrl(query, regionId, 1);
-  console.log(`  → Google стр. 2 (позиции 11–20): ${page2Url}`);
-  await gotoCleanGoogleSearch(page, query, regionId, 1);
-  await safePageDelay(page, DELAY_MS);
-  if (opts.afterPage1) await opts.afterPage1();
-  if (!isSerpPageOpen(page)) {
-    throw new Error("Окно браузера закрыто на стр. 2 — перезапустите съёмку");
-  }
-  const raw2 = await extractOrganic(page, "google");
-  const merged = mergeYandexPage1And2(page1, raw2);
-  const serenityOnP2 = merged.find((r) => /serenity\.agency/i.test(r.url));
-  if (serenityOnP2 && !serenityOnP1) {
-    console.log(`  · Serenity на стр. 2: #${serenityOnP2.position} (${serenityOnP2.url})`);
-  }
-  return merged;
+  return merged.slice(0, ORGANIC_TARGET);
 }
 
 /**
  * @param {import('playwright').Page} page
  * @param {string} query
  * @param {import('./serp-shared.mjs').RegionId} regionId
+ * @param {SerpStopContext | null} [stopCtx]
  */
-async function fetchYandexInteractive(page, query, regionId) {
+async function fetchYandexInteractive(page, query, regionId, stopCtx = null) {
   printYandexWorkflowOnce();
 
   const searchUrl = yandexSearchUrl(query, regionId);
@@ -544,7 +710,7 @@ async function fetchYandexInteractive(page, query, regionId) {
   const needRegionStep = regionBefore !== regionId;
 
   await page.goto(searchUrl, { waitUntil: "domcontentloaded", timeout: 90000 });
-  await safePageDelay(page, DELAY_MS);
+  await safePageDelay(page, serpFetchDelayMs());
 
   await waitForYandexCaptchaClear(page);
 
@@ -559,11 +725,17 @@ async function fetchYandexInteractive(page, query, regionId) {
     return { searchUrl, blocked: true, results: [] };
   }
 
-  const results = await collectYandexOrganicTop20(page, query, regionId, {
-    afterPage1: async () => {
-      await waitForYandexCaptchaClear(page);
+  const results = await collectYandexOrganicTop(
+    page,
+    query,
+    regionId,
+    {
+      afterPage: async () => {
+        await waitForYandexCaptchaClear(page);
+      },
     },
-  });
+    stopCtx,
+  );
   console.log(`  ✓ ${stepLabel}: ${results.length} ссылок в топе`);
   if (results.length > 0) {
     console.log(
@@ -585,8 +757,9 @@ async function fetchYandexInteractive(page, query, regionId) {
  * @param {import('playwright').Page} page
  * @param {string} query
  * @param {import('./serp-shared.mjs').RegionId} regionId
+ * @param {SerpStopContext | null} [stopCtx]
  */
-async function fetchGoogleInteractive(page, query, regionId) {
+async function fetchGoogleInteractive(page, query, regionId, stopCtx = null) {
   const searchUrl = googleSearchUrl(query, regionId);
   const stepLabel = `${query} | google | ${REGIONS[regionId].label}`;
   console.log(`\n>>> Google · ${REGIONS[regionId].label}`);
@@ -598,7 +771,7 @@ async function fetchGoogleInteractive(page, query, regionId) {
   );
 
   const openedUrl = await gotoCleanGoogleSearch(page, query, regionId);
-  await safePageDelay(page, DELAY_MS);
+  await safePageDelay(page, serpFetchDelayMs());
   await logGoogleRegionFromPage(page, regionId);
   await warnIfWrongRegion(page, regionId);
 
@@ -606,21 +779,26 @@ async function fetchGoogleInteractive(page, query, regionId) {
   if (blocked) {
     await waitEnter("▶ Google: решите капчу → Enter когда видите стр. 1.");
   } else {
-    await waitEnter("▶ Google стр. 1 → Enter (далее откроется стр. 2, start=10).");
+    await waitEnter(
+      `▶ Google стр. 1 → Enter (далее стр. 2–${ORGANIC_SERP_PAGES} для топ-${ORGANIC_TARGET}, пауза только при капче).`,
+    );
   }
 
-  const results = await collectGoogleOrganicTop20(page, query, regionId, {
-    alreadyOnPage1: true,
-    afterPage1: async () => {
-      const blocked2 = await isBlockedPage(page);
-      if (blocked2) {
-        await waitEnter("▶ Google стр. 2: капча → Enter.");
-      } else {
-        await waitEnter("▶ Google стр. 2 → Enter.");
-      }
+  const results = await collectGoogleOrganicTop(
+    page,
+    query,
+    regionId,
+    {
+      alreadyOnPage1: true,
+      afterPage: async (p) => {
+        if (await isBlockedPage(page)) {
+          await waitEnter(`▶ Google стр. ${p + 1}: капча → Enter.`);
+        }
+      },
     },
-  });
-  console.log(`  ✓ ${stepLabel}: ${results.length} ссылок (стр. 1–2)`);
+    stopCtx,
+  );
+  console.log(`  ✓ ${stepLabel}: ${results.length} ссылок (топ-${ORGANIC_TARGET})`);
   return {
     searchUrl: openedUrl,
     blocked: (await isBlockedPage(page)) && results.length === 0,
@@ -633,13 +811,14 @@ async function fetchGoogleInteractive(page, query, regionId) {
  * @param {string} query
  * @param {'yandex' | 'google'} engine
  * @param {import('./serp-shared.mjs').RegionId} regionId
+ * @param {SerpStopContext | null} [stopCtx]
  */
-export async function fetchOrganicTop20(page, query, engine, regionId) {
+export async function fetchOrganicTop(page, query, engine, regionId, stopCtx = null) {
   if (SERP_INTERACTIVE && engine === "yandex") {
-    return fetchYandexInteractive(page, query, regionId);
+    return fetchYandexInteractive(page, query, regionId, stopCtx);
   }
   if (SERP_INTERACTIVE && engine === "google") {
-    return fetchGoogleInteractive(page, query, regionId);
+    return fetchGoogleInteractive(page, query, regionId, stopCtx);
   }
 
   const searchUrl =
@@ -649,7 +828,7 @@ export async function fetchOrganicTop20(page, query, engine, regionId) {
   } else {
     await page.goto(searchUrl, { waitUntil: "domcontentloaded", timeout: 90000 });
   }
-  await safePageDelay(page, DELAY_MS);
+  await safePageDelay(page, serpFetchDelayMs());
 
   const blocked = await isBlockedPage(page);
   if (blocked) {
@@ -657,13 +836,22 @@ export async function fetchOrganicTop20(page, query, engine, regionId) {
   }
   const results =
     engine === "yandex"
-      ? await collectYandexOrganicTop20(page, query, regionId)
-      : await collectGoogleOrganicTop20(page, query, regionId, { alreadyOnPage1: true });
+      ? await collectYandexOrganicTop(page, query, regionId, {}, stopCtx)
+      : await collectGoogleOrganicTop(
+          page,
+          query,
+          regionId,
+          { alreadyOnPage1: true },
+          stopCtx,
+        );
   return {
     searchUrl,
     blocked: false,
     results,
   };
 }
+
+/** @deprecated alias */
+export const fetchOrganicTop20 = fetchOrganicTop;
 
 export { createRegionalContext, saveGoogleState } from "./serp-region-context.mjs";

@@ -98,8 +98,8 @@ function main() {
     position = null;
     outOfTop20 = true;
   } else if (o.position != null) {
-    if (!Number.isInteger(o.position) || o.position < 1 || o.position > 20) {
-      die("--position: целое 1..20 или --out-of-top20");
+    if (!Number.isInteger(o.position) || o.position < 1 || o.position > 50) {
+      die("--position: целое 1..50 или --out-of-top20");
     }
     position = o.position;
     outOfTop20 = false;
@@ -118,7 +118,7 @@ function main() {
     source: "manual",
   });
   saveRankDashboard(dash, o.path);
-  const label = outOfTop20 ? ">20" : String(position);
+  const label = outOfTop20 ? ">50" : String(position);
   console.log(`OK: ${o.date} ${o.page}/${o.query} ${o.engine}/${o.region} → ${label}`);
 }
 
