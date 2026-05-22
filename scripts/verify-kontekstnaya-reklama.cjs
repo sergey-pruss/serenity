@@ -259,6 +259,10 @@ async function run() {
       html.includes('itemprop="offerCount" content="3"'),
     "SEO: Product microdata AggregateOffer — lowPrice, highPrice, offerCount (GSC)",
   );
+  assert(
+    !html.includes('data-sa-cases-swiper-init="1"') && !html.includes('data-mor-cases-init="1"'),
+    "HTML: без Nuxt-флагов init слайдеров (data-sa-cases-swiper-init / data-mor-cases-init) — иначе app.js не инициализирует Swiper",
+  );
 
   assert(
     html.includes("css__home-snapshot__snapshot.bundle.css"),

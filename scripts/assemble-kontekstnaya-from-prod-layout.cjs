@@ -555,6 +555,10 @@ function rewriteProdSlice(html) {
     /<div itemprop="offers" itemscope="itemscope" itemtype="http:\/\/schema\.org\/AggregateOffer"><span itemprop="priceCurrency" content="RUB"><\/span>\s*(?:<!---->)?\s*<\/div>/g,
     '<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/AggregateOffer"><span itemprop="priceCurrency" content="RUB"></span> <span itemprop="lowPrice" content="107000.00">107000.00</span> <span itemprop="highPrice" content="149000.00">149000.00</span> <span itemprop="offerCount" content="3">3</span></div>',
   );
+  // Nuxt-дамп: флаги «swiper уже init» без живого JS — снимаем, иначе app.js пропускает init.
+  s = s.replace(/\sdata-sa-cases-swiper-init="1"/g, "");
+  s = s.replace(/\sdata-mor-cases-init="1"/g, "");
+  s = s.replace(/\sdata-native-row="1"/g, "");
   // Пустой хвост из Nuxt-гидрации: второй page-constructor только с <!----> ломает стек/DOM.
   s = s.replace(/<div class="page-constructor">\s*<!---->\s*<\/div>\s*<!---->/g, "");
   return s;
