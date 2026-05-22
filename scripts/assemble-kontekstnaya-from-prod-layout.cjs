@@ -550,6 +550,11 @@ function rewriteProdSlice(html) {
     /<img itemprop="image" src="\/_sa\/img\/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz\.webp">/g,
     '<link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp" />',
   );
+  // GSC Product/AggregateOffer: lowPrice обязателен (тарифы 107k–149k, три пакета).
+  s = s.replace(
+    /<div itemprop="offers" itemscope="itemscope" itemtype="http:\/\/schema\.org\/AggregateOffer"><span itemprop="priceCurrency" content="RUB"><\/span>\s*(?:<!---->)?\s*<\/div>/g,
+    '<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/AggregateOffer"><span itemprop="priceCurrency" content="RUB"></span> <span itemprop="lowPrice" content="107000.00">107000.00</span> <span itemprop="highPrice" content="149000.00">149000.00</span> <span itemprop="offerCount" content="3">3</span></div>',
+  );
   // Пустой хвост из Nuxt-гидрации: второй page-constructor только с <!----> ломает стек/DOM.
   s = s.replace(/<div class="page-constructor">\s*<!---->\s*<\/div>\s*<!---->/g, "");
   return s;

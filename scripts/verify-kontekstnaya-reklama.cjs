@@ -253,6 +253,12 @@ async function run() {
     !/<img[^>]*\sitemprop=/i.test(html),
     "HTML: в Product microdata не использовать <img itemprop=…> (WebKit может показать битую иконку при проблемах с загрузкой)",
   );
+  assert(
+    html.includes('itemprop="lowPrice" content="107000.00"') &&
+      html.includes('itemprop="highPrice" content="149000.00"') &&
+      html.includes('itemprop="offerCount" content="3"'),
+    "SEO: Product microdata AggregateOffer — lowPrice, highPrice, offerCount (GSC)",
+  );
 
   assert(
     html.includes("css__home-snapshot__snapshot.bundle.css"),
