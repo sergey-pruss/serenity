@@ -373,12 +373,24 @@ function ogImageMimeFromUrl(url) {
 }
 
 function toAbsoluteOgUrl(ref) {
-  const s = String(ref || "").trim();
+  let s = String(ref || "").trim();
   if (!s) return "";
-  if (/^https?:\/\//i.test(s)) return s;
+  if (/^https?:\/\//i.test(s)) {
+    try {
+      const u = new URL(s);
+      if (u.pathname.startsWith("/_sa/img/")) {
+        const fixed = resolveDiskImagePath(u.pathname);
+        return `${u.origin}${fixed}`;
+      }
+    } catch {
+      /* keep absolute as-is */
+    }
+    return s;
+  }
   if (s.startsWith("//")) return `https:${s}`;
   const p = s.startsWith("/") ? s : `/${s}`;
-  return `${SITE_ORIGIN}${p}`;
+  const fixed = resolveDiskImagePath(p);
+  return `${SITE_ORIGIN}${fixed}`;
 }
 
 /** Из легаси-блока `blog-header`: `og.png` или первый `link itemprop="image"`. */
@@ -702,22 +714,37 @@ const BLOG_AUTHOR_PHOTO_CANON = {
 /**
  * Если в JSON указано .jpg/.png, а на диске только .webp — подставляем существующий файл.
  */
+function resolveDiskImagePath(raw) {
+  const full = String(raw || "").trim();
+  if (!full.startsWith("/_sa/img/")) return full;
+  const pathPart = full.split(/[?#]/)[0];
+  const suffix = full.slice(pathPart.length);
+  const rel = pathPart.replace(/^\/_sa\/img\//, "");
+  const abs = path.join(root, "img", rel);
+  if (fs.existsSync(abs)) return full;
+  const base = abs.replace(/\.(jpe?g|png|webp|gif)$/i, "");
+  for (const ext of [".webp", ".jpg", ".jpeg", ".png", ".gif"]) {
+    const candidate = base + ext;
+    if (fs.existsSync(candidate)) {
+      return pathPart.replace(/\.(jpe?g|png|webp|gif)$/i, ext) + suffix;
+    }
+  }
+  return full;
+}
+
+/** В теле статьи и srcset: URL `/_sa/img/…` → расширение существующего файла на диске. */
+function resolveDiskImagePathsInHtml(html) {
+  return String(html || "").replace(
+    /\/_sa\/img\/[A-Za-z0-9/_.%-]+\.(?:png|jpe?g|webp|gif)/gi,
+    (match) => resolveDiskImagePath(match),
+  );
+}
+
 function resolveAuthorPhotoPath(photo) {
   const raw = String(photo || "").trim();
   if (!raw) return "";
   if (BLOG_AUTHOR_PHOTO_CANON[raw]) return BLOG_AUTHOR_PHOTO_CANON[raw];
-  if (!raw.startsWith("/_sa/img/")) return raw;
-  const rel = raw.replace(/^\/_sa\/img\//, "");
-  const abs = path.join(root, "img", rel);
-  if (fs.existsSync(abs)) return raw;
-  const base = abs.replace(/\.(jpe?g|png|webp)$/i, "");
-  for (const ext of [".webp", ".jpg", ".jpeg", ".png"]) {
-    const candidate = base + ext;
-    if (fs.existsSync(candidate)) {
-      return raw.replace(/\.(jpe?g|png|webp)$/i, ext);
-    }
-  }
-  return raw;
+  return resolveDiskImagePath(raw);
 }
 
 /**
@@ -1035,6 +1062,7 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, fullFeed, prefixArti
   const { readMoreSlug, segment, slug } = ctx;
   const rawBodyHtml = data.bodyHtml || "";
   let bodyForArticle = normalizeBlogArticleBodyHtml(rawBodyHtml);
+  bodyForArticle = resolveDiskImagePathsInHtml(bodyForArticle);
   const legacyBlogHeader = extractDateAndStripLegacyBlogHeader(bodyForArticle);
   bodyForArticle = legacyBlogHeader.rest;
   bodyForArticle = applyBlogArticleBodyListMarkup(bodyForArticle);
