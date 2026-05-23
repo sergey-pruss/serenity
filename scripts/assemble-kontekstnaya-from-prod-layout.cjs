@@ -92,6 +92,10 @@ function injectKontekstnayaFaqFromPartial(mainHtml) {
     return mainHtml;
   }
   const partial = fs.readFileSync(partialPath, "utf8").trim();
+  const { start: faqStart, end: faqEnd } = extractKontekstnayaFaqBlock(mainHtml);
+  if (faqStart >= 0 && faqEnd > faqStart) {
+    return `${mainHtml.slice(0, faqStart)}${partial}\n${mainHtml.slice(faqEnd)}`;
+  }
   const awardsStart = findLegacyAwardsSectionStart(mainHtml);
   if (awardsStart < 0) {
     console.warn("assemble: не найдена привязка FAQ (legacy награды / more-case-wr) — подстановка FAQ пропущена");
@@ -608,6 +612,10 @@ function rewriteProdSlice(html) {
   s = s.replace(
     /<img itemprop="image" src="\/_sa\/img\/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz\.webp">/g,
     '<link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp" />',
+  );
+  s = s.replace(
+    /<link itemprop="image" href="\/_sa\/img\/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz\.webp"\/?>/g,
+    '<link itemprop="image" href="https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp">',
   );
   // GSC Product/AggregateOffer: lowPrice обязателен (тарифы 107k–149k, три пакета).
   s = s.replace(

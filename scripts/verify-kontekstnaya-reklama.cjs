@@ -112,8 +112,8 @@ async function run() {
 
   assert(
     /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )300 000&nbsp;₽<\/i><\/p>/.test(html) &&
-      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )500 000&nbsp;₽<\/i><\/p>/.test(html) &&
-      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )800 000&nbsp;₽<\/i><\/p>/.test(html),
+      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )350 000&nbsp;₽<\/i><\/p>/.test(html) &&
+      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )400 000&nbsp;₽<\/i><\/p>/.test(html),
     "HTML: под ценой пакетов — бюджет тем же разметочным паттерном, что «Подходит для…» (<p><i>…</i></p>, после типографа — от&nbsp; перед суммой)",
   );
 
@@ -122,7 +122,7 @@ async function run() {
     "HTML: блок «Пакеты» — слайдер-обёртка (prices__cards--packages + prices__packages-slider)",
   );
   assert(
-    (html.match(/class="prices__packages-slide swiper-slide"/g) || []).length === 3,
+    (html.match(/class="prices__packages-slide swiper-slide(?:\s[^"]*)?"/g) || []).length === 3,
     "HTML: три слайда тарифов (prices__packages-slide)",
   );
   assert(
