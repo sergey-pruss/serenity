@@ -4,6 +4,10 @@
  */
 const fs = require("fs");
 const path = require("path");
+const {
+  extractFaqPairsFromHtml,
+  syncFaqBodyHtmlJsonLd,
+} = require("./lib/build-faq-page-jsonld.cjs");
 
 const root = path.resolve(__dirname, "..");
 const shellPath = path.join(root, "html", "partials", "services", "_service-faq.shell.html");
@@ -25,6 +29,14 @@ const SERVICES = [
     sectionClass: "targeting-faq-section",
     rootClass: "targeting-faq-root targeting-faq-root--always-visible",
     comment: "<!-- FAQ targeting: json/services/targeting/faq.json + service-faq.css. -->\n",
+  },
+  {
+    slug: "korporativnyj_sajt",
+    partial: "faq-korporativnyj-sajt.html",
+    mountId: "korporativnyj-faq-mounted",
+    sectionClass: "korporativnyj-faq-section",
+    rootClass: "korporativnyj-faq-root korporativnyj-faq-root--always-visible",
+    comment: "<!-- FAQ korporativnyj_sajt: json/services/korporativnyj_sajt/faq.json + service-faq.css. -->\n",
   },
 ];
 
@@ -60,6 +72,12 @@ function buildPartial(svc) {
     writeJsonFromPartial(svc);
   }
   const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  const bodyHtml = syncFaqBodyHtmlJsonLd(data.bodyHtml);
+  if (bodyHtml !== data.bodyHtml) {
+    data.bodyHtml = bodyHtml;
+    fs.writeFileSync(jsonPath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+    console.log("Synced FAQPage JSON-LD in", path.relative(root, jsonPath));
+  }
   const shell = fs.readFileSync(shellPath, "utf8");
   const out =
     (svc.comment || "") +
@@ -67,7 +85,7 @@ function buildPartial(svc) {
       .replace(/__SECTION_CLASS__/g, data.sectionClass)
       .replace(/__MOUNT_ID__/g, data.mountId)
       .replace(/__ROOT_CLASS__/g, data.rootClass)
-      .replace("__BODY_HTML__", data.bodyHtml);
+      .replace("__BODY_HTML__", bodyHtml);
   const outPath = path.join(partialsDir, svc.partial);
   fs.writeFileSync(outPath, out, "utf8");
   console.log("Wrote", path.relative(root, outPath));

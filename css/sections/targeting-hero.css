@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: flex-start;
   box-sizing: border-box;
-  padding-top: 183px;
+  padding-top: var(--service-hero-mid-header-padding-top, 150px);
   gap: 40px;
   padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
   padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));

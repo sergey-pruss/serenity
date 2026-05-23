@@ -18,7 +18,8 @@ function main() {
 
   for (const slug of slugs) {
     const cfg = loadServiceConfig(slug);
-    assert(cfg.urlPath.startsWith("/") && cfg.urlPath.endsWith("/"), `${slug}: urlPath`);
+    assert(cfg.urlPath.startsWith("/") && !cfg.urlPath.endsWith("/"), `${slug}: urlPath без завершающего слэша`);
+    assert(cfg.seo?.breadcrumbLabel, `${slug}: seo.breadcrumbLabel`);
     assert(fs.existsSync(cfg.indexPath), `${slug}: index ${cfg.indexPath}`);
     assert(fs.existsSync(cfg.manifestPath), `${slug}: manifest ${cfg.manifestPath}`);
 

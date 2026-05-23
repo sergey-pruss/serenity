@@ -3,7 +3,8 @@
  */
 const CTA_SLIDE = '<div data-v-38965faa="" class="swiper-slide mor-cases-slide mor-cases-slide_link" style="background-color: #2c2c30"><div data-v-38965faa="" class="mor-cases-slide__cta-fill"><img fetchpriority="low" decoding="async" data-v-38965faa="" src="/_sa/img/video__lastBlogGif.gif" alt="" loading="eager" class="mor-cases-slide__cta-gif" /><div data-v-38965faa="" class="mor-cases-slide__cta-shade" aria-hidden="true"></div><p data-v-38965faa="" class="more-cases-slider__slide-link"><a data-v-38965faa="" href="/case/all/" class="">Смотреть<br>больше&nbsp;кейсов</a></p></div></div>';
 
-function sanitizeMoreCasesCapture(html) {
+function sanitizeMoreCasesCapture(html, opts = {}) {
+  const keepGrid = opts.keepGrid === true;
   let s = html;
   s = s.replace(/\s*swiper-container-initialized/g, "");
   s = s.replace(/\s*swiper-container-horizontal/g, "");
@@ -21,6 +22,10 @@ function sanitizeMoreCasesCapture(html) {
     /<div[^>]*class="swiper-slide mor-cases-slide mor-cases-slide_link"[^>]*>[\s\S]*?<\/div>\s*(?=<\/div>\s*<div[^>]*swiper-pagination)/,
     `${CTA_SLIDE} `,
   );
+  /* Legacy Nuxt: сетка .more-cases под слайдером (заголовок «Кейсы комплексного маркетинга») */
+  if (!keepGrid) {
+    s = s.replace(/\s*<div[^>]*\bclass="more-cases"[^>]*>[\s\S]*?(?=<\/div>\s*<\/div>\s*<\/section>)/, "");
+  }
   return s;
 }
 

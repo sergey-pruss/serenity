@@ -8,6 +8,7 @@ const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 const { stripNuxtScopedMarkup } = require("./strip-nuxt-scoped-markup.cjs");
 const { sanitizeMoreCasesCapture } = require("./sanitize-more-cases-capture.cjs");
+const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
 
 const root = path.resolve(__dirname, "..");
 const fullHtmlPath = path.join(root, "tmp", "marketing-prod-full.html");
@@ -283,11 +284,11 @@ function buildCssBlock(v) {
   return [
     "    <!-- MARKETING-CSS-BUNDLE-START: Nuxt kontekst parity (как targeting) -->",
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />',
-    '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260518serviceMoreCasesHeading" />',
+    '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260523serviceHeroTop" />',
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
     kontekstNuxt,
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260521marketingAwardsH3Mb15" />',
+    '    <link rel="stylesheet" href="/_sa/css/marketing-static-stack.css?v=20260523serviceHeroTop" />',
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
@@ -473,7 +474,8 @@ function run() {
   out = patchMarketingSeoMeta(out);
 
   const typo = processTypographyHtml(out, { force: true });
-  fs.writeFileSync(indexPath, typo.html.replace(/\n+$/, "\n"), "utf8");
+  let finalHtml = patchServiceBreadcrumbForSlug(typo.html, "marketing");
+  fs.writeFileSync(indexPath, finalHtml.replace(/\n+$/, "\n"), "utf8");
   patchServicesAnchors();
   console.log("assemble-marketing-from-prod-layout: ok");
 }

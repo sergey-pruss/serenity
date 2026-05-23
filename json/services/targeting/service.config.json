@@ -1,6 +1,9 @@
 {
   "slug": "targeting",
   "urlPath": "/targeting",
+  "seo": {
+    "breadcrumbLabel": "Таргетированная реклама"
+  },
   "hero": {
     "variant": "title-collage"
   },

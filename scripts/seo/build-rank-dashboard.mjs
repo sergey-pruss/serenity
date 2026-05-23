@@ -321,7 +321,7 @@ const html = `<!DOCTYPE html>
   <div class="wrap">
     <header>
       <h1>SEO-дашборд позиций</h1>
-      <p class="subtitle">Органическая выдача топ-${organicDepth}: основные страницы и запросы. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
+      <p class="subtitle">Органическая выдача топ-${organicDepth}: лучшая позиция <code>serenity.agency</code> (любая страница домена) по запросам. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
       <p class="subtitle" id="meta-last-check"></p>
     </header>
 
@@ -565,7 +565,7 @@ const html = `<!DOCTYPE html>
     return {
       text: String(entry.position),
       cls: posClass(entry.position, false),
-      title: "Позиция в органике" + snap,
+      title: "Лучшая позиция serenity.agency в органике" + snap,
       delta: null,
     };
   }

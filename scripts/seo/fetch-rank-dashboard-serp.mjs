@@ -431,13 +431,8 @@ async function main() {
     try {
       const block = await fetchOrganicTop20(pwPage, q.text, engine, region, {
         primaryDomain: dash.site.primaryDomain,
-        preferredPath: page.path,
       });
-      const hit = findSerenityPosition(
-        block.results,
-        dash.site.primaryDomain,
-        page.path,
-      );
+      const hit = findSerenityPosition(block.results, dash.site.primaryDomain);
       /** @type {import('./lib/rank-dashboard-utils.mjs').RankEntry} */
       const entry = {
         pageId: page.id,

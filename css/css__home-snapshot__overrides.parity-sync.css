@@ -156,7 +156,7 @@
 @media screen and (max-width: 719px) {
   :root {
     /* padding-top у .jumbotron / .c-title-block__header — H1 остаётся на ~222px от верха секции */
-    --service-hero-mobile-top: 222px;
+    --service-hero-mobile-top: 188px;
     --service-hero-mobile-title-gap: 40px;
     /* Коллаж под hero: подзаголовок → изображение (+10px к базовым 10px) */
     --service-hero-collage-gap-after-lead: calc(1lh + 20px);
@@ -171,7 +171,7 @@
  */
 @media screen and (min-width: 720px) and (max-width: 1024px) {
   :root {
-    --service-hero-tablet-header-padding-top: calc(50vh - 154px);
+    --service-hero-tablet-header-padding-top: calc(50vh - 178px);
     --service-hero-tablet-title-gap: 40px;
     /* Коллаж под hero: подзаголовок → изображение (+20px к базовым 10px) */
     --service-hero-collage-gap-after-lead: calc(1lh + 30px);
@@ -183,10 +183,10 @@
 /* Десктоп: коллаж-герой (таргет) — вертикаль h1 как у kontekst jumbotron в 100vh + 30px */
 @media screen and (min-width: 1025px) {
   :root {
-    --service-hero-desktop-extra-top: 30px;
-    --service-hero-desktop-header-padding-top: calc(50vh - 154px + var(--service-hero-desktop-extra-top));
+    --service-hero-desktop-extra-top: 16px;
+    --service-hero-desktop-header-padding-top: calc(50vh - 178px + var(--service-hero-desktop-extra-top));
     --service-hero-desktop-header-margin-top: 0;
-    --service-hero-jumbotron-padding-top: calc(40px + var(--service-hero-desktop-extra-top));
+    --service-hero-jumbotron-padding-top: calc(36px + var(--service-hero-desktop-extra-top));
   }
 }
 

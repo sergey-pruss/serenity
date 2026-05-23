@@ -1,6 +1,9 @@
 {
   "slug": "kontekstnaya_reklama",
   "urlPath": "/kontekstnaya_reklama",
+  "seo": {
+    "breadcrumbLabel": "Контекстная реклама"
+  },
   "hero": {
     "variant": "jumbotron-fullbleed"
   },

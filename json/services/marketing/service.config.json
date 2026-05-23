@@ -1,6 +1,9 @@
 {
   "slug": "marketing",
   "urlPath": "/services/marketing",
+  "seo": {
+    "breadcrumbLabel": "Комплексный маркетинг"
+  },
   "hero": {
     "variant": "blog-header"
   },

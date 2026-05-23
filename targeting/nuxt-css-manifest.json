@@ -1,7 +1,7 @@
 {
-  "generated": "2026-05-18T11:51:10.438Z",
+  "generated": "2026-05-23T06:48:21.594Z",
   "hrefs": [
-    "/_sa/css/targeting-nuxt.bundle.css"
+    "/_sa/css/korporativnyj-nuxt.bundle.css"
   ],
   "sourceChunks": [
     "a9a7fd7.css",
@@ -13,9 +13,11 @@
     "ba56fce.css",
     "9a5a9e2.css",
     "0aa759a.css",
+    "2fd92ff.css",
     "0c1e066.css",
     "8760deb.css",
     "f044bfc.css",
+    "deb71c5.css",
     "12f79fe.css",
     "21878cb.css",
     "fcaf6fb.css",

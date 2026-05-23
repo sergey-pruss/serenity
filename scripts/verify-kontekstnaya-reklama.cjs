@@ -47,9 +47,53 @@ async function run() {
   );
 
   assert(
-    /<title>[^<]*Настройка и ведение контекстной рекламы[^<]*<\/title>/.test(html),
-    "<title>: должен содержать 'Настройка и ведение контекстной рекламы'",
+    /<title>[^<]*Контекстная реклама[^<]*настройка и ведение[^<]*Serenity[^<]*<\/title>/i.test(html),
+    "<title>: Контекстная реклама + настройка и ведение + Serenity",
   );
+
+  assert(
+    html.includes(
+      'meta name="description" content="Настройка и ведение контекстной рекламы в Яндекс Директе и Google Ads.',
+    ),
+    "SEO: description — Яндекс Директ, Google Ads, гео и бесплатный аудит",
+  );
+  assert(
+    html.includes("Санкт-Петербург") &&
+      html.includes("Бесплатный аудит и медиаплан") &&
+      !/meta name="description"[^>]*\bСПб\b/.test(html),
+    "SEO: description — Санкт-Петербург полностью, аудит и медиаплан",
+  );
+
+  {
+    const { extractFaqPairsFromHtml } = require("./lib/build-faq-page-jsonld.cjs");
+    const normFaqText = (s) =>
+      String(s ?? "")
+        .replace(/&nbsp;/g, " ")
+        .replace(/\u00a0/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    const faqBlock = html.match(/id="kontekst-faq-mounted"[\s\S]*?<\/section>/);
+    assert(faqBlock, "SEO: блок FAQ (#kontekst-faq-mounted)");
+    const faqHtml = faqBlock[0];
+    const ldMatch = faqHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert(ldMatch, "SEO: FAQPage JSON-LD в блоке FAQ");
+    const ld = JSON.parse(ldMatch[1]);
+    assert(ld["@type"] === "FAQPage" && Array.isArray(ld.mainEntity), "SEO: FAQPage mainEntity");
+    const visible = extractFaqPairsFromHtml(faqHtml);
+    assert(
+      visible.length >= 3 && ld.mainEntity.length === visible.length,
+      `SEO: FAQPage — ${ld.mainEntity.length} в JSON-LD vs ${visible.length} в HTML`,
+    );
+    for (let i = 0; i < visible.length; i++) {
+      const q = normFaqText(visible[i].question);
+      const entity = ld.mainEntity.find((e) => normFaqText(e.name) === q);
+      assert(entity, `SEO: FAQPage — нет вопроса «${q}»`);
+      assert(
+        normFaqText(entity.acceptedAnswer?.text) === normFaqText(visible[i].answer),
+        `SEO: FAQPage — ответ не совпадает с HTML для «${q}»`,
+      );
+    }
+  }
 
   assert(
     html.includes('name="google-site-verification"') &&

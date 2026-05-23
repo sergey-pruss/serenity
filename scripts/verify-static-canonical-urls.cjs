@@ -57,6 +57,7 @@ const htmlFiles = [
   "services/index.html",
   "services/marketing/index.html",
   "targeting/index.html",
+  "korporativnyj_sajt/index.html",
   "kontekstnaya_reklama/index.html",
   ...walk("blog", []),
   ...walk("case/all", []),

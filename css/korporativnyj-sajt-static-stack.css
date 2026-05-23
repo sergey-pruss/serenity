@@ -1,0 +1,252 @@
+/**
+ * /korporativnyj_sajt — targeting parity stack + hero video.
+ */
+@import url("targeting-static-stack.css");
+@import url("sections/korporativnyj-hero.css");
+
+.page-constructor > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  overflow: visible !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block {
+  overflow: visible !important;
+}
+
+/* Селекторы targeting-hero → korporativnyj-page */
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
+  color: #fff;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media video[src],
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media video source[src] {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media video:not([src]) {
+  display: none !important;
+}
+
+/*
+ * Hero prod: jumbotron-video-aurora (видео вместо case-slider).
+ * Nuxt: padding-top 95px на секции + margin-top 110px на video — даёт огромный зазор;
+ * заголовок в .video-header снаружи — те же отступы, что targeting-hero (см. korporativnyj-hero.css).
+ */
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora[data-v-f2e07ed8] {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto !important;
+  padding-top: 0 !important;
+  overflow: visible !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora .container,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora .container[data-v-f2e07ed8] {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok[data-v-f2e07ed8] {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora__video,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora__video[data-v-f2e07ed8] {
+  display: block !important;
+  width: 100% !important;
+  max-width: 906px !important;
+  height: auto !important;
+  aspect-ratio: 906 / 515;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  object-fit: cover;
+  border-radius: 13px;
+  box-shadow: 0 4px 60px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora[data-v-f2e07ed8] {
+    margin-bottom: var(--service-hero-tablet-collage-bottom, 52px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora .container,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora .container[data-v-f2e07ed8] {
+    max-width: 100% !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .jumbotron-video-aurora[data-v-f2e07ed8] {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Зазор видео → facts как у targeting */
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts {
+    padding-top: 48px !important;
+  }
+}
+
+/* «Наш подход»: 3 карточки из legacy — скрыть пустые 4–6 в desc-grid */
+.page-constructor.korporativnyj-page .content-block__grid--desc.blocks .col-4:nth-child(3) .block-item:empty,
+.page-constructor.korporativnyj-page .content-block__grid--desc.blocks .col-4:nth-child(3) .block-item .block__name:empty {
+  display: none;
+}
+
+/* Кейсы / синергия / FAQ / награды — стили как /targeting (targeting-static-stack + service-more-cases.css). */
+
+/* FAQ / награды — зазоры как на /targeting (секции вне .korporativnyj-page) */
+@media screen and (max-width: 719px) {
+  .korporativnyj-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+
+  .page-constructor.korporativnyj-page .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+}
+
+/* desc/tablet parity (как targeting-page) */
+/* Телефон: без Nuxt-скоупа десктопная сетка desc остаётся в потоке — дубль с tablet. */
+@media screen and (max-width: 720px) {
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+}
+
+/* Планшет/десктоп: шапка этапа + desc-сетка под ней (как marketing, override parity). */
+@media screen and (min-width: 721px) {
+  .page-constructor.korporativnyj-page .modern.content-block > .page__container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    /* width 100% вместо calc(100% - 154px): поля как у prod через --page-gutter-x */
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.korporativnyj-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.korporativnyj-page .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page .numbered-header__title-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.korporativnyj-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.korporativnyj-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    order: 2;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.korporativnyj-page .numbered-header .row > .content-block__grid.content-block__grid--desc {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 10;
+  }
+}
+
+/* Три колонки desc-сетки (gap 75px × 2), как marketing */
+.page-constructor.korporativnyj-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+  flex: 1 1 0;
+  max-width: calc((100% - 150px) / 3);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+/*
+ * После «Команда» → плашки (Лендинг / Интернет-магазин).
+ * Блок .dies на korporativnyj — соседняя секция вне .page-constructor (как FAQ/кейсы), не только внутри .korporativnyj-page.
+ */
+.page-constructor__section:has(> .team-block) + .page-constructor__section > .dies.modern,
+.page-constructor__section > .dies.modern[data-v-07db1e8a] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.korporativnyj-page .team-block,
+.page-constructor__section:has(> .team-block) .team-block {
+  padding-top: var(--home-between, 112px) !important;
+}

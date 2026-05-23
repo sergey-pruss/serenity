@@ -37,6 +37,8 @@ const path = require("path");
 const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.cjs");
+const { syncFaqBodyHtmlJsonLd } = require("./lib/build-faq-page-jsonld.cjs");
+const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -49,6 +51,63 @@ const fullHtmlPath = path.join(root, "tmp", "kontekst-prod-full.html");
 const parityLayoutPath = path.join(root, "tmp", "kontekst-parity-prod-layout.html");
 const indexPath = path.join(root, "kontekstnaya_reklama", "index.html");
 const manifestPath = path.join(root, "kontekstnaya_reklama", "nuxt-css-manifest.json");
+
+/** SEO meta после среза prod (не перетирать при refresh capture). */
+const KONTEKST_META = {
+  title: "Контекстная реклама — настройка и ведение Яндекс Директа — Serenity",
+  description:
+    "Настройка и ведение контекстной рекламы в Яндекс Директе и Google Ads. Москва, Санкт-Петербург, регионы России и зарубеж. Бесплатный аудит и медиаплан. Любые ниши — от медицины до e-commerce.",
+};
+
+const KONTEKST_FAQ_MOUNT_ID = "kontekst-faq-mounted";
+
+/** FAQPage JSON-LD после typography-nbsp — текст вопросов в HTML и в schema совпадают. */
+function patchKontekstFaqJsonLdInPage(html) {
+  const openRe = new RegExp(`<div id="${KONTEKST_FAQ_MOUNT_ID}"[^>]*>`, "i");
+  const m = html.match(openRe);
+  if (!m) return html;
+  const start = m.index + m[0].length;
+  const sectionEnd = html.indexOf("</section>", start);
+  if (sectionEnd < 0) return html;
+  const chunk = html.slice(start, sectionEnd);
+  const scriptIdx = chunk.lastIndexOf('<script type="application/ld+json">');
+  if (scriptIdx < 0) return html;
+  const bodyEnd = start + scriptIdx;
+  const scriptEnd = html.indexOf("</script>", bodyEnd) + "</script>".length;
+  const bodyHtml = html.slice(start, scriptEnd);
+  const synced = syncFaqBodyHtmlJsonLd(bodyHtml);
+  if (synced === bodyHtml) return html;
+  return html.slice(0, start) + synced + html.slice(scriptEnd);
+}
+
+function patchKontekstnayaSeoMeta(html) {
+  let s = html.replace(/<title>[^<]*<\/title>/, `<title>${KONTEKST_META.title}</title>`);
+  s = s.replace(
+    /<meta name="description" content="[^"]*"\s*\/>/,
+    `<meta name="description" content="${KONTEKST_META.description}" />`,
+  );
+  s = s.replace(
+    /<meta name="title" content="[^"]*"\s*\/>/,
+    `<meta name="title" content="${KONTEKST_META.title}" />`,
+  );
+  s = s.replace(
+    /<meta property="og:title" content="[^"]*"\s*\/>/,
+    `<meta property="og:title" content="${KONTEKST_META.title}" />`,
+  );
+  s = s.replace(
+    /<meta property="og:description" content="[^"]*"\s*\/>/,
+    `<meta property="og:description" content="${KONTEKST_META.description}" />`,
+  );
+  s = s.replace(
+    /<meta name="twitter:title" content="[^"]*"\s*\/>/,
+    `<meta name="twitter:title" content="${KONTEKST_META.title}" />`,
+  );
+  s = s.replace(
+    /<meta name="twitter:description" content="[^"]*"\s*\/>/,
+    `<meta name="twitter:description" content="${KONTEKST_META.description}" />`,
+  );
+  return s;
+}
 
 function resolveLayoutPath() {
   const mode = (process.env.KONTEKST_LAYOUT_SOURCE || "auto").toLowerCase();
@@ -752,12 +811,12 @@ function run() {
     "    <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->",
     "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260515burgerBlurRestore\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260523serviceHeroTop\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamNativeRow\" />",
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260523kontekstSynergyHeadingGap\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260523serviceHeroTop\" />",
     deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260521kontekstPackagesCompareG"),
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
@@ -800,9 +859,13 @@ function run() {
       out = replaceFirstFooterModernSocialBlock(head, canon) + out.slice(iMainMarker);
     }
   }
+  out = patchKontekstnayaSeoMeta(out);
   fs.writeFileSync(indexPath, out, "utf8");
   const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });
-  fs.writeFileSync(indexPath, typo.html.replace(/\n+$/, "\n"), "utf8");
+  let finalHtml = typo.html.replace(/\n+$/, "\n");
+  finalHtml = patchKontekstFaqJsonLdInPage(finalHtml);
+  finalHtml = patchServiceBreadcrumbForSlug(finalHtml, "kontekstnaya_reklama");
+  fs.writeFileSync(indexPath, finalHtml, "utf8");
   console.log("assemble-kontekstnaya-from-prod-layout: ok, bytes main", main.length);
 }
 

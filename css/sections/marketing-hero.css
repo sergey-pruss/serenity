@@ -13,8 +13,8 @@
   gap: var(--service-hero-title-gap, 40px) !important;
   padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
   padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
-  margin-top: 52px;
-  padding-top: 183px;
+  margin-top: 36px;
+  padding-top: var(--service-hero-mid-header-padding-top, 150px);
   margin-bottom: 0;
   text-wrap: balance;
 }
