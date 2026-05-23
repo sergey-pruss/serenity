@@ -421,6 +421,17 @@ async function run() {
     "HTML: FAQ — #kontekst-faq-mounted и подключение service-faq.css",
   );
 
+  assert(
+    html.includes("kontekst-faq-root--always-visible"),
+    "HTML: FAQ контекстной — класс kontekst-faq-root--always-visible (ответы развёрнуты, без аккордеона)",
+  );
+
+  assert(
+    !html.includes('id="kontekst-faq-mounted"') ||
+      !/id="kontekst-faq-mounted"[\s\S]{0,120000}spoiler__content" style="height:\s*0/.test(html),
+    "HTML: FAQ — нет inline height:0 на .spoiler__content (иначе ответы скрыты до клика)",
+  );
+
   const iPackagesHeading = html.indexOf(">Пакеты</h2>");
   const iInlineLead = html.indexOf('id="sa-inline-lead-root"');
   const iFaqMounted = html.indexOf('id="kontekst-faq-mounted"');
@@ -436,6 +447,30 @@ async function run() {
   assert(
     iCasesMain >= 0 && iFaqMounted < iCasesMain,
     "HTML: блок «Вопрос-ответ» (FAQ) идёт перед блоком кейсов (more-case-wr__main)",
+  );
+
+  const iBlog = html.indexOf("kontekst-blog-section");
+  const iClients = html.indexOf("kontekst-clients-section");
+  assert(
+    iBlog >= 0 &&
+      iClients > iBlog &&
+      iFaqMounted < iBlog &&
+      iClients < iCasesMain &&
+      html.includes("blog-block-mainstr") &&
+      html.includes("clients-wrapper_main-structure"),
+    "HTML: после FAQ — «Блог» и «Наши клиенты» (partials с главной), затем кейсы",
+  );
+
+  assert(
+    html.includes("kak-privlekat-auditoriyu-konkurentov-cherez-yandeks-direkt") &&
+      html.includes("kak-uvelichit-trafik-sajta") &&
+      html.includes("serenity-kak-stroim-uspeshnyj-marketing-ot-sotrudnika-do-klienta"),
+    "HTML: блог контекстной — кураторские статьи про Директ/контекст в слайдере",
+  );
+
+  assert(
+    !html.includes("<!-- KONTEKST-BLOG-CLIENTS-START -->"),
+    "HTML: маркеры KONTEKST-BLOG-CLIENTS не должны попадать в итоговую страницу",
   );
 
   assert(

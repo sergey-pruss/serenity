@@ -39,7 +39,7 @@
     "faq": {
       "mountId": "kontekst-faq-mounted",
       "sectionClass": "kontekst-faq-section",
-      "rootClass": "kontekst-faq-root"
+      "rootClass": "kontekst-faq-root kontekst-faq-root--always-visible"
     }
   }
 }

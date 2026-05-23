@@ -28,23 +28,6 @@
       ]
     },
     {
-      "id": "korporativnyj-sajt",
-      "title": "Корпоративный сайт",
-      "path": "/korporativnyj_sajt",
-      "url": "https://serenity.agency/korporativnyj_sajt",
-      "priority": 1,
-      "queries": [
-        {
-          "id": "razrabotka",
-          "text": "разработка корпоративного сайта"
-        },
-        {
-          "id": "sozdanie",
-          "text": "создание корпоративного сайта"
-        }
-      ]
-    },
-    {
       "id": "home",
       "title": "Главная страница",
       "path": "/",
@@ -71,6 +54,23 @@
         {
           "id": "prodvizhenie",
           "text": "комплексное продвижение"
+        }
+      ]
+    },
+    {
+      "id": "korporativnyj-sajt",
+      "title": "Корпоративный сайт",
+      "path": "/korporativnyj_sajt",
+      "url": "https://serenity.agency/korporativnyj_sajt",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "sozdanie",
+          "text": "создание корпоративного сайта"
+        },
+        {
+          "id": "razrabotka",
+          "text": "разработка корпоративного сайта"
         }
       ]
     },
@@ -1050,6 +1050,378 @@
           "position": 11,
           "outOfTop20": false,
           "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-22",
+      "label": "2026-05-22",
+      "entries": [
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-23",
+      "label": "2026-05-23",
+      "entries": [
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 38,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 9,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/kompleksnoye-prodvizheniye",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 28,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/korporativnyj_sajt",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 13,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/korporativnyj_sajt",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 14,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyy",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "spb",
+          "position": 32,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/kompleksnoye-prodvizheniye",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "yandex",
+          "region": "spb",
+          "position": 8,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "yandex",
+          "region": "spb",
+          "position": 15,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyy",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "yandex",
+          "region": "spb",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "google",
+          "region": "rf",
+          "position": 3,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "google",
+          "region": "rf",
+          "position": 16,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/kompleksnoye-prodvizheniye",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "nastroyka",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kontekstnaya",
+          "queryId": "vedenie",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "razrabotka",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "korporativnyj-sajt",
+          "queryId": "sozdanie",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "agentstvo",
+          "engine": "google",
+          "region": "rf",
+          "position": 8,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyj",
+          "engine": "google",
+          "region": "rf",
+          "position": 1,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "marketing",
+          "queryId": "kompleksnyy",
+          "engine": "google",
+          "region": "rf",
+          "position": 12,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/services/marketing",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "targeting",
+          "queryId": "targetirovka",
+          "engine": "google",
+          "region": "rf",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
           "source": "serp-interactive"
         }
       ]

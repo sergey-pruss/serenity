@@ -17,6 +17,9 @@
  * после блока кейсов и до «Синергии» — insertKontekstnayaAwardsPartialBeforeSynergy. more-case-wr — partial
  * html/partials/services/more-cases-kontekstnaya-from-services.html (как на /services/).
  * Блок «Синергия с услугами» — partial html/partials/services/synergy-kontekstnaya-reklama.html.
+ * После FAQ — blog + clients (html/partials/services/blog-kontekstnaya-reklama.html,
+ * clients-kontekstnaya-reklama.html; сборка npm run build:kontekstnaya-blog-clients).
+ * В слайдере — материалы, где контекстная реклама тема поста (заголовок), новые первыми.
  * Таблица «Сравнение пакетов» — partial html/partials/services/packages-compare-kontekstnaya-reklama.html
  * (внутри .dies/.prices после слайдера карточек; css/sections/kontekstnaya-packages-compare.css).
  *
@@ -40,6 +43,7 @@ const root = path.resolve(__dirname, "..");
 function buildServicePartials() {
   if (process.env.SKIP_SERVICE_PARTIALS_BUILD === "1") return;
   execSync("npm run build:service-partials", { cwd: root, stdio: "inherit" });
+  execSync("npm run build:kontekstnaya-blog-clients", { cwd: root, stdio: "inherit" });
 }
 const fullHtmlPath = path.join(root, "tmp", "kontekst-prod-full.html");
 const parityLayoutPath = path.join(root, "tmp", "kontekst-parity-prod-layout.html");
@@ -468,6 +472,61 @@ function moveKontekstnayaFaqSectionBeforeCases(mainHtml) {
   return `${without.slice(0, iInsert2)}\n${block}\n${without.slice(iInsert2)}`;
 }
 
+const KONTEKST_BLOG_SECTION = '<section class="page-constructor__section kontekst-blog-section">';
+const KONTEKST_CLIENTS_SECTION = '<section class="page-constructor__section kontekst-clients-section">';
+
+function stripKontekstnayaBlogClientsBlock(mainHtml) {
+  const markerStart = mainHtml.indexOf("<!-- KONTEKST-BLOG-CLIENTS-START -->");
+  if (markerStart >= 0) {
+    const markerEnd = mainHtml.indexOf("<!-- KONTEKST-BLOG-CLIENTS-END -->", markerStart);
+    if (markerEnd >= 0) {
+      return (
+        mainHtml.slice(0, markerStart) +
+        mainHtml.slice(markerEnd + "<!-- KONTEKST-BLOG-CLIENTS-END -->".length)
+      );
+    }
+  }
+  const start = mainHtml.indexOf(KONTEKST_BLOG_SECTION);
+  if (start < 0) return mainHtml;
+  const clientsIdx = mainHtml.indexOf(KONTEKST_CLIENTS_SECTION, start);
+  if (clientsIdx < 0) return mainHtml;
+  const clientsClose = mainHtml.indexOf("</section>", clientsIdx);
+  if (clientsClose < 0) return mainHtml;
+  const end = clientsClose + "</section>".length;
+  return mainHtml.slice(0, start) + mainHtml.slice(end);
+}
+
+/** После FAQ — слайдер «Блог» (10 материалов про контекст) и «Наши клиенты» с главной. */
+function injectKontekstnayaBlogClientsAfterFaq(mainHtml) {
+  const blogPath = path.join(root, "html", "partials", "services", "blog-kontekstnaya-reklama.html");
+  const clientsPath = path.join(
+    root,
+    "html",
+    "partials",
+    "services",
+    "clients-kontekstnaya-reklama.html",
+  );
+  if (!fs.existsSync(blogPath) || !fs.existsSync(clientsPath)) {
+    console.warn("assemble: нет partial blog/clients kontekstnaya — пропуск вставки");
+    return mainHtml;
+  }
+  let out = stripKontekstnayaBlogClientsBlock(mainHtml);
+  const { end: faqEnd } = extractKontekstnayaFaqBlock(out);
+  if (faqEnd < 0) {
+    console.warn("assemble: FAQ не найден — blog/clients после FAQ не вставлены");
+    return out;
+  }
+  const iCases = findKontekstnayaCasesAnchorIndex(out);
+  if (iCases < 0 || iCases <= faqEnd) {
+    console.warn("assemble: кейсы не найдены после FAQ — blog/clients не вставлены");
+    return out;
+  }
+  const blog = fs.readFileSync(blogPath, "utf8").trim();
+  const clients = fs.readFileSync(clientsPath, "utf8").trim();
+  const block = `\n${blog}\n${clients}\n`;
+  return `${out.slice(0, faqEnd)}${block}${out.slice(faqEnd)}`;
+}
+
 /** Абсолютный image для Product JSON-LD (как og:image страницы). */
 const KONTEKST_PRODUCT_JSONLD_IMAGE =
   "https://serenity.agency/_sa/img/storage__2lwfrwamwdjZrXwCGrqHh1iCd0TASXMPCTozoLqM.png";
@@ -666,6 +725,7 @@ function run() {
   const stripAwards = stripProdKontekstnayaAwardsBlock(main);
   main = stripAwards.html;
   main = moveKontekstnayaFaqSectionBeforeCases(main);
+  main = injectKontekstnayaBlogClientsAfterFaq(main);
   main = injectKontekstnayaMoreCasesFromServicesPartial(main);
   if (stripAwards.ok) main = insertKontekstnayaAwardsPartialBeforeSynergy(main);
   main = injectKontekstnayaSynergyFromPartial(main);
@@ -689,7 +749,7 @@ function run() {
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260521kontekstPackagesCompareG\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260523kontekstSynergyHeadingGap\" />",
     deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260521kontekstPackagesCompareG"),
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),

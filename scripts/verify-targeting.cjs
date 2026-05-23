@@ -63,6 +63,15 @@ async function run() {
   } else {
     assert(html.includes('id="targeting-faq-mounted"'), "FAQ: targeting-faq-mounted");
     assert(html.includes("targeting-faq-section"), "FAQ: targeting-faq-section");
+    assert(
+      html.includes("targeting-faq-root--always-visible"),
+      "FAQ: targeting-faq-root--always-visible (ответы развёрнуты)",
+    );
+    assert(
+      !html.includes('id="targeting-faq-mounted"') ||
+        !/id="targeting-faq-mounted"[\s\S]{0,120000}spoiler__content" style="height:\s*0/.test(html),
+      "FAQ: без inline height:0 на spoiler__content",
+    );
     assert(/class="page-constructor targeting-page"/.test(html), "обёртка page-constructor targeting-page");
     assert(!html.includes("targeting-page__section-heading"), "заголовки: kontekstnaya-page__section-heading");
     assert(html.includes('id="sa-inline-lead-root"'), "inline lead root");

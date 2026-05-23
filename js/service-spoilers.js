@@ -46,7 +46,12 @@
   function initRoot(root) {
     if (!root) return;
     /* Эксперимент SEO: контекстная — ответы всегда в DOM и на экране, без клика */
-    if (root.classList.contains("kontekst-faq-root--always-visible")) return;
+    if (
+      root.classList.contains("kontekst-faq-root--always-visible") ||
+      root.classList.contains("targeting-faq-root--always-visible")
+    ) {
+      return;
+    }
     var list = root.querySelectorAll(".spoiler");
     for (var i = 0; i < list.length; i++) bind(list[i]);
   }

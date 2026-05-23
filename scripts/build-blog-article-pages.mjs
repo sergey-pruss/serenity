@@ -691,6 +691,35 @@ function stripAuthorByline(html) {
   );
 }
 
+/** Канон аватаров в `img/blog/_authors/` (на диске — webp). */
+const BLOG_AUTHOR_PHOTO_CANON = {
+  "/_sa/img/blog/_authors/yuliya-panetskaya.jpg":
+    "/_sa/img/blog/_authors/yuliya-panetskaya.webp",
+  "/_sa/img/blog/_authors/gleb-borovikov.png":
+    "/_sa/img/blog/_authors/gleb-borovikov.webp",
+};
+
+/**
+ * Если в JSON указано .jpg/.png, а на диске только .webp — подставляем существующий файл.
+ */
+function resolveAuthorPhotoPath(photo) {
+  const raw = String(photo || "").trim();
+  if (!raw) return "";
+  if (BLOG_AUTHOR_PHOTO_CANON[raw]) return BLOG_AUTHOR_PHOTO_CANON[raw];
+  if (!raw.startsWith("/_sa/img/")) return raw;
+  const rel = raw.replace(/^\/_sa\/img\//, "");
+  const abs = path.join(root, "img", rel);
+  if (fs.existsSync(abs)) return raw;
+  const base = abs.replace(/\.(jpe?g|png|webp)$/i, "");
+  for (const ext of [".webp", ".jpg", ".jpeg", ".png"]) {
+    const candidate = base + ext;
+    if (fs.existsSync(candidate)) {
+      return raw.replace(/\.(jpe?g|png|webp)$/i, ext);
+    }
+  }
+  return raw;
+}
+
 /**
  * Имя/роль из конца статьи + опционально `author` в JSON (фото `/_sa/img/blog/<slug>/…`).
  * Фото задаётся вручную в JSON — при синхронизации с прода поле `author` сохраняется в sync-скрипте.
@@ -702,7 +731,8 @@ function resolveAuthor(data, bodyHtml) {
   const titleRaw = o.title != null && String(o.title).trim() ? o.title : parsed?.title || "";
   const name = stripInnerTags(nameRaw);
   const title = normalizeAuthorTitle(stripInnerTags(titleRaw));
-  const photo = o.photo != null && String(o.photo).trim() ? String(o.photo).trim() : "";
+  const photoRaw = o.photo != null && String(o.photo).trim() ? String(o.photo).trim() : "";
+  const photo = resolveAuthorPhotoPath(photoRaw);
   if (!name) return null;
   return { name, title, photo };
 }

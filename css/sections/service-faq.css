@@ -215,22 +215,26 @@
   }
 }
 
-/* Эксперимент: /kontekstnaya_reklama — все ответы FAQ видны, без аккордеона */
-.kontekst-faq-root--always-visible .spoiler {
+/* Услуги: все ответы FAQ видны, без аккордеона (/kontekstnaya_reklama, /targeting). */
+.kontekst-faq-root--always-visible .spoiler,
+.targeting-faq-root--always-visible .spoiler {
   cursor: default;
 }
 
-.kontekst-faq-root--always-visible .spoiler__head {
+.kontekst-faq-root--always-visible .spoiler__head,
+.targeting-faq-root--always-visible .spoiler__head {
   cursor: default;
   pointer-events: none;
   display: block;
 }
 
-.kontekst-faq-root--always-visible .spoiler__ico {
+.kontekst-faq-root--always-visible .spoiler__ico,
+.targeting-faq-root--always-visible .spoiler__ico {
   display: none !important;
 }
 
-.kontekst-faq-root--always-visible .spoiler__content {
+.kontekst-faq-root--always-visible .spoiler__content,
+.targeting-faq-root--always-visible .spoiler__content {
   height: auto !important;
   overflow: visible !important;
   transition: none !important;

@@ -15,7 +15,7 @@ const SERVICES = [
     partial: "faq-kontekstnaya-reklama.html",
     mountId: "kontekst-faq-mounted",
     sectionClass: "kontekst-faq-section",
-    rootClass: "kontekst-faq-root",
+    rootClass: "kontekst-faq-root kontekst-faq-root--always-visible",
     comment: "<!-- FAQ «Вопрос-ответ»: partial + css/sections/service-faq.css. -->\n",
   },
   {
@@ -23,7 +23,7 @@ const SERVICES = [
     partial: "faq-targeting.html",
     mountId: "targeting-faq-mounted",
     sectionClass: "targeting-faq-section",
-    rootClass: "targeting-faq-root",
+    rootClass: "targeting-faq-root targeting-faq-root--always-visible",
     comment: "<!-- FAQ targeting: json/services/targeting/faq.json + service-faq.css. -->\n",
   },
 ];

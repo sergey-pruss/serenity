@@ -440,7 +440,7 @@ function ensureTargetingFaqScript(html) {
   if (legacyRe.test(html)) {
     return html.replace(
       legacyRe,
-      '<script defer src="/_sa/js/service-spoilers.js?v=20260518serviceFaqPhase1"></script>\n    ',
+      '<script defer src="/_sa/js/service-spoilers.js?v=20260523targetingFaqExpanded"></script>\n    ',
     );
   }
   const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
@@ -650,9 +650,9 @@ function run() {
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260516morCasesLinkSlideBg" />',
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
         buildCssLinks(v),
-        deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260518serviceFaqPhase1"),
+        deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523targetingFaqExpanded"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260519targetingHeroAlign" />',
+        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260523targetingFaqExpanded" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
