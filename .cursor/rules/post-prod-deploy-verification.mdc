@@ -1,0 +1,72 @@
+---
+description: После deploy-prod — полный прогон тестов по затронутым зонам на serenity.agency
+alwaysApply: true
+---
+
+# Проверка после выкладки на PROD
+
+**Когда:** после `bash scripts/deploy-prod.sh` / `deploy.sh` (и после связанных `deploy-routing.sh`, `deploy-serenity-router-vhost.sh`, если их запускали в том же релизе).
+
+**Не считать релиз завершённым**, пока не пройдены релевантные проверки **на живом** `https://serenity.agency` (не только локальные тесты до деплоя). Полный регламент: [`AGENTS.md`](AGENTS.md) → «После выкладки».
+
+## 1. Базовый слой (каждый prod-деплой статики)
+
+При доступе к сети:
+
+```bash
+npm run test:post-deploy-smoke
+```
+
+Без Playwright — минимум:
+
+```bash
+npm run test:prod-robots-sitemap
+```
+
+Для крупного релиза (много URL / sitemap / блог) — выборочный HEAD с прода:
+
+```bash
+SITEMAP_HEAD_SAMPLE_K=30 npm run test:post-deploy-smoke
+```
+
+## 2. По затронутым зонам (все пункты из diff/задачи)
+
+Сначала определить, **что могло задеть** коммит (пути, `?v=`, nginx, Worker не трогается при чистом prod-деплое). Прогнать **локальные** тесты зоны (если ещё не гоняли) **и** проверки против прода с `ORIGIN=https://serenity.agency`, где скрипт это поддерживает.
+
+| Зона / пути | Локально (до/после сборки) | На prod после деплоя |
+|-------------|---------------------------|----------------------|
+| Общая вёрстка, шапка, клиенты, 404, ассеты `/_sa/` | `npm run test:layout-smoke` | smoke + визуально главная (см. ниже) |
+| `nginx/routing.conf`, vhost, edge | `npm run test:routing-config` | `ORIGIN=https://serenity.agency npm run test:static-canonical-urls`; smoke; затронутые URL вручную/curl |
+| Блог, статьи, `json/blog-*` | `npm run test:blog`, при тексте — `npm run test:typography-nbsp` | smoke; открыть изменённые `/blog/…` на проде; новая статья — в sitemap |
+| `case/all`, кейсы, карточки | `npm run test:case-all` | smoke; **визуально** `https://serenity.agency/case/all` (превью `/_sa/img/`, не `cdn-cgi`) |
+| `/kontekstnaya_reklama` | `npm run test:kontekstnaya-reklama` | страница на проде, viewport ≥1025 — блоки этапов не пустые |
+| `/targeting` | `npm run test:targeting` | `ORIGIN=https://serenity.agency npm run test:targeting-layout` при сомнении в сетке |
+| `/services/marketing` | `npm run test:marketing` | при правках вёрстки — `npm run test:marketing-visual` |
+| Услуги / конфиг сервисов | `npm run test:service-config` | затронутые URL услуг на проде |
+| Меню, CTA, слайдеры | `npm run test:menu`, `test:leave-cta`, `test:sliders` | клик/скролл на проде в затронутых блоках |
+| CSS/JS `/_sa/*`, `?v=` | поднять `?v=` + `npm run build:html` | curl/HTML: актуальный `?v=` на проде; при «старом UI» — не списывать на кэш без проверки |
+| Форма / API | `npm run test:lead-api` | только если меняли `src/lead-api.mjs` / Worker (prod-деплой Worker не обновляет) |
+
+**Паритет / шапка / сетки:** для страниц с `*-static-stack.css` и `kontekstnaya-reklama-parity.css` — [.cursor/rules/visual-verify-before-handoff.mdc](visual-verify-before-handoff.mdc) на **прод-URL** (1440×900), не только локально.
+
+## 3. Обязанности агента после prod
+
+1. Перечислить в ответе **какие зоны** затронуты и **какие команды** запущены (или что пользователь должен запустить у себя, если нет сети/SSH).
+2. Не писать «выложено на прод, всё ок» без smoke **или** явного перечня пропущенных проверок и причины.
+3. При падении теста — зафиксировать URL/код ответа; не маскировать legacy (например WordPress `robots.txt` вместо статики).
+4. **DEV** (`deploy-dev.sh`) — отдельный чеклист: три поверхности static + Worker; это правило про **PROD** `serenity.agency`.
+
+## 4. Команды-шпаргалка
+
+```bash
+# База
+npm run test:post-deploy-smoke
+
+# Канон URL на проде (после vhost/routing)
+ORIGIN=https://serenity.agency npm run test:static-canonical-urls
+
+# Пример точечной зоны
+ORIGIN=https://serenity.agency npm run test:targeting-layout
+```
+
+SEO/GSC при инцидентах индексации — см. `AGENTS.md` (`test:prod-sitemap-head-sample`, `seo:gsc-*`).
