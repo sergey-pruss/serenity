@@ -139,6 +139,7 @@
     "test:mobile-optimization": "node scripts/verify-mobile-optimization-contract.cjs",
     "test:404-page": "node scripts/verify-404-page.cjs",
     "test:kontekstnaya-reklama": "node scripts/verify-kontekstnaya-reklama.cjs",
+    "test:service-faq-synergy": "node scripts/verify-service-faq-synergy-regression.cjs",
     "refresh:kontekstnaya-from-prod": "node scripts/capture-prod-kontekst-full-html.cjs && node scripts/download-nuxt-css-prod-kontekstnaya.cjs && npm run assemble:service:kontekstnaya && npm run test:kontekstnaya-reklama",
     "refresh:kontekstnaya-from-local-nuxt": "node scripts/refresh-kontekstnaya-from-local-nuxt.cjs",
     "test:targeting": "node scripts/verify-targeting.cjs",
