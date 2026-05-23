@@ -30,7 +30,6 @@ function readStaticPreviewRobots() {
 export async function verifyProdRobotsSitemap(opts = {}) {
   const defaultOrigins = [
     "https://serenity.agency",
-    "https://serenity.sergeyprus.workers.dev",
     "https://static.serenity.agency",
   ];
   const origins = opts.origins?.length ? opts.origins : defaultOrigins;
