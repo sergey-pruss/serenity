@@ -9,6 +9,6 @@ alwaysApply: true
 
 **Дубликаты:** в кураторных JSON/списках URL не оставлять дважды один и тот же `path`/ключ; пары со слэшем и без — отдельные правила для `location =` (см. раздел «Тесты и сдача» в `AGENTS.md`).
 
-**Статика:** «выложи на static / dev / превью» → **`bash scripts/deploy-dev.sh`** (или устаревший алиас `deploy-static-preview.sh`). «Выложи на прод / serenity.agency» → **`bash scripts/deploy-prod.sh`**. Корневой **`deploy.sh`** — обёртка на **`deploy-prod.sh`**. После prod — коммит/push релиза и полный прогон по затронутым зонам: [`.cursor/rules/post-prod-deploy-verification.mdc`](post-prod-deploy-verification.mdc).
+**Статика:** «выложи на static / dev / превью» → **`bash scripts/deploy-dev.sh`** (или устаревший алиас `deploy-static-preview.sh`). «Выложи на прод / serenity.agency» → **`bash scripts/deploy-prod.sh`**. Корневой **`deploy.sh`** — обёртка на **`deploy-prod.sh`**. После prod — автотесты на serenity.agency, при ошибках — фикс и повтор; коммит/push: [`.cursor/rules/post-prod-deploy-verification.mdc`](post-prod-deploy-verification.mdc).
 
 **Nginx / routing / edge:** перед правкой `nginx/routing.conf`, `nginx/*.live.conf`, `json/nginx-edge-intercepts.json` — **спросить:** «Точно меняем конфиг?» Подробности — [`AGENTS.md`](AGENTS.md) и [`.cursor/rules/nginx-config-confirm.mdc`](nginx-config-confirm.mdc).

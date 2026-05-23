@@ -284,7 +284,7 @@
 
 ## После выкладки (опционально)
 
-Правило Cursor для агента после **PROD** (`deploy-prod.sh`): [`.cursor/rules/post-prod-deploy-verification.mdc`](.cursor/rules/post-prod-deploy-verification.mdc) — коммит/push артефактов релиза, базовый smoke + матрица тестов по затронутым зонам на `https://serenity.agency`.
+Правило Cursor для агента после **PROD** (`deploy-prod.sh`): [`.cursor/rules/post-prod-deploy-verification.mdc`](.cursor/rules/post-prod-deploy-verification.mdc) — автотесты по затронутым зонам на `https://serenity.agency`, при падении — исправление в репо и повтор деплоя/тестов, затем коммит/push релиза.
 
 - При доступе к сети: `**npm run test:post-deploy-smoke**` (Playwright, три origin; внутри — `**/robots.txt**` и `**/sitemap.xml**` на каждом origin из списка). Без Playwright: `**npm run test:prod-robots-sitemap**`. Выборочный GET первых K URL из локального `**sitemap.xml**` на прод: `**SITEMAP_HEAD_SAMPLE_K=30 npm run test:post-deploy-smoke**` или `**npm run test:prod-sitemap-head-sample**`. Экспорт URL из GSC и разбор: `**npm run seo:gsc-coverage-hint**`, `**npm run seo:gsc-url-triage -- путь/к.csv**`. Drilldown `.xlsx` (лист URL + «Проблема»): `**npm run seo:gsc-drilldown-xlsx -- …/Coverage-Drilldown*.xlsx > urls.tsv**`, затем triage по `urls.tsv`.
 - Ручные проверки после деплоя — по задаче; нарратив см. `**docs/team-handbook.html**`. Анти‑регресс: при жалобах на «старое поведение» у immutable — сверять `**?v=**` в итоговом `**index.html**` (**см. выше § кэш**).
