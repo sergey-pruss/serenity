@@ -29,6 +29,14 @@ const manifestPath = path.join(root, "korporativnyj_sajt", "nuxt-css-manifest.js
 
 const PHASE2_MIDDLE = path.join(root, "html", "partials", "services", "korporativnyj-phase2-middle.html");
 const PHASE2_CLIENTS = path.join(root, "html", "partials", "services", "korporativnyj-phase2-clients.html");
+/** Срез prod /targeting: секция «Наши клиенты» (clients-wrapper), не kontekst-clients-section. */
+const TARGETING_CLIENTS_SLICE = path.join(
+  root,
+  "html",
+  "partials",
+  "services",
+  "targeting-phase2-clients.html",
+);
 
 const MARKER_MIDDLE = "<!-- KORPORATIVNYJ-PHASE2:middle -->";
 
@@ -303,7 +311,55 @@ function stripPhase1Middle(mainHtml) {
   return `${mainHtml.slice(0, heroEnd)}\n${MARKER_MIDDLE}\n${mainHtml.slice(formSec)}`;
 }
 
-/** На /kontekstnaya_reklama отдельной секции «Наши клиенты» нет — убираем с /targeting. */
+function sanitizeClientsSectionHtml(html) {
+  return html
+    .replace(/\s*swiper-container-initialized/g, "")
+    .replace(/\s*swiper-container-horizontal/g, "")
+    .replace(/\s*swiper-container-free-mode/g, "")
+    .replace(/<span class="swiper-notification"[^>]*><\/span>/g, "")
+    .replace(/\s*style="transition-duration:\s*[^"]*;?"/g, "")
+    .replace(/\s*style="transform:\s*translate3d\([^"]*\);?"/g, "")
+    .replace(/\s*style="cursor:\s*grab;?"/g, "");
+}
+
+/** Вырезает только <section> с .clients-wrapper из targeting-phase2-clients.html. */
+function extractTargetingClientsSection(sliceHtml) {
+  const wrapperIdx = sliceHtml.indexOf('class="clients-wrapper"');
+  if (wrapperIdx < 0) return null;
+  const secStart = sliceHtml.lastIndexOf(SECTION_OPEN, wrapperIdx);
+  if (secStart < 0) return null;
+  const titleIdx = sliceHtml.indexOf("Наши клиенты", wrapperIdx);
+  const endAnchor = titleIdx >= 0 ? titleIdx : wrapperIdx;
+  const secEnd = sliceHtml.indexOf("</section>", endAnchor) + "</section>".length;
+  return sliceHtml.slice(secStart, secEnd);
+}
+
+/** Полоса логотипов как на /targeting — перед FAQ (как prod korporativnyj). */
+function injectKorporativnyjClientsBeforeFaq(mainHtml) {
+  let out = stripKorporativnyjClientsSection(mainHtml);
+  if (!fs.existsSync(TARGETING_CLIENTS_SLICE)) {
+    console.warn("assemble: нет", TARGETING_CLIENTS_SLICE);
+    return out;
+  }
+  let slice = fs.readFileSync(TARGETING_CLIENTS_SLICE, "utf8").trim();
+  slice = slice.replace(/^<!--[\s\S]*?-->\s*/, "");
+  let clients = extractTargetingClientsSection(slice);
+  if (!clients) {
+    console.warn("assemble: секция clients не найдена в targeting-phase2-clients.html");
+    return out;
+  }
+  /* data-v не снимаем: стили карточек логотипов в korporativnyj-nuxt.bundle.css scoped. */
+  clients = sanitizeClientsSectionHtml(rewriteProdSlice(clients));
+
+  const { start } = extractKorporativnyjFaqBlock(out);
+  if (start < 0) {
+    console.warn("assemble: FAQ не найден — clients не вставлены");
+    return out;
+  }
+  return `${out.slice(0, start)}\n${clients}\n${out.slice(start)}`;
+}
+
+/** Убираем clients из среза /targeting до вставки нашего partial. */
 function stripKorporativnyjClientsSection(mainHtml) {
   const clientsIdx = mainHtml.indexOf("Наши клиенты");
   if (clientsIdx < 0) return mainHtml;
@@ -680,6 +736,7 @@ function run() {
   main = stripKorporativnyjClientsSection(main);
 
   main = injectKorporativnyjFaqFromPartial(main);
+  main = injectKorporativnyjClientsBeforeFaq(main);
   main = injectPhase2(main);
   main = injectKorporativnyjMoreCases(main);
   main = injectKorporativnyjAwards(main);

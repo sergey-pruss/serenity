@@ -89,6 +89,10 @@ async function run() {
       ),
       "синергия: data-v-56f85d51 на card-img (snapshot.bundle скрывает tablet/mobile)",
     );
+    assert(html.includes("Наши клиенты"), "клиенты: заголовок «Наши клиенты»");
+    assert(html.includes('class="clients-wrapper"'), "клиенты: clients-wrapper (как /targeting)");
+    assert(html.includes("clients-new__title"), "клиенты: clients-new__title (как /targeting)");
+    assert(!html.includes("kontekst-clients-section"), "клиенты: без kontekst-clients-section");
     assert(html.includes("korporativnyj-sajt-static-stack.css"), "CSS: korporativnyj-sajt-static-stack (import kontekst stack)");
     assert(html.includes("overrides.parity-sync.css"), "CSS: kontekst parity-sync");
     assert(
@@ -119,9 +123,11 @@ async function run() {
   if (!captureBaseline) {
     const leadIdx = main.indexOf("sa-service-lead-section");
     const teamIdx = main.indexOf("team-block");
+    const clientsIdx = main.indexOf('class="clients-wrapper"');
     const faqIdx = main.indexOf("korporativnyj-faq-mounted");
     const casesIdx = main.indexOf('class="more-case-wr');
     assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды (как kontekst)");
+    assert(clientsIdx >= 0 && faqIdx > clientsIdx, "порядок: клиенты до FAQ (как prod)");
     assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
   }
   const stackCssPath = "css/korporativnyj-sajt-static-stack.css";
@@ -134,15 +140,8 @@ async function run() {
     "без фонового фото kontekst ::before в герое",
   );
   assert(!html.includes("service-packages-slider.js"), "без packages slider");
-  assert(
-    html.includes("team__members-slider") || html.includes("team-block"),
-    "команда: слайдер или сетка team-block",
-  );
+  assert(html.includes("team__members-slider"), "команда: слайдер team__members-slider (как targeting/kontekst)");
   if (!captureBaseline) {
-    assert(
-      html.includes("team__members-slider") || main.includes('class="col-4 col-md-6"'),
-      "команда: слайдер или сетка из capture (9 ролей)",
-    );
     assert(html.includes("service-spoilers.js"), "service-spoilers.js");
   }
   assert(html.includes("gradient-canvas"), "gradient-canvas");
@@ -235,7 +234,6 @@ async function run() {
   const phase2 = !captureBaseline && process.env.KORPORATIVNYJ_VERIFY_PHASE2 === "1";
   if (phase2) {
     assert(html.includes('class="facts"') || html.includes("Наш подход"), "phase2: факты/подход");
-    assert(!html.includes("Наши клиенты"), "phase2: без отдельной секции клиентов (как kontekst)");
     assert(!html.includes("KORPORATIVNYJ-PHASE2:middle"), "phase2: нет маркера middle");
     assert(!html.includes("https://serenity.agency/storage/"), "phase2: пути storage переписаны в /_sa/img/");
     assert(html.includes('class="cases-block"'), "phase2: слайдер cases-block в середине страницы");

@@ -118,6 +118,48 @@
   }
 }
 
+/* Телефон: facts под hero — левая сетка как у /targeting (без Nuxt calc(100% - 118px)). */
+@media screen and (max-width: 719px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .page__container.desktop,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .facts-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 24px;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .facts-header .col-6.page__title,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .facts-header .description-item {
+    flex: 0 0 auto !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .facts-header .title,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .facts .facts-header .lead {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
 /* «Наш подход»: 3 карточки из legacy — скрыть пустые 4–6 в desc-grid */
 .page-constructor.korporativnyj-page .content-block__grid--desc.blocks .col-4:nth-child(3) .block-item:empty,
 .page-constructor.korporativnyj-page .content-block__grid--desc.blocks .col-4:nth-child(3) .block-item .block__name:empty {
