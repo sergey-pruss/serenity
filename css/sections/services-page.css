@@ -93,3 +93,51 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
   z-index: 100 !important;
   background: #191a1b !important;
 }
+
+/* Якоря категорий под H1 «Услуги»: на мобилке без space-between — компактнее в строку */
+@media screen and (max-width: 768px) {
+  .services-body .title-anchor__list[data-v-d7c77490] {
+    justify-content: flex-start !important;
+    align-items: center !important;
+    column-gap: 18px !important;
+    gap: 18px !important;
+    min-height: 48px !important;
+    padding-top: 10px !important;
+    padding-bottom: 18px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scrollbar-width: none;
+  }
+
+  .services-body .title-anchor__list .categories__link[data-v-682de319] {
+    display: inline-block !important;
+    margin-right: 0 !important;
+    padding: 10px 0 !important;
+    touch-action: pan-x;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .services-body .title-anchor__list li[data-v-d7c77490] {
+    flex-shrink: 0;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  /* Чуть шире зазор: «Сайты» уходит за край — видно, что строку можно свайпить */
+  .services-body .title-anchor__list[data-v-d7c77490] {
+    column-gap: 22px !important;
+    gap: 22px !important;
+    min-height: 56px !important;
+    padding: 16px 36px 22px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Резерв под абсолютную полосу якорей — контент ниже не перехватывает свайп */
+  .services-body .title-anchor[data-v-d7c77490] {
+    margin-bottom: 84px !important;
+  }
+}
