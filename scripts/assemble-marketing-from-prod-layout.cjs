@@ -31,6 +31,9 @@ const CM_WIDE_SLIDER_BLOCK = path.join(partialsRoot, "marketing-cm-wide-slider-b
 const BRAND_BLOCK = path.join(partialsRoot, "marketing-brand-block.html");
 const BRAND_STRATEGY_BLOCK = path.join(partialsRoot, "marketing-brand-strategy-block.html");
 const CONTENT_STRATEGY_BLOCK = path.join(partialsRoot, "marketing-content-strategy-block.html");
+const ORANGE_CASE_SLIDER_BLOCK = path.join(partialsRoot, "marketing-case-slider-orange.html");
+const SITE_CASES_SLIDER_BLOCK = path.join(partialsRoot, "marketing-case-slider-site.html");
+const SEO_CASES_SLIDER_BLOCK = path.join(partialsRoot, "marketing-case-slider-seo.html");
 const BRAND_AWARENESS_BLOCK = path.join(partialsRoot, "marketing-brand-awareness-block.html");
 const SITE_BLOCK = path.join(partialsRoot, "marketing-site-block.html");
 const SITE_H2 = MARKETING_H2.SITE;
@@ -349,6 +352,21 @@ function injectContentStrategyBlock(mainHtml) {
   return `${mainHtml.slice(0, secEnd)}\n${block}\n${mainHtml.slice(secEnd)}`;
 }
 
+/** После «Контент-стратегия» — слайдер кейса Orange. */
+function injectOrangeCaseSliderAfterContentStrategy(mainHtml) {
+  if (!fs.existsSync(ORANGE_CASE_SLIDER_BLOCK)) return mainHtml;
+  if (mainHtml.includes("marketing-case-slider-orange")) return mainHtml;
+  const brandIdx = mainHtml.indexOf(MARKETING_H2.BRAND);
+  if (brandIdx < 0) {
+    console.warn("assemble-marketing: якорь «Бренд» не найден для слайдера Orange");
+    return mainHtml;
+  }
+  const secStart = mainHtml.lastIndexOf(SECTION_OPEN, brandIdx);
+  if (secStart < 0) return mainHtml;
+  const block = fs.readFileSync(ORANGE_CASE_SLIDER_BLOCK, "utf8").trim();
+  return `${mainHtml.slice(0, secStart)}\n${block}\n${mainHtml.slice(secStart)}`;
+}
+
 /** После «Контент-стратегия» — «Бренд» (нумерация 2). */
 function injectBrandBlock(mainHtml) {
   if (!fs.existsSync(BRAND_BLOCK)) return mainHtml;
@@ -389,6 +407,42 @@ function injectSiteBlock(mainHtml) {
   const secEnd = mainHtml.indexOf("</section>", awarenessIdx) + "</section>".length;
   const block = fs.readFileSync(SITE_BLOCK, "utf8").trim();
   return `${mainHtml.slice(0, secEnd)}\n${block}\n${mainHtml.slice(secEnd)}`;
+}
+
+/** После «SEO» — слайдер кейсов Darkrain, Складно, AWM-Trade (перед «Продажи»). */
+function injectSeoCasesSliderAfterSeo(mainHtml) {
+  if (!fs.existsSync(SEO_CASES_SLIDER_BLOCK)) return mainHtml;
+  if (mainHtml.includes("swiper-container-marketing-seo")) return mainHtml;
+  const seoIdx = mainHtml.indexOf(SEO_H2);
+  if (seoIdx < 0) {
+    console.warn("assemble-marketing: блок SEO не найден для слайдера кейсов");
+    return mainHtml;
+  }
+  const salesIdx = mainHtml.indexOf(SALES_H2);
+  const insertAt =
+    salesIdx > seoIdx
+      ? mainHtml.lastIndexOf(SECTION_OPEN, salesIdx)
+      : mainHtml.indexOf("</section>", seoIdx) + "</section>".length;
+  if (insertAt < 0) return mainHtml;
+  const block = fs.readFileSync(SEO_CASES_SLIDER_BLOCK, "utf8").trim();
+  return `${mainHtml.slice(0, insertAt)}\n${block}\n${mainHtml.slice(insertAt)}`;
+}
+
+/** После «Сайт» — слайдер кейсов Cromi, Riderra, Каскад (перед «Измеримое продвижение»). */
+function injectSiteCasesSliderAfterSite(mainHtml) {
+  if (!fs.existsSync(SITE_CASES_SLIDER_BLOCK)) return mainHtml;
+  if (mainHtml.includes("swiper-container-marketing-site")) return mainHtml;
+  const siteIdx = mainHtml.indexOf(SITE_H2);
+  if (siteIdx < 0) {
+    console.warn("assemble-marketing: блок Сайт не найден для слайдера кейсов");
+    return mainHtml;
+  }
+  const promoIdx = mainHtml.indexOf(MARKETING_H2.PROMOTION);
+  const insertAt =
+    promoIdx > siteIdx ? mainHtml.lastIndexOf(SECTION_OPEN, promoIdx) : mainHtml.indexOf("</section>", siteIdx) + "</section>".length;
+  if (insertAt < 0) return mainHtml;
+  const block = fs.readFileSync(SITE_CASES_SLIDER_BLOCK, "utf8").trim();
+  return `${mainHtml.slice(0, insertAt)}\n${block}\n${mainHtml.slice(insertAt)}`;
 }
 
 /** После «Сайт» — «Измеримое продвижение» (нумерация 3). */
@@ -520,6 +574,7 @@ function stripTargetingCasesSliders(mainHtml) {
     (sec) =>
       sec.includes('class="cases-block"') &&
       !sec.includes("marketing-cases-section") &&
+      !sec.includes("marketing-case-slider-section") &&
       !sec.includes("more-case-wr__main"),
   );
 }
@@ -691,7 +746,9 @@ function run() {
   main = stripTargetingCasesSliders(main);
   main = stripFaqSection(main);
   main = stripTeamSections(main);
-  main = injectCmWideSliderAfterBrand(main);
+  main = injectOrangeCaseSliderAfterContentStrategy(main);
+  main = injectSiteCasesSliderAfterSite(main);
+  main = injectSeoCasesSliderAfterSeo(main);
   main = injectMoreCases(main);
   main = injectAwards(main);
   main = stripSectionsWhere(main, (sec) => sec.includes("kontekst-synergy-root"));

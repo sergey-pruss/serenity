@@ -7,6 +7,7 @@ const path = require("path");
 
 const root = path.resolve(__dirname, "..");
 const { loadServiceConfig } = require("./lib/load-service-config.cjs");
+const { MARKETING_H2 } = require("./lib/marketing-h2-anchors.cjs");
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -266,13 +267,34 @@ async function run() {
 
   assert(!main.includes("team-block"), "нет блока «Команда» (дубль из /targeting)");
   assert(!main.includes('<h2 data-v-490c7534="">Команда</h2>'), "нет заголовка «Команда»");
-  assert(!main.includes("AWM-Trade"), "нет cases-block слайдера AWM после «Бренд»");
-  assert(main.includes("marketing-cm-wide-slider"), "cm-wide-slider фирстиля после «Бренд»");
-  assert(main.includes("/_sa/img/services/marketing/cm/cm-slide1.jpg"), "cm-wide: слайды prod");
-  const cmWideIdx = main.indexOf("marketing-cm-wide-slider");
+  assert(
+    !main.includes("AWM-Trade") || main.includes("marketing-case-slider-seo"),
+    "AWM-Trade только в слайдере после SEO, не в targeting cases-block",
+  );
+  assert(!main.includes("marketing-cm-wide-slider"), "нет cm-wide-slider (подарочный сертификат) после «Бренд»");
+  assert(!main.includes("/_sa/img/services/marketing/cm/cm-slide1.jpg"), "нет cm-slide слайдов");
   const brandStratH2Idx = main.indexOf('href="/services/brend-strategy">Бренд-стратегия</a>');
   assert(brandStratH2Idx > stratIdx && contentIdx > brandStratH2Idx && brandIdx > contentIdx, "порядок: Стратегия → бренд-стратегия → контент → Бренд");
-  assert(brandIdx >= 0 && cmWideIdx > brandIdx && awarenessIdx > cmWideIdx, "порядок: Бренд → cm-wide → увеличение известности");
+  const orangeSliderIdx = main.indexOf("marketing-case-slider-orange");
+  assert(orangeSliderIdx > contentIdx && brandIdx > orangeSliderIdx, "порядок: контент-стратегия → слайдер Orange → Бренд");
+  assert(main.includes('href="/case/orange"'), "слайдер Orange: ссылка на кейс");
+  assert(main.includes("cases-block__swiper-slide-title_big"), "слайдер Orange: разметка cases-block");
+  const seoSliderIdx = main.indexOf("marketing-case-slider-seo");
+  const seoH2Idx = main.indexOf(MARKETING_H2.SEO);
+  const salesH2Idx = main.indexOf(MARKETING_H2.SALES);
+  assert(seoSliderIdx > seoH2Idx && salesH2Idx > seoSliderIdx, "порядок: SEO → слайдер Darkrain/Складно/AWM → продажи");
+  assert(main.includes("swiper-container-marketing-seo"), "слайдер SEO: swiper id");
+  assert(/cases-block__swiper-slide-title[^>]*>Darkrain<\/h3>/.test(main), "слайдер SEO: Darkrain");
+  assert(/cases-block__swiper-slide-title[^>]*>Складно<\/h3>/.test(main), "слайдер SEO: Складно");
+  assert(/cases-block__swiper-slide-title[^>]*>AWM-Trade<\/h3>/.test(main), "слайдер SEO: AWM-Trade");
+  const siteSliderIdx = main.indexOf("marketing-case-slider-site");
+  const siteH2Idx = main.indexOf(MARKETING_H2.SITE);
+  const promoH2Idx = main.indexOf(MARKETING_H2.PROMOTION);
+  assert(siteSliderIdx > siteH2Idx && promoH2Idx > siteSliderIdx, "порядок: Сайт → слайдер Cromi/Riderra/Каскад → продвижение");
+  assert(main.includes('cases-block__swiper-slide-title">Cromi'), "слайдер сайт: Cromi");
+  assert(main.includes('cases-block__swiper-slide-title">Riderra'), "слайдер сайт: Riderra");
+  assert(main.includes('cases-block__swiper-slide-title">Каскад'), "слайдер сайт: Каскад");
+  assert(brandIdx >= 0 && awarenessIdx > brandIdx, "порядок: Бренд → увеличение известности (без cm-wide)");
   const leadIdx = main.indexOf("sa-service-lead-section");
   const casesIdx = main.indexOf("marketing-cases-section");
   assert(leadIdx >= 0 && casesIdx > leadIdx, "порядок: форма до блока «Наши кейсы»");
