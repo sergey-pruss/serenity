@@ -1875,21 +1875,21 @@
     }
   ],
   "panels": {
-    "fetchedAt": "2026-05-21T13:35:58.123Z",
+    "fetchedAt": "2026-05-25T11:39:51.733Z",
     "period": {
-      "startDate": "2026-04-21",
-      "endDate": "2026-05-18"
+      "startDate": "2026-04-25",
+      "endDate": "2026-05-22"
     },
     "sources": {
       "gscSiteUrl": "sc-domain:serenity.agency",
       "gscAuthMethod": "oauth",
       "gscSkipped": false,
-      "gscRowCount": 5412,
-      "gscPageRowCount": 278,
+      "gscRowCount": 6323,
+      "gscPageRowCount": 285,
       "gscError": null,
       "yandexUsed": true,
       "yandexError": null,
-      "yandexPopularQueryCount": 1497,
+      "yandexPopularQueryCount": 1470,
       "yandexPagesSource": "metrika+webmaster",
       "yandexPagesError": null,
       "yandexMetrikaCounterId": 30205029,
@@ -1903,13 +1903,13 @@
         "queryText": "услуги комплексного маркетинга",
         "normalizedKey": "услуги комплексного маркетинга",
         "google": {
-          "avgPosition": 13.87,
+          "avgPosition": 12.18,
           "clicks": 0,
-          "impressions": 76
+          "impressions": 95
         },
         "yandex": {
-          "avgShowPosition": 8.15,
-          "shows": 685,
+          "avgShowPosition": 8.24,
+          "shows": 645,
           "clicks": 3
         }
       },
@@ -1919,13 +1919,13 @@
         "queryText": "агентство комплексного маркетинга",
         "normalizedKey": "агентство комплексного маркетинга",
         "google": {
-          "avgPosition": 17.66,
+          "avgPosition": 17.41,
           "clicks": 0,
-          "impressions": 131
+          "impressions": 152
         },
         "yandex": {
-          "avgShowPosition": 8.12,
-          "shows": 243,
+          "avgShowPosition": 8.11,
+          "shows": 244,
           "clicks": 1
         }
       },
@@ -1935,30 +1935,14 @@
         "queryText": "комплексный маркетинг",
         "normalizedKey": "комплексный маркетинг",
         "google": {
-          "avgPosition": 35.87,
+          "avgPosition": 29.34,
           "clicks": 0,
-          "impressions": 91
+          "impressions": 120
         },
         "yandex": {
-          "avgShowPosition": 8.43,
-          "shows": 152,
+          "avgShowPosition": 8.76,
+          "shows": 164,
           "clicks": 0
-        }
-      },
-      "home|brand": {
-        "pageId": "home",
-        "queryId": "brand",
-        "queryText": "маркетинговое агентство",
-        "normalizedKey": "маркетинговое агентство",
-        "google": {
-          "avgPosition": 9.79,
-          "clicks": 24,
-          "impressions": 607
-        },
-        "yandex": {
-          "avgShowPosition": 13.87,
-          "shows": 573,
-          "clicks": 26
         }
       },
       "home|agency": {
@@ -1967,42 +1951,30 @@
         "queryText": "агентство маркетинга",
         "normalizedKey": "агентство маркетинга",
         "google": {
-          "avgPosition": 34.7,
+          "avgPosition": 31.79,
           "clicks": 0,
-          "impressions": 69
+          "impressions": 82
         },
         "yandex": {
-          "avgShowPosition": 9.82,
-          "shows": 174,
+          "avgShowPosition": 9.87,
+          "shows": 163,
           "clicks": 1
         }
       },
-      "kompleksnoye-prodvizheniye|prodvizhenie": {
-        "pageId": "kompleksnoye-prodvizheniye",
-        "queryId": "prodvizhenie",
-        "queryText": "комплексное продвижение",
-        "normalizedKey": "комплексное продвижение",
+      "home|brand": {
+        "pageId": "home",
+        "queryId": "brand",
+        "queryText": "маркетинговое агентство",
+        "normalizedKey": "маркетинговое агентство",
         "google": {
-          "avgPosition": 18.53,
-          "clicks": 0,
-          "impressions": 403
+          "avgPosition": 9.21,
+          "clicks": 34,
+          "impressions": 802
         },
         "yandex": {
-          "avgShowPosition": 7.48,
-          "shows": 442,
-          "clicks": 4
-        }
-      },
-      "korporativnyj-sajt|razrabotka": {
-        "pageId": "korporativnyj-sajt",
-        "queryId": "razrabotka",
-        "queryText": "разработка корпоративного сайта",
-        "normalizedKey": "разработка корпоративного сайта",
-        "google": null,
-        "yandex": {
-          "avgShowPosition": 12.12,
-          "shows": 451,
-          "clicks": 6
+          "avgShowPosition": 14.11,
+          "shows": 414,
+          "clicks": 9
         }
       },
       "korporativnyj-sajt|sozdanie": {
@@ -2012,10 +1984,70 @@
         "normalizedKey": "создание корпоративного сайта",
         "google": null,
         "yandex": {
-          "avgShowPosition": 12.07,
-          "shows": 372,
+          "avgShowPosition": 11.77,
+          "shows": 382,
           "clicks": 2
         }
+      },
+      "korporativnyj-sajt|razrabotka": {
+        "pageId": "korporativnyj-sajt",
+        "queryId": "razrabotka",
+        "queryText": "разработка корпоративного сайта",
+        "normalizedKey": "разработка корпоративного сайта",
+        "google": null,
+        "yandex": {
+          "avgShowPosition": 11.57,
+          "shows": 447,
+          "clicks": 6
+        }
+      },
+      "kompleksnoye-prodvizheniye|prodvizhenie": {
+        "pageId": "kompleksnoye-prodvizheniye",
+        "queryId": "prodvizhenie",
+        "queryText": "комплексное продвижение",
+        "normalizedKey": "комплексное продвижение",
+        "google": {
+          "avgPosition": 17.92,
+          "clicks": 0,
+          "impressions": 504
+        },
+        "yandex": {
+          "avgShowPosition": 7.51,
+          "shows": 432,
+          "clicks": 4
+        }
+      },
+      "smm|vedenie-sotssetey": {
+        "pageId": "smm",
+        "queryId": "vedenie-sotssetey",
+        "queryText": "ведение соцсетей",
+        "normalizedKey": "ведение соцсетей",
+        "google": null,
+        "yandex": null
+      },
+      "smm|smm-agentstvo": {
+        "pageId": "smm",
+        "queryId": "smm-agentstvo",
+        "queryText": "smm агентство",
+        "normalizedKey": "smm агентство",
+        "google": {
+          "avgPosition": 22.66,
+          "clicks": 0,
+          "impressions": 70
+        },
+        "yandex": {
+          "avgShowPosition": 15.08,
+          "shows": 76,
+          "clicks": 0
+        }
+      },
+      "smm|smm-prodvizhenie": {
+        "pageId": "smm",
+        "queryId": "smm-prodvizhenie",
+        "queryText": "smm продвижение",
+        "normalizedKey": "smm продвижение",
+        "google": null,
+        "yandex": null
       },
       "kontekstnaya|vedenie": {
         "pageId": "kontekstnaya",
@@ -2023,9 +2055,9 @@
         "queryText": "ведение контекстной рекламы",
         "normalizedKey": "ведение контекстной рекламы",
         "google": {
-          "avgPosition": 25.34,
+          "avgPosition": 25.42,
           "clicks": 0,
-          "impressions": 220
+          "impressions": 235
         },
         "yandex": null
       },
@@ -2035,9 +2067,9 @@
         "queryText": "настройка контекстной рекламы",
         "normalizedKey": "настройка контекстной рекламы",
         "google": {
-          "avgPosition": 22.55,
+          "avgPosition": 21.05,
           "clicks": 0,
-          "impressions": 53
+          "impressions": 78
         },
         "yandex": null
       },
@@ -2057,66 +2089,73 @@
         "google": [
           {
             "text": "маркетинговое агентство",
-            "clicks": 24,
-            "impressions": 607,
-            "position": 9.79,
-            "ctr": 0.0395
+            "clicks": 34,
+            "impressions": 802,
+            "position": 9.21,
+            "ctr": 0.0424
           },
           {
             "text": "serenity",
-            "clicks": 16,
-            "impressions": 595,
-            "position": 5.99,
-            "ctr": 0.0269
+            "clicks": 21,
+            "impressions": 721,
+            "position": 5.86,
+            "ctr": 0.0291
           },
           {
             "text": "serenity агентство",
-            "clicks": 7,
-            "impressions": 11,
+            "clicks": 10,
+            "impressions": 16,
             "position": 1,
-            "ctr": 0.6364
-          },
-          {
-            "text": "стажировка в рекламном агентстве спб",
-            "clicks": 4,
-            "impressions": 11,
-            "position": 3.82,
-            "ctr": 0.3636
+            "ctr": 0.625
           },
           {
             "text": "serenity agency",
-            "clicks": 4,
-            "impressions": 6,
+            "clicks": 6,
+            "impressions": 8,
             "position": 1,
-            "ctr": 0.6667
+            "ctr": 0.75
+          },
+          {
+            "text": "стажировка в рекламном агентстве спб",
+            "clicks": 5,
+            "impressions": 13,
+            "position": 3.92,
+            "ctr": 0.3846
+          },
+          {
+            "text": "сайт маркетингового агентства",
+            "clicks": 3,
+            "impressions": 135,
+            "position": 2.47,
+            "ctr": 0.0222
           },
           {
             "text": "маркетинговое агенство",
             "clicks": 3,
-            "impressions": 74,
-            "position": 5.77,
-            "ctr": 0.0405
-          },
-          {
-            "text": "медицинский маркетинг",
-            "clicks": 2,
-            "impressions": 274,
-            "position": 11.53,
-            "ctr": 0.0073
+            "impressions": 87,
+            "position": 5.8,
+            "ctr": 0.0345
           },
           {
             "text": "серенити",
             "clicks": 2,
-            "impressions": 200,
-            "position": 8.77,
-            "ctr": 0.01
+            "impressions": 360,
+            "position": 8.69,
+            "ctr": 0.0056
+          },
+          {
+            "text": "медицинский маркетинг",
+            "clicks": 2,
+            "impressions": 319,
+            "position": 11.95,
+            "ctr": 0.0063
           },
           {
             "text": "маркетинговое агентство сайт",
             "clicks": 2,
-            "impressions": 58,
-            "position": 3.36,
-            "ctr": 0.0345
+            "impressions": 70,
+            "position": 3.16,
+            "ctr": 0.0286
           },
           {
             "text": "маркетинговые агентства вакансии",
@@ -2126,102 +2165,165 @@
             "ctr": 0.2
           },
           {
+            "text": "маркетингове агенство",
+            "clicks": 2,
+            "impressions": 3,
+            "position": 4.33,
+            "ctr": 0.6667
+          },
+          {
             "text": "seo продвижение заказать",
             "clicks": 1,
-            "impressions": 707,
-            "position": 14.11,
-            "ctr": 0.0014
+            "impressions": 1024,
+            "position": 13.22,
+            "ctr": 0.001
           },
           {
             "text": "продвижение молодого сайта",
             "clicks": 1,
-            "impressions": 624,
-            "position": 7.44,
-            "ctr": 0.0016
+            "impressions": 780,
+            "position": 6.78,
+            "ctr": 0.0013
+          },
+          {
+            "text": "услуги сео продвижения",
+            "clicks": 1,
+            "impressions": 422,
+            "position": 13.79,
+            "ctr": 0.0024
+          },
+          {
+            "text": "сео продвижение сайтов",
+            "clicks": 1,
+            "impressions": 285,
+            "position": 15.28,
+            "ctr": 0.0035
+          },
+          {
+            "text": "заказать оптимизация сайтов продвижение сайта",
+            "clicks": 1,
+            "impressions": 258,
+            "position": 15.59,
+            "ctr": 0.0039
+          },
+          {
+            "text": "seo продвижение компании",
+            "clicks": 1,
+            "impressions": 227,
+            "position": 9.3,
+            "ctr": 0.0044
           },
           {
             "text": "редизайн",
             "clicks": 1,
-            "impressions": 165,
-            "position": 9.62,
-            "ctr": 0.0061
+            "impressions": 185,
+            "position": 9.79,
+            "ctr": 0.0054
           },
           {
             "text": "смм агентство",
             "clicks": 1,
-            "impressions": 123,
-            "position": 25.64,
-            "ctr": 0.0081
-          },
-          {
-            "text": "сайт маркетингового агентства",
-            "clicks": 1,
-            "impressions": 114,
-            "position": 2.69,
-            "ctr": 0.0088
-          },
-          {
-            "text": "продакшн",
-            "clicks": 1,
-            "impressions": 70,
-            "position": 14.91,
-            "ctr": 0.0143
-          },
-          {
-            "text": "маркетинговое агентство россия",
-            "clicks": 1,
-            "impressions": 68,
-            "position": 6.56,
-            "ctr": 0.0147
+            "impressions": 147,
+            "position": 27.1,
+            "ctr": 0.0068
           },
           {
             "text": "таргет в телеграм",
             "clicks": 1,
-            "impressions": 62,
-            "position": 15.87,
-            "ctr": 0.0161
+            "impressions": 78,
+            "position": 15.78,
+            "ctr": 0.0128
+          },
+          {
+            "text": "продакшн",
+            "clicks": 1,
+            "impressions": 77,
+            "position": 15.03,
+            "ctr": 0.013
+          },
+          {
+            "text": "маркетинговое агентство россия",
+            "clicks": 1,
+            "impressions": 73,
+            "position": 6.79,
+            "ctr": 0.0137
           },
           {
             "text": "маркетинговое агентство услуги",
             "clicks": 1,
-            "impressions": 54,
-            "position": 27.63,
-            "ctr": 0.0185
+            "impressions": 63,
+            "position": 27.73,
+            "ctr": 0.0159
           },
           {
             "text": "как придумать название бренда",
             "clicks": 1,
-            "impressions": 46,
-            "position": 13.3,
-            "ctr": 0.0217
+            "impressions": 62,
+            "position": 13.11,
+            "ctr": 0.0161
           },
           {
-            "text": "смм агентство спб",
+            "text": "маркетинг агентство",
             "clicks": 1,
-            "impressions": 45,
-            "position": 3.84,
-            "ctr": 0.0222
+            "impressions": 61,
+            "position": 36.84,
+            "ctr": 0.0164
+          },
+          {
+            "text": "smm услуги",
+            "clicks": 1,
+            "impressions": 59,
+            "position": 24.54,
+            "ctr": 0.0169
           },
           {
             "text": "нейминг заказать",
             "clicks": 1,
-            "impressions": 44,
-            "position": 10.48,
-            "ctr": 0.0227
+            "impressions": 56,
+            "position": 10.2,
+            "ctr": 0.0179
+          },
+          {
+            "text": "смм агентство спб",
+            "clicks": 1,
+            "impressions": 54,
+            "position": 3.37,
+            "ctr": 0.0185
+          },
+          {
+            "text": "услуги поисковой оптимизации",
+            "clicks": 1,
+            "impressions": 53,
+            "position": 9.53,
+            "ctr": 0.0189
+          },
+          {
+            "text": "marketing agency",
+            "clicks": 1,
+            "impressions": 48,
+            "position": 11.52,
+            "ctr": 0.0208
           },
           {
             "text": "маркетинговое агентство москва",
             "clicks": 1,
-            "impressions": 33,
-            "position": 25.06,
-            "ctr": 0.0303
+            "impressions": 44,
+            "position": 24.09,
+            "ctr": 0.0227
           },
           {
             "text": "комплексный маркетинг заказать",
             "clicks": 1,
-            "impressions": 31,
-            "position": 10.35,
-            "ctr": 0.0323
+            "impressions": 40,
+            "position": 9.88,
+            "ctr": 0.025
+          },
+          {
+            "text": "услуги по маркетингу",
+            "clicks": 1,
+            "impressions": 29,
+            "position": 7.97,
+            "ctr": 0.0345
           },
           {
             "text": "digital маркетинговое агентство",
@@ -2231,6 +2333,27 @@
             "ctr": 0.0357
           },
           {
+            "text": "придумать название бренда",
+            "clicks": 1,
+            "impressions": 28,
+            "position": 11.29,
+            "ctr": 0.0357
+          },
+          {
+            "text": "какой элемент используется для улучшения читаемости текста на сайте",
+            "clicks": 1,
+            "impressions": 26,
+            "position": 2.23,
+            "ctr": 0.0385
+          },
+          {
+            "text": "сиренити",
+            "clicks": 1,
+            "impressions": 26,
+            "position": 6.54,
+            "ctr": 0.0385
+          },
+          {
             "text": "интернет агентство полного цикла",
             "clicks": 1,
             "impressions": 25,
@@ -2238,222 +2361,131 @@
             "ctr": 0.04
           },
           {
-            "text": "услуги по маркетингу",
+            "text": "смм агенство",
             "clicks": 1,
-            "impressions": 24,
-            "position": 8.33,
-            "ctr": 0.0417
+            "impressions": 25,
+            "position": 16.76,
+            "ctr": 0.04
           },
           {
             "text": "seo для it",
             "clicks": 1,
-            "impressions": 21,
-            "position": 28.86,
-            "ctr": 0.0476
-          },
-          {
-            "text": "какой элемент используется для улучшения читаемости текста на сайте",
-            "clicks": 1,
-            "impressions": 20,
-            "position": 2.6,
-            "ctr": 0.05
-          },
-          {
-            "text": "брендинг москва",
-            "clicks": 1,
-            "impressions": 18,
-            "position": 32.83,
-            "ctr": 0.0556
-          },
-          {
-            "text": "смм агенство",
-            "clicks": 1,
-            "impressions": 18,
-            "position": 11.56,
-            "ctr": 0.0556
-          },
-          {
-            "text": "smm агентства",
-            "clicks": 1,
-            "impressions": 17,
-            "position": 35.59,
-            "ctr": 0.0588
-          },
-          {
-            "text": "сиренити",
-            "clicks": 1,
-            "impressions": 17,
-            "position": 6.12,
-            "ctr": 0.0588
-          },
-          {
-            "text": "стажировка в рекламном агентстве",
-            "clicks": 1,
-            "impressions": 16,
-            "position": 11.5,
-            "ctr": 0.0625
+            "impressions": 23,
+            "position": 28.48,
+            "ctr": 0.0435
           },
           {
             "text": "бренд стратегия заказать",
             "clicks": 1,
-            "impressions": 13,
-            "position": 10.15,
-            "ctr": 0.0769
-          },
-          {
-            "text": "контент для сайта",
-            "clicks": 1,
-            "impressions": 13,
-            "position": 21.77,
-            "ctr": 0.0769
-          },
-          {
-            "text": "маркетинг москва",
-            "clicks": 1,
-            "impressions": 12,
-            "position": 20.67,
-            "ctr": 0.0833
-          },
-          {
-            "text": "маркетинговое агентство вакансии",
-            "clicks": 1,
-            "impressions": 12,
-            "position": 19.25,
-            "ctr": 0.0833
-          },
-          {
-            "text": "как продвинуть свой магазин",
-            "clicks": 1,
-            "impressions": 10,
-            "position": 20.7,
-            "ctr": 0.1
-          },
-          {
-            "text": "serenity media",
-            "clicks": 1,
-            "impressions": 9,
-            "position": 5.22,
-            "ctr": 0.1111
-          },
-          {
-            "text": "маркетинговое агентсво",
-            "clicks": 1,
-            "impressions": 6,
-            "position": 8.17,
-            "ctr": 0.1667
-          },
-          {
-            "text": "как продвинуть магазин",
-            "clicks": 1,
-            "impressions": 5,
-            "position": 11,
-            "ctr": 0.2
-          },
-          {
-            "text": "лицо фирмы",
-            "clicks": 1,
-            "impressions": 5,
-            "position": 8.6,
-            "ctr": 0.2
-          },
-          {
-            "text": "маркетинг стажировка",
-            "clicks": 1,
-            "impressions": 4,
-            "position": 49.25,
-            "ctr": 0.25
-          },
-          {
-            "text": "стажировка в брендинговом агентстве",
-            "clicks": 1,
-            "impressions": 4,
-            "position": 5.75,
-            "ctr": 0.25
-          },
-          {
-            "text": "комплексный маркетинг москва",
-            "clicks": 1,
-            "impressions": 3,
-            "position": 1,
-            "ctr": 0.3333
+            "impressions": 22,
+            "position": 10.45,
+            "ctr": 0.0455
           },
           {
             "text": "услуги смм",
             "clicks": 1,
-            "impressions": 2,
-            "position": 5,
-            "ctr": 0.5
+            "impressions": 21,
+            "position": 25.19,
+            "ctr": 0.0476
           },
           {
-            "text": "smm агенство",
+            "text": "ребрендинг и редизайн",
             "clicks": 1,
-            "impressions": 1,
-            "position": 7,
-            "ctr": 1
+            "impressions": 20,
+            "position": 10.2,
+            "ctr": 0.05
           },
           {
-            "text": "маркетингове агенство",
+            "text": "smm агентства",
             "clicks": 1,
-            "impressions": 1,
-            "position": 5,
-            "ctr": 1
+            "impressions": 19,
+            "position": 35.53,
+            "ctr": 0.0526
           },
           {
-            "text": "стажировка в рекламном агентстве москва",
+            "text": "брендинг москва",
             "clicks": 1,
-            "impressions": 1,
-            "position": 20,
-            "ctr": 1
+            "impressions": 19,
+            "position": 32.89,
+            "ctr": 0.0526
+          },
+          {
+            "text": "стажировка в рекламном агентстве",
+            "clicks": 1,
+            "impressions": 19,
+            "position": 12.11,
+            "ctr": 0.0526
+          },
+          {
+            "text": "маркетинг москва",
+            "clicks": 1,
+            "impressions": 16,
+            "position": 22.31,
+            "ctr": 0.0625
+          },
+          {
+            "text": "как продвинуть свой магазин",
+            "clicks": 1,
+            "impressions": 15,
+            "position": 22,
+            "ctr": 0.0667
+          },
+          {
+            "text": "маркетинговое агентство вакансии",
+            "clicks": 1,
+            "impressions": 14,
+            "position": 18.36,
+            "ctr": 0.0714
           }
         ],
         "yandex": [
           {
             "text": "продакшн",
-            "shows": 1085,
-            "clicks": 1,
-            "avgShowPosition": 9.92
+            "shows": 944,
+            "clicks": 0,
+            "avgShowPosition": 9.57
           },
           {
             "text": "услуги комплексного маркетинга",
-            "shows": 685,
+            "shows": 645,
             "clicks": 3,
-            "avgShowPosition": 8.15
-          },
-          {
-            "text": "маркетинговое агентство",
-            "shows": 573,
-            "clicks": 26,
-            "avgShowPosition": 13.87
-          },
-          {
-            "text": "продакшн это",
-            "shows": 460,
-            "clicks": 2,
-            "avgShowPosition": 7.62
+            "avgShowPosition": 8.24
           },
           {
             "text": "разработка корпоративного сайта",
-            "shows": 451,
+            "shows": 447,
             "clicks": 6,
-            "avgShowPosition": 12.12
+            "avgShowPosition": 11.57
           },
           {
             "text": "комплексное продвижение",
-            "shows": 442,
+            "shows": 432,
             "clicks": 4,
-            "avgShowPosition": 7.48
+            "avgShowPosition": 7.51
+          },
+          {
+            "text": "продакшн это",
+            "shows": 427,
+            "clicks": 2,
+            "avgShowPosition": 7.35
+          },
+          {
+            "text": "маркетинговое агентство",
+            "shows": 414,
+            "clicks": 9,
+            "avgShowPosition": 14.11
           },
           {
             "text": "создание корпоративного сайта",
-            "shows": 372,
+            "shows": 382,
             "clicks": 2,
-            "avgShowPosition": 12.07
+            "avgShowPosition": 11.77
           },
           {
             "text": "разработка корпоративного сайта компании",
-            "shows": 302,
+            "shows": 276,
             "clicks": 3,
-            "avgShowPosition": 9.67
+            "avgShowPosition": 9.56
           },
           {
             "text": "ведение соцсетей цена",
@@ -2463,27 +2495,15 @@
           },
           {
             "text": "агентство комплексного маркетинга",
-            "shows": 243,
+            "shows": 244,
             "clicks": 1,
-            "avgShowPosition": 8.12
-          },
-          {
-            "text": "сайт агентства маркетингово",
-            "shows": 223,
-            "clicks": 0,
-            "avgShowPosition": 7.85
+            "avgShowPosition": 8.11
           },
           {
             "text": "заказать разработку корпоративного сайта",
-            "shows": 209,
+            "shows": 200,
             "clicks": 0,
-            "avgShowPosition": 7.56
-          },
-          {
-            "text": "сайт маркетингового агентства",
-            "shows": 201,
-            "clicks": 0,
-            "avgShowPosition": 7.27
+            "avgShowPosition": 7.47
           },
           {
             "text": "услуга по разработке маркетинговой стратегии",
@@ -2492,154 +2512,148 @@
             "avgShowPosition": 9.07
           },
           {
-            "text": "маркетингового агентства",
-            "shows": 180,
-            "clicks": 1,
-            "avgShowPosition": 7.46
-          },
-          {
-            "text": "реклама яндекс директ сеонити",
-            "shows": 176,
+            "text": "комплексный маркетинг",
+            "shows": 164,
             "clicks": 0,
-            "avgShowPosition": 2.62
+            "avgShowPosition": 8.76
           },
           {
             "text": "агентство маркетинга",
-            "shows": 174,
+            "shows": 163,
             "clicks": 1,
-            "avgShowPosition": 9.82
+            "avgShowPosition": 9.87
           },
           {
             "text": "создание корпоративных сайтов",
-            "shows": 169,
-            "clicks": 1,
-            "avgShowPosition": 14.47
-          },
-          {
-            "text": "продвижение сайтов спб сеонити",
             "shows": 161,
             "clicks": 0,
-            "avgShowPosition": 6.74
+            "avgShowPosition": 14.32
           },
           {
-            "text": "услуги маркетолога",
-            "shows": 153,
+            "text": "реклама яндекс директ сеонити",
+            "shows": 155,
             "clicks": 0,
-            "avgShowPosition": 19.24
-          },
-          {
-            "text": "комплексный маркетинг",
-            "shows": 152,
-            "clicks": 0,
-            "avgShowPosition": 8.43
-          },
-          {
-            "text": "seo продвижение сеонити",
-            "shows": 144,
-            "clicks": 0,
-            "avgShowPosition": 7.58
+            "avgShowPosition": 2.68
           },
           {
             "text": "услуги маркетинга",
             "shows": 144,
             "clicks": 0,
-            "avgShowPosition": 17.45
+            "avgShowPosition": 16.9
+          },
+          {
+            "text": "продвижение сайтов спб сеонити",
+            "shows": 139,
+            "clicks": 0,
+            "avgShowPosition": 6.67
+          },
+          {
+            "text": "сайт маркетингового агентства",
+            "shows": 129,
+            "clicks": 0,
+            "avgShowPosition": 7.65
           },
           {
             "text": "комплексное продвижение бизнеса",
-            "shows": 135,
+            "shows": 126,
             "clicks": 3,
-            "avgShowPosition": 7.36
+            "avgShowPosition": 7.47
           },
           {
-            "text": "маркетинговое агентство москва",
-            "shows": 124,
+            "text": "seo продвижение сеонити",
+            "shows": 125,
             "clicks": 0,
-            "avgShowPosition": 13
-          },
-          {
-            "text": "что такое продакшн",
-            "shows": 123,
-            "clicks": 0,
-            "avgShowPosition": 8.77
+            "avgShowPosition": 7.79
           },
           {
             "text": "разработка создание корпоративных сайтов",
-            "shows": 118,
+            "shows": 125,
             "clicks": 0,
-            "avgShowPosition": 9.93
+            "avgShowPosition": 10.12
           },
           {
-            "text": "отдел маркетинга рекламы it москва",
-            "shows": 112,
-            "clicks": 3,
-            "avgShowPosition": 4.68
-          },
-          {
-            "text": "комплексное продвижение заказать",
-            "shows": 110,
+            "text": "что такое продакшн",
+            "shows": 120,
             "clicks": 0,
-            "avgShowPosition": 7.85
+            "avgShowPosition": 8.66
           },
           {
-            "text": "комплексное продвижение бренда",
-            "shows": 108,
-            "clicks": 0,
-            "avgShowPosition": 8.29
-          },
-          {
-            "text": "маркетинговое агенство",
-            "shows": 105,
-            "clicks": 6,
-            "avgShowPosition": 9.17
+            "text": "маркетингового агентства",
+            "shows": 113,
+            "clicks": 1,
+            "avgShowPosition": 7.83
           },
           {
             "text": "комплексное продвижение бизнеса в интернете",
-            "shows": 102,
+            "shows": 110,
             "clicks": 0,
-            "avgShowPosition": 7.73
+            "avgShowPosition": 7.84
           },
           {
             "text": "смс клиентам конкурентов",
-            "shows": 99,
+            "shows": 106,
             "clicks": 0,
-            "avgShowPosition": 6.01
+            "avgShowPosition": 6.09
+          },
+          {
+            "text": "комплексное продвижение бренда",
+            "shows": 106,
+            "clicks": 0,
+            "avgShowPosition": 8.16
+          },
+          {
+            "text": "комплексное продвижение заказать",
+            "shows": 100,
+            "clicks": 0,
+            "avgShowPosition": 7.9
+          },
+          {
+            "text": "маркетинговое агентство москва",
+            "shows": 100,
+            "clicks": 0,
+            "avgShowPosition": 12.71
           },
           {
             "text": "маркетинговая стратегия заказать",
-            "shows": 98,
-            "clicks": 1,
-            "avgShowPosition": 8.46
+            "shows": 99,
+            "clicks": 0,
+            "avgShowPosition": 8.48
+          },
+          {
+            "text": "отдел маркетинга рекламы it москва",
+            "shows": 97,
+            "clicks": 0,
+            "avgShowPosition": 5.01
           },
           {
             "text": "контент стратегия цена",
-            "shows": 98,
+            "shows": 95,
             "clicks": 0,
-            "avgShowPosition": 7.34
+            "avgShowPosition": 7.25
           },
           {
-            "text": "агентство маркетинговое",
-            "shows": 91,
-            "clicks": 2,
-            "avgShowPosition": 8.43
+            "text": "услуги маркетолога",
+            "shows": 89,
+            "clicks": 0,
+            "avgShowPosition": 24.8
           },
           {
             "text": "продакшен",
-            "shows": 85,
+            "shows": 86,
             "clicks": 0,
-            "avgShowPosition": 9.69
+            "avgShowPosition": 9.66
           },
           {
-            "text": "serenity",
-            "shows": 82,
-            "clicks": 8,
-            "avgShowPosition": 5.72
+            "text": "сайт агентства маркетингово",
+            "shows": 81,
+            "clicks": 0,
+            "avgShowPosition": 8.07
           },
           {
-            "text": "сео оптимизация сеонити",
-            "shows": 77,
-            "clicks": 0,
-            "avgShowPosition": 5.9
+            "text": "маркетинговое агентство спб",
+            "shows": 76,
+            "clicks": 1,
+            "avgShowPosition": 12.13
           },
           {
             "text": "smm агентство",
@@ -2648,64 +2662,82 @@
             "avgShowPosition": 15.08
           },
           {
-            "text": "маркетинговое агентство спб",
-            "shows": 74,
-            "clicks": 1,
-            "avgShowPosition": 12.22
-          },
-          {
-            "text": "маркетинг стратегия агентство",
-            "shows": 74,
-            "clicks": 0,
-            "avgShowPosition": 7.81
-          },
-          {
-            "text": "маркетинговая компания",
-            "shows": 74,
-            "clicks": 0,
-            "avgShowPosition": 13.46
-          },
-          {
             "text": "парсинг клиентов конкурентов",
             "shows": 73,
             "clicks": 0,
             "avgShowPosition": 8.68
           },
           {
-            "text": "seo оптимизация сеонити",
+            "text": "агентство маркетинговое",
             "shows": 72,
             "clicks": 0,
-            "avgShowPosition": 6.78
+            "avgShowPosition": 8.54
+          },
+          {
+            "text": "маркетинговая компания",
+            "shows": 72,
+            "clicks": 0,
+            "avgShowPosition": 13.57
+          },
+          {
+            "text": "serenity",
+            "shows": 71,
+            "clicks": 5,
+            "avgShowPosition": 6.17
           },
           {
             "text": "продакшен это",
-            "shows": 70,
+            "shows": 71,
             "clicks": 0,
-            "avgShowPosition": 9.36
+            "avgShowPosition": 9.3
           },
           {
-            "text": "дизайн корпоративного сайта",
-            "shows": 65,
+            "text": "маркетинг стратегия агентство",
+            "shows": 70,
             "clicks": 0,
-            "avgShowPosition": 16.26
+            "avgShowPosition": 7.77
+          },
+          {
+            "text": "маркетинговое агенство",
+            "shows": 69,
+            "clicks": 5,
+            "avgShowPosition": 9.97
           },
           {
             "text": "заказать маркетинговую стратегию",
-            "shows": 64,
+            "shows": 66,
             "clicks": 1,
             "avgShowPosition": 7.56
           },
           {
-            "text": "маркетинговое агентства",
-            "shows": 64,
+            "text": "сео оптимизация сеонити",
+            "shows": 65,
             "clicks": 0,
-            "avgShowPosition": 7.39
+            "avgShowPosition": 6.09
           },
           {
-            "text": "сео продвижение сеонити",
-            "shows": 64,
+            "text": "создание корпоративного интернет сайта",
+            "shows": 63,
+            "clicks": 1,
+            "avgShowPosition": 11.4
+          },
+          {
+            "text": "маркетинговое агентства",
+            "shows": 63,
             "clicks": 0,
-            "avgShowPosition": 9.31
+            "avgShowPosition": 7.44
+          },
+          {
+            "text": "seo оптимизация сеонити",
+            "shows": 63,
+            "clicks": 0,
+            "avgShowPosition": 6.87
+          },
+          {
+            "text": "контент стратегия стоимость",
+            "shows": 60,
+            "clicks": 0,
+            "avgShowPosition": 4.63
           }
         ]
       },
@@ -2713,104 +2745,104 @@
         "google": [
           {
             "url": "https://serenity.agency/",
-            "clicks": 105,
-            "impressions": 3736,
-            "position": 16.7
+            "clicks": 138,
+            "impressions": 4798,
+            "position": 16.41
           },
           {
             "url": "https://serenity.agency/career/internship",
-            "clicks": 30,
-            "impressions": 159,
-            "position": 14.06
+            "clicks": 36,
+            "impressions": 193,
+            "position": 13.31
           },
           {
             "url": "https://serenity.agency/career/vacancy",
-            "clicks": 14,
-            "impressions": 190,
-            "position": 10.21
-          },
-          {
-            "url": "https://serenity.agency/services/marketing",
-            "clicks": 8,
-            "impressions": 3069,
-            "position": 22.72
+            "clicks": 17,
+            "impressions": 237,
+            "position": 9.5
           },
           {
             "url": "https://serenity.agency/smm_marketing",
-            "clicks": 8,
-            "impressions": 1578,
-            "position": 22.9
+            "clicks": 12,
+            "impressions": 2652,
+            "position": 24.86
+          },
+          {
+            "url": "https://serenity.agency/seo",
+            "clicks": 10,
+            "impressions": 53534,
+            "position": 18.8
+          },
+          {
+            "url": "https://serenity.agency/services/marketing",
+            "clicks": 9,
+            "impressions": 4088,
+            "position": 23.53
           },
           {
             "url": "https://serenity.agency/medicinskij-marketing",
-            "clicks": 7,
-            "impressions": 2062,
+            "clicks": 8,
+            "impressions": 2409,
             "position": 21.23
           },
           {
             "url": "https://serenity.agency/blog/article/kak-prodvigat-magazin-vkontakte-s-nulya",
             "clicks": 6,
-            "impressions": 1415,
-            "position": 14.21
+            "impressions": 1423,
+            "position": 14.14
           },
           {
             "url": "https://serenity.agency/blog/article/litso-brenda-zadachi-razrabotki-firmennogo-stilya",
             "clicks": 6,
-            "impressions": 230,
-            "position": 8.9
+            "impressions": 283,
+            "position": 9.62
           },
           {
             "url": "https://serenity.agency/blog/article/20-sposobov-otsenit-effektivnost-kontent-marketinga",
             "clicks": 5,
-            "impressions": 451,
-            "position": 17.85
-          },
-          {
-            "url": "https://serenity.agency/nedvijimost",
-            "clicks": 4,
-            "impressions": 677,
-            "position": 16.06
+            "impressions": 528,
+            "position": 17.33
           }
         ],
         "yandex": [
           {
             "url": "https://serenity.agency/",
-            "visits": 168,
-            "wmClicks": 8,
-            "shows": 82,
-            "avgShowPosition": 5.72
+            "visits": 186,
+            "wmClicks": 0,
+            "shows": 0,
+            "avgShowPosition": null
           },
           {
             "url": "https://serenity.agency/about",
-            "visits": 60,
+            "visits": 66,
             "wmClicks": 0,
             "shows": 0,
             "avgShowPosition": null
           },
           {
             "url": "https://serenity.agency/services/marketing",
-            "visits": 58,
+            "visits": 65,
             "wmClicks": 0,
             "shows": 0,
             "avgShowPosition": null
           },
           {
             "url": "https://serenity.agency/blog/article/prodakshn-stoit-li-ono-togo",
-            "visits": 11,
+            "visits": 13,
             "wmClicks": 0,
-            "shows": 123,
-            "avgShowPosition": 8.77
+            "shows": 120,
+            "avgShowPosition": 8.66
           },
           {
             "url": "https://serenity.agency/blog/article/sajt-na-konstruktore-protiv-polnotsennogo-sajta-kto-kogo",
-            "visits": 11,
+            "visits": 12,
             "wmClicks": 1,
             "shows": 2,
             "avgShowPosition": 6
           },
           {
             "url": "https://serenity.agency/strategy",
-            "visits": 7,
+            "visits": 6,
             "wmClicks": 0,
             "shows": 0,
             "avgShowPosition": null
@@ -2830,14 +2862,14 @@
             "avgShowPosition": null
           },
           {
-            "url": "https://serenity.agency/case/good-wood",
-            "visits": 3,
+            "url": "https://serenity.agency/services",
+            "visits": 4,
             "wmClicks": 0,
             "shows": 0,
             "avgShowPosition": null
           },
           {
-            "url": "https://serenity.agency/korporativnyj_sajt",
+            "url": "https://serenity.agency/case/good-wood",
             "visits": 3,
             "wmClicks": 0,
             "shows": 0,

@@ -69,7 +69,7 @@
     <section id="visibility">
       <h2>Видимость сейчас</h2>
       <p class="muted">SERP: снимок дашборда <strong>2026-05-25</strong>.
-        Панели GSC/Я.Вебмастер: 2026-04-21 — 2026-05-18.</p>
+        Панели GSC/Я.Вебмастер: 2026-04-25 — 2026-05-22.</p>
       <h3>Органическая выдача (SERP, ручная съёмка)</h3>
       <div class="table-scroll"><table>
         <thead><tr><th>Запрос</th><th>ПС</th><th>Регион</th><th>Поз.</th><th>URL в выдаче</th></tr></thead>
@@ -89,13 +89,13 @@
           <td>создание корпоративного сайта</td>
           <td>google</td>
           <td>rf</td>
-          <td>&gt;20</td>
+          <td>&gt;50</td>
           <td class="mono">—</td>
         </tr><tr>
           <td>разработка корпоративного сайта</td>
           <td>yandex</td>
           <td>moscow</td>
-          <td>&gt;20</td>
+          <td>&gt;50</td>
           <td class="mono">—</td>
         </tr><tr>
           <td>разработка корпоративного сайта</td>
@@ -107,7 +107,7 @@
           <td>разработка корпоративного сайта</td>
           <td>google</td>
           <td>rf</td>
-          <td>&gt;20</td>
+          <td>&gt;50</td>
           <td class="mono">—</td>
         </tr></tbody>
       </table></div>
@@ -117,11 +117,11 @@
         <tbody><tr>
         <td>создание корпоративного сайта</td>
         <td>—</td>
-        <td>12.1 (2 кл., 372 пок.)</td>
+        <td>11.8 (2 кл., 382 пок.)</td>
       </tr><tr>
         <td>разработка корпоративного сайта</td>
         <td>—</td>
-        <td>12.1 (6 кл., 451 пок.)</td>
+        <td>11.6 (6 кл., 447 пок.)</td>
       </tr></tbody>
       </table></div>
     </section>
@@ -149,10 +149,6 @@
       <h3>Техника</h3><ul><li>Канон: https://serenity.agency/korporativnyj_sajt (без слэша).</li><li>Product/Offer schema на price-card — проверить цены и image на /_sa/.</li><li>Форма заявки в DOM (#desktop-order-popup); CWV после Nuxt CSS bundle.</li><li>301 с /korporativnyj_sajt/ при go-live; sitemap lastmod после деплоя.</li></ul>
     </section>
     <section id="migration"><h2>Миграция на статику</h2><ol><li>Статика собрана: korporativnyj_sajt/index.html, verify-korporativnyj.cjs.</li><li>Добавить в nginx/routing.conf только после явного «да» на конфиг.</li><li>deploy-prod + deploy-dev; test:korporativnyj + test:layout-smoke.</li></ol></section>
-    <section class="muted">
-      <p>Превью: <a href="https://static.serenity.agency/docs/korporativnyj-sajt-onepage-seo-tz.html">https://static.serenity.agency/docs/korporativnyj-sajt-onepage-seo-tz.html</a> (выкладка <code>deploy-dev-docs.sh</code> после сборки)</p>
-      <p>Расширенный SERP gap (топ-20 конкурентов): <code>npm run seo:kontekstnaya-serp-gap</code> — по аналогии завести кампанию для страницы.</p>
-    </section>
   </div>
 </body>
 </html>

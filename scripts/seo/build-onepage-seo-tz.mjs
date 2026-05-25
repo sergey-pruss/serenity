@@ -143,7 +143,7 @@ function visibilityHtml(page, dash) {
         ];
       }
       return entries.map((e) => {
-        const pos = e.outOfTop20 ? ">20" : String(e.position ?? "—");
+        const pos = e.outOfTop20 ? ">50" : String(e.position ?? "—");
         return `<tr>
           <td>${esc(q.text)}</td>
           <td>${esc(e.engine)}</td>
@@ -267,10 +267,6 @@ async function buildPage(page) {
       <h3>Техника</h3><ul>${page.technicalNotes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
     </section>
     ${migrationBlock}
-    <section class="muted">
-      <p>Превью: <a href="${docUrl}">${docUrl}</a> (выкладка <code>deploy-dev-docs.sh</code> после сборки)</p>
-      <p>Расширенный SERP gap (топ-20 конкурентов): <code>npm run seo:kontekstnaya-serp-gap</code> — по аналогии завести кампанию для страницы.</p>
-    </section>
   </div>
 </body>
 </html>`;
