@@ -287,7 +287,7 @@ export function sheetRowIndexByPath(dataRows, col, headerOffset = 0) {
 }
 
 /** Ключи, которые можно перезаписывать без согласования (остальное на листе не трогаем). */
-const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink"];
+const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink", "implStatus"];
 
 /**
  * Позиции SERP, статус ТЗ и ссылки на актуальное ТЗ из репозитория.
@@ -314,12 +314,14 @@ export async function writeMigrationPartialFromLayout(
     const rowIndex = rowByPath.get(p.path) ?? fallbackRow;
 
     const r = rankingsForMigrationPath(p.path);
+    const implValue = p.tz === "Готово" && !p.impl ? "В работе" : (p.impl || "");
     const vals = {
       serpGoogle: r.serpGoogleRf,
       serpYandexMsk: r.serpYandexMsk,
       serpYandexSpb: r.serpYandexSpb,
       tzStatus: p.tz || "",
       tzLink: p.tzUrl ? tzHyperlink(p.tzUrl) : "",
+      implStatus: implValue,
     };
 
     for (const key of PARTIAL_UPDATE_KEYS) {
@@ -327,6 +329,7 @@ export async function writeMigrationPartialFromLayout(
       if (colIdx == null) continue;
       if (key === "tzStatus" && !p.tz) continue;
       if (key === "tzLink" && !p.tzUrl) continue;
+      if (key === "implStatus" && !implValue) continue;
       const colLetter = columnLetter1(colIdx + 1);
       data.push({
         range: `${quotedTitle}!${colLetter}${rowIndex}`,
