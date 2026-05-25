@@ -484,30 +484,42 @@ body:not(.order-popup-open) .overlay-new {
   }
 }
 
-/* Синергия: не дублировать padding-bottom .home-ledge (--home-ledge) с отступом слайдера; см. блок ниже про margin у h3. */
-.kontekst-synergy-root .services__text.home-ledge,
-.kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51] {
-  padding-bottom: 0 !important;
-}
-
 /*
- * Заголовок → карточки: в бандле у .swiper-container padding-top: 54px; рядом с unified margin-bottom: 80px у h3
- * получается «двойной» зазор. Здесь margin у заголовка обнуляем — вертикальный ритм даёт только слайдер (как у .services__title с margin:0 в бандле).
+ * Синергия: зазор заголовок → карточки — один шаг --kontekst-heading-gap у .services__text
+ * (как «Блог»), без margin у h3 и без padding-top у .swiper-container из Nuxt-бандла (54px).
  */
+.kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading,
 .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
   margin-bottom: 0 !important;
 }
 
-@media screen and (max-width: 768px) {
-  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
-    margin-bottom: 0 !important;
-  }
+.kontekst-synergy-root .services__text.home-ledge,
+.kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: var(--kontekst-heading-gap, 80px) !important;
 }
 
-@media screen and (max-width: 550px) {
-  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
-    margin-bottom: 0 !important;
-  }
+.page-constructor .kontekst-synergy-root .services__context-slider.swiper-container,
+.page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
+.page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-v-56f85d51],
+.page-constructor .kontekst-synergy-root .isNewContent .services__context-slider.swiper-container[data-v-56f85d51],
+.kontekst-synergy-root .services__context-slider.swiper-container,
+.kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
+.kontekst-synergy-root .services__context-slider.swiper-container[data-v-56f85d51],
+.kontekst-synergy-root .isNewContent .services__context-slider.swiper-container[data-v-56f85d51] {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/*
+ * native-row-scroll: padding-top 40px + margin-top -40px у трека — визуально +40px до карточек.
+ * Для синергии зазор только через padding-bottom у .services__text.
+ */
+.page-constructor .kontekst-synergy-root .services__context-wrapper[data-native-row="1"],
+.page-constructor .kontekst-synergy-root .services__context-wrapper[data-v-56f85d51],
+.kontekst-synergy-root .services__context-wrapper[data-native-row="1"],
+.kontekst-synergy-root .services__context-wrapper[data-v-56f85d51] {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 /* Синергия (partial как на главной): в prod-блоке не было цен — скрываем, если появятся в разметке */
@@ -542,29 +554,56 @@ body:not(.order-popup-open) .overlay-new {
   color: #fff;
   font-style: normal;
   font-weight: 400;
-  font-size: 46px;
-  line-height: 126%;
-  letter-spacing: 0;
+  font-size: 46px !important;
+  line-height: 126% !important;
+  letter-spacing: 0 !important;
   box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
   .page-constructor h3.kontekstnaya-page__section-heading {
-    font-size: 28px;
-    line-height: 126%;
+    font-size: 28px !important;
+    line-height: 126% !important;
     margin-bottom: 45px;
   }
 }
 
 @media screen and (max-width: 550px) {
   .page-constructor h3.kontekstnaya-page__section-heading {
-    font-size: 26px;
+    font-size: 26px !important;
     margin-bottom: 20px;
   }
 }
 
 .team-block .team__head > h3.kontekstnaya-page__section-heading {
   margin: 0;
+}
+
+/*
+ * «Команда» h2: в Nuxt-бандле 54px — на услугах после формы 46px (как FAQ / кейсы / targeting).
+ */
+.page-constructor .team-block .team__head > h2,
+.page-constructor .team-block .team__head > h2[data-v-c03ce8dc] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .team-block .team__head > h2,
+  .page-constructor .team-block .team__head > h2[data-v-c03ce8dc] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .team-block .team__head > h2,
+  .page-constructor .team-block .team__head > h2[data-v-c03ce8dc] {
+    font-size: 26px !important;
+  }
 }
 
 @media screen and (max-width: 719px) {
@@ -585,41 +624,51 @@ body:not(.order-popup-open) .overlay-new {
  * вьюпортах (только горизонтальные отступы из бандла), блок на всю ширину контентной полосы страницы.
  */
 
-.page-constructor .isNewContent h3.services__title.kontekstnaya-page__section-heading,
-.page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+/*
+ * «Награды»: заголовок → ряд карточек без лишнего margin у .awards__header (см. home-awards.css).
+ * Сверху — --home-between от «Кейсов»; снизу на услугах 0 — один шаг до «Синергии» даёт padding-top у .services-unified.
+ */
+.page-constructor .home-awards-block .awards__header,
+.home-awards-block .awards__header {
+  margin-bottom: 0 !important;
+}
+
+/*
+ * «Награды»: заголовок → венки — как /targeting (margin-bottom 80px на h3).
+ * parity-sync даёт .home-clients-awards__title { margin: 0 } — без !important зазор обнуляется.
+ */
+.page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading,
+.home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  margin: 0 0 var(--kontekst-heading-gap, 80px) !important;
+  padding: 0 !important;
+  color: #fff !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
   font-size: 46px !important;
   line-height: 126% !important;
   letter-spacing: 0 !important;
-  margin-bottom: 80px !important;
+  box-sizing: border-box !important;
 }
 
 @media screen and (max-width: 768px) {
-  .page-constructor .isNewContent h3.services__title.kontekstnaya-page__section-heading,
-  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading,
+  .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
     font-size: 28px !important;
     line-height: 126% !important;
-    margin-bottom: 45px !important;
+    margin-bottom: var(--kontekst-heading-gap, 45px) !important;
   }
 }
 
 @media screen and (max-width: 550px) {
-  .page-constructor .isNewContent h3.services__title.kontekstnaya-page__section-heading,
-  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading,
+  .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
     font-size: 26px !important;
-    margin-bottom: 20px !important;
+    margin-bottom: var(--kontekst-heading-gap, 20px) !important;
   }
 }
 
-/*
- * «Награды»: заголовок → ряд карточек без лишнего margin у .awards__header (см. home-awards.css).
- * Сверху секции — полный шаг --home-between от предыдущего блока; снизу — --home-ledge (не второй --home-between,
- * чтобы вместе с padding-top «Синергии» не получить двойной зазор).
- */
-.page-constructor .home-awards-block .awards__header:not(.marketing-awards-header) {
-  margin-bottom: 0 !important;
-}
-
-.page-constructor .home-awards-block .awards {
+.page-constructor .home-awards-block .awards,
+.home-awards-block .awards {
   /*
    * home-awards.css: max-width 1576px + margin:auto — на очень широком вьюпорте колонка
    * центрируется: заголовок уезжает вправо относительно «Синергия с услугами», а лента с
@@ -631,24 +680,36 @@ body:not(.order-popup-open) .overlay-new {
   margin-left: 0 !important;
   margin-right: 0 !important;
   padding-top: var(--home-between, 112px) !important;
-  /* Один полный шаг до следующей секции даёт .services-unified (синергия); снизу — «полка» как --home-ledge. */
-  padding-bottom: var(--home-ledge, 54px) !important;
+  padding-bottom: 0 !important;
   padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
   padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
 }
 
 /*
- * «Синергия» после «Награды»: тот же секционный шаг --home-between (на главной после кейсов +66px к услугам — здесь не дублируем).
+ * «Синергия» после «Награды»: один шаг --home-between (без .page-constructor — как /targeting).
  */
 .page-constructor .kontekst-synergy-root .services-unified,
-.page-constructor .kontekst-synergy-root .services-unified[data-v-56f85d51] {
+.page-constructor .kontekst-synergy-root .services-unified[data-v-56f85d51],
+.kontekst-synergy-root .services-unified,
+.kontekst-synergy-root .services-unified[data-v-56f85d51] {
   padding-top: var(--home-between, 112px) !important;
 }
 
-/* Inline из partial: иначе +90px к --home-between и визуально «другой» шаг до заголовка синергии. */
+/* Inline из partial: иначе +90px к --home-between; на статике скрываем (как /targeting). */
+.page-constructor .kontekst-synergy-root .block-padding,
 .page-constructor .kontekst-synergy-root .block-padding.block-padding_desktop,
-.page-constructor .kontekst-synergy-root .block-padding.block-padding_tablet {
-  padding-top: 0 !important;
+.page-constructor .kontekst-synergy-root .block-padding.block-padding_tablet,
+.page-constructor .kontekst-synergy-root .block-padding.block-padding_mobile,
+.kontekst-synergy-root .block-padding,
+.kontekst-synergy-root .block-padding.block-padding_desktop,
+.kontekst-synergy-root .block-padding.block-padding_tablet,
+.kontekst-synergy-root .block-padding.block-padding_mobile {
+  display: none !important;
+  padding: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
 }
 
 /*
@@ -1436,11 +1497,15 @@ body .page-constructor .team-block .team__member-card {
   }
 }
 
-/* Планшет: зазор «текст шапки → слайдер» (−60% от margin-bottom:180px в Nuxt-бандле). */
+/* Планшет: зазор шапки → слайдер — тот же --kontekst-heading-gap (на ≤719px — правила ниже). */
 @media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor .team-block .team__head {
+    margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+  }
+
   .page-constructor .team-block .page__container .team__head p[data-v-c03ce8dc],
   .page-constructor .team-block .page__container .team__head p {
-    margin-bottom: 72px !important;
+    margin-bottom: 0 !important;
   }
 }
 
@@ -1449,6 +1514,167 @@ body .page-constructor .team-block .team__member-card {
  */
 .page-constructor .page-constructor__section.sa-service-lead-section {
   margin-top: var(--home-between, 112px);
+}
+
+/*
+ * Хвост страницы (форма → «Команда» → … → «Синергия»): ритм как /targeting.
+ * Между секциями — --home-between; заголовок → контент — --kontekst-heading-gap (80 / 45 / 20).
+ */
+:root {
+  --kontekst-heading-gap: 80px;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --kontekst-heading-gap: 45px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  :root {
+    --kontekst-heading-gap: 20px;
+  }
+}
+
+/* Форма → «Команда»: у контейнера был padding-bottom 72px — суммировался с padding-top .team-block. */
+.page-constructor .sa-service-lead-section__container {
+  padding-bottom: 0 !important;
+}
+
+/* «Команда»: зазор шапки (h2 + абзац) → карточки. */
+.page-constructor .team-block .team__head {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+/*
+ * «Блог»: межсекционный шаг как у «Клиенты» (padding-top у секции, не margin у шапки).
+ * Заголовок → карточки — --kontekst-heading-gap.
+ */
+.page-constructor .kontekst-blog-section {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .kontekst-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.page-constructor .kontekst-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+  margin-top: 0 !important;
+}
+
+.page-constructor .kontekst-blog-section .services__text.home-ledge,
+.page-constructor .kontekst-blog-section .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor .kontekst-blog-section .blog-block__swiper-container,
+.page-constructor .kontekst-blog-section .blog-block__swiper-container[data-v-25bf775d] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* «Наши клиенты»: margin-bottom .clients-new.home-ledge вместо --home-ledge. */
+.page-constructor .kontekst-clients-section .clients-new.home-ledge,
+.page-constructor .kontekst-clients-section .clients-new.home-ledge[data-v-08586076] {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+.page-constructor .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+.targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+/* FAQ услуг: ответы всегда в DOM/на экране; стрелки скрыты (дубль service-faq.css — stack грузится синхронно). */
+.kontekst-faq-root--always-visible .spoiler,
+.targeting-faq-root--always-visible .spoiler {
+  cursor: default;
+}
+
+.kontekst-faq-root--always-visible .spoiler__head,
+.targeting-faq-root--always-visible .spoiler__head {
+  cursor: default;
+  pointer-events: none;
+  display: block;
+}
+
+.kontekst-faq-root--always-visible .spoiler__ico,
+.targeting-faq-root--always-visible .spoiler__ico {
+  display: none !important;
+}
+
+.kontekst-faq-root--always-visible .spoiler__content,
+.targeting-faq-root--always-visible .spoiler__content {
+  height: auto !important;
+  overflow: visible !important;
+  transition: none !important;
+}
+
+/* «Блог» / «Наши клиенты»: h2 — 46px (parity-sync на главной даёт 52px с 1440px). */
+.page-constructor .kontekst-blog-section .services__title,
+.page-constructor .kontekst-blog-section .services__title[data-v-56f85d51],
+.page-constructor .kontekst-clients-section .home-clients-awards__title,
+.page-constructor .kontekst-clients-section .home-clients-awards__title[data-v-08586076] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .kontekst-blog-section .services__title,
+  .page-constructor .kontekst-blog-section .services__title[data-v-56f85d51],
+  .page-constructor .kontekst-clients-section .home-clients-awards__title,
+  .page-constructor .kontekst-clients-section .home-clients-awards__title[data-v-08586076] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .kontekst-blog-section .services__title,
+  .page-constructor .kontekst-blog-section .services__title[data-v-56f85d51],
+  .page-constructor .kontekst-clients-section .home-clients-awards__title,
+  .page-constructor .kontekst-clients-section .home-clients-awards__title[data-v-08586076] {
+    font-size: 26px !important;
+  }
+}
+
+/* Слайдер «Клиенты»: без glow-pb — иначе +40px к --home-between до «Кейсы». */
+.page-constructor .kontekst-clients-section .swiper-container-clients-new,
+.page-constructor .kontekst-clients-section .swiper-container-clients-new[data-v-08586076] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* «Кейсы»: заголовок → сетка — как /targeting. */
+.more-case-wr.more-case-wr__main .more-cases h3.kontekstnaya-page__section-heading,
+.more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading {
+  margin: 0 0 var(--kontekst-heading-gap, 80px) !important;
+  padding: 0 !important;
+  color: #fff !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 46px !important;
+  line-height: 126% !important;
+  letter-spacing: 0 !important;
+  box-sizing: border-box !important;
+}
+
+@media screen and (max-width: 768px) {
+  .more-case-wr.more-case-wr__main .more-cases h3.kontekstnaya-page__section-heading,
+  .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading {
+    font-size: 28px !important;
+    line-height: 126% !important;
+    margin-bottom: var(--kontekst-heading-gap, 45px) !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .more-case-wr.more-case-wr__main .more-cases h3.kontekstnaya-page__section-heading,
+  .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading {
+    font-size: 26px !important;
+    margin-bottom: var(--kontekst-heading-gap, 20px) !important;
+  }
 }
 
 /* Ширина тёмной карточки формы = у контейнера пакетов (.dies > .page__container), без max-width:1280 и боковых 24px. */
@@ -1623,25 +1849,32 @@ body .page-constructor .team-block .team__member-card {
     margin-bottom: 45px !important;
   }
 
-  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
-    margin-bottom: 45px !important;
+  .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+  .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    margin-bottom: var(--kontekst-heading-gap, 45px) !important;
   }
 
-  .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
-    margin-bottom: 45px !important;
-  }
-
-  .page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
-    margin-bottom: 45px !important;
+  .page-constructor .kontekst-synergy-root .services__text.home-ledge,
+  .page-constructor .kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51],
+  .kontekst-synergy-root .services__text.home-ledge,
+  .kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51] {
+    padding-bottom: var(--kontekst-heading-gap, 45px) !important;
   }
 
   .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
-  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container {
+  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container,
+  .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-v-56f85d51],
+  .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
+  .kontekst-synergy-root .services__context-slider.swiper-container,
+  .kontekst-synergy-root .services__context-slider.swiper-container[data-v-56f85d51] {
     padding-top: 0 !important;
+    margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
 
-  .page-constructor .kontekst-synergy-root .services__context-wrapper[data-native-row="1"] {
+  .page-constructor .kontekst-synergy-root .services__context-wrapper[data-native-row="1"],
+  .page-constructor .kontekst-synergy-root .services__context-wrapper[data-v-56f85d51],
+  .kontekst-synergy-root .services__context-wrapper[data-v-56f85d51] {
     padding-top: 0 !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -1671,11 +1904,15 @@ body .page-constructor .team-block .team__member-card {
   .page-constructor .team-block .page__container .team__head p {
     margin-left: 0 !important;
     margin-right: 0 !important;
-    margin-bottom: 45px !important;
+    margin-bottom: 0 !important;
     width: 100% !important;
     max-width: none !important;
     text-align: left !important;
     box-sizing: border-box;
+  }
+
+  .page-constructor .team-block .team__head {
+    margin-bottom: var(--kontekst-heading-gap, 45px) !important;
   }
 }
 
@@ -1694,4 +1931,15 @@ body .page-constructor .team-block .team__member-card {
 .page-constructor .cases-block__slider .cases-block__slider-swiper-container .swiper-slide {
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/*
+ * «Награды» на услугах: home-awards.css грузится async после stack и задаёт padding: 72px … shorthand.
+ * body:not(.sa-home-page) — только страницы услуг; главная (.sa-home-page) не трогаем.
+ */
+body:not(.sa-home-page) .home-awards-block .awards {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
 }

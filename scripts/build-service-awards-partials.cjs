@@ -81,6 +81,12 @@ const SERVICES = [
     headingId: "targeting-awards-heading",
     comment: "<!-- Награды marketing: json/services/marketing/awards.json + home-awards.css. -->\n",
   },
+  {
+    slug: "korporativnyj_sajt",
+    partial: "awards-korporativnyj-sajt.html",
+    headingId: "korporativnyj-awards-heading",
+    comment: "<!-- Награды korporativnyj_sajt: json/services/korporativnyj_sajt/awards.json + home-awards.css. -->\n",
+  },
 ];
 
 function writeSeedJson(svc) {

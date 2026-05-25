@@ -1,0 +1,272 @@
+/**
+ * /targeting: герой + коллаж case-slider.
+ * Nuxt: .case-slider — flex + overflow:hidden; .case-slider-slide — position:absolute.
+ * Обёртка слайда получает высоту 0 → коллаж не виден. На всех брейкпоинтах держим слайд и картинку в потоке.
+ */
+/* Герой: мобилка — слева по сетке; десктоп ≥720px — по центру. */
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding-top: var(--service-hero-mid-header-padding-top, 150px);
+  gap: 40px;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  margin-top: 0;
+  margin-bottom: 62px;
+  text-wrap: balance;
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__title {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: min(1108px, 100%) !important;
+  width: 100%;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+  text-align: left !important;
+  margin: 0 !important;
+  max-width: min(590px, 100%) !important;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: 90px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: 70px;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    align-items: center;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Десктоп: h1 на одной линии с kontekst (.jumbotron в 100vh + padding 70px); замер −6px к calc. */
+@media screen and (min-width: 1025px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: calc(var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) - 6px) !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  /*
+   * Вертикаль h1 как у kontekst: .jumbotron в .header-background{height:100vh} + justify-content:center.
+   * Замер Playwright 720–1024px: calc(50vh - 154px) ≈ позиция .jumbotron-img-aurora__title.
+   */
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: var(--service-hero-tablet-header-padding-top, calc(50vh - 154px)) !important;
+    margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-header-to-collage, calc(1lh + 10px)) !important;
+    gap: var(--service-hero-tablet-title-gap, 40px) !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-collage-bottom, 52px) !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__content,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide__content {
+    max-width: calc(100% - 110px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: var(--service-hero-mobile-top, 222px) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-mobile-title-gap, 40px) !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  /* Зазор подзаголовок → коллаж — service-hero-collage-gap-after-lead в parity-sync */
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 20px)) !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199] {
+    padding: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__content,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide .case-slider-slide__content {
+    max-width: calc(100% - 72px) !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* --- Коллаж: всегда в потоке документа (desktop / tablet / mobile) --- */
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block {
+  position: relative;
+  overflow: visible !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider__wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: visible !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .c-title-block .case-slider,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider[data-v-2c71f199] {
+  position: relative;
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin-bottom: 0;
+  justify-content: flex-start !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider__wrapper.case-slider__margin-fix {
+  position: relative;
+  z-index: 1;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider .slide-wrapper {
+  position: relative !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide[data-v-77cabad6] {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__content {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-top: 0 !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media > div {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media img,
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media img[data-v-77cabad6] {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/*
+ * ≥720px: в Nuxt img остаётся absolute + padding-top 56.25% у .case-slider-slide__media.
+ * Если снять только padding-top, блок схлопывается — коллаж не виден (desktop/tablet).
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide[data-v-77cabad6] {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media[data-v-77cabad6] {
+    display: block !important;
+    position: relative !important;
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: 906px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media img,
+  .page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media img[data-v-77cabad6] {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Пустой video из Nuxt-гидрации без src — не занимает место */
+.page-constructor.korporativnyj-page > .page-constructor__section:first-of-type .case-slider-slide__media video:not([src]) {
+  display: none !important;
+}

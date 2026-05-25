@@ -3,16 +3,24 @@
  *
  * Jumbotron (контекст): Nuxt — .header-background { height: 100vh }, .jumbotron { justify-content: center }.
  * Коллаж (таргет): .c-title-block__header — на ≥1025px ритм как jumbotron + --service-hero-desktop-extra-top.
+ * Токены desktop/tablet/mobile — в css__home-snapshot__overrides.parity-sync.css.
  */
+
+/* 769–1024 до tablet calc: общий padding-top (было 183px в hero-файлах услуг). */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --service-hero-mid-header-padding-top: 150px;
+  }
+}
 
 @media screen and (min-width: 1025px) {
   .page-constructor > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header:not(.video-header) {
-    padding-top: var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) !important;
+    padding-top: var(--service-hero-desktop-header-padding-top, calc(50vh - 162px)) !important;
     margin-top: var(--service-hero-desktop-header-margin-top, 0) !important;
   }
 
   .page-constructor > .page-constructor__section:first-of-type .c-title-block .jumbotron {
-    padding-top: var(--service-hero-jumbotron-padding-top, 70px) !important;
+    padding-top: var(--service-hero-jumbotron-padding-top, 52px) !important;
   }
 }
 

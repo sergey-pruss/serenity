@@ -6,8 +6,8 @@ const { chromium } = require("playwright");
 const DEFAULT_URLS = [
   "https://serenity.agency/",
   "https://static.serenity.agency/",
-  "https://serenity.sergeyprus.workers.dev/",
 ];
+const WORKER_API_ORIGIN = "https://serenity.sergeyprus.workers.dev";
 const URLS = process.env.SMOKE_URLS
   ? process.env.SMOKE_URLS.split(",").map((s) => s.trim()).filter(Boolean)
   : DEFAULT_URLS;
@@ -15,8 +15,8 @@ const URLS = process.env.SMOKE_URLS
 const VIEWPORT = { width: 1366, height: 900 };
 
 const HANDBOOK_PATH = "/docs/team-handbook.html";
-/** Origins, где /docs/ должен отдаваться (dev static + Worker). На serenity.agency — 404. */
-const DOCS_ORIGINS = new Set(["static.serenity.agency", "serenity.sergeyprus.workers.dev"]);
+/** Origins, где /docs/ отдаётся с static-dev (не API-only Worker). */
+const DOCS_ORIGINS = new Set(["static.serenity.agency"]);
 const PROD_CANON_HOST = "serenity.agency";
 /** Уникальный маркер страницы handbook (не главная index.html). */
 const HANDBOOK_MARKER = "Serenity — структура проекта, URL и проверки";
@@ -72,6 +72,20 @@ async function checkOptionalSitemapHeadSample() {
   if (!Number.isFinite(k) || k <= 0) return;
   const { runSitemapHeadSample } = await import(pathToFileURL(path.join(__dirname, "verify-prod-sitemap-sample-head.mjs")).href);
   await runSitemapHeadSample();
+}
+
+async function checkWorkerApiStaging() {
+  const url = `${WORKER_API_ORIGIN}/api/lead`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "{}",
+  });
+  assert(
+    res.status === 422 || res.status === 400,
+    `Worker API ${url}: ожидался 422/400 на пустое тело, получен HTTP ${res.status}`,
+  );
+  console.log(`OK Worker API ${url} → ${res.status}`);
 }
 
 async function checkUrl(browser, url) {
@@ -172,6 +186,9 @@ async function run() {
   try {
     for (const url of URLS) {
       await checkUrl(browser, url);
+    }
+    if (!process.env.SMOKE_URLS) {
+      await checkWorkerApiStaging();
     }
     await checkHandbookDeployedAtOrigins();
     await checkProdRobotsSitemapAtOrigins();

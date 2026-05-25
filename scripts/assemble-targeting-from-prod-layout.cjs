@@ -12,6 +12,7 @@ const { stripNuxtScopedMarkup } = require("./strip-nuxt-scoped-markup.cjs");
 const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.cjs");
 const { repairContentBlockMotionDivTags } = require("./lib/repair-content-block-motion-div-tags.cjs");
 const { repairNumberedHeaderExtraCloses } = require("./lib/repair-numbered-header-extra-closes.cjs");
+const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -440,7 +441,7 @@ function ensureTargetingFaqScript(html) {
   if (legacyRe.test(html)) {
     return html.replace(
       legacyRe,
-      '<script defer src="/_sa/js/service-spoilers.js?v=20260518serviceFaqPhase1"></script>\n    ',
+      '<script defer src="/_sa/js/service-spoilers.js?v=20260523targetingFaqExpanded"></script>\n    ',
     );
   }
   const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
@@ -647,12 +648,12 @@ function run() {
     : [
         "    <!-- TARGETING-CSS-BUNDLE-START: Nuxt + kontekst parity stack (как kontekstnaya_reklama) -->",
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />',
-        '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260516morCasesLinkSlideBg" />',
+        '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260523serviceHeroTop" />',
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
         buildCssLinks(v),
-        deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260518serviceFaqPhase1"),
+        deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523targetingFaqExpanded"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260519targetingHeroAlign" />',
+        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
@@ -691,6 +692,10 @@ function run() {
     const typoAfterTeam = processTypographyHtml(finalHtml, { force: true });
     fs.writeFileSync(indexPath, typoAfterTeam.html.replace(/\n+$/, "\n"), "utf8");
   }
+
+  let published = fs.readFileSync(indexPath, "utf8");
+  published = patchServiceBreadcrumbForSlug(published, "targeting");
+  fs.writeFileSync(indexPath, published.replace(/\n+$/, "\n"), "utf8");
 
   console.log("assemble-targeting-from-prod-layout: ok, main bytes", main.length);
 }

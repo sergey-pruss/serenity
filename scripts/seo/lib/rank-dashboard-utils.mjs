@@ -451,6 +451,8 @@ export function entryIsDoubtfulForRefetch(entry) {
 }
 
 /**
+ * Лучшая позиция домена в органике (любой URL на primaryDomain).
+ * preferredPath — опционально: landing + fallback на домен; для дашборда не передаём.
  * @param {{ url: string; position: number }[]} results
  * @param {string} primaryDomain
  * @param {string} [preferredPath]
@@ -482,7 +484,7 @@ export function findSerenityPosition(results, primaryDomain, preferredPath) {
     }
   }
 
-  const pick = bestPath || bestAny;
+  const pick = want != null ? bestPath || bestAny : bestAny;
   if (!pick) return { position: null, matchedUrl: null };
   return { position: pick.position, matchedUrl: pick.url };
 }

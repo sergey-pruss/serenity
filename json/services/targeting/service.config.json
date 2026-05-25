@@ -1,6 +1,9 @@
 {
   "slug": "targeting",
   "urlPath": "/targeting",
+  "seo": {
+    "breadcrumbLabel": "Таргетированная реклама"
+  },
   "hero": {
     "variant": "title-collage"
   },
@@ -38,7 +41,7 @@
     "faq": {
       "mountId": "targeting-faq-mounted",
       "sectionClass": "targeting-faq-section",
-      "rootClass": "targeting-faq-root"
+      "rootClass": "targeting-faq-root targeting-faq-root--always-visible"
     },
     "phase2": true
   }

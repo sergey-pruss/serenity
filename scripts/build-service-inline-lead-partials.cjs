@@ -14,6 +14,7 @@ const SERVICES = [
   { slug: "kontekstnaya_reklama", partial: "service-inline-lead-kontekstnaya-reklama.html" },
   { slug: "targeting", partial: "service-inline-lead-targeting.html" },
   { slug: "marketing", partial: "service-inline-lead-marketing.html" },
+  { slug: "korporativnyj_sajt", partial: "service-inline-lead-korporativnyj-sajt.html" },
 ];
 
 function buildOne({ slug, partial }) {

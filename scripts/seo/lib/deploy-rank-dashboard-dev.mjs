@@ -19,7 +19,7 @@ export function deployRankDashboardToDev(opts = {}) {
     return { ok: true, skipped: true };
   }
 
-  console.log("\n→ Dev: дашборд позиций (build + deploy-dev.sh)…");
+  console.log("\n→ Dev: дашборд позиций (build + deploy-dev-rank-dashboard.sh)…");
 
   if (!opts.skipBuild) {
     const build = spawnSync("npm", ["run", "seo:rank-dashboard:build"], {
@@ -45,13 +45,13 @@ export function deployRankDashboardToDev(opts = {}) {
     }
   }
 
-  const deploy = spawnSync("bash", ["scripts/deploy-dev.sh"], {
+  const deploy = spawnSync("bash", ["scripts/deploy-dev-rank-dashboard.sh"], {
     cwd: ROOT,
     stdio: "inherit",
     env: process.env,
   });
   if (deploy.status !== 0) {
-    console.warn("⚠️  deploy-dev.sh завершился с ошибкой");
+    console.warn("⚠️  deploy-dev-rank-dashboard.sh завершился с ошибкой");
     return { ok: false, step: "deploy" };
   }
 

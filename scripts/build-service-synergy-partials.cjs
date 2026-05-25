@@ -34,6 +34,14 @@ const SERVICES = [
     comment:
       "<!-- Синергия marketing: json/services/marketing/synergy.json (карточки своей услуги). -->\n",
   },
+  {
+    slug: "korporativnyj_sajt",
+    partial: "synergy-korporativnyj-sajt.html",
+    mountId: "kontekst-synergy-mounted",
+    rootClass: "kontekst-synergy-root",
+    comment:
+      "<!-- Синергия korporativnyj_sajt: json/services/korporativnyj_sajt/synergy.json. -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {

@@ -27,6 +27,11 @@ const SERVICES = [
     partial: "more-cases-marketing.html",
     comment: "<!-- Кейсы marketing: json/services/marketing/more-cases.json. -->\n",
   },
+  {
+    slug: "korporativnyj_sajt",
+    partial: "more-cases-korporativnyj-sajt.html",
+    comment: "<!-- Кейсы korporativnyj_sajt: json/services/korporativnyj_sajt/more-cases.json. -->\n",
+  },
 ];
 
 function stripLeadingComment(html) {

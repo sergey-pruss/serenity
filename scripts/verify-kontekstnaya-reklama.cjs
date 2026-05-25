@@ -47,9 +47,53 @@ async function run() {
   );
 
   assert(
-    /<title>[^<]*Настройка и ведение контекстной рекламы[^<]*<\/title>/.test(html),
-    "<title>: должен содержать 'Настройка и ведение контекстной рекламы'",
+    /<title>[^<]*Контекстная реклама[^<]*настройка и ведение[^<]*Serenity[^<]*<\/title>/i.test(html),
+    "<title>: Контекстная реклама + настройка и ведение + Serenity",
   );
+
+  assert(
+    html.includes(
+      'meta name="description" content="Настройка и ведение контекстной рекламы в Яндекс Директе и Google Ads.',
+    ),
+    "SEO: description — Яндекс Директ, Google Ads, гео и бесплатный аудит",
+  );
+  assert(
+    html.includes("Санкт-Петербург") &&
+      html.includes("Бесплатный аудит и медиаплан") &&
+      !/meta name="description"[^>]*\bСПб\b/.test(html),
+    "SEO: description — Санкт-Петербург полностью, аудит и медиаплан",
+  );
+
+  {
+    const { extractFaqPairsFromHtml } = require("./lib/build-faq-page-jsonld.cjs");
+    const normFaqText = (s) =>
+      String(s ?? "")
+        .replace(/&nbsp;/g, " ")
+        .replace(/\u00a0/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    const faqBlock = html.match(/id="kontekst-faq-mounted"[\s\S]*?<\/section>/);
+    assert(faqBlock, "SEO: блок FAQ (#kontekst-faq-mounted)");
+    const faqHtml = faqBlock[0];
+    const ldMatch = faqHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert(ldMatch, "SEO: FAQPage JSON-LD в блоке FAQ");
+    const ld = JSON.parse(ldMatch[1]);
+    assert(ld["@type"] === "FAQPage" && Array.isArray(ld.mainEntity), "SEO: FAQPage mainEntity");
+    const visible = extractFaqPairsFromHtml(faqHtml);
+    assert(
+      visible.length >= 3 && ld.mainEntity.length === visible.length,
+      `SEO: FAQPage — ${ld.mainEntity.length} в JSON-LD vs ${visible.length} в HTML`,
+    );
+    for (let i = 0; i < visible.length; i++) {
+      const q = normFaqText(visible[i].question);
+      const entity = ld.mainEntity.find((e) => normFaqText(e.name) === q);
+      assert(entity, `SEO: FAQPage — нет вопроса «${q}»`);
+      assert(
+        normFaqText(entity.acceptedAnswer?.text) === normFaqText(visible[i].answer),
+        `SEO: FAQPage — ответ не совпадает с HTML для «${q}»`,
+      );
+    }
+  }
 
   assert(
     html.includes('name="google-site-verification"') &&
@@ -112,8 +156,8 @@ async function run() {
 
   assert(
     /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )300 000&nbsp;₽<\/i><\/p>/.test(html) &&
-      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )500 000&nbsp;₽<\/i><\/p>/.test(html) &&
-      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )800 000&nbsp;₽<\/i><\/p>/.test(html),
+      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )350 000&nbsp;₽<\/i><\/p>/.test(html) &&
+      /<\/span> <p data-v-1444f1fb=""><i>Рекламный бюджет от(?:&nbsp;| )400 000&nbsp;₽<\/i><\/p>/.test(html),
     "HTML: под ценой пакетов — бюджет тем же разметочным паттерном, что «Подходит для…» (<p><i>…</i></p>, после типографа — от&nbsp; перед суммой)",
   );
 
@@ -122,7 +166,7 @@ async function run() {
     "HTML: блок «Пакеты» — слайдер-обёртка (prices__cards--packages + prices__packages-slider)",
   );
   assert(
-    (html.match(/class="prices__packages-slide swiper-slide"/g) || []).length === 3,
+    (html.match(/class="prices__packages-slide swiper-slide(?:\s[^"]*)?"/g) || []).length === 3,
     "HTML: три слайда тарифов (prices__packages-slide)",
   );
   assert(
@@ -421,6 +465,17 @@ async function run() {
     "HTML: FAQ — #kontekst-faq-mounted и подключение service-faq.css",
   );
 
+  assert(
+    html.includes("kontekst-faq-root--always-visible"),
+    "HTML: FAQ контекстной — класс kontekst-faq-root--always-visible (ответы развёрнуты, без аккордеона)",
+  );
+
+  assert(
+    !html.includes('id="kontekst-faq-mounted"') ||
+      !/id="kontekst-faq-mounted"[\s\S]{0,120000}spoiler__content" style="height:\s*0/.test(html),
+    "HTML: FAQ — нет inline height:0 на .spoiler__content (иначе ответы скрыты до клика)",
+  );
+
   const iPackagesHeading = html.indexOf(">Пакеты</h2>");
   const iInlineLead = html.indexOf('id="sa-inline-lead-root"');
   const iFaqMounted = html.indexOf('id="kontekst-faq-mounted"');
@@ -436,6 +491,30 @@ async function run() {
   assert(
     iCasesMain >= 0 && iFaqMounted < iCasesMain,
     "HTML: блок «Вопрос-ответ» (FAQ) идёт перед блоком кейсов (more-case-wr__main)",
+  );
+
+  const iBlog = html.indexOf("kontekst-blog-section");
+  const iClients = html.indexOf("kontekst-clients-section");
+  assert(
+    iBlog >= 0 &&
+      iClients > iBlog &&
+      iFaqMounted < iBlog &&
+      iClients < iCasesMain &&
+      html.includes("blog-block-mainstr") &&
+      html.includes("clients-wrapper_main-structure"),
+    "HTML: после FAQ — «Блог» и «Наши клиенты» (partials с главной), затем кейсы",
+  );
+
+  assert(
+    html.includes("kak-privlekat-auditoriyu-konkurentov-cherez-yandeks-direkt") &&
+      html.includes("kak-uvelichit-trafik-sajta") &&
+      html.includes("serenity-kak-stroim-uspeshnyj-marketing-ot-sotrudnika-do-klienta"),
+    "HTML: блог контекстной — кураторские статьи про Директ/контекст в слайдере",
+  );
+
+  assert(
+    !html.includes("<!-- KONTEKST-BLOG-CLIENTS-START -->"),
+    "HTML: маркеры KONTEKST-BLOG-CLIENTS не должны попадать в итоговую страницу",
   );
 
   assert(

@@ -89,6 +89,7 @@ const html = `<!DOCTYPE html>
     * { box-sizing: border-box; }
     body {
       margin: 0;
+      overflow-x: hidden;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       font-size: 15px;
       line-height: 1.5;
@@ -152,6 +153,7 @@ const html = `<!DOCTYPE html>
       border-bottom: 1px solid var(--border);
     }
     .rank-table-sticky-clone[hidden] { display: none !important; }
+    .rank-table-sticky-clone-inner { overflow: hidden; }
     .rank-table-sticky-clone table {
       width: 100%;
       border-collapse: separate;
@@ -170,8 +172,21 @@ const html = `<!DOCTYPE html>
     }
     .rank-table-sticky-clone th.engine-group { text-align: center; font-size: 0.8rem; color: var(--accent); }
     .rank-table-sticky-clone th.region-col { text-align: center; font-size: 0.78rem; }
-    .table-scroll { margin-bottom: 24px; }
-    #main-table { width: 100%; min-width: 960px; }
+    .table-scroll {
+      margin-bottom: 24px;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+    }
+    .table-scroll.is-scrolled-x th.sticky-col,
+    .table-scroll.is-scrolled-x td.sticky-col {
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+    }
+    #main-table { width: max-content; min-width: 100%; }
     table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.88rem; background: var(--card); }
     th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: middle; }
     th { background: var(--code); font-weight: 600; white-space: nowrap; }
@@ -306,7 +321,7 @@ const html = `<!DOCTYPE html>
   <div class="wrap">
     <header>
       <h1>SEO-дашборд позиций</h1>
-      <p class="subtitle">Органическая выдача топ-${organicDepth}: основные страницы и запросы. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
+      <p class="subtitle">Органическая выдача топ-${organicDepth}: лучшая позиция <code>serenity.agency</code> (любая страница домена) по запросам. Обновление — вручную / интерактивная SERP-съёмка. Только dev-static.</p>
       <p class="subtitle" id="meta-last-check"></p>
     </header>
 
@@ -320,9 +335,11 @@ const html = `<!DOCTYPE html>
 
     <div id="rank-table-head-sentinel" aria-hidden="true"></div>
     <div id="rank-table-sticky-clone" class="rank-table-sticky-clone" hidden aria-hidden="true">
-      <table id="rank-table-sticky-clone-table" aria-hidden="true"></table>
+      <div class="rank-table-sticky-clone-inner">
+        <table id="rank-table-sticky-clone-table" aria-hidden="true"></table>
+      </div>
     </div>
-    <div class="table-scroll">
+    <div id="rank-table-scroll" class="table-scroll">
       <table id="main-table">
         <thead id="table-head"></thead>
         <tbody id="table-body"></tbody>
@@ -548,7 +565,7 @@ const html = `<!DOCTYPE html>
     return {
       text: String(entry.position),
       cls: posClass(entry.position, false),
-      title: "Позиция в органике" + snap,
+      title: "Лучшая позиция serenity.agency в органике" + snap,
       delta: null,
     };
   }
@@ -656,6 +673,23 @@ const html = `<!DOCTYPE html>
     );
   }
 
+  /** Контейнер горизонтального скролла основной таблицы */
+  function getRankTableScroller() {
+    return document.getElementById("rank-table-scroll");
+  }
+
+  function syncRankTableHorizontalScroll() {
+    const scroller = getRankTableScroller();
+    if (!scroller) return;
+    scroller.classList.toggle("is-scrolled-x", scroller.scrollLeft > 0);
+    const cloneTable = document.getElementById("rank-table-sticky-clone-table");
+    if (cloneTable) {
+      cloneTable.style.transform = scroller.scrollLeft
+        ? "translateX(" + -scroller.scrollLeft + "px)"
+        : "";
+    }
+  }
+
   /** Три строки шапки — разный top, чтобы все ряды липли под верх экрана */
   function syncRankTableStickyHead() {
     const thead = document.querySelector("#main-table thead");
@@ -705,12 +739,13 @@ const html = `<!DOCTYPE html>
   }
 
   function updateRankStickyCloneLayout() {
-    const main = document.getElementById("main-table");
+    const scroller = getRankTableScroller();
     const bar = document.getElementById("rank-table-sticky-clone");
-    if (!main || !bar || bar.hidden) return;
-    const rect = main.getBoundingClientRect();
+    if (!scroller || !bar || bar.hidden) return;
+    const rect = scroller.getBoundingClientRect();
     bar.style.left = Math.max(0, rect.left) + "px";
     bar.style.width = rect.width + "px";
+    syncRankTableHorizontalScroll();
   }
 
   function setRankStickyCloneVisible(show) {
@@ -728,10 +763,13 @@ const html = `<!DOCTYPE html>
 
   function checkRankStickyClone() {
     const main = document.getElementById("main-table");
+    const scroller = getRankTableScroller();
     const bar = document.getElementById("rank-table-sticky-clone");
     if (!main || !bar) return;
 
-    const tableRect = main.getBoundingClientRect();
+    const tableRect = scroller
+      ? scroller.getBoundingClientRect()
+      : main.getBoundingClientRect();
     const thead = main.querySelector("thead");
     const theadRect = thead?.getBoundingClientRect();
     const barH = bar.offsetHeight || 0;
@@ -749,16 +787,32 @@ const html = `<!DOCTYPE html>
 
   function initRankTableStickyHead() {
     const main = document.getElementById("main-table");
+    const scroller = getRankTableScroller();
     const thead = main?.querySelector("thead");
     if (!thead) return;
     syncRankTableStickyHead();
+    syncRankTableHorizontalScroll();
     refreshRankStickyClone();
     checkRankStickyClone();
+    if (scroller && !window.__rankTableScrollX) {
+      window.__rankTableScrollX = true;
+      scroller.addEventListener(
+        "scroll",
+        () => {
+          syncRankTableHorizontalScroll();
+          if (!document.getElementById("rank-table-sticky-clone")?.hidden) {
+            updateRankStickyCloneLayout();
+          }
+        },
+        { passive: true },
+      );
+    }
     if (!window.__rankStickyCloneScroll) {
       window.__rankStickyCloneScroll = true;
       window.addEventListener("scroll", checkRankStickyClone, { passive: true });
       window.addEventListener("resize", () => {
         syncRankTableStickyHead();
+        syncRankTableHorizontalScroll();
         refreshRankStickyClone();
         checkRankStickyClone();
       });
@@ -766,11 +820,13 @@ const html = `<!DOCTYPE html>
     if (typeof ResizeObserver !== "undefined") {
       const ro = new ResizeObserver(() => {
         syncRankTableStickyHead();
+        syncRankTableHorizontalScroll();
         refreshRankStickyClone();
         checkRankStickyClone();
       });
       ro.observe(thead);
       ro.observe(main);
+      if (scroller) ro.observe(scroller);
     }
   }
 

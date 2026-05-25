@@ -1,0 +1,51 @@
+{
+  "slug": "korporativnyj_sajt",
+  "urlPath": "/korporativnyj_sajt",
+  "seo": {
+    "breadcrumbLabel": "Корпоративный сайт",
+    "pageTitle": "Разработка корпоративных сайтов — Serenity",
+    "metaTitle": "Разработка корпоративных сайтов для бизнеса в Москве и Санкт-Петербурге — Serenity",
+    "description": "Услуги по созданию корпоративных сайтов, лучший дизайн и разработка сайтов для бизнеса и компаний. Заказать корпоративный сайт под бизнес-задачи, уточнить стоимость на сайте агентства Serenity."
+  },
+  "hero": {
+    "variant": "title-video"
+  },
+  "sections": {
+    "packages": false,
+    "facts": true,
+    "advantages": true
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "KORPORATIVNYJ_LAYOUT_SOURCE",
+    "tmpFull": "korporativnyj-prod-full.html",
+    "tmpParity": "korporativnyj-parity-prod-layout.html",
+    "pageDir": "korporativnyj_sajt",
+    "cssStack": "korporativnyj-sajt-static-stack.css",
+    "partials": {
+      "faq": "faq-korporativnyj-sajt.html",
+      "inlineLead": "service-inline-lead-korporativnyj-sajt.html",
+      "moreCases": "more-cases-korporativnyj-sajt.html",
+      "awards": "awards-korporativnyj-sajt.html",
+      "synergy": "synergy-korporativnyj-sajt.html"
+    },
+    "markers": {
+      "mainStart": "KORPORATIVNYJ-MAIN-START",
+      "mainEnd": "KORPORATIVNYJ-MAIN-END",
+      "cssBundleStart": "KORPORATIVNYJ-CSS-BUNDLE-START",
+      "cssBundleEnd": "KORPORATIVNYJ-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "korporativnyj-faq-mounted",
+      "sectionClass": "korporativnyj-faq-section",
+      "rootClass": "korporativnyj-faq-root korporativnyj-faq-root--always-visible"
+    },
+    "phase2": true
+  }
+}

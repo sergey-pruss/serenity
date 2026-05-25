@@ -5,8 +5,9 @@
  * 1) открыть URL запроса;
  * 2) капча — ждём, пока сами откроется /search (без Enter на showcaptcha);
  * 3) регион в подвале — один раз на город (Москва, потом СПб), Enter;
- * 4) следующие запросы того же города — только новый URL, Enter на готовой выдаче;
- * 5) съёмка топ-N (Яндекс/Google: до 5 страниц выдачи по ~10 органики).
+ * 4) следующие запросы и листание выдачи — автоматически;
+ * 5) Enter только при капче (после авто-ожидания) или смене города;
+ * 6) съёмка топ-N (Яндекс/Google: до 5 страниц выдачи по ~10 органики).
  */
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
@@ -198,9 +199,9 @@ function printYandexWorkflowOnce() {
   yandexWorkflowHintShown = true;
   console.log(`
 Яндекс, браузер WebKit (${YANDEX_SEARCH_ORIGIN}):
-  1) Капча — дождитесь выдачи сами (Enter не на showcaptcha).
-  2) Скрипт прокрутит вниз; выберите регион в подвале → Enter.
-  3) Дальше по этому городу скрипт только откроет следующий запрос; регион в сессии сохранится.
+  1) Капча — пройдите в браузере; скрипт ждёт сам (Enter не на showcaptcha).
+  2) Регион в подвале — один раз на город → Enter.
+  3) Дальше съёмка и листание выдачи автоматически; Enter только при новой капче или смене города.
   Порядок ячеек: сначала все запросы по Москве, затем по Санкт-Петербургу.
 `);
 }
@@ -229,15 +230,26 @@ export async function isBlockedPage(page) {
   );
 }
 
+/** @param {import('playwright').Page} page */
+async function captchaCleared(page) {
+  if (await isBlockedPage(page)) return false;
+  const url = page.url();
+  if (/yandex\.(ru|com|by|kz|ua)/i.test(url)) {
+    return /\/search/i.test(url);
+  }
+  return true;
+}
+
 /**
- * Только капча: выдача открылась, регион ещё не трогаем.
+ * Капча: ждём в браузере; Enter — только после таймаута (SERP_CAPTCHA_WAIT_MS).
  * @param {import('playwright').Page} page
+ * @param {string} [contextLabel]
  */
-async function waitForYandexCaptchaClear(page) {
-  if (yandexCaptchaSessionOk && !(await isBlockedPage(page))) {
+async function waitForSerpCaptchaClear(page, contextLabel = "Яндекс") {
+  if (yandexCaptchaSessionOk && (await captchaCleared(page))) {
     return;
   }
-  if (!(await isBlockedPage(page))) {
+  if (await captchaCleared(page)) {
     if (/\/search/i.test(page.url())) {
       yandexCaptchaSessionOk = true;
     }
@@ -245,29 +257,44 @@ async function waitForYandexCaptchaClear(page) {
   }
 
   console.log(`
-🔐 SmartCaptcha
-  • Пройдите «Я не робот» и дождитесь страницы поиска (${YANDEX_SEARCH_ORIGIN}/search…).
+🔐 SmartCaptcha (${contextLabel})
+  • Пройдите «Я не робот» и дождитесь выдачи.
   • Пока в адресе showcaptcha — Enter в терминале НЕ жмите.
-  • Скрипт страницу не перезагружает.
+  • Скрипт ждёт автоматически; Enter только если капча не прошла за ${Math.round(Number(process.env.SERP_CAPTCHA_WAIT_MS || "600000") / 60000)} мин.
 `);
 
   const maxMs = Number(process.env.SERP_CAPTCHA_WAIT_MS || "600000");
+  const heartbeatMs = Number(process.env.SERP_CAPTCHA_HEARTBEAT_MS || "30000");
   const start = Date.now();
+  let lastHeartbeat = start;
   while (Date.now() - start < maxMs) {
-    const url = page.url();
-    if (!/showcaptcha|smart-captcha/i.test(url) && !(await isBlockedPage(page))) {
-      if (/\/search/i.test(url)) {
-        await page.waitForTimeout(800);
-        console.log("  ✓ Капча пройдена — выберите регион в подвале (скрипт попросит Enter)");
-        yandexCaptchaSessionOk = true;
-        return;
-      }
+    if (await captchaCleared(page)) {
+      await page.waitForTimeout(800);
+      console.log(
+        contextLabel.startsWith("Яндекс")
+          ? "  ✓ Капча пройдена — выберите регион в подвале (скрипт попросит Enter)"
+          : `  ✓ Капча пройдена (${contextLabel})`,
+      );
+      yandexCaptchaSessionOk = true;
+      return;
+    }
+    const now = Date.now();
+    if (now - lastHeartbeat >= heartbeatMs) {
+      console.log(`  ⏳ ждём прохождения капчи… (${Math.round((now - start) / 1000)} с)`);
+      lastHeartbeat = now;
     }
     await page.waitForTimeout(2000);
   }
 
-  await waitEnter("\n⚠️  Долго на капче. Enter только когда открылась страница поиска (не showcaptcha).");
+  await waitEnter(
+    `\n⚠️  Капча (${contextLabel}) — Enter только когда открылась страница поиска (не showcaptcha).`,
+  );
   yandexCaptchaSessionOk = true;
+}
+
+/** @deprecated alias */
+async function waitForYandexCaptchaClear(page) {
+  return waitForSerpCaptchaClear(page, "Яндекс");
 }
 
 /**
@@ -306,20 +333,6 @@ async function ensureYandexFooterRegion(regionId, page) {
   Enter — только когда выдача для этого города на экране (не на капче).
 `);
   yandexFooterRegionLocked = regionId;
-}
-
-/**
- * @param {import('./serp-shared.mjs').RegionId} regionId
- * @param {boolean} regionJustSet
- */
-async function confirmYandexCaptureReady(regionId, regionJustSet) {
-  if (regionJustSet) {
-    return;
-  }
-  await waitEnter(`
-▶ Запрос открыт, регион «${REGIONS[regionId].label}» уже выбран в сессии.
-  Проверьте выдачу в браузере → Enter для съёмки позиции.
-`);
 }
 
 /** @param {string} url */
@@ -716,8 +729,6 @@ async function fetchYandexInteractive(page, query, regionId, stopCtx = null) {
 
   if (needRegionStep) {
     await ensureYandexFooterRegion(regionId, page);
-  } else {
-    await confirmYandexCaptureReady(regionId, false);
   }
 
   if (await isBlockedPage(page)) {
@@ -767,7 +778,7 @@ async function fetchGoogleInteractive(page, query, regionId, stopCtx = null) {
   console.log(`  URL: ${searchUrl}`);
   console.log(`  Регион съёмки: ${REGIONS[regionId].label} (в URL только gl/hl; город — geolocation браузера).`);
   console.log(
-    "  Если в подвале «Неизвестно» / нет выдачи — «Обновить» или «Сбросить настройки», укажите город, Enter.",
+    "  Если в подвале «Неизвестно» / нет выдачи — «Обновить» или «Сбросить настройки», укажите город.",
   );
 
   const openedUrl = await gotoCleanGoogleSearch(page, query, regionId);
@@ -775,14 +786,7 @@ async function fetchGoogleInteractive(page, query, regionId, stopCtx = null) {
   await logGoogleRegionFromPage(page, regionId);
   await warnIfWrongRegion(page, regionId);
 
-  const blocked = await isBlockedPage(page);
-  if (blocked) {
-    await waitEnter("▶ Google: решите капчу → Enter когда видите стр. 1.");
-  } else {
-    await waitEnter(
-      `▶ Google стр. 1 → Enter (далее стр. 2–${ORGANIC_SERP_PAGES} для топ-${ORGANIC_TARGET}, пауза только при капче).`,
-    );
-  }
+  await waitForSerpCaptchaClear(page, "Google стр. 1");
 
   const results = await collectGoogleOrganicTop(
     page,
@@ -791,9 +795,7 @@ async function fetchGoogleInteractive(page, query, regionId, stopCtx = null) {
     {
       alreadyOnPage1: true,
       afterPage: async (p) => {
-        if (await isBlockedPage(page)) {
-          await waitEnter(`▶ Google стр. ${p + 1}: капча → Enter.`);
-        }
+        await waitForSerpCaptchaClear(page, `Google стр. ${p + 1}`);
       },
     },
     stopCtx,

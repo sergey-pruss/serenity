@@ -7,7 +7,7 @@ const path = require("path");
 const root = path.resolve(__dirname, "..", "..");
 const servicesRoot = path.join(root, "json", "services");
 
-const KNOWN_SLUGS = ["kontekstnaya_reklama", "targeting", "marketing"];
+const KNOWN_SLUGS = ["kontekstnaya_reklama", "targeting", "marketing", "korporativnyj_sajt"];
 
 function listServiceSlugs() {
   if (!fs.existsSync(servicesRoot)) return [];
@@ -59,6 +59,11 @@ function resolvePaths(cfg) {
 
   if (!a.pageDir || !a.layoutSourceEnv || !a.tmpFull || !a.tmpParity) {
     throw new Error(`service.config.json (${slug}): assemble.pageDir / layoutSourceEnv / tmpFull / tmpParity`);
+  }
+
+  const breadcrumbLabel = cfg.seo?.breadcrumbLabel;
+  if (!breadcrumbLabel || typeof breadcrumbLabel !== "string") {
+    throw new Error(`service.config.json (${slug}): seo.breadcrumbLabel`);
   }
 
   const pageDir = a.pageDir;

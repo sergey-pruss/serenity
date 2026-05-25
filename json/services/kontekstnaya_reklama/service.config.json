@@ -1,6 +1,9 @@
 {
   "slug": "kontekstnaya_reklama",
   "urlPath": "/kontekstnaya_reklama",
+  "seo": {
+    "breadcrumbLabel": "Контекстная реклама"
+  },
   "hero": {
     "variant": "jumbotron-fullbleed"
   },
@@ -39,7 +42,7 @@
     "faq": {
       "mountId": "kontekst-faq-mounted",
       "sectionClass": "kontekst-faq-section",
-      "rootClass": "kontekst-faq-root"
+      "rootClass": "kontekst-faq-root kontekst-faq-root--always-visible"
     }
   }
 }

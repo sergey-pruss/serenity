@@ -24,8 +24,8 @@ assert(
   "html/index.layout.html: mobile CSS cache-bust должен быть 20260517morCasesTablet",
 );
 assert(
-  /src="\/_sa\/js\/app\.js\?v=20260517morCasesTablet"/.test(layout),
-  "html/index.layout.html: app.js cache-bust должен быть 20260517morCasesTablet",
+  /src="\/_sa\/js\/app\.js\?v=20260517menuCollapseYFix"/.test(layout),
+  "html/index.layout.html: app.js cache-bust должен быть 20260517menuCollapseYFix",
 );
 {
   const iParity = layout.indexOf("css__home-snapshot__overrides.parity-sync.css");
