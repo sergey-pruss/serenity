@@ -28,6 +28,7 @@ export const PATH_TO_RANK_PAGE_ID = {
   "/targeting": "targeting",
   "/kompleksnoye-prodvizheniye": "kompleksnoye-prodvizheniye",
   "/korporativnyj_sajt": "korporativnyj-sajt",
+  "/smm_marketing": "smm",
 };
 
 /**
