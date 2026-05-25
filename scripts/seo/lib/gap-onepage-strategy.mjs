@@ -199,8 +199,7 @@ export function onepageStrategyHtml(strategy, campaign) {
 
   return `
     <section id="strategy" class="strategy-box">
-      <h2>SEO-стратегия onepage: топ-10</h2>
-      <p class="lead">Цель — топ-10 Яндекс и Google по ${qList}. Запросы и позиции: <a href="${esc(RANK_DASHBOARD_DOCS_URL)}">SEO-дашборд</a>. Ниже — что делать; детальный SERP-разбор — в приложении.</p>
+      <h2>SEO-стратегия</h2>
 
       ${blockers ? `<h3>Блокеры</h3><ul class="blockers">${blockers}</ul>` : ""}
 

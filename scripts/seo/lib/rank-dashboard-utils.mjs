@@ -6,6 +6,8 @@ import { ORGANIC_TARGET, ORGANIC_PAGE_SLOTS } from "./serp-shared.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const ROOT = path.join(__dirname, "..", "..", "..");
 export const DEFAULT_RANK_DASHBOARD_PATH = path.join(ROOT, "json", "seo", "rank-dashboard.json");
+export const RANK_DASHBOARD_DOCS_URL =
+  "https://static.serenity.agency/docs/seo-rank-dashboard.html";
 
 /** @typedef {'yandex' | 'google'} SearchEngine */
 /** @typedef {'moscow' | 'spb' | 'rf'} DashboardRegionId */

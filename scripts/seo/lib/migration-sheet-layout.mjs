@@ -97,8 +97,17 @@ export async function readMigrationSheetLayout(sheets, spreadsheetId, quotedTitl
     valueRenderOption: "FORMATTED_VALUE",
   });
   const values = res.data.values || [];
-  const headerRow = values[0] || [];
-  const dataRows = values.slice(1);
+  let headerIdx = 0;
+  for (let i = 0; i < Math.min(values.length, 5); i++) {
+    const row = values[i] || [];
+    const norm = row.map((h) => String(h ?? "").trim().toLowerCase());
+    if (norm.includes("страницы (по приоритету)") || norm.includes("страницы")) {
+      headerIdx = i;
+      break;
+    }
+  }
+  const headerRow = values[headerIdx] || [];
+  const dataRows = values.slice(headerIdx + 1);
   const col =
     headerRow.length > 0
       ? columnMapFromHeaderRow(headerRow)
@@ -108,6 +117,7 @@ export async function readMigrationSheetLayout(sheets, spreadsheetId, quotedTitl
     headerRow,
     dataRows,
     col,
+    headerOffset: headerIdx,
     colCount: Math.max(
       headerRow.length,
       MIGRATION_SHEET_HEADER.length,
@@ -256,15 +266,16 @@ export function requireRankingColumns(col) {
 /**
  * @param {string[][]} dataRows
  * @param {MigrationColumnMap} col
+ * @param {number} [headerOffset] rows before the header (0-based index of header row)
  * @returns {Map<string, number>} path → номер строки на листе (1-based)
  */
-export function sheetRowIndexByPath(dataRows, col) {
+export function sheetRowIndexByPath(dataRows, col, headerOffset = 0) {
   const pageCol = col.page ?? 0;
   /** @type {Map<string, number>} */
   const map = new Map();
   for (let i = 0; i < dataRows.length; i++) {
     const path = pathFromSheetNameCell(dataRows[i][pageCol]);
-    if (path) map.set(path, i + 2);
+    if (path) map.set(path, i + headerOffset + 2);
   }
   return map;
 }
@@ -286,15 +297,15 @@ export async function writeMigrationPartialFromLayout(
   quotedTitle,
   layout,
 ) {
-  requireRankingColumns(layout.col);
-  const rowByPath = sheetRowIndexByPath(layout.dataRows, layout.col);
+  const rowByPath = sheetRowIndexByPath(layout.dataRows, layout.col, layout.headerOffset || 0);
 
   /** @type {import('googleapis').sheets_v4.Schema$ValueRange[]} */
   const data = [];
 
   for (let i = 0; i < MIGRATION_PAGES.length; i++) {
     const p = MIGRATION_PAGES[i];
-    const rowIndex = rowByPath.get(p.path) ?? i + 2;
+    const fallbackRow = i + (layout.headerOffset || 0) + 2;
+    const rowIndex = rowByPath.get(p.path) ?? fallbackRow;
 
     const r = rankingsForMigrationPath(p.path);
     const vals = {
@@ -339,7 +350,7 @@ export async function writeMigrationRankingsFromLayout(
   layout,
 ) {
   requireRankingColumns(layout.col);
-  const rowByPath = sheetRowIndexByPath(layout.dataRows, layout.col);
+  const rowByPath = sheetRowIndexByPath(layout.dataRows, layout.col, layout.headerOffset || 0);
   /** @type {import('googleapis').sheets_v4.Schema$ValueRange[]} */
   const data = [];
 

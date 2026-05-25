@@ -75,6 +75,27 @@
       ]
     },
     {
+      "id": "smm",
+      "title": "Комплексный SMM",
+      "path": "/smm_marketing",
+      "url": "https://serenity.agency/smm_marketing",
+      "priority": 1,
+      "queries": [
+        {
+          "id": "vedenie-sotssetey",
+          "text": "ведение соцсетей"
+        },
+        {
+          "id": "smm-agentstvo",
+          "text": "smm агентство"
+        },
+        {
+          "id": "smm-prodvizhenie",
+          "text": "smm продвижение"
+        }
+      ]
+    },
+    {
       "id": "kontekstnaya",
       "title": "Контекстная реклама",
       "path": "/kontekstnaya_reklama",
@@ -1423,6 +1444,42 @@
           "outOfTop20": true,
           "matchedUrl": null,
           "source": "serp-interactive"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-25",
+      "label": "2026-05-25",
+      "entries": [
+        {
+          "pageId": "home",
+          "queryId": "agency",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 13,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "home",
+          "queryId": "brand",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": 29,
+          "outOfTop20": false,
+          "matchedUrl": "https://serenity.agency/",
+          "source": "serp-interactive"
+        },
+        {
+          "pageId": "kompleksnoye-prodvizheniye",
+          "queryId": "prodvizhenie",
+          "engine": "yandex",
+          "region": "moscow",
+          "position": null,
+          "outOfTop20": true,
+          "matchedUrl": null,
+          "source": "error: page.goto: Target page, context or browser has been closed"
         }
       ]
     }

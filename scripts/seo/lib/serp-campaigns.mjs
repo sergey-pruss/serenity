@@ -5,7 +5,7 @@ export const SNAPSHOT_DATE =
   process.env.SERP_SNAPSHOT_DATE ||
   new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
-/** @typedef {'kontekstnaya' | 'targeting'} SerpCampaignId */
+/** @typedef {'kontekstnaya' | 'targeting' | 'korporativnyj'} SerpCampaignId */
 
 /** @type {Record<SerpCampaignId, import('./serp-campaigns.mjs').SerpCampaign>} */
 export const SERP_CAMPAIGNS = {
@@ -107,6 +107,100 @@ export const SERP_CAMPAIGNS = {
       ],
       rollout:
         "KPI + площадки в hero → логотипы + отзывы → таблица пакетов + кейсы соцсетей → FAQ/гарантии → блог и CWV.",
+    },
+  },
+  korporativnyj: {
+    id: "korporativnyj",
+    rankDashboardPageId: "korporativnyj-sajt",
+    serenityUrl:
+      process.env.SERENITY_KORPORATIVNYJ_URL ||
+      "https://static.serenity.agency/korporativnyj_sajt",
+    queries: [
+      { id: "sozdanie", text: "создание корпоративного сайта" },
+      { id: "razrabotka", text: "разработка корпоративного сайта" },
+    ],
+    poolsFixture: "korporativnyj-serp-url-pools.json",
+    docOut: path.join(ROOT, "docs", "korporativnyj-serp-content-gap.html"),
+    snapshotsBasename: "korporativnyj-serp-snapshots",
+    auditBasename: "korporativnyj-serp-audit",
+    reportTitle: "Serenity — SEO-стратегия /korporativnyj_sajt (onepage, топ-10)",
+    reportH1: "SEO-стратегия: корпоративный сайт → топ-10",
+    reportLayout: "onepage-strategy",
+    serenityPathLabel: "/korporativnyj_sajt",
+    excludeBlocksFromPriority: [
+      "focus_nastroyka",
+      "focus_vedenie",
+      "platforms_direct",
+      "platforms_social",
+    ],
+    aggregatePriorityThresholds: { p1: 5, p2: 3, p3: 2 },
+    querySectionNote: (block) =>
+      block.queryId === "sozdanie"
+        ? "Запрос про <strong>создание</strong>: в топе чаще «под ключ», сроки, стоимость, CMS — смотрите <code>process_steps</code>, <code>pricing_packages</code>, FAQ."
+        : "Запрос про <strong>разработку</strong>: в топе чаще этапы, стек, кейсы, команда — смотрите <code>process_steps</code>, <code>cases</code>, <code>team</code>.",
+    recommendations: {
+      stats_kpi:
+        "Полоса KPI над сгибом: сайты, отрасли, сроки, награды (3–4 цифры).",
+      trust_logos: "Логотипы клиентов / «нам доверяют» сразу под hero.",
+      process_steps:
+        "Этапы разработки — отдельный H2: бриф, прототип, дизайн, вёрстка, CMS, запуск.",
+      price_table_compare:
+        "Таблица сравнения форматов (корпоративный / магазин / лендинг) — не только слайдер.",
+      cases: "Кейсы корпоративных сайтов с метриками: срок, CMS, результат.",
+      testimonials: "Отзывы клиентов — отдельно от кейсов.",
+      team: "Блок команды или экспертизы (дизайн, разработка, поддержка).",
+      faq: "FAQ 5–7 пунктов: сроки, стоимость, CMS, поддержка; schema FAQPage.",
+      geo_moscow_spb: "Гео в hero/subtitle — Москва и Санкт-Петербург.",
+      guarantees: "Гарантии, SLA поддержки, условия сопровождения после запуска.",
+      blog_teaser: "3–4 статьи блога про разработку сайтов / UX / CMS.",
+      calculator: "Калькулятор или квиз «рассчитать стоимость сайта».",
+    },
+    onepageStrategy: {
+      targetWordCountMin: 2800,
+      targetFaqMin: 7,
+      keywordHeadings: [
+        {
+          title: "Создание корпоративного сайта",
+          hint: "H2 + 300–500 слов: под ключ, сроки, стоимость «от», CMS, что входит.",
+        },
+        {
+          title: "Разработка корпоративного сайта",
+          hint: "H2 + 300–500 слов: этапы, стек, интеграции, кейсы, команда.",
+        },
+        {
+          title: "Москва и Санкт-Петербург",
+          hint: "В hero/subtitle и одном H2 — региональная привязка без спама.",
+        },
+      ],
+      faqQuestions: [
+        "Сколько стоит разработка корпоративного сайта?",
+        "Сколько времени занимает создание сайта под ключ?",
+        "Какие CMS используете (1С-Битрикс, WordPress, headless)?",
+        "Что входит в стоимость: дизайн, вёрстка, наполнение, SEO-база?",
+        "Делаете ли сайты для Москвы и Санкт-Петербурга / удалённо?",
+        "Есть ли поддержка и доработки после запуска?",
+        "Можно ли интегрировать CRM, оплату, личный кабинет?",
+        "Чем корпоративный сайт отличается от лендинга и интернет-магазина?",
+      ],
+      actions: [
+        "Таблица сравнения пакетов (корпоративный / магазин / лендинг) — у большинства конкурентов есть тарифная сетка, у нас только слайдер карточек.",
+        "Блок «Читайте в блоге» — 3–4 статьи про разработку сайтов, CMS, UX (внутренняя перелинковка).",
+        "Усилить FAQ: сейчас ~3 вопроса, у сильных страниц — 7–15.",
+        "Опционально: калькулятор/квиз «рассчитать стоимость» (есть у части топ-20).",
+        "Поддержка после запуска — отдельный подблок: SLA, сроки реакции, что входит в сопровождение.",
+      ],
+      techChecklist: [
+        "Title/description: оба запроса дашборда + Москва/СПб; H1 согласован с title.",
+        "FAQPage и Product/Offer JSON-LD = видимый текст на странице.",
+        "Канон <code>/korporativnyj_sajt</code>, форма заявки в DOM, CWV, актуальный <code>?v=</code> на <code>/_sa/</code>.",
+        "Hub-ссылки: главная, /services, marketing, блог; переобход в GSC и Я.Вебмастер после go-live.",
+      ],
+      blockers: [
+        "На prod сейчас legacy без нормальной структуры H2 — go-live статики /korporativnyj_sajt обязателен до SEO-работ.",
+        "Google: оба запроса вне топ-20; Яндекс: «разработка» ~12, «создание» ~12 — нужны сниппет и объём, не только блоки.",
+      ],
+      rollout:
+        "Go-live статики → KPI и гео в hero → H2 «создание» / «разработка» → таблица пакетов → кейсы → FAQ 7+ → блог и schema → переобход.",
     },
   },
 };

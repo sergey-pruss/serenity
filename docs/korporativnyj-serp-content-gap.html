@@ -23,7 +23,7 @@
       padding: 22px; margin-bottom: 20px; }
     .strategy-box { border: 2px solid var(--accent); background: #f0f6fc; }
     .strategy-box h2 { color: var(--accent); border-bottom-color: var(--accent); }
-  .blockers li { color: var(--warn); }
+    .blockers li { color: var(--warn); }
     ul, ol { margin: 8px 0; padding-left: 1.25em; }
     li { margin-bottom: 6px; }
     a { color: var(--accent); }
@@ -47,16 +47,15 @@
     <header>
       <h1>SEO-стратегия: корпоративный сайт → топ-10</h1>
       <p class="subtitle">
-        Onepage <a href="https://serenity.agency/korporativnyj_sajt">/korporativnyj_sajt</a>.
-        с органической выдачей топ-20 по 2 запросам: «создание корпоративного сайта», «разработка корпоративного сайта», Яндекс и Google, Москва и Санкт-Петербург.
+        Цель — топ-10 по «создание корпоративного сайта», «разработка корпоративного сайта». Яндекс и Google, Москва и Санкт-Петербург.
         <a href="https://static.serenity.agency/docs/seo-rank-dashboard.html">Дашборд позиций</a> · снимок 2026-05-24.
+        Аудит нашей страницы: <a href="https://static.serenity.agency/korporativnyj_sajt">/korporativnyj_sajt</a>.
       </p>
     </header>
 
     
     <section id="strategy" class="strategy-box">
-      <h2>SEO-стратегия onepage: топ-10</h2>
-      <p class="lead">Цель — топ-10 Яндекс и Google по «создание корпоративного сайта» и «разработка корпоративного сайта». Запросы и позиции: <a href="https://static.serenity.agency/docs/seo-rank-dashboard.html">SEO-дашборд</a>. Ниже — что делать; детальный SERP-разбор — в приложении.</p>
+      <h2>SEO-стратегия</h2>
 
       <h3>Блокеры</h3><ul class="blockers"><li>На prod сейчас legacy без нормальной структуры H2 — go-live статики /korporativnyj_sajt обязателен до SEO-работ.</li>
 <li>Google: оба запроса вне топ-20; Яндекс: «разработка» ~12, «создание» ~12 — нужны сниппет и объём, не только блоки.</li></ul>
@@ -66,16 +65,16 @@
       <ul><li>B2B-оффер — ~95% страниц в топ-20</li>
 <li>Отзывы — ~91% страниц в топ-20</li>
 <li>Тарифы / пакеты — ~90% страниц в топ-20</li>
-<li>Форма на странице — ~77% страниц в топ-20</li>
+<li>Форма на странице — ~78% страниц в топ-20</li>
 <li>Логотипы клиентов / доверие — ~76% страниц в топ-20</li>
 <li>Цифры KPI — ~75% страниц в топ-20</li>
-<li>FAQ — ~74% страниц в топ-20</li>
-<li>Кейсы / портфолио — ~73% страниц в топ-20</li></ul>
+<li>Кейсы / портфолио — ~74% страниц в топ-20</li>
+<li>FAQ — ~74% страниц в топ-20</li></ul>
       <p class="muted">Просмотрите 5–10 сайтов из приложения вручную — ищите удачные hero, таблицы тарифов, FAQ и кейсы.</p>
 
       <h3>2. Чего не хватает нам</h3>
       <ul>
-        <li><strong>Объём текста:</strong> сейчас ~1773 слов; ориентир топ-20 — 2182 (медиана), у сильных — 5001+. Цель onepage: <strong>2800+</strong> слов видимого коммерческого текста (этапы, пакеты, FAQ, два коммерческих H2).</li>
+        <li><strong>Объём текста:</strong> сейчас ~1773 слов; ориентир топ-20 — 2138 (медиана), у сильных — 5001+. Цель onepage: <strong>2800+</strong> слов видимого коммерческого текста (этапы, пакеты, FAQ, два коммерческих H2).</li>
         <li><strong>FAQ:</strong> сейчас ~3 вопросов; у лидеров — до 7. Расширить блок и JSON-LD FAQPage.</li>
         <li><strong>Структура:</strong> базовые блоки (hero, логотипы клиентов, кейсы, тарифы, FAQ) на месте — главный gap в объёме текста, семантике H2 и глубине FAQ, не в количестве секций.</li>
       </ul>
@@ -117,41 +116,16 @@
 
     <section id="appendix">
       <h2>Приложение: данные SERP</h2>
-      <p class="muted">Справочно. Для ТЗ и внедрения используйте блок «SEO-стратегия» выше.</p>
-      <p class="muted">Аудит Serenity: ~1773 слов,
-        H2: 9,
-        FAQ: 3.
-        Метод SERP: playwright+curated-baseline.</p>
 
       <details class="appendix-fold" open>
-        <summary>Блоки конкурентов (топ-5, сначала gap)</summary>
-        <p class="muted">Доля выдач, где блок есть у ≥50% конкурентов в срезе. Сначала — где у Serenity нет блока; «да» = автодетект нашёл на странице (кейсы, тарифы, FAQ и т.д.).</p>
+        <summary>Gap-блоки</summary>
+        <p class="muted">Блоки, которых нет у Serenity, но есть у ≥60% конкурентов.</p>
         <div class="table-scroll"><table>
-          <thead><tr><th>Блок</th><th>% у конкурентов</th><th>У Serenity</th></tr></thead>
+          <thead><tr><th>Блок</th><th>% у конкурентов</th><th>Нет у нас</th></tr></thead>
           <tbody><tr>
         <td>Калькулятор</td>
         <td>13%</td>
         <td>нет · 1/8 выдач</td>
-      </tr>
-<tr>
-        <td>Hero + CTA</td>
-        <td>100%</td>
-        <td>да</td>
-      </tr>
-<tr>
-        <td>Логотипы клиентов / доверие</td>
-        <td>100%</td>
-        <td>да</td>
-      </tr>
-<tr>
-        <td>Цифры KPI</td>
-        <td>100%</td>
-        <td>да</td>
-      </tr>
-<tr>
-        <td>Тарифы / пакеты</td>
-        <td>100%</td>
-        <td>да</td>
       </tr></tbody>
         </table></div>
       </details>
@@ -160,7 +134,8 @@
         <summary>Частые домены (8 выдач)</summary>
         <div class="table-scroll"><table>
           <thead><tr><th>Домен</th><th>Появлений</th></tr></thead>
-          <tbody><tr><td class="mono"><a href="https://www.aaccent.ru/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td><td>4 / 8</td></tr>
+          <tbody><tr><td class="mono"><a href="https://d2h9g6eq0deq0u.cloudfront.net/" rel="noopener noreferrer" target="_blank">d2h9g6eq0deq0u.cloudfront.net</a></td><td>4 / 8</td></tr>
+<tr><td class="mono"><a href="https://www.aaccent.ru/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td><td>4 / 8</td></tr>
 <tr><td class="mono"><a href="https://itconstruct.ru/" rel="noopener noreferrer" target="_blank">itconstruct.ru</a></td><td>4 / 8</td></tr>
 <tr><td class="mono"><a href="https://cava.studio/" rel="noopener noreferrer" target="_blank">cava.studio</a></td><td>4 / 8</td></tr>
 <tr><td class="mono"><a href="https://sellty.ru/" rel="noopener noreferrer" target="_blank">sellty.ru</a></td><td>4 / 8</td></tr>
@@ -173,49 +148,47 @@
 <tr><td class="mono"><a href="https://www.intervolga.ru/" rel="noopener noreferrer" target="_blank">intervolga.ru</a></td><td>3 / 8</td></tr>
 <tr><td class="mono"><a href="https://dviga.marketing/" rel="noopener noreferrer" target="_blank">dviga.marketing</a></td><td>2 / 8</td></tr>
 <tr><td class="mono"><a href="https://exler.es/" rel="noopener noreferrer" target="_blank">exler.es</a></td><td>2 / 8</td></tr>
-<tr><td class="mono"><a href="https://surf.ru/" rel="noopener noreferrer" target="_blank">surf.ru</a></td><td>2 / 8</td></tr>
-<tr><td class="mono"><a href="https://tilda.cc/" rel="noopener noreferrer" target="_blank">tilda.cc</a></td><td>2 / 8</td></tr></tbody>
+<tr><td class="mono"><a href="https://surf.ru/" rel="noopener noreferrer" target="_blank">surf.ru</a></td><td>2 / 8</td></tr></tbody>
         </table></div>
       </details>
 
-      <h3>Срезы выдачи (топ-20, сайты)</h3>
-      <p class="manual-review"><strong>Рекомендация:</strong> откройте 5–10 сайтов из списка вручную (десктоп и мобилка) и зафиксируйте удачные решения: hero, KPI, таблицы тарифов, этапы, FAQ, кейсы. Автодетект блоков не заменяет живой просмотр. Из списка убраны CDN и служебные URL (cloudfront и т.п.).</p>
+      <h3>Срезы выдачи (топ-20)</h3>
+      <p class="manual-review"><strong>Рекомендация:</strong> откройте 5–10 сайтов из списка вручную и зафиксируйте удачные решения: hero, таблицы тарифов, FAQ, кейсы.</p>
       <details class="serp-fold" id="sozdanie__yandex__moscow">
     <summary>создание корпоративного сайта — Яндекс — Москва</summary>
     <p class="warn">Playwright: 9 URL; дополнено curated baseline до 9</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
-      <tbody><tr><td>1</td><td class="mono"><a href="https://dviga.marketing/services/korporativnyj-sajt" rel="noopener noreferrer" target="_blank">dviga.marketing</a></td></tr>
-<tr><td>2</td><td class="mono"><a href="https://exler.es/expromt/sozdanie-korporativnogo-sajta-na-zakaz.htm" rel="noopener noreferrer" target="_blank">exler.es</a></td></tr>
-<tr><td>3</td><td class="mono"><a href="https://www.aaccent.ru/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
-<tr><td>4</td><td class="mono"><a href="https://surf.ru/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">surf.ru</a></td></tr>
-<tr><td>5</td><td class="mono"><a href="https://di-project.studio/korpsite.php" rel="noopener noreferrer" target="_blank">di-project.studio</a></td></tr>
-<tr><td>6</td><td class="mono"><a href="https://tilda.cc/ru/lp/sozdanie-korporativnogo-saita/" rel="noopener noreferrer" target="_blank">tilda.cc</a></td></tr>
-<tr><td>7</td><td class="mono"><a href="https://mediapanda.ru/razrabotka-korporativnogo-sayta/" rel="noopener noreferrer" target="_blank">mediapanda.ru</a></td></tr>
-<tr><td>8</td><td class="mono"><a href="https://fasol.studio/sozdanie-saitov/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">fasol.studio</a></td></tr></tbody>
+      <tbody><tr><td>1</td><td class="mono"><a href="https://d2h9g6eq0deq0u.cloudfront.net/sozdat-korporativnyj-sajt" rel="noopener noreferrer" target="_blank">d2h9g6eq0deq0u.cloudfront.net</a></td></tr>
+<tr><td>2</td><td class="mono"><a href="https://dviga.marketing/services/korporativnyj-sajt" rel="noopener noreferrer" target="_blank">dviga.marketing</a></td></tr>
+<tr><td>3</td><td class="mono"><a href="https://exler.es/expromt/sozdanie-korporativnogo-sajta-na-zakaz.htm" rel="noopener noreferrer" target="_blank">exler.es</a></td></tr>
+<tr><td>4</td><td class="mono"><a href="https://www.aaccent.ru/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
+<tr><td>5</td><td class="mono"><a href="https://surf.ru/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">surf.ru</a></td></tr>
+<tr><td>6</td><td class="mono"><a href="https://di-project.studio/korpsite.php" rel="noopener noreferrer" target="_blank">di-project.studio</a></td></tr>
+<tr><td>7</td><td class="mono"><a href="https://tilda.cc/ru/lp/sozdanie-korporativnogo-saita/" rel="noopener noreferrer" target="_blank">tilda.cc</a></td></tr>
+<tr><td>8</td><td class="mono"><a href="https://mediapanda.ru/razrabotka-korporativnogo-sayta/" rel="noopener noreferrer" target="_blank">mediapanda.ru</a></td></tr>
+<tr><td>9</td><td class="mono"><a href="https://fasol.studio/sozdanie-saitov/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">fasol.studio</a></td></tr></tbody>
     </table></div>
   </details>
 <details class="serp-fold" id="sozdanie__yandex__spb">
     <summary>создание корпоративного сайта — Яндекс — Санкт-Петербург</summary>
     <p class="warn">Playwright: 9 URL; дополнено curated baseline до 9</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
-      <tbody><tr><td>1</td><td class="mono"><a href="https://dviga.marketing/services/korporativnyj-sajt" rel="noopener noreferrer" target="_blank">dviga.marketing</a></td></tr>
-<tr><td>2</td><td class="mono"><a href="https://exler.es/expromt/sozdanie-korporativnogo-sajta-na-zakaz.htm" rel="noopener noreferrer" target="_blank">exler.es</a></td></tr>
-<tr><td>3</td><td class="mono"><a href="https://www.aaccent.ru/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
-<tr><td>4</td><td class="mono"><a href="https://lead.media/spb/sozdanie-sajtov/korporativnye-sajty/" rel="noopener noreferrer" target="_blank">lead.media</a></td></tr>
-<tr><td>5</td><td class="mono"><a href="https://surf.ru/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">surf.ru</a></td></tr>
-<tr><td>6</td><td class="mono"><a href="https://selection-studio.com/sayt-dlia-kompanii.html" rel="noopener noreferrer" target="_blank">selection-studio.com</a></td></tr>
-<tr><td>7</td><td class="mono"><a href="https://tilda.cc/ru/lp/sozdanie-korporativnogo-saita/" rel="noopener noreferrer" target="_blank">tilda.cc</a></td></tr>
-<tr><td>8</td><td class="mono"><a href="https://8-planet.ru/korporativniy-sait/" rel="noopener noreferrer" target="_blank">8-planet.ru</a></td></tr></tbody>
+      <tbody><tr><td>1</td><td class="mono"><a href="https://d2h9g6eq0deq0u.cloudfront.net/sozdat-korporativnyj-sajt" rel="noopener noreferrer" target="_blank">d2h9g6eq0deq0u.cloudfront.net</a></td></tr>
+<tr><td>2</td><td class="mono"><a href="https://dviga.marketing/services/korporativnyj-sajt" rel="noopener noreferrer" target="_blank">dviga.marketing</a></td></tr>
+<tr><td>3</td><td class="mono"><a href="https://exler.es/expromt/sozdanie-korporativnogo-sajta-na-zakaz.htm" rel="noopener noreferrer" target="_blank">exler.es</a></td></tr>
+<tr><td>4</td><td class="mono"><a href="https://www.aaccent.ru/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
+<tr><td>5</td><td class="mono"><a href="https://lead.media/spb/sozdanie-sajtov/korporativnye-sajty/" rel="noopener noreferrer" target="_blank">lead.media</a></td></tr>
+<tr><td>6</td><td class="mono"><a href="https://surf.ru/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">surf.ru</a></td></tr>
+<tr><td>7</td><td class="mono"><a href="https://selection-studio.com/sayt-dlia-kompanii.html" rel="noopener noreferrer" target="_blank">selection-studio.com</a></td></tr>
+<tr><td>8</td><td class="mono"><a href="https://tilda.cc/ru/lp/sozdanie-korporativnogo-saita/" rel="noopener noreferrer" target="_blank">tilda.cc</a></td></tr>
+<tr><td>9</td><td class="mono"><a href="https://8-planet.ru/korporativniy-sait/" rel="noopener noreferrer" target="_blank">8-planet.ru</a></td></tr></tbody>
     </table></div>
   </details>
 <details class="serp-fold" id="sozdanie__google__moscow">
     <summary>создание корпоративного сайта — Google — Москва</summary>
     <p class="warn">Playwright: 12 URL; дополнено curated baseline до 12</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
       <tbody><tr><td>1</td><td class="mono"><a href="https://fact.digital/services/sozdanie-korporativnogo-sayta/" rel="noopener noreferrer" target="_blank">fact.digital</a></td></tr>
@@ -235,7 +208,6 @@
 <details class="serp-fold" id="sozdanie__google__spb">
     <summary>создание корпоративного сайта — Google — Санкт-Петербург</summary>
     <p class="warn">Playwright: 13 URL; дополнено curated baseline до 13</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
       <tbody><tr><td>1</td><td class="mono"><a href="https://fact.digital/services/sozdanie-korporativnogo-sayta/" rel="noopener noreferrer" target="_blank">fact.digital</a></td></tr>
@@ -256,40 +228,39 @@
 <details class="serp-fold" id="razrabotka__yandex__moscow">
     <summary>разработка корпоративного сайта — Яндекс — Москва</summary>
     <p class="warn">Playwright: 9 URL; дополнено curated baseline до 9</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
-      <tbody><tr><td>1</td><td class="mono"><a href="https://8-planet.ru/korporativniy-sait/" rel="noopener noreferrer" target="_blank">8-planet.ru</a></td></tr>
-<tr><td>2</td><td class="mono"><a href="https://is-art.ru/razrabotka-sajtov/razrabotka-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">is-art.ru</a></td></tr>
-<tr><td>3</td><td class="mono"><a href="https://one-page-site.ru/razrabotka-korp-sajta/" rel="noopener noreferrer" target="_blank">one-page-site.ru</a></td></tr>
-<tr><td>4</td><td class="mono"><a href="https://profi.ru/it_freelance/programmer/sozdanie-saita/korporativnyi-sait/price/" rel="noopener noreferrer" target="_blank">profi.ru</a></td></tr>
-<tr><td>5</td><td class="mono"><a href="https://youdo.com/frilans/turnkey/corporate" rel="noopener noreferrer" target="_blank">youdo.com</a></td></tr>
-<tr><td>6</td><td class="mono"><a href="https://www.aaccent.ru/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
-<tr><td>7</td><td class="mono"><a href="https://azawa.ru/razrabotka-sajtov/razrabotka-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">azawa.ru</a></td></tr>
-<tr><td>8</td><td class="mono"><a href="https://blagoit.com/creating/sozdanie-korporativnykh-saytov/" rel="noopener noreferrer" target="_blank">blagoit.com</a></td></tr></tbody>
+      <tbody><tr><td>1</td><td class="mono"><a href="https://d2h9g6eq0deq0u.cloudfront.net/sozdat-korporativnyj-sajt" rel="noopener noreferrer" target="_blank">d2h9g6eq0deq0u.cloudfront.net</a></td></tr>
+<tr><td>2</td><td class="mono"><a href="https://8-planet.ru/korporativniy-sait/" rel="noopener noreferrer" target="_blank">8-planet.ru</a></td></tr>
+<tr><td>3</td><td class="mono"><a href="https://is-art.ru/razrabotka-sajtov/razrabotka-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">is-art.ru</a></td></tr>
+<tr><td>4</td><td class="mono"><a href="https://one-page-site.ru/razrabotka-korp-sajta/" rel="noopener noreferrer" target="_blank">one-page-site.ru</a></td></tr>
+<tr><td>5</td><td class="mono"><a href="https://profi.ru/it_freelance/programmer/sozdanie-saita/korporativnyi-sait/price/" rel="noopener noreferrer" target="_blank">profi.ru</a></td></tr>
+<tr><td>6</td><td class="mono"><a href="https://youdo.com/frilans/turnkey/corporate" rel="noopener noreferrer" target="_blank">youdo.com</a></td></tr>
+<tr><td>7</td><td class="mono"><a href="https://www.aaccent.ru/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
+<tr><td>8</td><td class="mono"><a href="https://azawa.ru/razrabotka-sajtov/razrabotka-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">azawa.ru</a></td></tr>
+<tr><td>9</td><td class="mono"><a href="https://blagoit.com/creating/sozdanie-korporativnykh-saytov/" rel="noopener noreferrer" target="_blank">blagoit.com</a></td></tr></tbody>
     </table></div>
   </details>
 <details class="serp-fold" id="razrabotka__yandex__spb">
     <summary>разработка корпоративного сайта — Яндекс — Санкт-Петербург</summary>
     <p class="warn">Playwright: 10 URL; дополнено curated baseline до 10</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
       <tbody><tr><td>1</td><td class="mono"><a href="https://8-planet.ru/korporativniy-sait/" rel="noopener noreferrer" target="_blank">8-planet.ru</a></td></tr>
-<tr><td>2</td><td class="mono"><a href="https://ferrumstudio.ru/services/development/korporativnyy-sayt/" rel="noopener noreferrer" target="_blank">ferrumstudio.ru</a></td></tr>
-<tr><td>3</td><td class="mono"><a href="https://www.aaccent.ru/spb/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
-<tr><td>4</td><td class="mono"><a href="https://t-f-a.agency/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">t-f-a.agency</a></td></tr>
-<tr><td>5</td><td class="mono"><a href="https://a-tum.ru/sozdanie-sajtov/korporativnyy-sayt/" rel="noopener noreferrer" target="_blank">a-tum.ru</a></td></tr>
-<tr><td>6</td><td class="mono"><a href="https://azawa.ru/razrabotka-sajtov/razrabotka-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">azawa.ru</a></td></tr>
-<tr><td>7</td><td class="mono"><a href="https://intecweb.ru/sankt-peterburg/websites_development/corporate/" rel="noopener noreferrer" target="_blank">intecweb.ru</a></td></tr>
-<tr><td>8</td><td class="mono"><a href="https://www.liqium.ru/" rel="noopener noreferrer" target="_blank">liqium.ru</a></td></tr>
-<tr><td>9</td><td class="mono"><a href="https://profitkit.ru/corporation/" rel="noopener noreferrer" target="_blank">profitkit.ru</a></td></tr></tbody>
+<tr><td>2</td><td class="mono"><a href="https://d2h9g6eq0deq0u.cloudfront.net/sozdat-korporativnyj-sajt" rel="noopener noreferrer" target="_blank">d2h9g6eq0deq0u.cloudfront.net</a></td></tr>
+<tr><td>3</td><td class="mono"><a href="https://ferrumstudio.ru/services/development/korporativnyy-sayt/" rel="noopener noreferrer" target="_blank">ferrumstudio.ru</a></td></tr>
+<tr><td>4</td><td class="mono"><a href="https://www.aaccent.ru/spb/sozdanie-sajtov/sozdanie-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">aaccent.ru</a></td></tr>
+<tr><td>5</td><td class="mono"><a href="https://t-f-a.agency/korporativnyj-sajt/" rel="noopener noreferrer" target="_blank">t-f-a.agency</a></td></tr>
+<tr><td>6</td><td class="mono"><a href="https://a-tum.ru/sozdanie-sajtov/korporativnyy-sayt/" rel="noopener noreferrer" target="_blank">a-tum.ru</a></td></tr>
+<tr><td>7</td><td class="mono"><a href="https://azawa.ru/razrabotka-sajtov/razrabotka-korporativnogo-sajta/" rel="noopener noreferrer" target="_blank">azawa.ru</a></td></tr>
+<tr><td>8</td><td class="mono"><a href="https://intecweb.ru/sankt-peterburg/websites_development/corporate/" rel="noopener noreferrer" target="_blank">intecweb.ru</a></td></tr>
+<tr><td>9</td><td class="mono"><a href="https://www.liqium.ru/" rel="noopener noreferrer" target="_blank">liqium.ru</a></td></tr>
+<tr><td>10</td><td class="mono"><a href="https://profitkit.ru/corporation/" rel="noopener noreferrer" target="_blank">profitkit.ru</a></td></tr></tbody>
     </table></div>
   </details>
 <details class="serp-fold" id="razrabotka__google__moscow">
     <summary>разработка корпоративного сайта — Google — Москва</summary>
     <p class="warn">Playwright: 13 URL; дополнено curated baseline до 13</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
       <tbody><tr><td>1</td><td class="mono"><a href="https://cava.studio/ru/korporativnyij-sajt" rel="noopener noreferrer" target="_blank">cava.studio</a></td></tr>
@@ -310,7 +281,6 @@
 <details class="serp-fold" id="razrabotka__google__spb">
     <summary>разработка корпоративного сайта — Google — Санкт-Петербург</summary>
     <p class="warn">Playwright: 10 URL; дополнено curated baseline до 10</p>
-    
     <div class="table-scroll"><table>
       <thead><tr><th>#</th><th>Сайт</th></tr></thead>
       <tbody><tr><td>1</td><td class="mono"><a href="https://artw.ru/services/web/" rel="noopener noreferrer" target="_blank">artw.ru</a></td></tr>
@@ -326,7 +296,7 @@
     </table></div>
   </details>
 
-      
+      <details class="appendix-fold"><summary>Ошибки загрузки URL</summary><ul><li class="mono">https://profi.ru/it_freelance/programmer/sozdanie-saita/korporativnyi-sait/price/ — HTTP 418</li></ul></details>
     </section>
   </div>
 </body>
