@@ -49,13 +49,15 @@ export async function applyMigrationSheetFormatting(
   const font = { fontSize: 10, fontFamily: "Arial" };
   const headerBg = { red: 0.93, green: 0.94, blue: 0.96 };
 
+  const dataStart = 2;
+
   /** @type {import('googleapis').sheets_v4.Schema$Request[]} */
   const requests = [
     {
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 1,
+          startRowIndex: dataStart,
           endRowIndex: rowCount,
           startColumnIndex: 1,
           endColumnIndex: tzLinkCol,
@@ -74,7 +76,7 @@ export async function applyMigrationSheetFormatting(
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 1,
+          startRowIndex: dataStart,
           endRowIndex: rowCount,
           startColumnIndex: tzLinkCol + 1,
           endColumnIndex: colCount,
@@ -93,8 +95,8 @@ export async function applyMigrationSheetFormatting(
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 0,
-          endRowIndex: 1,
+          startRowIndex: 1,
+          endRowIndex: 2,
           startColumnIndex: 0,
           endColumnIndex: colCount,
         },
@@ -115,7 +117,7 @@ export async function applyMigrationSheetFormatting(
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 1,
+          startRowIndex: dataStart,
           endRowIndex: rowCount,
           startColumnIndex: pageCol,
           endColumnIndex: pageCol + 1,
@@ -133,7 +135,7 @@ export async function applyMigrationSheetFormatting(
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 1,
+          startRowIndex: dataStart,
           endRowIndex: rowCount,
           startColumnIndex: serpStart,
           endColumnIndex: serpEnd,
@@ -152,7 +154,7 @@ export async function applyMigrationSheetFormatting(
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 1,
+          startRowIndex: dataStart,
           endRowIndex: rowCount,
           startColumnIndex: tzLinkCol,
           endColumnIndex: tzLinkCol + 1,
@@ -170,8 +172,8 @@ export async function applyMigrationSheetFormatting(
       repeatCell: {
         range: {
           sheetId,
-          startRowIndex: 0,
-          endRowIndex: 1,
+          startRowIndex: 1,
+          endRowIndex: 2,
           startColumnIndex: tzLinkCol,
           endColumnIndex: tzLinkCol + 1,
         },
@@ -185,7 +187,7 @@ export async function applyMigrationSheetFormatting(
     },
     {
       updateSheetProperties: {
-        properties: { sheetId, gridProperties: { frozenRowCount: 1 } },
+        properties: { sheetId, gridProperties: { frozenRowCount: 2 } },
         fields: "gridProperties.frozenRowCount",
       },
     },
@@ -195,7 +197,7 @@ export async function applyMigrationSheetFormatting(
           ranges: [
             {
               sheetId,
-              startRowIndex: 1,
+              startRowIndex: dataStart,
               endRowIndex: rowCount,
               startColumnIndex: contourCol,
               endColumnIndex: contourCol + 1,

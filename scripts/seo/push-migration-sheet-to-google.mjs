@@ -90,6 +90,7 @@ async function main() {
     const { rows, col, colCount } = buildMigrationSheetMatrix({
       preservedComments,
       layout,
+      forceDefaultHeader: true,
     });
     const rowCount = rows.length;
     const lastCol = columnLetter(colCount);

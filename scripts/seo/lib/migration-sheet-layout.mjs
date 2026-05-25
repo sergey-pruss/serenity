@@ -169,7 +169,7 @@ function setCell(col, key, value, row) {
 }
 
 /**
- * @param {{ preservedComments?: Map<string, string>, layout?: Awaited<ReturnType<typeof readMigrationSheetLayout>> }} opts
+ * @param {{ preservedComments?: Map<string, string>, layout?: Awaited<ReturnType<typeof readMigrationSheetLayout>>, forceDefaultHeader?: boolean }} opts
  */
 export function buildMigrationSheetMatrix(opts = {}) {
   const preserved = opts.preservedComments ?? new Map();
@@ -177,19 +177,25 @@ export function buildMigrationSheetMatrix(opts = {}) {
     ? existingRowsByPath(opts.layout.dataRows, opts.layout.col)
     : new Map();
 
-  const { headerRow, col } = ensureDefaultHeader(
-    opts.layout?.headerRow ?? [],
-    opts.layout?.col ?? {},
-  );
+  const { headerRow, col } = opts.forceDefaultHeader
+    ? ensureDefaultHeader([], {})
+    : ensureDefaultHeader(
+        opts.layout?.headerRow ?? [],
+        opts.layout?.col ?? {},
+      );
 
   let colCount = Math.max(
     headerRow.length,
     ...MANAGED_KEYS.map((k) => (col[k] != null ? col[k] + 1 : 0)),
   );
 
+  const metaRow = Array(colCount).fill("");
+  const linkCol = col.tzLink ?? 5;
+  metaRow[linkCol] = `=HYPERLINK("https://static.serenity.agency/docs/seo-rank-dashboard.html";"SEO-дайджер позиций")`;
+
   /** @type {string[][]} */
-  const rows = [headerRow.map((h) => String(h ?? ""))];
-  while (rows[0].length < colCount) rows[0].push("");
+  const rows = [metaRow, headerRow.map((h) => String(h ?? ""))];
+  while (rows[1].length < colCount) rows[1].push("");
 
   for (const p of MIGRATION_PAGES) {
     const r = rankingsForMigrationPath(p.path);
@@ -281,7 +287,7 @@ export function sheetRowIndexByPath(dataRows, col, headerOffset = 0) {
 }
 
 /** Ключи, которые можно перезаписывать без согласования (остальное на листе не трогаем). */
-const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink", "staticDate"];
+const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink"];
 
 /**
  * Позиции SERP, статус ТЗ и ссылки на актуальное ТЗ из репозитория.
@@ -308,16 +314,12 @@ export async function writeMigrationPartialFromLayout(
     const rowIndex = rowByPath.get(p.path) ?? fallbackRow;
 
     const r = rankingsForMigrationPath(p.path);
-    const staticDate = formatStaticDateForSheet(
-      migrationStaticDate(p.path, p.site, p.staticDate),
-    );
     const vals = {
       serpGoogle: r.serpGoogleRf,
       serpYandexMsk: r.serpYandexMsk,
       serpYandexSpb: r.serpYandexSpb,
       tzStatus: p.tz || "",
       tzLink: p.tzUrl ? tzHyperlink(p.tzUrl) : "",
-      staticDate,
     };
 
     for (const key of PARTIAL_UPDATE_KEYS) {
@@ -325,7 +327,6 @@ export async function writeMigrationPartialFromLayout(
       if (colIdx == null) continue;
       if (key === "tzStatus" && !p.tz) continue;
       if (key === "tzLink" && !p.tzUrl) continue;
-      if (key === "staticDate" && !staticDate) continue;
       const colLetter = columnLetter1(colIdx + 1);
       data.push({
         range: `${quotedTitle}!${colLetter}${rowIndex}`,
@@ -365,9 +366,6 @@ export async function writeMigrationRankingsFromLayout(
     const p = MIGRATION_PAGES[i];
     const r = rankingsForMigrationPath(p.path);
     const rowIndex = rowByPath.get(p.path) ?? i + 2;
-    const staticDate = formatStaticDateForSheet(
-      migrationStaticDate(p.path, p.site, p.staticDate),
-    );
     const vals = {
       serpGoogle: r.serpGoogleRf,
       serpYandexMsk: r.serpYandexMsk,
@@ -379,12 +377,6 @@ export async function writeMigrationRankingsFromLayout(
       data.push({
         range: `${quotedTitle}!${columnLetter1(colIdx + 1)}${rowIndex}`,
         values: [[vals[key]]],
-      });
-    }
-    if (staticDate && layout.col.staticDate != null) {
-      data.push({
-        range: `${quotedTitle}!${columnLetter1(layout.col.staticDate + 1)}${rowIndex}`,
-        values: [[staticDate]],
       });
     }
   }
