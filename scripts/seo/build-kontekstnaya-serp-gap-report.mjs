@@ -11,6 +11,7 @@ import {
   percentile25,
 } from "./lib/landing-content-audit.mjs";
 import { getSerpCampaign } from "./lib/serp-campaigns.mjs";
+import { RANK_DASHBOARD_DOCS_URL } from "./lib/rank-dashboard-utils.mjs";
 import { ENGINES, REGIONS } from "./lib/serp-shared.mjs";
 
 const campaign = getSerpCampaign();
@@ -21,6 +22,10 @@ import {
   buildExecutiveSummary,
   executiveSummaryHtml,
 } from "./lib/gap-executive-summary.mjs";
+import {
+  buildOnepageStrategy,
+  onepageStrategyHtml,
+} from "./lib/gap-onepage-strategy.mjs";
 import { isSerpJunkUrl } from "./lib/serp-url-filter.mjs";
 
 const RECOMMENDATIONS = {
@@ -251,10 +256,190 @@ function renderSerpSection(key, block, auditPayload) {
   </section>`;
 }
 
+function renderCompactSerpSection(key, block) {
+  const eng = block.engine === "yandex" ? "Яндекс" : "Google";
+  const warn = block.warning
+    ? `<p class="warn">${esc(block.warning)}</p>`
+    : "";
+  const rows = (block.competitors || [])
+    .filter((c) => c.url && !isSerpJunkUrl(c.url))
+    .map(
+      (c, i) =>
+        `<tr><td>${i + 1}</td><td class="mono"><a href="${esc(c.url)}" rel="noopener noreferrer" target="_blank">${esc(c.displayDomain || "")}</a></td></tr>`,
+    )
+    .join("\n");
+  return `<details class="serp-fold" id="${esc(key)}">
+    <summary>${esc(block.query)} — ${eng} — ${esc(block.regionLabel)}</summary>
+    ${warn}
+    <div class="table-scroll"><table>
+      <thead><tr><th>#</th><th>Сайт</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+  </details>`;
+}
+
+/**
+ * Onepage-strategy layout (korporativnyj и подобные).
+ * Информация НЕ дублируется: header → стратегия → приложение.
+ * @param {Record<string, unknown>} auditPayload
+ */
+function buildOnepageLayoutHtml(auditPayload) {
+  const strategy = buildOnepageStrategy(auditPayload, campaign);
+  const strategySection = onepageStrategyHtml(strategy, campaign);
+  const { scored: gapBlocks, serpCount } = aggregateGaps(auditPayload);
+  const serenity = auditPayload.serenityAudit;
+
+  /** @type {Map<string, { count: number; sampleUrl: string }>} */
+  const domainFreq = new Map();
+  for (const block of Object.values(auditPayload.matrix || {})) {
+    for (const c of block.competitors || []) {
+      if (!c.url || isSerpJunkUrl(c.url)) continue;
+      let d = c.displayDomain || "";
+      try {
+        if (!d) d = new URL(c.url).hostname.replace(/^www\./i, "");
+      } catch {
+        continue;
+      }
+      if (!d) continue;
+      const prev = domainFreq.get(d);
+      domainFreq.set(d, {
+        count: (prev?.count || 0) + 1,
+        sampleUrl: prev?.sampleUrl || c.url,
+      });
+    }
+  }
+  const topDomains = [...domainFreq.entries()]
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 15)
+    .map(
+      ([d, { count, sampleUrl }]) => {
+        let homepage = sampleUrl;
+        try { homepage = new URL(sampleUrl).origin + "/"; } catch {}
+        return `<tr><td class="mono"><a href="${esc(homepage)}" rel="noopener noreferrer" target="_blank">${esc(d)}</a></td><td>${count} / ${serpCount}</td></tr>`;
+      },
+    )
+    .join("\n");
+
+  const gapRows = gapBlocks
+    .slice(0, 8)
+    .map(
+      (r) => `<tr>
+        <td>${esc(r.label)}</td>
+        <td>${r.avgPresence}%</td>
+        <td>нет · ${r.missingInSerps}/${serpCount} выдач</td>
+      </tr>`,
+    )
+    .join("\n");
+
+  const serpFolds = Object.entries(auditPayload.matrix || {})
+    .map(([key, block]) => renderCompactSerpSection(key, block))
+    .join("\n");
+
+  const errors = Object.values(auditPayload.auditsByUrl || {})
+    .filter((a) => a.error && !isSerpJunkUrl(a.url))
+    .map((a) => `<li class="mono">${esc(a.url)} — ${esc(a.error)}</li>`)
+    .join("\n");
+
+  const qList = campaign.queries.map((q) => `«${q.text}»`).join(", ");
+
+  return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>${esc(campaign.reportTitle)}</title>
+  <style>
+    :root {
+      --bg: #f6f7f9; --card: #fff; --text: #1a1d21; --muted: #5c6570;
+      --border: #d8dee6; --accent: #1e5a8c; --warn: #8b4513; --code: #f0f3f7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px; line-height: 1.55; color: var(--text); background: var(--bg); }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 28px 20px 48px; }
+    h1 { font-size: 1.65rem; margin: 0 0 8px; }
+    h2 { font-size: 1.12rem; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 1rem; margin: 20px 0 8px; }
+    .subtitle, .muted { color: var(--muted); font-size: 0.92rem; }
+    .lead { font-size: 1.02rem; margin: 0 0 16px; }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 22px; margin-bottom: 20px; }
+    .strategy-box { border: 2px solid var(--accent); background: #f0f6fc; }
+    .strategy-box h2 { color: var(--accent); border-bottom-color: var(--accent); }
+    .blockers li { color: var(--warn); }
+    ul, ol { margin: 8px 0; padding-left: 1.25em; }
+    li { margin-bottom: 6px; }
+    a { color: var(--accent); }
+    code { background: var(--code); padding: 2px 5px; border-radius: 4px; font-size: 0.85em; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+    th { background: var(--code); }
+    .table-scroll { overflow-x: auto; margin: 8px 0; }
+    .mono { font-family: ui-monospace, Menlo, monospace; font-size: 0.85em; }
+    .warn { color: var(--warn); background: #fef6f0; padding: 8px 10px; border-radius: 6px; font-size: 0.88rem; }
+    hr.appendix-divider { border: none; border-top: 2px dashed var(--border); margin: 32px 0; }
+    details.serp-fold { margin-bottom: 8px; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; background: #fafbfc; }
+    details.serp-fold summary { cursor: pointer; font-weight: 600; font-size: 0.92rem; }
+    details.appendix-fold { margin-top: 12px; }
+    details.appendix-fold summary { cursor: pointer; font-weight: 600; }
+    .manual-review { background: #f0f6fc; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin: 16px 0; font-size: 0.92rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>${esc(campaign.reportH1)}</h1>
+      <p class="subtitle">
+        Цель — топ-10 по ${qList}. Яндекс и Google, Москва и Санкт-Петербург.
+        <a href="${esc(RANK_DASHBOARD_DOCS_URL)}">Дашборд позиций</a> · снимок ${esc(auditPayload.snapshotDateIso || auditPayload.snapshotDate || "")}.
+        Аудит нашей страницы: <a href="${esc(SERENITY_URL)}">${esc(campaign.serenityPathLabel || SERENITY_URL)}</a>.
+      </p>
+    </header>
+
+    ${strategySection}
+
+    <hr class="appendix-divider" />
+
+    <section id="appendix">
+      <h2>Приложение: данные SERP</h2>
+
+      ${gapRows ? `<details class="appendix-fold" open>
+        <summary>Gap-блоки</summary>
+        <p class="muted">Блоки, которых нет у Serenity, но есть у ≥60% конкурентов.</p>
+        <div class="table-scroll"><table>
+          <thead><tr><th>Блок</th><th>% у конкурентов</th><th>Нет у нас</th></tr></thead>
+          <tbody>${gapRows}</tbody>
+        </table></div>
+      </details>` : ""}
+
+      <details class="appendix-fold">
+        <summary>Частые домены (${serpCount} выдач)</summary>
+        <div class="table-scroll"><table>
+          <thead><tr><th>Домен</th><th>Появлений</th></tr></thead>
+          <tbody>${topDomains}</tbody>
+        </table></div>
+      </details>
+
+      <h3>Срезы выдачи (топ-20)</h3>
+      <p class="manual-review"><strong>Рекомендация:</strong> откройте 5–10 сайтов из списка вручную и зафиксируйте удачные решения: hero, таблицы тарифов, FAQ, кейсы.</p>
+      ${serpFolds}
+
+      ${errors ? `<details class="appendix-fold"><summary>Ошибки загрузки URL</summary><ul>${errors}</ul></details>` : ""}
+    </section>
+  </div>
+</body>
+</html>`;
+}
+
 /**
  * @param {Record<string, unknown>} auditPayload
  */
 function buildHtml(auditPayload) {
+  if (campaign.reportLayout === "onepage-strategy") {
+    return buildOnepageLayoutHtml(auditPayload);
+  }
+
   const { scored, serpCount } = aggregateGaps(auditPayload);
   const executive = buildExecutiveSummary(auditPayload);
   const executiveSection = executiveSummaryHtml(executive);
@@ -309,13 +494,6 @@ function buildHtml(auditPayload) {
   const sections = Object.entries(auditPayload.matrix || {})
     .map(([key, block]) => renderSerpSection(key, block, auditPayload))
     .join("\n");
-
-  const serenity = auditPayload.serenityAudit;
-  const serenityBlocks = serenity?.blocks
-    ? BLOCK_IDS.filter((id) => serenity.blocks[id])
-        .map((id) => `<li><code>${id}</code> — ${esc(BLOCK_LABELS[id])}</li>`)
-        .join("\n")
-    : "";
 
   const errors = Object.values(auditPayload.auditsByUrl || {})
     .filter((a) => a.error && !isSerpJunkUrl(a.url))
@@ -430,7 +608,6 @@ function buildHtml(auditPayload) {
       <strong>Содержание</strong>
       <a href="#executive"><strong>Общий вывод (топ-10)</strong></a>
       <a href="#summary">Сводка gap-блоков</a>
-      <a href="#serenity-map">Что уже есть у Serenity</a>
       <a href="#domains">Частота доменов</a>
       ${tocLinks.join("\n")}
       <a href="#errors">Ошибки загрузки</a>
@@ -447,14 +624,6 @@ function buildHtml(auditPayload) {
           <tbody>${priorityRows || "<tr><td colspan=\"5\">Критичных gap не найдено</td></tr>"}</tbody>
         </table>
       </div>
-    </section>
-
-    <section id="serenity-map">
-      <h2>Блоки на странице Serenity (детект)</h2>
-      <ul>${serenityBlocks}</ul>
-      <p class="muted">Объём: ${serenity?.volumes?.word_count_visible ?? "—"} слов,
-        H2: ${serenity?.volumes?.h2_count ?? "—"},
-        FAQ (оценка): ${serenity?.volumes?.faq_items ?? "—"}.</p>
     </section>
 
     <section id="domains">

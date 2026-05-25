@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Serenity — gap-анализ /kontekstnaya_reklama/ (SERP)</title>
+  <title>Serenity — gap-анализ /kontekstnaya_reklama (SERP)</title>
   <style>
     :root {
       --bg: #f6f7f9;
@@ -91,7 +91,7 @@
     <header>
       <h1>Gap-анализ: контекстная реклама (SERP)</h1>
       <p class="subtitle">
-        Сравнение <a href="https://serenity.agency/kontekstnaya_reklama/">https://serenity.agency/kontekstnaya_reklama/</a>
+        Сравнение <a href="https://serenity.agency/kontekstnaya_reklama">https://serenity.agency/kontekstnaya_reklama</a>
         с органической выдачей топ-20 по 2 запросам, Яндекс и Google, Москва и Санкт-Петербург.
         Снимок: <strong>2026-05-17</strong>.
         Метод SERP: playwright+curated-baseline, playwright; аудит: fetch HTML. Выдача динамична — ориентир для доработки страницы под топ-10.
@@ -101,7 +101,7 @@
     
     <section id="executive" class="executive-box">
       <h2>Общий вывод: что добавить и изменить для топ-10</h2>
-      <p class="muted">На основе SERP-снимка (Playwright, май 2026) и аудита посадочных. Служебные URL Яндекса в сравнении не участвуют.</p>
+      <p class="muted">На основе SERP-снимка и аудита посадочных. Служебные URL Яндекса в сравнении не участвуют. Снимок: Playwright.</p>
 
       <h3>Сильные стороны Serenity (сохранить)</h3>
       <ul><li>Hero + CTA</li>
@@ -121,49 +121,42 @@
 
       <h3>Контент: приоритетные доработки</h3>
       <ol>
-        <li><strong>Полоса KPI над сгибом</strong> — 3–4 цифры (проекты, годы, лиды/кампании, сертификация Яндекс). У большинства лидеров выдачи это есть; у нас отдельного блока нет.</li>
-        <li><strong>Доверие: логотипы клиентов</strong> — горизонтальная лента «нам доверяют» сразу под hero (не путать с кейсами).</li>
-        <li><strong>Отзывы</strong> — отдельная секция с рейтингом/цитатами; кейсы не заменяют social proof.</li>
-        <li><strong>Гео в первом экране</strong> — для Москвы/СПб: «настраиваем и ведём Директ в Москве и Санкт-Петербурге» (не только в FAQ).</li>
-        <li><strong>Два коммерческих интента</strong> — развести акценты:
-          <ul>
-            <li>запрос «<em>настройка</em>» — H2/абзац про запуск, аудит, семантику, первые 14–30 дней;</li>
-            <li>запрос «<em>ведение</em>» — H2 про ежемесячное ведение, отчёты, SLA, оптимизацию бюджета.</li>
-          </ul>
-        </li>
-        <li><strong>Сравнение пакетов</strong> — таблица «что входит» (Старт / Расширенный / Премиум) в дополнение к слайдеру карточек.</li>
-        <li><strong>Гарантии и условия</strong> — сроки, формат отчётности, что входит в ведение, маркировка (у вас есть в FAQ — вынести видимым блоком).</li>
+        <li>Полоса KPI над сгибом — 3–4 цифры (проекты, годы, кампании, сертификация).</li>
+<li>Доверие: логотипы клиентов сразу под hero.</li>
+<li>Отзывы — отдельная секция с рейтингом/цитатами.</li>
+<li>Гео в первом экране — Москва и Санкт-Петербург.</li>
+<li>Развести H2 под интенты «настройка» и «ведение» контекста.</li>
+<li>Таблица сравнения пакетов в дополнение к карточкам.</li>
+<li>Гарантии и SLA — видимым блоком, не только в FAQ.</li>
       </ol>
       <h3>Gap по матрице блоков (автодетект)</h3><ul><li><strong>Цифры KPI</strong> — у ~98% в топ-20; нет у нас в 8/8 выдач.</li></ul>
       <h3>Объём относительно медианы топ-20</h3><ul><li><strong>число H2</strong>: у нас 5, медиана топ-20 — 10, P25 — 9.</li></ul>
 
       <h3>Технические и SEO-факторы</h3>
       <ol>
-        <li><strong>Title и H1</strong> — оставить связку «настройка» + «ведение»; в description — Москва/СПб и «Яндекс Директ» без переспама.</li>
-        <li><strong>Микроразметка</strong> — FAQPage и Product/Offer уже есть; после правок FAQ синхронизировать JSON-LD с видимым текстом.</li>
-        <li><strong>Форма в HTML</strong> — инлайн-заявка должна быть в DOM для краулера (не только после JS); проверить видимость полей без скриптов.</li>
-        <li><strong>Скорость (CWV)</strong> — тяжёлый CSS Nuxt: не грузить лишнее above-the-fold; держать актуальный <code>?v=</code> на <code>/_sa/</code>; LCP hero + не блокировать рендер FAQ/слайдеров.</li>
-        <li><strong>Внутренние ссылки</strong> — блок «Читайте в блоге» (3–4 статьи про контекст/B2B/Директ) с анкорами под кластер.</li>
-        <li><strong>Индексация</strong> — канон на <code>/kontekstnaya_reklama/</code>, в sitemap, без дублей с legacy; после выкладки — переобход в Вебмастере/GSC.</li>
-        <li><strong>Региональность</strong> — при таргете МСК/СПб: явные сигналы в тексте + NAP/офис в футере; при необходимости отдельные посадочные под регион (долгий горизонт).</li>
+        <li>Title и H1 — связка «настройка» + «ведение»; в description — Москва/СПб и «Яндекс Директ».</li>
+<li>FAQPage и Product/Offer — синхронизировать JSON-LD с видимым текстом.</li>
+<li>Форма в DOM для краулера.</li>
+<li>CWV и актуальный <code>?v=</code> на <code>/_sa/</code>.</li>
+<li>Внутренние ссылки на статьи блога про контекст/B2B/Директ.</li>
+<li>Канон на <code>/kontekstnaya_reklama</code>, sitemap, переобход в Вебмастере/GSC.</li>
       </ol>
 
       <h3>Что не обязательно для топ-10, но усиливает</h3>
       <ul>
-        <li>Калькулятор/квиз бюджета (есть у части конкурентов).</li>
-        <li>Короткое видео (эксперт или кейс) — чаще в Google-выдаче.</li>
-        <li>Онлайн-чат — только при реальной обработке диалогов.</li>
+        <li>Калькулятор/квиз бюджета.</li>
+<li>Короткое видео (эксперт или кейс).</li>
+<li>Онлайн-чат при реальной обработке диалогов.</li>
       </ul>
 
       <h3>Порядок внедрения (рекомендуемый)</h3>
-      <p><span class="badge pri-p1">1</span> KPI + гео в hero → <span class="badge pri-p1">2</span> логотипы + отзывы → <span class="badge pri-p2">3</span> таблица пакетов + блок «ведение»/«настройка» → <span class="badge pri-p2">4</span> гарантии/SLA → <span class="badge pri-p3">5</span> блог-тизер и тех. проверка CWV/schema.</p>
+      <p>KPI + гео в hero → логотипы + отзывы → таблица пакетов + блоки «ведение»/«настройка» → гарантии/SLA → блог-тизер и CWV/schema.</p>
     </section>
 
     <nav class="toc">
       <strong>Содержание</strong>
       <a href="#executive"><strong>Общий вывод (топ-10)</strong></a>
       <a href="#summary">Сводка gap-блоков</a>
-      <a href="#serenity-map">Что уже есть у Serenity</a>
       <a href="#domains">Частота доменов</a>
       <a href="#nastroyka__yandex__moscow">настройка контекстной рекламы · Яндекс · Москва</a>
 <a href="#nastroyka__yandex__spb">настройка контекстной рекламы · Яндекс · Санкт-Петербург</a>
@@ -193,35 +186,6 @@
       </tr></tbody>
         </table>
       </div>
-    </section>
-
-    <section id="serenity-map">
-      <h2>Блоки на странице Serenity (детект)</h2>
-      <ul><li><code>hero_cta</code> — Hero + CTA</li>
-<li><code>trust_logos</code> — Логотипы клиентов / доверие</li>
-<li><code>process_steps</code> — Этапы / процесс</li>
-<li><code>services_grid</code> — Сетка услуг / форматов</li>
-<li><code>pricing_packages</code> — Тарифы / пакеты</li>
-<li><code>cases</code> — Кейсы / портфолио</li>
-<li><code>testimonials</code> — Отзывы</li>
-<li><code>team</code> — Команда</li>
-<li><code>faq</code> — FAQ</li>
-<li><code>awards_certs</code> — Награды / сертификаты</li>
-<li><code>platforms_direct</code> — Яндекс Директ / Google Ads</li>
-<li><code>geo_moscow_spb</code> — Москва / СПб в тексте</li>
-<li><code>guarantees</code> — Гарантии / SLA</li>
-<li><code>video</code> — Видео</li>
-<li><code>lead_form</code> — Форма на странице</li>
-<li><code>b2b_focus</code> — B2B-оффер</li>
-<li><code>ecommerce_focus</code> — E-commerce</li>
-<li><code>seo_footer_text</code> — SEO-текст внизу</li>
-<li><code>schema_product</code> — Schema Product/Offer</li>
-<li><code>schema_faq</code> — Schema FAQPage</li>
-<li><code>focus_vedenie</code> — Акцент «ведение»</li>
-<li><code>focus_nastroyka</code> — Акцент «настройка»</li></ul>
-      <p class="muted">Объём: 3913 слов,
-        H2: 5,
-        FAQ (оценка): 9.</p>
     </section>
 
     <section id="domains">
@@ -475,6 +439,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -737,6 +707,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -1017,6 +993,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -1315,6 +1297,12 @@
         <td>✓</td>
         <td>92%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -1589,6 +1577,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -1869,6 +1863,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -2143,6 +2143,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>
@@ -2423,6 +2429,12 @@
         <td>✓</td>
         <td>100%</td>
         <td><span class="badge gap-ok">ок</span></td>
+      </tr>
+<tr>
+        <td>VK / Telegram / соцсети (иконки или явный блок)</td>
+        <td>—</td>
+        <td>0%</td>
+        <td><span class="badge">—</span></td>
       </tr></tbody>
       </table>
     </div>

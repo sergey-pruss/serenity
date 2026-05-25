@@ -37,7 +37,7 @@ function renderSlides(awards) {
                         >${slideShellOpen(link)}
                             <div class="awards__card" data-v-6f8a040c="">
                               <div class="awards__card-info">
-                                <span class="awards__card-rating">${esc(r)}</span>
+                                <span class="awards__card-rating">${r.includes("<br>") ? r : esc(r)}</span>
                                 <span class="awards__card-year">${esc(y)}</span>
                               </div>
                               <img

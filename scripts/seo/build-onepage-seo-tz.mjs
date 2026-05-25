@@ -124,7 +124,7 @@ function checklistSection(page) {
       ${block("P2", "pri-p2", page.checklistP2)}
       ${block("P3", "pri-p3", page.checklistP3)}
       <h3>Порядок внедрения</h3>
-      <p>${page.checklistP1.slice(0, 2).map(esc).join(" → ")} → P2 → P3.</p>
+      <p>P1 (сверху вниз) → P2 → P3.</p>
     </section>`;
 }
 
@@ -203,7 +203,6 @@ function blocksHtml(audit) {
   return `
     <section id="blocks">
       <h2>Блоки на странице (автоаудит HTML)</h2>
-      <p class="muted">URL: <code>${esc(audit.url)}</code>, H1: <strong>${esc(audit.h1 || "—")}</strong></p>
       <div class="table-scroll"><table>
         <thead><tr><th>Блок</th><th>Есть</th></tr></thead><tbody>${rows}</tbody>
       </table></div>
