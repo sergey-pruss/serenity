@@ -18,6 +18,8 @@ export const ROUTING_GO_LIVE_SNIPPET = {
   "/services/marketing": "services/marketing/?$",
   "/kontekstnaya_reklama": "kontekstnaya_reklama/?$",
   "/targeting": "~^/targeting/?$",
+  "/korporativnyj_sajt": "korporativnyj_sajt/?$",
+  "/smm_marketing": "smm_marketing/?$",
 };
 
 /** @type {Map<string, string>} */

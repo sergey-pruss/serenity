@@ -281,7 +281,7 @@ export function sheetRowIndexByPath(dataRows, col, headerOffset = 0) {
 }
 
 /** Ключи, которые можно перезаписывать без согласования (остальное на листе не трогаем). */
-const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink"];
+const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink", "staticDate"];
 
 /**
  * Позиции SERP, статус ТЗ и ссылки на актуальное ТЗ из репозитория.
@@ -308,12 +308,16 @@ export async function writeMigrationPartialFromLayout(
     const rowIndex = rowByPath.get(p.path) ?? fallbackRow;
 
     const r = rankingsForMigrationPath(p.path);
+    const staticDate = formatStaticDateForSheet(
+      migrationStaticDate(p.path, p.site, p.staticDate),
+    );
     const vals = {
       serpGoogle: r.serpGoogleRf,
       serpYandexMsk: r.serpYandexMsk,
       serpYandexSpb: r.serpYandexSpb,
       tzStatus: p.tz || "",
       tzLink: p.tzUrl ? tzHyperlink(p.tzUrl) : "",
+      staticDate,
     };
 
     for (const key of PARTIAL_UPDATE_KEYS) {
@@ -321,6 +325,7 @@ export async function writeMigrationPartialFromLayout(
       if (colIdx == null) continue;
       if (key === "tzStatus" && !p.tz) continue;
       if (key === "tzLink" && !p.tzUrl) continue;
+      if (key === "staticDate" && !staticDate) continue;
       const colLetter = columnLetter1(colIdx + 1);
       data.push({
         range: `${quotedTitle}!${colLetter}${rowIndex}`,
@@ -360,6 +365,9 @@ export async function writeMigrationRankingsFromLayout(
     const p = MIGRATION_PAGES[i];
     const r = rankingsForMigrationPath(p.path);
     const rowIndex = rowByPath.get(p.path) ?? i + 2;
+    const staticDate = formatStaticDateForSheet(
+      migrationStaticDate(p.path, p.site, p.staticDate),
+    );
     const vals = {
       serpGoogle: r.serpGoogleRf,
       serpYandexMsk: r.serpYandexMsk,
@@ -371,6 +379,12 @@ export async function writeMigrationRankingsFromLayout(
       data.push({
         range: `${quotedTitle}!${columnLetter1(colIdx + 1)}${rowIndex}`,
         values: [[vals[key]]],
+      });
+    }
+    if (staticDate && layout.col.staticDate != null) {
+      data.push({
+        range: `${quotedTitle}!${columnLetter1(layout.col.staticDate + 1)}${rowIndex}`,
+        values: [[staticDate]],
       });
     }
   }
