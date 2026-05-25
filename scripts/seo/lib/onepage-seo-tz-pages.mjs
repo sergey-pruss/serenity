@@ -157,6 +157,118 @@ export const ONEPAGE_TZ_PAGES = [
       "deploy-prod + deploy-dev для превью на static.serenity.agency.",
     ],
   },
+  {
+    id: "smm",
+    slug: "smm-marketing",
+    title: "Комплексный SMM",
+    path: "/smm_marketing",
+    url: "https://serenity.agency/smm_marketing",
+    isStatic: true,
+    staticSince: "2026-05",
+    rankDashboardPageId: "smm",
+    queries: [
+      { id: "smm-prodvizhenie", text: "smm продвижение" },
+      { id: "smm-agentstvo", text: "smm агентство" },
+      { id: "vedenie-sotssetey", text: "ведение соцсетей" },
+    ],
+    checklistP1: [
+      "Title: в начале «SMM продвижение» или «SMM агентство»; description — Москва/СПб, кейсы, стоимость, CTA. Сейчас title «Комплексный SMM — Serenity» — нет ВЧ-запроса в начале.",
+      "H1 «SMM продвижение» или «SMM продвижение в соцсетях» (сейчас «Комплексный SMM» — не совпадает с ВЧ-запросами); subtitle с «ведение соцсетей» и «smm агентство».",
+      "Коммерческий H2: «SMM продвижение под ключ» или «Ведение соцсетей для бизнеса» — явная связь с ВЧ-кластером, которого нет в текущих 10 H2.",
+      "Go-live статики + routing.conf (после ОК на конфиг): на prod сейчас legacy — блокер для индексации и ранжирования новой страницы.",
+    ],
+    checklistP2: [
+      "Таблица тарифов / пакетов SMM (Старт — Стандарт — Премиум) — усилить текущий слайдер price-card сравнительной таблицей.",
+      "Кейсы SMM с метриками (охват, вовлечённость, лиды/заявки) — три кейса уже есть (Toofli, Во!Молоко, Композит), добавить цифры результатов.",
+      "FAQ: 8 пунктов уже есть — проверить наличие schema FAQPage JSON-LD = видимый текст; добавить «стоимость SMM продвижения», «сроки запуска».",
+      "Перелинковка: marketing → smm_marketing; smm → targeting (таргет); smm → kontekstnaya_reklama; блог про SMM-кейсы.",
+    ],
+    checklistP3: [
+      "Полный SERP gap (топ-20 конкурентов) по запросам «smm продвижение», «smm агентство», «ведение соцсетей» × Яндекс/Google × Москва/СПб.",
+      "Блок «Читайте в блоге» — 3–4 статьи про SMM, контент-стратегию, продвижение в соцсетях.",
+      "og:image: проверить /_sa/img/services/smm_marketing/hero/collage.webp — размер и качество для сниппетов.",
+      "Переобход URL в GSC и Я.Вебмастер после правок meta и go-live.",
+    ],
+    metaRecommendations: {
+      title:
+        "SMM продвижение и ведение соцсетей — агентство Serenity, Москва и СПб",
+      description:
+        "SMM продвижение для бизнеса: стратегия, контент, таргет и аналитика. Кейсы, стоимость и тарифы — SMM агентство Serenity, Москва и Санкт-Петербург.",
+      h1: "SMM продвижение (subtitle: «ведение соцсетей для бизнеса — стратегия, контент, реклама»)",
+    },
+    contentNotes: [
+      "GSC: 1578 показов, 8 кликов, средняя позиция 22.9 — страница проиндексирована, но далеко от топ-10.",
+      "Яндекс: «ведение соцсетей цена» — 264 показа, позиция 29.1; «smm агентство» — 76 показов, позиция 15.1.",
+      "Google: «смм агентство» — 123 показа, позиция 25.6; «смм агентство спб» — 45 показов, позиция 3.8 (уже в топ!).",
+      "Структура контента сильная (10 H2, 8 FAQ, кейсы, команда, ~2000 слов), но H2 не содержат целевые ВЧ-запросы — «smm продвижение», «ведение соцсетей».",
+      "Текущие H2: Наш подход, Этапы, Исследование, SMM-стратегия, Оформление, Реализация, Отчеты, Результат, Преимущества, Команда — хорошо для UX, но нет SEO-сигналов.",
+    ],
+    technicalNotes: [
+      "Канон: https://serenity.agency/smm_marketing (без слэша).",
+      "BreadcrumbList JSON-LD есть; FAQPage JSON-LD — нет (добавить по FAQ-блоку из 8 пунктов).",
+      "Product/Offer schema на price-card — проверить цены и image на /_sa/.",
+      "Форма заявки в DOM (#desktop-order-popup); inline-form на странице — ДА.",
+      "CWV после Nuxt CSS bundle; immutable ?v= на /_sa/.",
+    ],
+    migrationNotes: [
+      "Статика собрана: smm_marketing/index.html в репозитории.",
+      "Добавить в nginx/routing.conf только после явного «да» на конфиг.",
+      "deploy-prod + deploy-dev; после go-live — sitemap lastmod и переобход.",
+    ],
+  },
+  {
+    id: "korporativnyj",
+    slug: "korporativnyj-sajt",
+    title: "Корпоративный сайт",
+    path: "/korporativnyj_sajt",
+    url: "https://serenity.agency/korporativnyj_sajt",
+    isStatic: false,
+    staticSince: "",
+    rankDashboardPageId: "korporativnyj-sajt",
+    queries: [
+      { id: "sozdanie", text: "создание корпоративного сайта" },
+      { id: "razrabotka", text: "разработка корпоративного сайта" },
+    ],
+    checklistP1: [
+      "Go-live статики + routing.conf (после ОК на конфиг): на prod сейчас legacy без H2 — главный блокер для топ-10.",
+      "Title/description: в начале «разработка корпоративного сайта» и «создание корпоративного сайта»; Москва/СПб; CTA без переспама (Яндекс ~12 при 800+ показов, 0 кликов в Google).",
+      "Hero: H1 «Разработка корпоративных сайтов» + подзаголовок с «создание корпоративного сайта»; полоса KPI (сайты, отрасли, сроки, награды).",
+      "Два коммерческих H2: «Создание корпоративного сайта» и «Разработка корпоративного сайта под ключ» — развести интенты, не только h3 в этапах.",
+    ],
+    checklistP2: [
+      "Таблица сравнения пакетов (корпоративный / интернет-магазин / лендинг) в дополнение к слайдеру price-card.",
+      "Кейсы корпоративных сайтов с метриками (срок, CMS, конверсия) — блок «Ещё кейсы» уже есть, усилить SEO-текстом.",
+      "FAQ 5–7 пунктов: сроки, стоимость, CMS, поддержка; FAQPage JSON-LD = видимый текст.",
+      "Перелинковка: главная, /services, marketing, блог про разработку сайтов.",
+    ],
+    checklistP3: [
+      "После go-live — полный SERP gap (как kontekstnaya/targeting) по двум запросам × Яндекс/Google × Москва/СПб.",
+      "Блок «Читайте в блоге» — 3–4 статьи про корпоративные сайты / UX / CMS.",
+      "og:image и ассеты в /_sa/img/services/korporativnyj_sajt/…; переобход в GSC и Я.Вебмастер.",
+    ],
+    metaRecommendations: {
+      title: "Разработка и создание корпоративного сайта — Serenity, Москва и СПб",
+      description:
+        "Создание корпоративного сайта под ключ: дизайн, разработка, интеграции и поддержка. Стоимость и кейсы — агентство Serenity, Москва и Санкт-Петербург.",
+      h1: "Разработка корпоративных сайтов (subtitle с «создание корпоративного сайта»)",
+    },
+    contentNotes: [
+      "Яндекс (панель): «разработка» ~12.1 (451 пок.), «создание» ~12.1 (372 пок.) — на границе топ-10; SERP СПб: 3 и 8 (снимок 2026-05-19), Москва: 13 и 28.",
+      "Google: страница вне топ-20 по обоим запросам — после статики усилить title/H2 и внутренние ссылки.",
+      "Статическая сборка в репо: 8 H2, FAQ, кейсы, награды, price-cards — выше legacy на prod (0 H2, h1 «корпоративный сайт»).",
+    ],
+    technicalNotes: [
+      "Канон: https://serenity.agency/korporativnyj_sajt (без слэша).",
+      "Product/Offer schema на price-card — проверить цены и image на /_sa/.",
+      "Форма заявки в DOM (#desktop-order-popup); CWV после Nuxt CSS bundle.",
+      "301 с /korporativnyj_sajt/ при go-live; sitemap lastmod после деплоя.",
+    ],
+    migrationNotes: [
+      "Статика собрана: korporativnyj_sajt/index.html, verify-korporativnyj.cjs.",
+      "Добавить в nginx/routing.conf только после явного «да» на конфиг.",
+      "deploy-prod + deploy-dev; test:korporativnyj + test:layout-smoke.",
+    ],
+  },
 ];
 
 export function getOnepageTzPage(id) {

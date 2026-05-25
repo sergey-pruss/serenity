@@ -123,6 +123,7 @@
     "seo:onepage-tz:home": "node scripts/seo/build-onepage-seo-tz.mjs home",
     "seo:onepage-tz:kompleksnoye": "node scripts/seo/build-onepage-seo-tz.mjs kompleksnoye-prodvizheniye",
     "seo:onepage-tz:korporativnyj": "node scripts/seo/build-onepage-seo-tz.mjs korporativnyj-sajt",
+    "seo:onepage-tz:smm": "node scripts/seo/build-onepage-seo-tz.mjs smm",
     "deploy:dev:docs": "bash scripts/deploy-dev-docs.sh",
     "seo:onepage-tz:deploy-dev": "node scripts/seo/build-onepage-seo-tz.mjs && bash scripts/deploy-dev-docs.sh",
     "seo:migration-sheet:export": "node scripts/seo/build-migration-sheet-export.mjs",
