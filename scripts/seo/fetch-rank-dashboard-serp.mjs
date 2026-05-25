@@ -60,6 +60,7 @@ function usage() {
   SERP_PAGE_FLIP_JITTER_MS=…   джиттер к листанию (интерактив ~6000)
   SERP_HUMAN_SCROLL=0          без прокрутки между страницами
   SERP_VERBOSE_DELAY=1         логировать каждую паузу
+  RANK_DASHBOARD_SKIP_PANELS=1     не обновлять панели (GSC/ВМ/Метрика) после съёмки
   RANK_DASHBOARD_SKIP_DEV_DEPLOY=1  не выкладывать на static-dev после съёмки
   SERP_BROWSER=webkit          Safari/WebKit для Яндекс и Google (по умолчанию в interactive)
   SERP_BROWSER=chromium        откат на Chromium
@@ -486,6 +487,15 @@ async function main() {
   if (chromiumBrowser) await chromiumBrowser.close();
 
   console.log(`\nГотово. Снимок ${date} → ${dashPath} (${pending.length} ячеек)`);
+
+  if (process.env.RANK_DASHBOARD_SKIP_PANELS !== "1") {
+    const { runPanelsViaShell } = await import("./lib/refresh-rank-dashboard-panels.mjs");
+    console.log("\nОбновление панелей (GSC + Яндекс Вебмастер + Метрика)…");
+    const panelsOk = runPanelsViaShell({ skipBuild: true });
+    if (!panelsOk) {
+      console.warn("Панели: не удалось обновить (секреты, сеть). Вручную: bash scripts/seo/run-rank-dashboard-panels.sh");
+    }
+  }
 
   if (process.env.MIGRATION_SHEET_SKIP_UPDATE !== "1") {
     try {
