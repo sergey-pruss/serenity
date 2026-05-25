@@ -114,7 +114,7 @@ export const SERP_CAMPAIGNS = {
     rankDashboardPageId: "korporativnyj-sajt",
     serenityUrl:
       process.env.SERENITY_KORPORATIVNYJ_URL ||
-      "https://static.serenity.agency/korporativnyj_sajt",
+      "https://serenity.agency/korporativnyj_sajt",
     queries: [
       { id: "sozdanie", text: "создание корпоративного сайта" },
       { id: "razrabotka", text: "разработка корпоративного сайта" },
@@ -193,14 +193,13 @@ export const SERP_CAMPAIGNS = {
         "Title/description: оба запроса дашборда + Москва/СПб; H1 согласован с title.",
         "FAQPage и Product/Offer JSON-LD = видимый текст на странице.",
         "Канон <code>/korporativnyj_sajt</code>, форма заявки в DOM, CWV, актуальный <code>?v=</code> на <code>/_sa/</code>.",
-        "Hub-ссылки: главная, /services, marketing, блог; переобход в GSC и Я.Вебмастер после go-live.",
+        "Hub-ссылки: главная, /services, marketing, блог; переобход в GSC и Я.Вебмастер.",
       ],
       blockers: [
-        "На prod сейчас legacy без нормальной структуры H2 — go-live статики /korporativnyj_sajt обязателен до SEO-работ.",
         "Google: оба запроса вне топ-20; Яндекс: «разработка» ~12, «создание» ~12 — нужны сниппет и объём, не только блоки.",
       ],
       rollout:
-        "Go-live статики → KPI и гео в hero → H2 «создание» / «разработка» → таблица пакетов → кейсы → FAQ 7+ → блог и schema → переобход.",
+        "KPI и гео в hero → H2 «создание» / «разработка» → таблица пакетов → кейсы → FAQ 7+ → блог и schema → переобход.",
     },
   },
 };
