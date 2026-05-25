@@ -117,7 +117,7 @@ function readMoreCasesPartial() {
   const p = path.join(partialsRoot, "more-cases-marketing.html");
   if (!fs.existsSync(p)) return null;
   let html = fs.readFileSync(p, "utf8").trim().replace(/^<!--[\s\S]*?-->\s*/, "");
-  return sanitizeMoreCasesCapture(html);
+  return sanitizeMoreCasesCapture(html, { keepGrid: true });
 }
 
 /** Только тексты героя — разметка и data-v-* как на /targeting (иначе ломается шрифт Nuxt-бандла). */

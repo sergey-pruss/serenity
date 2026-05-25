@@ -81,6 +81,8 @@ async function run() {
   assert(html.includes('id="sa-inline-lead-root"'), "inline lead");
   assert(html.includes("more-case-wr more-case-wr__main"), "кейсы more-case-wr__main");
   assert(html.includes("marketing-cases-section"), "кейсы: marketing-cases-section");
+  assert(main.includes('class="more-cases"'), "кейсы: сетка .more-cases (desktop)");
+  assert(main.includes('class="case__description"'), "кейсы: карточки в сетке");
   assert(html.includes("cases-block__header-subtitle"), "кейсы: шапка с подзаголовком");
   assert(
     /брендформанса|брендформанс/.test(html) && /Darkrain/.test(html),
