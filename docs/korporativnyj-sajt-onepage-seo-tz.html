@@ -57,11 +57,11 @@
       <h2>Onepage: всё для топ-10 (чеклист работ)</h2>
       <p class="muted">Один документ = ТЗ на SEO и контент. Порядок: P1 → P2 → P3. Полный SERP gap (как у контекстной) — отдельным этапом после съёмки выдачи.</p>
       <h3><span class="badge pri-p1">P1</span> Срочно</h3>
-      <ol class="checklist"><li>Go-live статики + routing.conf (после ОК на конфиг): на prod сейчас legacy без H2 — главный блокер для топ-10.</li><li>Title/description: в начале «разработка корпоративного сайта» и «создание корпоративного сайта»; Москва/СПб; CTA без переспама (Яндекс ~12 при 800+ показов, 0 кликов в Google).</li><li>Hero: H1 «Разработка корпоративных сайтов» + подзаголовок с «создание корпоративного сайта»; полоса KPI (сайты, отрасли, сроки, награды).</li><li>Два коммерческих H2: «Создание корпоративного сайта» и «Разработка корпоративного сайта под ключ» — развести интенты, не только h3 в этапах.</li></ol>
+      <ol class="checklist"><li>Title/description: в начале «разработка корпоративного сайта» и «создание корпоративного сайта»; Москва/СПб; CTA без переспама (Яндекс ~12 при 800+ показов, 0 кликов в Google).</li><li>Hero: H1 «Разработка корпоративных сайтов» + подзаголовок с «создание корпоративного сайта»; полоса KPI (сайты, отрасли, сроки, награды).</li><li>Два коммерческих H2: «Создание корпоративного сайта» и «Разработка корпоративного сайта под ключ» — развести интенты, не только h3 в этапах.</li></ol>
       <h3><span class="badge pri-p2">P2</span> Важно</h3>
       <ol class="checklist"><li>Таблица сравнения пакетов (корпоративный / интернет-магазин / лендинг) в дополнение к слайдеру price-card.</li><li>Кейсы корпоративных сайтов с метриками (срок, CMS, конверсия) — блок «Ещё кейсы» уже есть, усилить SEO-текстом.</li><li>FAQ 5–7 пунктов: сроки, стоимость, CMS, поддержка; FAQPage JSON-LD = видимый текст.</li><li>Перелинковка: главная, /services, marketing, блог про разработку сайтов.</li></ol>
       <h3><span class="badge pri-p3">P3</span> Дополнительно</h3>
-      <ol class="checklist"><li>После go-live — полный SERP gap (как kontekstnaya/targeting) по двум запросам × Яндекс/Google × Москва/СПб.</li><li>Блок «Читайте в блоге» — 3–4 статьи про корпоративные сайты / UX / CMS.</li><li>og:image и ассеты в /_sa/img/services/korporativnyj_sajt/…; переобход в GSC и Я.Вебмастер.</li></ol>
+      <ol class="checklist"><li>Полный SERP gap (как kontekstnaya/targeting) по двум запросам × Яндекс/Google × Москва/СПб.</li><li>Блок «Читайте в блоге» — 3–4 статьи про корпоративные сайты / UX / CMS.</li><li>og:image и ассеты в /_sa/img/services/korporativnyj_sajt/…; переобход в GSC и Я.Вебмастер.</li></ol>
       <h3>Порядок внедрения</h3>
       <p>P1 (сверху вниз) → P2 → P3.</p>
     </section>
@@ -146,9 +146,9 @@
     <section id="notes">
       <h2>Контент и техника</h2>
       <h3>Контент</h3><ul><li>Яндекс (панель): «разработка» ~12.1 (451 пок.), «создание» ~12.1 (372 пок.) — на границе топ-10; SERP СПб: 3 и 8 (снимок 2026-05-19), Москва: 13 и 28.</li><li>Google: страница вне топ-20 по обоим запросам — после статики усилить title/H2 и внутренние ссылки.</li><li>Статическая сборка в репо: 8 H2, FAQ, кейсы, награды, price-cards — выше legacy на prod (0 H2, h1 «корпоративный сайт»).</li></ul>
-      <h3>Техника</h3><ul><li>Канон: https://serenity.agency/korporativnyj_sajt (без слэша).</li><li>Product/Offer schema на price-card — проверить цены и image на /_sa/.</li><li>Форма заявки в DOM (#desktop-order-popup); CWV после Nuxt CSS bundle.</li><li>301 с /korporativnyj_sajt/ при go-live; sitemap lastmod после деплоя.</li></ul>
+      <h3>Техника</h3><ul><li>Канон: https://serenity.agency/korporativnyj_sajt (без слэша).</li><li>Product/Offer schema на price-card — проверить цены и image на /_sa/.</li><li>Форма заявки в DOM (#desktop-order-popup); CWV после Nuxt CSS bundle.</li></ul>
     </section>
-    <section id="migration"><h2>Миграция на статику</h2><ol><li>Статика собрана: korporativnyj_sajt/index.html, verify-korporativnyj.cjs.</li><li>Добавить в nginx/routing.conf только после явного «да» на конфиг.</li><li>deploy-prod + deploy-dev; test:korporativnyj + test:layout-smoke.</li></ol></section>
+    
   </div>
 </body>
 </html>

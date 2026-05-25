@@ -230,7 +230,6 @@ export const ONEPAGE_TZ_PAGES = [
       { id: "razrabotka", text: "разработка корпоративного сайта" },
     ],
     checklistP1: [
-      "Go-live статики + routing.conf (после ОК на конфиг): на prod сейчас legacy без H2 — главный блокер для топ-10.",
       "Title/description: в начале «разработка корпоративного сайта» и «создание корпоративного сайта»; Москва/СПб; CTA без переспама (Яндекс ~12 при 800+ показов, 0 кликов в Google).",
       "Hero: H1 «Разработка корпоративных сайтов» + подзаголовок с «создание корпоративного сайта»; полоса KPI (сайты, отрасли, сроки, награды).",
       "Два коммерческих H2: «Создание корпоративного сайта» и «Разработка корпоративного сайта под ключ» — развести интенты, не только h3 в этапах.",
@@ -242,7 +241,7 @@ export const ONEPAGE_TZ_PAGES = [
       "Перелинковка: главная, /services, marketing, блог про разработку сайтов.",
     ],
     checklistP3: [
-      "После go-live — полный SERP gap (как kontekstnaya/targeting) по двум запросам × Яндекс/Google × Москва/СПб.",
+      "Полный SERP gap (как kontekstnaya/targeting) по двум запросам × Яндекс/Google × Москва/СПб.",
       "Блок «Читайте в блоге» — 3–4 статьи про корпоративные сайты / UX / CMS.",
       "og:image и ассеты в /_sa/img/services/korporativnyj_sajt/…; переобход в GSC и Я.Вебмастер.",
     ],
@@ -261,13 +260,8 @@ export const ONEPAGE_TZ_PAGES = [
       "Канон: https://serenity.agency/korporativnyj_sajt (без слэша).",
       "Product/Offer schema на price-card — проверить цены и image на /_sa/.",
       "Форма заявки в DOM (#desktop-order-popup); CWV после Nuxt CSS bundle.",
-      "301 с /korporativnyj_sajt/ при go-live; sitemap lastmod после деплоя.",
     ],
-    migrationNotes: [
-      "Статика собрана: korporativnyj_sajt/index.html, verify-korporativnyj.cjs.",
-      "Добавить в nginx/routing.conf только после явного «да» на конфиг.",
-      "deploy-prod + deploy-dev; test:korporativnyj + test:layout-smoke.",
-    ],
+    migrationNotes: [],
   },
 ];
 

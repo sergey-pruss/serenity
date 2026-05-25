@@ -281,11 +281,11 @@ export function sheetRowIndexByPath(dataRows, col, headerOffset = 0) {
 }
 
 /** Ключи, которые можно перезаписывать без согласования (остальное на листе не трогаем). */
-const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzLink"];
+const PARTIAL_UPDATE_KEYS = ["serpGoogle", "serpYandexMsk", "serpYandexSpb", "tzStatus", "tzLink"];
 
 /**
- * Только позиции SERP и ссылки на актуальное ТЗ из репозитория.
- * Не меняет: названия, тип, контур, даты, статусы, комментарии, лишние колонки.
+ * Позиции SERP, статус ТЗ и ссылки на актуальное ТЗ из репозитория.
+ * Не меняет: названия, тип, контур, даты, статус реализации, комментарии.
  * @param {import('googleapis').sheets_v4.Sheets} sheets
  * @param {string} spreadsheetId
  * @param {string} quotedTitle
@@ -312,12 +312,14 @@ export async function writeMigrationPartialFromLayout(
       serpGoogle: r.serpGoogleRf,
       serpYandexMsk: r.serpYandexMsk,
       serpYandexSpb: r.serpYandexSpb,
+      tzStatus: p.tz || "",
       tzLink: p.tzUrl ? tzHyperlink(p.tzUrl) : "",
     };
 
     for (const key of PARTIAL_UPDATE_KEYS) {
       const colIdx = layout.col[key];
       if (colIdx == null) continue;
+      if (key === "tzStatus" && !p.tz) continue;
       if (key === "tzLink" && !p.tzUrl) continue;
       const colLetter = columnLetter1(colIdx + 1);
       data.push({
