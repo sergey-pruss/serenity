@@ -46,6 +46,25 @@ const installMetrikaGoalRecorder = async (page) => {
 const readMetrikaGoalNames = async (page) =>
   page.evaluate(() => (window.__metrikaGoals || []).map((args) => args[2]));
 
+const resetMetrikaGoalRecorder = async (page) => {
+  await page.evaluate(() => {
+    window.__metrikaGoals = [];
+  });
+};
+
+const METRIKA_FORM_GOAL = "FeedbackFormSend";
+const METRIKA_MESSENGERS_GOAL = "link_tg";
+
+const dispatchPreventedClicks = async (page, selector) =>
+  page.evaluate((selector) => {
+    const links = Array.from(document.querySelectorAll(selector));
+    for (const link of links) {
+      link.addEventListener("click", (e) => e.preventDefault(), { once: true });
+      link.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    }
+    return links.map((a) => a.getAttribute("href"));
+  }, selector);
+
 /** На узкой вьюпорте синтетический mouse-click Playwright не всегда даёт цепочку как у тапа; `el.click()` стабильно вызывает обработчик leave-request-cta. */
 const clickFloatingCtaProgrammatic = async (page) => {
   await page.locator("#body.body-application .footer__link.application").evaluate((el) => el.click());
@@ -58,6 +77,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
   try {
     {
       const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      await installMetrikaGoalRecorder(page);
       let popupFired = false;
       page.on("popup", () => {
         popupFired = true;
@@ -292,6 +312,38 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
 
     {
       const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      await installMetrikaGoalRecorder(page);
+      let popupFired = false;
+      page.on("popup", () => {
+        popupFired = true;
+      });
+      await page.goto(base, { waitUntil: "load", timeout: 60_000 });
+      await page.waitForSelector("header .menu-icon", { state: "attached", timeout: 20_000 });
+      await page.evaluate(() => window.scrollTo(0, 500));
+      await page.waitForTimeout(400);
+      await page.click("header .menu-icon", { force: true });
+      await page.waitForTimeout(500);
+      await dispatchPreventedClicks(
+        page,
+        'header .navigation-new__buttons a.navigation-new__button[href="https://t.me/Serenity_Agency_bot"], header .navigation-new__buttons a.navigation-new__button[href="https://wa.me/15557164521"]',
+      );
+      let metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify([METRIKA_MESSENGERS_GOAL, METRIKA_MESSENGERS_GOAL]),
+        `Бургер: CTA Telegram/WhatsApp должны отправлять единую цель мессенджеров, got ${JSON.stringify(metrikaGoals)}`,
+      );
+      await resetMetrikaGoalRecorder(page);
+      await dispatchPreventedClicks(page, 'header .footer-modern__social-icons a[href="https://vk.com/serenity.agency"], header .footer-modern__social-icons a[href="https://t.me/serenityagency"]');
+      metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify([]),
+        `Бургер: публичные VK/TG-иконки не должны считаться целью мессенджеров, got ${JSON.stringify(metrikaGoals)}`,
+      );
+      await page.close();
+    }
+
+    {
+      const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
       let popupFired = false;
       page.on("popup", () => {
         popupFired = true;
@@ -391,15 +443,23 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
       await page.waitForTimeout(400);
       await page.click("#body.body-application .application", { force: true });
       await page.waitForTimeout(400);
+      await dispatchPreventedClicks(page, "#desktop-order-popup .contact-form__messenger-links a");
+      let metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) ===
+          JSON.stringify([METRIKA_MESSENGERS_GOAL, METRIKA_MESSENGERS_GOAL, METRIKA_MESSENGERS_GOAL]),
+        `Десктоп: TG/WA/VK в форме должны отправлять одну цель мессенджеров, got ${JSON.stringify(metrikaGoals)}`,
+      );
+      await resetMetrikaGoalRecorder(page);
       await page.fill('#desktop-order-popup input[name="name"]', "Тест");
       await page.fill('#desktop-order-popup input[name="phone"]', "+79990000000");
       await page.fill('#desktop-order-popup input[name="email"]', "test@example.com");
       await page.click("#desktop-order-popup .form__submit", { force: true });
       await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
-      let metrikaGoals = await readMetrikaGoalNames(page);
+      metrikaGoals = await readMetrikaGoalNames(page);
       assert(
-        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа"]),
-        `Десктоп: успешный submit должен отправить только цель «Форма заказа», got ${JSON.stringify(metrikaGoals)}`,
+        JSON.stringify(metrikaGoals) === JSON.stringify([METRIKA_FORM_GOAL]),
+        `Десктоп: успешный submit должен отправить только цель формы, got ${JSON.stringify(metrikaGoals)}`,
       );
       const ty = await readThankYou(page);
       assert(ty.isThankYou, "Десктоп: после успешного submit модалка получает is-thank-you");
@@ -427,7 +487,7 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
       });
       metrikaGoals = await readMetrikaGoalNames(page);
       assert(
-        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа"]),
+        JSON.stringify(metrikaGoals) === JSON.stringify([METRIKA_FORM_GOAL]),
         `Десктоп: на «Спасибо» публичные TG/VK/Insta не считаются «Мессенджеры», got ${JSON.stringify(metrikaGoals)}`,
       );
       await page.evaluate(() => {
@@ -448,8 +508,8 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
       });
       metrikaGoals = await readMetrikaGoalNames(page);
       assert(
-        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа", "Мессенджеры"]),
-        `Десктоп: после экрана «Спасибо» только wa.me даёт «Мессенджеры» среди синтетических ссылок, got ${JSON.stringify(metrikaGoals)}`,
+        JSON.stringify(metrikaGoals) === JSON.stringify([METRIKA_FORM_GOAL]),
+        `Десктоп: синтетические ссылки вне формы/бургера не должны считаться целью мессенджеров, got ${JSON.stringify(metrikaGoals)}`,
       );
       await page.keyboard.press("Escape");
       await page.waitForTimeout(200);
@@ -480,8 +540,8 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
       await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
       const metrikaGoals = await readMetrikaGoalNames(page);
       assert(
-        JSON.stringify(metrikaGoals) === JSON.stringify(["Форма заказа"]),
-        `Мобайл: успешный submit должен отправить только цель «Форма заказа», got ${JSON.stringify(metrikaGoals)}`,
+        JSON.stringify(metrikaGoals) === JSON.stringify([METRIKA_FORM_GOAL]),
+        `Мобайл: успешный submit должен отправить только цель формы, got ${JSON.stringify(metrikaGoals)}`,
       );
       const tyM = await readThankYou(page);
       assert(tyM.isThankYou && tyM.hasFormSuccess, "Мобайл: экран благодарности после submit");
@@ -492,6 +552,36 @@ const base = process.env.LEAVE_CTA_TEST_BASE_URL || "http://127.0.0.1:8895/";
           tyM.linkHrefs[1] === "https://vk.com/serenity.agency" &&
           tyM.linkHrefs[2] === "https://www.instagram.com/serenity.agency/",
         `Мобайл: на «Спасибо» публичные TG, VK, Insta, got ${JSON.stringify(tyM.linkHrefs)}`,
+      );
+    }
+
+    {
+      const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+      await installMetrikaGoalRecorder(page);
+      await page.route("**/api/lead", (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ success: true }),
+        }),
+      );
+      await page.goto(base, { waitUntil: "load", timeout: 60_000 });
+      await page.evaluate(() => history.pushState({}, "", "/career/vacancy"));
+      await page.waitForSelector("header.header", { state: "attached", timeout: 20_000 });
+      await page.evaluate(() => window.scrollTo(0, 500));
+      await page.waitForTimeout(400);
+      await page.click("#body.body-application .application", { force: true });
+      await page.waitForTimeout(400);
+      await dispatchPreventedClicks(page, "#desktop-order-popup .contact-form__messenger-links a");
+      await page.fill('#desktop-order-popup input[name="name"]', "Career");
+      await page.fill('#desktop-order-popup input[name="phone"]', "+79990000001");
+      await page.fill('#desktop-order-popup input[name="email"]', "career@example.com");
+      await page.click("#desktop-order-popup .form__submit", { force: true });
+      await page.waitForSelector("#desktop-order-popup.is-thank-you #form-success", { timeout: 5_000 });
+      const metrikaGoals = await readMetrikaGoalNames(page);
+      assert(
+        JSON.stringify(metrikaGoals) === JSON.stringify([]),
+        `/career/*: форма и мессенджеры не должны отправлять цели, got ${JSON.stringify(metrikaGoals)}`,
       );
     }
 

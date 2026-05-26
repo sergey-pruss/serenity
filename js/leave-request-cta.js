@@ -15,8 +15,8 @@
   const INLINE_FORM_WRAP_ID = "sa-inline-lead-form-wrap";
   const LEAD_API_FALLBACK = "https://serenity.sergeyprus.workers.dev/api/lead";
   const METRIKA_COUNTER_ID = 30205029;
-  const METRIKA_FORM_GOAL = "Форма заказа";
-  const METRIKA_MESSENGERS_GOAL = "Мессенджеры";
+  const METRIKA_FORM_GOAL = "FeedbackFormSend";
+  const METRIKA_MESSENGERS_GOAL = "link_tg";
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   /** Публичный канал: экран «Спасибо» (текст про соцсети). Не подменять ссылкой на бота. */
   const TELEGRAM_PUBLIC_CHANNEL_HREF = "https://t.me/serenityagency";
@@ -237,7 +237,13 @@
 
   const isDesktop = () => window.innerWidth > BOTTOM_BAR_MAX_WIDTH;
 
+  const isCareerGoalsSuppressedPage = () => {
+    const path = String(window.location.pathname || "").replace(/\/+$/, "").toLowerCase();
+    return path === "/career" || path.startsWith("/career/");
+  };
+
   const reachMetrikaGoal = (goalName) => {
+    if (isCareerGoalsSuppressedPage()) return;
     if (typeof window.ym !== "function") return;
     try {
       window.ym(METRIKA_COUNTER_ID, "reachGoal", goalName);
@@ -256,10 +262,17 @@
     }
     const host = url.hostname.replace(/^www\./, "").toLowerCase();
     const path = url.pathname.replace(/\/+$/, "").toLowerCase();
-    if (host === "vk.me") return true;
-    if (host === "wa.me" || host === "api.whatsapp.com") return true;
+    if (host === "vk.me" && path === "/serenity.agency") return true;
+    if (host === "wa.me" && path === "/15557164521") return true;
+    if (host === "api.whatsapp.com" && path === "/send" && url.searchParams.get("phone") === "15557164521") return true;
     if ((host === "t.me" || host === "telegram.me") && path === "/serenity_agency_bot") return true;
-    return (host === "serenity.agency" || host === window.location.hostname.toLowerCase()) && path === "/telegram";
+    return false;
+  };
+
+  const isMessengerGoalLink = (link) => {
+    if (!link || !isMessengerGoalHref(link.getAttribute("href") || link.href)) return false;
+    if (link.closest(".contact-form__messenger-links")) return true;
+    return !!link.closest("header .navigation-new__buttons");
   };
 
   const initMessengerGoalTracking = () => {
@@ -267,7 +280,7 @@
       "click",
       (e) => {
         const link = e.target?.closest?.("a[href]");
-        if (!link || !isMessengerGoalHref(link.getAttribute("href") || link.href)) return;
+        if (!isMessengerGoalLink(link)) return;
         reachMetrikaGoal(METRIKA_MESSENGERS_GOAL);
       },
       true,
