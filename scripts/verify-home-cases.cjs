@@ -1,54 +1,15 @@
 /**
  * Проверка главного блока кейсов: 8 карточек перед ссылкой "Смотреть больше кейсов".
  */
-const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
 
-const root = path.resolve(__dirname, "..");
-const { stripSerenitySnapshotPrefix } = require("./strip-serenity-snapshot-prefix.cjs");
-const mimes = {
-  ".html": "text/html; charset=utf-8",
-  ".js": "application/javascript; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".webp": "image/webp",
-  ".gif": "image/gif",
-  ".png": "image/png",
-  ".svg": "image/svg+xml",
-  ".mp4": "video/mp4",
-  ".woff": "font/woff",
-  ".woff2": "font/woff2",
-};
-const noCache = {
-  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-  Pragma: "no-cache",
-  Expires: "0",
-};
+const { startStaticServer, root } = require("./lib/test-static-server.cjs");
 
 const assert = (ok, message) => {
   if (!ok) throw new Error(message);
 };
-
-const startStaticServer = (port) =>
-  new Promise((resolve, reject) => {
-    const server = http.createServer((req, res) => {
-      let u = stripSerenitySnapshotPrefix((req.url || "/").split("?")[0]);
-      if (u === "/") u = "/index.html";
-      const file = path.join(root, u.replace(/^\//, ""));
-      if (!file.startsWith(root) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
-        res.writeHead(404, noCache);
-        return res.end("Not found");
-      }
-      for (const k of Object.keys(noCache)) res.setHeader(k, noCache[k]);
-      res.setHeader("Content-Type", mimes[path.extname(file).toLowerCase()] || "application/octet-stream");
-      fs.createReadStream(file).pipe(res);
-    });
-    server.on("error", reject);
-    server.listen(port, "127.0.0.1", () => resolve(server));
-  });
 
 (async () => {
   const data = JSON.parse(fs.readFileSync(path.join(root, "json", "cases-all.json"), "utf8"));

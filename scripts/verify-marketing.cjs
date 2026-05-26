@@ -50,7 +50,7 @@ async function run() {
   );
   assert(
     html.includes(
-      'property="og:image" content="https://serenity.agency/admin/wp-content/uploads/2018/10/10-1.jpg"',
+      'property="og:image" content="https://serenity.agency/_sa/img/services/marketing/hero/10-1-1600x900.jpg"',
     ),
     "og:image marketing",
   );

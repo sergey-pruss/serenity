@@ -13,8 +13,12 @@ compare/*
 !.cursor/rules/*.mdc
 # Шаблон MCP для Cursor; рабочий `.cursor/mcp.json` и секреты — локально (`bash scripts/mcp/bootstrap.sh`).
 !.cursor/mcp.json.example
+# Переменные окружения (API-ключи, токены и т.п.) — не коммитить.
+.env
+.env.*
 # OAuth-токены и ключи GSC (создаётся bootstrap, не коммитить).
 secrets/
+logs/
 .claude/
 # Cursor Continue — локально, не в git и не в rsync/Worker assets.
 .continue/

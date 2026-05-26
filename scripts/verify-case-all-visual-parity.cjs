@@ -2,73 +2,15 @@
  * Визуальный parity-тест шапки блока кейсов:
  * сравнивает ключевые метрики локальной /case/all/ с оригиналом serenity.agency/case/all.
  */
-const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
 
-const root = path.resolve(__dirname, "..");
-const { stripSerenitySnapshotPrefix } = require("./strip-serenity-snapshot-prefix.cjs");
-
-function resolveStaticFile(urlPath) {
-  let p = stripSerenitySnapshotPrefix(urlPath.split("?")[0]);
-  if (!p || p === "/") return path.join(root, "index.html");
-  if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
-  const rel = p.replace(/^\/+/, "");
-  const full = path.join(root, rel);
-  if (!full.startsWith(root) || !fs.existsSync(full)) return null;
-  const st = fs.statSync(full);
-  if (st.isFile()) return full;
-  if (st.isDirectory()) {
-    const idx = path.join(full, "index.html");
-    if (fs.existsSync(idx)) return idx;
-  }
-  return null;
-}
-
-const mimes = {
-  ".html": "text/html; charset=utf-8",
-  ".js": "application/javascript; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".webp": "image/webp",
-  ".png": "image/png",
-  ".svg": "image/svg+xml",
-  ".gif": "image/gif",
-  ".ico": "image/x-icon",
-  ".woff": "font/woff",
-  ".woff2": "font/woff2",
-  ".mp4": "video/mp4",
-};
-
-const noCache = {
-  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-  Pragma: "no-cache",
-  Expires: "0",
-};
+const { startStaticServer, root } = require("./lib/test-static-server.cjs");
 
 const assert = (ok, msg) => {
   if (!ok) throw new Error(msg);
 };
-
-const startStaticServer = (port) =>
-  new Promise((resolve, reject) => {
-    const server = http.createServer((req, res) => {
-      const urlPath = (req.url || "/").split("?")[0];
-      const file = resolveStaticFile(urlPath);
-      if (!file) {
-        res.writeHead(404, noCache);
-        return res.end("Not found");
-      }
-      for (const k of Object.keys(noCache)) res.setHeader(k, noCache[k]);
-      res.setHeader("Content-Type", mimes[path.extname(file).toLowerCase()] || "application/octet-stream");
-      fs.createReadStream(file).pipe(res);
-    });
-    server.on("error", reject);
-    server.listen(port, "127.0.0.1", () => resolve(server));
-  });
 
 async function collectMetrics(page, selectors) {
   return page.evaluate((sels) => {

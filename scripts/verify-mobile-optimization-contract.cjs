@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
 
-const root = path.join(__dirname, "..");
+const { startStaticServer, root } = require("./lib/test-static-server.cjs");
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
@@ -61,55 +60,9 @@ assert(
   "js/app.js: lazy case video hydration должна учитывать saveData/slow network",
 );
 
-const mimes = {
-  ".html": "text/html; charset=utf-8",
-  ".js": "application/javascript; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".webp": "image/webp",
-  ".png": "image/png",
-  ".svg": "image/svg+xml",
-  ".gif": "image/gif",
-  ".ico": "image/x-icon",
-  ".woff2": "font/woff2",
-  ".mp4": "video/mp4",
-};
-
-function resolveStaticFile(urlPath) {
-  let cleanPath = decodeURIComponent(urlPath.split("?")[0]);
-  if (cleanPath.startsWith("/_sa/")) cleanPath = `/${cleanPath.slice(5)}`;
-  if (cleanPath === "/") return path.join(root, "index.html");
-  const candidate = path.join(root, cleanPath.replace(/^\/+/, ""));
-  if (!candidate.startsWith(root)) return null;
-  if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
-  if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
-    const indexFile = path.join(candidate, "index.html");
-    if (fs.existsSync(indexFile)) return indexFile;
-  }
-  return null;
-}
-
-function startServer() {
-  return new Promise((resolve, reject) => {
-    const server = http.createServer((req, res) => {
-      const file = resolveStaticFile(req.url || "/");
-      if (!file) {
-        res.writeHead(404);
-        res.end("Not found");
-        return;
-      }
-      res.setHeader("Content-Type", mimes[path.extname(file).toLowerCase()] || "application/octet-stream");
-      fs.createReadStream(file).pipe(res);
-    });
-    server.on("error", reject);
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
 
 async function verifyMobileRuntime() {
-  const server = await startServer();
+  const server = await startStaticServer(0);
   const { port } = server.address();
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true });

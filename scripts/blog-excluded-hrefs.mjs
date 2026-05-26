@@ -30,11 +30,6 @@ export function excludedBlogHrefVariants() {
   return [...new Set(out.filter(Boolean))];
 }
 
-/** @deprecated используйте excludedBlogHrefVariants */
-export function excludedBlogArticleHrefVariants() {
-  return excludedBlogHrefVariants();
-}
-
 /** Оставляем текст ссылки, убираем мёртвый URL (без «дыры» в предложении). */
 function unwrapAnchorsByHref(html, href) {
   if (!href) return html;
