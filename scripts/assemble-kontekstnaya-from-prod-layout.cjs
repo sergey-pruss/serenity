@@ -821,7 +821,7 @@ function run() {
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260527kontekstVidyRowGrid\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260528kontekstAdvantagesAlign\" />",
     deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260527kontekstPackagesCompareH"),
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),

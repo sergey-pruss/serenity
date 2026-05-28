@@ -49,6 +49,17 @@ function applyVidyDescByRow(section) {
   return section.slice(0, descOpen) + rebuilt + section.slice(tabletOpen);
 }
 
+function buildKontekstAdvantagesCompactSection() {
+  return `<section class="page-constructor__section"><div class="advantages"><div class="page__container desktop"><div data-v-1aed48bd="" class="advantages-card advantages-card--kontekst-mini"><div data-v-1aed48bd="" class="advantages-card__content"><ul data-v-1aed48bd="" class="advantages-card__content-list"><li data-v-1aed48bd="" class="advantages-card__content-item"><div data-v-1aed48bd="" class="advantages-card__content-image"><img data-v-1aed48bd="" src="/_sa/img/storage__bZbyJclDTGjFeyZcd0uz0G7fRIZVZwNIiSLPqoSa.png" alt="Контекстная реклама — факт 1"></div> <div data-v-1aed48bd="" class="advantages-card__content-info"><h3 data-v-1aed48bd="" class="advantages-card__content-title">1000+</h3> <div data-v-1aed48bd="" class="advantages-card__content-text">Оплат приносит наша реклама</div></div></li><li data-v-1aed48bd="" class="advantages-card__content-item"><div data-v-1aed48bd="" class="advantages-card__content-image"><img data-v-1aed48bd="" src="/_sa/img/storage__rmJphtPKaYSrq3klp9VGbISG6xyjAeAKAlqtBMxt.png" alt="Контекстная реклама — факт 2"></div> <div data-v-1aed48bd="" class="advantages-card__content-info"><h3 data-v-1aed48bd="" class="advantages-card__content-title">6+&nbsp;лет</h3> <div data-v-1aed48bd="" class="advantages-card__content-text">Работы с клиентами</div></div></li><li data-v-1aed48bd="" class="advantages-card__content-item"><div data-v-1aed48bd="" class="advantages-card__content-image"><img data-v-1aed48bd="" src="/_sa/img/storage__yklhuDG3FTH1d2ZDNOQvx3OXSy3KaM31bhq9LNM3.png" alt="Контекстная реклама — факт 3"></div> <div data-v-1aed48bd="" class="advantages-card__content-info"><h3 data-v-1aed48bd="" class="advantages-card__content-title">ТОП-50</h3> <div data-v-1aed48bd="" class="advantages-card__content-text">По контекстной рекламе в РФ</div></div></li></ul></div></div></div></div></section>`;
+}
+
+function stripKontekstAdvantagesCompactSection(html) {
+  return html.replace(
+    /<section class="page-constructor__section"><div class="advantages"><div class="page__container desktop"><div data-v-1aed48bd="" class="advantages-card advantages-card--kontekst-mini">[\s\S]*?<\/section>\s*/g,
+    "",
+  );
+}
+
 function extractCasesBlocksFromHtml(html) {
   const re = /<section class="page-constructor__section">[\s\S]*?<\/section>/g;
   const blocks = [];
@@ -142,6 +153,8 @@ function buildKontekstnayaMiddle(cases1, cases2, cases3, packagesSec, diesSec, t
   const [kpiSec, reportSec, mskSec] = buildKpiSections();
   return (
     "\n" +
+    buildKontekstAdvantagesCompactSection() +
+    "\n" +
     buildAgencySection() +
     "\n" +
     buildSetupSection() +
@@ -175,6 +188,7 @@ function buildKontekstnayaMiddle(cases1, cases2, cases3, packagesSec, diesSec, t
  * Подменяет сегмент от «Агентство» до «Команда» на пользовательский порядок блоков.
  */
 function applyKontekstnayaSeoMiddle(mainHtml) {
+  mainHtml = stripKontekstAdvantagesCompactSection(mainHtml);
   let cases = extractCasesBlocksFromHtml(mainHtml);
   if (cases.length !== 3) {
     cases = loadProdCasesBlocksFallback();
