@@ -1,6 +1,6 @@
 /**
- * Середина page-constructor между «Агентство» и «Пакеты»:
- * три cases-block с prod + SEO content-block из kontekstnaya-seo-sections.
+ * Пересборка порядка блоков page-constructor для /kontekstnaya_reklama.
+ * Используем 3 cases-block из prod и SEO content-block из kontekstnaya-seo-sections.
  */
 const fs = require("fs");
 const path = require("path");
@@ -9,7 +9,7 @@ const {
   buildSetupSection,
   buildManageSection,
   buildVidySection,
-  buildPochmuSection,
+  buildKpiSections,
 } = require("./kontekstnaya-seo-sections.cjs");
 
 const root = path.resolve(__dirname, "..", "..");
@@ -91,34 +91,88 @@ function sectionBounds(html, marker) {
   const idx = html.indexOf(marker);
   if (idx < 0) throw new Error(`kontekstnaya-main-middle: marker not found: ${marker}`);
   const start = html.lastIndexOf('<section class="page-constructor__section">', idx);
-  const end = html.indexOf("</section>", idx) + "</section>".length;
-  return { start, end };
+  if (start < 0) {
+    throw new Error(`kontekstnaya-main-middle: section start not found for marker: ${marker}`);
+  }
+  const OPEN = "<section";
+  const CLOSE = "</section>";
+  let pos = start;
+  let depth = 0;
+  while (pos < html.length) {
+    const openIdx = html.indexOf(OPEN, pos);
+    const closeIdx = html.indexOf(CLOSE, pos);
+    if (closeIdx < 0) break;
+    if (openIdx >= 0 && openIdx < closeIdx) {
+      depth++;
+      pos = openIdx + OPEN.length;
+      continue;
+    }
+    depth--;
+    if (depth === 0) {
+      const end = closeIdx + CLOSE.length;
+      return { start, end };
+    }
+    pos = closeIdx + CLOSE.length;
+  }
+  throw new Error(`kontekstnaya-main-middle: section end not found for marker: ${marker}`);
 }
 
-function buildKontekstnayaMiddle(cases1, cases2, cases3) {
+function diesSectionBounds(html) {
+  const marker = 'class="dies modern"';
+  const idx = html.indexOf(marker);
+  if (idx < 0) throw new Error("kontekstnaya-main-middle: marker not found: dies");
+  const start = html.lastIndexOf('<section class="page-constructor__section">', idx);
+  const endMarker = "</section></div></div></section>";
+  const endIdx = html.indexOf(endMarker, idx);
+  if (start < 0 || endIdx < 0) {
+    throw new Error("kontekstnaya-main-middle: dies section boundaries not found");
+  }
+  return { start, end: endIdx + endMarker.length };
+}
+
+function packagesSectionBounds(html) {
+  try {
+    return sectionBounds(html, ">Стоимость и пакеты</h2>");
+  } catch (_) {
+    return sectionBounds(html, ">Пакеты</h2>");
+  }
+}
+
+function buildKontekstnayaMiddle(cases1, cases2, cases3, packagesSec, diesSec, teamSec) {
+  const [kpiSec, reportSec, mskSec] = buildKpiSections();
   return (
     "\n" +
     buildAgencySection() +
-    "\n" +
-    cases1 +
-    "\n" +
-    buildPochmuSection() +
-    "\n" +
-    cases2 +
     "\n" +
     buildSetupSection() +
     "\n" +
     buildManageSection() +
     "\n" +
+    cases1 +
+    "\n" +
     applyVidyDescByRow(buildVidySection()) +
     "\n" +
+    packagesSec +
+    "\n" +
+    diesSec +
+    "\n" +
+    cases2 +
+    "\n" +
+    kpiSec +
+    "\n" +
+    reportSec +
+    "\n" +
     cases3 +
+    "\n" +
+    mskSec +
+    "\n" +
+    teamSec +
     "\n"
   );
 }
 
 /**
- * Подменяет prod-середину (от «Агентство» до «Пакеты») на SEO-версии + три слайдера кейсов.
+ * Подменяет сегмент от «Агентство» до «Команда» на пользовательский порядок блоков.
  */
 function applyKontekstnayaSeoMiddle(mainHtml) {
   let cases = extractCasesBlocksFromHtml(mainHtml);
@@ -127,13 +181,31 @@ function applyKontekstnayaSeoMiddle(mainHtml) {
   }
 
   const agency = sectionBounds(mainHtml, ">Агентство контекстной рекламы</h2>");
-  const pakety = sectionBounds(mainHtml, ">Пакеты</h2>");
-  const middle = buildKontekstnayaMiddle(cases[0], cases[1], cases[2]);
+  const pakety = packagesSectionBounds(mainHtml);
+  const dies = diesSectionBounds(mainHtml);
+  const team = sectionBounds(mainHtml, ">Команда</h2>");
+  const packagesSec = mainHtml
+    .slice(pakety.start, pakety.end)
+    .replace(/>Пакеты<\/h2>/g, ">Стоимость и пакеты</h2>");
+  const diesSec = mainHtml.slice(dies.start, dies.end);
+  const teamSec = mainHtml.slice(team.start, team.end);
+  const middle = buildKontekstnayaMiddle(
+    cases[0],
+    cases[1],
+    cases[2],
+    packagesSec,
+    diesSec,
+    teamSec,
+  );
 
-  const out = mainHtml.slice(0, agency.start) + middle + mainHtml.slice(pakety.start);
+  const out = mainHtml.slice(0, agency.start) + middle + mainHtml.slice(team.end);
   const count = (out.match(/class="cases-block"/g) || []).length;
   if (count !== 3) {
     throw new Error(`applyKontekstnayaSeoMiddle: cases-block count ${count}, expected 3`);
+  }
+  const pochmuCount = (out.match(/Почему работать с&nbsp;нами надежно и&nbsp;выгодно/g) || []).length;
+  if (pochmuCount !== 0) {
+    throw new Error(`applyKontekstnayaSeoMiddle: pochmu count ${pochmuCount}, expected 0`);
   }
   return out;
 }

@@ -1263,13 +1263,56 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
+ * «Виды контекстной рекламы»: только заголовки карточек — desc-сетка по рядам (3×2),
+ * иначе при колоночном стеке второй ряд съезжает по вертикали.
+ */
+@media screen and (min-width: 721px) {
+  body .modern.content-block .content-block__grid.content-block__grid--desc-by-row.blocks {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    row-gap: 57px;
+    column-gap: 0;
+    width: 100%;
+  }
+
+  body .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    column-gap: 75px;
+    width: 100%;
+  }
+
+  body .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper > .col-4 {
+    flex: 1 1 0;
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  body .modern.content-block .content-block__grid.content-block__grid--desc-by-row.blocks {
+    display: none !important;
+  }
+}
+
+/*
  * Этапы / форматы (content-block): полоса текста уже на ~15 % за счёт поля справа
  * (слева — по линии контента, как у заголовка).
  */
 @media screen and (min-width: 721px) {
+  /* Как на /targeting: не ограничиваем ширину правого описания в header content-block. */
+  body .page-constructor .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
   body .modern.content-block .block-item {
     padding-left: 0;
-    padding-right: 15%;
+    /* Как на /targeting: описание карточек не сужаем дополнительным правым полем. */
+    padding-right: 0;
     box-sizing: border-box;
   }
 
