@@ -194,12 +194,27 @@ async function run() {
     "HTML: таблица пакетов — не отдельная page-constructor__section",
   );
   {
-    const iSlider = html.indexOf("prices__packages-slider");
+    const iPackagesHeading = html.indexOf(">Пакеты</h2>");
     const iCompare = html.indexOf("kontekst-packages-compare-mounted");
-    const iLead = html.indexOf("sa-service-lead-section");
+    const iSlider = html.indexOf("prices__packages-slider");
+    const iLead = html.indexOf('id="sa-inline-lead-root"');
+    const pkSecStart = html.lastIndexOf("<section", iPackagesHeading);
+    const pkSecEnd = html.indexOf("</section>", iPackagesHeading) + "</section>".length;
+    const diesIdx = html.indexOf("dies modern");
+    const diesSecStart = html.lastIndexOf("<section", diesIdx);
+    const diesSecEnd = html.indexOf("</section>", diesIdx) + "</section>".length;
+    assert(
+      iPackagesHeading >= 0 &&
+        !html.slice(pkSecStart, pkSecEnd).includes("kontekst-packages-compare-mounted"),
+      "HTML: в секции-заголовке «Пакеты» нет таблицы (только h2)",
+    );
+    assert(
+      iCompare >= diesSecStart && iCompare < diesSecEnd,
+      "HTML: таблица сравнения — внутри .dies",
+    );
     assert(
       iSlider >= 0 && iCompare > iSlider && iLead > iCompare,
-      "HTML: порядок — слайдер пакетов → таблица сравнения → инлайн-форма",
+      "HTML: порядок — слайдер → таблица в .dies → инлайн-форма",
     );
   }
   assert(

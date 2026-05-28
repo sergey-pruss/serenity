@@ -23,6 +23,8 @@
  * Таблица «Сравнение пакетов» — partial html/partials/services/packages-compare-kontekstnaya-reklama.html
  * (внутри .dies/.prices после слайдера карточек; css/sections/kontekstnaya-packages-compare.css).
  *
+ * Середина страницы (Агентство → 3×cases + SEO content-blocks → Пакеты) — applyKontekstnayaSeoMiddle
+ * (scripts/lib/kontekstnaya-main-middle.cjs + kontekstnaya-seo-sections.cjs), не править вручную в index.
  * Порядок секций в срезе prod: «Пакеты» + тарифы + inline-форма до блока «Вопрос-ответ» (partial); перенос не делаем.
  * Строки «Рекламный бюджет» под ценой — ensureKontekstnayaPriceCardAdBudgetLines;
  * col-6→col-4 в плоском срезе — ensureKontekstnayaPriceCardThreeColumns; слайдер пакетов — ensureKontekstnayaPackagesSliderMarkup;
@@ -37,6 +39,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.cjs");
+const { applyKontekstnayaSeoMiddle } = require("./lib/kontekstnaya-main-middle.cjs");
 const { syncFaqBodyHtmlJsonLd } = require("./lib/build-faq-page-jsonld.cjs");
 const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
 
@@ -422,7 +425,7 @@ function injectKontekstnayaSynergyFromPartial(mainHtml) {
   return `${mainHtml.slice(0, i0)}${partial}\n${mainHtml.slice(i1)}`;
 }
 
-/** Таблица «Сравнение пакетов» внутри .dies после слайдера тарифов (дополнение к блоку «Пакеты»). */
+/** Таблица «Сравнение пакетов» внутри .dies/.prices после слайдера (как prod). */
 function injectKontekstnayaPackagesCompareFromPartial(mainHtml) {
   if (mainHtml.includes('id="kontekst-packages-compare-mounted"')) return mainHtml;
   const partialPath = path.join(
@@ -438,14 +441,14 @@ function injectKontekstnayaPackagesCompareFromPartial(mainHtml) {
   }
   const partial = fs.readFileSync(partialPath, "utf8").trim();
   const insertRe =
-    /("price":"149000\.00","availability":"https:\/\/schema\.org\/InStock"}}<\/script><\/div><\/div><\/div><\/div><\/div>)(<\/section><\/div><\/div><\/section>)/;
+    /("price":"149000\.00","availability":"https:\/\/schema\.org\/InStock"}}<\/script><\/div><\/div><\/div><\/div><\/div>)/;
   if (!insertRe.test(mainHtml)) {
     console.warn(
-      "assemble: не найден якорь вставки таблицы пакетов (Расширенный JSON-LD + закрытие .dies) — пропущено",
+      "assemble: не найден якорь вставки таблицы пакетов (Расширенный JSON-LD) — пропущено",
     );
     return mainHtml;
   }
-  return mainHtml.replace(insertRe, `$1\n${partial}\n$2`);
+  return mainHtml.replace(insertRe, `$1\n${partial}\n`);
 }
 
 /**
@@ -779,6 +782,8 @@ function run() {
     process.exit(1);
   }
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
+  main = applyKontekstnayaSeoMiddle(main);
+  console.log("assemble-kontekstnaya: applyKontekstnayaSeoMiddle (3 cases + SEO content-blocks)");
   main = sanitizeKontekstnayaProductJsonLd(main);
   main = injectKontekstnayaFaqFromPartial(main);
   main = ensureKontekstnayaPriceCardAdBudgetLines(main);
@@ -816,8 +821,8 @@ function run() {
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260523serviceHeroTop\" />",
-    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260521kontekstPackagesCompareG"),
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/kontekstnaya-reklama-static-stack.css?v=20260527kontekstVidyRowGrid\" />",
+    deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260527kontekstPackagesCompareH"),
     deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",
