@@ -402,14 +402,125 @@ export function entryHasSerpCapture(entry) {
     src === "serp-interactive" ||
     src === "serp-interactive-verified" ||
     src === "serp-interactive-google-p1" ||
+    src === "yandex-xmlriver" ||
+    src === "google-xmlriver" ||
     /^serp-interactive\b/.test(src)
   );
 }
 
+/** @param {RankEntry | null | undefined} entry */
+export function isSerpCellComplete(entry) {
+  if (!entry) return false;
+  if (entry.source === "manual") return true;
+  const src = String(entry.source || "");
+  if (!src || /blocked|error:/i.test(src)) return false;
+  return true;
+}
+
 /**
- * Ячейки, которые стоит переснять: Google (регион/URL менялись), Яндекс 11–20 (риск парсера).
+ * @param {RankDashboard} dash
+ * @param {string} date
+ */
+export function findEntryForDate(dash, date, pageId, queryId, engine, region) {
+  const check = dash.checks.find((c) => c.date === date);
+  if (!check) return null;
+  return findEntryInList(check.entries, pageId, queryId, engine, region) ?? null;
+}
+
+/**
+ * @param {RankDashboard} dash
  * @param {RankEntry} entry
  */
+export function getPanelAvgForEntry(dash, entry) {
+  const row = dash.panels?.byQuery?.[`${entry.pageId}|${entry.queryId}`];
+  if (!row) return null;
+  if (entry.engine === "google") {
+    const v = row.gsc?.avgPosition;
+    return typeof v === "number" ? v : null;
+  }
+  const v = row.yandex?.avgShowPosition;
+  return typeof v === "number" ? v : null;
+}
+
+export function panelVerifyMaxAvg() {
+  const n = Number(process.env.RANK_PANEL_VERIFY_MAX_AVG || String(ORGANIC_TARGET));
+  return Number.isFinite(n) ? n : ORGANIC_TARGET;
+}
+
+/**
+ * @param {RankDashboard} dash
+ * @param {RankEntry} entry
+ */
+export function entryPanelMismatchSuggested(dash, entry) {
+  if (!entry || entry.position != null) return false;
+  if (typeof entry.source === "string" && entry.source.startsWith("error:")) return false;
+  const avg = getPanelAvgForEntry(dash, entry);
+  return avg != null && avg <= panelVerifyMaxAvg();
+}
+
+const API_SERP_SOURCE_RE = /xmlriver|search-api|apify|serper|yandex-search-api|google-serper-api/i;
+
+/**
+ * @param {RankDashboard} dash
+ * @param {RankEntry} entry
+ * @param {string} [checkDate]
+ */
+export function entrySerpDisputedSuggested(dash, entry, checkDate) {
+  if (!entry || entry.engine !== "yandex") return false;
+  if (entry.source === "manual" || entry.source === "serp-interactive-verified") return false;
+  if (!entryHasSerpCapture(entry)) return false;
+  if (!API_SERP_SOURCE_RE.test(String(entry.source || ""))) return false;
+
+  if (entryPanelMismatchSuggested(dash, entry)) return true;
+
+  const date =
+    checkDate || [...dash.checks].map((c) => c.date).sort().pop() || "";
+  if (date) {
+    const prevDate = dash.checks
+      .map((c) => c.date)
+      .filter((d) => d < date)
+      .sort()
+      .pop();
+    if (prevDate) {
+      const prev = findEntryForDate(
+        dash,
+        prevDate,
+        entry.pageId,
+        entry.queryId,
+        entry.engine,
+        entry.region,
+      );
+      if (
+        prev &&
+        prev.position != null &&
+        prev.position <= ORGANIC_TARGET &&
+        (entry.position == null || !isSerpCellComplete(entry))
+      ) {
+        return true;
+      }
+    }
+  }
+
+  const panelAvg = getPanelAvgForEntry(dash, entry);
+  const gap = Number(process.env.SERP_DISPUTED_PANEL_GAP || "10");
+  if (panelAvg != null && entry.position != null && entry.position > panelAvg + gap) {
+    return true;
+  }
+
+  return entryYandexRecheckSuggested(dash, entry);
+}
+
+/**
+ * @param {RankDashboard} dash
+ * @param {string} date
+ * @returns {RankEntry[]}
+ */
+export function listDisputedSerpCellsForDate(dash, date) {
+  const check = dash.checks.find((c) => c.date === date);
+  if (!check) return [];
+  return check.entries.filter((e) => entrySerpDisputedSuggested(dash, e, date));
+}
+
 /**
  * Яндекс: в отчёте >20, но в Вебмастере средняя позиция ≤20 — переснять.
  * @param {RankDashboard} dash

@@ -35,6 +35,7 @@ import {
   yandexOrganicUrlFromNodeText,
   yandexOrganicUrlFromPathText,
 } from "./yandex-organic-url.mjs";
+import { captchaSolverEnabled, trySolveSerpCaptcha } from "./serp-captcha-solver.mjs";
 
 export const SERP_INTERACTIVE = process.env.SERP_INTERACTIVE === "1";
 
@@ -246,6 +247,15 @@ async function captchaCleared(page) {
  * @param {string} [contextLabel]
  */
 async function waitForSerpCaptchaClear(page, contextLabel = "Яндекс") {
+  if (captchaSolverEnabled()) {
+    const engine = contextLabel.startsWith("Google") ? "google" : "yandex";
+    const solved = await trySolveSerpCaptcha(page, { engine, label: contextLabel });
+    if (solved && (await captchaCleared(page))) {
+      yandexCaptchaSessionOk = true;
+      return;
+    }
+  }
+
   if (yandexCaptchaSessionOk && (await captchaCleared(page))) {
     return;
   }
@@ -832,7 +842,11 @@ export async function fetchOrganicTop(page, query, engine, regionId, stopCtx = n
   }
   await safePageDelay(page, serpFetchDelayMs());
 
-  const blocked = await isBlockedPage(page);
+  let blocked = await isBlockedPage(page);
+  if (blocked && captchaSolverEnabled()) {
+    const solved = await trySolveSerpCaptcha(page, { engine });
+    if (solved) blocked = await isBlockedPage(page);
+  }
   if (blocked) {
     return { searchUrl, blocked: true, results: [] };
   }

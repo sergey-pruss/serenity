@@ -10,7 +10,9 @@ import {
   DEFAULT_RANK_DASHBOARD_PATH,
   entryHasSerpCapture,
   entryIsDoubtfulForRefetch,
+  entrySerpDisputedSuggested,
   entryYandexRecheckSuggested,
+  listDisputedSerpCellsForDate,
   findSerenityPosition,
   getPage,
   loadRankDashboard,
@@ -75,7 +77,10 @@ function usage() {
   SERP_REFETCH_DOUBTFUL=1      Google все + Яндекс поз. 11–20 (npm run …:refetch-doubtful)
   SERP_REFETCH_DOUBTFUL_YANDEX_OUT=1  с DOUBTFUL — ещё Яндекс «>20»
   SERP_REFETCH_YANDEX_RECHECK=1       Яндекс: >20 при ВМ ≤20, поз. 11–20, blocked (npm run …:refetch-yandex-recheck)
+  SERP_REFETCH_DISPUTED=1        спорные API-ячейки (npm run …:serp:disputed)
+  SERP_CAPTCHA_SOLVER=1          RuCaptcha SmartCaptcha (RUCAPTCHA_API_KEY)
   SERP_LIST_DOUBTFUL=1         только список сомнительных ячеек, без браузера
+  SERP_LIST_DISPUTED=1           список спорных без браузера
 
 npm run seo:rank-dashboard:serp:missing — снять только ячейки без успешной съёмки за дату
 npm run seo:rank-dashboard:serp:refetch-yandex — переснять Яндекс >20 за сегодня
@@ -84,8 +89,8 @@ npm run seo:rank-dashboard:serp:list-doubtful — показать список 
 `);
 }
 
-/** @param {import('./lib/rank-dashboard-utils.mjs').RankEntry} entry @param {import('./lib/rank-dashboard-utils.mjs').RankDashboard} dash */
-function keepCellWithoutRefetch(entry, dash) {
+/** @param {import('./lib/rank-dashboard-utils.mjs').RankEntry} entry @param {import('./lib/rank-dashboard-utils.mjs').RankDashboard} dash @param {string} date */
+function keepCellWithoutRefetch(entry, dash, date) {
   if (entry.source === "manual") return true;
 
   if (process.env.SERP_ONLY_MISSING === "1") {
@@ -126,6 +131,11 @@ function keepCellWithoutRefetch(entry, dash) {
   if (process.env.SERP_REFETCH_YANDEX_RECHECK === "1") {
     if (entry.engine !== "yandex") return true;
     return !entryYandexRecheckSuggested(dash, entry);
+  }
+
+  if (process.env.SERP_REFETCH_DISPUTED === "1") {
+    if (entry.source === "serp-interactive-verified") return true;
+    return !entrySerpDisputedSuggested(dash, entry, date);
   }
 
   return true;
@@ -176,14 +186,15 @@ async function main() {
     process.env.SERP_REFETCH_FAILED === "1" ||
     process.env.SERP_REFETCH_DOUBTFUL === "1" ||
     process.env.SERP_REFETCH_GOOGLE === "1" ||
-    process.env.SERP_REFETCH_YANDEX_RECHECK === "1";
+    process.env.SERP_REFETCH_YANDEX_RECHECK === "1" ||
+    process.env.SERP_REFETCH_DISPUTED === "1";
   if (resumeOrRefetch) {
     const check = dash.checks.find((c) => c.date === date);
     let refetch = 0;
     if (check) {
       for (const e of check.entries) {
         const key = `${e.pageId}|${e.queryId}|${e.engine}|${e.region}`;
-        if (keepCellWithoutRefetch(e, dash)) {
+        if (keepCellWithoutRefetch(e, dash, date)) {
           existing.add(key);
         } else {
           refetch += 1;
@@ -207,10 +218,32 @@ async function main() {
           if (process.env.SERP_REFETCH_DOUBTFUL_YANDEX_OUT === "1") {
             kind += ", Яндекс >20";
           }
+        } else if (process.env.SERP_REFETCH_DISPUTED === "1") {
+          kind = "спорные (Яндекс API + RuCaptcha)";
         }
         console.log(`Refetch: переснять ${refetch} ячеек (${kind})`);
       }
     }
+  }
+
+  if (process.env.SERP_LIST_DISPUTED === "1") {
+    const disputed = listDisputedSerpCellsForDate(dash, date);
+    if (!disputed.length) {
+      console.log(`За ${date} спорных ячеек (API vs панель/регрессия) нет.`);
+      return;
+    }
+    console.log(`\nСпорные ячейки за ${date} (${disputed.length}):\n`);
+    for (const e of disputed) {
+      const page = getPage(dash, e.pageId);
+      const q = page.queries.find((x) => x.id === e.queryId);
+      const pos =
+        e.outOfTop20 || e.position == null ? `>${ORGANIC_TARGET}` : String(e.position);
+      console.log(
+        `  · ${page.title} | ${q?.text || e.queryId} | ${e.engine}/${e.region} → ${pos} (${e.source})`,
+      );
+    }
+    console.log("\nПереснять: npm run seo:rank-dashboard:serp:disputed");
+    return;
   }
 
   if (process.env.SERP_LIST_DOUBTFUL === "1" && process.env.SERP_REFETCH_DOUBTFUL === "1") {
@@ -319,16 +352,30 @@ async function main() {
 
   const needsGoogle = pending.some((c) => c.engine === "google");
   const needsYandex = pending.some((c) => c.engine === "yandex");
-  const useWebKit = SERP_INTERACTIVE && serpUseWebKit();
+  const useWebKit = SERP_INTERACTIVE && serpUseWebKit() && !process.env.SERP_CAPTCHA_SOLVER;
+
+  if (process.env.SERP_CAPTCHA_SOLVER === "1") {
+    const { captchaSolverEnabled, getCaptchaApiKey } = await import(
+      "./lib/serp-captcha-solver.mjs"
+    );
+    if (!captchaSolverEnabled()) {
+      console.error("SERP_CAPTCHA_SOLVER=1, но RUCAPTCHA_API_KEY не задан.");
+      process.exit(1);
+    }
+    console.log(`RuCaptcha: ключ ${getCaptchaApiKey()?.slice(0, 4)}…`);
+  }
 
   /** @type {import('playwright').Browser | null} */
   let chromiumBrowser = null;
   if ((needsGoogle || needsYandex) && !useWebKit) {
+    const stealth = SERP_INTERACTIVE || process.env.SERP_CAPTCHA_SOLVER === "1";
     chromiumBrowser = await chromium.launch({
       headless: !SERP_INTERACTIVE && process.env.SERP_HEADED !== "1",
       slowMo: 0,
-      ignoreDefaultArgs: SERP_INTERACTIVE ? ["--enable-automation"] : undefined,
-      args: SERP_INTERACTIVE ? ["--disable-blink-features=AutomationControlled"] : undefined,
+      ignoreDefaultArgs: stealth ? ["--enable-automation"] : undefined,
+      args: stealth
+        ? ["--disable-blink-features=AutomationControlled", "--no-sandbox"]
+        : undefined,
     });
   }
 
@@ -443,7 +490,11 @@ async function main() {
         position: hit.position,
         outOfTop20: hit.position == null,
         matchedUrl: hit.matchedUrl,
-        source: block.blocked ? "serp-interactive-blocked" : "serp-interactive",
+        source: block.blocked
+          ? "serp-interactive-blocked"
+          : process.env.SERP_CAPTCHA_SOLVER === "1"
+            ? "serp-interactive-verified"
+            : "serp-interactive",
       };
       upsertCheckEntry(dash, date, entry);
       saveRankDashboard(dash, dashPath);
