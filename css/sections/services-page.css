@@ -141,3 +141,42 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
     margin-bottom: 84px !important;
   }
 }
+
+/*
+  Карточки услуг на /services: клик и hover на всю плашку (как на главной).
+  ::after с ореолом перекрывает зону картинки; текст с z-index:1 кликабелен без фикса.
+  parity-sync делает то же на desktop+hover — здесь без ограничения медиа и с !important.
+*/
+.services-body .services__card[data-v-56f85d51]::after,
+.services-body .services__card::after {
+  pointer-events: none !important;
+}
+
+.services-body .services__card .services__card-container.services__card-container-img[data-v-56f85d51],
+.services-body .services__card .services__card-container.services__card-container-img,
+.services-body .services__card .services__card-container.services__card-container-text[data-v-56f85d51],
+.services-body .services__card .services__card-container.services__card-container-text {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.services-body .services__card .services__card-ccccc[data-v-56f85d51],
+.services-body .services__card .services__card-ccccc {
+  position: relative;
+  z-index: 1;
+}
+
+.services-body .services__card .services__card-ccccc .services__card-container-text[data-v-56f85d51],
+.services-body .services__card .services__card-ccccc .services__card-container-text {
+  height: 100%;
+}
+
+.services-body .services__card .services__card-img-wr[data-v-56f85d51],
+.services-body .services__card .services__card-img-wr,
+.services-body .services__card .services__card-img[data-v-56f85d51],
+.services-body .services__card .services__card-img {
+  pointer-events: none;
+}
