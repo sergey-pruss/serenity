@@ -1,4 +1,5 @@
 import { handleAmoFieldMapRequest, handleLeadRequest } from "./lead-api.mjs";
+import { handleLlmChatCompletions } from "./llm-proxy.mjs";
 
 /** Совпадает с nginx `/_sa/` → файлы из корня репозитория (css/, img/, …). Без префикса не перехватываем пути legacy. */
 const SNAPSHOT_PREFIX = "/_sa";
@@ -31,6 +32,9 @@ export default {
     }
     if (url.pathname === "/api/internal/amo-lead-field-map") {
       return handleAmoFieldMapRequest(request, env);
+    }
+    if (url.pathname === "/api/internal/llm-chat-completions") {
+      return handleLlmChatCompletions(request, env);
     }
 
     /** Как nginx `location = /robots.txt` → `robots.production.txt` (канон продакшена). */

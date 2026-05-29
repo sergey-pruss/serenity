@@ -3,6 +3,7 @@
  * Статика — на nginx (serenity.agency / static.serenity.agency), не в ASSETS.
  */
 import { handleAmoFieldMapRequest, handleLeadRequest } from "./lead-api.mjs";
+import { handleLlmChatCompletions } from "./llm-proxy.mjs";
 
 export default {
   async fetch(request, env) {
@@ -18,6 +19,9 @@ export default {
     }
     if (url.pathname === "/api/internal/amo-lead-field-map") {
       return handleAmoFieldMapRequest(request, env);
+    }
+    if (url.pathname === "/api/internal/llm-chat-completions") {
+      return handleLlmChatCompletions(request, env);
     }
 
     return new Response("Not found", { status: 404 });

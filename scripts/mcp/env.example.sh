@@ -8,12 +8,21 @@ export YANDEX_METRIKA_TOKEN=""
 # npm run seo:gsc-oauth-token:install
 # Google Таблица миграции — prus@serenity.ru, клиент Serenity SEO:
 # secrets/mcp/google-sheets-oauth-client.json + npm run seo:sheets-oauth:install
+
+# XMLRiver — ежедневный съём позиций (run-rank-dashboard-daily.sh)
+# export XMLRIVER_USER="..."
+# export XMLRIVER_KEY="..."
+
+# Опционально: глубина органики (daily по умолчанию 50)
+# export SERP_ORGANIC_DEPTH=30
+# export RANK_PANEL_VERIFY_ATTEMPTS=15
+# export SERENITY_SEO_ON_SERVER=1   # на сервере в cron уже задано
+
+# RuCaptcha + SERP_PROXY_URL — только ручная пересъёмка спорных ячеек:
+#   npm run seo:rank-dashboard:serp:disputed
+# export RUCAPTCHA_API_KEY="..."
+# export SERP_PROXY_URL="http://user:pass@host:8080"
 # export GSC_OAUTH_CLIENT_FILE=…  export GOOGLE_SHEETS_OAUTH_CLIENT_FILE=…
 # Принудительно SA для GSC (обычно не нужно): export GSC_FORCE_SERVICE_ACCOUNT=1
-# Сервисный аккаунт (опционально, для npm run seo:positions-report по Google):
-# export GSC_SERVICE_ACCOUNT_KEY_FILE="/абсолютный/путь/к/service-account.json"
 #
-# Отчёт по ядру (npm run seo:positions-report): см. docs/seo-positions-mcp-workflows.md
-# export SEMANTIC_CORE_PATH="$PWD/json/seo/semantic-core.json"
-# export REPORT_START_DATE=2026-04-01
-# export REPORT_END_DATE=2026-04-27
+# SEO-отчёты, позиции и semantic-core перенесены в репозиторий dashboard (../dashboard).
