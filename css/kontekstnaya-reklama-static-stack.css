@@ -781,23 +781,13 @@ body:not(.order-popup-open) .overlay-new {
   text-wrap: balance;
 }
 
-@media screen and (max-width: 768px) {
+/* Планшет и узкий desktop: три фактоида в ряд не помещаются — колонка, иконка слева */
+@media screen and (max-width: 1024px) {
   .page-constructor .advantages-card.advantages-card--kontekst-mini {
-    padding: 69px 0 !important;
-  }
-
-  .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-title {
-    font-size: 60px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .page-constructor .advantages-card.advantages-card--kontekst-mini {
-    padding: 57px 40px !important;
+    padding: 69px 55px !important;
   }
 
   .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-list {
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -806,10 +796,31 @@ body:not(.order-popup-open) .overlay-new {
 
   .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-item {
     gap: 35px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-title {
     font-size: 50px;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor > .page-constructor__section > .advantages > .page__container,
+  .page-constructor > .page-constructor__section > .advantages > .page__container.desktop {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .advantages-card.advantages-card--kontekst-mini {
+    padding: 57px 40px !important;
+    overflow: hidden;
+  }
+
+  .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-title {
+    white-space: normal;
   }
 }
 
