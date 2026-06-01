@@ -658,7 +658,7 @@ function run() {
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260516footerSocialIconsGridAlign" />',
-        '    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260516leadFormFieldsVisible" />',
+        '    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260601inlineLeadThankYou" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260517desktopNavLogoAlign" />',
         "    <!-- TARGETING-CSS-BUNDLE-END -->",
       ].join("\n");

@@ -480,6 +480,32 @@ function injectKontekstnayaServiceInlineLeadFromPartial(mainHtml) {
   return `${mainHtml.slice(0, i0)}${partial}\n${mainHtml.slice(i1)}`;
 }
 
+const TEAM_BLOCK_SECTION_NEEDLE =
+  '<section class="page-constructor__section"><div class="team-block">';
+
+/** Инлайн-форма перед «Команда» (после applyKontekstnayaSeoMiddle, иначе срез middle её убирает). */
+function ensureKontekstnayaInlineLeadBeforeTeam(mainHtml) {
+  if (mainHtml.includes('id="sa-inline-lead-root"')) return mainHtml;
+  const partialPath = path.join(
+    root,
+    "html",
+    "partials",
+    "services",
+    "service-inline-lead-kontekstnaya-reklama-inline.html",
+  );
+  if (!fs.existsSync(partialPath)) {
+    console.warn("assemble: нет inline lead snapshot —", partialPath);
+    return mainHtml;
+  }
+  const i = mainHtml.indexOf(TEAM_BLOCK_SECTION_NEEDLE);
+  if (i < 0) {
+    console.warn("assemble: team-block не найден — inline lead пропущен");
+    return mainHtml;
+  }
+  const partial = fs.readFileSync(partialPath, "utf8").trim();
+  return `${mainHtml.slice(0, i)}${partial}\n${mainHtml.slice(i)}`;
+}
+
 const FAQ_COMMENT_PREFIX = "<!-- FAQ «Вопрос-ответ»";
 const FAQ_SECTION_START = '<section class="page-constructor__section kontekst-faq-section">';
 const FAQ_BLOCK_TAIL = "</script></div></section>";
@@ -784,6 +810,7 @@ function run() {
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
   main = applyKontekstnayaSeoMiddle(main);
   console.log("assemble-kontekstnaya: applyKontekstnayaSeoMiddle (3 cases + SEO content-blocks)");
+  main = ensureKontekstnayaInlineLeadBeforeTeam(main);
   main = sanitizeKontekstnayaProductJsonLd(main);
   main = injectKontekstnayaFaqFromPartial(main);
   main = ensureKontekstnayaPriceCardAdBudgetLines(main);
@@ -827,7 +854,7 @@ function run() {
     deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260515socialIconsWrap\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/footer-burger-chrome.css?v=20260516footerSocialIconsGridAlign\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260516serviceInlineLeadTabletInset\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/service-inline-lead-form.css?v=20260601inlineLeadThankYou\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/sections/header.css?v=20260516collapsedLogoHomeLink\" />",
     "    <!-- KONTEKST-CSS-BUNDLE-END -->",
   ].join("\n");

@@ -59,7 +59,13 @@
 }
 
 #sa-inline-lead-root.sa-service-lead-root.is-thank-you {
-  min-height: clamp(360px, 52vh, 520px);
+  min-height: clamp(360px, 48vh, 500px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  /* Симметричные отступы — у формы слева больше «воздуха», у «Спасибо» по центру карточки */
+  padding: clamp(40px, 5vw, 72px) clamp(40px, 5vw, 72px) !important;
 }
 
 @media (min-width: 769px) {
@@ -316,19 +322,101 @@
   width: 100% !important;
   max-width: 1080px !important;
   margin: 0 auto !important;
-  min-height: clamp(320px, 50vh, 480px) !important;
-  display: block !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
-#sa-inline-lead-root.is-thank-you #sa-inline-lead-form-wrap.form-wrap[data-v-8ad2fcbc],
-#sa-inline-lead-root.is-thank-you #form.form-wrap[data-v-8ad2fcbc] {
-  min-height: 320px !important;
+/* Не оставлять «вторую колонку» 50% — иначе «Спасибо» прижато влево и пустой блок справа.
+ * У «Спасибо» у .form-wrap другие data-v-* (a1ad29aa), не 8ad2fcbc — селектор без data-v. */
+#sa-inline-lead-root.is-thank-you .form-wrap,
+#sa-inline-lead-root.is-thank-you #sa-inline-lead-form-wrap.form-wrap,
+#sa-inline-lead-root.is-thank-you #form.form-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 auto !important;
+  margin-top: 0 !important;
+  padding-right: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
   box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 #sa-inline-lead-root.is-thank-you .form-success__inner[data-v-a1ad29aa] {
-  height: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
   position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+}
+
+/* В bundle — absolute + translate; для инлайна в потоке страницы — flex-центр */
+#sa-inline-lead-root.is-thank-you .form-success__inner-wrap[data-v-a1ad29aa] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 640px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__title[data-v-a1ad29aa],
+#sa-inline-lead-root.is-thank-you h2.form-success__title {
+  display: block !important;
+  visibility: visible !important;
+  color: #fff !important;
+  font-size: clamp(28px, 4.2vw, 42px) !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  margin: 0 0 24px !important;
+  text-align: center !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__message[data-v-a1ad29aa] {
+  text-align: center !important;
+  width: 100% !important;
+  max-width: none !important;
+  top: auto !important;
+  margin: 0 !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__message p[data-v-a1ad29aa] {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-size: clamp(14px, 1.8vw, 16px) !important;
+  line-height: 1.55 !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  max-width: 36em !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__message p br[data-v-a1ad29aa] {
+  display: block !important;
+  content: "" !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__socials[data-v-a1ad29aa] {
+  position: relative !important;
+  bottom: auto !important;
+  margin-top: 32px !important;
+  justify-content: center !important;
+  gap: 24px !important;
+}
+
+#sa-inline-lead-root.is-thank-you .form-success__socials .social__link {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 #sa-inline-lead-root .form__grid-item[data-v-8ad2fcbc]:first-child .form__group[data-v-8ad2fcbc] {

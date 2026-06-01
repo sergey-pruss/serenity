@@ -201,10 +201,7 @@
             <div class="form-success__inner-wrap" data-v-a1ad29aa="">
               <div class="form-success__message" data-v-a1ad29aa="">
                 <h2 class="form-success__title title" data-v-a1ad29aa="">Спасибо, наш новый друг!</h2>
-                <p data-v-a1ad29aa="">Уже рассматриваем вашу заявку всей командой.<br data-v-a1ad29aa="">
-                И&nbsp;совсем скоро с&nbsp;вами свяжемся.<br data-v-a1ad29aa="">
-                А&nbsp;пока давайте продолжим дружбу
-                в&nbsp;социальных сетях:</p>
+                <p data-v-a1ad29aa="">Уже рассматриваем вашу заявку всей командой.<br data-v-a1ad29aa="">И&nbsp;совсем скоро с&nbsp;вами свяжемся.<br data-v-a1ad29aa="">А&nbsp;пока давайте продолжим дружбу в&nbsp;социальных сетях:</p>
               </div>
               <div class="social form-success__socials" data-v-a1ad29aa="">
                 <a class="social__link" data-v-a1ad29aa="" target="_blank" rel="noopener noreferrer" href="${TELEGRAM_PUBLIC_CHANNEL_HREF}" aria-label="Telegram">${SVG_ICON.telegram}</a>
@@ -347,7 +344,7 @@
     const formWrap = root.querySelector(`#${INLINE_FORM_WRAP_ID}`);
     if (formWrap) {
       formWrap.style.height = "";
-      formWrap.style.minHeight = "280px";
+      formWrap.style.minHeight = "";
     }
     requestAnimationFrame(() => {
       window.dispatchEvent(new CustomEvent("sa-service-lead-dom-update"));
@@ -479,7 +476,17 @@
   const mountInlineLeadForm = (opts = {}) => {
     const root = document.getElementById(INLINE_LEAD_ROOT_ID);
     if (!root) return;
-    if (!opts.remount && root.querySelector("form.order-popup__form")) return;
+    if (!opts.remount && root.querySelector("form.order-popup__form")) {
+      if (!root.dataset.saInlineFormBound) {
+        root.dataset.saInlineFormBound = "1";
+        initDesktopFormBehavior(root);
+        requestAnimationFrame(() => {
+          window.dispatchEvent(new CustomEvent("sa-service-lead-dom-update"));
+        });
+      }
+      return;
+    }
+    delete root.dataset.saInlineFormBound;
     if (inlineLeadRemountTimer) {
       clearTimeout(inlineLeadRemountTimer);
       inlineLeadRemountTimer = null;
