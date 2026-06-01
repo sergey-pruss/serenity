@@ -44,6 +44,89 @@ function stripKorporativnyjLegacyDiesPrices(mainHtml) {
 }
 
 /** Блок «Стоимость» (слайдер + таблица) сразу перед инлайн-формой заявки. */
+/** Якорь вставки post-hero/cms: перед phase2 («Наш подход») или маркером middle. */
+function korporativnyjPhase2ContentIndex(mainHtml) {
+  const approachIdx = mainHtml.indexOf("Наш подход");
+  if (approachIdx >= 0) {
+    const sec = mainHtml.lastIndexOf('<section class="page-constructor__section', approachIdx);
+    if (sec >= 0) return sec;
+  }
+  const marker = mainHtml.indexOf(MARKER_MIDDLE);
+  if (marker >= 0) return marker;
+  const factsIdx = mainHtml.indexOf(FACTS_SECTION_OPEN);
+  if (factsIdx >= 0) return factsIdx;
+  return -1;
+}
+
+/** Удаляет legacy-блок .facts (презентация бренда + 3 пункта). */
+function stripKorporativnyjFactsSection(mainHtml) {
+  const factsStart = mainHtml.indexOf(FACTS_SECTION_OPEN);
+  if (factsStart < 0) return mainHtml;
+  const approachIdx = mainHtml.indexOf("Наш подход", factsStart);
+  let end;
+  if (approachIdx >= 0) {
+    end = mainHtml.lastIndexOf('<section class="page-constructor__section', approachIdx);
+    if (end <= factsStart) {
+      end = mainHtml.indexOf("</section>", factsStart) + "</section>".length;
+    }
+  } else {
+    end = mainHtml.indexOf("</section>", factsStart) + "</section>".length;
+  }
+  return mainHtml.slice(0, factsStart) + mainHtml.slice(end);
+}
+
+/** После hero, перед phase2: «Создание… для роста бизнеса» + 4 колонки. */
+function injectKorporativnyjPostHero(mainHtml) {
+  if (!fs.existsSync(POST_HERO_PARTIAL)) {
+    console.warn("assemble: korporativnyj-post-hero.html не найден");
+    return mainHtml;
+  }
+  const partial = fs.readFileSync(POST_HERO_PARTIAL, "utf8").trim();
+  const start = mainHtml.indexOf(POST_HERO_START);
+  const end = mainHtml.indexOf(POST_HERO_END);
+  if (start >= 0 && end > start) {
+    return mainHtml.slice(0, start) + partial + mainHtml.slice(end + POST_HERO_END.length);
+  }
+  const insertIdx = korporativnyjPhase2ContentIndex(mainHtml);
+  if (insertIdx < 0) {
+    console.warn("assemble: не найдена точка вставки post-hero");
+    return mainHtml;
+  }
+  const beforeInsert = mainHtml.slice(Math.max(0, insertIdx - 12000), insertIdx);
+  if (beforeInsert.includes("korporativnyj-post-hero")) {
+    return mainHtml;
+  }
+  return mainHtml.slice(0, insertIdx) + partial + mainHtml.slice(insertIdx);
+}
+
+/** После post-hero, перед phase2: CMS — заголовок, описание, 3 колонки критериев. */
+function injectKorporativnyjCmsBlock(mainHtml) {
+  if (!fs.existsSync(CMS_BLOCK_PARTIAL)) {
+    console.warn("assemble: korporativnyj-cms-block.html не найден");
+    return mainHtml;
+  }
+  const partial = fs.readFileSync(CMS_BLOCK_PARTIAL, "utf8").trim();
+  const start = mainHtml.indexOf(CMS_BLOCK_START);
+  const end = mainHtml.indexOf(CMS_BLOCK_END);
+  if (start >= 0 && end > start) {
+    return mainHtml.slice(0, start) + partial + mainHtml.slice(end + CMS_BLOCK_END.length);
+  }
+  const postHeroEnd = mainHtml.indexOf(POST_HERO_END);
+  const insertAt =
+    postHeroEnd >= 0
+      ? postHeroEnd + POST_HERO_END.length
+      : korporativnyjPhase2ContentIndex(mainHtml);
+  if (insertAt < 0) {
+    console.warn("assemble: не найдена точка вставки cms-block");
+    return mainHtml;
+  }
+  const beforeInsert = mainHtml.slice(Math.max(0, insertAt - 12000), insertAt);
+  if (beforeInsert.includes("korporativnyj-cms-block")) {
+    return mainHtml;
+  }
+  return mainHtml.slice(0, insertAt) + partial + mainHtml.slice(insertAt);
+}
+
 function injectKorporativnyjPackagesBeforeInlineLead(mainHtml) {
   if (mainHtml.includes(KORP_PACKAGES_MARKER)) {
     return movePackagesBeforeInlineLead(mainHtml, {
@@ -78,6 +161,13 @@ const TARGETING_CLIENTS_SLICE = path.join(
 );
 
 const MARKER_MIDDLE = "<!-- KORPORATIVNYJ-PHASE2:middle -->";
+const POST_HERO_PARTIAL = path.join(root, "html", "partials", "services", "korporativnyj-post-hero.html");
+const POST_HERO_START = "<!-- KORPORATIVNYJ-POST-HERO-START -->";
+const POST_HERO_END = "<!-- KORPORATIVNYJ-POST-HERO-END -->";
+const FACTS_SECTION_OPEN = '<section class="page-constructor__section"><div class="facts">';
+const CMS_BLOCK_PARTIAL = path.join(root, "html", "partials", "services", "korporativnyj-cms-block.html");
+const CMS_BLOCK_START = "<!-- KORPORATIVNYJ-CMS-BLOCK-START -->";
+const CMS_BLOCK_END = "<!-- KORPORATIVNYJ-CMS-BLOCK-END -->";
 
 const FAQ_SECTION_START = '<section class="page-constructor__section korporativnyj-faq-section">';
 const FAQ_BLOCK_TAIL = "</script></div></section>";
@@ -812,6 +902,9 @@ function run() {
   main = injectKorporativnyjFaqFromPartial(main);
   main = injectKorporativnyjClientsBeforeFaq(main);
   main = injectPhase2(main);
+  main = injectKorporativnyjPostHero(main);
+  main = injectKorporativnyjCmsBlock(main);
+  main = stripKorporativnyjFactsSection(main);
   main = injectKorporativnyjMoreCases(main);
   main = injectKorporativnyjAwards(main);
   main = injectKorporativnyjSynergy(main);
@@ -861,7 +954,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260528korporativnyjPackagesC" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260601korporativnyjRowGap120" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
