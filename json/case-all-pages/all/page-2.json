@@ -38,6 +38,22 @@
   ],
   "cases": [
     {
+      "href": "https://www.behance.net/gallery/130002443/The-Start-Brand-Identity",
+      "description": "Брендинг для сервиса по организации мероприятий в Гонконге",
+      "tags": [
+        "Брендинг"
+      ],
+      "tagCodes": [
+        "brending"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/1bSFsD5i81i9VqaqRTHTfxOiWwknvQBhwxgpozLZ.jpg"
+      }
+    },
+    {
       "href": "https://serenity.agency/case/360flat",
       "description": "Бренд-стратегия и сайт для агентства недвижимости",
       "tags": [
@@ -442,22 +458,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/kPFFvqcQczz3MlvdoVu98NvXvKmJHdhqC2aHfZqO.jpg"
-      }
-    },
-    {
-      "href": "https://www.behance.net/gallery/138701085/konsaltingovoe-bjuro-ANG",
-      "description": "Лендинг для консалтингового бюро ANG",
-      "tags": [
-        "Сайт"
-      ],
-      "tagCodes": [
-        "sites"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/FLvw4cYZp4XPtVC2pBIQ06SnNc7yd9V4AiK8cjC3.jpg"
       }
     }
   ]

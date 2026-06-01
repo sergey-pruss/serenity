@@ -121,7 +121,10 @@ async function run() {
   const mainEnd = html.indexOf("<!-- KORPORATIVNYJ-MAIN-END -->");
   const main = html.slice(mainStart, mainEnd);
   if (!captureBaseline) {
-    const leadIdx = main.indexOf("sa-service-lead-section");
+    const leadIdx =
+      main.indexOf('class="page-constructor__section sa-service-lead-section"') >= 0
+        ? main.indexOf('class="page-constructor__section sa-service-lead-section"')
+        : main.indexOf("sa-service-lead-section");
     const teamIdx = main.indexOf("team-block");
     const clientsIdx = main.indexOf('class="clients-wrapper"');
     const faqIdx = main.indexOf("korporativnyj-faq-mounted");
@@ -129,11 +132,11 @@ async function run() {
     assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды (как kontekst)");
     assert(clientsIdx >= 0 && faqIdx > clientsIdx, "порядок: клиенты до FAQ (как prod)");
     assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
-    const creonIdx = main.indexOf("Creon Group");
     const packagesIdx = main.indexOf("korporativnyj-packages-compare-mounted");
-    const advantageIdx = main.indexOf('class="advantage"');
-    assert(creonIdx >= 0 && packagesIdx > creonIdx, "порядок: «Стоимость» после кейса Creon");
-    assert(advantageIdx < 0 || packagesIdx < advantageIdx, "порядок: «Стоимость» до блока advantage");
+    assert(
+      leadIdx >= 0 && packagesIdx < leadIdx,
+      "порядок: «Стоимость и пакеты» сразу перед инлайн-формой заявки",
+    );
   }
   const stackCssPath = "css/korporativnyj-sajt-static-stack.css";
   const stackCss = read(stackCssPath);

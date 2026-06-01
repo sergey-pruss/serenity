@@ -23,7 +23,12 @@ function read(relPath) {
 }
 
 function fileExists(relPath) {
-  return fs.existsSync(path.join(root, relPath));
+  const direct = path.join(root, relPath);
+  if (fs.existsSync(direct)) return true;
+  if (relPath.startsWith("_sa/")) {
+    return fs.existsSync(path.join(root, relPath.slice("_sa/".length)));
+  }
+  return false;
 }
 
 /** Индекс h2 секции тарифов: на статике «Стоимость и пакеты», в старых срезах — «Пакеты». */
@@ -510,6 +515,17 @@ async function run() {
     iInlineLead < 0 || (iInlineLead > iPackagesHeading && iFaqMounted > iInlineLead),
     "HTML: при наличии инлайн-формы заявки — она между «Стоимость и пакеты» и FAQ",
   );
+  if (iInlineLead >= 0 && iPackagesHeading >= 0) {
+    const iLeadOpen = html.indexOf('class="page-constructor__section sa-service-lead-section"');
+    const iLeadSec = iLeadOpen >= 0 ? iLeadOpen : html.lastIndexOf('<section class="page-constructor__section">', iInlineLead);
+    const iPkgSec = html.lastIndexOf('<section class="page-constructor__section">', iPackagesHeading);
+    const between = html.slice(iPkgSec, iLeadSec);
+    const sectionOpens = (between.match(/<section class="page-constructor__section">/g) || []).length;
+    assert(
+      sectionOpens === 2,
+      `HTML: «Стоимость и пакеты» (2 секции) сразу перед формой, без вставок между — найдено секций: ${sectionOpens}`,
+    );
+  }
   assert(
     iCasesMain >= 0 && iFaqMounted < iCasesMain,
     "HTML: блок «Вопрос-ответ» (FAQ) идёт перед блоком кейсов (more-case-wr__main)",

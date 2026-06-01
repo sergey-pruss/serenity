@@ -42,6 +42,7 @@ const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.c
 const { applyKontekstnayaSeoMiddle } = require("./lib/kontekstnaya-main-middle.cjs");
 const { syncFaqBodyHtmlJsonLd } = require("./lib/build-faq-page-jsonld.cjs");
 const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
+const { movePackagesBeforeInlineLead } = require("./lib/move-packages-before-inline-lead.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -820,6 +821,7 @@ function run() {
   main = ensureKontekstnayaPackageCardTitleRules(main);
   main = injectKontekstnayaPackagesCompareFromPartial(main);
   main = injectKontekstnayaServiceInlineLeadFromPartial(main);
+  main = movePackagesBeforeInlineLead(main);
   /** Сначала снимаем legacy «Награды» до первого more-case-wr: после move FAQ окажется внутри [secStart, moreIdx) и будет вырезан. */
   const stripAwards = stripProdKontekstnayaAwardsBlock(main);
   main = stripAwards.html;

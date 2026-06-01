@@ -14,6 +14,10 @@ const { repairContentBlockMotionDivTags } = require("./lib/repair-content-block-
 const { repairNumberedHeaderExtraCloses } = require("./lib/repair-numbered-header-extra-closes.cjs");
 const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
 const { loadServiceConfig } = require("./lib/load-service-config.cjs");
+const {
+  movePackagesBeforeInlineLead,
+  indexOfInlineLeadSection,
+} = require("./lib/move-packages-before-inline-lead.cjs");
 
 const root = path.resolve(__dirname, "..");
 
@@ -39,18 +43,22 @@ function stripKorporativnyjLegacyDiesPrices(mainHtml) {
   return stripSectionByInner(mainHtml, LEGACY_DIES_TILDA);
 }
 
-/** Блок «Стоимость» (слайдер + таблица) сразу после кейса Creon Group. */
-function injectKorporativnyjPackagesAfterCreonCase(mainHtml) {
-  if (mainHtml.includes(KORP_PACKAGES_MARKER)) return mainHtml;
+/** Блок «Стоимость» (слайдер + таблица) сразу перед инлайн-формой заявки. */
+function injectKorporativnyjPackagesBeforeInlineLead(mainHtml) {
+  if (mainHtml.includes(KORP_PACKAGES_MARKER)) {
+    return movePackagesBeforeInlineLead(mainHtml, {
+      startMarker: KORP_PACKAGES_MARKER,
+      endMarker: "<!-- KORPORATIVNYJ-PACKAGES-END -->",
+    });
+  }
   const partial = readPartial("html/partials/services/korporativnyj-packages-block.html");
   if (!partial) return mainHtml;
-  const creonIdx = mainHtml.indexOf(CREON_CASE_NEEDLE);
-  if (creonIdx < 0) {
-    console.warn("assemble-korporativnyj: кейс Creon Group не найден — пакеты не вставлены");
+  const leadSec = indexOfInlineLeadSection(mainHtml);
+  if (leadSec < 0) {
+    console.warn("assemble-korporativnyj: форма заявки не найдена — пакеты не вставлены");
     return mainHtml;
   }
-  const secEnd = mainHtml.indexOf("</section>", creonIdx) + "</section>".length;
-  return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
+  return `${mainHtml.slice(0, leadSec)}\n${partial}\n${mainHtml.slice(leadSec)}`;
 }
 
 const fullHtmlPath = path.join(root, "tmp", "korporativnyj-prod-full.html");
@@ -795,7 +803,7 @@ function run() {
   main = moveKorporativnyjInlineLeadBeforeTeam(main);
   main = moveKorporativnyjFaqSectionBeforeCases(main);
   main = stripKorporativnyjLegacyDiesPrices(main);
-  main = injectKorporativnyjPackagesAfterCreonCase(main);
+  main = injectKorporativnyjPackagesBeforeInlineLead(main);
   main = ensureKorporativnyjMoreCasesMainClass(main);
   main = injectContentBlockSubtitles(main);
   main = repairMisplacedSubtitles(main);

@@ -38,6 +38,26 @@
   ],
   "cases": [
     {
+      "href": "https://serenity.agency/case/all/iripa",
+      "description": "Стратегия и комплексное продвижение социально значимого проекта",
+      "tags": [
+        "Продвижение",
+        "Брендинг",
+        "Стратегия"
+      ],
+      "tagCodes": [
+        "pr",
+        "brending",
+        "strategiya"
+      ],
+      "linkClass": "dark-text",
+      "isResource": false,
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/case/wwuqI8dMmEGCaQkLGMfBanx9Svc6Nm83sk8vUsdi.png"
+      }
+    },
+    {
       "href": "https://serenity.agency/case/all/minisklad",
       "description": "Создали новый фирменный стиль и увеличили количество обращений на 500%",
       "tags": [
@@ -468,24 +488,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/case/w8ugkLNrVqCQvEcea9SkYVuPRXEJmToFRzFrgfkI.jpg"
-      }
-    },
-    {
-      "href": "https://www.behance.net/gallery/149426781/Brand-idetity-website-for-ERP-system-AXLE",
-      "description": "Нейминг, стиль и сайт для ERP-системы AXLE",
-      "tags": [
-        "Сайт",
-        "Брендинг"
-      ],
-      "tagCodes": [
-        "sites",
-        "brending"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/case/nLmH0QMDkMTl35L702U8N29cSV59cSqeLfPLM2rY.jpg"
       }
     }
   ]
