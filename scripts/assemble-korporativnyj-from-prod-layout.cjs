@@ -89,12 +89,26 @@ const KORPORATIVNYJ_PRODUCT_IMAGE =
   "https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
 const KORPORATIVNYJ_PRODUCT_IMAGE_DISK = "/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
 const KORPORATIVNYJ_HERO_H1 = "Разработка корпоративных сайтов";
+const KORPORATIVNYJ_HERO_SUBTITLE =
+  "Создание корпоративного сайта компании для&nbsp;знакомства с&nbsp;брендом, повышения узнаваемости и&nbsp;увеличения продаж.";
 
 function patchKorporativnyjHeroH1(html) {
   return html.replace(
     /(<h1[^>]*class="c-title-block__title"[^>]*>)[^<]*(<\/h1>)/i,
     `$1${KORPORATIVNYJ_HERO_H1}$2`,
   );
+}
+
+function patchKorporativnyjHeroSubtitle(html) {
+  return html
+    .replace(
+      /(<h4[^>]*class="c-title-block__subtitle"[^>]*>)[^<]*(<\/h4>)/i,
+      `$1${KORPORATIVNYJ_HERO_SUBTITLE}$2`,
+    )
+    .replace(
+      /(<span itemprop="description">)[^<]*(<\/span>)/,
+      `$1${KORPORATIVNYJ_HERO_SUBTITLE}$2`,
+    );
 }
 
 function escapeMetaAttr(value) {
@@ -774,6 +788,7 @@ function run() {
 
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
   main = patchKorporativnyjHeroH1(main);
+  main = patchKorporativnyjHeroSubtitle(main);
   main = sanitizeProductJsonLd(main);
 
   const captureOnly =

@@ -30,18 +30,18 @@ async function run() {
 
   assert(html.includes("Корпоративный сайт"), "breadcrumb/контент: Корпоративный сайт");
   assert(
-    /<title>Разработка корпоративных сайтов — Serenity<\/title>/.test(html),
-    "<title>: Разработка корпоративных сайтов — Serenity",
+    /<title>Разработка корпоративного сайта в Москве и СПб — Serenity<\/title>/.test(html),
+    "<title>: Разработка корпоративного сайта в Москве и СПб — Serenity",
   );
   assert(
-    /property="og:title" content="Разработка корпоративных сайтов — Serenity"/.test(html),
+    /property="og:title" content="Разработка корпоративного сайта в Москве и СПб — Serenity"/.test(html),
     "og:title синхронизирован с <title>",
   );
   assert(
     html.includes(
-      'meta name="description" content="Услуги по созданию корпоративных сайтов',
+      'meta name="description" content="Создание корпоративного сайта под задачи компании',
     ),
-    "description как на проде",
+    "description: создание корпоративного сайта, кейсы и стоимость",
   );
   assert(html.includes('property="og:lowPrice" content="400000.00"'), "og:lowPrice как на проде");
   assert(
