@@ -23,6 +23,7 @@ deploy_rsync_repo_to_static_root() {
     --exclude='.wrangler'
     --exclude='artifacts'
     --exclude='tmp/'
+    --exclude='tmp-*'
     --exclude='wrangler.toml'
     --exclude='deploy.sh'
     --exclude='case/all/*/index 2.html'
@@ -47,14 +48,17 @@ deploy_remote_fix_static_permissions() {
   $RSYNC_RSH "${host}" "chmod -R u=rwX,go=rX -- '${path%/}/'" || true
 }
 
-# Каталоги tmp/ и .continue/ не кладём на origin (срезы паритета; локальный Cursor Continue). Без --delete rsync старые копии не снимет — чистим по SSH.
+# Каталог tmp/, файлы tmp-* в корне и .continue/ не кладём на origin. Без --delete rsync старые копии не снимет — чистим по SSH.
 deploy_remote_scrub_rsync_excluded_tmp() {
   export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
   local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
   local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
+  local root="${path%/}"
   # shellcheck disable=SC2086
-  $RSYNC_RSH "${host}" "rm -rf -- '${path}tmp' '${path}.continue'" || true
-  echo "🧹 На origin удалены каталоги tmp и .continue (если были): ${host}:${path}tmp ${host}:${path}.continue"
+  $RSYNC_RSH "${host}" "rm -rf -- '${root}/tmp' '${root}/.continue'" || true
+  # shellcheck disable=SC2086
+  $RSYNC_RSH "${host}" "find '${root}' -maxdepth 1 -name 'tmp-*' -delete" 2>/dev/null || true
+  echo "🧹 На origin удалены tmp/, tmp-* и .continue (если были): ${host}:${root}"
 }
 
 # docs/ — только dev (static-dev + Worker). На prod-root каталог не держим.

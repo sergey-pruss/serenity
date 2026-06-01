@@ -44,6 +44,14 @@ assert(
   "deploy-lib.sh должен исключать tmp/ из rsync (локальные срезы паритета)",
 );
 assert(
+  /--exclude='tmp-\*'/.test(deployLib),
+  "deploy-lib.sh должен исключать tmp-* в корне из rsync (агентские черновики)",
+);
+assert(
+  /find '\$\{root\}' -maxdepth 1 -name 'tmp-\*' -delete/.test(deployLib),
+  "deploy-lib.sh должен удалять tmp-* на origin после rsync",
+);
+assert(
   /--exclude='\.continue'/.test(deployLib),
   "deploy-lib.sh должен исключать .continue/ из rsync (локальный Cursor Continue)",
 );
