@@ -26,6 +26,13 @@ function fileExists(relPath) {
   return fs.existsSync(path.join(root, relPath));
 }
 
+/** Индекс h2 секции тарифов: на статике «Стоимость и пакеты», в старых срезах — «Пакеты». */
+function indexOfPackagesSectionHeading(html) {
+  const i = html.indexOf(">Стоимость и пакеты</h2>");
+  if (i >= 0) return i;
+  return html.indexOf(">Пакеты</h2>");
+}
+
 function httpGet(url) {
   return new Promise((resolve, reject) => {
     http.get(url, (res) => resolve(res.statusCode)).on("error", reject);
@@ -163,7 +170,7 @@ async function run() {
 
   assert(
     html.includes("prices__cards--packages") && html.includes("prices__packages-slider"),
-    "HTML: блок «Пакеты» — слайдер-обёртка (prices__cards--packages + prices__packages-slider)",
+    "HTML: блок «Стоимость и пакеты» — слайдер-обёртка (prices__cards--packages + prices__packages-slider)",
   );
   assert(
     (html.match(/class="prices__packages-slide swiper-slide(?:\s[^"]*)?"/g) || []).length === 3,
@@ -187,14 +194,14 @@ async function run() {
       html.includes("kontekst-packages-compare__table") &&
       !html.includes("kontekst-packages-compare__title") &&
       html.includes('class="kontekst-packages-compare__plan-name">Минимальный</span>'),
-    "HTML: таблица сравнения пакетов внутри блока «Пакеты» (без отдельного h3-заголовка)",
+    "HTML: таблица сравнения пакетов внутри блока .dies (без отдельного h3-заголовка)",
   );
   assert(
     !html.includes("kontekst-packages-compare-section"),
     "HTML: таблица пакетов — не отдельная page-constructor__section",
   );
   {
-    const iPackagesHeading = html.indexOf(">Пакеты</h2>");
+    const iPackagesHeading = indexOfPackagesSectionHeading(html);
     const iCompare = html.indexOf("kontekst-packages-compare-mounted");
     const iSlider = html.indexOf("prices__packages-slider");
     const iLead = html.indexOf('id="sa-inline-lead-root"');
@@ -206,7 +213,7 @@ async function run() {
     assert(
       iPackagesHeading >= 0 &&
         !html.slice(pkSecStart, pkSecEnd).includes("kontekst-packages-compare-mounted"),
-      "HTML: в секции-заголовке «Пакеты» нет таблицы (только h2)",
+      "HTML: в секции-заголовке «Стоимость и пакеты» нет таблицы (только h2)",
     );
     assert(
       iCompare >= diesSecStart && iCompare < diesSecEnd,
@@ -491,17 +498,17 @@ async function run() {
     "HTML: FAQ — нет inline height:0 на .spoiler__content (иначе ответы скрыты до клика)",
   );
 
-  const iPackagesHeading = html.indexOf(">Пакеты</h2>");
+  const iPackagesHeading = indexOfPackagesSectionHeading(html);
   const iInlineLead = html.indexOf('id="sa-inline-lead-root"');
   const iFaqMounted = html.indexOf('id="kontekst-faq-mounted"');
   const iCasesMain = html.indexOf("more-case-wr more-case-wr__main");
   assert(
     iPackagesHeading >= 0 && iFaqMounted > iPackagesHeading,
-    "HTML: блок «Вопрос-ответ» (FAQ) идёт после секции с заголовком «Пакеты»",
+    "HTML: блок «Вопрос-ответ» (FAQ) идёт после секции с заголовком «Стоимость и пакеты»",
   );
   assert(
     iInlineLead < 0 || (iInlineLead > iPackagesHeading && iFaqMounted > iInlineLead),
-    "HTML: при наличии инлайн-формы заявки — она между «Пакеты» и FAQ",
+    "HTML: при наличии инлайн-формы заявки — она между «Стоимость и пакеты» и FAQ",
   );
   assert(
     iCasesMain >= 0 && iFaqMounted < iCasesMain,
@@ -581,15 +588,15 @@ async function run() {
 
   assert(
     fileExists("js/service-packages-slider.js"),
-    "JS: service-packages-slider.js — слайдер «Пакеты» (только страницы услуг)",
+    "JS: service-packages-slider.js — слайдер «Стоимость и пакеты» (только страницы услуг)",
   );
   assert(
     html.includes("service-packages-slider.js"),
-    "HTML: подключён service-packages-slider.js после app.js для «Пакеты»",
+    "HTML: подключён service-packages-slider.js после app.js для «Стоимость и пакеты»",
   );
   assert(
     !read("js/app.js").includes('.querySelectorAll(".prices__packages-slider")'),
-    "JS: инициализация «Пакеты» не в app.js (service-packages-slider.js)",
+    "JS: инициализация слайдера тарифов не в app.js (service-packages-slider.js)",
   );
 
   const manPath = "kontekstnaya_reklama/nuxt-css-manifest.json";

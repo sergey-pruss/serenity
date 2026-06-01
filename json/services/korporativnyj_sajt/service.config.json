@@ -11,7 +11,7 @@
     "variant": "title-video"
   },
   "sections": {
-    "packages": false,
+    "packages": true,
     "facts": true,
     "advantages": true
   },
@@ -33,7 +33,8 @@
       "inlineLead": "service-inline-lead-korporativnyj-sajt.html",
       "moreCases": "more-cases-korporativnyj-sajt.html",
       "awards": "awards-korporativnyj-sajt.html",
-      "synergy": "synergy-korporativnyj-sajt.html"
+      "synergy": "synergy-korporativnyj-sajt.html",
+      "packagesBlock": "korporativnyj-packages-block.html"
     },
     "markers": {
       "mainStart": "KORPORATIVNYJ-MAIN-START",

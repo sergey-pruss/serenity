@@ -129,6 +129,11 @@ async function run() {
     assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды (как kontekst)");
     assert(clientsIdx >= 0 && faqIdx > clientsIdx, "порядок: клиенты до FAQ (как prod)");
     assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
+    const creonIdx = main.indexOf("Creon Group");
+    const packagesIdx = main.indexOf("korporativnyj-packages-compare-mounted");
+    const advantageIdx = main.indexOf('class="advantage"');
+    assert(creonIdx >= 0 && packagesIdx > creonIdx, "порядок: «Стоимость» после кейса Creon");
+    assert(advantageIdx < 0 || packagesIdx < advantageIdx, "порядок: «Стоимость» до блока advantage");
   }
   const stackCssPath = "css/korporativnyj-sajt-static-stack.css";
   const stackCss = read(stackCssPath);
@@ -139,7 +144,18 @@ async function run() {
       targetingStackCss.includes("display: none !important"),
     "без фонового фото kontekst ::before в герое",
   );
-  assert(!html.includes("service-packages-slider.js"), "без packages slider");
+  assert(html.includes("service-packages-slider.js"), "packages: service-packages-slider.js");
+  assert(html.includes('id="korporativnyj-packages-compare-mounted"'), "packages: таблица сравнения");
+  assert(html.includes("prices__packages-slider"), "packages: слайдер тарифов");
+  assert(
+    html.includes(">Стоимость и пакеты</h2>") || html.includes(">Стоимость и&nbsp;пакеты</h2>"),
+    "packages: заголовок «Стоимость и пакеты»",
+  );
+  assert(
+    html.includes('class="kontekst-packages-compare__plan-name">Базовый</span>'),
+    "packages: колонка «Базовый»",
+  );
+  assert(!html.includes(">Лендинг на&nbsp;Tilda</h3>"), "без legacy dies «Лендинг на Tilda»");
   assert(html.includes("team__members-slider"), "команда: слайдер team__members-slider (как targeting/kontekst)");
   if (!captureBaseline) {
     assert(html.includes("service-spoilers.js"), "service-spoilers.js");

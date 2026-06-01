@@ -3,6 +3,8 @@
  */
 @import url("targeting-static-stack.css");
 @import url("sections/korporativnyj-hero.css");
+@import url("sections/kontekstnaya-packages-compare.css");
+@import url("sections/service-packages-cards.css");
 
 .page-constructor > .page-constructor__section:first-of-type::before {
   display: none !important;
@@ -280,12 +282,26 @@
 }
 
 /*
- * После «Команда» → плашки (Лендинг / Интернет-магазин).
- * Блок .dies на korporativnyj — соседняя секция вне .page-constructor (как FAQ/кейсы), не только внутри .korporativnyj-page.
+ * «Стоимость и пакеты» сразу после cases-block: как /kontekstnaya_reklama (--home-between 112),
+ * не 172px из targeting-static-stack для .content-block.
  */
-.page-constructor__section:has(> .team-block) + .page-constructor__section > .dies.modern,
-.page-constructor__section > .dies.modern[data-v-07db1e8a] {
+.page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
+.page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
   padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
 }
 
 .page-constructor.korporativnyj-page .team-block,

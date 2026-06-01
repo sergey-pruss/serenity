@@ -22,6 +22,37 @@ function buildServicePartials() {
   execSync("npm run build:service-partials", { cwd: root, stdio: "inherit" });
 }
 
+function buildKorporativnyjPackagesPartial() {
+  execSync("node scripts/build-korporativnyj-packages-partials.cjs", {
+    cwd: root,
+    stdio: "inherit",
+  });
+}
+
+const CREON_CASE_NEEDLE = 'cases-block__swiper-slide-title">Creon Group</h3>';
+const KORP_PACKAGES_MARKER = "<!-- KORPORATIVNYJ-PACKAGES-START -->";
+const LEGACY_DIES_TILDA = '<h3 data-v-1444f1fb="">Лендинг на&nbsp;Tilda</h3>';
+
+/** Убрать legacy .dies с «Лендинг на Tilda» / «Интернет-магазин» (после «Команда»). */
+function stripKorporativnyjLegacyDiesPrices(mainHtml) {
+  if (!mainHtml.includes(LEGACY_DIES_TILDA)) return mainHtml;
+  return stripSectionByInner(mainHtml, LEGACY_DIES_TILDA);
+}
+
+/** Блок «Стоимость» (слайдер + таблица) сразу после кейса Creon Group. */
+function injectKorporativnyjPackagesAfterCreonCase(mainHtml) {
+  if (mainHtml.includes(KORP_PACKAGES_MARKER)) return mainHtml;
+  const partial = readPartial("html/partials/services/korporativnyj-packages-block.html");
+  if (!partial) return mainHtml;
+  const creonIdx = mainHtml.indexOf(CREON_CASE_NEEDLE);
+  if (creonIdx < 0) {
+    console.warn("assemble-korporativnyj: кейс Creon Group не найден — пакеты не вставлены");
+    return mainHtml;
+  }
+  const secEnd = mainHtml.indexOf("</section>", creonIdx) + "</section>".length;
+  return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
+}
+
 const fullHtmlPath = path.join(root, "tmp", "korporativnyj-prod-full.html");
 const parityLayoutPath = path.join(root, "tmp", "korporativnyj-parity-prod-layout.html");
 const indexPath = path.join(root, "korporativnyj_sajt", "index.html");
@@ -594,6 +625,25 @@ function ensureKorporativnyjTeamSliderScript(html) {
   return html.replace(appJs, insert);
 }
 
+function ensureKorporativnyjPackagesSliderScript(html) {
+  const needle = 'src="/_sa/js/service-packages-slider.js';
+  if (html.includes(needle)) return html;
+  const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
+  const teamNeedle = 'src="/_sa/js/service-team-slider.js';
+  const tag =
+    '    <script defer src="/_sa/js/service-packages-slider.js?v=20260516kontekstPackagesGutter"></script>\n';
+  if (html.includes(teamNeedle)) {
+    return html.replace(
+      /(<script defer src="\/_sa\/js\/service-team-slider\.js[^"]*"><\/script>\s*)/,
+      `$1${tag}`,
+    );
+  }
+  if (html.includes(appJs)) {
+    return html.replace(appJs, `${appJs}\n${tag.trim()}`);
+  }
+  return html;
+}
+
 function ensureBurgerMenuGlavnaya(html) {
   if (/<ul class="navigation-new__list"[^>]*>[\s\S]*?<a\s+href="\/"[^>]*>\s*Главная\s*<\/a>/i.test(html)) {
     return html;
@@ -693,6 +743,7 @@ function injectContentBlockSubtitles(html) {
 
 function run() {
   buildServicePartials();
+  buildKorporativnyjPackagesPartial();
   const { path: layoutPath, label: layoutLabel } = resolveLayoutPath();
   if (!layoutPath || !fs.existsSync(layoutPath)) {
     console.error("Нет дампа: capture tmp/korporativnyj-prod-full.html");
@@ -743,6 +794,8 @@ function run() {
   main = injectKorporativnyjSynergy(main);
   main = moveKorporativnyjInlineLeadBeforeTeam(main);
   main = moveKorporativnyjFaqSectionBeforeCases(main);
+  main = stripKorporativnyjLegacyDiesPrices(main);
+  main = injectKorporativnyjPackagesAfterCreonCase(main);
   main = ensureKorporativnyjMoreCasesMainClass(main);
   main = injectContentBlockSubtitles(main);
   main = repairMisplacedSubtitles(main);
@@ -785,7 +838,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260523serviceHeroTop" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260528korporativnyjPackagesC" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
@@ -813,6 +866,7 @@ function run() {
   if (!captureOnly) {
     out = ensureKorporativnyjFaqScript(out);
     out = ensureKorporativnyjTeamSliderScript(out);
+    out = ensureKorporativnyjPackagesSliderScript(out);
   }
   fs.writeFileSync(indexPath, out, "utf8");
   const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });
