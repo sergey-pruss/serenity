@@ -428,6 +428,45 @@
   }
 }
 
+
+@media screen and (min-width: 721px) {
+  /*
+   * Заголовок карточки -> текст:
+   * базовый отступ как в эталоне + чуть больший у однострочного заголовка,
+   * если в ряду есть двухстрочные (через общую min-height обертки).
+   */
+  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks .block__name-wrapper:has(.block__name),
+  .page-constructor.korporativnyj-page .content-block__grid--desc-custom.blocks .block__name-wrapper:has(.block__name) {
+    min-height: 4.3em !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks .block__name,
+  .page-constructor.korporativnyj-page .content-block__grid--desc-custom.blocks .block__name {
+    margin-bottom: 20px !important;
+  }
+}
+
+
+@media screen and (min-width: 721px) {
+  /*
+   * Этапы (desc-custom): в «3. Разработка сайтов» первая строка карточек разной высоты
+   * (короткий/длинный текст), из-за этого второй ряд «плывет» по вертикали.
+   */
+  .page-constructor.korporativnyj-page
+    .modern.content-block
+    .content-block__grid.content-block__grid--desc.content-block__grid--desc-custom.blocks
+    > .col-4
+    > .block-item:not(.block-item__merged):first-child {
+    min-height: 222px;
+  }
+}
+@media screen and (min-width: 721px) and (max-width: 1100px) {
+  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks .block__name-wrapper:has(.block__name),
+  .page-constructor.korporativnyj-page .content-block__grid--desc-custom.blocks .block__name-wrapper:has(.block__name) {
+    min-height: 4em !important;
+  }
+}
 .page-constructor.korporativnyj-page .numbered-header__subtitle-column .content-block__desc + .content-block__desc {
   margin-top: 1em;
 }
