@@ -11,7 +11,7 @@
     "variant": "title-video"
   },
   "sections": {
-    "packages": true,
+    "packages": false,
     "facts": true,
     "advantages": true
   },
@@ -41,7 +41,12 @@
       "analyticsDiagram": "kompleksnoye-analytics-diagram-block.html",
       "approachCreative": "kompleksnoye-approach-creative-block.html",
       "creativeDiagram": "kompleksnoye-creative-diagram-block.html",
-      "approachOptimization": "kompleksnoye-approach-optimization-block.html"
+      "approachOptimization": "kompleksnoye-approach-optimization-block.html",
+      "channelsUsed": "kompleksnoye-channels-used-block.html",
+      "nextCasesSlider": "kompleksnoye-next-cases-slider-block.html",
+      "results": "kompleksnoye-results-block.html",
+      "team": "kompleksnoye-team-block.html",
+      "blog": "blog-kompleksnoye-prodvizheniye.html"
     },
     "markers": {
       "mainStart": "KORPORATIVNYJ-MAIN-START",

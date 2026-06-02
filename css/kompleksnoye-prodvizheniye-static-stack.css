@@ -51,6 +51,30 @@
   margin-top: 0 !important;
 }
 
+/*
+ * Зазор подзаголовок → «Синергия каналов» как на референсе (~260px на 1440×900).
+ * При justify-content:center и 100vh остаётся ~340px пустоты; прижимаем текст к низу hero.
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    > .page-constructor__section:first-of-type
+    .header-background
+    .jumbotron {
+    justify-content: flex-end !important;
+    padding-bottom: 260px !important;
+  }
+}
+
+/* Первый контент после hero: без лишних 112px сверху (специфичнее kontekst/stack + data-v). */
+.page-constructor.kompleksnoye-prodvizheniye-page
+  > .page-constructor__section.kompleksnoye-channels-block
+  > .modern.content-block[data-v-4ed7dc78],
+.page-constructor.kompleksnoye-prodvizheniye-page
+  > .page-constructor__section.kompleksnoye-channels-block
+  > .content-block[data-v-4ed7dc78] {
+  padding-top: 0 !important;
+}
+
 @media screen and (min-width: 720px) and (max-width: 1024px) {
   .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron {
     gap: 42px !important;
@@ -353,6 +377,109 @@
   }
 }
 
+/* Второй слайдер кейсов после «Какие каналы используем» */
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-next-cases-slider-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-next-cases-slider-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-next-cases-slider-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/*
+ * Второй слайдер → «Результаты»: один шаг --home-between (только у .content-block),
+ * без дубля padding-top на section и без лишнего padding у .cases-block (как синергия → этап).
+ */
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-results-block {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page
+  > .page-constructor__section.kompleksnoye-next-cases-slider-section
+  + .page-constructor__section.kompleksnoye-results-block
+  > .modern.content-block,
+.page-constructor.kompleksnoye-prodvizheniye-page
+  > .page-constructor__section.kompleksnoye-next-cases-slider-section
+  + .page-constructor__section.kompleksnoye-results-block
+  > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-next-cases-slider-section .cases-block[data-v-bd2e570a] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-next-cases-slider-section
+  .cases-block
+  .cases-block__swiper-slide[data-v-bd2e570a] {
+  min-height: auto !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    > .page-constructor__section.kompleksnoye-next-cases-slider-section
+    + .page-constructor__section.kompleksnoye-results-block
+    > .modern.content-block,
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    > .page-constructor__section.kompleksnoye-next-cases-slider-section
+    + .page-constructor__section.kompleksnoye-results-block
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    > .page-constructor__section.kompleksnoye-next-cases-slider-section
+    + .page-constructor__section.kompleksnoye-results-block
+    > .modern.content-block,
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    > .page-constructor__section.kompleksnoye-next-cases-slider-section
+    + .page-constructor__section.kompleksnoye-results-block
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+@media screen and (min-width: 721px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-results-grid.content-block__grid--desc.blocks {
+    display: grid !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-results-grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-results-grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-results-grid.content-block__grid--tablet.blocks {
+    display: grid !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-results-grid.content-block__grid--desc.blocks > .col-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block,
   .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
@@ -386,20 +513,23 @@
 
 /* «Синергия каналов»: 6 карточек — по 3 в ряд на десктопе */
 @media screen and (min-width: 721px) {
-  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4 {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4,
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-used-grid.content-block__grid--desc.blocks > .col-4 {
     flex: 0 0 calc((100% - 150px) / 3) !important;
     max-width: calc((100% - 150px) / 3) !important;
     min-width: 0 !important;
   }
 
-  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4 {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4,
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-used-grid.content-block__grid--desc.blocks > .col-4 {
     order: 0 !important;
   }
 }
 
 
 @media screen and (min-width: 721px) and (max-width: 1100px) {
-  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4 {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4,
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-used-grid.content-block__grid--desc.blocks > .col-4 {
     max-width: calc((100% - 75px) / 2);
     flex: 0 0 calc((100% - 75px) / 2);
   }
@@ -445,6 +575,100 @@
   .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block,
   .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-analytics-diagram-section .movies-block {
     padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* «Блог» после FAQ: отступы и типографика как на /kontekstnaya_reklama */
+.page-constructor .kompleksnoye-blog-section {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .kompleksnoye-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.page-constructor .kompleksnoye-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+  margin-top: 0 !important;
+}
+
+.page-constructor .kompleksnoye-blog-section .services__text.home-ledge,
+.page-constructor .kompleksnoye-blog-section .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: 80px !important;
+}
+
+.page-constructor .kompleksnoye-blog-section .blog-block__swiper-container,
+.page-constructor .kompleksnoye-blog-section .blog-block__swiper-container[data-v-25bf775d] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.page-constructor .kompleksnoye-blog-section .services__title,
+.page-constructor .kompleksnoye-blog-section .services__title[data-v-56f85d51] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .kompleksnoye-blog-section .services__title,
+  .page-constructor .kompleksnoye-blog-section .services__title[data-v-56f85d51] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .kompleksnoye-blog-section .services__title,
+  .page-constructor .kompleksnoye-blog-section .services__title[data-v-56f85d51] {
+    font-size: 26px !important;
+  }
+}
+
+/* «Синергия с услугами»: отступы и слайдер как на /kontekstnaya_reklama */
+.page-constructor .kontekst-synergy-root {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading,
+.page-constructor .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+  margin-bottom: 0 !important;
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  color: #f6f6f6;
+}
+
+.kontekst-synergy-root .services__text.home-ledge,
+.kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: 80px !important;
+}
+
+.page-constructor .kontekst-synergy-root .services__context-slider.swiper-container,
+.kontekst-synergy-root .services__context-slider.swiper-container,
+.kontekst-synergy-root .services__context-slider.swiper-container[data-v-56f85d51] {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.kontekst-synergy-root .services__context-wrapper[data-v-56f85d51],
+.kontekst-synergy-root .services__context-wrapper[data-native-row="1"] {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.kontekst-synergy-root .services__card-price {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    font-size: 28px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .kontekst-synergy-root .isNewContent h3.services__title.kontekstnaya-page__section-heading {
+    font-size: 26px !important;
   }
 }
 
