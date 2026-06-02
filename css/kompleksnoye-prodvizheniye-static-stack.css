@@ -1,0 +1,427 @@
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-hero-header.css");
+
+/* Локальные overrides для страницы шаблона без Nuxt-обертки */
+.page-constructor.kompleksnoye-prodvizheniye-page {
+  position: relative;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page .page-constructor__bg {
+  z-index: 0 !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page .page-constructor__section {
+  position: relative;
+  z-index: 2;
+}
+
+/* Фон только на .header-background (как prod), без дублирующего ::before — иначе «мыло». */
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .header-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .header-background.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .header-background.desctop {
+    display: none !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .header-background.mobile {
+    display: block !important;
+  }
+}
+
+/* Ритм h1 → описание как на prod: margin-bottom 42px у заголовка, без margin-top у подзаголовка. */
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title,
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title-small {
+  margin-bottom: 42px !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__subtitle {
+  margin-top: 0 !important;
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron {
+    gap: 42px !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title,
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title-small {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Скрыть video-блок, если остался в срезе */
+.page-constructor.kompleksnoye-prodvizheniye-page .jumbotron-video-aurora {
+  display: none !important;
+}
+
+
+
+/* desc/tablet parity (как targeting-page) */
+/* Телефон: без Nuxt-скоупа десктопная сетка desc остаётся в потоке — дубль с tablet. */
+@media screen and (max-width: 720px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+}
+
+/* Планшет/десктоп: шапка этапа + desc-сетка под ней (как marketing, override parity). */
+@media screen and (min-width: 721px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container,
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    /* Как prod Nuxt: row-gap 120px между шапкой и блоком колонок (слайдер снят, gap остаётся) */
+    row-gap: 120px !important;
+    grid-row-gap: 120px !important;
+    column-gap: normal !important;
+    /* width 100% вместо calc(100% - 154px): поля как у prod через --page-gutter-x */
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  /*
+   * Зазор «описание → колонки» — только row-gap у .page__container (120px desktop).
+   * Не дублировать margin у .row / .col-6 (иначе 180px).
+   */
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container > .numbered-header,
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container > .numbered-header[data-v-490c7534],
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container > .numbered-header .row,
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] .numbered-header .row .col-6,
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] .numbered-header .row [class*="col-"],
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .numbered-header .row .col-6[data-v-490c7534],
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .numbered-header .row [class*="col-"] {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__title-column,
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__subtitle-column {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc.blocks,
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc-custom.blocks {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .numbered-header__title-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    row-gap: 45px;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    order: 2;
+    box-sizing: border-box !important;
+  }
+
+  /* Колонки desc-сетки: заголовки и текст описания на одной линии (как «Наш подход») */
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks
+    > .col-4 {
+    align-items: stretch !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks
+    > .col-4
+    > .block-item:has(.block__description) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks
+    .block__name-wrapper:has(.block__name) {
+    flex: 0 0 auto;
+    min-height: 4.75em;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .numbered-header .row > .content-block__grid.content-block__grid--desc {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 10;
+  }
+}
+
+/* Три колонки desc-сетки (gap 75px × 2), как marketing */
+.page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+  flex: 1 1 0;
+  max-width: calc((100% - 150px) / 3);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+/*
+ * «Стоимость и пакеты» сразу после cases-block: как /kontekstnaya_reklama (--home-between 112),
+ * не 172px из targeting-static-stack для .content-block.
+ */
+.page-constructor__section:has(.cases-block) + .page-constructor__section.kompleksnoye-packages-heading > .modern.content-block[data-v-4ed7dc78],
+.page-constructor__section:has(.cases-block) + .page-constructor__section.kompleksnoye-packages-heading > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+/* «Наш подход», пункт 1: заголовок 46px, цифра по центру строки (как prod). */
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__title-column {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  transform: none !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__bullet {
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  padding-top: 0 !important;
+  min-width: 78px;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__title {
+  padding: 0 0 0 45px !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__title
+  h2 {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  margin-top: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.kompleksnoye-packages-heading > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.kompleksnoye-packages-heading > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.kompleksnoye-packages-heading > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.kompleksnoye-packages-heading > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page .team-block,
+.page-constructor__section:has(> .team-block) .team-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+/*
+ * Все .content-block на странице: один шаг --home-between (112), не 172px из targeting-static-stack.
+ * post-hero, CMS, «Наш подход», этапы — одинаковый зазор между секциями.
+ */
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block,
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+/* Слайдер кейсов сразу после «Синергия каналов» */
+.page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-cases-slider-section {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-cases-slider-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section.kompleksnoye-cases-slider-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.kompleksnoye-prodvizheniye-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Планшет/телефон: row-gap между шапкой блока и сеткой колонок */
+@media screen and (max-width: 768px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78],
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container {
+    row-gap: 68px !important;
+    grid-row-gap: 68px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78],
+  .page-constructor.kompleksnoye-prodvizheniye-page .modern.content-block > .page__container {
+    row-gap: 55px !important;
+    grid-row-gap: 55px !important;
+  }
+}
+
+/* «Синергия каналов»: 6 карточек — по 3 в ряд на десктопе */
+@media screen and (min-width: 721px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4 {
+    flex: 0 0 calc((100% - 150px) / 3) !important;
+    max-width: calc((100% - 150px) / 3) !important;
+    min-width: 0 !important;
+  }
+
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4 {
+    order: 0 !important;
+  }
+}
+
+
+@media screen and (min-width: 721px) and (max-width: 1100px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-grid.content-block__grid--desc.blocks > .col-4 {
+    max-width: calc((100% - 75px) / 2);
+    flex: 0 0 calc((100% - 75px) / 2);
+  }
+}
+
+/*
+ * Схема каналов: статичная картинка, не видео — без height:37.5vw и object-fit:cover у .movies-block.
+ */
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block .swiper-slide {
+  height: auto !important;
+  max-height: none !important;
+  display: block !important;
+  cursor: default !important;
+}
+
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+

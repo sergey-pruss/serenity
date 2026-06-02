@@ -1,0 +1,54 @@
+{
+  "slug": "kompleksnoye-prodvizheniye",
+  "urlPath": "/kompleksnoye-prodvizheniye",
+  "seo": {
+    "breadcrumbLabel": "Комплексное продвижение",
+    "pageTitle": "Комплексное продвижение в Москве и Санкт-Петербурге — Serenity",
+    "metaTitle": "Комплексное продвижение в Москве и Санкт-Петербурге — Serenity",
+    "description": "Комплексное продвижение в Москве и Санкт-Петербурге: SEO, контекстная реклама и контент-маркетинг для роста трафика, заявок и продаж."
+  },
+  "hero": {
+    "variant": "title-video"
+  },
+  "sections": {
+    "packages": true,
+    "facts": true,
+    "advantages": true
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "KOMPLEKSNOYE_PRODVIZHENIYE_LAYOUT_SOURCE",
+    "tmpFull": "kompleksnoye-prodvizheniye-prod-full.html",
+    "tmpParity": "kompleksnoye-prodvizheniye-parity-prod-layout.html",
+    "pageDir": "kompleksnoye-prodvizheniye",
+    "cssStack": "kompleksnoye-prodvizheniye-static-stack.css",
+    "partials": {
+      "faq": "faq-kompleksnoye-prodvizheniye.html",
+      "inlineLead": "service-inline-lead-kompleksnoye-prodvizheniye.html",
+      "moreCases": "more-cases-kompleksnoye-prodvizheniye.html",
+      "awards": "awards-kompleksnoye-prodvizheniye.html",
+      "synergy": "synergy-kompleksnoye-prodvizheniye.html",
+      "casesSlider": "kompleksnoye-cases-slider-block.html",
+      "approach": "kompleksnoye-approach-block.html",
+      "channelsDiagram": "kompleksnoye-channels-diagram-block.html"
+    },
+    "markers": {
+      "mainStart": "KORPORATIVNYJ-MAIN-START",
+      "mainEnd": "KORPORATIVNYJ-MAIN-END",
+      "cssBundleStart": "KORPORATIVNYJ-CSS-BUNDLE-START",
+      "cssBundleEnd": "KORPORATIVNYJ-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "korporativnyj-faq-mounted",
+      "sectionClass": "korporativnyj-faq-section",
+      "rootClass": "korporativnyj-faq-root korporativnyj-faq-root--always-visible"
+    },
+    "phase2": true
+  }
+}
