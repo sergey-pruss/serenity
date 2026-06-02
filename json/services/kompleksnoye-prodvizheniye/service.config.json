@@ -36,7 +36,12 @@
       "synergy": "synergy-kompleksnoye-prodvizheniye.html",
       "casesSlider": "kompleksnoye-cases-slider-block.html",
       "approach": "kompleksnoye-approach-block.html",
-      "channelsDiagram": "kompleksnoye-channels-diagram-block.html"
+      "channelsDiagram": "kompleksnoye-channels-diagram-block.html",
+      "approachAnalytics": "kompleksnoye-approach-analytics-block.html",
+      "analyticsDiagram": "kompleksnoye-analytics-diagram-block.html",
+      "approachCreative": "kompleksnoye-approach-creative-block.html",
+      "creativeDiagram": "kompleksnoye-creative-diagram-block.html",
+      "approachOptimization": "kompleksnoye-approach-optimization-block.html"
     },
     "markers": {
       "mainStart": "KORPORATIVNYJ-MAIN-START",

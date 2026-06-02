@@ -249,9 +249,12 @@
   padding-top: var(--home-between, 112px) !important;
 }
 
-/* «Наш подход», пункт 1: заголовок 46px, цифра по центру строки (как prod). */
+/* «Наш подход», пункты 1–3: заголовок 46px, цифра по центру строки (как prod). */
 .page-constructor.kompleksnoye-prodvizheniye-page
   .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty),
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-step-block
   .numbered-header.title-large:not(.number-header__empty)
   .numbered-header__title-column {
   position: relative !important;
@@ -262,6 +265,10 @@
 
 .page-constructor.kompleksnoye-prodvizheniye-page
   .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__bullet,
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-step-block
   .numbered-header.title-large:not(.number-header__empty)
   .numbered-header__bullet {
   position: absolute !important;
@@ -277,12 +284,21 @@
 .page-constructor.kompleksnoye-prodvizheniye-page
   .kompleksnoye-approach-block
   .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__title,
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-step-block
+  .numbered-header.title-large:not(.number-header__empty)
   .numbered-header__title {
   padding: 0 0 0 45px !important;
 }
 
 .page-constructor.kompleksnoye-prodvizheniye-page
   .kompleksnoye-approach-block
+  .numbered-header.title-large:not(.number-header__empty)
+  .numbered-header__title
+  h2,
+.page-constructor.kompleksnoye-prodvizheniye-page
+  .kompleksnoye-approach-step-block
   .numbered-header.title-large:not(.number-header__empty)
   .numbered-header__title
   h2 {
@@ -390,20 +406,26 @@
 }
 
 /*
- * Схема каналов: статичная картинка, не видео — без height:37.5vw и object-fit:cover у .movies-block.
+ * Иллюстрации в .movies-block: статичная картинка, не видео — без height:37.5vw и object-fit:cover.
  */
-.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block {
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block,
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-analytics-diagram-section .movies-block,
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-creative-diagram-section .movies-block {
   padding-top: var(--home-between, 112px) !important;
 }
 
-.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block .swiper-slide {
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block .swiper-slide,
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-analytics-diagram-section .movies-block .swiper-slide,
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-creative-diagram-section .movies-block .swiper-slide {
   height: auto !important;
   max-height: none !important;
   display: block !important;
   cursor: default !important;
 }
 
-.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block img {
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block img,
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-analytics-diagram-section .movies-block img,
+.page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-creative-diagram-section .movies-block img {
   width: 100% !important;
   height: auto !important;
   max-height: none !important;
@@ -413,13 +435,15 @@
 }
 
 @media screen and (max-width: 800px) {
-  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block,
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-analytics-diagram-section .movies-block {
     padding-top: var(--home-between, 97px) !important;
   }
 }
 
 @media screen and (max-width: 425px) {
-  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block {
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-channels-diagram-section .movies-block,
+  .page-constructor.kompleksnoye-prodvizheniye-page .kompleksnoye-analytics-diagram-section .movies-block {
     padding-top: var(--home-between, 60px) !important;
   }
 }
