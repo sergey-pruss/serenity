@@ -35,15 +35,32 @@ function buildKorporativnyjPackagesPartial() {
 
 const CREON_CASE_NEEDLE = 'cases-block__swiper-slide-title">Creon Group</h3>';
 const KORP_PACKAGES_MARKER = "<!-- KORPORATIVNYJ-PACKAGES-START -->";
-const LEGACY_DIES_TILDA = '<h3 data-v-1444f1fb="">Лендинг на&nbsp;Tilda</h3>';
+const LEGACY_DIES_TILDA_RE = /<h3 data-v-1444f1fb="">Лендинг на(?:&nbsp;|\s)Tilda<\/h3>/;
 
 /** Убрать legacy .dies с «Лендинг на Tilda» / «Интернет-магазин» (после «Команда»). */
 function stripKorporativnyjLegacyDiesPrices(mainHtml) {
-  if (!mainHtml.includes(LEGACY_DIES_TILDA)) return mainHtml;
-  return stripSectionByInner(mainHtml, LEGACY_DIES_TILDA);
+  const m = mainHtml.match(LEGACY_DIES_TILDA_RE);
+  if (!m) return mainHtml;
+  return stripSectionByInner(mainHtml, m[0]);
 }
 
-/** Блок «Стоимость» (слайдер + таблица) сразу перед инлайн-формой заявки. */
+function stripLegacyDiesFromPublishedPage(html) {
+  const MAIN_START = "<!-- KORPORATIVNYJ-MAIN-START -->";
+  const MAIN_END = "<!-- KORPORATIVNYJ-MAIN-END -->";
+  const iStart = html.indexOf(MAIN_START);
+  const iEnd = html.indexOf(MAIN_END);
+  if (iStart < 0 || iEnd < 0) return html;
+  const head = html.slice(0, iStart + MAIN_START.length);
+  let main = html.slice(iStart + MAIN_START.length, iEnd);
+  const tail = html.slice(iEnd);
+  let prev;
+  do {
+    prev = main;
+    main = stripKorporativnyjLegacyDiesPrices(main);
+  } while (main !== prev);
+  return head + main + tail;
+}
+
 /** Якорь вставки post-hero/cms: перед phase2 («Наш подход») или маркером middle. */
 function korporativnyjPhase2ContentIndex(mainHtml) {
   const approachIdx = mainHtml.indexOf("Наш подход");
@@ -128,20 +145,25 @@ function injectKorporativnyjCmsBlock(mainHtml) {
 }
 
 function injectKorporativnyjPackagesBeforeInlineLead(mainHtml) {
-  if (mainHtml.includes(KORP_PACKAGES_MARKER)) {
-    return movePackagesBeforeInlineLead(mainHtml, {
-      startMarker: KORP_PACKAGES_MARKER,
-      endMarker: "<!-- KORPORATIVNYJ-PACKAGES-END -->",
-    });
-  }
+  if (!mainHtml.includes(KORP_PACKAGES_MARKER)) return mainHtml;
+  return movePackagesBeforeInlineLead(mainHtml, {
+    startMarker: KORP_PACKAGES_MARKER,
+    endMarker: "<!-- KORPORATIVNYJ-PACKAGES-END -->",
+  });
+}
+
+/** Блок «Стоимость» (слайдер + таблица) сразу после кейса Creon Group. */
+function injectKorporativnyjPackagesAfterCreonCase(mainHtml) {
+  if (mainHtml.includes(KORP_PACKAGES_MARKER)) return mainHtml;
   const partial = readPartial("html/partials/services/korporativnyj-packages-block.html");
   if (!partial) return mainHtml;
-  const leadSec = indexOfInlineLeadSection(mainHtml);
-  if (leadSec < 0) {
-    console.warn("assemble-korporativnyj: форма заявки не найдена — пакеты не вставлены");
+  const creonIdx = mainHtml.indexOf(CREON_CASE_NEEDLE);
+  if (creonIdx < 0) {
+    console.warn("assemble-korporativnyj: кейс Creon Group не найден — пакеты не вставлены");
     return mainHtml;
   }
-  return `${mainHtml.slice(0, leadSec)}\n${partial}\n${mainHtml.slice(leadSec)}`;
+  const secEnd = mainHtml.indexOf("</section>", creonIdx) + "</section>".length;
+  return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
 }
 
 const fullHtmlPath = path.join(root, "tmp", "korporativnyj-prod-full.html");
@@ -179,26 +201,12 @@ const KORPORATIVNYJ_PRODUCT_IMAGE =
   "https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
 const KORPORATIVNYJ_PRODUCT_IMAGE_DISK = "/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
 const KORPORATIVNYJ_HERO_H1 = "Разработка корпоративных сайтов";
-const KORPORATIVNYJ_HERO_SUBTITLE =
-  "Создание корпоративного сайта компании для&nbsp;знакомства с&nbsp;брендом, повышения узнаваемости и&nbsp;увеличения продаж.";
 
 function patchKorporativnyjHeroH1(html) {
   return html.replace(
     /(<h1[^>]*class="c-title-block__title"[^>]*>)[^<]*(<\/h1>)/i,
     `$1${KORPORATIVNYJ_HERO_H1}$2`,
   );
-}
-
-function patchKorporativnyjHeroSubtitle(html) {
-  return html
-    .replace(
-      /(<h4[^>]*class="c-title-block__subtitle"[^>]*>)[^<]*(<\/h4>)/i,
-      `$1${KORPORATIVNYJ_HERO_SUBTITLE}$2`,
-    )
-    .replace(
-      /(<span itemprop="description">)[^<]*(<\/span>)/,
-      `$1${KORPORATIVNYJ_HERO_SUBTITLE}$2`,
-    );
 }
 
 function escapeMetaAttr(value) {
@@ -267,9 +275,10 @@ function replaceBetween(html, startNeedle, endNeedle, replacement) {
 function stripSectionByInner(html, innerNeedle, fromIndex = 0) {
   let i = html.indexOf(innerNeedle, fromIndex);
   if (i < 0) return html;
-  const secStart = html.lastIndexOf('<section class="page-constructor__section">', i);
+  const secStart = html.lastIndexOf('<section class="page-constructor__section', i);
   if (secStart < 0) return html;
-  const secEnd = html.indexOf("</section>", i) + "</section>".length;
+  const secEnd = findSectionEnd(html, secStart);
+  if (secEnd <= secStart) return html;
   return html.slice(0, secStart) + html.slice(secEnd);
 }
 
@@ -555,19 +564,78 @@ function moveKorporativnyjFaqSectionBeforeCases(mainHtml) {
   return `${without.slice(0, iInsert2)}\n${block}\n${without.slice(iInsert2)}`;
 }
 
-/** Порядок как на /kontekstnaya_reklama: инлайн-форма сразу после контента, до «Команда». */
-function moveKorporativnyjInlineLeadBeforeTeam(mainHtml) {
-  const leadIdx = mainHtml.indexOf("sa-service-lead-section");
-  const teamIdx = mainHtml.indexOf("team-block");
-  if (leadIdx < 0 || teamIdx < 0 || leadIdx < teamIdx) return mainHtml;
-  const leadSec = mainHtml.lastIndexOf(SECTION_OPEN, leadIdx);
-  const leadEnd = mainHtml.indexOf("</section>", leadIdx) + "</section>".length;
+function findSectionEnd(html, startIdx) {
+  if (startIdx < 0) return -1;
+  let depth = 0;
+  let i = startIdx;
+  while (i < html.length) {
+    const relOpen = html.indexOf("<section", i);
+    const relClose = html.indexOf("</section>", i);
+    if (relClose < 0) return -1;
+    if (relOpen >= 0 && relOpen <= relClose) {
+      depth++;
+      i = relOpen + 8;
+    } else {
+      depth--;
+      i = relClose + "</section>".length;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+function injectKorporativnyjSiteCalc(mainHtml) {
+  if (mainHtml.includes('id="korporativnyj-site-calc-root"')) return mainHtml;
+  const partial = readPartial("html/partials/services/korporativnyj-site-calc.html");
+  if (!partial) return mainHtml;
+
+  const packagesEndMarker = "<!-- KORPORATIVNYJ-PACKAGES-END -->";
+  const packagesEnd = mainHtml.indexOf(packagesEndMarker);
+  if (packagesEnd >= 0) {
+    const insertAt = packagesEnd + packagesEndMarker.length;
+    return `${mainHtml.slice(0, insertAt)}\n${partial}\n${mainHtml.slice(insertAt)}`;
+  }
+
+  const pricesIdx = mainHtml.indexOf('class="prices"');
+  if (pricesIdx < 0) {
+    console.warn("assemble: section.prices не найден — квиз не вставлен");
+    return mainHtml;
+  }
+  const diesIdx = mainHtml.lastIndexOf('class="dies modern"', pricesIdx);
+  const secStart = mainHtml.lastIndexOf(SECTION_OPEN, diesIdx >= 0 ? diesIdx : pricesIdx);
+  const secEnd = findSectionEnd(mainHtml, secStart);
+  if (secStart < 0 || secEnd <= secStart) {
+    console.warn("assemble: не найден конец секции prices — квиз не вставлен");
+    return mainHtml;
+  }
+  return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
+}
+
+/** Таблица сравнения → квиз → форма «Заказать корпоративный сайт». */
+function moveKorporativnyjInlineLeadAfterSiteCalc(mainHtml) {
+  const leadMarker = mainHtml.indexOf("sa-service-lead-section");
+  const calcMarker = mainHtml.indexOf("sa-site-calc-section");
+  if (leadMarker < 0 || calcMarker < 0) return mainHtml;
+
+  let leadSec = mainHtml.lastIndexOf('<section class="page-constructor__section sa-service-lead-section"', leadMarker);
+  if (leadSec < 0) leadSec = mainHtml.lastIndexOf(SECTION_OPEN, leadMarker);
+  const leadEnd = findSectionEnd(mainHtml, leadSec);
   if (leadSec < 0 || leadEnd <= leadSec) return mainHtml;
+
   const block = mainHtml.slice(leadSec, leadEnd);
   const without = mainHtml.slice(0, leadSec) + mainHtml.slice(leadEnd);
-  const teamSec = without.lastIndexOf(SECTION_OPEN, without.indexOf("team-block"));
-  if (teamSec < 0) return mainHtml;
-  return `${without.slice(0, teamSec)}\n${block}\n${without.slice(teamSec)}`;
+
+  const calcMarker2 = without.indexOf("sa-site-calc-section");
+  if (calcMarker2 < 0) return mainHtml;
+  let calcSec = without.lastIndexOf('<section class="page-constructor__section sa-site-calc-section"', calcMarker2);
+  if (calcSec < 0) calcSec = without.lastIndexOf(SECTION_OPEN, calcMarker2);
+  const calcEnd = findSectionEnd(without, calcSec);
+  if (calcSec < 0 || calcEnd <= calcSec) return mainHtml;
+
+  const afterCalc = without.slice(calcEnd, calcEnd + 240);
+  if (afterCalc.includes("sa-service-lead-section")) return without;
+
+  return `${without.slice(0, calcEnd)}\n${block}\n${without.slice(calcEnd)}`;
 }
 
 function ensureKorporativnyjMoreCasesMainClass(mainHtml) {
@@ -727,6 +795,18 @@ function ensureKorporativnyjFaqScript(html) {
   return html;
 }
 
+function ensureKorporativnyjSiteCalcScript(html) {
+  const needle = 'src="/_sa/js/korporativnyj-site-calc.js';
+  if (html.includes(needle)) return html;
+  const leadJs = '<script defer src="/_sa/js/leave-request-cta.js?v=20260602inlineLeadThankYouMsgCenter"></script>';
+  const insert =
+    '<script defer src="/_sa/js/korporativnyj-site-calc.js?v=20260602korporativnyjSiteCalc"></script>\n    ' + leadJs;
+  if (html.includes('src="/_sa/js/leave-request-cta.js')) {
+    return html.replace(/<script defer src="\/_sa\/js\/leave-request-cta\.js[^"]*"><\/script>/, insert);
+  }
+  return html;
+}
+
 function ensureKorporativnyjTeamSliderScript(html) {
   const needle = 'src="/_sa/js/service-team-slider.js';
   if (html.includes(needle)) return html;
@@ -740,7 +820,6 @@ function ensureKorporativnyjTeamSliderScript(html) {
 function ensureKorporativnyjPackagesSliderScript(html) {
   const needle = 'src="/_sa/js/service-packages-slider.js';
   if (html.includes(needle)) return html;
-  const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
   const teamNeedle = 'src="/_sa/js/service-team-slider.js';
   const tag =
     '    <script defer src="/_sa/js/service-packages-slider.js?v=20260516kontekstPackagesGutter"></script>\n';
@@ -750,6 +829,7 @@ function ensureKorporativnyjPackagesSliderScript(html) {
       `$1${tag}`,
     );
   }
+  const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
   if (html.includes(appJs)) {
     return html.replace(appJs, `${appJs}\n${tag.trim()}`);
   }
@@ -878,7 +958,6 @@ function run() {
 
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
   main = patchKorporativnyjHeroH1(main);
-  main = patchKorporativnyjHeroSubtitle(main);
   main = sanitizeProductJsonLd(main);
 
   const captureOnly =
@@ -908,10 +987,13 @@ function run() {
   main = injectKorporativnyjMoreCases(main);
   main = injectKorporativnyjAwards(main);
   main = injectKorporativnyjSynergy(main);
-  main = moveKorporativnyjInlineLeadBeforeTeam(main);
-  main = moveKorporativnyjFaqSectionBeforeCases(main);
+  main = stripKorporativnyjLegacyDiesPrices(main);
+  main = injectKorporativnyjPackagesAfterCreonCase(main);
+  main = injectKorporativnyjSiteCalc(main);
+  main = moveKorporativnyjInlineLeadAfterSiteCalc(main);
   main = stripKorporativnyjLegacyDiesPrices(main);
   main = injectKorporativnyjPackagesBeforeInlineLead(main);
+  main = moveKorporativnyjFaqSectionBeforeCases(main);
   main = ensureKorporativnyjMoreCasesMainClass(main);
   main = injectContentBlockSubtitles(main);
   main = repairMisplacedSubtitles(main);
@@ -954,13 +1036,14 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260601korporativnyjColumnGapTight" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260602korporativnyjPackagesCalc" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260516footerSocialIconsGridAlign" />',
-        '    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260601inlineLeadThankYou" />',
+        '    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260602inlineLeadThankYouMsgCenter" />',
+        '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-site-calc.css?v=20260602korporativnyjSiteCalcTimeline" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260517desktopNavLogoAlign" />',
         "    <!-- KORPORATIVNYJ-CSS-BUNDLE-END -->",
       ].join("\n");
@@ -983,6 +1066,7 @@ function run() {
     out = ensureKorporativnyjFaqScript(out);
     out = ensureKorporativnyjTeamSliderScript(out);
     out = ensureKorporativnyjPackagesSliderScript(out);
+    out = ensureKorporativnyjSiteCalcScript(out);
   }
   fs.writeFileSync(indexPath, out, "utf8");
   const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });
@@ -999,6 +1083,9 @@ function run() {
   let published = fs.readFileSync(indexPath, "utf8");
   published = patchKorporativnyjHeadMeta(published);
   published = patchServiceBreadcrumbForSlug(published, "korporativnyj_sajt");
+  if (!captureOnly) {
+    published = stripLegacyDiesFromPublishedPage(published);
+  }
   fs.writeFileSync(indexPath, published.replace(/\n+$/, "\n"), "utf8");
 
   console.log("assemble-korporativnyj-from-prod-layout: ok, main bytes", main.length);

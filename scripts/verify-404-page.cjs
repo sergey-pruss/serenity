@@ -63,5 +63,15 @@ assert(
   /\blocation\s+\/\s*\{[\s\S]*?try_files\s+\$uri\s+\$uri\/\s+=404;/.test(preview),
   "static preview vhost: неизвестные URL должны уходить в 404, а не в /index.html",
 );
+assert(
+  preview.includes("location = /korporativnyj_sajt") &&
+    preview.includes('$arg_legacy = "1"') &&
+    preview.includes("legacy-preview"),
+  "static preview vhost: legacy Nuxt korporativnyj_sajt через ?legacy=1 или ?v=legacy-preview",
+);
+assert(
+  /location \^~ \/_nuxt\//.test(preview) && /location \^~ \/storage\//.test(preview),
+  "static preview vhost: прокси /_nuxt/ и /storage/ для legacy",
+);
 
 console.log("verify-404-page: ok");

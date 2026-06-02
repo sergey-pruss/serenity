@@ -68,6 +68,12 @@ assert(
   "static.serenity.agency vhost должен смотреть в /var/www/static-dev",
 );
 assert(
+  /s-maxage=300/.test(staticVhost) &&
+    !/expires -1;/.test(staticVhost) &&
+    !/add_header Cache-Control "no-cache, max-age=0, must-revalidate";/.test(staticVhost),
+  "static preview vhost: HTML Cache-Control должен включать s-maxage=300 для edge CDN",
+);
+assert(
   /root \/var\/www\/static;/.test(prodVhost) && /alias \/var\/www\/static\/;/.test(prodVhost),
   "prod serenity-router vhost должен оставаться на /var/www/static",
 );

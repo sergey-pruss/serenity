@@ -397,7 +397,9 @@
   line-height: 1.55 !important;
   text-align: center !important;
   margin: 0 auto !important;
-  max-width: 36em !important;
+  /* korporativnyj-nuxt.bundle: html p { max-width: min(90%, 42ch) } */
+  max-width: none !important;
+  width: 100% !important;
 }
 
 #sa-inline-lead-root.is-thank-you .form-success__message p br[data-v-a1ad29aa] {

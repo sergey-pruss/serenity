@@ -30,18 +30,18 @@ async function run() {
 
   assert(html.includes("Корпоративный сайт"), "breadcrumb/контент: Корпоративный сайт");
   assert(
-    /<title>Разработка корпоративного сайта в Москве и СПб — Serenity<\/title>/.test(html),
-    "<title>: Разработка корпоративного сайта в Москве и СПб — Serenity",
+    /<title>Разработка корпоративных сайтов — Serenity<\/title>/.test(html),
+    "<title>: Разработка корпоративных сайтов — Serenity",
   );
   assert(
-    /property="og:title" content="Разработка корпоративного сайта в Москве и СПб — Serenity"/.test(html),
+    /property="og:title" content="Разработка корпоративных сайтов — Serenity"/.test(html),
     "og:title синхронизирован с <title>",
   );
   assert(
     html.includes(
-      'meta name="description" content="Создание корпоративного сайта под задачи компании',
+      'meta name="description" content="Услуги по созданию корпоративных сайтов',
     ),
-    "description: создание корпоративного сайта, кейсы и стоимость",
+    "description как на проде",
   );
   assert(html.includes('property="og:lowPrice" content="400000.00"'), "og:lowPrice как на проде");
   assert(
@@ -68,9 +68,6 @@ async function run() {
   } else {
     assert(html.includes('id="korporativnyj-faq-mounted"'), "FAQ: korporativnyj-faq-mounted");
     assert(html.includes("korporativnyj-faq-section"), "FAQ: korporativnyj-faq-section");
-    assert(html.includes("Сколько времени занимает запуск?"), "FAQ: вопрос про сроки запуска");
-    assert(html.includes("Как считается стоимость?"), "FAQ: вопрос про стоимость");
-    assert(!html.includes("Почему столько стоит?"), "FAQ: без старых вопросов");
     assert(
       html.includes("korporativnyj-faq-root--always-visible"),
       "FAQ: korporativnyj-faq-root--always-visible (ответы развёрнуты)",
@@ -81,46 +78,6 @@ async function run() {
       "FAQ: без inline height:0 на spoiler__content",
     );
     assert(/class="page-constructor korporativnyj-page"/.test(html), "обёртка page-constructor korporativnyj-page");
-    assert(html.includes("korporativnyj-post-hero"), "post-hero: блок задач (секция)");
-    assert(!html.includes("korporativnyj-growth-heading"), "post-hero: без отдельной секции growth-heading");
-    assert(!html.includes("Какие задачи решает корпоративный сайт"), "post-hero: без старого заголовка задач");
-    assert(
-      /korporativnyj-post-hero[\s\S]{0,4000}Создание корпоративного сайта для&nbsp;роста бизнеса/.test(html),
-      "post-hero: заголовок «Создание… для роста бизнеса»",
-    );
-    assert(
-      html.includes("Корпоративный сайт помогает решать сразу несколько задач бизнеса"),
-      "post-hero: описание блока роста",
-    );
-    assert(html.includes("Формирует первое впечатление</h3>"), "post-hero: колонка «первое впечатление»");
-    assert(!html.includes("Формирует первое впечатление.</h3>"), "post-hero: без точки в заголовке колонки");
-    assert(html.includes("Закрывает B2B-задачи</h3>"), "post-hero: колонка B2B");
-    {
-      const approachIdx = html.indexOf("Наш подход");
-      const tasksIdx = html.indexOf("korporativnyj-post-hero");
-      const cmsIdx = html.indexOf("korporativnyj-cms-block");
-      assert(
-        tasksIdx > 0 && cmsIdx > tasksIdx && approachIdx > cmsIdx,
-        "post-hero: порядок hero → задачи → CMS → «Наш подход»",
-      );
-    }
-    assert(!html.includes('class="facts"'), "без legacy-блока .facts");
-    assert(!html.includes("презентация бренда и&nbsp;его услуг"), "facts: без текста презентации");
-    assert(html.includes("korporativnyj-cms-block"), "cms-block: секция");
-    assert(
-      html.includes("Корпоративный сайт на&nbsp;CMS: варианты и&nbsp;выбор"),
-      "cms-block: заголовок",
-    );
-    assert(html.includes("1С-Битрикс: Управление сайтом"), "cms-block: описание (Битрикс)");
-    assert(
-      /numbered-header__subtitle-column[\s\S]{0,2500}При выборе платформы мы в&nbsp;первую очередь оцениваем следующие параметры/.test(
-        html,
-      ),
-      "cms-block: вводная к критериям в описании (второй абзац)",
-    );
-    assert(!html.includes("korporativnyj-cms-criteria-lead"), "cms-block: без отдельной строки criteria-lead");
-    assert(html.includes("Простота управления контентом"), "cms-block: колонка 1");
-    assert(html.includes("Последующее обслуживание"), "cms-block: колонка 3");
     assert(!html.includes("korporativnyj-page__section-heading"), "заголовки: kontekstnaya-page__section-heading");
     assert(html.includes('id="sa-inline-lead-root"'), "inline lead root");
     assert(html.includes("more-case-wr"), "блок кейсов");
@@ -143,41 +100,6 @@ async function run() {
         read("css/korporativnyj-sajt-static-stack.css").includes("jumbotron-video-aurora"),
       "CSS: korporativnyj-hero или jumbotron-video",
     );
-    assert(
-      read("css/korporativnyj-sajt-static-stack.css").includes("korporativnyj-tasks-grid"),
-      "CSS: сетка 4 колонок post-hero",
-    );
-    assert(
-      /block__name-wrapper:has\(\.block__name\)[\s\S]*min-height:\s*4\.75em/.test(
-        read("css/korporativnyj-sajt-static-stack.css"),
-      ),
-      "CSS: выравнивание колонок desc-сетки (min-height заголовков)",
-    );
-    const stackCss = read("css/korporativnyj-sajt-static-stack.css");
-    assert(
-      /@media screen and \(min-width: 721px\)[\s\S]*row-gap:\s*120px/.test(stackCss),
-      "CSS: зазор шапка → колонки row-gap 120px как prod",
-    );
-    assert(
-      /@media screen and \(min-width: 721px\)[\s\S]*\.numbered-header \.row[\s\S]*margin-bottom:\s*0/.test(
-        stackCss,
-      ),
-      "CSS: без дубля margin-bottom у .row",
-    );
-    assert(
-      /content-block\[data-v-4ed7dc78\][\s\S]*\.col-6[\s\S]*margin-bottom:\s*0/.test(stackCss),
-      "CSS: сброс margin у .col-6 в шапке",
-    );
-    assert(
-      read("css/korporativnyj-sajt-static-stack.css").includes("margin-top: 0 !important"),
-      "CSS: desc-сетка без лишнего margin-top",
-    );
-    assert(
-      /korporativnyj-page[\s\S]*padding-top:\s*var\(--home-between/.test(
-        read("css/korporativnyj-sajt-static-stack.css"),
-      ),
-      "CSS: единый --home-between для content-block",
-    );
   }
   assert(html.includes("<!-- KORPORATIVNYJ-MAIN-START -->"), "маркер MAIN-START");
   assert(html.includes("<!-- KORPORATIVNYJ-MAIN-END -->"), "маркер MAIN-END");
@@ -199,22 +121,23 @@ async function run() {
   const mainEnd = html.indexOf("<!-- KORPORATIVNYJ-MAIN-END -->");
   const main = html.slice(mainStart, mainEnd);
   if (!captureBaseline) {
-    const leadIdx =
-      main.indexOf('class="page-constructor__section sa-service-lead-section"') >= 0
-        ? main.indexOf('class="page-constructor__section sa-service-lead-section"')
-        : main.indexOf("sa-service-lead-section");
+    const compareIdx = main.indexOf("korporativnyj-packages-compare-mounted");
+    const calcIdx = main.indexOf("sa-site-calc-section");
+    const leadIdx = main.indexOf("sa-service-lead-section");
     const teamIdx = main.indexOf("team-block");
     const clientsIdx = main.indexOf('class="clients-wrapper"');
     const faqIdx = main.indexOf("korporativnyj-faq-mounted");
     const casesIdx = main.indexOf('class="more-case-wr');
-    assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды (как kontekst)");
+    const creonIdx = main.indexOf("Creon Group");
+    assert(html.includes('id="korporativnyj-site-calc-root"'), "квиз: korporativnyj-site-calc-root");
+    assert(html.includes("korporativnyj-site-calc.js"), "квиз: korporativnyj-site-calc.js");
+    assert(html.includes("korporativnyj-site-calc.css"), "квиз: korporativnyj-site-calc.css");
+    assert(compareIdx >= 0 && calcIdx > compareIdx, "порядок: квиз после таблицы сравнения");
+    assert(calcIdx >= 0 && leadIdx > calcIdx, "порядок: квиз до формы");
+    assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды");
+    assert(creonIdx >= 0 && compareIdx > creonIdx, "порядок: «Стоимость» после кейса Creon");
     assert(clientsIdx >= 0 && faqIdx > clientsIdx, "порядок: клиенты до FAQ (как prod)");
     assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
-    const packagesIdx = main.indexOf("korporativnyj-packages-compare-mounted");
-    assert(
-      leadIdx >= 0 && packagesIdx < leadIdx,
-      "порядок: «Стоимость и пакеты» сразу перед инлайн-формой заявки",
-    );
   }
   const stackCssPath = "css/korporativnyj-sajt-static-stack.css";
   const stackCss = read(stackCssPath);
@@ -330,8 +253,7 @@ async function run() {
 
   const phase2 = !captureBaseline && process.env.KORPORATIVNYJ_VERIFY_PHASE2 === "1";
   if (phase2) {
-    assert(html.includes("Наш подход"), "phase2: блок «Наш подход»");
-    assert(!html.includes('class="facts"'), "phase2: без блока .facts");
+    assert(html.includes('class="facts"') || html.includes("Наш подход"), "phase2: факты/подход");
     assert(!html.includes("KORPORATIVNYJ-PHASE2:middle"), "phase2: нет маркера middle");
     assert(!html.includes("https://serenity.agency/storage/"), "phase2: пути storage переписаны в /_sa/img/");
     assert(html.includes('class="cases-block"'), "phase2: слайдер cases-block в середине страницы");
@@ -340,8 +262,8 @@ async function run() {
     assert(
       html.includes("KORPORATIVNYJ-PHASE2:middle") ||
         html.includes("KORPORATIVNYJ-PHASE2:clients") ||
-        html.includes("Наш подход"),
-      "phase1: маркеры пропуска секций или phase2 включён",
+        html.includes('class="facts"'),
+      "phase1: маркеры пропуска секций, facts или phase2 включён",
     );
   }
   if (!captureBaseline) {

@@ -5,6 +5,7 @@
 @import url("sections/korporativnyj-hero.css");
 @import url("sections/kontekstnaya-packages-compare.css");
 @import url("sections/service-packages-cards.css");
+@import url("sections/korporativnyj-site-calc.css");
 
 .page-constructor > .page-constructor__section:first-of-type::before {
   display: none !important;
@@ -191,8 +192,7 @@
 
 /* Планшет/десктоп: шапка этапа + desc-сетка под ней (как marketing, override parity). */
 @media screen and (min-width: 721px) {
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container,
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+  .page-constructor.korporativnyj-page .modern.content-block > .page__container {
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
@@ -200,10 +200,6 @@
     max-width: none !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    /* Как prod Nuxt: row-gap 120px между шапкой и блоком колонок (слайдер снят, gap остаётся) */
-    row-gap: 120px !important;
-    grid-row-gap: 120px !important;
-    column-gap: normal !important;
     /* width 100% вместо calc(100% - 154px): поля как у prod через --page-gutter-x */
     padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
     padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
@@ -215,46 +211,13 @@
     flex: 0 0 auto !important;
   }
 
-  /*
-   * Зазор «описание → колонки» — только row-gap у .page__container (120px desktop).
-   * Не дублировать margin у .row / .col-6 (иначе 180px).
-   */
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container > .numbered-header,
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container > .numbered-header[data-v-490c7534],
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container > .numbered-header .row,
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] .numbered-header .row {
+  .page-constructor.korporativnyj-page .numbered-header .row {
     display: flex !important;
     flex-wrap: wrap !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
     width: 100% !important;
-    margin-top: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] .numbered-header .row .col-6,
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] .numbered-header .row [class*="col-"],
-  .page-constructor.korporativnyj-page .modern.content-block .numbered-header .row .col-6[data-v-490c7534],
-  .page-constructor.korporativnyj-page .modern.content-block .numbered-header .row [class*="col-"] {
-    margin-bottom: 0 !important;
-  }
-
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__title-column,
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__subtitle-column {
-    margin-bottom: 0 !important;
-  }
-
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc.blocks,
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc-custom.blocks {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+    margin: 0 !important;
   }
 
   .page-constructor.korporativnyj-page .numbered-header__title-column {
@@ -284,43 +247,11 @@
     display: flex !important;
     flex-wrap: wrap !important;
     column-gap: 75px;
-    align-items: stretch !important;
     width: 100% !important;
     max-width: 100% !important;
     flex: 0 0 auto !important;
     order: 2;
     box-sizing: border-box !important;
-  }
-
-  /* Колонки desc-сетки: заголовки и текст описания на одной линии (как «Наш подход») */
-  .page-constructor.korporativnyj-page
-    .modern.content-block
-    > .page__container
-    > .content-block__grid.content-block__grid--desc.blocks
-    > .col-4 {
-    align-items: stretch !important;
-  }
-
-  .page-constructor.korporativnyj-page
-    .modern.content-block
-    > .page__container
-    > .content-block__grid.content-block__grid--desc.blocks
-    > .col-4
-    > .block-item:has(.block__description) {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 1 auto !important;
-    height: 100% !important;
-    width: 100% !important;
-  }
-
-  .page-constructor.korporativnyj-page
-    .modern.content-block
-    > .page__container
-    > .content-block__grid.content-block__grid--desc.blocks
-    .block__name-wrapper:has(.block__name) {
-    flex: 0 0 auto;
-    min-height: 4.75em;
   }
 
   .page-constructor.korporativnyj-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
@@ -378,103 +309,3 @@
 .page-constructor__section:has(> .team-block) .team-block {
   padding-top: var(--home-between, 112px) !important;
 }
-
-/*
- * Все .content-block на странице: один шаг --home-between (112), не 172px из targeting-static-stack.
- * post-hero, CMS, «Наш подход», этапы — одинаковый зазор между секциями.
- */
-.page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block,
-.page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
-  padding-top: var(--home-between, 112px) !important;
-  padding-bottom: 0 !important;
-}
-
-@media screen and (max-width: 800px) {
-  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block,
-  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
-    padding-top: var(--home-between, 97px) !important;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block,
-  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
-    padding-top: var(--home-between, 60px) !important;
-  }
-}
-
-/* Планшет/телефон: row-gap как в Nuxt-бандле (слайдер снят, gap между шапкой и tablet/desc) */
-@media screen and (max-width: 768px) {
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78],
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container {
-    row-gap: 68px !important;
-    grid-row-gap: 68px !important;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  .page-constructor.korporativnyj-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78],
-  .page-constructor.korporativnyj-page .modern.content-block > .page__container {
-    row-gap: 55px !important;
-    grid-row-gap: 55px !important;
-  }
-}
-
-@media screen and (min-width: 721px) {
-  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks > .col-4 {
-    flex: 1 1 0;
-    max-width: calc((100% - 225px) / 4);
-    min-width: 0;
-  }
-}
-
-
-@media screen and (min-width: 721px) {
-  /*
-   * Заголовок карточки -> текст:
-   * базовый отступ как в эталоне + чуть больший у однострочного заголовка,
-   * если в ряду есть двухстрочные (через общую min-height обертки).
-   */
-  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks .block__name-wrapper:has(.block__name),
-  .page-constructor.korporativnyj-page .content-block__grid--desc-custom.blocks .block__name-wrapper:has(.block__name) {
-    min-height: 4.3em !important;
-    box-sizing: border-box;
-  }
-
-  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks .block__name,
-  .page-constructor.korporativnyj-page .content-block__grid--desc-custom.blocks .block__name {
-    margin-bottom: 20px !important;
-  }
-}
-
-
-@media screen and (min-width: 721px) {
-  /*
-   * Этапы (desc-custom): в «3. Разработка сайтов» первая строка карточек разной высоты
-   * (короткий/длинный текст), из-за этого второй ряд «плывет» по вертикали.
-   */
-  .page-constructor.korporativnyj-page
-    .modern.content-block
-    .content-block__grid.content-block__grid--desc.content-block__grid--desc-custom.blocks
-    > .col-4
-    > .block-item:not(.block-item__merged):first-child {
-    min-height: 222px;
-  }
-}
-@media screen and (min-width: 721px) and (max-width: 1100px) {
-  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks .block__name-wrapper:has(.block__name),
-  .page-constructor.korporativnyj-page .content-block__grid--desc-custom.blocks .block__name-wrapper:has(.block__name) {
-    min-height: 4em !important;
-  }
-}
-.page-constructor.korporativnyj-page .numbered-header__subtitle-column .content-block__desc + .content-block__desc {
-  margin-top: 1em;
-}
-
-@media screen and (min-width: 721px) and (max-width: 1100px) {
-  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks > .col-4 {
-    max-width: calc((100% - 75px) / 2);
-    flex: 0 0 calc((100% - 75px) / 2);
-  }
-}
-
