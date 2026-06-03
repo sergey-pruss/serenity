@@ -214,3 +214,163 @@
   .page-constructor .dies.modern section.prices,
   .page-constructor > .page-constructor__section:has(> .dies.modern .prices) > .dies.modern {
     padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box;
+    /*
+     * Full-bleed слайдер (calc(100% + gutter), отрицательный margin-right) не должен расширять scrollWidth.
+     * На /kontekstnaya_reklama это даёт .dies[data-v-07db1e8a]{overflow:hidden} в Nuxt-бандле;
+     * /korporativnyj_sajt без data-v — явный clip на .dies.modern.
+     * overflow-y тоже hidden: при overflow-x:hidden браузер иначе выставляет overflow-y:auto и ловит
+     * 12px от padding-bottom слайдера — вертикальный скролл внутри блока.
+     */
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+  }
+
+  /*
+   * Геометрия ряда как у .services-unified .services__context-slider (native-row-scroll):
+   * первая карточка по линии заголовка, справа — «хвост» следующей плитки.
+   */
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 55px) !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: -55px !important;
+    box-sizing: border-box;
+  }
+
+  /* Nuxt .row .col padding на обёртке — лишний inset слева у первой плитки. */
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] .price-card__wrapper[data-v-1444f1fb] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container,
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    touch-action: pan-x pan-y;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    overflow: hidden !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Свайп на треке: auto (не scroll), полосу режет overflow:hidden на хосте — как у услуг. */
+  .page-constructor .dies .prices .prices__packages-track.swiper-wrapper,
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    box-sizing: border-box;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    touch-action: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    scroll-padding-inline-end: var(--page-inline-end, var(--page-gutter-x, 55px));
+    padding-top: 20px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    /* Концевой гаттер — .native-row-end-gutter в initRow (не margin последнего слайда). */
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"]::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] .prices__packages-slide:last-child,
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .swiper-slide:last-child {
+    margin-right: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    gap: 30px;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .swiper-slide,
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] > .prices__packages-slide {
+    margin-right: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    flex: 0 0 auto !important;
+    box-sizing: border-box;
+    width: 309px !important;
+    max-width: 309px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px) !important;
+    margin-right: -36px !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    width: 270px !important;
+    max-width: 270px !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + 36px) !important;
+    margin-right: -36px !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    width: 270px !important;
+    max-width: 270px !important;
+  }
+}
+
+/*
+ * «Пакеты» ≤719px: первая плитка по левой сетке (--page-inline-start), ширина как у «Синергии»
+ * (viewport − гаттер − 84px peek). Убираем auto-margin у .price-card внутри слайда.
+ */
+@media screen and (max-width: 719px) {
+  .page-constructor .dies .prices .prices__packages-slider.swiper-container[data-native-row="1"] {
+    width: calc(100% + var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-track[data-native-row="1"] {
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 36px)) !important;
+    scroll-padding-inline-start: var(--page-inline-start, var(--page-gutter-x, 36px)) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide.swiper-slide {
+    flex: 0 0 auto !important;
+    width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    max-width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide .price-card__wrapper[data-v-1444f1fb],
+  .page-constructor .dies .prices .prices__packages-slide .price-card__wrapper {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .prices__packages-slide .price-card.noImg[data-v-1444f1fb],
+  .page-constructor .dies .prices .prices__packages-slide .price-card.noImg {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
