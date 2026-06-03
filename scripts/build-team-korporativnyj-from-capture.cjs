@@ -108,13 +108,13 @@ function buildTeamSection(kontekstSection, intro, members) {
 
   const slidesHtml = members.map((m) => memberSlideHtml(m)).join("");
   out = out.replace(
-    /(<div class="team__members-track swiper-wrapper">)[\s\S]*?(<div data-v-3b1bcda9="" data-v-c03ce8dc="" class="team-carousel-block")/,
+    /(<div class="team__members-track swiper-wrapper">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/div>\s*<\/div>\s*<\/div>\s*<div data-v-3b1bcda9="" data-v-c03ce8dc="" class="team-carousel-block")/,
     `$1${slidesHtml}$2`,
   );
 
   const carouselSlides = members.map((m, i) => carouselSlideHtml(m, i)).join("");
   out = out.replace(
-    /(<div data-v-3b1bcda9="" class="swiper-wrapper"[^>]*>)[\s\S]*?(<div class="swiper-pagination")/,
+    /(<div data-v-3b1bcda9="" class="swiper-wrapper"[^>]*>)[\s\S]*?(<\/div>\s*<span class="swiper-notification")/,
     `$1${carouselSlides}$2`,
   );
 

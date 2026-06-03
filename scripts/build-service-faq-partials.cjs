@@ -7,6 +7,7 @@ const path = require("path");
 const {
   extractFaqPairsFromHtml,
   syncFaqBodyHtmlJsonLd,
+  stripNuxtScopedAttrs,
 } = require("./lib/build-faq-page-jsonld.cjs");
 
 const root = path.resolve(__dirname, "..");
@@ -46,6 +47,15 @@ const SERVICES = [
     rootClass: "korporativnyj-faq-root korporativnyj-faq-root--always-visible",
     comment: "<!-- FAQ korporativnyj_sajt: json/services/korporativnyj_sajt/faq.json + service-faq.css. -->\n",
   },
+  {
+    slug: "seo",
+    partial: "faq-seo.html",
+    mountId: "korporativnyj-faq-mounted",
+    sectionClass: "korporativnyj-faq-section",
+    rootClass: "korporativnyj-faq-root korporativnyj-faq-root--always-visible",
+    comment:
+      "<!-- FAQ seo: json/services/seo/faq.json + service-faq.css (дизайн kompleksnoye/korporativnyj). -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {
@@ -80,7 +90,7 @@ function buildPartial(svc) {
     writeJsonFromPartial(svc);
   }
   const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-  const bodyHtml = syncFaqBodyHtmlJsonLd(data.bodyHtml);
+  const bodyHtml = stripNuxtScopedAttrs(syncFaqBodyHtmlJsonLd(data.bodyHtml));
   if (bodyHtml !== data.bodyHtml) {
     data.bodyHtml = bodyHtml;
     fs.writeFileSync(jsonPath, `${JSON.stringify(data, null, 2)}\n`, "utf8");

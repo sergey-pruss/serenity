@@ -2,6 +2,11 @@
  * FAQPage JSON-LD из разметки spoiler (.block__question / .block__content).
  * Текст ответа — plain text, как в видимом FAQ (без HTML).
  */
+/** Убирает Nuxt data-v-* — иначе бандл вешает margin на .questions__blocks[data-v-…]. */
+function stripNuxtScopedAttrs(html) {
+  return String(html ?? "").replace(/\s+data-v-[a-f0-9]+=""/gi, "");
+}
+
 function stripHtmlToPlainText(html) {
   return String(html ?? "")
     .replace(/<br\s*\/?>/gi, " ")
@@ -14,7 +19,7 @@ function stripHtmlToPlainText(html) {
 function extractFaqPairsFromHtml(html) {
   const pairs = [];
   const re =
-    /<div class="spoiler block">[\s\S]*?<h3 class="block__question">([^<]*)<\/h3>[\s\S]*?<div class="block__content">([\s\S]*?)<\/div>/g;
+    /<div[^>]*class="spoiler block"[^>]*>[\s\S]*?<h3[^>]*class="block__question"[^>]*>([^<]*)<\/h3>[\s\S]*?<div[^>]*class="block__content"[^>]*>([\s\S]*?)<\/div>/g;
   let m;
   while ((m = re.exec(html)) !== null) {
     const question = m[1].trim();
@@ -58,6 +63,7 @@ function syncFaqBodyHtmlJsonLd(bodyHtml) {
 }
 
 module.exports = {
+  stripNuxtScopedAttrs,
   stripHtmlToPlainText,
   extractFaqPairsFromHtml,
   buildFaqPageJsonLdObject,

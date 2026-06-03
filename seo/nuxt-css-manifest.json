@@ -1,0 +1,9 @@
+{
+  "generated": "2026-06-03T08:30:00.000Z",
+  "hrefs": [
+    "/_sa/css/korporativnyj-nuxt.bundle.css"
+  ],
+  "sourceChunks": [],
+  "nuxtOrigin": "https://serenity.agency",
+  "note": "Scoped-стили /seo с prod — тот же korporativnyj-nuxt.bundle, что у kompleksnoye-prodvizheniye"
+}

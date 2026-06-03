@@ -1,0 +1,771 @@
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-hero-header.css");
+
+/* Страница /seo — static shell без #__nuxt (как kompleksnoye-prodvizheniye) */
+.page-constructor.seo-page {
+  position: relative;
+}
+
+.page-constructor.seo-page .page-constructor__bg {
+  z-index: 0 !important;
+}
+
+.page-constructor.seo-page .page-constructor__section {
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.seo-page > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.seo-page > .page-constructor__section:first-of-type .header-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.page-constructor.seo-page > .page-constructor__section:first-of-type .header-background.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.seo-page > .page-constructor__section:first-of-type .header-background.desctop {
+    display: none !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section:first-of-type .header-background.mobile {
+    display: block !important;
+  }
+}
+
+.page-constructor.seo-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title,
+.page-constructor.seo-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title-small {
+  margin-bottom: 42px !important;
+}
+
+.page-constructor.seo-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__subtitle {
+  margin-top: 0 !important;
+}
+
+/*
+ * Зазор подзаголовок → facts как на kompleksnoye-prodvizheniye (~260px в hero на 1440×900).
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.seo-page
+    > .page-constructor__section:first-of-type
+    .header-background
+    .jumbotron {
+    justify-content: flex-end !important;
+    padding-bottom: 260px !important;
+  }
+}
+
+/* Nuxt .facts { padding-top: 165px } даёт лишний зазор после hero — как у kompleksnoye (контент сразу после 100vh). */
+@media screen and (min-width: 720px) {
+  .page-constructor.seo-page > .page-constructor__section > .facts {
+    padding-top: 0 !important;
+  }
+}
+
+.page-constructor.seo-page .case-slider__wrapper.case-slider__margin-fix {
+  margin-top: 0;
+}
+
+.page-constructor.seo-page .seo-team-section {
+  background: transparent !important;
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.seo-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+}
+
+/*
+ * «Работаем в синергии…» — паритет с .kompleksnoye-channels-block («Синергия каналов»).
+ */
+@media screen and (min-width: 721px) {
+  .page-constructor.seo-page .seo-synergy-tools-section .modern.content-block > .page__container,
+  .page-constructor.seo-page .seo-synergy-tools-section .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 120px !important;
+    grid-row-gap: 120px !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.seo-page .seo-synergy-tools-grid.content-block__grid--desc.blocks > .col-4,
+  .page-constructor.seo-page .seo-synergy-tools-section .seo-synergy-tools-grid.content-block__grid--desc.blocks > .col-4 {
+    flex: 0 0 calc((100% - 150px) / 3) !important;
+    max-width: calc((100% - 150px) / 3) !important;
+    min-width: 0 !important;
+  }
+}
+
+/*
+ * Заголовок + описание: ширина колонок как на kompleksnoye-prodvizheniye (50% / flex, без Nuxt 560+520).
+ */
+@media screen and (min-width: 721px) {
+  .page-constructor.seo-page .modern.content-block > .page__container,
+  .page-constructor.seo-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 120px !important;
+    grid-row-gap: 120px !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.seo-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.seo-page .modern.content-block > .page__container > .numbered-header .row,
+  .page-constructor.seo-page .content-block[data-v-4ed7dc78] .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .page-constructor.seo-page .numbered-header__title-column,
+  .page-constructor.seo-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.seo-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .page__container.desktop,
+  .page-constructor.seo-page > .page-constructor__section > .facts .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+    grid-template: none !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
+    column-gap: 0 !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .col-6.page__title,
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .description-item {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .title,
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .lead {
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .page__title .title br {
+    display: inline !important;
+  }
+
+  /*
+   * Макет: 5 строк заголовка при 32px. В колонке 50% (~642px) строки 2–3
+   * шире блока (≈675px и ≈652px) — ломаются переносы внутри <br>-сегментов.
+   */
+  @media screen and (min-width: 1200px) {
+    .page-constructor.seo-page > .page-constructor__section > .facts .facts-header {
+      column-gap: 40px !important;
+    }
+
+    .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .col-6.page__title {
+      flex: 0 0 680px !important;
+      max-width: 680px !important;
+      width: 680px !important;
+    }
+
+    .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .description-item {
+      flex: 1 1 0 !important;
+      max-width: calc(100% - 720px) !important;
+      min-width: 280px !important;
+    }
+  }
+
+  @media screen and (min-width: 721px) and (max-width: 1199px) {
+    .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .title {
+      font-size: 30px !important;
+      line-height: 1.26 !important;
+    }
+  }
+
+  .page-constructor.seo-page .content-block__grid--desc {
+    display: flex !important;
+  }
+
+  .page-constructor.seo-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    row-gap: 45px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.seo-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    flex: 1 1 0;
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-constructor.seo-page .content-block__grid--tablet {
+    display: none !important;
+  }
+
+  .page-constructor.seo-page .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.seo-page .numbered-header .row > .content-block__grid.content-block__grid--desc {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 10;
+  }
+
+  /* Как kompleksnoye: зазор шапка → desc-сетка только row-gap у .page__container */
+  .page-constructor.seo-page .modern.content-block > .page__container > .numbered-header,
+  .page-constructor.seo-page .modern.content-block > .page__container > .numbered-header[data-v-490c7534],
+  .page-constructor.seo-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.seo-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc.blocks,
+  .page-constructor.seo-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc-custom.blocks {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.seo-page .content-block[data-v-4ed7dc78] .numbered-header .row .col-6,
+  .page-constructor.seo-page .content-block[data-v-4ed7dc78] .numbered-header .row [class*="col-"],
+  .page-constructor.seo-page .modern.content-block .numbered-header .row .col-6[data-v-490c7534],
+  .page-constructor.seo-page .modern.content-block .numbered-header .row [class*="col-"] {
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor.seo-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    align-items: stretch !important;
+    flex: 0 0 auto !important;
+    order: 2;
+  }
+
+  .page-constructor.seo-page .modern.content-block > .page__container > .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    align-items: stretch !important;
+  }
+}
+
+/*
+ * «Команда» и прочие блоки вне .modern.content-block: как Nuxt/kompleksnoye —
+ * margin auto + width calc(100% - 154px) + max-width 1366px + padding 78px.
+ * Не сбрасывать margin на все .page__container: иначе команда и часть секций
+ * остаются на 78px от края, а на kompleksnoye — 37+78 (−20 у h2 → ~95px).
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.seo-page .team-block .page__container,
+  .page-constructor.seo-page .team-block .page__container[data-v-c03ce8dc],
+  .page-constructor.seo-page .team-block .page__container.desktop {
+    box-sizing: border-box !important;
+    max-width: 1366px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  }
+}
+
+@media screen and (max-width: 1366px) and (min-width: 720px) {
+  .page-constructor.seo-page .team-block .page__container,
+  .page-constructor.seo-page .team-block .page__container[data-v-c03ce8dc],
+  .page-constructor.seo-page .team-block .page__container.desktop {
+    width: calc(100% - 154px) !important;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.seo-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.seo-page > .page-constructor__section > .facts .page__container.desktop,
+  .page-constructor.seo-page > .page-constructor__section > .facts .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 24px;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .col-6.page__title,
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .description-item {
+    flex: 0 0 auto !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .title,
+  .page-constructor.seo-page > .page-constructor__section > .facts .facts-header .lead {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/*
+ * Вертикальный ритм /seo как на kompleksnoye-prodvizheniye: --home-between (112), не 172px из targeting-static-stack.
+ */
+.page-constructor.seo-page > .page-constructor__section > .modern.content-block,
+.page-constructor.seo-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.seo-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.seo-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.seo-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.seo-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Слайдеры кейсов: один шаг до/после секции, без дубля padding у .cases-block и без «хвоста» 100vh. */
+.page-constructor.seo-page > .page-constructor__section:has(> .cases-block) {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.seo-page > .page-constructor__section:has(> .cases-block) .cases-block[data-v-bd2e570a] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.seo-page > .page-constructor__section:has(> .cases-block) .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+  min-height: auto !important;
+}
+
+.page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block,
+.page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) {
+    padding-top: var(--home-between, 97px) !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block,
+  .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) {
+    padding-top: var(--home-between, 60px) !important;
+  }
+
+  .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block,
+  .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+.page-constructor.seo-page .seo-team-section .team-block,
+.page-constructor.seo-page > .page-constructor__section:has(> .team-block) .team-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.seo-page .seo-team-section .team-block,
+  .page-constructor.seo-page > .page-constructor__section:has(> .team-block) .team-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.seo-page .seo-team-section .team-block,
+  .page-constructor.seo-page > .page-constructor__section:has(> .team-block) .team-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/*
+ * Хвост после «Команда» — паритет с /kompleksnoye-prodvizheniye (секции-соседи, не вложенные в team).
+ * Селекторы .page-constructor … — как kompleksnoye-blog / kontekst-clients (не только .seo-page).
+ *
+ * targeting-static-stack скрывает .page-constructor > section:has(.clients-wrapper).
+ */
+.page-constructor > .page-constructor__section.seo-clients-section:has(.clients-wrapper),
+.page-constructor > .page-constructor__section:has(.clients-wrapper) {
+  display: block !important;
+}
+
+.page-constructor .seo-clients-section,
+.page-constructor.seo-page .seo-clients-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor .seo-clients-section .clients-new-section,
+.page-constructor .seo-clients-section .clients-new-section[data-v-08586076],
+.page-constructor.seo-page .seo-clients-section .clients-new-section,
+.page-constructor.seo-page .seo-clients-section .clients-new-section[data-v-08586076] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .seo-clients-section .clients-new.home-ledge,
+.page-constructor .seo-clients-section .clients-new.home-ledge[data-v-08586076] {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor .seo-clients-section .swiper-container-clients-new,
+.page-constructor .seo-clients-section .swiper-container-clients-new[data-v-08586076] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* «Клиенты»: как kompleks — wrapper center, блок ~calc(100% - 154px) (заголовок ~77px на 1440). */
+.page-constructor .seo-clients-section .clients-wrapper,
+.page-constructor .seo-clients-section .clients-wrapper[data-v-08586076] {
+  justify-content: center !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor .seo-clients-section .clients-new-section,
+.page-constructor .seo-clients-section .clients-new-section[data-v-08586076] {
+  width: calc(100% - 154px) !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* «Блог»: padding-top на section (как .kompleksnoye-blog-section), не margin у шапки. */
+.page-constructor .seo-blog-section,
+.page-constructor.seo-page .seo-blog-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.page-constructor .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51],
+.page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+  margin-top: 0 !important;
+}
+
+.page-constructor .seo-cases-section,
+.page-constructor.seo-page .seo-cases-section,
+.page-constructor > .page-constructor__section:has(> .more-case-wr) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor .seo-cases-section .more-case-wr.more-case-wr__main,
+.page-constructor > .page-constructor__section:has(> .more-case-wr) .more-case-wr.more-case-wr__main,
+.page-constructor .seo-cases-section .more-case-wr[data-v-27a87df0],
+.page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .korporativnyj-faq-section,
+.page-constructor.seo-page .korporativnyj-faq-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor .seo-synergy-section,
+.page-constructor.seo-page .seo-synergy-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor .seo-blog-section .services__text.home-ledge,
+.page-constructor .seo-blog-section .services__text.home-ledge[data-v-56f85d51],
+.page-constructor.seo-page .seo-blog-section .services__text.home-ledge,
+.page-constructor.seo-page .seo-blog-section .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor .seo-blog-section .blog-block__swiper-container,
+.page-constructor .seo-blog-section .blog-block__swiper-container[data-v-25bf775d],
+.page-constructor.seo-page .seo-blog-section .blog-block__swiper-container,
+.page-constructor.seo-page .seo-blog-section .blog-block__swiper-container[data-v-25bf775d] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.page-constructor .seo-blog-section .services__title,
+.page-constructor .seo-blog-section .services__title[data-v-56f85d51],
+.page-constructor.seo-page .seo-blog-section .services__title,
+.page-constructor.seo-page .seo-blog-section .services__title[data-v-56f85d51] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+.page-constructor .seo-clients-section .clients-new.home-ledge,
+.page-constructor.seo-page .seo-clients-section .clients-new.home-ledge,
+.page-constructor.seo-page .seo-clients-section .clients-new.home-ledge[data-v-08586076] {
+  padding-top: 0 !important;
+}
+
+.page-constructor .korporativnyj-faq-root .questions .questions__blocks,
+.page-constructor.seo-page .korporativnyj-faq-root .questions .questions__blocks {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.page-constructor .seo-blog-section .blog-block-mainstr.isNewContent,
+.page-constructor .seo-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d],
+.page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent,
+.page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor .seo-blog-section .blog-block-mainstr .services__text,
+.page-constructor .seo-blog-section .blog-block-mainstr .services__text[data-v-56f85d51],
+.page-constructor.seo-page .seo-blog-section .blog-block-mainstr .services__text,
+.page-constructor.seo-page .seo-blog-section .blog-block-mainstr .services__text[data-v-56f85d51] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page-constructor .seo-synergy-section .synergy__text,
+.page-constructor .seo-synergy-section .synergy__text[data-v-627ccbce],
+.page-constructor.seo-page .seo-synergy-section .synergy__text,
+.page-constructor.seo-page .seo-synergy-section .synergy__text[data-v-627ccbce] {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor .seo-synergy-section .synergy__context-slider,
+.page-constructor .seo-synergy-section .synergy__context-slider[data-v-627ccbce],
+.page-constructor.seo-page .seo-synergy-section .synergy__context-slider,
+.page-constructor.seo-page .seo-synergy-section .synergy__context-slider[data-v-627ccbce] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+@media screen and (max-width: 1025px) {
+  .page-constructor .seo-blog-section .blog-block-mainstr.isNewContent,
+  .page-constructor .seo-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d],
+  .page-constructor .seo-synergy-section .synergy__text,
+  .page-constructor .seo-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor .seo-synergy-section .synergy__context-slider,
+  .page-constructor .seo-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 55px) !important;
+    padding-right: var(--page-inline-end, 55px) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .seo-blog-section .blog-block-mainstr.isNewContent,
+  .page-constructor .seo-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d],
+  .page-constructor .seo-synergy-section .synergy__text,
+  .page-constructor .seo-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor .seo-synergy-section .synergy__context-slider,
+  .page-constructor .seo-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 36px) !important;
+    padding-right: var(--page-inline-end, 36px) !important;
+  }
+}
+
+/*
+ * Награды: через @import targeting → kontekst stack даёт body:not(.sa-home-page) .home-awards-block .awards { padding-top: 112px }
+ * и мы дублировали 112px на .seo-awards-section → ~224px до заголовка. Как /kontekstnaya_reklama: section без padding-top, один шаг на .awards.
+ */
+.page-constructor.seo-page .seo-awards-section.page-constructor__section,
+.page-constructor .seo-awards-section.page-constructor__section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+body:not(.sa-home-page) .page-constructor.seo-page .seo-awards-section .home-awards-block .awards,
+.page-constructor.seo-page .seo-awards-section .home-awards-block .awards {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+}
+
+.page-constructor .seo-synergy-section .synergy__title,
+.page-constructor .seo-synergy-section .synergy__title[data-v-627ccbce],
+.page-constructor.seo-page .seo-synergy-section .synergy__title,
+.page-constructor.seo-page .seo-synergy-section .synergy__title[data-v-627ccbce] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  color: #f6f6f6;
+}
+
+/* «Кейсы»: kontekstnaya-reklama-static-stack — padding-top на .more-case-wr, поля на .page__container. */
+.page-constructor .seo-cases-section .more-case-wr.more-case-wr__main .page__container[data-v-27a87df0],
+.page-constructor .seo-cases-section .more-case-wr.more-case-wr__main .page__container,
+.page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main .page__container[data-v-27a87df0],
+.page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main .page__container,
+.page-constructor .more-case-wr.more-case-wr__main .page__container[data-v-27a87df0],
+.page-constructor .more-case-wr.more-case-wr__main .page__container {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+/* Сетка: горизонтальные поля только у .page__container (заголовок), не дублировать на .more-cases — иначе карточки уже эталона. */
+.page-constructor .seo-cases-section .more-case-wr.more-case-wr__main .more-cases,
+.page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main .more-cases {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor .seo-cases-section .more-case-wr.more-case-wr__main .more-cases h3.kontekstnaya-page__section-heading,
+.page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main .more-cases h3.kontekstnaya-page__section-heading,
+.page-constructor .seo-cases-section .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading.more-case-wr__slider-heading,
+.page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading.more-case-wr__slider-heading {
+  margin: 0 0 var(--kontekst-heading-gap, 80px) !important;
+  padding: 0 !important;
+  color: #fff !important;
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.seo-page .seo-clients-section .clients-new-section,
+  .page-constructor.seo-page .seo-clients-section .clients-new-section[data-v-08586076],
+  .page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main,
+  .page-constructor.seo-page > .page-constructor__section:has(> .more-case-wr) .more-case-wr.more-case-wr__main,
+  .page-constructor .seo-synergy-section,
+  .page-constructor.seo-page .seo-synergy-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+
+  .page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+  .page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+    margin-top: var(--home-between, 97px) !important;
+  }
+
+  body:not(.sa-home-page) .page-constructor.seo-page .seo-awards-section .home-awards-block .awards,
+  .page-constructor.seo-page .seo-awards-section .home-awards-block .awards {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.seo-page .seo-clients-section .clients-new-section,
+  .page-constructor.seo-page .seo-clients-section .clients-new-section[data-v-08586076],
+  .page-constructor.seo-page .seo-cases-section .more-case-wr.more-case-wr__main,
+  .page-constructor.seo-page > .page-constructor__section:has(> .more-case-wr) .more-case-wr.more-case-wr__main,
+  .page-constructor .seo-synergy-section,
+  .page-constructor.seo-page .seo-synergy-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+
+  .page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+  .page-constructor.seo-page .seo-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+    margin-top: var(--home-between, 60px) !important;
+  }
+
+  body:not(.sa-home-page) .page-constructor.seo-page .seo-awards-section .home-awards-block .awards,
+  .page-constructor.seo-page .seo-awards-section .home-awards-block .awards {
+    padding-top: var(--home-between, 60px) !important;
+  }
+
+  .page-constructor.seo-page .seo-blog-section .services__title,
+  .page-constructor.seo-page .seo-blog-section .services__title[data-v-56f85d51] {
+    font-size: 26px !important;
+  }
+}

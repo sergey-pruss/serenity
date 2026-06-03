@@ -1,0 +1,55 @@
+{
+  "slug": "seo",
+  "urlPath": "/seo",
+  "seo": {
+    "breadcrumbLabel": "SEO-продвижение",
+    "pageTitle": "SEO-продвижение — Serenity",
+    "metaTitle": "SEO-продвижение — Serenity",
+    "description": "Услуги по оптимизации сайта в поисковых системах Google и Яндекс, SEO продвижение сайта в Москве и Санкт-Петербурге."
+  },
+  "hero": {
+    "variant": "case-slider"
+  },
+  "sections": {
+    "packages": true,
+    "facts": true,
+    "advantages": true
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "SEO_LAYOUT_SOURCE",
+    "tmpFull": "seo-prod-full.html",
+    "tmpParity": "seo-parity-prod-layout.html",
+    "pageDir": "seo",
+    "cssStack": "seo-static-stack.css",
+    "partials": {
+      "faq": "faq-seo.html",
+      "inlineLead": "service-inline-lead-seo.html",
+      "team": "seo-team-block.html",
+      "relatedServices": "seo-related-services-block.html",
+      "clients": "clients-seo.html",
+      "blog": "blog-seo.html",
+      "moreCases": "more-cases-seo.html",
+      "awards": "awards-seo.html",
+      "synergy": "synergy-seo.html"
+    },
+    "markers": {
+      "mainStart": "SEO-MAIN-START",
+      "mainEnd": "SEO-MAIN-END",
+      "cssBundleStart": "SEO-CSS-BUNDLE-START",
+      "cssBundleEnd": "SEO-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "korporativnyj-faq-mounted",
+      "sectionClass": "korporativnyj-faq-section",
+      "rootClass": "korporativnyj-faq-root korporativnyj-faq-root--always-visible"
+    },
+    "phase2": false
+  }
+}

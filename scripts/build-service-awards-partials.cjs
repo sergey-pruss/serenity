@@ -87,6 +87,13 @@ const SERVICES = [
     headingId: "korporativnyj-awards-heading",
     comment: "<!-- Награды korporativnyj_sajt: json/services/korporativnyj_sajt/awards.json + home-awards.css. -->\n",
   },
+  {
+    slug: "seo",
+    partial: "awards-seo.html",
+    headingId: "seo-awards-heading",
+    sectionClass: "seo-awards-section",
+    comment: "<!-- Награды /seo: json/services/seo/awards.json + home-awards.css. -->\n",
+  },
 ];
 
 function writeSeedJson(svc) {
@@ -112,9 +119,14 @@ function buildPartial(svc) {
   }
   const shell = fs.readFileSync(shellPath, "utf8");
   const slidesHtml = renderSlides(data.awards);
-  const out =
-    (svc.comment || "") +
-    shell.replace("__HEADING_ID__", data.headingId).replace("__SLIDES_HTML__", slidesHtml);
+  let sectionHtml = shell.replace("__HEADING_ID__", data.headingId).replace("__SLIDES_HTML__", slidesHtml);
+  if (svc.sectionClass) {
+    sectionHtml = sectionHtml.replace(
+      '<section class="page-constructor__section">',
+      `<section class="page-constructor__section ${svc.sectionClass}">`,
+    );
+  }
+  const out = (svc.comment || "") + sectionHtml;
   const outPath = path.join(partialsDir, svc.partial);
   fs.writeFileSync(outPath, `${out.trim()}\n`, "utf8");
   console.log("Wrote", path.relative(root, outPath));

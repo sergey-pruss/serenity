@@ -80,13 +80,14 @@
 
 .kontekst-faq-root .questions .questions__blocks,
 .targeting-faq-root .questions .questions__blocks ,
-.korporativnyj-faq-root .questions .questions__blocks {
+.korporativnyj-faq-root .questions .questions__blocks,
+.korporativnyj-faq-root .questions .questions__blocks[data-v-841383f2] {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: clamp(16px, 2vw, 32px);
   row-gap: clamp(24px, 3vw, 42px);
   width: 100%;
-  margin: 0;
+  margin: 0 !important;
 }
 
 .kontekst-faq-root .blocks__column,

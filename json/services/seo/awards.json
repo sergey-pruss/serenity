@@ -1,0 +1,72 @@
+{
+  "headingId": "seo-awards-heading",
+  "mountId": "sa-home-awards-mounted",
+  "awards": [
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "4 место в России по SEO-аудиту сайтов",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "4 место в СПб по комплексному продвижению в интернете",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "13 место в Санкт-Петербурге по разработке корпоративных цифровых решений",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "44 место по России в рейтинге разработчиков сайтов",
+      "href": "https://api.cabinet.cmsmagazine.ru/diplom/show/a8e587222488d8c01db74777375e8bf9"
+    },
+    {
+      "rating": "Ruward",
+      "year": "2021",
+      "description": "14 место в России по цифровой трансформации бизнеса",
+      "href": "https://ruward.ru/spec-ratings/2021/digital-transformation/"
+    },
+    {
+      "rating": "Ruward",
+      "year": "2018",
+      "description": "3 место в России в номинации «Цифровая трансформация бизнеса компании»",
+      "href": null
+    },
+    {
+      "rating": "Золотой<br>сайт",
+      "year": "2016",
+      "description": "1 место в номинации «Сайт магазина розничной торговли»",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "2 место в СПб в рейтинге брендинговых агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "19 место в России в рейтинге разработчиков сайта типа «Лендинг»",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "3 место в СПб в рейтинге брендинговых агентство",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "29 место по России в рейтинге разработчиков сайтов на Tilda",
+      "href": null
+    }
+  ]
+}

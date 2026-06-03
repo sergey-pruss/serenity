@@ -13,6 +13,7 @@ const KNOWN_SLUGS = [
   "marketing",
   "korporativnyj_sajt",
   "kompleksnoye-prodvizheniye",
+  "seo",
 ];
 
 function listServiceSlugs() {

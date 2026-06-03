@@ -16,6 +16,7 @@ const PIPELINES = {
   targeting: () => require("./assemble-targeting-from-prod-layout.cjs").run(),
   marketing: () => require("./assemble-marketing-from-prod-layout.cjs").run(),
   korporativnyj_sajt: () => require("./assemble-korporativnyj-from-prod-layout.cjs").run(),
+  seo: () => require("./assemble-seo-from-prod-layout.cjs").run(),
 };
 
 function runAssemble(slug) {
