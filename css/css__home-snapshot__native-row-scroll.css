@@ -483,11 +483,13 @@
 /* Бандл: .clients-wrapper + .clients-mainstr (один узел) — overflow:hidden; только overflow-x:visible при
    overflow-y:hidden на том же элементе даёт по спецификации горизонтальный auto — снова обрезание. */
 .clients-wrapper.clients-mainstr[data-v-08586076]:has(.swiper-container-clients-new[data-clients-strip="1"]),
-.clients-wrapper.clients-mainstr:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+.clients-wrapper.clients-mainstr:has(.swiper-container-clients-new[data-clients-strip="1"]),
+.page-constructor__section:has(.swiper-container-clients-new[data-clients-strip="1"]) > .clients-wrapper:has(.swiper-container-clients-new[data-clients-strip="1"]) {
   overflow: visible !important;
 }
 
-.clients-mainstr .clients-new-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+.clients-mainstr .clients-new-section:has(.swiper-container-clients-new[data-clients-strip="1"]),
+.page-constructor__section:has(.swiper-container-clients-new[data-clients-strip="1"]) .clients-new-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
   overflow-x: visible !important;
   overflow-y: visible !important;
 }
@@ -511,4 +513,73 @@
 .home-awards-block .home-awards-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
   overflow-x: visible !important;
   overflow-y: visible !important;
+}
+
+/* «Кейсы» (more-case-wr / mor-cases-slider): на адаптиве — нативный scroll, full-bleed как «Клиенты». */
+.mor-cases-slider.swiper-container[data-native-row="1"] {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  overscroll-behavior-x: contain;
+  position: relative;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.more-case-wr.more-case-wr__main:has(.mor-cases-slider[data-native-row="1"]) {
+  overflow-x: visible !important;
+}
+
+.more-case-wr .mor-cases-slider-wrapper:has(.mor-cases-slider[data-native-row="1"]) {
+  overflow-x: visible !important;
+}
+
+.more-case-wr .mor-cases-slider .swiper-wrapper[data-native-row="1"] {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  gap: 20px;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+  overscroll-behavior: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transform: none !important;
+  transition: none !important;
+  cursor: auto;
+}
+
+.mor-cases-slider[data-native-row="1"] .swiper-wrapper::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.more-case-wr .mor-cases-slider .swiper-wrapper[data-native-row="1"] .mor-cases-slide,
+.more-case-wr .mor-cases-slider .swiper-wrapper[data-native-row="1"] .swiper-slide {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  margin-right: 0 !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .more-case-wr .mor-cases-slider .swiper-wrapper[data-native-row="1"] {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 55px));
+    touch-action: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .more-case-wr .mor-cases-slider .swiper-wrapper[data-native-row="1"] {
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 36px));
+  }
 }

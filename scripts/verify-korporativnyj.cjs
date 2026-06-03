@@ -90,9 +90,10 @@ async function run() {
       "синергия: data-v-56f85d51 на card-img (snapshot.bundle скрывает tablet/mobile)",
     );
     assert(html.includes("Наши клиенты"), "клиенты: заголовок «Наши клиенты»");
-    assert(html.includes('class="clients-wrapper"'), "клиенты: clients-wrapper (как /targeting)");
-    assert(html.includes("clients-new__title"), "клиенты: clients-new__title (как /targeting)");
-    assert(!html.includes("kontekst-clients-section"), "клиенты: без kontekst-clients-section");
+    assert(html.includes("clients-mainstr"), "клиенты: clients-mainstr (parity /kontekstnaya_reklama)");
+    assert(html.includes("home-clients-awards__title"), "клиенты: home-clients-awards__title");
+    assert(html.includes("kontekst-clients-section"), "клиенты: kontekst-clients-section");
+    assert(!html.includes("clients-new__title"), "клиенты: без legacy clients-new__title");
     assert(html.includes("korporativnyj-sajt-static-stack.css"), "CSS: korporativnyj-sajt-static-stack (import kontekst stack)");
     assert(html.includes("overrides.parity-sync.css"), "CSS: kontekst parity-sync");
     assert(
@@ -125,7 +126,7 @@ async function run() {
     const calcIdx = main.indexOf("sa-site-calc-section");
     const leadIdx = main.indexOf("sa-service-lead-section");
     const teamIdx = main.indexOf("team-block");
-    const clientsIdx = main.indexOf('class="clients-wrapper"');
+    const clientsIdx = main.indexOf("kontekst-clients-section");
     const faqIdx = main.indexOf("korporativnyj-faq-mounted");
     const casesIdx = main.indexOf('class="more-case-wr');
     const creonIdx = main.indexOf("Creon Group");
@@ -149,8 +150,26 @@ async function run() {
     "без фонового фото kontekst ::before в герое",
   );
   assert(html.includes("service-packages-slider.js"), "packages: service-packages-slider.js");
+  assert(html.includes("kontekst-packages-compare-rows.js"), "packages: kontekst-packages-compare-rows.js");
   assert(html.includes('id="korporativnyj-packages-compare-mounted"'), "packages: таблица сравнения");
   assert(html.includes("prices__packages-slider"), "packages: слайдер тарифов");
+  assert(
+    html.includes("kontekst-packages-compare__layout") &&
+      html.includes("kontekst-packages-compare__table--pinned") &&
+      html.includes("kontekst-packages-compare__table--plans"),
+    "packages: split-layout (pinned + plans)",
+  );
+  const compareCss = read("css/sections/kontekstnaya-packages-compare.css");
+  assert(
+    compareCss.includes(".kontekst-packages-compare__pinned") &&
+      compareCss.includes(".kontekst-packages-compare__scroll"),
+    "packages: compare CSS scroll/pinned",
+  );
+  assert(
+    stackCss.includes("overflow-x: hidden") &&
+      stackCss.includes("kontekst-packages-compare"),
+    "stack CSS: overflow-x hidden у .prices с compare",
+  );
   assert(
     html.includes(">Стоимость и пакеты</h2>") || html.includes(">Стоимость и&nbsp;пакеты</h2>"),
     "packages: заголовок «Стоимость и пакеты»",

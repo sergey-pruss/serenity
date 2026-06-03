@@ -463,16 +463,10 @@ function stripPhase1Middle(mainHtml) {
   return `${mainHtml.slice(0, heroEnd)}\n${MARKER_MIDDLE}\n${mainHtml.slice(formSec)}`;
 }
 
-function sanitizeClientsSectionHtml(html) {
-  return html
-    .replace(/\s*swiper-container-initialized/g, "")
-    .replace(/\s*swiper-container-horizontal/g, "")
-    .replace(/\s*swiper-container-free-mode/g, "")
-    .replace(/<span class="swiper-notification"[^>]*><\/span>/g, "")
-    .replace(/\s*style="transition-duration:\s*[^"]*;?"/g, "")
-    .replace(/\s*style="transform:\s*translate3d\([^"]*\);?"/g, "")
-    .replace(/\s*style="cursor:\s*grab;?"/g, "");
-}
+const {
+  sanitizeClientsSectionHtml,
+  upgradeServiceClientsSectionHtml,
+} = require("./lib/replace-service-clients-section.cjs");
 
 /** Вырезает только <section> с .clients-wrapper из targeting-phase2-clients.html. */
 function extractTargetingClientsSection(sliceHtml) {
@@ -501,7 +495,7 @@ function injectKorporativnyjClientsBeforeFaq(mainHtml) {
     return out;
   }
   /* data-v не снимаем: стили карточек логотипов в korporativnyj-nuxt.bundle.css scoped. */
-  clients = sanitizeClientsSectionHtml(rewriteProdSlice(clients));
+  clients = upgradeServiceClientsSectionHtml(rewriteProdSlice(clients));
 
   const { start } = extractKorporativnyjFaqBlock(out);
   if (start < 0) {
@@ -836,6 +830,21 @@ function ensureKorporativnyjPackagesSliderScript(html) {
   return html;
 }
 
+function ensureKorporativnyjPackagesCompareRowsScript(html) {
+  const needle = 'src="/_sa/js/kontekst-packages-compare-rows.js';
+  if (html.includes(needle)) return html;
+  const sliderNeedle = 'src="/_sa/js/service-packages-slider.js';
+  const tag =
+    '    <script defer src="/_sa/js/kontekst-packages-compare-rows.js?v=20260603kontekstPackagesCompareScrollEnd"></script>\n';
+  if (html.includes(sliderNeedle)) {
+    return html.replace(
+      /(<script defer src="\/_sa\/js\/service-packages-slider\.js[^"]*"><\/script>\s*)/,
+      `$1${tag}`,
+    );
+  }
+  return html;
+}
+
 function ensureBurgerMenuGlavnaya(html) {
   if (/<ul class="navigation-new__list"[^>]*>[\s\S]*?<a\s+href="\/"[^>]*>\s*Главная\s*<\/a>/i.test(html)) {
     return html;
@@ -1032,11 +1041,11 @@ function run() {
         "    <!-- KORPORATIVNYJ-CSS-BUNDLE-START: Nuxt + kontekst parity stack (как kontekstnaya_reklama) -->",
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />',
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260523serviceHeroTop" />',
-        '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
+        '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260603morCasesFullBleed" />',
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260603korporativnyjPackagesNoVerticalScroll" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260603morCasesSliderAlign" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
@@ -1066,6 +1075,7 @@ function run() {
     out = ensureKorporativnyjFaqScript(out);
     out = ensureKorporativnyjTeamSliderScript(out);
     out = ensureKorporativnyjPackagesSliderScript(out);
+    out = ensureKorporativnyjPackagesCompareRowsScript(out);
     out = ensureKorporativnyjSiteCalcScript(out);
   }
   fs.writeFileSync(indexPath, out, "utf8");

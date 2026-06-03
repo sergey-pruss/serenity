@@ -811,6 +811,12 @@ body:not(.order-popup-open) .overlay-new {
     padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
     padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
   }
+
+  /* Фактоиды: 50px не влезают в колонку справа от иконки */
+  .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-title {
+    font-size: 32px;
+    line-height: 1.12;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -821,6 +827,7 @@ body:not(.order-popup-open) .overlay-new {
 
   .page-constructor .advantages-card.advantages-card--kontekst-mini .advantages-card__content-title {
     white-space: normal;
+    font-size: 28px;
   }
 }
 
@@ -1201,6 +1208,15 @@ body:not(.order-popup-open) .overlay-new {
     padding-right: 0 !important;
     box-sizing: border-box;
     overflow-x: visible !important;
+  }
+
+  /* Таблица пакетов: скролл только в .kontekst-packages-compare__scroll, не у .prices */
+  .page-constructor .dies.modern .prices:has(.kontekst-packages-compare)[data-v-1505791e],
+  .page-constructor .dies.modern section.prices:has(.kontekst-packages-compare),
+  .page-constructor
+    > .page-constructor__section:has(> .dies.modern .prices:has(.kontekst-packages-compare))
+    > .dies.modern {
+    overflow-x: hidden !important;
   }
 
   /*

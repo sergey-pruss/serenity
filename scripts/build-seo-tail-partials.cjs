@@ -9,6 +9,7 @@ const { execSync } = require("child_process");
 const { processTypographyHtml } = require("./typography-nbsp.cjs");
 const { syncFaqBodyHtmlJsonLd, stripNuxtScopedAttrs } = require("./lib/build-faq-page-jsonld.cjs");
 const { rewriteProdSliceBase } = require("./lib/assemble-service-common.cjs");
+const { upgradeServiceClientsSectionHtml } = require("./lib/replace-service-clients-section.cjs");
 
 const root = path.resolve(__dirname, "..");
 const CAPTURE = path.join(root, "tmp", "seo-prod-full.html");
@@ -317,11 +318,9 @@ function main() {
   if (!clientsInner.includes('class="clients-wrapper"')) {
     clientsInner = `<div data-v-08586076="" class="clients-wrapper">${clientsInner}</div>`;
   }
-  fs.writeFileSync(
-    path.join(PARTIALS, "clients-seo.html"),
-    `<!-- Клиенты /seo: prod capture. -->\n<section class="page-constructor__section seo-clients-section">\n${clientsInner}\n</section>\n`,
-    "utf8",
-  );
+  let clientsBlock = `<!-- Клиенты /seo: prod capture. -->\n<section class="page-constructor__section seo-clients-section">\n${clientsInner}\n</section>`;
+  clientsBlock = upgradeServiceClientsSectionHtml(clientsBlock, { extraSectionClass: "seo-clients-section" });
+  fs.writeFileSync(path.join(PARTIALS, "clients-seo.html"), `${clientsBlock}\n`, "utf8");
   console.log("Wrote html/partials/services/clients-seo.html");
 
   const faqSec = extractSectionContaining(raw, "questions__title");

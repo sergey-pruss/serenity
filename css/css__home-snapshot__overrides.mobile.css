@@ -19,20 +19,10 @@
 }
 
 /*
- * Горизонтальный ряд «Кейсы» (more-case-wr): только телефон ≤719 (слайдер в бандле ≤768px).
- * Планшет 720–1024 — css/sections/service-more-cases.css (узкие плитки / сетка на контексте).
+ * Горизонтальный ряд «Кейсы» (more-case-wr): телефон ≤719.
+ * Full-bleed (margin ±gutter) — initRow + native-row-scroll; здесь только размеры плиток.
  */
 @media screen and (max-width: 719px) {
-  .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container[data-v-38965faa],
-  .more-case-wr .mor-cases-slider-wrapper .mor-cases-slider.swiper-container {
-    width: calc(100% + var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
-    max-width: none !important;
-    margin-left: 0 !important;
-    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
-    box-sizing: border-box;
-    overflow: visible !important;
-  }
-
   .mor-cases-slider-wrapper .mor-cases-slide[data-v-38965faa],
   .mor-cases-slider-wrapper .mor-cases-slide {
     height: 460px !important;

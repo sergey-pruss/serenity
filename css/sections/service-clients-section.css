@@ -1,0 +1,50 @@
+/**
+ * «Наши клиенты» на страницах услуг: parity с /kontekstnaya_reklama.
+ * Работает с .kontekst-clients-section + .clients-mainstr (native-row-scroll + initClientsStrip).
+ */
+
+/* targeting-static-stack скрывает legacy .clients-wrapper; parity-секция — видима */
+.page-constructor > .page-constructor__section.kontekst-clients-section:has(.clients-mainstr),
+.page-constructor > .page-constructor__section.seo-clients-section:has(.clients-mainstr) {
+  display: block !important;
+}
+
+.page-constructor .kontekst-clients-section .clients-new-section,
+.page-constructor .kontekst-clients-section .clients-new-section[data-v-08586076] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .kontekst-clients-section .clients-new.home-ledge,
+.page-constructor .kontekst-clients-section .clients-new.home-ledge[data-v-08586076] {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor .kontekst-clients-section .home-clients-awards__title,
+.page-constructor .kontekst-clients-section .home-clients-awards__title[data-v-08586076] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .kontekst-clients-section .home-clients-awards__title,
+  .page-constructor .kontekst-clients-section .home-clients-awards__title[data-v-08586076] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .kontekst-clients-section .home-clients-awards__title,
+  .page-constructor .kontekst-clients-section .home-clients-awards__title[data-v-08586076] {
+    font-size: 26px !important;
+  }
+}
+
+.page-constructor .kontekst-clients-section .swiper-container-clients-new,
+.page-constructor .kontekst-clients-section .swiper-container-clients-new[data-v-08586076] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}

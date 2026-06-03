@@ -240,15 +240,21 @@ async function run() {
     );
     assert(
       compareCss.includes("max-width: 1024px") &&
-        compareCss.includes(".kontekst-packages-compare") &&
-        compareCss.includes("display: none"),
-      "CSS: таблица скрыта на viewport ≤1024px",
+        compareCss.includes(".kontekst-packages-compare__pinned") &&
+        compareCss.includes(".kontekst-packages-compare__scroll") &&
+        compareCss.includes("overflow-x: auto"),
+      "CSS: на viewport ≤1024px закреплённая колонка + скролл тарифов",
     );
     assert(
-      compareCss.includes("min-width: 1025px") &&
-        compareCss.includes(".prices__cards--packages") &&
+      html.includes("kontekst-packages-compare__layout") &&
+        html.includes("kontekst-packages-compare__table--pinned") &&
+        html.includes("kontekst-packages-compare__table--plans"),
+      "HTML: split-таблица (pinned + plans)",
+    );
+    assert(
+      compareCss.includes(".prices__cards--packages") &&
         /prices__cards--packages[\s\S]*display:\s*none/.test(compareCss),
-      "CSS: на десктопе скрыты карточки пакетов (остаётся таблица)",
+      "CSS: карточки пакетов скрыты при наличии таблицы сравнения",
     );
   }
 

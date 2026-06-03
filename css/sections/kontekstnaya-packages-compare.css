@@ -1,188 +1,412 @@
 /**
- * Таблица сравнения пакетов — дополнение к блоку «Пакеты» на /kontekstnaya_reklama.
- * Только десктоп (≥1025px); на адаптиве — карточки слайдера без таблицы.
+ * Таблица сравнения пакетов — блок «Стоимость и пакеты».
+ * Split-layout: закреплённая колонка подписей + горизонтальный скролл тарифов (≤1024px).
  */
 
-@media screen and (max-width: 1024px) {
-  .kontekst-packages-compare {
-    display: none !important;
-  }
+.page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row[data-v-1505791e],
+.page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row,
+.dies.modern .prices:has(.kontekst-packages-compare) .prices__cards--packages {
+  display: none !important;
 }
 
-@media screen and (min-width: 1025px) {
-  /* Десктоп: только таблица; карточки-слайдер остаются в DOM для ≤1024px */
-  .page-constructor .dies .prices .prices__cards--packages,
-  .dies.modern .prices .prices__cards--packages {
-    display: none !important;
+.page-constructor .dies .prices .kontekst-packages-compare,
+.dies.modern .prices .kontekst-packages-compare {
+  margin-top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.kontekst-packages-compare__figure {
+  margin: 0;
+}
+
+.kontekst-packages-compare__layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.kontekst-packages-compare__pinned {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+}
+
+.kontekst-packages-compare__scroll {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.kontekst-packages-compare__caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.kontekst-packages-compare__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 16px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+  --kontekst-compare-line: #2e2e3d;
+  /* #1a1a24 — один слой 50% alpha (не дублировать на table/cells) */
+  --kontekst-compare-pinned-bg: rgba(26, 26, 36, 0.5);
+  --kontekst-compare-pinned-line: rgba(46, 46, 61, 0.4);
+  --kontekst-compare-pinned-width: 148px;
+}
+
+.kontekst-packages-compare__table thead th,
+.kontekst-packages-compare__table tbody th,
+.kontekst-packages-compare__table tbody td {
+  border: 0;
+  border-bottom: 1px solid var(--kontekst-compare-line);
+}
+
+.kontekst-packages-compare__table thead th {
+  border-bottom: 1px solid var(--kontekst-compare-line);
+}
+
+.kontekst-packages-compare__row-sep {
+  height: 1px;
+  line-height: 0;
+}
+
+.kontekst-packages-compare__row-sep td {
+  height: 1px;
+  padding: 0;
+  line-height: 0;
+  font-size: 0;
+  vertical-align: top;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--kontekst-compare-line);
+  background: none;
+}
+
+.kontekst-packages-compare__row-sep + tr > th,
+.kontekst-packages-compare__row-sep + tr > td {
+  border-top: 0;
+}
+
+.kontekst-packages-compare__th-feature,
+.kontekst-packages-compare__row-label {
+  text-align: left;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+.kontekst-packages-compare__th-plan,
+.kontekst-packages-compare__cell {
+  text-align: center;
+  vertical-align: middle;
+  border-left: none;
+  border-right: none;
+}
+
+/* Стык split-таблиц — без вертикальной линии у первого тарифа */
+.kontekst-packages-compare__table--pinned thead th,
+.kontekst-packages-compare__table--pinned tbody th,
+.kontekst-packages-compare__table--pinned tbody td {
+  border-right: none;
+}
+
+.kontekst-packages-compare__table--plans thead th,
+.kontekst-packages-compare__table--plans tbody td {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.kontekst-packages-compare__table thead th {
+  padding: 0 12px 20px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.kontekst-packages-compare__th-feature {
+  padding-left: 0;
+  font-size: 16px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.kontekst-packages-compare__plan-name {
+  display: block;
+  font-size: 22px;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.kontekst-packages-compare__table tbody th,
+.kontekst-packages-compare__table tbody td {
+  padding: 14px 12px;
+  vertical-align: middle;
+}
+
+.kontekst-packages-compare__table tbody tr:last-child th,
+.kontekst-packages-compare__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.kontekst-packages-compare__row-label {
+  padding-left: 0;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.kontekst-packages-compare__icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  vertical-align: middle;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.kontekst-packages-compare__icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.kontekst-packages-compare__row-label--text {
+  padding-right: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+}
+
+.kontekst-packages-compare__cell--yes {
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  text-align: center;
+}
+
+.kontekst-packages-compare__cell--no {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 18px;
+  line-height: 1;
+  text-align: center;
+}
+
+.kontekst-packages-compare__cell--text {
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Планшет и мобилка: скролл только у колонок тарифов */
+@media screen and (max-width: 1024px) {
+  /*
+   * Слайдер карточек даёт .prices overflow-x: visible в static-stack — иначе
+   * горизонтальный скролл уезжает вместе с закреплённой колонкой.
+   */
+  .page-constructor .dies.modern .prices:has(.kontekst-packages-compare)[data-v-1505791e],
+  .page-constructor .dies.modern section.prices:has(.kontekst-packages-compare),
+  .page-constructor
+    > .page-constructor__section:has(> .dies.modern .prices:has(.kontekst-packages-compare))
+    > .dies.modern {
+    overflow-x: hidden !important;
   }
 
   .page-constructor .dies .prices .kontekst-packages-compare,
   .dies.modern .prices .kontekst-packages-compare {
-    margin-top: 0;
     width: 100%;
-    box-sizing: border-box;
+    max-width: 100%;
+    margin-right: 0;
+    overflow-x: hidden;
   }
 
-  .kontekst-packages-compare__figure {
-    margin: 0;
+  .kontekst-packages-compare__figure,
+  .kontekst-packages-compare__layout {
+    max-width: 100%;
+  }
+
+  .kontekst-packages-compare__pinned {
+    flex-shrink: 0;
+    width: var(--kontekst-compare-pinned-width);
+    max-width: 200px;
+    position: relative;
+    z-index: 5;
+    background-color: rgba(26, 26, 36, 0.5);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: none;
+  }
+
+  .kontekst-packages-compare__table--pinned,
+  .kontekst-packages-compare__table--pinned thead,
+  .kontekst-packages-compare__table--pinned tbody,
+  .kontekst-packages-compare__table--pinned thead th,
+  .kontekst-packages-compare__table--pinned tbody th,
+  .kontekst-packages-compare__table--pinned tbody td {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  .kontekst-packages-compare__table--pinned thead th,
+  .kontekst-packages-compare__table--pinned tbody th,
+  .kontekst-packages-compare__table--pinned tbody td {
+    border-bottom-color: var(--kontekst-compare-pinned-line);
   }
 
   .kontekst-packages-compare__scroll {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
     width: 100%;
-    overflow: visible;
+    max-width: 100%;
+    margin-right: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-padding-inline-end: var(--page-inline-end, var(--page-gutter-x, 55px));
+    padding-bottom: 4px;
+    box-sizing: border-box;
   }
 
-  .kontekst-packages-compare__caption {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  .kontekst-packages-compare__scroll::after {
+    content: none;
+  }
+
+  .kontekst-packages-compare__scroll::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
   }
 
   .kontekst-packages-compare__table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
-    font-size: 16px;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.88);
-    /* Непрозрачный цвет линий — rgba(255,255,255,.1) на градиенте canvas даёт «пятно» ярче слева */
-    --kontekst-compare-line: #2e2e3d;
+    font-size: 15px;
   }
 
-  .kontekst-packages-compare__table thead th,
-  .kontekst-packages-compare__table tbody th,
-  .kontekst-packages-compare__table tbody td {
-    border: 0;
-    border-bottom: 1px solid var(--kontekst-compare-line);
+  .kontekst-packages-compare__table--plans {
+    width: max-content;
+    min-width: 100%;
+    table-layout: auto;
+    margin-inline-end: var(--page-inline-end, var(--page-gutter-x, 55px));
+  }
+
+  .kontekst-packages-compare__th-feature {
+    font-size: 14px;
+    line-height: 1.3;
+    padding-right: 8px;
+  }
+
+  .kontekst-packages-compare__th-plan,
+  .kontekst-packages-compare__cell:not(.kontekst-packages-compare__cell--text) {
+    min-width: 108px;
+    width: 108px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
   }
 
   .kontekst-packages-compare__table thead th {
-    border-bottom: 0;
+    padding-bottom: 16px;
   }
 
-  .kontekst-packages-compare__row-sep {
-    height: 1px;
-    line-height: 0;
+  .kontekst-packages-compare__plan-name {
+    font-size: 18px;
   }
 
-  /* Одна линия под шапкой на colspan — без стыка th/td в первой строке данных */
-  .kontekst-packages-compare__row-sep td {
-    height: 1px;
-    padding: 0;
-    line-height: 0;
-    font-size: 0;
-    vertical-align: top;
-    overflow: hidden;
-    border: 0;
-    border-bottom: 1px solid var(--kontekst-compare-line);
-    background: none;
+  .kontekst-packages-compare__table tbody th,
+  .kontekst-packages-compare__table tbody td {
+    padding: 12px 10px;
   }
 
-  .kontekst-packages-compare__row-sep + tr > th,
-  .kontekst-packages-compare__row-sep + tr > td {
-    border-top: 0;
-  }
-
-  .kontekst-packages-compare__th-feature,
   .kontekst-packages-compare__row-label {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .kontekst-packages-compare__row-label--text {
+    font-size: 14px;
+  }
+
+  .kontekst-packages-compare__cell--text {
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: normal;
+    overflow: visible;
+    min-width: 108px;
+    width: auto;
+    max-width: none;
+  }
+
+  .kontekst-packages-compare__row--text .kontekst-packages-compare__cell--text {
+    min-width: 120px;
+    width: auto;
+  }
+
+  .kontekst-packages-compare__table--plans tbody tr.kontekst-packages-compare__row--text
+    > .kontekst-packages-compare__cell--text:last-child {
+    min-width: 148px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .kontekst-packages-compare {
+    --kontekst-compare-pinned-width: 132px;
+  }
+
+  .kontekst-packages-compare__table--plans {
+    margin-inline-end: var(--page-inline-end, var(--page-gutter-x, 36px));
+  }
+
+  .kontekst-packages-compare__icon {
+    display: none;
+  }
+
+  .kontekst-packages-compare__th-plan,
+  .kontekst-packages-compare__cell:not(.kontekst-packages-compare__cell--text) {
+    min-width: 100px;
+    width: 100px;
+  }
+
+  .kontekst-packages-compare__plan-name {
+    font-size: 17px;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .kontekst-packages-compare__pinned {
+    flex: 0 0 34%;
     width: 34%;
-    text-align: left;
-    font-weight: 400;
-    vertical-align: middle;
+    max-width: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .kontekst-packages-compare__scroll {
+    flex: 1 1 66%;
+    overflow: visible;
+  }
+
+  .kontekst-packages-compare__scroll::after {
+    content: none;
+  }
+
+  .kontekst-packages-compare__table--plans {
+    table-layout: fixed;
   }
 
   .kontekst-packages-compare__th-plan,
   .kontekst-packages-compare__cell {
-    width: 22%;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .kontekst-packages-compare__table thead th {
-    padding: 0 12px 20px;
-    color: #fff;
-    font-weight: 400;
-  }
-
-  .kontekst-packages-compare__th-feature {
-    padding-left: 0;
-    font-size: 16px;
-    line-height: 1.35;
-    color: rgba(255, 255, 255, 0.75);
-  }
-
-  .kontekst-packages-compare__plan-name {
-    display: block;
-    font-size: 22px;
-    line-height: 1.3;
-    color: #fff;
-  }
-
-  .kontekst-packages-compare__table tbody th,
-  .kontekst-packages-compare__table tbody td {
-    padding: 14px 12px;
-    vertical-align: middle;
-  }
-
-  .kontekst-packages-compare__table tbody tr:last-child th,
-  .kontekst-packages-compare__table tbody tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* Не менять display у th/td — иначе рвётся высота строк таблицы */
-  .kontekst-packages-compare__row-label {
-    padding-left: 0;
-    color: #fff;
-    font-size: 16px;
-    line-height: 1.35;
-  }
-
-  .kontekst-packages-compare__icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-    vertical-align: middle;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .kontekst-packages-compare__icon svg {
-    display: block;
-    width: 24px;
-    height: 24px;
-  }
-
-  .kontekst-packages-compare__row-label--text {
-    padding-right: 16px;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 16px;
-  }
-
-  .kontekst-packages-compare__cell--yes {
-    color: #fff;
-    font-size: 18px;
-    line-height: 1;
-    text-align: center;
-  }
-
-  .kontekst-packages-compare__cell--no {
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 18px;
-    line-height: 1;
-    text-align: center;
-  }
-
-  .kontekst-packages-compare__cell--text {
-    text-align: center;
-    font-size: 16px;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.72);
+    width: 33.33%;
+    min-width: 0;
   }
 }

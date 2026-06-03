@@ -496,21 +496,25 @@
   margin-bottom: 0 !important;
 }
 
-/* «Клиенты»: как kompleks — wrapper center, блок ~calc(100% - 154px) (заголовок ~77px на 1440). */
-.page-constructor .seo-clients-section .clients-wrapper,
-.page-constructor .seo-clients-section .clients-wrapper[data-v-08586076] {
-  justify-content: center !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+/* «Клиенты»: parity /kontekstnaya_reklama — clients-mainstr + native-row-scroll (full-bleed лента). */
+.page-constructor .seo-clients-section .clients-wrapper.clients-mainstr,
+.page-constructor .seo-clients-section .clients-wrapper.clients-mainstr[data-v-08586076],
+.page-constructor.seo-page .seo-clients-section .clients-wrapper.clients-mainstr,
+.page-constructor.seo-page .seo-clients-section .clients-wrapper.clients-mainstr[data-v-08586076] {
+  justify-content: flex-start !important;
+  padding-left: var(--page-gutter-x) !important;
+  padding-right: var(--page-gutter-x) !important;
   box-sizing: border-box !important;
 }
 
-.page-constructor .seo-clients-section .clients-new-section,
-.page-constructor .seo-clients-section .clients-new-section[data-v-08586076] {
-  width: calc(100% - 154px) !important;
+.page-constructor .seo-clients-section .clients-mainstr .clients-new-section,
+.page-constructor .seo-clients-section .clients-mainstr .clients-new-section[data-v-08586076],
+.page-constructor.seo-page .seo-clients-section .clients-mainstr .clients-new-section,
+.page-constructor.seo-page .seo-clients-section .clients-mainstr .clients-new-section[data-v-08586076] {
+  width: 100% !important;
   max-width: none !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
   box-sizing: border-box !important;

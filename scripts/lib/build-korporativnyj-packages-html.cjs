@@ -31,41 +31,59 @@ function buildCompareTable(data) {
     )
     .join("\n            ");
 
-  const bodyRows = data.rows
+  const pinnedBodyRows = data.rows
     .map((row) => {
       const labelClass = row.text
         ? "kontekst-packages-compare__row-label kontekst-packages-compare__row-label--text"
-        : "kontekst-packages-compare__row-label kontekst-packages-compare__row-label--text";
+        : "kontekst-packages-compare__row-label";
       const trClass = row.text ? ' class="kontekst-packages-compare__row--text"' : "";
-      const cells = row.cells.map((c) => compareCell(c)).join("\n            ");
-      return `          <tr${trClass}>
-            <th scope="row" class="${labelClass}">${row.label}</th>
-            ${cells}
-          </tr>`;
+      return `            <tr${trClass}>
+              <th scope="row" class="${labelClass}">${row.label}</th>
+            </tr>`;
     })
     .join("\n");
 
-  return `<!-- Сравнение пакетов: .dies, десктоп — kontekstnaya-packages-compare.css -->
+  const plansBodyRows = data.rows
+    .map((row) => {
+      const trClass = row.text ? ' class="kontekst-packages-compare__row--text"' : "";
+      const cells = row.cells.map((c) => compareCell(c)).join("\n              ");
+      return `            <tr${trClass}>
+              ${cells}
+            </tr>`;
+    })
+    .join("\n");
+
+  return `<!-- Сравнение пакетов: .dies — kontekstnaya-packages-compare.css -->
 <div id="korporativnyj-packages-compare-mounted" class="kontekst-packages-compare">
   <figure class="kontekst-packages-compare__figure">
-    <div class="kontekst-packages-compare__scroll">
-      <table class="kontekst-packages-compare__table">
-        <caption class="kontekst-packages-compare__caption">
-          ${data.compareCaption}
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col" class="kontekst-packages-compare__th-feature">${data.compareFeatureHeader}</th>
-            ${planHeads}
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="kontekst-packages-compare__row-sep" aria-hidden="true">
-            <td colspan="4"></td>
-          </tr>
-${bodyRows}
-        </tbody>
-      </table>
+    <div class="kontekst-packages-compare__layout">
+      <div class="kontekst-packages-compare__pinned">
+        <table class="kontekst-packages-compare__table kontekst-packages-compare__table--pinned">
+          <thead>
+            <tr>
+              <th scope="col" class="kontekst-packages-compare__th-feature">${data.compareFeatureHeader}</th>
+            </tr>
+          </thead>
+          <tbody>
+${pinnedBodyRows}
+          </tbody>
+        </table>
+      </div>
+      <div class="kontekst-packages-compare__scroll">
+        <table class="kontekst-packages-compare__table kontekst-packages-compare__table--plans">
+          <caption class="kontekst-packages-compare__caption">
+            ${data.compareCaption}
+          </caption>
+          <thead>
+            <tr>
+              ${planHeads}
+            </tr>
+          </thead>
+          <tbody>
+${plansBodyRows}
+          </tbody>
+        </table>
+      </div>
     </div>
   </figure>
 </div>`;
