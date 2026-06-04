@@ -142,6 +142,35 @@ async function run() {
     const approachIdx = main.indexOf("Наш подход");
     assert(postHeroIdx >= 0 && cmsIdx > postHeroIdx, "порядок: CMS после post-hero");
     assert(cmsIdx >= 0 && approachIdx > cmsIdx, "порядок: «Наш подход» после CMS");
+    const metroIdx = main.indexOf('cases-block__swiper-slide-title">Метрополитан</h3>');
+    const digitaleIdx = main.indexOf('cases-block__swiper-slide-title">Digitale</h3>');
+    const n4fvkIdx = main.indexOf("swiper-slide-n4fvk");
+    assert(metroIdx >= 0 && n4fvkIdx >= 0 && metroIdx < main.indexOf("swiper-slide-ros7m", n4fvkIdx), "cases-block: первый слайд — Метрополитан");
+    assert(
+      digitaleIdx < 0 || digitaleIdx > main.indexOf("swiper-slide-ros7m", n4fvkIdx),
+      "cases-block: Digitale не в первом слайдере",
+    );
+    assert(
+      main.includes("metropolitan-case-slide.webp"),
+      "cases-block: ассет metropolitan-case-slide.webp",
+    );
+    const miramarIdx = main.indexOf('cases-block__swiper-slide-title">Miramar</h3>');
+    assert(
+      miramarIdx >= 0 && n4fvkIdx >= 0 && miramarIdx > metroIdx && miramarIdx < main.indexOf("swiper-slide-ros7m", n4fvkIdx),
+      "cases-block: второй слайд — Miramar",
+    );
+    assert(
+      main.includes("miramar-case-slide.webp"),
+      "cases-block: ассет miramar-case-slide.webp",
+    );
+    assert(
+      main.includes("https://www.behance.net/gallery/154676089/Miramar-website"),
+      "cases-block: Miramar — ссылка на Behance",
+    );
+    assert(
+      fs.existsSync(path.join(root, "img/services/korporativnyj_sajt/miramar-case-slide.webp")),
+      "диск: miramar-case-slide.webp",
+    );
     const compareIdx = main.indexOf("korporativnyj-packages-compare-mounted");
     const calcIdx = main.indexOf("sa-site-calc-section");
     const leadIdx = main.indexOf("sa-service-lead-section");

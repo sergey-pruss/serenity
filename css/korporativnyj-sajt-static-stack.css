@@ -413,6 +413,35 @@
   padding-top: var(--home-between, 112px) !important;
 }
 
+/* cases-block: «Метрополитан» — фон тем же кадром с blur, без кнопки «Смотреть кейс». */
+.page-constructor.korporativnyj-page
+  .cases-block__swiper-slide--metropolitan.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.page-constructor.korporativnyj-page
+  .cases-block__swiper-slide--metropolitan
+  .cases-block__swiper-slide-button,
+.page-constructor.korporativnyj-page
+  .cases-block__swiper-slide--metropolitan
+  a.cases-block__swiper-slide-button {
+  display: none !important;
+}
+
+/* cases-block: «Miramar» — фон тем же кадром с blur. */
+.page-constructor.korporativnyj-page
+  .cases-block__swiper-slide--miramar.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
 /* Таблица пакетов: скролл только в __scroll; pinned не уезжает при горизонтальном скролле */
 @media screen and (max-width: 1024px) {
   .page-constructor .dies.modern .prices:has(.kontekst-packages-compare)[data-v-1505791e],
