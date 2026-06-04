@@ -29,19 +29,22 @@ async function run() {
     html.includes("targetingCaptureBaseline");
 
   assert(html.includes("Корпоративный сайт"), "breadcrumb/контент: Корпоративный сайт");
+  const seo = loadServiceConfig("korporativnyj_sajt").seo || {};
+  const expectedTitle = seo.pageTitle || "Разработка корпоративного сайта в Москве и СПб — Serenity";
   assert(
-    /<title>Разработка корпоративных сайтов — Serenity<\/title>/.test(html),
-    "<title>: Разработка корпоративных сайтов — Serenity",
+    new RegExp(`<title>${expectedTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}<\\/title>`).test(html),
+    `<title>: ${expectedTitle}`,
   );
   assert(
-    /property="og:title" content="Разработка корпоративных сайтов — Serenity"/.test(html),
+    new RegExp(
+      `property="og:title" content="${expectedTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`,
+    ).test(html),
     "og:title синхронизирован с <title>",
   );
+  const expectedDesc = seo.description || "";
   assert(
-    html.includes(
-      'meta name="description" content="Услуги по созданию корпоративных сайтов',
-    ),
-    "description как на проде",
+    expectedDesc && html.includes(expectedDesc.slice(0, 40)),
+    "description из service.config.json",
   );
   assert(html.includes('property="og:lowPrice" content="400000.00"'), "og:lowPrice как на проде");
   assert(
@@ -77,6 +80,13 @@ async function run() {
         !/id="korporativnyj-faq-mounted"[\s\S]{0,120000}spoiler__content" style="height:\s*0/.test(html),
       "FAQ: без inline height:0 на spoiler__content",
     );
+    assert(html.includes("Сколько времени занимает запуск?"), "FAQ: вопрос про сроки");
+    assert(html.includes("На какой CMS лучше делать?"), "FAQ: вопрос про CMS");
+    assert(html.includes("Можно ли доработать текущий сайт?"), "FAQ: доработка текущего сайта");
+    assert(html.includes("Что входит в поддержку?"), "FAQ: поддержка");
+    assert(html.includes("Как считается стоимость?"), "FAQ: стоимость");
+    assert(!html.includes("Почему столько стоит?"), "FAQ: без legacy-вопросов prod");
+    assert(html.includes('href="/seo">SEO-сопровождение</a>'), "FAQ: ссылка на SEO в ответе про поддержку");
     assert(/class="page-constructor korporativnyj-page"/.test(html), "обёртка page-constructor korporativnyj-page");
     assert(!html.includes("korporativnyj-page__section-heading"), "заголовки: kontekstnaya-page__section-heading");
     assert(html.includes('id="sa-inline-lead-root"'), "inline lead root");
@@ -145,6 +155,11 @@ async function run() {
       "SLA: ссылка на техническую поддержку",
     );
     assert(html.includes('href="/seo">SEO-сопровождение</a>'), "SLA: ссылка на SEO");
+    assert(html.includes('href="/seo">базовое SEO</a>'), "пакеты: ссылка на SEO в карточке Базовый");
+    assert(
+      html.includes('href="/kompleksnoye-prodvizheniye">комплексный подход</a>'),
+      "подход: ссылка на комплексное продвижение",
+    );
     assert(clientsIdx >= 0 && faqIdx > clientsIdx, "порядок: клиенты до FAQ (как prod)");
     const blogIdx = Math.max(
       main.indexOf("korporativnyj-blog-section"),
