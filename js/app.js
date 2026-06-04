@@ -1280,7 +1280,11 @@
     container.querySelectorAll(".swiper-slide").forEach((slide) => {
       slide.style.width = "";
       slide.style.removeProperty("width");
+      slide.style.height = "";
+      slide.style.removeProperty("height");
     });
+    container.style.height = "";
+    container.style.removeProperty("height");
     const wrap = container.querySelector(".swiper-wrapper");
     if (wrap) {
       wrap.style.transform = "";
@@ -1370,7 +1374,23 @@
           prevSlideMessage: "Предыдущий слайд",
           nextSlideMessage: "Следующий слайд",
         },
+        on: {
+          init(swiperInstance) {
+            swiperInstance.navigation.update();
+            swiperInstance.update();
+          },
+          slideChangeTransitionEnd(swiperInstance) {
+            swiperInstance.navigation.update();
+            swiperInstance.update();
+          },
+        },
       });
+      if (nav) {
+        nav.style.zIndex = "12";
+        nav.querySelectorAll(".swiper-button-prev, .swiper-button-next").forEach((btn) => {
+          btn.style.pointerEvents = "auto";
+        });
+      }
       container._saCasesSwiper = swiper;
       const bumpCasesSwiper = () => {
         requestAnimationFrame(() => {

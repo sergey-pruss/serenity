@@ -171,6 +171,84 @@ async function run() {
       fs.existsSync(path.join(root, "img/services/korporativnyj_sajt/miramar-case-slide.webp")),
       "диск: miramar-case-slide.webp",
     );
+    const riderraIdx = main.indexOf('cases-block__swiper-slide-title">Riderra</h3>');
+    assert(
+      riderraIdx >= 0 &&
+        n4fvkIdx >= 0 &&
+        riderraIdx > miramarIdx &&
+        riderraIdx < main.indexOf("swiper-slide-ros7m", n4fvkIdx),
+      "cases-block: третий слайд — Riderra",
+    );
+    assert(
+      main.includes('href="/case/riderra"'),
+      "cases-block: Riderra — ссылка на кейс",
+    );
+    if (riderraIdx >= 0 && n4fvkIdx >= 0 && riderraIdx < main.indexOf("swiper-slide-ros7m", n4fvkIdx)) {
+      const riderraSlideStart = main.lastIndexOf(
+        'class="swiper-slide cases-block__swiper-slide',
+        riderraIdx,
+      );
+      const riderraSlideEnd = main.indexOf(
+        'class="swiper-slide cases-block__swiper-slide',
+        riderraIdx + 40,
+      );
+      const riderraChunk = main.slice(
+        riderraSlideStart >= 0 ? riderraSlideStart : riderraIdx,
+        riderraSlideEnd > riderraIdx ? riderraSlideEnd : riderraIdx + 2800,
+      );
+      assert(
+        riderraChunk.includes("cases-block__swiper-slide-tags-wrapper_hidden"),
+        "cases-block: Riderra — теги скрыты",
+      );
+      assert(
+        !riderraChunk.includes(">Кейс</span>"),
+        "cases-block: Riderra без тегов Кейс/Эстония",
+      );
+    }
+    const n4fvkRos7m = main.indexOf("swiper-slide-ros7m", n4fvkIdx);
+    const n4fvkCasesChunk =
+      n4fvkIdx >= 0 && n4fvkRos7m > n4fvkIdx
+        ? main.slice(n4fvkIdx, n4fvkRos7m)
+        : "";
+    assert(
+      !n4fvkCasesChunk.includes('cases-block__swiper-slide-title">Sunseeker</h3>'),
+      "cases-block: Sunseeker не в первом слайдере",
+    );
+    const n4fvkSlideCount = (n4fvkCasesChunk.match(/swiper-slide-n4fvk/g) || []).length;
+    assert(n4fvkSlideCount === 3, "cases-block: три слайда в n4fvk");
+    assert(
+      !main.includes("</div></div></div>swiper-pagination-n4fvk"),
+      "cases-block: pagination не склеен со слайдом",
+    );
+    const n4fvkPag = main.indexOf(
+      '<div data-v-bd2e570a="" class="swiper-pagination swiper-pagination-n4fvk',
+    );
+    if (n4fvkPag >= 0 && n4fvkIdx >= 0 && n4fvkPag < main.indexOf("swiper-slide-ros7m", n4fvkIdx)) {
+      assert(
+        main.slice(n4fvkPag - 40, n4fvkPag).includes("</div></div>"),
+        "cases-block: pagination вне swiper-wrapper n4fvk",
+      );
+      const pagOpen = main.lastIndexOf("<div", n4fvkPag);
+      const pagEnd = main.indexOf("</div>", n4fvkPag) + 6;
+      const pagBullets = (
+        main.slice(pagOpen, pagEnd).match(/class="swiper-pagination-bullet\b/g) || []
+      ).length;
+      assert(pagBullets === 3, "cases-block: три точки pagination n4fvk");
+    }
+    assert(
+      !main.includes(
+        '</a><div data-v-bd2e570a="" class="swiper-slide cases-block__swiper-slide swiper-slide-n4fvk',
+      ),
+      "cases-block: слайды не вложены в кнопку Miramar",
+    );
+    const n4fvkSliderStart = main.indexOf('class="cases-block__slider"');
+    const n4fvkNavStart = main.indexOf("swiper-pagination-prev-n4fvk", n4fvkIdx);
+    const n4fvkSliderEnd = main.indexOf('class="cases-block__slider"', n4fvkSliderStart + 1);
+    assert(
+      n4fvkNavStart > n4fvkSliderStart &&
+        (n4fvkSliderEnd < 0 || n4fvkNavStart < n4fvkSliderEnd),
+      "cases-block: стрелки n4fvk внутри .cases-block__slider",
+    );
     const compareIdx = main.indexOf("korporativnyj-packages-compare-mounted");
     const calcIdx = main.indexOf("sa-site-calc-section");
     const leadIdx = main.indexOf("sa-service-lead-section");

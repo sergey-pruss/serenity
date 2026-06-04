@@ -12,10 +12,20 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "img/services/korporativnyj_sajt");
 const outWebp = path.join(outDir, "miramar-case-slide.webp");
 
+function findRepoSource(slug) {
+  for (const ext of [".webp", ".png", ".jpg", ".jpeg"]) {
+    const p = path.join(outDir, `${slug}.source${ext}`);
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 function resolveSource() {
   if (process.env.KORPORATIVNYJ_MIRAMAR_CASE_SRC) {
     return path.resolve(process.env.KORPORATIVNYJ_MIRAMAR_CASE_SRC);
   }
+  const repoSrc = findRepoSource("miramar-case-slide");
+  if (repoSrc) return repoSrc;
   const assetsDir =
     process.env.CURSOR_ASSETS_DIR ||
     path.join(
@@ -45,14 +55,23 @@ if (!src || !fs.existsSync(src)) {
 fs.mkdirSync(outDir, { recursive: true });
 
 const meta = await sharp(src).metadata();
-const pipeline = sharp(src);
-if ((meta.width || 0) > 1920) {
-  pipeline.resize({ width: 1920, withoutEnlargement: true });
+
+// Без crop и resize. Источник уже .webp — копируем 1:1, иначе конвертируем в WebP.
+let info;
+if (/\.webp$/i.test(src)) {
+  await fs.promises.copyFile(src, outWebp);
+  info = await sharp(outWebp).metadata();
+  info = { width: info.width, height: info.height, size: fs.statSync(outWebp).size };
+} else {
+  info = await sharp(src)
+    .webp({ quality: 96, effort: 6, smartSubsample: false })
+    .toFile(outWebp);
 }
 
-const info = await pipeline
-  .webp({ quality: 100, effort: 6, smartSubsample: false })
-  .toFile(outWebp);
-
 console.log("source:", src, `${meta.width}x${meta.height}`);
-console.log("webp:", outWebp, info);
+console.log("webp:", outWebp, `${info.width}x${info.height}`, `size=${info.size}`);
+if ((meta.width || 0) < 1600) {
+  console.warn(
+    "warn: источник уже 1600px — для слайдера лучше экспорт 1920+ (в чат Cursor часто приходит ~1024).",
+  );
+}

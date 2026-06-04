@@ -413,6 +413,32 @@
   padding-top: var(--home-between, 112px) !important;
 }
 
+/*
+ * cases-block (десктоп): стрелки — от .cases-block__slider (≈ высота одного слайда), не от всей секции.
+ * Без grid: иначе ломается Cromi/ros7m/24ow7. z-index — поверх слайдов при переключении.
+ */
+@media screen and (min-width: 1181px) {
+  .page-constructor.korporativnyj-page .cases-block .cases-block__slider {
+    position: relative !important;
+  }
+
+  .page-constructor.korporativnyj-page .cases-block .cases-block__slider > .swiper__navigation[data-v-bd2e570a],
+  .page-constructor.korporativnyj-page .cases-block .cases-block__slider > .swiper__navigation {
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 12 !important;
+    pointer-events: none;
+  }
+
+  .page-constructor.korporativnyj-page
+    .cases-block
+    .cases-block__slider
+    > .swiper__navigation
+    :is(.swiper-button-prev, .swiper-button-next) {
+    pointer-events: auto;
+  }
+}
+
 /* cases-block: «Метрополитан» — фон тем же кадром с blur, без кнопки «Смотреть кейс». */
 .page-constructor.korporativnyj-page
   .cases-block__swiper-slide--metropolitan.swiper-slide-active
@@ -432,14 +458,44 @@
   display: none !important;
 }
 
-/* cases-block: «Miramar» — фон тем же кадром с blur. */
+/* cases-block: «Miramar» — blur-фон; тёмная половина макета под текстом, без белого пятна от бассейна. */
 .page-constructor.korporativnyj-page
+  .cases-block
+  .cases-block__swiper-slide--miramar
+  .background[data-v-bd2e570a] {
+  background-position: 4% 48% !important;
+  background-size: 175% auto !important;
+  background-repeat: no-repeat !important;
+}
+
+.page-constructor.korporativnyj-page
+  .cases-block
+  .cases-block__swiper-slide--miramar
+  .background[data-v-bd2e570a]::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 18, 42, 0.1) 0%,
+    rgba(10, 18, 42, 0.55) 48%,
+    rgba(10, 18, 42, 0.82) 72%,
+    rgba(10, 18, 42, 0.65) 100%
+  ) !important;
+  z-index: 1 !important;
+}
+
+.page-constructor.korporativnyj-page
+  .cases-block
   .cases-block__swiper-slide--miramar.swiper-slide-active
   .background[data-v-bd2e570a] {
-  filter: blur(28px) !important;
-  -webkit-filter: blur(28px) !important;
-  transform: translateZ(0) scale(1.18) !important;
-  -webkit-transform: translateZ(0) scale(1.18) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: blur(32px) !important;
+  -webkit-filter: blur(32px) !important;
+  transform: translateZ(0) scale(1.32) !important;
+  -webkit-transform: translateZ(0) scale(1.32) !important;
 }
 
 /* Таблица пакетов: скролл только в __scroll; pinned не уезжает при горизонтальном скролле */
