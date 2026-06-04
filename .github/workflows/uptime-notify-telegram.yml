@@ -1,0 +1,52 @@
+# Мониторинг serenity.agency / static / origin → Telegram при падении и восстановлении.
+# Секреты: Settings → Secrets → Actions (те же, что для PR и деплоя):
+#   DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN
+#   DEPLOY_NOTIFY_TELEGRAM_CHAT_ID
+name: Uptime → Telegram
+
+on:
+  schedule:
+    # GitHub Actions: не чаще ~5 минут на free tier
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: uptime-notify-telegram
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Восстановить state (anti-spam)
+        uses: actions/cache@v4
+        with:
+          path: .cache/uptime-state.json
+          key: uptime-state-v1-${{ github.repository }}
+
+      - name: Проверка доступности
+        id: probe
+        env:
+          DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN: ${{ secrets.DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN }}
+          DEPLOY_NOTIFY_TELEGRAM_CHAT_ID: ${{ secrets.DEPLOY_NOTIFY_TELEGRAM_CHAT_ID }}
+          UPTIME_STATE_FILE: .cache/uptime-state.json
+          UPTIME_REMIND_HOURS: "6"
+          UPTIME_TIMEOUT_MS: "15000"
+        run: |
+          if [[ -z "$DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN" || -z "$DEPLOY_NOTIFY_TELEGRAM_CHAT_ID" ]]; then
+            echo "::warning::Uptime → Telegram: задайте DEPLOY_NOTIFY_TELEGRAM_BOT_TOKEN и DEPLOY_NOTIFY_TELEGRAM_CHAT_ID в Secrets репозитория."
+            node scripts/uptime-notify-telegram.cjs || true
+            exit 0
+          fi
+          node scripts/uptime-notify-telegram.cjs || ec=$?
+          if [[ "${ec:-0}" -ne 0 ]]; then
+            echo "probe_failed=true" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
+
+      - name: Итог
+        if: steps.probe.outputs.probe_failed == 'true'
+        run: echo "::notice::Один или несколько endpoint недоступны (см. лог шага выше)."

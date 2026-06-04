@@ -51,6 +51,7 @@
     "test:marketing-structure": "node scripts/compare-marketing-prod-structure.cjs",
     "test:marketing-visual": "node scripts/verify-marketing-visual.cjs",
     "notify:marketing-telegram": "node scripts/notify-marketing-telegram.cjs",
+    "notify:uptime-telegram": "node scripts/uptime-notify-telegram.cjs",
     "refresh:marketing-from-prod": "node scripts/capture-prod-marketing-full-html.cjs && node scripts/download-nuxt-css-prod-marketing.cjs && node scripts/sync-marketing-sa-images.cjs && npm run assemble:service:marketing && npm run test:marketing",
     "test:service-config": "node scripts/verify-service-config.cjs && node scripts/verify-service-breadcrumb-jsonld.cjs",
     "test:clients": "node scripts/verify-clients.cjs",
