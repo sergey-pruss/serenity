@@ -130,15 +130,32 @@ async function run() {
     const faqIdx = main.indexOf("korporativnyj-faq-mounted");
     const casesIdx = main.indexOf('class="more-case-wr');
     const creonIdx = main.indexOf("Creon Group");
+    const slaIdx = main.indexOf("korporativnyj-sla-support-block");
     assert(html.includes('id="korporativnyj-site-calc-root"'), "квиз: korporativnyj-site-calc-root");
     assert(html.includes("korporativnyj-site-calc.js"), "квиз: korporativnyj-site-calc.js");
     assert(html.includes("korporativnyj-site-calc.css"), "квиз: korporativnyj-site-calc.css");
     assert(compareIdx >= 0 && calcIdx > compareIdx, "порядок: квиз после таблицы сравнения");
     assert(calcIdx >= 0 && leadIdx > calcIdx, "порядок: квиз до формы");
     assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды");
-    assert(creonIdx >= 0 && compareIdx > creonIdx, "порядок: «Стоимость» после кейса Creon");
+    assert(slaIdx >= 0, "SLA: блок поддержки после запуска");
+    assert(creonIdx >= 0 && slaIdx > creonIdx, "порядок: SLA после кейса Creon");
+    assert(slaIdx >= 0 && compareIdx > slaIdx, "порядок: «Стоимость» после SLA");
+    assert(
+      html.includes('href="/tehnicheskaya-podderzhka-saita">Техническая поддержка</a>'),
+      "SLA: ссылка на техническую поддержку",
+    );
+    assert(html.includes('href="/seo">SEO-сопровождение</a>'), "SLA: ссылка на SEO");
     assert(clientsIdx >= 0 && faqIdx > clientsIdx, "порядок: клиенты до FAQ (как prod)");
-    assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
+    const blogIdx = Math.max(
+      main.indexOf("korporativnyj-blog-section"),
+      main.indexOf("blog-block-mainstr"),
+    );
+    assert(
+      html.includes("korporativnyj-blog-section") || html.includes("blog-block-mainstr"),
+      "блок «Блог»",
+    );
+    assert(faqIdx >= 0 && blogIdx > faqIdx, "порядок: блог после FAQ");
+    assert(blogIdx >= 0 && casesIdx > blogIdx, "порядок: кейсы после блога");
   }
   const stackCssPath = "css/korporativnyj-sajt-static-stack.css";
   const stackCss = read(stackCssPath);
@@ -203,8 +220,16 @@ async function run() {
     "partial korporativnyj-phase2-middle.html",
   );
   assert(
+    fileExists("html/partials/services/korporativnyj-sla-support-block.html"),
+    "partial korporativnyj-sla-support-block.html",
+  );
+  assert(
     fileExists("html/partials/services/faq-korporativnyj-sajt.html"),
     "partial faq-korporativnyj-sajt.html",
+  );
+  assert(
+    fileExists("html/partials/services/blog-korporativnyj-sajt.html"),
+    "partial blog-korporativnyj-sajt.html",
   );
   assert(
     fileExists("json/services/korporativnyj_sajt/faq.json"),

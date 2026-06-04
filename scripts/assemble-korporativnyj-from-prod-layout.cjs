@@ -24,6 +24,10 @@ const root = path.resolve(__dirname, "..");
 function buildServicePartials() {
   if (process.env.SKIP_SERVICE_PARTIALS_BUILD === "1") return;
   execSync("npm run build:service-partials", { cwd: root, stdio: "inherit" });
+  execSync("node scripts/build-korporativnyj-blog-partial.mjs", {
+    cwd: root,
+    stdio: "inherit",
+  });
 }
 
 function buildKorporativnyjPackagesPartial() {
@@ -152,6 +156,31 @@ function injectKorporativnyjPackagesBeforeInlineLead(mainHtml) {
   });
 }
 
+/** После кейса Creon, перед «Стоимость и пакеты»: поддержка и SLA. */
+function injectKorporativnyjSlaSupportBlock(mainHtml) {
+  if (!fs.existsSync(SLA_SUPPORT_PARTIAL)) {
+    console.warn("assemble: korporativnyj-sla-support-block.html не найден");
+    return mainHtml;
+  }
+  const partial = fs.readFileSync(SLA_SUPPORT_PARTIAL, "utf8").trim();
+  const start = mainHtml.indexOf(SLA_SUPPORT_START);
+  const end = mainHtml.indexOf(SLA_SUPPORT_END);
+  if (start >= 0 && end > start) {
+    return mainHtml.slice(0, start) + partial + mainHtml.slice(end + SLA_SUPPORT_END.length);
+  }
+  const packagesIdx = mainHtml.indexOf(KORP_PACKAGES_MARKER);
+  if (packagesIdx >= 0) {
+    return `${mainHtml.slice(0, packagesIdx)}${partial}\n${mainHtml.slice(packagesIdx)}`;
+  }
+  const creonIdx = mainHtml.indexOf(CREON_CASE_NEEDLE);
+  if (creonIdx < 0) {
+    console.warn("assemble-korporativnyj: кейс Creon Group не найден — SLA-блок не вставлен");
+    return mainHtml;
+  }
+  const secEnd = mainHtml.indexOf("</section>", creonIdx) + "</section>".length;
+  return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
+}
+
 /** Блок «Стоимость» (слайдер + таблица) сразу после кейса Creon Group. */
 function injectKorporativnyjPackagesAfterCreonCase(mainHtml) {
   if (mainHtml.includes(KORP_PACKAGES_MARKER)) return mainHtml;
@@ -190,8 +219,25 @@ const FACTS_SECTION_OPEN = '<section class="page-constructor__section"><div clas
 const CMS_BLOCK_PARTIAL = path.join(root, "html", "partials", "services", "korporativnyj-cms-block.html");
 const CMS_BLOCK_START = "<!-- KORPORATIVNYJ-CMS-BLOCK-START -->";
 const CMS_BLOCK_END = "<!-- KORPORATIVNYJ-CMS-BLOCK-END -->";
+const SLA_SUPPORT_PARTIAL = path.join(
+  root,
+  "html",
+  "partials",
+  "services",
+  "korporativnyj-sla-support-block.html",
+);
+const SLA_SUPPORT_START = "<!-- KORPORATIVNYJ-SLA-SUPPORT-START -->";
+const SLA_SUPPORT_END = "<!-- KORPORATIVNYJ-SLA-SUPPORT-END -->";
 
 const FAQ_SECTION_START = '<section class="page-constructor__section korporativnyj-faq-section">';
+const KORPORATIVNYJ_BLOG_SECTION = '<section class="page-constructor__section korporativnyj-blog-section">';
+const BLOG_PARTIAL_PATH = path.join(
+  root,
+  "html",
+  "partials",
+  "services",
+  "blog-korporativnyj-sajt.html",
+);
 const FAQ_BLOCK_TAIL = "</script></div></section>";
 const CASES_MORE_MAIN = "more-case-wr more-case-wr__main";
 const CASES_CLASS_PREFIX = 'class="more-case-wr';
@@ -556,6 +602,39 @@ function moveKorporativnyjFaqSectionBeforeCases(mainHtml) {
   const iInsert2 = without.lastIndexOf(SECTION_OPEN, iCases2);
   if (iInsert2 < 0) return mainHtml;
   return `${without.slice(0, iInsert2)}\n${block}\n${without.slice(iInsert2)}`;
+}
+
+function stripKorporativnyjBlogBlock(mainHtml) {
+  let out = mainHtml;
+  let idx = out.indexOf(KORPORATIVNYJ_BLOG_SECTION);
+  while (idx >= 0) {
+    const end = findSectionEnd(out, idx);
+    if (end < 0) break;
+    out = out.slice(0, idx) + out.slice(end);
+    idx = out.indexOf(KORPORATIVNYJ_BLOG_SECTION);
+  }
+  return out;
+}
+
+/** Блог после FAQ, перед more-case (как /kontekstnaya_reklama). */
+function injectKorporativnyjBlogAfterFaq(mainHtml) {
+  if (!fs.existsSync(BLOG_PARTIAL_PATH)) {
+    console.warn("assemble: нет blog-korporativnyj-sajt.html — пропуск вставки блога");
+    return mainHtml;
+  }
+  let out = stripKorporativnyjBlogBlock(mainHtml);
+  const { end: faqEnd } = extractKorporativnyjFaqBlock(out);
+  if (faqEnd < 0) {
+    console.warn("assemble: FAQ не найден — блог после FAQ не вставлен");
+    return out;
+  }
+  const iCases = findKorporativnyjCasesAnchorIndex(out);
+  if (iCases < 0 || faqEnd > iCases) {
+    console.warn("assemble: кейсы не найдены после FAQ — блог не вставлен");
+    return out;
+  }
+  const blog = fs.readFileSync(BLOG_PARTIAL_PATH, "utf8").trim();
+  return `${out.slice(0, faqEnd)}\n${blog}\n${out.slice(faqEnd)}`;
 }
 
 function findSectionEnd(html, startIdx) {
@@ -997,12 +1076,14 @@ function run() {
   main = injectKorporativnyjAwards(main);
   main = injectKorporativnyjSynergy(main);
   main = stripKorporativnyjLegacyDiesPrices(main);
+  main = injectKorporativnyjSlaSupportBlock(main);
   main = injectKorporativnyjPackagesAfterCreonCase(main);
   main = injectKorporativnyjSiteCalc(main);
   main = moveKorporativnyjInlineLeadAfterSiteCalc(main);
   main = stripKorporativnyjLegacyDiesPrices(main);
   main = injectKorporativnyjPackagesBeforeInlineLead(main);
   main = moveKorporativnyjFaqSectionBeforeCases(main);
+  main = injectKorporativnyjBlogAfterFaq(main);
   main = ensureKorporativnyjMoreCasesMainClass(main);
   main = injectContentBlockSubtitles(main);
   main = repairMisplacedSubtitles(main);
@@ -1045,7 +1126,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260603morCasesSliderAlign" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260604korporativnyjBlog" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),

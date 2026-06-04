@@ -34,7 +34,8 @@
       "moreCases": "more-cases-korporativnyj-sajt.html",
       "awards": "awards-korporativnyj-sajt.html",
       "synergy": "synergy-korporativnyj-sajt.html",
-      "packagesBlock": "korporativnyj-packages-block.html"
+      "packagesBlock": "korporativnyj-packages-block.html",
+      "blog": "blog-korporativnyj-sajt.html"
     },
     "markers": {
       "mainStart": "KORPORATIVNYJ-MAIN-START",

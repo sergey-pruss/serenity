@@ -7,6 +7,18 @@
 @import url("sections/service-packages-cards.css");
 @import url("sections/korporativnyj-site-calc.css");
 
+/* Заголовки/текст колонок — ссылки на услуги без визуального «подчёркивания» (как /services/marketing). */
+.page-constructor.korporativnyj-page .block__name a,
+.page-constructor.korporativnyj-page .block__description a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-constructor.korporativnyj-page .block__name a:hover,
+.page-constructor.korporativnyj-page .block__description a:hover {
+  text-decoration: underline;
+}
+
 .page-constructor > .page-constructor__section:first-of-type::before {
   display: none !important;
   content: none !important;
@@ -283,24 +295,45 @@
 }
 
 /*
- * «Стоимость и пакеты» сразу после cases-block: как /kontekstnaya_reklama (--home-between 112),
- * не 172px из targeting-static-stack для .content-block.
+ * SLA после слайдера Creon (cases-block): зазор как у /kontekstnaya_reklama (--home-between).
  */
-.page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
-.page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+.page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-sla-support-block > .modern.content-block[data-v-4ed7dc78],
+.page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-sla-support-block > .modern.content-block {
   padding-top: var(--home-between, 112px) !important;
 }
 
 @media screen and (max-width: 800px) {
-  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
-  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-sla-support-block > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-sla-support-block > .modern.content-block {
     padding-top: var(--home-between, 97px) !important;
   }
 }
 
 @media screen and (max-width: 425px) {
-  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
-  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-sla-support-block > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section:has(.cases-block) + .page-constructor__section.korporativnyj-sla-support-block > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/*
+ * «Стоимость и пакеты» сразу после SLA: тот же --home-between, не 172px из targeting-static-stack.
+ */
+.page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
+.page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
     padding-top: var(--home-between, 60px) !important;
   }
 }
@@ -322,5 +355,51 @@
 
   .korporativnyj-packages-dies .kontekst-packages-compare {
     --kontekst-compare-pinned-width: min(46vw, 240px);
+  }
+}
+
+/* «Блог» после FAQ: отступы и типографика как на /kompleksnoye-prodvizheniye */
+.page-constructor .korporativnyj-blog-section {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor .korporativnyj-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.page-constructor .korporativnyj-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+  margin-top: 0 !important;
+}
+
+.page-constructor .korporativnyj-blog-section .services__text.home-ledge,
+.page-constructor .korporativnyj-blog-section .services__text.home-ledge[data-v-56f85d51] {
+  padding-bottom: 80px !important;
+}
+
+.page-constructor .korporativnyj-blog-section .blog-block__swiper-container,
+.page-constructor .korporativnyj-blog-section .blog-block__swiper-container[data-v-25bf775d] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.page-constructor .korporativnyj-blog-section .services__title,
+.page-constructor .korporativnyj-blog-section .services__title[data-v-56f85d51] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor .korporativnyj-blog-section .services__title,
+  .page-constructor .korporativnyj-blog-section .services__title[data-v-56f85d51] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .korporativnyj-blog-section .services__title,
+  .page-constructor .korporativnyj-blog-section .services__title[data-v-56f85d51] {
+    font-size: 26px !important;
   }
 }
