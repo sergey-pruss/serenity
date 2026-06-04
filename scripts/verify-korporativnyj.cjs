@@ -48,8 +48,8 @@ async function run() {
   );
   assert(html.includes('property="og:lowPrice" content="400000.00"'), "og:lowPrice как на проде");
   assert(
-    /<h1[^>]*>\s*Разработка корпоративных сайтов/.test(html),
-    "<h1>: Разработка корпоративных сайтов",
+    /<h1[^>]*>\s*Разработка корпоративного сайта/.test(html),
+    "<h1>: Разработка корпоративного сайта (главный ключ)",
   );
   assert(html.includes("korporativnyj-nuxt.bundle.css"), "CSS: korporativnyj-nuxt.bundle.css");
   assert(fileExists("css/korporativnyj-nuxt.bundle.css"), "файл на диске: css/korporativnyj-nuxt.bundle.css");
@@ -87,6 +87,11 @@ async function run() {
     assert(html.includes("Как считается стоимость?"), "FAQ: стоимость");
     assert(!html.includes("Почему столько стоит?"), "FAQ: без legacy-вопросов prod");
     assert(html.includes('href="/seo">SEO-сопровождение</a>'), "FAQ: ссылка на SEO в ответе про поддержку");
+    assert(html.includes("korporativnyj-post-hero"), "SEO phase2: блок post-hero");
+    assert(html.includes("korporativnyj-cms-block"), "SEO phase2: блок CMS");
+    assert(html.includes("Создание корпоративного сайта для"), "post-hero: заголовок");
+    assert(html.includes("Корпоративный сайт на&nbsp;CMS"), "cms-block: заголовок");
+    assert(!html.includes('<div class="facts">'), "SEO phase2: без legacy .facts");
     assert(/class="page-constructor korporativnyj-page"/.test(html), "обёртка page-constructor korporativnyj-page");
     assert(!html.includes("korporativnyj-page__section-heading"), "заголовки: kontekstnaya-page__section-heading");
     assert(html.includes('id="sa-inline-lead-root"'), "inline lead root");
@@ -132,6 +137,11 @@ async function run() {
   const mainEnd = html.indexOf("<!-- KORPORATIVNYJ-MAIN-END -->");
   const main = html.slice(mainStart, mainEnd);
   if (!captureBaseline) {
+    const postHeroIdx = main.indexOf("korporativnyj-post-hero");
+    const cmsIdx = main.indexOf("korporativnyj-cms-block");
+    const approachIdx = main.indexOf("Наш подход");
+    assert(postHeroIdx >= 0 && cmsIdx > postHeroIdx, "порядок: CMS после post-hero");
+    assert(cmsIdx >= 0 && approachIdx > cmsIdx, "порядок: «Наш подход» после CMS");
     const compareIdx = main.indexOf("korporativnyj-packages-compare-mounted");
     const calcIdx = main.indexOf("sa-site-calc-section");
     const leadIdx = main.indexOf("sa-service-lead-section");
@@ -312,7 +322,10 @@ async function run() {
 
   const phase2 = !captureBaseline && process.env.KORPORATIVNYJ_VERIFY_PHASE2 === "1";
   if (phase2) {
-    assert(html.includes('class="facts"') || html.includes("Наш подход"), "phase2: факты/подход");
+    assert(
+      html.includes("korporativnyj-post-hero") || html.includes('class="facts"') || html.includes("Наш подход"),
+      "phase2: post-hero или факты/подход",
+    );
     assert(!html.includes("KORPORATIVNYJ-PHASE2:middle"), "phase2: нет маркера middle");
     assert(!html.includes("https://serenity.agency/storage/"), "phase2: пути storage переписаны в /_sa/img/");
     assert(html.includes('class="cases-block"'), "phase2: слайдер cases-block в середине страницы");
@@ -321,8 +334,9 @@ async function run() {
     assert(
       html.includes("KORPORATIVNYJ-PHASE2:middle") ||
         html.includes("KORPORATIVNYJ-PHASE2:clients") ||
-        html.includes('class="facts"'),
-      "phase1: маркеры пропуска секций, facts или phase2 включён",
+        html.includes('class="facts"') ||
+        html.includes("korporativnyj-post-hero"),
+      "phase1: маркеры пропуска секций, facts, post-hero или phase2 включён",
     );
   }
   if (!captureBaseline) {
@@ -400,7 +414,15 @@ async function run() {
   assert(main.includes("Наш подход"), "блок «Наш подход»");
   assert(main.includes("Маркетинговое проектирование"), "этап: маркетинговое проектирование");
   assert(main.includes("Дизайн"), "этап: дизайн");
-  assert(main.includes("Разработка сайтов"), "этап: разработка сайтов");
+  assert(
+    main.includes("Этапы разработки корпоративного сайта"),
+    "этапы: заголовок с «разработка корпоративного сайта»",
+  );
+  assert(
+    main.includes(">Разработка корпоративного сайта</h2>") &&
+      (main.match(/Разработка корпоративного сайта/g) || []).length >= 2,
+    "этап разработки: H2 с главным ключом (герой H1 + этап)",
+  );
   const caseBlockCount = (main.match(/class="cases-block"/g) || []).length;
   assert(caseBlockCount >= 3, `inline cases-block: ≥3 (сейчас ${caseBlockCount})`);
 

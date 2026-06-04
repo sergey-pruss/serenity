@@ -246,7 +246,7 @@ const SECTION_OPEN = '<section class="page-constructor__section';
 const KORPORATIVNYJ_PRODUCT_IMAGE =
   "https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
 const KORPORATIVNYJ_PRODUCT_IMAGE_DISK = "/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
-const KORPORATIVNYJ_HERO_H1 = "Разработка корпоративных сайтов";
+const KORPORATIVNYJ_HERO_H1 = "Разработка корпоративного сайта";
 
 function patchKorporativnyjHeroH1(html) {
   return html.replace(
@@ -1126,7 +1126,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260604korporativnyjBlog" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260604korporativnyjTailSpacing" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),

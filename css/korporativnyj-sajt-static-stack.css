@@ -126,10 +126,47 @@
   }
 }
 
-/* Зазор видео → facts как у targeting */
+/* Зазор видео → post-hero (после удаления legacy .facts) */
 @media screen and (min-width: 720px) and (max-width: 1024px) {
-  .page-constructor.korporativnyj-page > .page-constructor__section > .facts {
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block[data-v-4ed7dc78] {
     padding-top: 48px !important;
+  }
+}
+
+/*
+ * post-hero и CMS: единый шаг --home-between между секциями (как kompleksnoye).
+ */
+.page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block,
+.page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block[data-v-4ed7dc78],
+.page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-cms-block > .modern.content-block,
+.page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-cms-block > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-cms-block > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-cms-block > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-post-hero > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-cms-block > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section.korporativnyj-cms-block > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* post-hero: 4 колонки в desc-сетке (дефолт страницы — 3 колонки) */
+@media screen and (min-width: 901px) {
+  .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks > .col-4 {
+    max-width: calc((100% - 225px) / 4);
   }
 }
 
@@ -334,6 +371,39 @@
 @media screen and (max-width: 425px) {
   .page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block[data-v-4ed7dc78],
   .page-constructor__section.korporativnyj-sla-support-block + .page-constructor__section.korporativnyj-packages-heading > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/*
+ * Хвост страницы (калькулятор → форма → преимущества → команда): один шаг --home-between.
+ * Nuxt .advantage { padding-top: 172px }; kontekst — margin-top: 112px у .sa-service-lead-section;
+ * calc __container padding-bottom 72px — не суммировать.
+ */
+.page-constructor.korporativnyj-page > .page-constructor__section.sa-site-calc-section:has(+ .page-constructor__section.sa-service-lead-section)
+  .sa-site-calc-section__container {
+  padding-bottom: var(--home-between, 112px) !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section.sa-site-calc-section + .page-constructor__section.sa-service-lead-section {
+  margin-top: 0 !important;
+}
+
+.page-constructor.korporativnyj-page > .page-constructor__section > .advantage,
+.page-constructor.korporativnyj-page > .page-constructor__section > .advantage[data-v-1e31df85] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section > .advantage,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .advantage[data-v-1e31df85] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section > .advantage,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .advantage[data-v-1e31df85] {
     padding-top: var(--home-between, 60px) !important;
   }
 }
