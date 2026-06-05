@@ -329,6 +329,104 @@ async function run() {
         "cases-block: pagination ros7m вне swiper-wrapper",
       );
     }
+    assert(ow24Idx >= 0, "cases-block: третий слайдер (24ow7) на странице");
+    const solvikIdx = main.indexOf('cases-block__swiper-slide-title">Solvik</h3>');
+    assert(
+      solvikIdx >= 0 && ow24Idx >= 0 && solvikIdx > ow24Idx,
+      "cases-block: первый слайд 24ow7 — Solvik",
+    );
+    assert(
+      main.includes("solvik-bg.webp?v=20260605solvikBgCover"),
+      "cases-block: фон solvik-bg.webp",
+    );
+    assert(
+      main.includes("solvik-case-slide.webp?v=20260605solvik1080"),
+      "cases-block: ассет solvik-case-slide.webp",
+    );
+    assert(
+      fs.existsSync(path.join(root, "img/services/korporativnyj_sajt/solvik-bg.webp")),
+      "диск: solvik-bg.webp",
+    );
+    assert(
+      fs.existsSync(path.join(root, "img/services/korporativnyj_sajt/solvik-case-slide.webp")),
+      "диск: solvik-case-slide.webp",
+    );
+    assert(main.includes('href="/case/all/solvik"'), "cases-block: Solvik — ссылка на кейс");
+    const solvikSlideStart = main.lastIndexOf('<div data-v-bd2e570a=""', solvikIdx);
+    const solvikChunk = main.slice(solvikSlideStart, solvikIdx + 4000);
+    assert(
+      solvikChunk.includes("cases-block__swiper-slide-tags-wrapper_hidden"),
+      "cases-block: Solvik — без видимых тегов",
+    );
+    assert(
+      !solvikChunk.includes(">Кастомная CMS</span>"),
+      "cases-block: Solvik — теги не выводим",
+    );
+    const volvoIdx = main.indexOf('cases-block__swiper-slide-title">Volvo Penta</h3>', solvikIdx);
+    const foilIdx = main.indexOf('cases-block__swiper-slide-title">Foil</h3>', solvikIdx);
+    assert(
+      volvoIdx >= 0 && solvikIdx >= 0 && volvoIdx > solvikIdx,
+      "cases-block: второй слайд 24ow7 — Volvo Penta",
+    );
+    assert(
+      foilIdx >= 0 && volvoIdx >= 0 && foilIdx > volvoIdx,
+      "cases-block: третий слайд 24ow7 — Foil",
+    );
+    assert(main.includes('href="/case/volvo-penta"'), "cases-block: Volvo Penta — ссылка на кейс");
+    assert(
+      main.includes("https://www.behance.net/gallery/138703289/biznes-klub-FOIL"),
+      "cases-block: Foil — ссылка на Behance",
+    );
+    assert(
+      main.includes("foil-case-slide.webp?v=20260605foil1080"),
+      "cases-block: ассет foil-case-slide.webp",
+    );
+    assert(
+      fs.existsSync(path.join(root, "img/services/korporativnyj_sajt/foil-case-slide.webp")),
+      "диск: foil-case-slide.webp",
+    );
+    const ow24PagIdx = main.indexOf(
+      '<div data-v-bd2e570a="" class="swiper-pagination swiper-pagination-24ow7',
+      ow24Idx,
+    );
+    const ow24End =
+      ow24PagIdx >= 0
+        ? main.indexOf("</div>", ow24PagIdx + 80) + 6
+        : main.indexOf("swiper-slide-24ow7", ow24Idx) + 12000;
+    const ow24Chunk = main.slice(ow24Idx, ow24End > ow24Idx ? ow24End : ow24Idx + 12000);
+    assert(
+      !ow24Chunk.includes('cases-block__swiper-slide-title">Askonamed</h3>'),
+      "cases-block: Askonamed не в третьем слайдере",
+    );
+    assert(
+      !ow24Chunk.includes('cases-block__swiper-slide-title">Rodvig</h3>'),
+      "cases-block: Rodvig не в третьем слайдере",
+    );
+    assert(
+      !ow24Chunk.includes('cases-block__swiper-slide-title">Creon Group</h3>'),
+      "cases-block: Creon Group не в третьем слайдере",
+    );
+    const ow24SlideCount = (ow24Chunk.match(/swiper-slide-24ow7/g) || []).length;
+    assert(ow24SlideCount === 3, `cases-block: в 24ow7 ровно 3 слайда (got ${ow24SlideCount})`);
+    const {
+      getOw24SlidesChunkBounds,
+      OW24_PAGINATION_START,
+    } = require("./lib/korporativnyj-24ow7-cases-common.cjs");
+    const ow24Bounds = getOw24SlidesChunkBounds(main);
+    if (ow24Bounds) {
+      const ow24Region = main.slice(ow24Bounds.start, ow24Bounds.pagStart);
+      const pagInRegion = ow24Region.indexOf(OW24_PAGINATION_START);
+      const pagEnd = pagInRegion >= 0 ? pagInRegion : ow24Region.length;
+      const wrapMarker = ow24Region.indexOf("swiper-wrapper");
+      const wrapDivStart = ow24Region.lastIndexOf("<div", wrapMarker);
+      const segment = ow24Region.slice(wrapDivStart, pagEnd);
+      const opens = (segment.match(/<div\b/g) || []).length;
+      const closes = (segment.match(/<\/div>/g) || []).length;
+      assert(
+        opens === closes,
+        `cases-block: 24ow7 swiper-wrapper сбалансирован (opens=${opens}, closes=${closes})`,
+      );
+    }
     const compareIdx = main.indexOf("korporativnyj-packages-compare-mounted");
     const calcIdx = main.indexOf("sa-site-calc-section");
     const leadIdx = main.indexOf("sa-service-lead-section");
@@ -336,7 +434,7 @@ async function run() {
     const clientsIdx = main.indexOf("kontekst-clients-section");
     const faqIdx = main.indexOf("korporativnyj-faq-mounted");
     const casesIdx = main.indexOf('class="more-case-wr');
-    const creonIdx = main.indexOf("Creon Group");
+    const solvikAnchorIdx = main.indexOf('cases-block__swiper-slide-title">Solvik</h3>');
     const slaIdx = main.indexOf("korporativnyj-sla-support-block");
     assert(html.includes('id="korporativnyj-site-calc-root"'), "квиз: korporativnyj-site-calc-root");
     assert(html.includes("korporativnyj-site-calc.js"), "квиз: korporativnyj-site-calc.js");
@@ -345,7 +443,7 @@ async function run() {
     assert(calcIdx >= 0 && leadIdx > calcIdx, "порядок: квиз до формы");
     assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды");
     assert(slaIdx >= 0, "SLA: блок поддержки после запуска");
-    assert(creonIdx >= 0 && slaIdx > creonIdx, "порядок: SLA после кейса Creon");
+    assert(solvikAnchorIdx >= 0 && slaIdx > solvikAnchorIdx, "порядок: SLA после третьего cases-block");
     assert(slaIdx >= 0 && compareIdx > slaIdx, "порядок: «Стоимость» после SLA");
     assert(
       html.includes('href="/tehnicheskaya-podderzhka-saita">Техническая поддержка</a>'),

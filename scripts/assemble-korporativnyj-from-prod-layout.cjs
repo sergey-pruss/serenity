@@ -24,6 +24,9 @@ const { patchKorporativnyjN4fvkTrailingSlides } = require("./lib/korporativnyj-n
 const { patchKorporativnyjRos7mFirstSlideSytnieUgodiya } = require("./lib/korporativnyj-sytnie-ugodiya-ros7m-first-slide.cjs");
 const { patchKorporativnyjRos7mSecondSlideSchaeferFliesen } = require("./lib/korporativnyj-schaefer-fliesen-ros7m-second-slide.cjs");
 const { patchKorporativnyjRos7mThirdSlideCromi } = require("./lib/korporativnyj-cromi-ros7m-third-slide.cjs");
+const { patchKorporativnyjOw24FirstSlideSolvik } = require("./lib/korporativnyj-solvik-24ow7-first-slide.cjs");
+const { patchKorporativnyjOw24TrailingSlides } = require("./lib/korporativnyj-24ow7-trailing-slides.cjs");
+const { patchOw24CloseWrapperBeforePagination } = require("./lib/korporativnyj-24ow7-cases-common.cjs");
 const { patchRos7mCloseWrapperBeforePagination } = require("./lib/korporativnyj-ros7m-cases-common.cjs");
 const {
   patchN4fvkFixNestedSlides,
@@ -48,7 +51,7 @@ function buildKorporativnyjPackagesPartial() {
   });
 }
 
-const CREON_CASE_NEEDLE = 'cases-block__swiper-slide-title">Creon Group</h3>';
+const THIRD_CASES_SLIDER_ANCHOR = 'cases-block__swiper-slide-title">Solvik</h3>';
 const KORP_PACKAGES_MARKER = "<!-- KORPORATIVNYJ-PACKAGES-START -->";
 const LEGACY_DIES_TILDA_RE = /<h3 data-v-1444f1fb="">Лендинг на(?:&nbsp;|\s)Tilda<\/h3>/;
 
@@ -167,7 +170,7 @@ function injectKorporativnyjPackagesBeforeInlineLead(mainHtml) {
   });
 }
 
-/** После кейса Creon, перед «Стоимость и пакеты»: поддержка и SLA. */
+/** После третьего cases-block (Solvik), перед «Стоимость и пакеты»: поддержка и SLA. */
 function injectKorporativnyjSlaSupportBlock(mainHtml) {
   if (!fs.existsSync(SLA_SUPPORT_PARTIAL)) {
     console.warn("assemble: korporativnyj-sla-support-block.html не найден");
@@ -183,26 +186,26 @@ function injectKorporativnyjSlaSupportBlock(mainHtml) {
   if (packagesIdx >= 0) {
     return `${mainHtml.slice(0, packagesIdx)}${partial}\n${mainHtml.slice(packagesIdx)}`;
   }
-  const creonIdx = mainHtml.indexOf(CREON_CASE_NEEDLE);
-  if (creonIdx < 0) {
-    console.warn("assemble-korporativnyj: кейс Creon Group не найден — SLA-блок не вставлен");
+  const anchorIdx = mainHtml.indexOf(THIRD_CASES_SLIDER_ANCHOR);
+  if (anchorIdx < 0) {
+    console.warn("assemble-korporativnyj: третий cases-block (Solvik) не найден — SLA-блок не вставлен");
     return mainHtml;
   }
-  const secEnd = mainHtml.indexOf("</section>", creonIdx) + "</section>".length;
+  const secEnd = mainHtml.indexOf("</section>", anchorIdx) + "</section>".length;
   return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
 }
 
-/** Блок «Стоимость» (слайдер + таблица) сразу после кейса Creon Group. */
+/** Блок «Стоимость» (слайдер + таблица) сразу после третьего cases-block. */
 function injectKorporativnyjPackagesAfterCreonCase(mainHtml) {
   if (mainHtml.includes(KORP_PACKAGES_MARKER)) return mainHtml;
   const partial = readPartial("html/partials/services/korporativnyj-packages-block.html");
   if (!partial) return mainHtml;
-  const creonIdx = mainHtml.indexOf(CREON_CASE_NEEDLE);
-  if (creonIdx < 0) {
-    console.warn("assemble-korporativnyj: кейс Creon Group не найден — пакеты не вставлены");
+  const anchorIdx = mainHtml.indexOf(THIRD_CASES_SLIDER_ANCHOR);
+  if (anchorIdx < 0) {
+    console.warn("assemble-korporativnyj: третий cases-block (Solvik) не найден — пакеты не вставлены");
     return mainHtml;
   }
-  const secEnd = mainHtml.indexOf("</section>", creonIdx) + "</section>".length;
+  const secEnd = mainHtml.indexOf("</section>", anchorIdx) + "</section>".length;
   return `${mainHtml.slice(0, secEnd)}\n${partial}\n${mainHtml.slice(secEnd)}`;
 }
 
@@ -1086,6 +1089,9 @@ function run() {
   main = patchKorporativnyjRos7mFirstSlideSytnieUgodiya(main);
   main = patchKorporativnyjRos7mSecondSlideSchaeferFliesen(main);
   main = patchKorporativnyjRos7mThirdSlideCromi(main);
+  main = patchKorporativnyjOw24FirstSlideSolvik(main);
+  main = patchKorporativnyjOw24TrailingSlides(main);
+  main = patchOw24CloseWrapperBeforePagination(main);
   main = patchRos7mCloseWrapperBeforePagination(main);
   main = patchN4fvkFixNestedSlides(main);
   main = patchN4fvkCloseWrapperBeforePagination(main);
@@ -1146,7 +1152,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260605schaeferBlur" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260605ow24VolvoFoil" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
