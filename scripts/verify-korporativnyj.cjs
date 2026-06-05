@@ -471,6 +471,11 @@ async function run() {
   const stackCss = read(stackCssPath);
   const targetingStackCss = read("css/targeting-static-stack.css");
   assert(
+    stackCss.includes(".page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block") &&
+      stackCss.includes("padding-top: var(--home-between, 112px)"),
+    "stack CSS: все content-block — --home-between, не 172px targeting",
+  );
+  assert(
     (stackCss.includes(".page-constructor > .page-constructor__section:first-of-type::before") &&
       stackCss.includes("display: none !important")) ||
       targetingStackCss.includes("display: none !important"),
@@ -493,6 +498,11 @@ async function run() {
     "packages: compare CSS scroll/pinned",
   );
   assert(
+    compareCss.includes(".kontekst-packages-compare__row-label:has(.kontekst-packages-compare__icon)") &&
+      compareCss.includes(".kontekst-packages-compare__row-label-text"),
+    "packages: compare CSS flex-иконка + текст",
+  );
+  assert(
     stackCss.includes("overflow-x: hidden") &&
       stackCss.includes("kontekst-packages-compare"),
     "stack CSS: overflow-x hidden у .prices с compare",
@@ -501,6 +511,25 @@ async function run() {
     html.includes(">Стоимость и пакеты</h2>") || html.includes(">Стоимость и&nbsp;пакеты</h2>"),
     "packages: заголовок «Стоимость и пакеты»",
   );
+  const packagesCompareStart = html.indexOf('id="korporativnyj-packages-compare-mounted"');
+  const packagesCompareEnd = html.indexOf("<!-- KORPORATIVNYJ-PACKAGES-END -->", packagesCompareStart);
+  const packagesChunk =
+    packagesCompareStart >= 0
+      ? html.slice(
+          packagesCompareStart,
+          packagesCompareEnd > packagesCompareStart ? packagesCompareEnd : packagesCompareStart + 12000,
+        )
+      : "";
+  assert(
+    packagesChunk.includes("kontekst-packages-compare__icon"),
+    "packages: иконки в таблице сравнения",
+  );
+  assert(
+    packagesChunk.includes("kontekst-packages-compare__row-label-text"),
+    "packages: row-label-text в разметке",
+  );
+  const packagesIconCount = (packagesChunk.match(/kontekst-packages-compare__icon/g) || []).length;
+  assert(packagesIconCount === 20, `packages: 20 иконок в таблице (got ${packagesIconCount})`);
   assert(
     html.includes('class="kontekst-packages-compare__plan-name">Базовый</span>'),
     "packages: колонка «Базовый»",

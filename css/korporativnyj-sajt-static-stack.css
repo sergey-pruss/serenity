@@ -163,6 +163,30 @@
   }
 }
 
+/*
+ * Все .content-block: один шаг --home-between (112), не 172px из targeting-static-stack.
+ * «Наш подход», этапы 1–4 и остальные секции — как post-hero/CMS (как /kompleksnoye-prodvizheniye).
+ */
+.page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block,
+.page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.korporativnyj-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
 /* post-hero: 4 колонки в desc-сетке (дефолт страницы — 3 колонки) */
 @media screen and (min-width: 901px) {
   .page-constructor.korporativnyj-page .korporativnyj-tasks-grid.content-block__grid--desc.blocks > .col-4 {

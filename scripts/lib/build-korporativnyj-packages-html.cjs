@@ -4,6 +4,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { getKorporativnyjPackagesRowIcon } = require("./korporativnyj-packages-row-icons.cjs");
 
 const PRODUCT_IMAGE =
   "https://serenity.agency/_sa/img/storage__xjhFEA49677OGQDTXjw6he9xnUh71ef9GgvspTHz.webp";
@@ -37,8 +38,15 @@ function buildCompareTable(data) {
         ? "kontekst-packages-compare__row-label kontekst-packages-compare__row-label--text"
         : "kontekst-packages-compare__row-label";
       const trClass = row.text ? ' class="kontekst-packages-compare__row--text"' : "";
+      const iconSvg = !row.text ? getKorporativnyjPackagesRowIcon(row.label) : "";
+      const iconHtml = iconSvg
+        ? `<span class="kontekst-packages-compare__icon" aria-hidden="true">\n                  ${iconSvg}\n                </span>\n                `
+        : "";
+      const labelBody = row.text
+        ? row.label
+        : `<span class="kontekst-packages-compare__row-label-text">${row.label}</span>`;
       return `            <tr${trClass}>
-              <th scope="row" class="${labelClass}">${row.label}</th>
+              <th scope="row" class="${labelClass}">${iconHtml}${labelBody}</th>
             </tr>`;
     })
     .join("\n");

@@ -163,13 +163,25 @@
   line-height: 1.35;
 }
 
+/* Иконка слева, текст переносится в своей колонке (не под иконку). */
+.kontekst-packages-compare__row-label:has(.kontekst-packages-compare__icon) {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
 .kontekst-packages-compare__icon {
-  display: inline-block;
+  display: block;
+  flex-shrink: 0;
   width: 24px;
   height: 24px;
-  margin-right: 12px;
-  vertical-align: middle;
+  margin-top: 1px;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.kontekst-packages-compare__row-label-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .kontekst-packages-compare__icon svg {
