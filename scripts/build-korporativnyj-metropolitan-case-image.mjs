@@ -17,6 +17,8 @@ function findRepoSource(slug) {
     const p = path.join(outDir, `${slug}.source${ext}`);
     if (fs.existsSync(p)) return p;
   }
+  const webp = path.join(outDir, `${slug}.webp`);
+  if (fs.existsSync(webp)) return webp;
   return null;
 }
 

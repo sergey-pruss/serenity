@@ -21,6 +21,10 @@ const {
 const { patchKorporativnyjFirstCasesSlideMetropolitan } = require("./lib/korporativnyj-metropolitan-case-slide.cjs");
 const { patchKorporativnyjSecondCasesSlideMiramar } = require("./lib/korporativnyj-miramar-case-slide.cjs");
 const { patchKorporativnyjN4fvkTrailingSlides } = require("./lib/korporativnyj-n4fvk-trailing-slides.cjs");
+const { patchKorporativnyjRos7mFirstSlideSytnieUgodiya } = require("./lib/korporativnyj-sytnie-ugodiya-ros7m-first-slide.cjs");
+const { patchKorporativnyjRos7mSecondSlideSchaeferFliesen } = require("./lib/korporativnyj-schaefer-fliesen-ros7m-second-slide.cjs");
+const { patchKorporativnyjRos7mThirdSlideCromi } = require("./lib/korporativnyj-cromi-ros7m-third-slide.cjs");
+const { patchRos7mCloseWrapperBeforePagination } = require("./lib/korporativnyj-ros7m-cases-common.cjs");
 const {
   patchN4fvkFixNestedSlides,
   patchN4fvkCloseWrapperBeforePagination,
@@ -1079,6 +1083,10 @@ function run() {
   main = patchKorporativnyjFirstCasesSlideMetropolitan(main);
   main = patchKorporativnyjSecondCasesSlideMiramar(main);
   main = patchKorporativnyjN4fvkTrailingSlides(main);
+  main = patchKorporativnyjRos7mFirstSlideSytnieUgodiya(main);
+  main = patchKorporativnyjRos7mSecondSlideSchaeferFliesen(main);
+  main = patchKorporativnyjRos7mThirdSlideCromi(main);
+  main = patchRos7mCloseWrapperBeforePagination(main);
   main = patchN4fvkFixNestedSlides(main);
   main = patchN4fvkCloseWrapperBeforePagination(main);
   main = injectKorporativnyjPostHero(main);
@@ -1138,7 +1146,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260604casesWrapperFix" />',
+        '    <link rel="stylesheet" href="/_sa/css/korporativnyj-sajt-static-stack.css?v=20260605schaeferBlur" />',
         '    <link rel="stylesheet" href="/_sa/css/sections/korporativnyj-hero.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),

@@ -498,6 +498,25 @@
   -webkit-transform: translateZ(0) scale(1.32) !important;
 }
 
+/* cases-block: «Сытные угодья» — blur-фон; кадр в .contant как у остальных (906×515). */
+.page-constructor.korporativnyj-page
+  .cases-block__swiper-slide--sytnie-ugodiya.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.page-constructor.korporativnyj-page
+  .cases-block__swiper-slide--schaefer-fliesen.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
 /* Таблица пакетов: скролл только в __scroll; pinned не уезжает при горизонтальном скролле */
 @media screen and (max-width: 1024px) {
   .page-constructor .dies.modern .prices:has(.kontekst-packages-compare)[data-v-1505791e],

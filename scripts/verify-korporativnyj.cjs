@@ -249,6 +249,86 @@ async function run() {
         (n4fvkSliderEnd < 0 || n4fvkNavStart < n4fvkSliderEnd),
       "cases-block: стрелки n4fvk внутри .cases-block__slider",
     );
+    const ros7mIdx = main.indexOf("swiper-slide-ros7m");
+    const ow24Idx = main.indexOf("swiper-slide-24ow7", ros7mIdx);
+    const sytnieIdx = main.indexOf('cases-block__swiper-slide-title">Сытные угодья</h3>');
+    assert(
+      sytnieIdx >= 0 &&
+        ros7mIdx >= 0 &&
+        sytnieIdx > ros7mIdx &&
+        (ow24Idx < 0 || sytnieIdx < ow24Idx),
+      "cases-block: первый слайд ros7m — Сытные угодья",
+    );
+    assert(
+      main.includes("sytnie-ugodiya-case-slide.webp"),
+      "cases-block: ассет sytnie-ugodiya-case-slide.webp",
+    );
+    assert(
+      fs.existsSync(
+        path.join(root, "img/services/korporativnyj_sajt/sytnie-ugodiya-case-slide.webp"),
+      ),
+      "диск: sytnie-ugodiya-case-slide.webp",
+    );
+    assert(
+      main.includes("sytnie-ugodiya-case-slide.webp?v=20260605sytnie1080"),
+      "cases-block: версия ассета Сытные угодья",
+    );
+    assert(
+      main.includes('href="/case/all/sytnie-ugodia"'),
+      "cases-block: Сытные угодья — ссылка на кейс",
+    );
+    const schaeferIdx = main.indexOf('cases-block__swiper-slide-title">Schaefer Fliesen</h3>');
+    const sytnieEnd = main.indexOf('swiper-slide-ros7m', sytnieIdx + 40);
+    assert(
+      schaeferIdx >= 0 &&
+        sytnieIdx >= 0 &&
+        schaeferIdx > sytnieIdx &&
+        (ow24Idx < 0 || schaeferIdx < ow24Idx),
+      "cases-block: второй слайд ros7m — Schaefer Fliesen",
+    );
+    assert(
+      main.includes("schaefer-fliesen-case-slide.webp?v=20260605schaefer1080"),
+      "cases-block: ассет schaefer-fliesen-case-slide.webp",
+    );
+    assert(
+      fs.existsSync(
+        path.join(root, "img/services/korporativnyj_sajt/schaefer-fliesen-case-slide.webp"),
+      ),
+      "диск: schaefer-fliesen-case-slide.webp",
+    );
+    assert(
+      main.includes('href="/case/all/schaeferfliesen"'),
+      "cases-block: Schaefer Fliesen — ссылка на кейс",
+    );
+    const cromiIdx = main.indexOf('cases-block__swiper-slide-title">Cromi</h3>');
+    assert(
+      cromiIdx >= 0 &&
+        schaeferIdx >= 0 &&
+        cromiIdx > schaeferIdx &&
+        (ow24Idx < 0 || cromiIdx < ow24Idx),
+      "cases-block: третий слайд ros7m — Cromi",
+    );
+    assert(main.includes('href="/case/cromi"'), "cases-block: Cromi — ссылка на кейс");
+    const ros7mChunk =
+      ow24Idx > ros7mIdx ? main.slice(ros7mIdx, ow24Idx) : main.slice(ros7mIdx, ros7mIdx + 12000);
+    assert(
+      !ros7mChunk.includes('cases-block__swiper-slide-title">Global Jet</h3>'),
+      "cases-block: Global Jet не во втором слайдере",
+    );
+    assert(
+      !ros7mChunk.includes('cases-block__swiper-slide-title">Каскад</h3>'),
+      "cases-block: Каскад не во втором слайдере",
+    );
+    const ros7mPag = main.indexOf(
+      '<div data-v-bd2e570a="" class="swiper-pagination swiper-pagination-ros7m',
+      ros7mIdx,
+    );
+    if (ros7mPag >= 0 && ros7mIdx >= 0 && ros7mPag < ow24Idx) {
+      assert(
+        main.slice(ros7mPag - 20, ros7mPag).includes("</div>"),
+        "cases-block: pagination ros7m вне swiper-wrapper",
+      );
+    }
     const compareIdx = main.indexOf("korporativnyj-packages-compare-mounted");
     const calcIdx = main.indexOf("sa-site-calc-section");
     const leadIdx = main.indexOf("sa-service-lead-section");
