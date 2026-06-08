@@ -1,0 +1,176 @@
+/**
+ * Таблицы стоимости — /prodvizhenie-yandex-karty-2gis
+ * Визуальный язык kontekst-packages-compare, полноширинные таблицы.
+ */
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-dies .prices {
+  overflow-x: visible;
+}
+
+.ymaps-pricing-tables {
+  width: 100%;
+  box-sizing: border-box;
+  --ymaps-pricing-line: #2e2e3d;
+  --ymaps-pricing-panel: rgba(26, 26, 36, 0.5);
+}
+
+.ymaps-pricing-tables__group + .ymaps-pricing-tables__group {
+  margin-top: 48px;
+}
+
+.ymaps-pricing-tables__group-title {
+  margin: 0 0 20px;
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 400;
+  color: #fff;
+}
+
+.ymaps-pricing-tables__figure {
+  margin: 0;
+}
+
+.ymaps-pricing-tables__caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ymaps-pricing-tables__scroll {
+  width: 100%;
+  border-radius: 16px;
+  background: var(--ymaps-pricing-panel);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.ymaps-pricing-tables__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 16px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.ymaps-pricing-tables__table thead th,
+.ymaps-pricing-tables__table tbody th,
+.ymaps-pricing-tables__table tbody td {
+  border: 0;
+  border-bottom: 1px solid var(--ymaps-pricing-line);
+}
+
+.ymaps-pricing-tables__table thead th {
+  padding: 20px 24px;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.ymaps-pricing-tables__table tbody th,
+.ymaps-pricing-tables__table tbody td {
+  padding: 18px 24px;
+  vertical-align: middle;
+}
+
+.ymaps-pricing-tables__table tbody tr:last-child th,
+.ymaps-pricing-tables__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ymaps-pricing-tables__th--feature {
+  width: 46%;
+}
+
+.ymaps-pricing-tables__th--price {
+  width: 27%;
+}
+
+.ymaps-pricing-tables__table--budgets .ymaps-pricing-tables__th--feature {
+  width: 62%;
+}
+
+.ymaps-pricing-tables__table--budgets .ymaps-pricing-tables__th--price {
+  width: 38%;
+}
+
+.ymaps-pricing-tables__row-label {
+  text-align: left;
+  font-weight: 400;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.ymaps-pricing-tables__cell--price {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 16px;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.ymaps-pricing-tables__note {
+  margin: 40px 0 0;
+  max-width: 920px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.ymaps-pricing-tables__note strong {
+  color: #fff;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-dies .dies.modern {
+    overflow-x: hidden;
+  }
+
+  .ymaps-pricing-tables__scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+  }
+
+  .ymaps-pricing-tables__table {
+    min-width: 640px;
+  }
+
+  .ymaps-pricing-tables__table--budgets {
+    min-width: 520px;
+  }
+
+  .ymaps-pricing-tables__table thead th,
+  .ymaps-pricing-tables__table tbody th,
+  .ymaps-pricing-tables__table tbody td {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .ymaps-pricing-tables__group + .ymaps-pricing-tables__group {
+    margin-top: 36px;
+  }
+
+  .ymaps-pricing-tables__group-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .ymaps-pricing-tables__note {
+    margin-top: 28px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}

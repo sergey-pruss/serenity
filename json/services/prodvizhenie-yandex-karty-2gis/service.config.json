@@ -43,9 +43,9 @@
       "cssBundleEnd": "YMAPS-CSS-BUNDLE-END"
     },
     "faq": {
-      "mountId": "korporativnyj-faq-mounted",
-      "sectionClass": "korporativnyj-faq-section",
-      "rootClass": "korporativnyj-faq-root korporativnyj-faq-root--always-visible"
+      "mountId": "kontekst-faq-mounted",
+      "sectionClass": "kontekst-faq-section",
+      "rootClass": "kontekst-faq-root kontekst-faq-root--always-visible"
     },
     "phase2": false
   }

@@ -1,5 +1,6 @@
 @import url("./korporativnyj-sajt-static-stack.css");
 @import url("sections/service-hero-header.css");
+@import url("sections/ymaps-pricing-tables.css");
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page {
   position: relative;
@@ -453,4 +454,35 @@
     max-width: 100%;
     flex: 0 0 100%;
   }
+}
+
+/* cases-block: «Boca Room» — размытый cover-фон, портрет без обрезки по центру. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block
+  .cases-block__swiper-slide--boca
+  .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--boca.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+/* Кадр 906×515; заглавное фото кейса — cover по центру. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--boca
+  .cases-block__swiper-slide-contant
+  .old
+  img[data-v-bd2e570a],
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--boca
+  .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  object-position: center center !important;
 }

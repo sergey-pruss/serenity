@@ -56,6 +56,15 @@ const SERVICES = [
     comment:
       "<!-- FAQ seo: json/services/seo/faq.json + service-faq.css (дизайн kompleksnoye/korporativnyj). -->\n",
   },
+  {
+    slug: "prodvizhenie-yandex-karty-2gis",
+    partial: "faq-prodvizhenie-yandex-karty-2gis.html",
+    mountId: "kontekst-faq-mounted",
+    sectionClass: "kontekst-faq-section",
+    rootClass: "kontekst-faq-root kontekst-faq-root--always-visible",
+    comment:
+      "<!-- FAQ prodvizhenie-yandex-karty-2gis: json/services/prodvizhenie-yandex-karty-2gis/faq.json + service-faq.css. -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {
