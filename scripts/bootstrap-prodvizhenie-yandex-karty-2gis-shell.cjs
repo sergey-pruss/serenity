@@ -43,19 +43,25 @@ function readKontekstTailBlocks() {
 
 const YMAPS_CASES_SLIDER_SLOT = "<!-- YMAPS-CASES-SLIDER -->";
 const YMAPS_CASES_SLIDER_2_SLOT = "<!-- YMAPS-CASES-SLIDER-2 -->";
+const YMAPS_CASES_SLIDER_3_SLOT = "<!-- YMAPS-CASES-SLIDER-3 -->";
 
 function injectCasesSliders(contentBlocksHtml) {
   const casesSlider = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider.html");
   const casesSlider2 = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider-2.html");
+  const casesSlider3 = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider-3.html");
   if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_SLOT)) {
     throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
   }
   if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_2_SLOT)) {
     throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_2_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
   }
+  if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_3_SLOT)) {
+    throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_3_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
+  }
   return contentBlocksHtml
     .replace(YMAPS_CASES_SLIDER_SLOT, casesSlider)
-    .replace(YMAPS_CASES_SLIDER_2_SLOT, casesSlider2);
+    .replace(YMAPS_CASES_SLIDER_2_SLOT, casesSlider2)
+    .replace(YMAPS_CASES_SLIDER_3_SLOT, casesSlider3);
 }
 
 function buildMain() {
@@ -87,7 +93,7 @@ function main() {
   const cssStartMarker = a.markers.cssBundleStart;
   const cssEnd = `<!-- ${a.markers.cssBundleEnd} -->`;
 
-  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260608ymapsEkskluziv3`);
+  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260608ymapsSpbHousing3`);
   html = html.replace(/kompleksnoye-prodvizheniye-page/g, "prodvizhenie-yandex-karty-2gis-page");
   html = html.replace(/kompleksnoye-prodvizheniye/g, slug);
   html = html.replace(/KORPORATIVNYJ/g, "YMAPS");
