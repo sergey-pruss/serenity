@@ -1,0 +1,6 @@
+{
+  "mountId": "korporativnyj-faq-mounted",
+  "sectionClass": "korporativnyj-faq-section",
+  "rootClass": "korporativnyj-faq-root korporativnyj-faq-root--always-visible",
+  "bodyHtml": "<div class=\"\"><div class=\"questions\"><h3 class=\"questions__title kontekstnaya-page__section-heading\">Вопрос-ответ</h3></div></div>"
+}

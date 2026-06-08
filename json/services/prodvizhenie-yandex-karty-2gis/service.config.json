@@ -1,0 +1,52 @@
+{
+  "slug": "prodvizhenie-yandex-karty-2gis",
+  "urlPath": "/prodvizhenie-yandex-karty-2gis",
+  "seo": {
+    "breadcrumbLabel": "Продвижение в Яндекс Картах и 2ГИС",
+    "pageTitle": "Продвижение в Яндекс Картах и 2ГИС в Москве и Санкт-Петербурге — Serenity",
+    "metaTitle": "Продвижение в Яндекс Картах и 2ГИС в Москве и Санкт-Петербурге — Serenity",
+    "description": "Настраиваем георекламу и продвижение карточек в Яндекс Картах и 2ГИС: привлекаем клиентов из карт, ведём кампании и отчитываемся по результатам. Работаем в Москве и Санкт-Петербурге."
+  },
+  "hero": {
+    "variant": "title-video"
+  },
+  "sections": {
+    "packages": false,
+    "facts": true,
+    "advantages": false
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "YMAPS_LAYOUT_SOURCE",
+    "tmpFull": "prodvizhenie-yandex-karty-2gis-prod-full.html",
+    "tmpParity": "prodvizhenie-yandex-karty-2gis-parity-prod-layout.html",
+    "pageDir": "prodvizhenie-yandex-karty-2gis",
+    "cssStack": "prodvizhenie-yandex-karty-2gis-static-stack.css",
+    "partials": {
+      "faq": "faq-prodvizhenie-yandex-karty-2gis.html",
+      "inlineLead": "service-inline-lead-prodvizhenie-yandex-karty-2gis.html",
+      "facts": "prodvizhenie-yandex-karty-2gis-facts-block.html",
+      "moreCases": "more-cases-prodvizhenie-yandex-karty-2gis.html",
+      "awards": "awards-prodvizhenie-yandex-karty-2gis.html",
+      "synergy": "synergy-prodvizhenie-yandex-karty-2gis.html"
+    },
+    "markers": {
+      "mainStart": "YMAPS-MAIN-START",
+      "mainEnd": "YMAPS-MAIN-END",
+      "cssBundleStart": "YMAPS-CSS-BUNDLE-START",
+      "cssBundleEnd": "YMAPS-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "korporativnyj-faq-mounted",
+      "sectionClass": "korporativnyj-faq-section",
+      "rootClass": "korporativnyj-faq-root korporativnyj-faq-root--always-visible"
+    },
+    "phase2": false
+  }
+}

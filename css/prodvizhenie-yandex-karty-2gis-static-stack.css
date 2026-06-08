@@ -1,0 +1,456 @@
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-hero-header.css");
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page {
+  position: relative;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .page-constructor__bg {
+  z-index: 0 !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .page-constructor__section {
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background.desctop {
+    display: none !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background.mobile {
+    display: block !important;
+  }
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title,
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title-small {
+  margin-bottom: 42px !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__subtitle {
+  margin-top: 0 !important;
+}
+
+/*
+ * Hero: как /kontekstnaya_reklama — center в 100vh, без flex-end kompleks/seo.
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:first-of-type
+    .c-title-block
+    .header-background
+    .jumbotron,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:first-of-type
+    .header-background
+    .jumbotron {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-bottom: 0 !important;
+    padding-top: var(--service-hero-jumbotron-padding-top, 52px) !important;
+    min-height: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .jumbotron {
+    gap: 42px !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-img-aurora__title,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-img-aurora__title-small {
+    margin-bottom: 0 !important;
+  }
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .jumbotron-video-aurora {
+  display: none !important;
+}
+
+/*
+ * Фактоиды в плашке как /kontekstnaya_reklama (advantages-card--kontekst-mini), native static.
+ * Уменьшенная типографика — длинные заголовки фактов.
+ */
+/* Зазор подзаголовок hero → плашка: как kontekst (~260px), без лишних 112px margin-top. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-section {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-section {
+    margin-top: -102px;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-section {
+    margin-top: var(--service-hero-mobile-to-content, 48px);
+  }
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-wrap > .page__container,
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-wrap > .page__container.desktop {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 72px 56px;
+  background-color: #1d1d1f;
+  border-radius: 30px;
+  box-shadow: 0 0 85px rgba(116, 11, 160, 0.34);
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+  gap: 24px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__icon img {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
+  margin: 0;
+  font-family: HeroNewMedium, HeroNew, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 500;
+  color: #fff;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+  margin: 0;
+  max-width: none;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 300;
+  color: #afafaf;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1366px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card {
+    padding: 64px 40px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
+    gap: 16px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item {
+    gap: 16px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__icon,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__icon img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
+    font-size: 23px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card {
+    padding: 56px 48px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item {
+    width: 100%;
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
+    font-size: 24px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-wrap > .page__container,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-wrap > .page__container.desktop {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card {
+    padding: 48px 28px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card {
+    padding: 40px 24px;
+    border-radius: 24px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__icon img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
+    font-size: 20px;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+    font-size: 14px;
+  }
+}
+
+/* content-block: desc/tablet без слайдера (override kontekstnaya-reklama-parity), как kompleks. */
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 721px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block > .page__container,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 120px !important;
+    grid-row-gap: 120px !important;
+    column-gap: normal !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block > .page__container > .numbered-header,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block > .page__container > .numbered-header[data-v-490c7534],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block > .page__container > .numbered-header .row,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] .numbered-header .row .col-6,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] .numbered-header .row [class*="col-"],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .numbered-header .row .col-6[data-v-490c7534],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .numbered-header .row [class*="col-"],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__title-column,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__subtitle-column {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc.blocks,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc-custom.blocks {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .numbered-header__title-column,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    row-gap: 45px;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    order: 2;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row)
+    > .col-4 {
+    align-items: stretch !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row)
+    > .col-4
+    > .block-item:has(.block__description) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row)
+    .block__name-wrapper:has(.block__name) {
+    flex: 0 0 auto;
+    min-height: 4.75em;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .numbered-header .row > .content-block__grid.content-block__grid--desc {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 10;
+  }
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .modern.content-block
+  .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row)
+  > .col-4 {
+  flex: 1 1 0;
+  max-width: calc((100% - 150px) / 3);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .modern.content-block
+    .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row)
+    > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
