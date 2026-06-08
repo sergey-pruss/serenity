@@ -486,3 +486,67 @@
   .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
   object-position: center center !important;
 }
+
+/* cases-block: «Минисклад» — наружная реклама на фоне (blur), логотип с кейса в рамке. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block
+  .cases-block__swiper-slide--minisklad
+  .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--minisklad.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--minisklad
+  .cases-block__swiper-slide-contant
+  .old
+  img[data-v-bd2e570a],
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--minisklad
+  .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  object-fit: cover !important;
+  -o-object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* cases-block: «Эксклюзив» — шины на фоне (blur), без ссылки на кейс. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block
+  .cases-block__swiper-slide--ekskluziv
+  .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--ekskluziv.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--ekskluziv
+  .cases-block__swiper-slide-contant
+  .old
+  img[data-v-bd2e570a],
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--ekskluziv
+  .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  object-fit: cover !important;
+  -o-object-fit: cover !important;
+  object-position: center center !important;
+}

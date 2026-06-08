@@ -42,18 +42,25 @@ function readKontekstTailBlocks() {
 }
 
 const YMAPS_CASES_SLIDER_SLOT = "<!-- YMAPS-CASES-SLIDER -->";
+const YMAPS_CASES_SLIDER_2_SLOT = "<!-- YMAPS-CASES-SLIDER-2 -->";
 
-function injectCasesSlider(contentBlocksHtml) {
+function injectCasesSliders(contentBlocksHtml) {
   const casesSlider = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider.html");
+  const casesSlider2 = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider-2.html");
   if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_SLOT)) {
     throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
   }
-  return contentBlocksHtml.replace(YMAPS_CASES_SLIDER_SLOT, casesSlider);
+  if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_2_SLOT)) {
+    throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_2_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
+  }
+  return contentBlocksHtml
+    .replace(YMAPS_CASES_SLIDER_SLOT, casesSlider)
+    .replace(YMAPS_CASES_SLIDER_2_SLOT, casesSlider2);
 }
 
 function buildMain() {
   const factsCard = readPartial("prodvizhenie-yandex-karty-2gis-facts-card-block.html");
-  const contentBlocks = injectCasesSlider(readPartial("prodvizhenie-yandex-karty-2gis-content-blocks.html"));
+  const contentBlocks = injectCasesSliders(readPartial("prodvizhenie-yandex-karty-2gis-content-blocks.html"));
   const pricingTables = readPartial("prodvizhenie-yandex-karty-2gis-pricing-tables.html");
   const costFactors = readPartial("prodvizhenie-yandex-karty-2gis-cost-factors-block.html");
   const hero = `<section class="page-constructor__section"><div class="c-title-block modern" data-v-04503aeb=""><div data-v-04503aeb=""><div class="header-full header-background desctop" style="background-image: url(&quot;${heroBase}/hero.webp&quot;);"><div class="jumbotron"><h1 class="jumbotron-img-aurora__title jumbotron-img-aurora__title-small">Продвижение в&nbsp;Яндекс Картах и&nbsp;2ГИС</h1> <h4 class="jumbotron-img-aurora__subtitle" style="text-align: center;">Настраиваем георекламу и&nbsp;продвижение карточек, чтобы клиенты чаще находили вас в&nbsp;Яндекс Картах и&nbsp;2ГИС.</h4></div></div> <div class="header-full header-background mobile" style="background-image:url(${heroBase}/hero__m.webp);"><div class="jumbotron"><h1 class="jumbotron-img-aurora__title">Продвижение в&nbsp;Яндекс Картах и&nbsp;2ГИС</h1> <h4 class="jumbotron-img-aurora__subtitle" style="text-align: center;">Настраиваем георекламу и&nbsp;продвижение карточек, чтобы клиенты чаще находили вас в&nbsp;Яндекс Картах и&nbsp;2ГИС.</h4></div></div></div></div></section>`;
@@ -80,7 +87,7 @@ function main() {
   const cssStartMarker = a.markers.cssBundleStart;
   const cssEnd = `<!-- ${a.markers.cssBundleEnd} -->`;
 
-  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260608ymapsBoca8`);
+  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260608ymapsEkskluziv3`);
   html = html.replace(/kompleksnoye-prodvizheniye-page/g, "prodvizhenie-yandex-karty-2gis-page");
   html = html.replace(/kompleksnoye-prodvizheniye/g, slug);
   html = html.replace(/KORPORATIVNYJ/g, "YMAPS");
