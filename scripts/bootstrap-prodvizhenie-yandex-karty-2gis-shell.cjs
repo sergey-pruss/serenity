@@ -42,15 +42,20 @@ function readKontekstTailBlocks() {
 }
 
 const YMAPS_CASES_SLIDER_SLOT = "<!-- YMAPS-CASES-SLIDER -->";
+const YMAPS_FORMATS_BLOCK_SLOT = "<!-- YMAPS-FORMATS-BLOCK -->";
 const YMAPS_CASES_SLIDER_2_SLOT = "<!-- YMAPS-CASES-SLIDER-2 -->";
 const YMAPS_CASES_SLIDER_3_SLOT = "<!-- YMAPS-CASES-SLIDER-3 -->";
 
 function injectCasesSliders(contentBlocksHtml) {
   const casesSlider = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider.html");
+  const formatsBlock = readPartial("prodvizhenie-yandex-karty-2gis-formats-block.html");
   const casesSlider2 = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider-2.html");
   const casesSlider3 = readPartial("prodvizhenie-yandex-karty-2gis-cases-slider-3.html");
   if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_SLOT)) {
     throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
+  }
+  if (!contentBlocksHtml.includes(YMAPS_FORMATS_BLOCK_SLOT)) {
+    throw new Error(`Нет маркера ${YMAPS_FORMATS_BLOCK_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
   }
   if (!contentBlocksHtml.includes(YMAPS_CASES_SLIDER_2_SLOT)) {
     throw new Error(`Нет маркера ${YMAPS_CASES_SLIDER_2_SLOT} в prodvizhenie-yandex-karty-2gis-content-blocks.html`);
@@ -60,6 +65,7 @@ function injectCasesSliders(contentBlocksHtml) {
   }
   return contentBlocksHtml
     .replace(YMAPS_CASES_SLIDER_SLOT, casesSlider)
+    .replace(YMAPS_FORMATS_BLOCK_SLOT, formatsBlock)
     .replace(YMAPS_CASES_SLIDER_2_SLOT, casesSlider2)
     .replace(YMAPS_CASES_SLIDER_3_SLOT, casesSlider3);
 }
@@ -76,7 +82,6 @@ function buildMain() {
     hero,
     factsCard,
     contentBlocks,
-    "<!-- YMAPS-CONTENT-BLOCKS-REMAINING: виды (отложено) -->",
     pricingTables,
     costFactors,
     ...readKontekstTailBlocks(),
@@ -93,7 +98,7 @@ function main() {
   const cssStartMarker = a.markers.cssBundleStart;
   const cssEnd = `<!-- ${a.markers.cssBundleEnd} -->`;
 
-  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260608ymapsSpbHousing3`);
+  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260609ymapsInvisibleBlogLink`);
   html = html.replace(/kompleksnoye-prodvizheniye-page/g, "prodvizhenie-yandex-karty-2gis-page");
   html = html.replace(/kompleksnoye-prodvizheniye/g, slug);
   html = html.replace(/KORPORATIVNYJ/g, "YMAPS");

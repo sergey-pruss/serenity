@@ -456,6 +456,217 @@
   }
 }
 
+/* Колонки услуг — ссылки в тексте без визуального выделения (как /korporativnyj_sajt).
+ * Специфичнее kontekstnaya-reklama-static-stack .modern.content-block .block__description a. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .block__description a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .modern.content-block .block__description a:hover {
+  text-decoration: underline;
+}
+
+/* content-block: «Виды продвижения» — скриншоты форматов в колонках. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item--ymaps-format {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure {
+  margin: 0 0 24px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1d1d1f;
+  line-height: 0;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure--duo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: transparent;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure-img {
+  width: 100%;
+  aspect-ratio: 1488 / 1224;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: left top;
+  border-radius: 20px;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure-img[src*="media-navigator-billboard"] {
+  object-position: top center;
+}
+
+@media screen and (min-width: 721px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .ymaps-formats-grid__spacer {
+    flex: 0 0 calc((100% - 150px) / 3);
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .ymaps-formats-grid__spacer {
+    display: none !important;
+  }
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block__description + .block__description {
+  margin-top: 12px;
+}
+
+@media screen and (min-width: 721px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid.content-block__grid--desc-by-row .content-block__grid-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: 75px;
+    row-gap: 45px;
+    width: 100%;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid.content-block__grid--desc-by-row .content-block__grid-wrapper > .col-4 {
+    flex: 0 0 calc((100% - 150px) / 3);
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item--ymaps-format .block__name-wrapper:has(.block__name) {
+    min-height: 4.75em;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .ymaps-formats-grid.content-block__grid--desc-by-row
+    .content-block__grid-wrapper
+    > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid.content-block__grid--tablet .block-item__figure {
+    margin-bottom: 20px;
+  }
+}
+
+/*
+ * Вертикальный ритм: content-block — один шаг --home-between; слайдеры кейсов без 100vh и без
+ * padding-top 160px из Nuxt-бандла (как /seo и kompleksnoye-prodvizheniye).
+ */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section > .modern.content-block,
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:has(> .cases-block) {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:has(> .cases-block) .cases-block[data-v-bd2e570a] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  > .page-constructor__section:has(> .cases-block)
+  .cases-block
+  .cases-block__swiper-slide[data-v-bd2e570a] {
+  min-height: auto !important;
+  padding-top: 44px !important;
+  padding-bottom: 44px !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  > .page-constructor__section:has(> .cases-block)
+  + .page-constructor__section
+  > .modern.content-block,
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  > .page-constructor__section:has(> .cases-block)
+  + .page-constructor__section
+  > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section.ymaps-pricing-heading {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding-top: 38px !important;
+    padding-bottom: 38px !important;
+    padding-left: max(var(--page-inline-start, 55px), 110px) !important;
+    padding-right: max(var(--page-inline-end, 55px), 110px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:has(> .cases-block),
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding: 72px 36px 32px !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:has(> .cases-block),
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:has(> .cases-block)
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding: 64px 36px 28px !important;
+  }
+}
+
 /* cases-block: «Boca Room» — размытый cover-фон, портрет без обрезки по центру. */
 .page-constructor.prodvizhenie-yandex-karty-2gis-page
   .cases-block
