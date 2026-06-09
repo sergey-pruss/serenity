@@ -658,21 +658,6 @@
   -webkit-transform: translateZ(0) scale(1.05) !important;
 }
 
-/* Таблица пакетов: скролл только в __scroll; pinned не уезжает при горизонтальном скролле */
-@media screen and (max-width: 1024px) {
-  .page-constructor .dies.modern .prices:has(.kontekst-packages-compare)[data-v-1505791e],
-  .page-constructor .dies.modern section.prices:has(.kontekst-packages-compare),
-  .page-constructor
-    > .page-constructor__section:has(> .dies.modern .prices:has(.kontekst-packages-compare))
-    > .dies.modern {
-    overflow-x: hidden !important;
-  }
-
-  .korporativnyj-packages-dies .kontekst-packages-compare {
-    --kontekst-compare-pinned-width: min(46vw, 240px);
-  }
-}
-
 /* «Блог» после FAQ: отступы и типографика как на /kompleksnoye-prodvizheniye */
 .page-constructor .korporativnyj-blog-section {
   padding-top: var(--home-between, 112px) !important;

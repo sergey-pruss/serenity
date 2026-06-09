@@ -1221,15 +1221,6 @@ body:not(.order-popup-open) .overlay-new {
     overflow-x: visible !important;
   }
 
-  /* Таблица пакетов: скролл только в .kontekst-packages-compare__scroll, не у .prices */
-  .page-constructor .dies.modern .prices:has(.kontekst-packages-compare)[data-v-1505791e],
-  .page-constructor .dies.modern section.prices:has(.kontekst-packages-compare),
-  .page-constructor
-    > .page-constructor__section:has(> .dies.modern .prices:has(.kontekst-packages-compare))
-    > .dies.modern {
-    overflow-x: hidden !important;
-  }
-
   /*
    * Геометрия ряда как у .services-unified .services__context-slider (native-row-scroll):
    * первая карточка по линии заголовка, справа — «хвост» следующей плитки.

@@ -1,18 +1,21 @@
 #!/usr/bin/env node
 /**
- * Playwright: таблица сравнения пакетов на /korporativnyj_sajt и /kontekstnaya_reklama.
+ * Playwright: пакеты на /korporativnyj_sajt и /kontekstnaya_reklama.
+ * ≤1024px — карточный слайдер; ≥1025px — таблица сравнения.
  * ORIGIN=http://127.0.0.1:8895 npm run test:packages-compare-viewports
  */
 const { chromium } = require("playwright");
 
 const BASE = (process.env.ORIGIN || "http://127.0.0.1:8895").replace(/\/$/, "");
 const WIDTHS = [375, 768, 1024, 1440];
+const CACHE_BUST = "20260609packagesMobileSlider";
 
 const PAGES = [
   {
     path: "/korporativnyj_sajt",
     mountId: "korporativnyj-packages-compare-mounted",
     planName: "Базовый",
+    cardPlanName: "Базовый",
     iconRows: 20,
     wrapNeedle: "ГОСТ",
   },
@@ -20,6 +23,7 @@ const PAGES = [
     path: "/kontekstnaya_reklama",
     mountId: "kontekst-packages-compare-mounted",
     planName: "Минимальный",
+    cardPlanName: "Минимальный",
     iconRows: 8,
     wrapNeedle: "Telegram",
   },
@@ -27,6 +31,36 @@ const PAGES = [
 
 function assert(cond, msg) {
   if (!cond) throw new Error(msg);
+}
+
+async function probeMobileSlider(page, cfg) {
+  return page.evaluate(
+    ({ mountId, cardPlanName }) => {
+      const compare = document.getElementById(mountId);
+      const cardsRow = document.querySelector(".prices__cards--packages");
+      const slider = document.querySelector(".prices__packages-slider");
+      const track = document.querySelector(".prices__packages-track");
+      const slides = track ? [...track.querySelectorAll(".prices__packages-slide")] : [];
+      const activeCard = slides.find((slide) => {
+        const h3 = slide.querySelector(".price-card h3");
+        return h3 && h3.textContent.includes(cardPlanName) && slide.offsetWidth > 0;
+      });
+      const compareCs = compare ? getComputedStyle(compare) : null;
+      const cardsCs = cardsRow ? getComputedStyle(cardsRow) : null;
+      const docOverflow = document.documentElement.scrollWidth - window.innerWidth;
+      return {
+        compareDisplay: compareCs?.display ?? null,
+        cardsDisplay: cardsCs?.display ?? null,
+        cardsVisible: !!(cardsRow && cardsCs?.display !== "none" && cardsRow.offsetHeight > 40),
+        sliderVisible: !!(slider && slider.offsetHeight > 40),
+        slideCount: slides.length,
+        activeCardVisible: !!activeCard,
+        nativeRow: track?.dataset?.nativeRow === "1",
+        docOverflow,
+      };
+    },
+    { mountId: cfg.mountId, cardPlanName: cfg.cardPlanName },
+  );
 }
 
 async function probeCompare(page, cfg, width) {
@@ -116,6 +150,7 @@ async function probeCompare(page, cfg, width) {
       const docOverflow = document.documentElement.scrollWidth - window.innerWidth;
 
       return {
+        rootDisplay: getComputedStyle(root).display,
         layout: pick(layout),
         pinned: pick(pinned),
         scroll: pick(scroll),
@@ -128,8 +163,6 @@ async function probeCompare(page, cfg, width) {
         wrapAligned,
         planHeadVisible: !!(planHead && planHead.offsetHeight > 0),
         docOverflow,
-        mobileIconsHidden: width <= 768 ? visibleIcons === 0 : visibleIcons > 0,
-        scrollOverflowAuto: width <= 1024 ? scroll && scroll.style.overflowX !== "visible" : true,
       };
     },
     { mountId: cfg.mountId, planName: cfg.planName, wrapNeedle: cfg.wrapNeedle, width },
@@ -144,60 +177,67 @@ async function run() {
   for (const cfg of PAGES) {
     for (const width of WIDTHS) {
       const page = await browser.newPage({ viewport: { width, height: 900 } });
-      const url = `${BASE}${cfg.path}?v=20260605packagesLabelWrap`;
+      const url = `${BASE}${cfg.path}?v=${CACHE_BUST}`;
       const res = await page.goto(url, { waitUntil: "networkidle", timeout: 45000 });
       assert(res && res.ok(), `${cfg.path} ${width}px: HTTP ${res && res.status()}`);
 
-      await page.evaluate((mountId) => {
-        document.getElementById(mountId)?.scrollIntoView({ block: "center" });
-      }, cfg.mountId);
-      await page.waitForFunction(
-        (mountId) => {
-          const root = document.getElementById(mountId);
-          if (!root) return false;
-          const pinnedTable = root.querySelector(".kontekst-packages-compare__table--pinned");
-          const plansTable = root.querySelector(".kontekst-packages-compare__table--plans");
-          if (!pinnedTable || !plansTable) return false;
-          const pinnedRows = [...pinnedTable.querySelectorAll("tbody tr")];
-          const planRows = [...plansTable.querySelectorAll("tbody tr")];
-          if (!pinnedRows.length || pinnedRows.length !== planRows.length) return false;
-          return pinnedRows.every((row, i) => {
-            const other = planRows[i];
-            if (!other) return false;
-            return Math.abs(row.offsetHeight - other.offsetHeight) <= 4;
-          });
-        },
-        cfg.mountId,
-        { timeout: 10000 },
-      );
-      const data = await probeCompare(page, cfg, width);
       const tag = `${cfg.path} ${width}px`;
 
-      assert(!data.err, `${tag}: ${data.err}`);
-      assert(data.layout && data.layout.h > 120, `${tag}: layout h=${data.layout && data.layout.h}`);
-      assert(data.pinned && data.pinned.w > 40 && data.pinned.h > 80, `${tag}: pinned`);
-      assert(data.scroll && data.scroll.h > 80, `${tag}: scroll`);
-      assert(data.pinnedRows >= 10 && data.planRows === data.pinnedRows, `${tag}: rows ${data.pinnedRows}/${data.planRows}`);
-      assert(data.rowHeightsOk, `${tag}: высоты строк pinned/plans синхронны`);
-      assert(data.planHeadVisible, `${tag}: колонка «${cfg.planName}» видна`);
-      assert(data.docOverflow <= 2, `${tag}: нет горизонтального overflow страницы (${data.docOverflow}px)`);
-
-      if (width > 768) {
+      if (width <= 1024) {
+        await page.evaluate(() => {
+          document.querySelector(".prices__packages-slider")?.scrollIntoView({ block: "center" });
+        });
+        await page.waitForTimeout(300);
+        const data = await probeMobileSlider(page, cfg);
+        assert(data.compareDisplay === "none", `${tag}: таблица скрыта (${data.compareDisplay})`);
+        assert(data.cardsVisible, `${tag}: карточный слайдер виден`);
+        assert(data.sliderVisible, `${tag}: .prices__packages-slider виден`);
+        assert(data.slideCount >= 3, `${tag}: слайдов ${data.slideCount}`);
+        assert(data.activeCardVisible, `${tag}: карточка «${cfg.cardPlanName}» видна`);
+        assert(data.docOverflow <= 2, `${tag}: нет горизонтального overflow (${data.docOverflow}px)`);
+      } else {
+        await page.evaluate((mountId) => {
+          document.getElementById(mountId)?.scrollIntoView({ block: "center" });
+        }, cfg.mountId);
+        await page.waitForFunction(
+          (mountId) => {
+            const root = document.getElementById(mountId);
+            if (!root) return false;
+            if (getComputedStyle(root).display === "none") return false;
+            const pinnedTable = root.querySelector(".kontekst-packages-compare__table--pinned");
+            const plansTable = root.querySelector(".kontekst-packages-compare__table--plans");
+            if (!pinnedTable || !plansTable) return false;
+            const pinnedRows = [...pinnedTable.querySelectorAll("tbody tr")];
+            const planRows = [...plansTable.querySelectorAll("tbody tr")];
+            if (!pinnedRows.length || pinnedRows.length !== planRows.length) return false;
+            return pinnedRows.every((row, i) => {
+              const other = planRows[i];
+              if (!other) return false;
+              return Math.abs(row.offsetHeight - other.offsetHeight) <= 4;
+            });
+          },
+          cfg.mountId,
+          { timeout: 10000 },
+        );
+        const data = await probeCompare(page, cfg, width);
+        assert(!data.err, `${tag}: ${data.err}`);
+        assert(data.rootDisplay !== "none", `${tag}: таблица видна`);
+        assert(data.layout && data.layout.h > 120, `${tag}: layout h=${data.layout && data.layout.h}`);
+        assert(data.pinned && data.pinned.w > 40 && data.pinned.h > 80, `${tag}: pinned`);
+        assert(data.scroll && data.scroll.h > 80, `${tag}: scroll`);
+        assert(
+          data.pinnedRows >= 10 && data.planRows === data.pinnedRows,
+          `${tag}: rows ${data.pinnedRows}/${data.planRows}`,
+        );
+        assert(data.rowHeightsOk, `${tag}: высоты строк pinned/plans синхронны`);
+        assert(data.planHeadVisible, `${tag}: колонка «${cfg.planName}» видна`);
+        assert(data.docOverflow <= 2, `${tag}: нет горизонтального overflow страницы (${data.docOverflow}px)`);
         assert(data.visibleIcons >= cfg.iconRows, `${tag}: иконки видны (${data.visibleIcons})`);
         assert(data.labelFlex === "flex", `${tag}: row-label flex`);
         assert(data.hasLabelText, `${tag}: row-label-text в разметке`);
         if (data.wrapAligned != null) {
           assert(data.wrapAligned, `${tag}: перенос текста выровнен по первой строке`);
         }
-      } else {
-        assert(data.mobileIconsHidden, `${tag}: иконки скрыты на мобилке`);
-      }
-
-      if (width <= 1024) {
-        assert(
-          data.scroll && (data.scroll.overflowX === "auto" || data.scroll.overflowX === "scroll"),
-          `${tag}: горизонтальный скролл планов (${data.scroll && data.scroll.overflowX})`,
-        );
       }
 
       await page.close();

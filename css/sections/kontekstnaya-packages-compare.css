@@ -3,10 +3,20 @@
  * Split-layout: закреплённая колонка подписей + горизонтальный скролл тарифов (≤1024px).
  */
 
-.page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row[data-v-1505791e],
-.page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row,
-.dies.modern .prices:has(.kontekst-packages-compare) .prices__cards--packages {
-  display: none !important;
+/* Десктоп: таблица сравнения; планшет/мобилка — карточный слайдер (service-packages-cards.css). */
+@media screen and (min-width: 1025px) {
+  .page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row[data-v-1505791e],
+  .page-constructor .dies .prices:has(.kontekst-packages-compare) .prices__cards--packages.prices__cards.row,
+  .dies.modern .prices:has(.kontekst-packages-compare) .prices__cards--packages {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor .dies .prices .kontekst-packages-compare,
+  .dies.modern .prices .kontekst-packages-compare {
+    display: none !important;
+  }
 }
 
 .page-constructor .dies .prices .kontekst-packages-compare,
