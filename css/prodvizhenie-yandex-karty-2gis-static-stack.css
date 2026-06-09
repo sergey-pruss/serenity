@@ -20,70 +20,11 @@
   content: none !important;
 }
 
-.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type {
-  position: relative;
-}
-
-.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type > * {
-  position: relative;
-  z-index: 2;
-}
-
+/* Hero — 1:1 как /seo: только .header-background, fade в hero.webp, без ::after. */
 .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background {
-  position: relative;
-  isolation: isolate;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center 38%;
-}
-
-/*
- * Плавное затемнение снизу hero — без резкого шва crop/100vh перед facts-плашкой
- * (как на /kontekstnaya_reklama: картинка уходит в #17191a).
- */
-.page-constructor.prodvizhenie-yandex-karty-2gis-page
-  > .page-constructor__section:first-of-type
-  .header-background::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(23, 25, 26, 0) 0%,
-    rgba(23, 25, 26, 0) 8%,
-    rgba(23, 25, 26, 0.38) 34%,
-    rgba(23, 25, 26, 0.78) 52%,
-    rgba(23, 25, 26, 0.96) 62%,
-    #17191a 70%
-  );
-}
-
-/* Нижняя виньетка секции hero — зона overlap facts-плашки (margin-top: -102px). */
-.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: min(58vh, 560px);
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(23, 25, 26, 0) 0%,
-    rgba(23, 25, 26, 0.55) 48%,
-    #17191a 100%
-  );
-}
-
-.page-constructor.prodvizhenie-yandex-karty-2gis-page
-  > .page-constructor__section:first-of-type
-  .header-background
-  .jumbotron {
-  position: relative;
-  z-index: 1;
+  background-position: center center;
 }
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background.mobile {
@@ -110,26 +51,15 @@
 }
 
 /*
- * Hero: как /kontekstnaya_reklama — center в 100vh, без flex-end kompleks/seo.
+ * Hero как /seo: текст внизу 100vh.
  */
 @media screen and (min-width: 720px) {
   .page-constructor.prodvizhenie-yandex-karty-2gis-page
     > .page-constructor__section:first-of-type
-    .c-title-block
-    .header-background
-    .jumbotron,
-  .page-constructor.prodvizhenie-yandex-karty-2gis-page
-    > .page-constructor__section:first-of-type
     .header-background
     .jumbotron {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding-bottom: 0 !important;
-    padding-top: var(--service-hero-jumbotron-padding-top, 52px) !important;
-    min-height: 100%;
-    box-sizing: border-box;
+    justify-content: flex-end !important;
+    padding-bottom: 260px !important;
   }
 }
 
@@ -148,27 +78,27 @@
   }
 }
 
-.page-constructor.prodvizhenie-yandex-karty-2gis-page .jumbotron-video-aurora {
-  display: none !important;
-}
-
 /*
- * Фактоиды в плашке как /kontekstnaya_reklama (advantages-card--kontekst-mini), native static.
- * Уменьшенная типографика — длинные заголовки фактов.
+ * Серая плашка сразу после hero — как .facts на /seo (padding-top: 0, без overlap).
+ * z-index выше «Агентство», чтобы box-shadow не резался.
  */
-/* Зазор подзаголовок hero → плашка: как kontekst (~260px), без лишних 112px margin-top. */
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-section {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   margin-top: 0;
-  /* Без фиолетового canvas между hero и контентом — как фон page-constructor__bg:after */
-  background: linear-gradient(180deg, transparent 0%, #17191a 28%);
+  padding-top: 0;
+  background: transparent;
+  overflow: visible;
 }
 
 @media screen and (min-width: 720px) {
   .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card-section {
-    margin-top: -102px;
+    padding-top: 0 !important;
   }
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section.ymaps-agency-block {
+  z-index: 2;
 }
 
 @media screen and (max-width: 719px) {
@@ -201,9 +131,8 @@
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
   display: flex;
-  align-items: stretch;
-  justify-content: space-evenly;
-  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -213,8 +142,8 @@
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item {
   display: flex;
   align-items: flex-start;
-  gap: 24px;
-  flex: 1 1 0;
+  gap: 20px;
+  flex: 0 0 auto;
   min-width: 0;
   margin: 0;
 }
@@ -235,10 +164,12 @@
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__info {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
   min-width: 0;
+  max-width: 100%;
 }
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
@@ -263,13 +194,62 @@
   overflow-wrap: anywhere;
 }
 
+@media screen and (min-width: 1025px) {
+  /*
+   * 1-я слева, 3-я справа (чуть от края); 2-я — по центру промежутка между ними.
+   */
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item {
+    flex: none;
+    width: auto;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item:nth-child(1) {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item:nth-child(2) {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item:nth-child(3) {
+    grid-column: 3;
+    justify-self: end;
+    margin-right: 32px;
+  }
+
+  /* Узкий блок описания → 3 строки; заголовок — одна строка. */
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__title {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+    max-width: 210px;
+    min-height: calc(1.4em * 3);
+    white-space: normal;
+    text-wrap: wrap;
+    overflow: visible;
+    font-size: 15px;
+  }
+}
+
 @media screen and (min-width: 1025px) and (max-width: 1366px) {
   .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card {
     padding: 64px 40px;
   }
 
-  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
-    gap: 16px;
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__text {
+    max-width: 188px;
   }
 
   .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__item {
@@ -297,6 +277,7 @@
   }
 
   .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-facts-card__list {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 36px;
@@ -539,8 +520,9 @@
   margin: 0 0 24px;
   border-radius: 20px;
   overflow: hidden;
-  background: #1d1d1f;
+  background: transparent;
   line-height: 0;
+  font-size: 0;
 }
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure--duo {
@@ -558,7 +540,10 @@
   flex-shrink: 0;
   object-fit: cover;
   object-position: left top;
-  border-radius: 20px;
+  border-radius: 0;
+  vertical-align: top;
+  /* Nuxt-бандл: .content-block__grid--tablet img { margin-top: 44px } — полоса над картинкой. */
+  margin-top: 0 !important;
 }
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure-img[src*="media-navigator-billboard"] {
@@ -619,6 +604,14 @@
 @media screen and (max-width: 720px) {
   .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid.content-block__grid--tablet .block-item__figure {
     margin-bottom: 20px;
+  }
+
+  /* Без aspect-ratio + cover: иначе сверху просвечивает тёмная полоса внутри скругления. */
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-formats-grid .block-item__figure-img {
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: unset;
+    object-position: unset;
   }
 }
 

@@ -12,6 +12,8 @@ const cfg = loadServiceConfig(slug);
 const srcPath = path.join(root, "kompleksnoye-prodvizheniye", "index.html");
 const outPath = path.join(root, cfg.assemble.pageDir, "index.html");
 const heroBase = `/_sa/img/services/${slug}/hero`;
+const heroDeskUrl = `${heroBase}/hero.webp`;
+const heroMobUrl = `${heroBase}/hero__m.webp`;
 
 function readPartial(name) {
   const p = path.join(root, "html", "partials", "services", name);
@@ -75,7 +77,7 @@ function buildMain() {
   const contentBlocks = injectCasesSliders(readPartial("prodvizhenie-yandex-karty-2gis-content-blocks.html"));
   const pricingTables = readPartial("prodvizhenie-yandex-karty-2gis-pricing-tables.html");
   const costFactors = readPartial("prodvizhenie-yandex-karty-2gis-cost-factors-block.html");
-  const hero = `<section class="page-constructor__section"><div class="c-title-block modern" data-v-04503aeb=""><div data-v-04503aeb=""><div class="header-full header-background desctop" style="background-image: url(&quot;${heroBase}/hero.webp&quot;);"><div class="jumbotron"><h1 class="jumbotron-img-aurora__title jumbotron-img-aurora__title-small">Продвижение в&nbsp;Яндекс Картах и&nbsp;2ГИС</h1> <h4 class="jumbotron-img-aurora__subtitle" style="text-align: center;">Настраиваем георекламу и&nbsp;продвижение карточек, чтобы клиенты чаще находили вас в&nbsp;Яндекс Картах и&nbsp;2ГИС.</h4></div></div> <div class="header-full header-background mobile" style="background-image:url(${heroBase}/hero__m.webp);"><div class="jumbotron"><h1 class="jumbotron-img-aurora__title">Продвижение в&nbsp;Яндекс Картах и&nbsp;2ГИС</h1> <h4 class="jumbotron-img-aurora__subtitle" style="text-align: center;">Настраиваем георекламу и&nbsp;продвижение карточек, чтобы клиенты чаще находили вас в&nbsp;Яндекс Картах и&nbsp;2ГИС.</h4></div></div></div></div></section>`;
+  const hero = `<section class="page-constructor__section"><div class="c-title-block modern" data-v-04503aeb=""><div data-v-04503aeb=""><div class="header-full header-background desctop" style="background-image: url(&quot;${heroDeskUrl}&quot;);"><div class="jumbotron"><h1 class="jumbotron-img-aurora__title jumbotron-img-aurora__title-small">Продвижение в&nbsp;Яндекс Картах и&nbsp;2ГИС</h1> <h4 class="jumbotron-img-aurora__subtitle" style="text-align: center;">Настраиваем георекламу и&nbsp;продвижение карточек, чтобы клиенты чаще находили вас в&nbsp;Яндекс Картах и&nbsp;2ГИС.</h4></div></div> <div class="header-full header-background mobile" style="background-image:url(${heroMobUrl});"><div class="jumbotron"><h1 class="jumbotron-img-aurora__title">Продвижение в&nbsp;Яндекс Картах и&nbsp;2ГИС</h1> <h4 class="jumbotron-img-aurora__subtitle" style="text-align: center;">Настраиваем георекламу и&nbsp;продвижение карточек, чтобы клиенты чаще находили вас в&nbsp;Яндекс Картах и&nbsp;2ГИС.</h4></div></div></div></div></section>`;
 
   return [
     `<div class="page-constructor prodvizhenie-yandex-karty-2gis-page"><div class="page-constructor__bg isLoaded"><canvas id="gradient-canvas" width="1440" height="600" class="isLoaded"></canvas></div>`,
@@ -98,7 +100,7 @@ function main() {
   const cssStartMarker = a.markers.cssBundleStart;
   const cssEnd = `<!-- ${a.markers.cssBundleEnd} -->`;
 
-  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260609ymapsHeroFade2`);
+  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260609ymapsFactsMid`);
   html = html.replace(/kompleksnoye-prodvizheniye-page/g, "prodvizhenie-yandex-karty-2gis-page");
   html = html.replace(/kompleksnoye-prodvizheniye/g, slug);
   html = html.replace(/KORPORATIVNYJ/g, "YMAPS");
@@ -135,8 +137,8 @@ function main() {
   );
 
   const preload =
-    `    <link rel="preload" as="image" href="${heroBase}/hero.webp" fetchpriority="high" />\n`;
-  if (!html.includes(`href="${heroBase}/hero.webp"`)) {
+    `    <link rel="preload" as="image" href="${heroDeskUrl}" fetchpriority="high" />\n`;
+  if (!html.includes(`href="${heroDeskUrl}"`)) {
     const anchor = '<link rel="preload" as="font" type="font/woff" href="/_sa/img/HeroNew-Medium.woff"';
     html = html.replace(anchor, preload + anchor);
   }
