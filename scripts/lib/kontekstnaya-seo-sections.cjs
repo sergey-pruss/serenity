@@ -205,7 +205,16 @@ function buildVidySection() {
       "$1</div> $2",
     );
   }
-  return flattenDescGrid(section);
+  section = flattenDescGrid(section);
+  section = section.replace(
+    /<h3 data-v-4ed7dc78="" class="block__name">Геомедийная контекстная реклама<\/h3>/g,
+    '<h3 data-v-4ed7dc78="" class="block__name"><a href="/prodvizhenie-yandex-karty-2gis">Геомедийная контекстная реклама</a></h3>',
+  );
+  section = section.replace(
+    /Разместим рекламу в&nbsp;<a href="\/prodvizhenie-yandex-karty-2gis">навигационных и&nbsp;картографических сервисах<\/a> экосистемы Яндекса/g,
+    'Разместим рекламу в&nbsp;навигационных и&nbsp;картографических сервисах экосистемы Яндекса',
+  );
+  return section;
 }
 
 function buildPochmuSection() {

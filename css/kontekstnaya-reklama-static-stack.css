@@ -10,6 +10,17 @@
 @import url("sections/service-hero-header.css");
 @import url("sections/service-more-cases.css");
 
+/* Виды рекламы: видимая ссылка на заголовке «Геомедийная контекстная реклама». */
+.page-constructor .modern.content-block .block__name a {
+  color: #6eb3ff;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.page-constructor .modern.content-block .block__name a:hover {
+  color: #9cc9ff;
+}
+
 .page-constructor {
   /* Без isolation: WebKit иначе иногда не рисует background-image героя рядом с fixed .page-constructor__bg. */
   position: relative;
