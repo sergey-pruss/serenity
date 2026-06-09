@@ -131,34 +131,147 @@
   font-weight: 400;
 }
 
+/* Десктоп: таблицы; мобилка/планшет: карточные слайдеры (service-packages-cards.css). */
+.ymaps-pricing-cards {
+  display: none;
+}
+
+@media screen and (min-width: 1025px) {
+  .ymaps-pricing-cards {
+    display: none !important;
+  }
+}
+
 @media screen and (max-width: 1024px) {
+  .ymaps-pricing-tables__figure--desktop {
+    display: none !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__group-title,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__note {
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 55px));
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 55px));
+    box-sizing: border-box;
+  }
+
+  .ymaps-pricing-cards {
+    display: block;
+    width: 100%;
+  }
+
+  .ymaps-pricing-cards .prices__cards--packages.prices__cards.row {
+    display: block;
+  }
+
   .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-dies .dies.modern {
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
-  .ymaps-pricing-tables__scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
+  /*
+   * Без margin-top: auto у .price-card__details (service-packages-cards) — иначе блок цен
+   * прилипает к низу карточки и разрыв после линии становится огромным.
+   */
+  .ymaps-pricing-cards .price-card.noImg {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
   }
 
-  .ymaps-pricing-tables__table {
-    min-width: 640px;
+  .ymaps-pricing-cards .price-card.noImg h3 {
+    width: 100%;
+    text-align: center !important;
+    text-wrap: balance;
   }
 
-  .ymaps-pricing-tables__table--budgets {
-    min-width: 520px;
+  .ymaps-pricing-cards .price-card.noImg .price-card__title-rule {
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .ymaps-pricing-tables__table thead th,
-  .ymaps-pricing-tables__table tbody th,
-  .ymaps-pricing-tables__table tbody td {
-    padding-left: 16px;
-    padding-right: 16px;
+  .ymaps-pricing-cards .price-card.noImg .price-card__details {
+    margin-top: 0 !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .ymaps-pricing-cards .ymaps-pricing-card__price-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .ymaps-pricing-cards .ymaps-pricing-card__price-line + .ymaps-pricing-card__price-line {
+    margin-top: 0;
+  }
+
+  .ymaps-pricing-cards .ymaps-pricing-card__price-label {
+    margin: 0;
+    width: 100%;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.55);
+    font-style: normal;
+    text-align: center !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .ymaps-pricing-dies
+    .dies
+    .prices
+    .ymaps-pricing-cards
+    .price-card.noImg[data-v-1444f1fb]
+    .price-card__details[data-v-1444f1fb] {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .ymaps-pricing-dies
+    .dies
+    .prices
+    .ymaps-pricing-cards
+    .price-card.noImg[data-v-1444f1fb]
+    .price-card__price[data-v-1444f1fb],
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    .ymaps-pricing-dies
+    .dies
+    .prices
+    .ymaps-pricing-cards
+    .ymaps-pricing-card__price-line
+    .price-card__price[data-v-1444f1fb] {
+    display: block;
+    width: 100%;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-cards .ymaps-pricing-card__price-amount {
+    display: block;
+    width: 100%;
+    margin: 0;
+    font-size: calc(32px * 0.7);
+    line-height: 1.2;
+    font-weight: 500;
+    color: #fff;
+    text-align: center !important;
   }
 }
 
 @media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__group-title,
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__note {
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 36px));
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 36px));
+  }
+
   .ymaps-pricing-tables__group + .ymaps-pricing-tables__group {
     margin-top: 36px;
   }
