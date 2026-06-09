@@ -1,0 +1,48 @@
+{
+  "slug": "prodvizhenie-statey-v-dzene-i-promostranitsah",
+  "urlPath": "/prodvizhenie-statey-v-dzene-i-promostranitsah",
+  "seo": {
+    "breadcrumbLabel": "Продвижение статей в Дзен и на ПромоСтраницах",
+    "pageTitle": "Продвижение статей в Дзен и на Промостраницах — Serenity",
+    "metaTitle": "Продвижение и реклама в Дзен и на Промостраницах | Serenity",
+    "description": "Заказать продвижение статей в Дзен и на ПромоСтраницах — подготовка контента, рост дочитываний и переходов на сайт, настройка аналитики и таргетинга.",
+    "ogDescription": "Расскажем о вашем бизнесе через статьи, которые читают тысячи людей в нужных вам городах."
+  },
+  "hero": {
+    "variant": "full-screen-picture",
+    "title": "Продвижение статей в Дзен и на ПромоСтраницах",
+    "subtitle": "Расскажем о вашем бизнесе через статьи, которые читают тысячи людей в нужных вам городах."
+  },
+  "sections": {
+    "packages": false,
+    "facts": false,
+    "advantages": false
+  },
+  "content": {},
+  "assemble": {
+    "layoutSourceEnv": "DZEN_LAYOUT_SOURCE",
+    "tmpFull": "prodvizhenie-statey-v-dzene-i-promostranitsah-prod-full.html",
+    "tmpParity": "prodvizhenie-statey-v-dzene-i-promostranitsah-parity-prod-layout.html",
+    "pageDir": "prodvizhenie-statey-v-dzene-i-promostranitsah",
+    "cssStack": "prodvizhenie-statey-v-dzene-i-promostranitsah-static-stack.css",
+    "partials": {
+      "faq": "faq-kontekstnaya-reklama.html",
+      "inlineLead": "service-inline-lead-kontekstnaya-reklama-inline.html",
+      "moreCases": "more-cases-kontekstnaya-from-services.html",
+      "awards": "awards-kontekstnaya-reklama.html",
+      "synergy": "synergy-kontekstnaya-reklama.html"
+    },
+    "markers": {
+      "mainStart": "DZEN-MAIN-START",
+      "mainEnd": "DZEN-MAIN-END",
+      "cssBundleStart": "DZEN-CSS-BUNDLE-START",
+      "cssBundleEnd": "DZEN-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "kontekst-faq-mounted",
+      "sectionClass": "kontekst-faq-section",
+      "rootClass": "kontekst-faq-root kontekst-faq-root--always-visible"
+    },
+    "phase2": false
+  }
+}

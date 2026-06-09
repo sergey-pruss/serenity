@@ -65,6 +65,15 @@ const SERVICES = [
     comment:
       "<!-- FAQ prodvizhenie-yandex-karty-2gis: json/services/prodvizhenie-yandex-karty-2gis/faq.json + service-faq.css. -->\n",
   },
+  {
+    slug: "prodvizhenie-statey-v-dzene-i-promostranitsah",
+    partial: "faq-prodvizhenie-statey-v-dzene-i-promostranitsah.html",
+    mountId: "kontekst-faq-mounted",
+    sectionClass: "kontekst-faq-section",
+    rootClass: "kontekst-faq-root kontekst-faq-root--always-visible",
+    comment:
+      "<!-- FAQ prodvizhenie-statey-v-dzene-i-promostranitsah: json/services/prodvizhenie-statey-v-dzene-i-promostranitsah/faq.json + service-faq.css. -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {

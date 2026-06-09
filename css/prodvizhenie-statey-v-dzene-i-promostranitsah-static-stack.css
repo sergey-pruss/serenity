@@ -1,0 +1,722 @@
+/**
+ * /prodvizhenie-statey-v-dzene-i-promostranitsah — static stack (без Nuxt runtime).
+ */
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-hero-header.css");
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page {
+  position: relative;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .page-constructor__bg {
+  z-index: 0 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .page-constructor__section {
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .header-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .header-background.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .header-background.desctop {
+    display: none !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .header-background.mobile {
+    display: block !important;
+  }
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title-small {
+  margin-bottom: 42px !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__subtitle {
+  margin-top: 0 !important;
+}
+
+/* Hero: как на Nuxt-эталоне — заголовок по центру 100vh (не flex-end как у /seo с facts). */
+@media screen and (min-width: 720px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section:first-of-type
+    .header-background
+    .jumbotron {
+    justify-content: center !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/*
+ * Вертикальный ритм: --home-between (112), не 172px из targeting-static-stack.
+ */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section > .modern.content-block,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/*
+ * Шапка content-block → колонки: как kompleksnoye/seo — row-gap 120px desktop,
+ * без лишнего margin у .col-6 (иначе +20px и визуально ~140px).
+ */
+@media screen and (min-width: 721px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 120px !important;
+    grid-row-gap: 120px !important;
+    column-gap: normal !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container > .numbered-header,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container > .numbered-header[data-v-490c7534],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container > .numbered-header .row,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] .numbered-header .row .col-6,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] .numbered-header .row [class*="col-"],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block .numbered-header .row .col-6[data-v-490c7534],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block .numbered-header .row [class*="col-"] {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__title-column,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__subtitle-column {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc.blocks,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container > .numbered-header + .content-block__grid.content-block__grid--desc-custom.blocks {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .numbered-header__title-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container {
+    row-gap: 68px !important;
+    grid-row-gap: 68px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .modern.content-block > .page__container {
+    row-gap: 55px !important;
+    grid-row-gap: 55px !important;
+  }
+}
+
+/*
+ * parity.css скрывает .content-block__grid--desc на ≥1025px — на статике без слайдера
+ * показываем desc на планшете/десктопе (как marketing/targeting-static-stack).
+ */
+@media screen and (min-width: 721px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    row-gap: 45px;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+
+  /* Колонки desc: заголовки на одной линии (как kompleksnoye / «Результаты»). */
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks
+    > .col-4 {
+    align-items: stretch !important;
+    flex: 1 1 0;
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks
+    > .col-4
+    > .block-item:has(.block__description) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    .content-block__grid--desc.blocks
+    .col-4
+    .col-4 {
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * Заголовок → текст: без min-height на .block__name-wrapper (на prod ~20px через margin h3).
+   * min-height: 5.5em давал пустую полосу ~88px под однострочными h3.
+   */
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .dzen-advantages-grid.content-block__grid--desc
+    .block-item:has(.block__description)
+    .block__name-wrapper:has(.block__name),
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .dzen-three-col-grid.content-block__grid--desc
+    .block-item:has(.block__description)
+    .block__name-wrapper:has(.block__name) {
+    flex: 0 0 auto;
+    min-height: 0 !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .dzen-advantages-grid.content-block__grid--desc
+    .block__name,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .dzen-three-col-grid.content-block__grid--desc
+    .block__name {
+    margin-bottom: 20px !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .dzen-advantages-grid.content-block__grid--desc
+    .block__description,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .dzen-three-col-grid.content-block__grid--desc
+    .block__description {
+    margin-top: 0 !important;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    > .page__container
+    > .content-block__grid.content-block__grid--desc.blocks
+    > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    .modern.content-block
+    .content-block__grid.content-block__grid--tablet.blocks {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* «Преимущества»: 3 колонки (текст — иллюстрация — текст). */
+@media screen and (min-width: 721px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid.content-block__grid--desc {
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+    column-gap: 75px;
+    width: 100% !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid.content-block__grid--desc > .content-block__grid-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: calc((100% - 150px) / 3);
+    display: flex;
+    flex-direction: column;
+    row-gap: 57px;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid__illustration {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid__figure-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid__figure-item .block-item__figure {
+    margin: 0;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid__figure-item .block-item__figure-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid__figure-item .block-item__figure {
+    margin: 24px auto;
+    max-width: 240px;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-advantages-grid__figure-item .block-item__figure-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+/* Превью-картинки в .movies-block (интерфейс Дзена, примеры статей — как kompleksnoye diagram). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ui-preview-section .movies-block,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-content-preview-section .movies-block,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block {
+  padding-top: 172px !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ui-preview-section .movies-block .swiper-slide,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-content-preview-section .movies-block .swiper-slide,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block .swiper-slide {
+  height: auto !important;
+  max-height: none !important;
+  display: block !important;
+  cursor: default !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ui-preview-section .movies-block img,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-content-preview-section .movies-block img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block;
+}
+
+/* Воронка: +30% визуально, ритм секций (padding-top movies-block / results) не трогаем. */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block {
+  overflow: visible !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block .page__container,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block .swiper,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block .swiper > div {
+  overflow: visible !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block;
+  transform: scale(1.3);
+  transform-origin: center center;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ui-preview-section .movies-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-content-preview-section .movies-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ui-preview-section .movies-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-content-preview-section .movies-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-engagement-funnel-preview-section .movies-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Фото с подписью: рекламный интерфейс (foto-slider на prod, без Swiper). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ad-interface-section {
+  padding-top: 150px !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-captioned-image__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-captioned-image__img {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-captioned-image__caption {
+  margin: 56px 0 0;
+  padding: 0;
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-captioned-image__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.3;
+  color: #fff;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ad-interface-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-captioned-image__caption {
+    margin-top: 40px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-ad-interface-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .dzen-captioned-image__caption {
+    margin-top: 32px;
+  }
+}
+
+/* Картинка воронки → «Результаты»: один шаг --home-between у .content-block (как kompleksnoye). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section.dzen-results-block {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  > .page-constructor__section.dzen-engagement-funnel-preview-section
+  + .page-constructor__section.dzen-results-block
+  > .modern.content-block,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  > .page-constructor__section.dzen-engagement-funnel-preview-section
+  + .page-constructor__section.dzen-results-block
+  > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-engagement-funnel-preview-section
+    + .page-constructor__section.dzen-results-block
+    > .modern.content-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-engagement-funnel-preview-section
+    + .page-constructor__section.dzen-results-block
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-engagement-funnel-preview-section
+    + .page-constructor__section.dzen-results-block
+    > .modern.content-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-engagement-funnel-preview-section
+    + .page-constructor__section.dzen-results-block
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Слайдер кейсов (один слайд): ритм секции как /seo и kompleksnoye. */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:has(> .cases-block) {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:has(> .cases-block) .cases-block[data-v-bd2e570a] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:has(> .cases-block) .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
+  min-height: auto !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:has(> .cases-block) {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page > .page-constructor__section:has(> .cases-block) {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  > .page-constructor__section:has(> .cases-block)
+  + .page-constructor__section
+  > .modern.content-block,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  > .page-constructor__section:has(> .cases-block)
+  + .page-constructor__section
+  > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Кейсы: blur — background_image, чёткий мокап — background_small (как prod). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block
+  .cases-block__swiper-slide--impulse-device
+  .background[data-v-bd2e570a],
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block
+  .cases-block__swiper-slide--arnica
+  .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block__swiper-slide--impulse-device.swiper-slide-active
+  .background[data-v-bd2e570a],
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block__swiper-slide--arnica.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block__swiper-slide--impulse-device
+  .cases-block__swiper-slide-contant
+  .old
+  img[data-v-bd2e570a],
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block__swiper-slide--impulse-device
+  .cases-block__swiper-slide-contant-image[data-v-bd2e570a],
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block__swiper-slide--arnica
+  .cases-block__swiper-slide-contant
+  .old
+  img[data-v-bd2e570a],
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  .cases-block__swiper-slide--arnica
+  .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 906px;
+  margin: 0 auto;
+  object-fit: contain !important;
+  object-position: center center !important;
+  filter: none !important;
+}
+
+/* «Результаты» → второй слайдер кейсов: один шаг --home-between (как kompleksnoye). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  > .page-constructor__section.dzen-results-block
+  + .page-constructor__section.dzen-next-cases-slider-section {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-results-block
+    + .page-constructor__section.dzen-next-cases-slider-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-results-block
+    + .page-constructor__section.dzen-next-cases-slider-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Форма с прайсом (как на prod forms-block). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .sa-service-lead-pricing.lead,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .order-popup__meta .lead.sa-service-lead-pricing,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .order-popup__meta .lead:has(.sa-service-lead-pricing__list) {
+  margin-top: 0 !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .sa-service-lead-pricing__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .sa-service-lead-pricing__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 360px;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .sa-service-lead-pricing__price {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Хвост: кейсы → форма и ритм между tail-блоками. */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+  > .page-constructor__section.dzen-next-cases-slider-section
+  + .page-constructor__section.sa-service-lead-section {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .services__text.home-ledge,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .blog-block__swiper-container {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
+    > .page-constructor__section.dzen-next-cases-slider-section
+    + .page-constructor__section.sa-service-lead-section,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .services__text.home-ledge,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .blog-block__swiper-container {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
