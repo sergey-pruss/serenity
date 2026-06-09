@@ -20,10 +20,70 @@
   content: none !important;
 }
 
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type {
+  position: relative;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type > * {
+  position: relative;
+  z-index: 2;
+}
+
 .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background {
+  position: relative;
+  isolation: isolate;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: center 38%;
+}
+
+/*
+ * Плавное затемнение снизу hero — без резкого шва crop/100vh перед facts-плашкой
+ * (как на /kontekstnaya_reklama: картинка уходит в #17191a).
+ */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  > .page-constructor__section:first-of-type
+  .header-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(23, 25, 26, 0) 0%,
+    rgba(23, 25, 26, 0) 8%,
+    rgba(23, 25, 26, 0.38) 34%,
+    rgba(23, 25, 26, 0.78) 52%,
+    rgba(23, 25, 26, 0.96) 62%,
+    #17191a 70%
+  );
+}
+
+/* Нижняя виньетка секции hero — зона overlap facts-плашки (margin-top: -102px). */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(58vh, 560px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(23, 25, 26, 0) 0%,
+    rgba(23, 25, 26, 0.55) 48%,
+    #17191a 100%
+  );
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  > .page-constructor__section:first-of-type
+  .header-background
+  .jumbotron {
+  position: relative;
+  z-index: 1;
 }
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page > .page-constructor__section:first-of-type .header-background.mobile {
@@ -101,6 +161,8 @@
   position: relative;
   z-index: 2;
   margin-top: 0;
+  /* Без фиолетового canvas между hero и контентом — как фон page-constructor__bg:after */
+  background: linear-gradient(180deg, transparent 0%, #17191a 28%);
 }
 
 @media screen and (min-width: 720px) {

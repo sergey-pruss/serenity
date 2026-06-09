@@ -98,7 +98,7 @@ function main() {
   const cssStartMarker = a.markers.cssBundleStart;
   const cssEnd = `<!-- ${a.markers.cssBundleEnd} -->`;
 
-  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260609ymapsInvisibleBlogLink`);
+  html = html.replace(/kompleksnoye-prodvizheniye-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260609ymapsHeroFade2`);
   html = html.replace(/kompleksnoye-prodvizheniye-page/g, "prodvizhenie-yandex-karty-2gis-page");
   html = html.replace(/kompleksnoye-prodvizheniye/g, slug);
   html = html.replace(/KORPORATIVNYJ/g, "YMAPS");
