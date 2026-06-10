@@ -72,7 +72,7 @@
   color: rgba(255, 255, 255, 0.75);
   font-weight: 400;
   text-align: left;
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 
 .ymaps-pricing-tables__table tbody th,
@@ -92,14 +92,8 @@
 
 .ymaps-pricing-tables__th--price {
   width: 27%;
-}
-
-.ymaps-pricing-tables__table--budgets .ymaps-pricing-tables__th--feature {
-  width: 62%;
-}
-
-.ymaps-pricing-tables__table--budgets .ymaps-pricing-tables__th--price {
-  width: 38%;
+  white-space: normal;
+  hyphens: none;
 }
 
 .ymaps-pricing-tables__row-label {
@@ -126,9 +120,17 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-.ymaps-pricing-tables__note strong {
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__note {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.5;
   color: #fff;
-  font-weight: 400;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__note strong {
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
 }
 
 /* Десктоп: таблицы; мобилка/планшет: карточные слайдеры (service-packages-cards.css). */
@@ -281,9 +283,9 @@
     margin-bottom: 16px;
   }
 
-  .ymaps-pricing-tables__note {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page .ymaps-pricing-tables__note {
     margin-top: 28px;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
   }
 }

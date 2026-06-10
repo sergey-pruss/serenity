@@ -722,6 +722,47 @@
   }
 }
 
+/* cases-block: «Darkrain» — как Boca и эталон cases-block (906×515, cover по центру). */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block
+  .cases-block__swiper-slide--darkrain
+  .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--darkrain.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+/* Затемнение размытого фона — белый текст читается на светлом скрине главной. */
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--darkrain.swiper-slide-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--darkrain
+  .cases-block__swiper-slide-contant
+  .old
+  img[data-v-bd2e570a],
+.page-constructor.prodvizhenie-yandex-karty-2gis-page
+  .cases-block__swiper-slide--darkrain
+  .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  object-position: center center !important;
+}
+
 /* cases-block: «Boca Room» — размытый cover-фон, портрет без обрезки по центру. */
 .page-constructor.prodvizhenie-yandex-karty-2gis-page
   .cases-block
@@ -753,7 +794,7 @@
   object-position: center center !important;
 }
 
-/* cases-block: «Минисклад» — наружная реклама на фоне (blur), логотип с кейса в рамке. */
+/* cases-block: «Минисклад» — склад на фоне (blur) и в рамке, cover по центру. */
 .page-constructor.prodvizhenie-yandex-karty-2gis-page
   .cases-block
   .cases-block__swiper-slide--minisklad
@@ -811,38 +852,6 @@
   img[data-v-bd2e570a],
 .page-constructor.prodvizhenie-yandex-karty-2gis-page
   .cases-block__swiper-slide--ekskluziv
-  .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
-  object-fit: cover !important;
-  -o-object-fit: cover !important;
-  object-position: center center !important;
-}
-
-/* cases-block: «Полипластик» — трубы с SEO-слайда (blur фона). */
-.page-constructor.prodvizhenie-yandex-karty-2gis-page
-  .cases-block
-  .cases-block__swiper-slide--poliplastik
-  .background[data-v-bd2e570a] {
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  background-position: center center !important;
-}
-
-.page-constructor.prodvizhenie-yandex-karty-2gis-page
-  .cases-block__swiper-slide--poliplastik.swiper-slide-active
-  .background[data-v-bd2e570a] {
-  filter: blur(28px) !important;
-  -webkit-filter: blur(28px) !important;
-  transform: translateZ(0) scale(1.18) !important;
-  -webkit-transform: translateZ(0) scale(1.18) !important;
-}
-
-.page-constructor.prodvizhenie-yandex-karty-2gis-page
-  .cases-block__swiper-slide--poliplastik
-  .cases-block__swiper-slide-contant
-  .old
-  img[data-v-bd2e570a],
-.page-constructor.prodvizhenie-yandex-karty-2gis-page
-  .cases-block__swiper-slide--poliplastik
   .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
   object-fit: cover !important;
   -o-object-fit: cover !important;
