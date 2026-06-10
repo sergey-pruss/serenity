@@ -9,13 +9,15 @@
 
 /* Заголовки/текст колонок — ссылки на услуги без визуального «подчёркивания» (как /services/marketing). */
 .page-constructor.korporativnyj-page .block__name a,
-.page-constructor.korporativnyj-page .block__description a {
+.page-constructor.korporativnyj-page .block__description a,
+.page-constructor.korporativnyj-page .columns-with-progress__content p a {
   color: inherit;
   text-decoration: none;
 }
 
 .page-constructor.korporativnyj-page .block__name a:hover,
-.page-constructor.korporativnyj-page .block__description a:hover {
+.page-constructor.korporativnyj-page .block__description a:hover,
+.page-constructor.korporativnyj-page .columns-with-progress__content p a:hover {
   text-decoration: underline;
 }
 
