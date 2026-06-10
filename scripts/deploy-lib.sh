@@ -31,6 +31,10 @@ deploy_rsync_repo_to_static_root() {
   if [[ "${DEPLOY_EXCLUDE_DOCS:-}" == "1" ]]; then
     rsync_excludes+=(--exclude='docs/')
   fi
+  # prodvizhenie-yandex-karty-2gis — пока только dev (static.serenity.agency), не кладём в prod-root.
+  if [[ "${DEPLOY_EXCLUDE_DEV_ONLY_PAGES:-}" == "1" ]]; then
+    rsync_excludes+=(--exclude='prodvizhenie-yandex-karty-2gis/')
+  fi
   rsync -avz \
     --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
     "${rsync_excludes[@]}" \
@@ -72,6 +76,19 @@ deploy_remote_scrub_docs_on_origin() {
   # shellcheck disable=SC2086
   $RSYNC_RSH "${host}" "rm -rf -- '${path}docs'" || true
   echo "🧹 На prod-origin удалён каталог docs/ (если был): ${host}:${path}docs"
+}
+
+# Страницы, которые сознательно не выкладываем на prod-root (пока только dev-превью).
+deploy_remote_scrub_dev_only_pages_on_origin() {
+  if [[ "${DEPLOY_EXCLUDE_DEV_ONLY_PAGES:-}" != "1" ]]; then
+    return 0
+  fi
+  export RSYNC_RSH="${RSYNC_RSH:-ssh -i $HOME/.ssh/id_ed25519}"
+  local host="${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
+  local path="${DEPLOY_REMOTE_PATH:?DEPLOY_REMOTE_PATH is required; use deploy-dev.sh or deploy-prod.sh}"
+  # shellcheck disable=SC2086
+  $RSYNC_RSH "${host}" "rm -rf -- '${path}prodvizhenie-yandex-karty-2gis'" || true
+  echo "🧹 На prod-origin удалён prodvizhenie-yandex-karty-2gis/ (dev-only): ${host}:${path}prodvizhenie-yandex-karty-2gis"
 }
 
 deploy_worker_staging() {
