@@ -706,17 +706,22 @@
   padding-top: var(--home-between, 112px) !important;
 }
 
-.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .services__text.home-ledge,
+/* «Блог»: как kontekstnaya-reklama-static-stack — один padding-top у секции, не у шапки и слайдера. */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
 .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .blog-block__swiper-container {
-  padding-top: var(--home-between, 112px) !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 @media screen and (max-width: 800px) {
   .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page
     > .page-constructor__section.dzen-next-cases-slider-section
-    + .page-constructor__section.sa-service-lead-section,
-  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .services__text.home-ledge,
-  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .kontekst-blog-section .blog-block__swiper-container {
+    + .page-constructor__section.sa-service-lead-section {
     padding-top: var(--home-between, 97px) !important;
   }
 }

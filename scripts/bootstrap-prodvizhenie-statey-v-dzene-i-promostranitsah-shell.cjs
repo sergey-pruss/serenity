@@ -14,7 +14,7 @@ const outPath = path.join(root, cfg.assemble.pageDir, "index.html");
 const heroBase = `/_sa/img/services/${slug}/hero`;
 const heroDeskUrl = `${heroBase}/hero.webp`;
 const heroMobUrl = `${heroBase}/hero__m.webp`;
-const CSS_V = "20260609dzenFunnelPreview130";
+const CSS_V = "20260610dzenBlogSpacing";
 
 function readDzenTailBlocks() {
   return [
