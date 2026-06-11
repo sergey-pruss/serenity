@@ -1,0 +1,258 @@
+/**
+ * Блок .facts (заголовок + нумерованные пункты) — static, без targeting-nuxt.bundle.
+ * Контракт разметки как на /targeting и legacy /strategy.
+ */
+.facts {
+  padding-top: 165px;
+}
+
+.facts .page__container {
+  width: calc(100% - 154px);
+  max-width: 1366px;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.facts .facts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 35px;
+}
+
+.facts .facts-header .description-item .lead {
+  margin: 0;
+}
+
+.facts .facts-header .page__title {
+  min-width: 465px;
+  flex: 1 1 auto;
+}
+
+.facts .facts-header .title {
+  margin: 0;
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 48px;
+  color: #fff;
+  max-width: 560px;
+}
+
+/* Nuxt: .page__container.desktop сужает заголовок до 32px (не .large-size). */
+.facts .desktop .title {
+  font-size: 32px;
+}
+
+.facts .tablet .title {
+  font-size: 32px;
+}
+
+.facts .desktop .large-size {
+  font-weight: 400;
+  line-height: 126%;
+  font-size: 46px;
+}
+
+.facts .facts-header .lead {
+  margin: 0 0 0 auto;
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 160%;
+  color: #969696;
+  max-width: 520px;
+}
+
+.facts .facts__items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 80px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.facts .facts__items--desktop {
+  margin-top: 40px;
+}
+
+.facts .facts__item {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 64px;
+  min-width: 0;
+}
+
+.facts .facts__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4px;
+  width: 54px;
+  min-width: 54px;
+  height: 54px;
+  border-radius: 13px;
+  background-color: #1d1d1f;
+  box-shadow: 0 4px 30px rgba(113, 91, 176, 0.5);
+  color: #fff;
+  font-family:
+    HeroNewBold,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 50px;
+}
+
+.facts .facts__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 0 0 30px;
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #969696;
+  max-width: none;
+  white-space: pre-wrap;
+}
+
+@media screen and (min-width: 1280px) {
+  .facts .facts__items--desktop {
+    column-gap: 62px;
+  }
+}
+
+@media screen and (max-width: 1279px) and (min-width: 768px) {
+  .facts .facts__items--desktop {
+    column-gap: 40px;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .facts .facts__items {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 60px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .facts .page__container {
+    width: calc(100% - 110px);
+  }
+
+  .facts .facts-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 35px;
+  }
+
+  .facts .facts-header .page__title {
+    min-width: 0;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .facts .facts-header .title {
+    max-width: 500px;
+  }
+
+  .facts .facts-header .lead {
+    margin-left: 0;
+    max-width: 658px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .facts {
+    padding-top: 100px;
+  }
+
+  .facts .page__container {
+    width: calc(100% - 118px);
+  }
+
+  .facts .facts__item {
+    margin-top: 70px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .facts .facts__items {
+    grid-template-columns: 1fr;
+  }
+
+  .facts .facts__text {
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .facts .facts__item {
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .facts .facts__number {
+    width: 59px;
+    min-width: 59px;
+    height: 59px;
+    font-size: 27.86px;
+    line-height: 41px;
+  }
+
+  .facts .facts__text {
+    max-width: 218px;
+    margin-left: 36px;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .facts {
+    padding-top: 110px;
+  }
+
+  .facts .facts-header .page__title {
+    min-width: 0;
+  }
+}

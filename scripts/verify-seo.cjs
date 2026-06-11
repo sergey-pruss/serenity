@@ -118,6 +118,20 @@ function main() {
   const beforeTail = casesTailIdx > 0 ? html.slice(0, casesTailIdx) : html;
   assert(beforeTail.includes(">AWM-Trade</h3>"), "inline cases-block: AWM-Trade");
   assert(!/cases-block__swiper-slide-title[^>]*>ИРиПА<\/h3>/.test(html), "inline cases-block: без ИРиПА (есть в сетке внизу)");
+  assert(
+    !beforeTail.includes("storage__WLI7oh2aSEiPP6V5TcsqRa1y2ERdT34hZjg1vLqA"),
+    "inline cases-block AWM: без кадра ИРиПА (WLI7oh)",
+  );
+  assert(
+    beforeTail.includes("cases-block__swiper-slide--awm-trade"),
+    "inline cases-block AWM: модификатор слайда --awm-trade",
+  );
+  assert(
+    /storage__YfZu2MFOKX0qzGVd00TtLP1fWFVVv9yrvNNKN0nP\.webp[\s\S]{0,900}>AWM-Trade<\/h3>/.test(
+      beforeTail,
+    ),
+    "inline cases-block AWM: кадр CFMOTO (YfZu2MFO)",
+  );
   assert(html.includes("seo-synergy-section") || html.includes("synergy-section"), "синергия");
   assert(
     html.includes("seo-related-services-section") && html.includes("SEO YouTube"),

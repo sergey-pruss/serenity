@@ -1,0 +1,293 @@
+/**
+ * /strategy: текстовый hero (без Nuxt data-v и без targeting-nuxt.bundle).
+ * Типографика c-title-block — из Nuxt .c-title-block[data-v-04503aeb], static-селекторы.
+ */
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block {
+  overflow: visible !important;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding-top: var(--service-hero-mid-header-padding-top, 150px);
+  gap: 40px;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  margin-top: 0;
+  margin-bottom: 62px;
+  text-wrap: balance;
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__title {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #fff !important;
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 60px !important;
+  line-height: 108% !important;
+  text-align: left !important;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: min(1054px, 100%) !important;
+  width: 100%;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__subtitle {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #fff !important;
+  font-family:
+    MuseoSansCyrl,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    "Noto Sans",
+    sans-serif !important;
+  font-weight: 300 !important;
+  font-size: 18px !important;
+  line-height: 162% !important;
+  text-align: left !important;
+  text-wrap: balance;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: min(590px, 100%) !important;
+  width: 100%;
+}
+
+@media screen and (max-width: 850px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__title {
+    font-size: 56px !important;
+    line-height: 113% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: 90px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__title {
+    font-size: 32px !important;
+    line-height: 113% !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: 70px;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    align-items: center;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__title,
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__subtitle {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: calc(var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) - 53px) !important;
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__title {
+    width: auto !important;
+    max-width: 1054px !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__subtitle {
+    width: auto !important;
+    max-width: 590px !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: var(--service-hero-tablet-header-padding-top, calc(50vh - 154px)) !important;
+    margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-header-to-collage, calc(1lh + 10px)) !important;
+    gap: var(--service-hero-tablet-title-gap, 40px) !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-collage-bottom, 52px) !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__content,
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide .case-slider-slide__content {
+    max-width: calc(100% - 110px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    padding-top: var(--service-hero-mobile-top, 222px) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-mobile-title-gap, 40px) !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block.modern .c-title-block__header:not(.video-header) {
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 20px)) !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider__wrapper {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block .case-slider,
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider {
+    padding: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__content,
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide .case-slider-slide__content {
+    max-width: calc(100% - 72px) !important;
+  }
+
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__media {
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Коллаж hero: слайд и картинка в потоке (как targeting-hero.css). */
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider__wrapper {
+  position: relative;
+  z-index: 1;
+  overflow: visible !important;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .c-title-block .case-slider,
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider {
+  position: relative;
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin-bottom: 0;
+  justify-content: flex-start !important;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider .slide-wrapper {
+  position: relative !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__content {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__media {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-top: 0 !important;
+  overflow: hidden !important;
+  border-radius: 13px;
+  box-sizing: border-box;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide--disable-shadows .case-slider-slide__media {
+  box-shadow: none;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__media > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+.page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__media img {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 13px;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.strategy-page > .page-constructor__section.strategy-hero-section .case-slider-slide__media {
+    max-width: 906px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+.page-constructor.strategy-page ~ .footer-modern {
+  position: relative;
+  z-index: 3;
+  background: transparent !important;
+}

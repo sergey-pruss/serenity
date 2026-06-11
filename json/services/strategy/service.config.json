@@ -1,0 +1,49 @@
+{
+  "slug": "strategy",
+  "urlPath": "/strategy",
+  "seo": {
+    "breadcrumbLabel": "Маркетинговая стратегия",
+    "pageTitle": "Маркетинговая стратегия — Serenity",
+    "metaTitle": "Маркетинговая стратегия — Serenity",
+    "description": "Разработаем эффективную маркетинговую стратегию, проведем аудит текущей, поможем выстроить антикризисную маркетинговую стратегию. Заказать услуги по маркетинговой стратегии сайта и бизнеса на сайте Serenity.",
+    "ogDescription": "Разработаем эффективную маркетинговую стратегию, проведем аудит текущей, поможем выстроить антикризисную маркетинговую стратегию. Заказать услуги по маркетинговой стратегии сайта и бизнеса на сайте Serenity. Сформулировали позиционирование и показали, как развивать бренд, опираясь на стратегию."
+  },
+  "hero": {
+    "variant": "text-header"
+  },
+  "sections": {
+    "packages": false,
+    "facts": false,
+    "advantages": false
+  },
+  "assemble": {
+    "layoutSourceEnv": "STRATEGY_LAYOUT_SOURCE",
+    "tmpFull": "strategy-prod-full.html",
+    "tmpParity": "strategy-parity-prod-layout.html",
+    "pageDir": "strategy",
+    "cssStack": "strategy-static-stack.css",
+    "partials": {
+      "faq": "faq-kontekstnaya-reklama.html",
+      "inlineLead": "service-inline-lead-strategy.html",
+      "relatedServices": "strategy-related-services-block.html",
+      "team": "strategy-team-block.html",
+      "blog": "blog-strategy.html",
+      "clients": "clients-strategy.html",
+      "moreCases": "more-cases-strategy.html",
+      "awards": "awards-strategy.html",
+      "synergy": "synergy-strategy.html"
+    },
+    "markers": {
+      "mainStart": "STRATEGY-MAIN-START",
+      "mainEnd": "STRATEGY-MAIN-END",
+      "cssBundleStart": "STRATEGY-CSS-BUNDLE-START",
+      "cssBundleEnd": "STRATEGY-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "kontekst-faq-mounted",
+      "sectionClass": "kontekst-faq-section",
+      "rootClass": "kontekst-faq-root kontekst-faq-root--always-visible"
+    },
+    "phase2": false
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "headingId": "strategy-awards-heading",
+  "mountId": "sa-home-awards-mounted",
+  "awards": [
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2025",
+      "description": "6 место в России по разработке бренд-стратегий",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2025",
+      "description": "5 место в России по анализу бренда",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "1 место в России по разработке позиционирования",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2019",
+      "description": "6 место в рейтинге креативности веб-студий",
+      "href": null
+    },
+    {
+      "rating": "Tagline",
+      "year": "2018",
+      "description": "3 место в Санкт-Петербурге в рейтинге креативных digital-агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "2 место в СПб в рейтинге брендинговых агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "3 место в СПб в рейтинге брендинговых агентство",
+      "href": null
+    }
+  ]
+}

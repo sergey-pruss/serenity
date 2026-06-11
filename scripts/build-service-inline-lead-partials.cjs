@@ -16,6 +16,7 @@ const SERVICES = [
   { slug: "marketing", partial: "service-inline-lead-marketing.html" },
   { slug: "korporativnyj_sajt", partial: "service-inline-lead-korporativnyj-sajt.html" },
   { slug: "seo", partial: "service-inline-lead-seo.html" },
+  { slug: "strategy", partial: "service-inline-lead-strategy.html" },
   {
     slug: "prodvizhenie-yandex-karty-2gis",
     partial: "service-inline-lead-prodvizhenie-yandex-karty-2gis.html",

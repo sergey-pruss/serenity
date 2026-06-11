@@ -415,6 +415,16 @@
   min-height: auto !important;
 }
 
+/* AWM-Trade: фон = тот же кадр, что в .contant, с blur (как «Метрополитан» на корп. сайте). */
+.page-constructor.seo-page
+  .cases-block__swiper-slide--awm-trade.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
 .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block,
 .page-constructor.seo-page > .page-constructor__section:has(> .cases-block) + .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
   padding-top: var(--home-between, 112px) !important;

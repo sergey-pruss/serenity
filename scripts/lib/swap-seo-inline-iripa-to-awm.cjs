@@ -20,11 +20,14 @@ function extractCasesBlockSection(html, titleNeedle) {
   return null;
 }
 
+const AWM_IMG = "/_sa/img/storage__YfZu2MFOKX0qzGVd00TtLP1fWFVVv9yrvNNKN0nP.webp";
+
 const AWM = {
   title: "AWM-Trade",
   titleNeedle: 'cases-block__swiper-slide-title">ИРиПА',
-  bg: "/_sa/img/storage__JTJ68R4U2qPXBLzoosgD64Yg23mrdi8OeEJWhNNO.webp",
-  img: "/_sa/img/storage__oeAixN3AnF9ozFjb3bxMX4eknofLX24pPsvJacPO.webp",
+  bg: AWM_IMG,
+  img: AWM_IMG,
+  slideClass: "cases-block__swiper-slide--awm-trade",
   href: "/case/awm-trade",
   subtitle: "Дистрибьютор квадрациклов, мотоциклетной техники, экипировки и&nbsp;аксессуаров.",
   description:
@@ -50,7 +53,16 @@ function swapSeoInlineIripaToAwm(html) {
   );
   s = s.replace(/background-image:\s*url\(&quot;[^&]+&quot;\)/, `background-image: url(&quot;${AWM.bg}&quot;)`);
   s = s.replace(/href="\/case\/all\/iripa"/g, `href="${AWM.href}"`);
-  s = s.replace(/\/_sa\/img\/storage__lweOEh0AS3A9qu7mWEJ8DwWWxffwUDNFhIogFJwj\.webp/g, AWM.img);
+  s = s.replace(
+    /(<img[^>]*class="cases-block__swiper-slide-contant-image"[^>]*\ssrc=")[^"]+(")/,
+    `$1${AWM.img}$2`,
+  );
+  if (!s.includes(AWM.slideClass)) {
+    s = s.replace(
+      /class="swiper-slide cases-block__swiper-slide/,
+      `class="swiper-slide cases-block__swiper-slide ${AWM.slideClass}`,
+    );
+  }
 
   return html.slice(0, block.start) + s + html.slice(block.end);
 }

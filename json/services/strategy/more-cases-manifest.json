@@ -1,0 +1,15 @@
+{
+  "builtAt": "2026-06-11T14:03:14.971Z",
+  "source": "5 curated (prod /strategy CMS) + fill /case/all/ strategiya",
+  "expected": 8,
+  "hrefs": [
+    "/case/all/schaeferfliesen",
+    "/case/all/solvik",
+    "/case/all/alfakabel",
+    "/case/orange",
+    "/case/kaury",
+    "/case/all/iripa",
+    "/case/all/minisklad",
+    "/case/all/grandmed"
+  ]
+}
