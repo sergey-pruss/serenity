@@ -45,6 +45,8 @@ assert(/~\^\/kontekstnaya_reklama\/\?\$\s+1;/.test(content), "Missing /kontekstn
 assert(/~\^\/kontekstnaya_reklama\/index\\\.html\$\s+1;/.test(content), "Missing /kontekstnaya_reklama/index.html rule.");
 assert(/~\^\/targeting\/\?\$\s+1;/.test(content), "Missing /targeting listing rule.");
 assert(/~\^\/targeting\/index\\\.html\$\s+1;/.test(content), "Missing /targeting/index.html rule.");
+assert(/~\^\/strategy\/\?\$\s+1;/.test(content), "Missing /strategy listing rule.");
+assert(/~\^\/strategy\/index\\\.html\$\s+1;/.test(content), "Missing /strategy/index.html rule.");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 
@@ -77,6 +79,14 @@ assert(
 assert(
   /\blocation\s*=\s*\/kontekstnaya_reklama\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/kontekstnaya_reklama\$is_args\$args\s*;/.test(routerVhost),
   "serenity-router.live.conf: missing location = /kontekstnaya_reklama/ → 301 без слэша."
+);
+assert(
+  /\blocation\s*=\s*\/strategy\s*\{[\s\S]*?try_files\s+\/strategy\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /strategy → try_files /strategy/index.html (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/strategy\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/strategy\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /strategy/ → 301 /strategy."
 );
 assert(
   /\blocation\s*=\s*\/services\s*\{[\s\S]*?try_files\s+\/services\/index\.html\s+=404\s*;/.test(routerVhost),
