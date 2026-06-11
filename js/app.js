@@ -1794,4 +1794,29 @@
     }
   }
 
+  /** /services: в TEXT-карточках при 4+ строках описания скрываем текст — остаются заголовок и цена. */
+  const hideLongServicesTextDescriptions = () => {
+    if (!document.body?.classList.contains("services-body")) return;
+    document
+      .querySelectorAll(".services__card-container-text .services__card-description")
+      .forEach((el) => {
+        el.classList.remove("services__card-description--hidden-long");
+        const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+        if (!Number.isFinite(lineHeight) || lineHeight <= 0) return;
+        const lines = Math.round(el.scrollHeight / lineHeight);
+        if (lines >= 4) el.classList.add("services__card-description--hidden-long");
+      });
+  };
+  if (document.body?.classList.contains("services-body")) {
+    hideLongServicesTextDescriptions();
+    let resizeRaf = 0;
+    window.addEventListener("resize", () => {
+      if (resizeRaf) return;
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = 0;
+        hideLongServicesTextDescriptions();
+      });
+    });
+  }
+
 })();

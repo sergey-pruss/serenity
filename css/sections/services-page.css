@@ -180,3 +180,7 @@ body{background-color:#151516}html{scroll-behavior:smooth}.page-constructor{posi
 .services-body .services__card .services__card-img {
   pointer-events: none;
 }
+
+.services-body .services__card-description.services__card-description--hidden-long {
+  display: none !important;
+}
