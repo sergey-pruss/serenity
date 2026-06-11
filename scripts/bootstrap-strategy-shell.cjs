@@ -81,15 +81,15 @@ function main() {
     /"name":"Таргетированная реклама","item":"https:\/\/serenity\.agency\/targeting"/,
     `"name":"${cfg.seo.breadcrumbLabel}","item":"https://serenity.agency${cfg.urlPath}"`,
   );
-  html = html.replace(/strategy-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260611strategyCases8`);
-  html = html.replace(/targeting-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260611strategyCases8`);
+  html = html.replace(/strategy-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260611strategyClients1`);
+  html = html.replace(/targeting-static-stack\.css\?v=[^"]+/, `${a.cssStack}?v=20260611strategyClients1`);
   html = html.replace(
     /<link rel="stylesheet" href="\/_sa\/css\/sections\/targeting-hero\.css\?v=[^"]+"\s*\/>/,
-    '<link rel="stylesheet" href="/_sa/css/sections/strategy-hero.css?v=20260611strategyCases8" />',
+    '<link rel="stylesheet" href="/_sa/css/sections/strategy-hero.css?v=20260611strategyClients1" />',
   );
   html = html.replace(
     /sections\/strategy-hero\.css\?v=[^"]+/,
-    "sections/strategy-hero.css?v=20260611strategyCases8",
+    "sections/strategy-hero.css?v=20260611strategyClients1",
   );
   html = html.replace(/\s*<link rel="stylesheet" href="\/_sa\/css\/targeting-nuxt\.bundle\.css[^"]*" \/>/, "");
   html = html.replace(

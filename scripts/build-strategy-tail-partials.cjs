@@ -280,10 +280,10 @@ ${inner.trim()}
 }
 
 function buildClientsPartial() {
-  const slides = STRATEGY_CLIENTS.map(
-    (c, i) =>
-      `<a data-v-08586076="" class="swiper-slide clients-new__slide" data-swiper-slide-index="${i}" style="margin-right: 40px;"><img data-v-08586076="" src="/_sa/img/storage__${c.file}" alt="${escapeXml(c.name)}" loading="lazy"></a>`,
-  ).join("");
+  const renderSlide = (c, i) =>
+    `<a data-v-08586076="" class="swiper-slide clients-new__slide" data-swiper-slide-index="${i}" style="margin-right: 40px;"><img data-v-08586076="" src="/_sa/img/storage__${c.file}" alt="${escapeXml(c.name)}" loading="lazy"></a>`;
+  const once = STRATEGY_CLIENTS.map((c, i) => renderSlide(c, i));
+  const slides = [...once, ...once, ...once].join("");
   return `<section class="page-constructor__section strategy-clients-section">
 <div data-v-6f8a040c="" style="z-index: 10">
               <div data-v-08586076="" class="clients-wrapper clients-mainstr clients-wrapper_main-structure"><div data-v-08586076="" class="clients-new-section home-between"><div data-v-08586076="" class="clients-new home-ledge"><h2 data-v-08586076="" class="home-clients-awards__title">
