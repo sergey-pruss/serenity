@@ -51,15 +51,26 @@
 }
 
 /*
- * Hero как /seo: текст внизу 100vh.
+ * Hero: серая плашка без overlap — текст ближе к центру, не прижат к низу как на /seo.
  */
 @media screen and (min-width: 720px) {
   .page-constructor.prodvizhenie-yandex-karty-2gis-page
     > .page-constructor__section:first-of-type
     .header-background
     .jumbotron {
-    justify-content: flex-end !important;
-    padding-bottom: 260px !important;
+    justify-content: center !important;
+    padding-top: 32px !important;
+    padding-bottom: 96px !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .page-constructor.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section:first-of-type
+    .header-background
+    .jumbotron {
+    padding-top: 48px !important;
+    padding-bottom: 112px !important;
   }
 }
 
