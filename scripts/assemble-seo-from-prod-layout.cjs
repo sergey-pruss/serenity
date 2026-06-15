@@ -387,7 +387,7 @@ function run() {
   const cssBlock = [
     `    <!-- ${a.markers.cssBundleStart}: Nuxt scoped bundle + static stack (как kompleksnoye) -->`,
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424" />',
-    '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260523serviceHeroTop" />',
+    '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260615blogCardBlurFix" />',
     '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
     buildCssLinks(manifestPath, v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523korporativnyjSynergyNavFix"),

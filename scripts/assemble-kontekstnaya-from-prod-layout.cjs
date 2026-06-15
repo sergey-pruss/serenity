@@ -845,7 +845,7 @@ function run() {
     "    <!-- KONTEKST-CSS-BUNDLE-START: prod Nuxt chunks -->",
     "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260523serviceHeroTop\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260615blogCardBlurFix\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260603morCasesFullBleed\" />",
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),

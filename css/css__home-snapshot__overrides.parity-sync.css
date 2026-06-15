@@ -516,6 +516,34 @@
   }
 
   /*
+    Слайдер «Блог» (главная + услуги): при снятии hover transition backdrop-filter на .blur
+    на мгновение даёт квадратные углы (WebKit). Размытие — через opacity, не через transition backdrop-filter.
+  */
+  .blog-block-mainstr .more-blog-case .blur[data-v-410c06b6],
+  .blog-block-mainstr .more-blog-case .blur {
+    border-radius: inherit;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    opacity: 0;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition: opacity 0.25s linear !important;
+  }
+
+  .blog-block-mainstr .more-blog-case:hover .blur[data-v-410c06b6],
+  .blog-block-mainstr .more-blog-case:hover .blur {
+    opacity: 1;
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
+  }
+
+  .blog-block-mainstr .more-blog-case:hover .zoom .case__media--front[data-v-410c06b6],
+  .blog-block-mainstr .more-blog-case:hover .zoom .case__media--front {
+    transform: scale(1.2) translateZ(0) !important;
+  }
+
+  /*
     Услуги: у .services__card::after тот же z-index:0, что и у .services__card-img-wr;
     псевдоэлемент идёт в порядке отрисовки после контента с z-index:0 и перекрывает картинку.
     Текст (z-index:1) остаётся «поверх», поэтому ореол и ховер срабатывали только над шапкой.
@@ -529,6 +557,59 @@
 /* Пустой подзаголовок — без лишнего кликабельного поля */
 .more-blog-case .case__subtitle:empty {
   display: none;
+}
+
+/* Клип медиа при scale(1.2) на hover — те же скругления, что у .case. */
+.blog-block-mainstr a.more-blog-case.case[data-v-410c06b6],
+.blog-block-mainstr a.more-blog-case.case {
+  isolation: isolate;
+  /* Nuxt-бандл: will-change + transition:1s + z-index:100 — при mouseleave WebKit теряет border-radius. */
+  will-change: auto !important;
+  transition: none !important;
+  z-index: auto !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  -webkit-clip-path: inset(0 round 30px);
+  clip-path: inset(0 round 30px);
+}
+
+.blog-block-mainstr .more-blog-case .case__media[data-v-410c06b6],
+.blog-block-mainstr .more-blog-case .case__media {
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* Как more-cases на услугах: отдельный слой превью + без transition transform (0.7s ломает клип углов). */
+.blog-block-mainstr .more-blog-case .case__media .case__media--front[data-v-410c06b6],
+.blog-block-mainstr .more-blog-case .case__media .case__media--front {
+  border-radius: inherit !important;
+  transform: scale(1.01) translateZ(0);
+  -webkit-transform: scale(1.01) translateZ(0);
+  transition: opacity 0.7s ease !important;
+}
+
+/* Светлые карточки блога: общий .more-blog-case { #1d1d1f } даёт тёмный «квадрат» в углах при сбое клипа. */
+.blog-block-mainstr .more-blog-case.case.dark-text,
+.blog-block-mainstr .more-blog-case.case.case--light-cover,
+.blog-block-mainstr .more-blog-case.case.dark-text .case__media,
+.blog-block-mainstr .more-blog-case.case.case--light-cover .case__media {
+  background-color: #e8e8ea !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .blog-block-mainstr a.more-blog-case.case[data-v-410c06b6],
+  .blog-block-mainstr a.more-blog-case.case {
+    -webkit-clip-path: inset(0 round 25px);
+    clip-path: inset(0 round 25px);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .blog-block-mainstr a.more-blog-case.case[data-v-410c06b6],
+  .blog-block-mainstr a.more-blog-case.case {
+    -webkit-clip-path: inset(0 round 21px);
+    clip-path: inset(0 round 21px);
+  }
 }
 
 /* Карточки кейсов/блога: фоновый цвет виден до загрузки изображения */
