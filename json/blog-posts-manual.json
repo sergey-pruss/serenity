@@ -1,6 +1,28 @@
 {
   "posts": [
     {
+      "href": "/blog/article/prodvizhenie-na-yandex-kartah-dlya-biznesa/",
+      "description": "Продвижение на Яндекс Картах для бизнеса: звонки, маршруты и заявки",
+      "subtitle": "Разбираем, кому подходит продвижение на Яндекс Картах, как оно работает, какие форматы рекламы доступны и как бизнесу оценивать результат по звонкам, маршрутам и заявкам.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "cardModifier": "case--light-cover",
+      "isResource": true,
+      "publishDate": "2026-06-15T10:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/prodvizhenie-na-yandex-kartah-dlya-biznesa/card.webp?v=20260615orig"
+      }
+    },
+    {
       "href": "/blog/article/kontekstnaya-i-georeklama-premium-segment/",
       "description": "Как контекстная реклама и геореклама влияют на продажи в премиум-сегменте",
       "subtitle": "Рассказываем на примере проекта в нише дизайнерской мебели",

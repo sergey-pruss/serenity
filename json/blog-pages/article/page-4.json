@@ -3,7 +3,7 @@
   "currentPage": 4,
   "totalPages": 4,
   "perPage": 24,
-  "totalItems": 84,
+  "totalItems": 85,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,27 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/",
+      "description": "Лидформы: как увеличить объем заявок из Facebook и Instagram",
+      "subtitle": "В статье раскрывается тема по созданию, настройке, интеграции в фейсбуке и инстаграм. Подскажем как лучше тестировать и сделать лид форму эффективной в Facebook и Instagram",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2018-12-11T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/zhifei-zhou-689004-unsplash.jpg"
+      }
+    },
     {
       "href": "/blog/article/vizualnyj-kontent/",
       "description": "Визуальный контент",

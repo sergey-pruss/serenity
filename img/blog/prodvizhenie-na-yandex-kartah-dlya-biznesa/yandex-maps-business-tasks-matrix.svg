@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" fill="none">
+  <rect width="1200" height="680" fill="#FFFFFF"/>
+  <text x="600" y="54" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#1A1A1F">Какие задачи бизнес решает через Яндекс Карты</text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <!-- Column 1 -->
+    <rect x="48" y="96" width="352" height="552" rx="18" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <rect x="48" y="96" width="352" height="6" rx="18" fill="#5B7CFF"/>
+    <text x="92" y="144" font-size="26" font-weight="700" fill="#1A1A1F">Локальный бизнес</text>
+    <text x="92" y="180" font-size="20" fill="#5C5C66">
+      <tspan x="92" dy="0">Одна точка</tspan>
+      <tspan x="92" dy="28">или несколько</tspan>
+      <tspan x="92" dy="28">локаций в городе</tspan>
+    </text>
+    <circle cx="100" cy="292" r="5" fill="#5B7CFF"/>
+    <text x="116" y="298" font-size="21" fill="#1A1A1F">
+      <tspan x="116" dy="0">больше звонков</tspan>
+      <tspan x="116" dy="26">и маршрутов</tspan>
+    </text>
+    <circle cx="100" cy="354" r="5" fill="#5B7CFF"/>
+    <text x="116" y="360" font-size="21" fill="#1A1A1F">
+      <tspan x="116" dy="0">видимость в районе</tspan>
+      <tspan x="116" dy="26">или городе</tspan>
+    </text>
+    <circle cx="100" cy="416" r="5" fill="#5B7CFF"/>
+    <text x="116" y="422" font-size="21" fill="#1A1A1F">
+      <tspan x="116" dy="0">доверие через отзывы</tspan>
+      <tspan x="116" dy="26">и рейтинг</tspan>
+    </text>
+    <circle cx="100" cy="478" r="5" fill="#5B7CFF"/>
+    <text x="116" y="484" font-size="21" fill="#1A1A1F">
+      <tspan x="116" dy="0">быстрый контакт</tspan>
+      <tspan x="116" dy="26">с клиентом</tspan>
+    </text>
+    <rect x="84" y="528" width="280" height="96" rx="12" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <text x="224" y="556" text-anchor="middle" font-size="18" fill="#5C5C66">
+      <tspan x="224" dy="0">клиники, рестораны,</tspan>
+      <tspan x="224" dy="24">салоны, автосервисы,</tspan>
+      <tspan x="224" dy="24">магазины</tspan>
+    </text>
+
+    <!-- Column 2 -->
+    <rect x="424" y="96" width="352" height="552" rx="18" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <rect x="424" y="96" width="352" height="6" rx="18" fill="#8B5CF6"/>
+    <text x="468" y="144" font-size="26" font-weight="700" fill="#1A1A1F">Сеть филиалов</text>
+    <text x="468" y="180" font-size="20" fill="#5C5C66">
+      <tspan x="468" dy="0">Несколько точек</tspan>
+      <tspan x="468" dy="28">с разным спросом</tspan>
+    </text>
+    <circle cx="476" cy="292" r="5" fill="#8B5CF6"/>
+    <text x="492" y="298" font-size="21" fill="#1A1A1F">
+      <tspan x="492" dy="0">усиление конкретных</tspan>
+      <tspan x="492" dy="26">точек</tspan>
+    </text>
+    <circle cx="476" cy="354" r="5" fill="#8B5CF6"/>
+    <text x="492" y="360" font-size="21" fill="#1A1A1F">
+      <tspan x="492" dy="0">выравнивание слабых</tspan>
+      <tspan x="492" dy="26">филиалов</tspan>
+    </text>
+    <circle cx="476" cy="416" r="5" fill="#8B5CF6"/>
+    <text x="492" y="422" font-size="21" fill="#1A1A1F">
+      <tspan x="492" dy="0">продвижение важных</tspan>
+      <tspan x="492" dy="26">локаций</tspan>
+    </text>
+    <circle cx="476" cy="478" r="5" fill="#8B5CF6"/>
+    <text x="492" y="484" font-size="21" fill="#1A1A1F">
+      <tspan x="492" dy="0">единый стандарт</tspan>
+      <tspan x="492" dy="26">карточек</tspan>
+    </text>
+    <rect x="460" y="528" width="280" height="96" rx="12" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <text x="600" y="556" text-anchor="middle" font-size="18" fill="#5C5C66">
+      <tspan x="600" dy="0">фитнес-сети, медцентры,</tspan>
+      <tspan x="600" dy="24">ритейл, банки,</tspan>
+      <tspan x="600" dy="24">сервисные офисы</tspan>
+    </text>
+
+    <!-- Column 3 -->
+    <rect x="800" y="96" width="352" height="552" rx="18" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <rect x="800" y="96" width="352" height="6" rx="18" fill="#E879A9"/>
+    <text x="844" y="144" font-size="26" font-weight="700" fill="#1A1A1F">Федеральный бизнес</text>
+    <text x="844" y="180" font-size="20" fill="#5C5C66">
+      <tspan x="844" dy="0">Региональная сеть</tspan>
+      <tspan x="844" dy="28">и масштабирование</tspan>
+    </text>
+    <circle cx="852" cy="292" r="5" fill="#E879A9"/>
+    <text x="868" y="298" font-size="21" fill="#1A1A1F">
+      <tspan x="868" dy="0">управление спросом</tspan>
+      <tspan x="868" dy="26">по регионам</tspan>
+    </text>
+    <circle cx="852" cy="354" r="5" fill="#E879A9"/>
+    <text x="868" y="360" font-size="21" fill="#1A1A1F">
+      <tspan x="868" dy="0">поддержка открытия</tspan>
+      <tspan x="868" dy="26">новых точек</tspan>
+    </text>
+    <circle cx="852" cy="416" r="5" fill="#E879A9"/>
+    <text x="868" y="422" font-size="21" fill="#1A1A1F">
+      <tspan x="868" dy="0">локальное присутствие</tspan>
+      <tspan x="868" dy="26">бренда</tspan>
+    </text>
+    <circle cx="852" cy="478" r="5" fill="#E879A9"/>
+    <text x="868" y="484" font-size="21" fill="#1A1A1F">
+      <tspan x="868" dy="0">сравнение эффективности</tspan>
+      <tspan x="868" dy="26">филиалов</tspan>
+    </text>
+    <rect x="836" y="528" width="280" height="96" rx="12" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <text x="976" y="556" text-anchor="middle" font-size="18" fill="#5C5C66">
+      <tspan x="976" dy="0">девелоперы, франшизы,</tspan>
+      <tspan x="976" dy="24">федеральные сети,</tspan>
+      <tspan x="976" dy="24">B2B с офисами</tspan>
+    </text>
+  </g>
+</svg>

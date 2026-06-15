@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="458" viewBox="0 0 1200 458" fill="none">
+  <rect width="1200" height="458" fill="#FFFFFF"/>
+  <text x="600" y="44" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1A1A1F">Карты работают не только для офлайна</text>
+
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5B7CFF"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#7C6BFF"/>
+      <stop offset="1" stop-color="#9B6BFF"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#B06BFF"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#E879A9"/>
+      <stop offset="1" stop-color="#F06292"/>
+    </linearGradient>
+  </defs>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <!-- 1 -->
+    <rect x="32" y="64" width="264" height="354" rx="16" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <rect x="32" y="64" width="264" height="5" rx="16" fill="url(#g1)"/>
+    <circle cx="164" cy="123" r="24" fill="url(#g1)" fill-opacity="0.18"/>
+    <rect x="150" y="111" width="28" height="22" rx="6" fill="url(#g1)"/>
+    <text x="164" y="191" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Доставка еды</text>
+    <circle cx="52" cy="223" r="4" fill="#5B7CFF"/>
+    <text x="66" y="228" font-size="17" fill="#1A1A1F">меню, акции</text>
+    <circle cx="52" cy="251" r="4" fill="#5B7CFF"/>
+    <text x="66" y="256" font-size="17" fill="#1A1A1F">время работы</text>
+    <circle cx="52" cy="279" r="4" fill="#5B7CFF"/>
+    <text x="66" y="284" font-size="17" fill="#1A1A1F">кнопка заказа</text>
+    <rect x="48" y="306" width="232" height="96" rx="12" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <text x="164" y="362" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1F">Карточка → заказ</text>
+
+    <!-- 2 -->
+    <rect x="312" y="64" width="264" height="354" rx="16" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <rect x="312" y="64" width="264" height="5" rx="16" fill="url(#g2)"/>
+    <circle cx="444" cy="123" r="24" fill="url(#g2)" fill-opacity="0.18"/>
+    <rect x="430" y="109" width="28" height="28" rx="8" fill="url(#g2)"/>
+    <text x="444" y="191" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Интернет-магазин</text>
+    <circle cx="332" cy="223" r="4" fill="#7C6BFF"/>
+    <text x="346" y="228" font-size="17" fill="#1A1A1F">товары, цены</text>
+    <circle cx="332" cy="251" r="4" fill="#7C6BFF"/>
+    <text x="346" y="256" font-size="17" fill="#1A1A1F">доставка</text>
+    <circle cx="332" cy="279" r="4" fill="#7C6BFF"/>
+    <text x="346" y="284" font-size="17" fill="#1A1A1F">переход на сайт</text>
+    <rect x="328" y="306" width="232" height="96" rx="12" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <text x="444" y="362" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1F">Карточка → покупка</text>
+
+    <!-- 3 -->
+    <rect x="592" y="64" width="264" height="354" rx="16" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <rect x="592" y="64" width="264" height="5" rx="16" fill="url(#g3)"/>
+    <circle cx="724" cy="123" r="24" fill="url(#g3)" fill-opacity="0.18"/>
+    <path d="M710 129 L724 111 L738 129 L738 137 L710 137 Z" fill="url(#g3)"/>
+    <text x="724" y="191" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Продажи со склада</text>
+    <circle cx="612" cy="223" r="4" fill="#8B5CF6"/>
+    <text x="626" y="228" font-size="17" fill="#1A1A1F">наличие, контакты</text>
+    <circle cx="612" cy="251" r="4" fill="#8B5CF6"/>
+    <text x="626" y="256" font-size="17" fill="#1A1A1F">самовывоз</text>
+    <circle cx="612" cy="279" r="4" fill="#8B5CF6"/>
+    <text x="626" y="284" font-size="17" fill="#1A1A1F">зона доставки</text>
+    <rect x="608" y="306" width="232" height="96" rx="12" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <text x="724" y="362" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1F">Карточка → заявка</text>
+
+    <!-- 4 -->
+    <rect x="872" y="64" width="264" height="354" rx="16" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <rect x="872" y="64" width="264" height="5" rx="16" fill="url(#g4)"/>
+    <circle cx="1004" cy="123" r="24" fill="url(#g4)" fill-opacity="0.18"/>
+    <path d="M1004 107 C997 107 992 112 992 120 C992 131 1004 139 1004 139 C1004 139 1016 131 1016 120 C1016 112 1011 107 1004 107 Z" fill="url(#g4)"/>
+    <circle cx="1004" cy="117" r="4" fill="#FFFFFF"/>
+    <text x="1004" y="191" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Выездные услуги</text>
+    <circle cx="892" cy="223" r="4" fill="#E879A9"/>
+    <text x="906" y="228" font-size="17" fill="#1A1A1F">зона обслуживания</text>
+    <circle cx="892" cy="251" r="4" fill="#E879A9"/>
+    <text x="906" y="256" font-size="17" fill="#1A1A1F">отзывы, телефон</text>
+    <circle cx="892" cy="279" r="4" fill="#E879A9"/>
+    <text x="906" y="284" font-size="17" fill="#1A1A1F">форма заявки</text>
+    <rect x="888" y="306" width="232" height="96" rx="12" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <text x="1004" y="362" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A1F">Карточка → обращение</text>
+  </g>
+</svg>

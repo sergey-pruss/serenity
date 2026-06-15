@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 4,
   "perPage": 24,
-  "totalItems": 84,
+  "totalItems": 85,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,27 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kak-pridumat-nazvanie-brenda/",
+      "description": "Как придумать название бренда",
+      "subtitle": "Рассказываем, зачем нужен нейминг и как мы подходим к его созданию.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2025-01-31T08:00:00.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.jpg"
+      }
+    },
     {
       "href": "/blog/article/kompleksnyj-seo-audit-sajta-zachem-kogda-i-iz-chego-sostoit/",
       "description": "Комплексный SEO-аудит сайта: зачем, когда и из чего состоит",
@@ -531,27 +552,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/1jX9u2xjUxeWdype49GVhnhlmyNbDWUWigbSn8X7.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/sajt-na-konstruktore-protiv-polnotsennogo-sajta-kto-kogo/",
-      "description": "Сайт на конструкторе против полноценного сайта. Кто кого?",
-      "subtitle": "Поможем разобраться, что и когда лучше подойдет.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "statyi"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "dark-text",
-      "isResource": true,
-      "publishDate": "2022-08-30T05:08:08.000000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/CXrZv1eEn2uQohiWxWaFoRp5SOhU8yOiafh7TphS.jpg"
       }
     }
   ]

@@ -3,7 +3,7 @@
   "currentPage": 1,
   "totalPages": 5,
   "perPage": 24,
-  "totalItems": 106,
+  "totalItems": 107,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,28 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/prodvizhenie-na-yandex-kartah-dlya-biznesa/",
+      "description": "Продвижение на Яндекс Картах для бизнеса: звонки, маршруты и заявки",
+      "subtitle": "Разбираем, кому подходит продвижение на Яндекс Картах, как оно работает, какие форматы рекламы доступны и как бизнесу оценивать результат по звонкам, маршрутам и заявкам.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "cardModifier": "case--light-cover",
+      "publishDate": "2026-06-15T10:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/prodvizhenie-na-yandex-kartah-dlya-biznesa/card.webp?v=20260615orig"
+      }
+    },
     {
       "href": "/blog/article/kontekstnaya-i-georeklama-premium-segment/",
       "description": "Как контекстная реклама и геореклама влияют на продажи в премиум-сегменте",
@@ -528,27 +550,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/0lS3eurRQYeVMArhIe1qxldqRyNrq7iVOgAp1QG3.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/kak-pridumat-nazvanie-brenda/",
-      "description": "Как придумать название бренда",
-      "subtitle": "Рассказываем, зачем нужен нейминг и как мы подходим к его созданию.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "publishDate": "2025-01-31T08:00:00.000000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.jpg"
       }
     }
   ]

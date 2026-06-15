@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" fill="none">
+  <rect width="1200" height="540" fill="#FFFFFF"/>
+  <text x="600" y="58" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1A1A1F">Как Карты доводят клиента до обращения</text>
+  <text x="760" y="118" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#5C5C66">Что влияет на выбор</text>
+
+  <defs>
+    <linearGradient id="f1" x1="300" y1="110" x2="300" y2="182" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4F4F6"/>
+      <stop offset="1" stop-color="#EEEAF6"/>
+    </linearGradient>
+    <linearGradient id="f2" x1="300" y1="188" x2="300" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEEAF6"/>
+      <stop offset="1" stop-color="#F0E6F2"/>
+    </linearGradient>
+    <linearGradient id="f3" x1="300" y1="266" x2="300" y2="338" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0E6F2"/>
+      <stop offset="1" stop-color="#F5E3EE"/>
+    </linearGradient>
+    <linearGradient id="f4" x1="300" y1="344" x2="300" y2="416" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5E3EE"/>
+      <stop offset="1" stop-color="#FADCE8"/>
+    </linearGradient>
+    <linearGradient id="f5" x1="300" y1="422" x2="300" y2="494" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FADCE8"/>
+      <stop offset="1" stop-color="#F7D2DC"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#C9C9D1"/>
+    </marker>
+  </defs>
+
+  <path d="M110 110 L490 110 L470 182 L130 182 Z" fill="url(#f1)" stroke="#E2E2E8" stroke-width="1.5"/>
+  <path d="M130 188 L470 188 L450 260 L150 260 Z" fill="url(#f2)" stroke="#E2E2E8" stroke-width="1.5"/>
+  <path d="M150 266 L450 266 L430 338 L170 338 Z" fill="url(#f3)" stroke="#E2E2E8" stroke-width="1.5"/>
+  <path d="M170 344 L430 344 L410 416 L190 416 Z" fill="url(#f4)" stroke="#E2E2E8" stroke-width="1.5"/>
+  <path d="M190 422 L410 422 L390 494 L210 494 Z" fill="url(#f5)" stroke="#E53935" stroke-width="2"/>
+
+  <text x="300" y="154" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1A1A1F">Поиск рядом</text>
+  <text x="300" y="232" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1A1A1F">Выбор в выдаче</text>
+  <text x="300" y="310" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1A1A1F">Открытие карточки</text>
+  <text x="300" y="388" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1A1A1F">Действие</text>
+  <text x="300" y="466" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1A1A1F">Обращение</text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="560" y="128" width="480" height="56" rx="14" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <text x="800" y="164" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Точность карточки</text>
+    <line x1="490" y1="146" x2="552" y2="156" stroke="#D8D8DE" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="560" y="206" width="480" height="56" rx="14" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <text x="800" y="242" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Видимость в выдаче</text>
+    <line x1="470" y1="224" x2="552" y2="234" stroke="#D8D8DE" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="560" y="284" width="480" height="56" rx="14" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <text x="800" y="320" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Фото, отзывы, цены</text>
+    <line x1="450" y1="302" x2="552" y2="312" stroke="#D8D8DE" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="560" y="362" width="480" height="56" rx="14" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <text x="800" y="398" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Звонок, маршрут, запись</text>
+    <line x1="430" y1="380" x2="552" y2="390" stroke="#D8D8DE" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="560" y="440" width="480" height="56" rx="14" fill="#F4F4F6" stroke="#E53935" stroke-width="1.5"/>
+    <text x="800" y="476" text-anchor="middle" font-size="20" font-weight="700" fill="#1A1A1F">Выбор в пользу вас</text>
+    <line x1="410" y1="458" x2="552" y2="468" stroke="#E53935" stroke-width="2" marker-end="url(#arrow)"/>
+  </g>
+</svg>

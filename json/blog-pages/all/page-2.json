@@ -3,7 +3,7 @@
   "currentPage": 2,
   "totalPages": 5,
   "perPage": 24,
-  "totalItems": 106,
+  "totalItems": 107,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,27 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kak-pridumat-nazvanie-brenda/",
+      "description": "Как придумать название бренда",
+      "subtitle": "Рассказываем, зачем нужен нейминг и как мы подходим к его созданию.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2025-01-31T08:00:00.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/BcWgtbhrbCbVcjQOwqqD1do3OryaFhHsnx9IqPu7.jpg"
+      }
+    },
     {
       "href": "/blog/article/kompleksnyj-seo-audit-sajta-zachem-kogda-i-iz-chego-sostoit/",
       "description": "Комплексный SEO-аудит сайта: зачем, когда и из чего состоит",
@@ -531,27 +552,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/Gq8atSD9iDUptVPxHxvc8wkn1EN7AWNbS3gDJLJE.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/kak-pravilno-pisat-seo-teksty/",
-      "description": "Как правильно писать SEO-тексты",
-      "subtitle": "Рассказываем, на что нужно обратить внимание при формировании и написании текста, чтобы он обязательно попал в топ выдачи поисковиков.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": true,
-      "publishDate": "2023-01-25T08:00:00.000000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/dX3x4ZYwfE3JisKSY2A0IO8fxEbiPzRGIEcjRc4m.jpg"
       }
     }
   ]

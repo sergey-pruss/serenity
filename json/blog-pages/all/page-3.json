@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 5,
   "perPage": 24,
-  "totalItems": 106,
+  "totalItems": 107,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,27 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kak-pravilno-pisat-seo-teksty/",
+      "description": "Как правильно писать SEO-тексты",
+      "subtitle": "Рассказываем, на что нужно обратить внимание при формировании и написании текста, чтобы он обязательно попал в топ выдачи поисковиков.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": true,
+      "publishDate": "2023-01-25T08:00:00.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/dX3x4ZYwfE3JisKSY2A0IO8fxEbiPzRGIEcjRc4m.jpg"
+      }
+    },
     {
       "href": "/blog/article/sistemy-ranzhirovaniya-google-poiska/",
       "description": "Системы ранжирования Google-поиска",
@@ -524,27 +545,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/OO0Ifn9wkf0iC5ZrF7O207sn7eI4EcbmerpMG2Qa.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/kejs-digitale-cchaste/",
-      "description": "Кейс: Digitale «‎Cчастье»",
-      "subtitle": "Кейс: Digitale «‎Cчастье»",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "publishDate": "2020-07-31T12:00:00.000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/kejs-digitale-cchaste/di.png"
       }
     }
   ]

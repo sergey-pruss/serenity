@@ -3,7 +3,7 @@
   "currentPage": 4,
   "totalPages": 5,
   "perPage": 24,
-  "totalItems": 106,
+  "totalItems": 107,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,27 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/kejs-digitale-cchaste/",
+      "description": "Кейс: Digitale «‎Cчастье»",
+      "subtitle": "Кейс: Digitale «‎Cчастье»",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "article"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "white-text",
+      "isResource": false,
+      "publishDate": "2020-07-31T12:00:00.000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/kejs-digitale-cchaste/di.png"
+      }
+    },
     {
       "href": "/blog/article/poluchili-prometej-a-potom-sobrali-val-klientov-na-chernuyu-pyatnitsu/",
       "description": "Получили «Прометей», а потом собрали вал клиентов на Черную пятницу",
@@ -525,27 +546,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/instrumenty-tsifrovogo-brendinga/tim-mossholder-322350-unsplash.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/geotargeting-dlya-malogo-i-srednego-biznesa/",
-      "description": "Геотаргетинг для малого и среднего бизнеса",
-      "subtitle": "Из всех компаний, которые к нам обращались, 60% не работали с геотаргетингом, либо настраивали его неправильно.",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "publishDate": "2017-08-14T12:00:00.000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/geotargeting-dlya-malogo-i-srednego-biznesa/martin-adams-736967-unsplash.jpg"
       }
     }
   ]

@@ -3,7 +3,7 @@
   "currentPage": 3,
   "totalPages": 4,
   "perPage": 24,
-  "totalItems": 84,
+  "totalItems": 85,
   "filters": [
     {
       "code": "",
@@ -37,6 +37,27 @@
     }
   ],
   "posts": [
+    {
+      "href": "/blog/article/sajt-na-konstruktore-protiv-polnotsennogo-sajta-kto-kogo/",
+      "description": "Сайт на конструкторе против полноценного сайта. Кто кого?",
+      "subtitle": "Поможем разобраться, что и когда лучше подойдет.",
+      "tags": [
+        "Статьи"
+      ],
+      "tagCodes": [
+        "statyi"
+      ],
+      "tagCodesNorm": [
+        "article"
+      ],
+      "linkClass": "dark-text",
+      "isResource": true,
+      "publishDate": "2022-08-30T05:08:08.000000Z",
+      "media": {
+        "kind": "picture",
+        "image": "/_sa/img/blog/CXrZv1eEn2uQohiWxWaFoRp5SOhU8yOiafh7TphS.jpg"
+      }
+    },
     {
       "href": "/blog/article/kak-sdelat-brend-kotoryj-polyubyat-klienty/",
       "description": "Как сделать бренд, который полюбят клиенты?",
@@ -527,27 +548,6 @@
       "media": {
         "kind": "picture",
         "image": "/_sa/img/blog/moderatsiya-kak-uvelichit-loyalnost-i-chislo-klientov/1010028773.jpg"
-      }
-    },
-    {
-      "href": "/blog/article/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/",
-      "description": "Лидформы: как увеличить объем заявок из Facebook и Instagram",
-      "subtitle": "В статье раскрывается тема по созданию, настройке, интеграции в фейсбуке и инстаграм. Подскажем как лучше тестировать и сделать лид форму эффективной в Facebook и Instagram",
-      "tags": [
-        "Статьи"
-      ],
-      "tagCodes": [
-        "article"
-      ],
-      "tagCodesNorm": [
-        "article"
-      ],
-      "linkClass": "white-text",
-      "isResource": false,
-      "publishDate": "2018-12-11T12:00:00.000Z",
-      "media": {
-        "kind": "picture",
-        "image": "/_sa/img/blog/lidformy-kak-uvelichit-obem-zayavok-iz-facebook-i-instagram/zhifei-zhou-689004-unsplash.jpg"
       }
     }
   ]

@@ -35,7 +35,7 @@ function readKontekstTailBlocks() {
     readPartial("service-inline-lead-prodvizhenie-yandex-karty-2gis-inline.html"),
     team,
     readPartial("faq-prodvizhenie-yandex-karty-2gis.html"),
-    readPartial("blog-kontekstnaya-reklama.html"),
+    readPartial("blog-prodvizhenie-yandex-karty-2gis.html"),
     readPartial("clients-kontekstnaya-reklama.html"),
     readPartial("more-cases-kontekstnaya-from-services.html"),
     readPartial("awards-kontekstnaya-reklama.html"),

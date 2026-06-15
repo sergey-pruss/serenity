@@ -2074,6 +2074,16 @@ body.order-popup-open .overlay-new {
   filter: brightness(1.12);
 }
 
+/* Светлая обложка: без высветления и без скримов wood-header / title-scrim. */
+.case.case--light-cover a.dark-text .case__media--front,
+.case.case--light-cover a.dark-text .case__media--video,
+#blog-grid .case.case--light-cover .case__media--front[data-v-c0adc676],
+#blog-grid .case.case--light-cover .case__media--video[data-v-c0adc676],
+.blog-read-more .case.case--light-cover .case__media--front[data-v-c0adc676],
+.blog-read-more .case.case--light-cover .case__media--video[data-v-c0adc676] {
+  filter: none !important;
+}
+
 /* Behance/внешний ресурс: фикс видимости и позиции иконки (внизу слева карточки). */
 .case .case__external-link[data-v-c0adc676] {
   display: none;

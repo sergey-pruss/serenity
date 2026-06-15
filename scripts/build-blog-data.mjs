@@ -127,7 +127,7 @@ function absoluteLegacyBlogPath(href) {
 /** Превью и видео блога — только из img/blog/ (заполняется scripts/sync-blog-images.mjs), иначе fallback на прод. */
 function blogMediaUrl(filename) {
   if (!filename) return "";
-  const safe = path.basename(String(filename));
+  const safe = path.basename(String(filename).split("?")[0]);
   if (!safe) return "";
   const blogDir = path.join(process.cwd(), "img", "blog");
   const candidates = [safe];
@@ -146,12 +146,14 @@ function blogMediaUrl(filename) {
 function resolveListingMediaImage(imageUrl) {
   const s = String(imageUrl || "").trim();
   if (!s) return s;
-  if (s.startsWith("/_sa/img/blog/")) {
-    const rel = s.replace(/^\/_sa\//, "");
-    if (fs.existsSync(path.join(process.cwd(), rel))) return s;
+  const pathOnly = s.split("?")[0];
+  const query = s.includes("?") ? s.slice(s.indexOf("?")) : "";
+  if (pathOnly.startsWith("/_sa/img/blog/")) {
+    const rel = pathOnly.replace(/^\/_sa\//, "");
+    if (fs.existsSync(path.join(process.cwd(), rel))) return pathOnly + query;
   }
-  const storageMatch = s.match(/\/storage\/([^/?#]+)/i);
-  const fileFromPath = storageMatch ? storageMatch[1] : path.basename(s);
+  const storageMatch = pathOnly.match(/\/storage\/([^/?#]+)/i);
+  const fileFromPath = storageMatch ? storageMatch[1] : path.basename(pathOnly);
   return blogMediaUrl(fileFromPath);
 }
 

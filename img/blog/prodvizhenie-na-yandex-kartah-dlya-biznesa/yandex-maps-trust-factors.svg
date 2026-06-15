@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" fill="none">
+  <rect width="1200" height="520" fill="#FFFFFF"/>
+
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#5B7CFF"/>
+    </linearGradient>
+  </defs>
+
+  <text x="600" y="52" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#1A1A1F">Что усиливает доверие к карточке</text>
+  <text x="600" y="86" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#5C5C66">Пользователь выбирает компанию быстрее, когда карточка выглядит актуальной, живой и подтвержденной.</text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <!-- Card 1 -->
+    <rect x="40" y="118" width="550" height="172" rx="16" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <rect x="40" y="118" width="5" height="172" rx="16" fill="url(#accent)"/>
+    <circle cx="108" cy="204" r="30" fill="#8B5CF6" fill-opacity="0.14"/>
+    <circle cx="108" cy="204" r="22" fill="url(#accent)"/>
+    <path d="M100 204 L106 210 L118 196" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="156" y="178" font-size="22" font-weight="700" fill="#1A1A1F">Подтвержденный профиль</text>
+    <text x="156" y="208" font-size="18" fill="#5C5C66">
+      <tspan x="156" dy="0">синяя галочка, права на карточку,</tspan>
+      <tspan x="156" dy="26">актуальные данные о компании</tspan>
+    </text>
+
+    <!-- Card 2 -->
+    <rect x="610" y="118" width="550" height="172" rx="16" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <rect x="610" y="118" width="5" height="172" rx="16" fill="url(#accent)"/>
+    <circle cx="678" cy="204" r="30" fill="#8B5CF6" fill-opacity="0.14"/>
+    <path d="M678.0 189.0 L681.8 198.7 L692.3 199.4 L684.2 206.0 L686.8 216.1 L678.0 210.5 L669.2 216.1 L671.8 206.0 L663.7 199.4 L674.2 198.7 Z" fill="url(#accent)"/>
+    <text x="726" y="178" font-size="22" font-weight="700" fill="#1A1A1F">Рейтинг и отзывы</text>
+    <text x="726" y="208" font-size="18" fill="#5C5C66">
+      <tspan x="726" dy="0">оценка 4,5+, реальные отзывы,</tspan>
+      <tspan x="726" dy="26">ответы компании на обратную связь</tspan>
+    </text>
+
+    <!-- Card 3 -->
+    <rect x="40" y="310" width="550" height="172" rx="16" fill="#FFFFFF" stroke="#E2E2E8"/>
+    <rect x="40" y="310" width="5" height="172" rx="16" fill="url(#accent)"/>
+    <circle cx="108" cy="396" r="30" fill="#8B5CF6" fill-opacity="0.14"/>
+    <rect x="92" y="378" width="32" height="36" rx="6" fill="url(#accent)"/>
+    <rect x="98" y="386" width="20" height="3" rx="1.5" fill="#FFFFFF"/>
+    <rect x="98" y="393" width="16" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.85"/>
+    <rect x="98" y="400" width="18" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.7"/>
+    <text x="156" y="370" font-size="22" font-weight="700" fill="#1A1A1F">Живая карточка</text>
+    <text x="156" y="400" font-size="18" fill="#5C5C66">
+      <tspan x="156" dy="0">фото, услуги, цены, акции, витрина</tspan>
+      <tspan x="156" dy="26">и понятные точки контакта</tspan>
+    </text>
+
+    <!-- Card 4 -->
+    <rect x="610" y="310" width="550" height="172" rx="16" fill="#F4F4F6" stroke="#E2E2E8"/>
+    <rect x="610" y="310" width="5" height="172" rx="16" fill="url(#accent)"/>
+    <circle cx="678" cy="396" r="30" fill="#E879A9" fill-opacity="0.14"/>
+    <circle cx="678" cy="396" r="18" fill="url(#accent)"/>
+    <path d="M678 384 L682 392 L692 390 L686 398 L688 408 L678 402 L668 408 L670 398 L664 390 L674 392 Z" fill="#FFFFFF"/>
+    <text x="726" y="370" font-size="22" font-weight="700" fill="#1A1A1F">«Хорошее место»</text>
+    <text x="726" y="400" font-size="18" fill="#5C5C66">
+      <tspan x="726" dy="0">отметка в Картах, фильтр, подборки</tspan>
+      <tspan x="726" dy="26">и наклейка на входе</tspan>
+    </text>
+  </g>
+</svg>
