@@ -188,6 +188,71 @@ body:not(.order-popup-open) .overlay-new {
 }
 
 /*
+ * Boca Room / Минисклад — размытый cover-фон и кадр, как на /prodvizhenie-yandex-karty-2gis.
+ * Перебивает blur(0) у активного слайда выше.
+ */
+.cases-block .cases-block__swiper-slide--boca .background[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide--minisklad .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.cases-block .cases-block__swiper-slide--boca.swiper-slide-active .background[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide--minisklad.swiper-slide-active .background[data-v-bd2e570a],
+.kontekstnaya-case-slider-boca-section
+  .cases-block__swiper-slide--boca
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.kontekstnaya-case-slider-boca-section .cases-block__swiper-slide--boca .background[data-v-bd2e570a] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1 !important;
+}
+
+.cases-block .cases-block__swiper-slide--boca .cases-block__swiper-slide-contant .old img[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide--boca .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  object-position: center center !important;
+}
+
+.cases-block .cases-block__swiper-slide--minisklad .cases-block__swiper-slide-contant .old img[data-v-bd2e570a],
+.cases-block .cases-block__swiper-slide--minisklad .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+  object-fit: cover !important;
+  -o-object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* Один слайд Boca между SEO-блоками: без стрелок и точек. */
+.kontekstnaya-case-slider-boca-section .swiper__navigation,
+.kontekstnaya-case-slider-boca-section .swiper-pagination {
+  display: none !important;
+}
+
+.kontekstnaya-case-slider-boca-section .cases-block[data-v-bd2e570a] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.kontekstnaya-case-slider-boca-section .cases-block__swiper-slide--boca[data-v-bd2e570a] {
+  isolation: isolate;
+}
+
+.kontekstnaya-case-slider-boca-section
+  .cases-block__swiper-slide--boca
+  .cases-block__swiper-slide-contant[data-v-bd2e570a],
+.kontekstnaya-case-slider-boca-section
+  .cases-block__swiper-slide--boca
+  .cases-block__swiper-slide-text-contant[data-v-bd2e570a] {
+  position: relative;
+  z-index: 2 !important;
+}
+
+/*
  * Вертикальный ритм секций (как на главной: .clients-new-section.home-between — padding-top: var(--home-between)).
  * Токен в css__home-snapshot__overrides.parity-sync.css (:root --home-between 112 / 97 / 60).
  * Между двумя секциями один шаг: отступ «сверху» у следующей; у предыдущей padding-bottom не дублируем тот же шаг.

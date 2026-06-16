@@ -11,6 +11,10 @@ const {
   buildVidySection,
   buildKpiSections,
 } = require("./kontekstnaya-seo-sections.cjs");
+const {
+  applyKontekstnayaCasesPatches,
+  loadBocaSliderSection,
+} = require("./kontekstnaya-cases-patches.cjs");
 
 const root = path.resolve(__dirname, "..", "..");
 
@@ -149,13 +153,23 @@ function packagesSectionBounds(html) {
   }
 }
 
-function buildKontekstnayaMiddle(cases1, cases2, cases3, packagesSec, diesSec, teamSec) {
+function buildKontekstnayaMiddle(
+  bocaSec,
+  cases1,
+  cases2,
+  cases3,
+  packagesSec,
+  diesSec,
+  teamSec,
+) {
   const [kpiSec, reportSec, mskSec] = buildKpiSections();
   return (
     "\n" +
     buildKontekstAdvantagesCompactSection() +
     "\n" +
     buildAgencySection() +
+    "\n" +
+    bocaSec +
     "\n" +
     buildSetupSection() +
     "\n" +
@@ -193,6 +207,8 @@ function applyKontekstnayaSeoMiddle(mainHtml) {
   if (cases.length !== 3) {
     cases = loadProdCasesBlocksFallback();
   }
+  cases = applyKontekstnayaCasesPatches(cases);
+  const bocaSec = loadBocaSliderSection();
 
   const agency = sectionBounds(mainHtml, ">Агентство контекстной рекламы</h2>");
   const pakety = packagesSectionBounds(mainHtml);
@@ -204,6 +220,7 @@ function applyKontekstnayaSeoMiddle(mainHtml) {
   const diesSec = mainHtml.slice(dies.start, dies.end);
   const teamSec = mainHtml.slice(team.start, team.end);
   const middle = buildKontekstnayaMiddle(
+    bocaSec,
     cases[0],
     cases[1],
     cases[2],
@@ -214,8 +231,14 @@ function applyKontekstnayaSeoMiddle(mainHtml) {
 
   const out = mainHtml.slice(0, agency.start) + middle + mainHtml.slice(team.end);
   const count = (out.match(/class="cases-block"/g) || []).length;
-  if (count !== 3) {
-    throw new Error(`applyKontekstnayaSeoMiddle: cases-block count ${count}, expected 3`);
+  if (count !== 4) {
+    throw new Error(`applyKontekstnayaSeoMiddle: cases-block count ${count}, expected 4`);
+  }
+  if (!out.includes("cases-block__swiper-slide--boca")) {
+    throw new Error("applyKontekstnayaSeoMiddle: слайдер Boca Room не найден");
+  }
+  if (!out.includes("cases-block__swiper-slide--minisklad")) {
+    throw new Error("applyKontekstnayaSeoMiddle: слайд Минисклад не найден");
   }
   const pochmuCount = (out.match(/Почему работать с&nbsp;нами надежно и&nbsp;выгодно/g) || []).length;
   if (pochmuCount !== 0) {
