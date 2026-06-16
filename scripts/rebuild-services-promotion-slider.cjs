@@ -121,7 +121,7 @@ function buildPromotionSlides() {
       {
         href: '/prodvizhenie-yandex-karty-2gis',
         title: 'Продвижение в Яндекс Картах и 2ГИС',
-        price: '80 000',
+        price: '40 000',
         desc: 'Настраиваем георекламу и продвижение карточек, чтобы клиенты находили вас в картах.',
       },
       {

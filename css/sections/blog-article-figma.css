@@ -468,8 +468,8 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
 }
 
 .blog-article-page-top ~ section.lighttheme.article_section_l .blog-article-author {
-  width: 100%;
-  max-width: 118px;
+  width: auto;
+  max-width: none;
   text-align: center;
   box-sizing: border-box;
 }
@@ -492,22 +492,40 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
 }
 
 .blog-article-page-top ~ section.lighttheme.article_section_l .blog-article-author__name {
-  margin: 10px 0 0;
+  margin: 10px auto 0;
   font-family: MuseoSansCyrl, sans-serif;
   font-size: 15px;
   font-weight: 500;
   line-height: 1.35;
   color: #fff;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  text-align: center !important;
 }
 
 .blog-article-page-top ~ section.lighttheme.article_section_l .blog-article-author__title {
-  margin: 6px 0 0;
+  margin: 6px auto 0;
   font-family: MuseoSansCyrl, sans-serif;
   font-size: 13px;
   font-weight: 300;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.55);
+  display: table;
+  width: auto;
+  max-width: none;
+  text-align: center !important;
 }
+
+.blog-article-page-top ~ section.lighttheme.article_section_l .blog-article-author__title-line {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: none !important;
+  white-space: nowrap;
+  margin: 0 !important;
+  text-align: center;
+}
+
 
 /* Лид из легаси-блока .specialist-mention (снимается при сборке) — в первой колонке перед H2. */
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section.text-content > .sa-blog-specialist-lead {
@@ -621,14 +639,14 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
     padding-left: var(--blog-article-gutter) !important;
     padding-right: var(--blog-article-gutter) !important;
     display: flex !important;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .blog-article-page-top ~ section.lighttheme.article_section_l .blog-article-author {
     max-width: none;
-    width: auto;
-    text-align: left;
-    align-items: flex-start;
+    width: 100%;
+    text-align: center;
+    align-items: center;
     display: flex;
     flex-direction: column;
   }
@@ -637,7 +655,7 @@ body.case-all-body:has(.blog-article-page-top) .background-gradient img {
     width: 72px;
     height: 72px;
     max-width: 72px;
-    margin: 0;
+    margin: 0 auto;
   }
 
   .blog-article-page-top ~ section.lighttheme.article_section_l .blog-article-author__name {

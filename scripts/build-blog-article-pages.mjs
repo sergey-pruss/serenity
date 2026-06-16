@@ -112,7 +112,7 @@ function linkContextualAdsPhrasesInLead(plain) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260518blogArticleSliderLeft" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260616authorCenterContract1" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260615blogFunnelFix" />
 `;
 
@@ -309,6 +309,13 @@ function stripInnerTags(s) {
   return String(s ?? "")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stripTagsKeepLineBreaks(s) {
+  return String(s ?? "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/[ \t\f\v]+/g, " ")
     .trim();
 }
 
@@ -754,10 +761,14 @@ function resolveAuthorPhotoPath(photo) {
 function resolveAuthor(data, bodyHtml) {
   const parsed = parseAuthorBylineFromBody(bodyHtml);
   const o = data.author && typeof data.author === "object" ? data.author : {};
-  const nameRaw = o.name != null && String(o.name).trim() ? o.name : parsed?.name || "";
-  const titleRaw = o.title != null && String(o.title).trim() ? o.title : parsed?.title || "";
+  const hasExplicitName = o.name != null && String(o.name).trim();
+  const hasExplicitTitle = o.title != null && String(o.title).trim();
+  const nameRaw = hasExplicitName ? o.name : parsed?.name || "";
+  const titleRaw = hasExplicitTitle ? o.title : parsed?.title || "";
   const name = stripInnerTags(nameRaw);
-  const title = normalizeAuthorTitle(stripInnerTags(titleRaw));
+  const title = hasExplicitTitle
+    ? stripTagsKeepLineBreaks(titleRaw || "")
+    : normalizeAuthorTitle(stripInnerTags(titleRaw));
   const photoRaw = o.photo != null && String(o.photo).trim() ? String(o.photo).trim() : "";
   const photo = resolveAuthorPhotoPath(photoRaw);
   if (!name) return null;
@@ -771,8 +782,21 @@ function renderAuthorRailHtml(author) {
         author.name
       )}" width="80" height="80" decoding="async" loading="eager" fetchpriority="low" /></div>`
     : "";
-  const titleBlock = author.title
-    ? `<p class="blog-article-author__title">${escapeXml(author.title)}</p>`
+  let titleRaw = String(author.title || "").replace(/<br\s*\/?>/gi, "\n");
+  /* Для ролей вида `Лидер направления «…»` переносим цитату на вторую строку. */
+  titleRaw = titleRaw.replace(/^(\S+\s+\S+)\s+(«[^»]+»)\s*$/u, "$1\n$2");
+  const titleHtml = titleRaw
+    .split(/\r?\n/)
+    .map(
+      (line) =>
+        `<span class="blog-article-author__title-line" style="display:inline-block;text-align:center;white-space:nowrap;">${escapeXml(line).replace(
+          / /g,
+          "&nbsp;"
+        )}</span>`
+    )
+    .join("<br />");
+  const titleBlock = titleHtml
+    ? `<p class="blog-article-author__title">${titleHtml}</p>`
     : "";
   return `<div class="blog-article-author-banner"><aside class="blog-article-author" aria-label="Автор статьи">${photoBlock}<p class="blog-article-author__name">${escapeXml(
     author.name
