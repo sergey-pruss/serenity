@@ -1,5 +1,5 @@
 /**
- * Нормализация UTM для заявок: yclid/gclid, дефолт direct/none (как в GA).
+ * Нормализация UTM для заявок: yclid/gclid, органика по referrer, дефолт direct/none.
  * Держать в синхроне с js/leave-request-cta.js (клиент не импортирует этот модуль).
  */
 
@@ -13,11 +13,61 @@ export const UTM_PARAMS = [
 
 const EMPTY_VALUES = new Set(["", "(not set)", "(none)", "undefined", "null"]);
 
+const OWN_SITE_HOSTS = new Set(["serenity.agency", "static.serenity.agency"]);
+
 export function pickUtmScalar(value) {
   if (value == null) return "";
   const s = String(value).trim();
   if (!s || EMPTY_VALUES.has(s.toLowerCase())) return "";
   return s;
+}
+
+export function normalizeReferrerHost(hostname) {
+  return String(hostname || "").replace(/^www\./, "").toLowerCase();
+}
+
+export function isOwnSiteHost(hostname) {
+  const h = normalizeReferrerHost(hostname);
+  return OWN_SITE_HOSTS.has(h) || h.endsWith(".serenity.agency");
+}
+
+/**
+ * Органический переход из поисковика по document.referrer (без utm_* в URL).
+ * @param {string} [referrerUrl]
+ * @returns {Record<string, string>}
+ */
+export function inferUtmFromReferrer(referrerUrl) {
+  if (!referrerUrl) return {};
+  try {
+    const url = new URL(referrerUrl);
+    const host = normalizeReferrerHost(url.hostname);
+    if (!host || isOwnSiteHost(host)) return {};
+
+    if (host === "ya.ru" || host.includes("yandex.")) {
+      return { utm_source: "yandex", utm_medium: "organic" };
+    }
+    if (host.includes("google.")) {
+      return { utm_source: "google", utm_medium: "organic" };
+    }
+    if (host === "bing.com" || host.endsWith(".bing.com")) {
+      return { utm_source: "bing", utm_medium: "organic" };
+    }
+    if (host === "duckduckgo.com") {
+      return { utm_source: "duckduckgo", utm_medium: "organic" };
+    }
+    if (host === "go.mail.ru") {
+      return { utm_source: "mail", utm_medium: "organic" };
+    }
+    if (host.includes("rambler.")) {
+      return { utm_source: "rambler", utm_medium: "organic" };
+    }
+    if (host.includes("yahoo.")) {
+      return { utm_source: "yahoo", utm_medium: "organic" };
+    }
+  } catch {
+    return {};
+  }
+  return {};
 }
 
 /**
@@ -80,6 +130,16 @@ export function mergeUtmParts(...parts) {
   return merged;
 }
 
+/** Клиентские дефолты direct/none не перекрывают referrer и query в source. */
+export function stripSentinelLeadUtm(utm) {
+  const out = { ...utm };
+  if (out.utm_source === "direct" && out.utm_medium === "none") {
+    delete out.utm_source;
+    delete out.utm_medium;
+  }
+  return out;
+}
+
 /**
  * @param {Record<string, string>} utm
  * @returns {Record<string, string>}
@@ -104,5 +164,12 @@ export function normalizeLeadUtm(data, sourceUrl) {
       if (v) fromData[param] = v;
     }
   }
-  return finalizeLeadUtm(mergeUtmParts(parseUtmFromSourceUrl(sourceUrl), fromData));
+  const referrer = pickUtmScalar(data?.referrer);
+  return finalizeLeadUtm(
+    mergeUtmParts(
+      inferUtmFromReferrer(referrer),
+      parseUtmFromSourceUrl(sourceUrl),
+      stripSentinelLeadUtm(fromData),
+    ),
+  );
 }

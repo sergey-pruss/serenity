@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { handleLeadRequest } from "../src/lead-api.mjs";
-import { finalizeLeadUtm, inferUtmFromSearchParams, normalizeLeadUtm } from "../src/lead-utm.mjs";
+import { finalizeLeadUtm, inferUtmFromReferrer, inferUtmFromSearchParams, normalizeLeadUtm, stripSentinelLeadUtm } from "../src/lead-utm.mjs";
 
 const originalFetch = globalThis.fetch;
 
@@ -244,6 +244,30 @@ await withFetchMock(
     utm_source: "vkontakte",
     utm_medium: "none",
   });
+  assert.deepEqual(inferUtmFromReferrer("https://www.google.com/search?q=serenity"), {
+    utm_source: "google",
+    utm_medium: "organic",
+  });
+  assert.deepEqual(inferUtmFromReferrer("https://yandex.ru/search/?text=serenity"), {
+    utm_source: "yandex",
+    utm_medium: "organic",
+  });
+  assert.deepEqual(inferUtmFromReferrer("https://serenity.agency/blog/"), {});
+  assert.deepEqual(
+    normalizeLeadUtm(
+      { referrer: "https://www.google.com/search?q=test", utm_source: "direct", utm_medium: "none" },
+      "https://serenity.agency/services",
+    ),
+    { utm_source: "google", utm_medium: "organic" },
+  );
+  assert.deepEqual(
+    normalizeLeadUtm(
+      { utm_source: "direct", utm_medium: "none" },
+      "https://serenity.agency/kontekstnaya_reklama?yclid=123456789",
+    ),
+    { utm_source: "yandex", utm_medium: "cpc" },
+  );
+  assert.deepEqual(stripSentinelLeadUtm({ utm_source: "direct", utm_medium: "none" }), {});
 }
 
 await withFetchMock(

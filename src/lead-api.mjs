@@ -117,7 +117,7 @@ function pickTrimmed(data, key) {
   return String(v).trim();
 }
 
-/** Явные поля формы перекрывают значения из query в source; без меток — direct / none. */
+/** referrer → органика; поля формы (кроме direct/none) и query в source перекрывают referrer. */
 function mergeUtmFromRequest(data, source) {
   return normalizeLeadUtm(data, source);
 }
@@ -627,3 +627,6 @@ function esc(s) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+/** @internal — rank dashboard amo-site-funnel (Worker) */
+export { getAmoAuthState, amoGetRequest };

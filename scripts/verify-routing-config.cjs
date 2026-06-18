@@ -109,6 +109,10 @@ assert(
   "serenity-router.live.conf: legacy sub_filter не должен добавлять слэш к /blog."
 );
 assert(
+  /sub_filter\s+'<\/body>'\s+'<script src="\/_sa\/js\/utm-capture\.js/.test(routerVhost),
+  "serenity-router.live.conf: legacy sub_filter должен подключать utm-capture.js для органики по referrer."
+);
+assert(
   !routerVhost.includes('return"/blog/"'),
   "serenity-router.live.conf: legacy click-normalize не должен переписывать /blog → /blog/."
 );
