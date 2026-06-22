@@ -1,0 +1,63 @@
+/* Хвост страницы: преимущества → форма → команда → клиенты → FAQ → блог → кейсы → награды → синергия. */
+
+.page-constructor.internet-magazina-page > .page-constructor__section > .advantage,
+.page-constructor.internet-magazina-page > .page-constructor__section > .advantage[data-v-1e31df85] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section > .advantage,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .advantage[data-v-1e31df85] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section > .advantage,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .advantage[data-v-1e31df85] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+.page-constructor.internet-magazina-page .team-block,
+.page-constructor.internet-magazina-page .page-constructor__section:has(> .team-block) .team-block {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.internet-magazina-page .team-block .team__head {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.internet-magazina-page .team-block .team__head {
+    margin-bottom: 45px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor.internet-magazina-page .team-block .team__head {
+    margin-bottom: 20px !important;
+  }
+}
+
+/* Форма → «Команда»: не суммировать padding-bottom контейнера формы с padding-top team-block. */
+.page-constructor.internet-magazina-page .internet-magazina-lead-section .sa-service-lead-section__container {
+  padding-bottom: 0 !important;
+}
+
+/* FAQ / награды на internet-magazina-page — зазоры как на /korporativnyj_sajt. */
+.page-constructor.internet-magazina-page .korporativnyj-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor.internet-magazina-page .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page .korporativnyj-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+  .page-constructor.internet-magazina-page .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
+  }
+}

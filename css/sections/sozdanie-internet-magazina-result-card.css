@@ -6,6 +6,15 @@
   box-sizing: border-box;
 }
 
+/* page__container — flex-column (korporativnyj stack): desc-сетка order:2, stay без order вставался между шапкой и колонками. */
+@media screen and (min-width: 721px) {
+  .page-constructor.internet-magazina-page .internet-magazina-approach-section .modern.content-block > .page__container > .internet-magazina-result-stay {
+    order: 3 !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+  }
+}
+
 .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card {
   width: 100%;
   box-sizing: border-box;

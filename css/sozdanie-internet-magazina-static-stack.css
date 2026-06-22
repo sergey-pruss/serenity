@@ -10,6 +10,7 @@
 @import url("sections/sozdanie-internet-magazina-stages.css");
 @import url("sections/sozdanie-internet-magazina-movies-block.css");
 @import url("sections/sozdanie-internet-magazina-trio-video.css");
+@import url("sections/sozdanie-internet-magazina-tail.css");
 
 /* Facts под hero-видео — как /targeting (без Nuxt .facts { padding-top: 165px }). */
 .page-constructor.internet-magazina-page > .page-constructor__section > .facts {

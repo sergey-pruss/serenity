@@ -48,7 +48,8 @@
     /* Эксперимент SEO: контекстная — ответы всегда в DOM и на экране, без клика */
     if (
       root.classList.contains("kontekst-faq-root--always-visible") ||
-      root.classList.contains("targeting-faq-root--always-visible")
+      root.classList.contains("targeting-faq-root--always-visible") ||
+      root.classList.contains("korporativnyj-faq-root--always-visible")
     ) {
       return;
     }
