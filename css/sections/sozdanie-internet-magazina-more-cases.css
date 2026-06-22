@@ -1,0 +1,56 @@
+/* Блок «Кейсы» (mor-cases-slider): full-bleed горизонтальный скролл как «Наши клиенты» / «Награды». */
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:has(> .more-case-wr.more-case-wr__main),
+  .page-constructor.internet-magazina-page .more-case-wr.more-case-wr__main,
+  .page-constructor.internet-magazina-page .more-case-wr.more-case-wr__main .page__container,
+  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider-wrapper,
+  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider.swiper-container {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider.swiper-container {
+    width: calc(
+      100% + var(--page-inline-start, var(--page-gutter-x, 36px)) +
+        var(--page-inline-end, var(--page-gutter-x, 36px))
+    ) !important;
+    max-width: none !important;
+    margin-left: calc(-1 * var(--page-inline-start, var(--page-gutter-x, 36px))) !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider .swiper-wrapper {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 20px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    transform: none !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 36px)) !important;
+    padding-right: 0 !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider .swiper-wrapper::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .page-constructor.internet-magazina-page .mor-cases-slider-wrapper .mor-cases-slide,
+  .page-constructor.internet-magazina-page .mor-cases-slider-wrapper .mor-cases-slide_link {
+    width: calc(
+      100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) -
+        var(--page-inline-end, var(--page-gutter-x, 36px)) - 48px
+    ) !important;
+    max-width: calc(
+      100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) -
+        var(--page-inline-end, var(--page-gutter-x, 36px)) - 48px
+    ) !important;
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+  }
+}

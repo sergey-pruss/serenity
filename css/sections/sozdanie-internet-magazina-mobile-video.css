@@ -1,0 +1,122 @@
+/* Мобилка: прямоугольник 906×515, landscape-видео целиком (contain) — как korporativnyj_sajt. */
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok {
+    max-height: none !important;
+    height: auto !important;
+    overflow: hidden;
+    border-radius: 13px;
+  }
+
+  /* Hero: desktop-ролик (landscape), не mobile-src. */
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-video-aurora_blok
+    video.internet-magazina-hero-video--desktop {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 906 / 515 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: #0d0d0e;
+  }
+
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-video-aurora_blok
+    video.internet-magazina-hero-video--mobile {
+    display: none !important;
+  }
+
+  /* Рамка мокапа в слайдерах кейсов. */
+  .page-constructor.internet-magazina-page
+    .internet-magazina-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old[data-v-bd2e570a],
+  .page-constructor.internet-magazina-page
+    .internet-magazina-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old,
+  .page-constructor.internet-magazina-page
+    .internet-magazina-quarta-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old[data-v-bd2e570a],
+  .page-constructor.internet-magazina-page
+    .internet-magazina-quarta-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 906px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    aspect-ratio: 906 / 515 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    line-height: 0 !important;
+    background: #0d0d0e;
+    border-radius: 13px;
+    flex: none !important;
+  }
+
+  .page-constructor.internet-magazina-page
+    .internet-magazina-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old
+    video.internet-magazina-case-video--desktop,
+  .page-constructor.internet-magazina-page
+    .internet-magazina-quarta-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old
+    video.internet-magazina-case-video--desktop {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: transparent !important;
+  }
+
+  .page-constructor.internet-magazina-page
+    .internet-magazina-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old
+    video.internet-magazina-case-video--mobile,
+  .page-constructor.internet-magazina-page
+    .internet-magazina-quarta-case-slider-section
+    .cases-block__swiper-slide-contant
+    .old
+    video.internet-magazina-case-video--mobile {
+    display: none !important;
+  }
+
+  .page-constructor.internet-magazina-page
+    .internet-magazina-case-slider-section
+    .cases-block__swiper-slide-contant[data-v-bd2e570a],
+  .page-constructor.internet-magazina-page
+    .internet-magazina-quarta-case-slider-section
+    .cases-block__swiper-slide-contant[data-v-bd2e570a] {
+    width: 100% !important;
+    max-width: 906px !important;
+    flex: none !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks video {
+    object-fit: contain !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-movies-block-section .movies-block video {
+    object-fit: contain !important;
+  }
+
+  .page-constructor.internet-magazina-page .case__media.video .case__media--video {
+    object-fit: contain !important;
+  }
+}

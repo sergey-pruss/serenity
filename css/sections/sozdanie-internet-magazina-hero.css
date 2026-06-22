@@ -203,22 +203,8 @@
     padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
   }
 
-  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok {
-    max-height: 588px !important;
-  }
-
-  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--desktop {
-    display: none !important;
-  }
-
-  /* Mobile-видео: как на prod Nuxt — 515px высота, cover (не aspect-ratio 906/625). */
   .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--mobile {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 515px !important;
-    aspect-ratio: auto !important;
-    object-fit: cover !important;
+    display: none !important;
   }
 }
 

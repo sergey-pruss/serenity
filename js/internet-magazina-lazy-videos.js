@@ -18,6 +18,47 @@
     video.play().catch(() => {});
   };
 
+  const playCaseSliderVideo = (video) => {
+    if (!video || !video.getAttribute("src")) return;
+    const style = window.getComputedStyle(video);
+    if (style.display === "none" || style.visibility === "hidden") return;
+    video.load();
+    const p = video.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  };
+
+  const initCaseSliderVideos = () => {
+    const root = document.querySelector(".page-constructor.internet-magazina-page");
+    if (!root) return;
+
+    const videos = Array.from(
+      root.querySelectorAll(
+        ".internet-magazina-case-slider-section video.internet-magazina-case-video, .internet-magazina-quarta-case-slider-section video.internet-magazina-case-video",
+      ),
+    );
+    if (videos.length === 0) return;
+
+    const playVisible = () => {
+      videos.forEach((video) => playCaseSliderVideo(video));
+    };
+
+    playVisible();
+
+    if (!("IntersectionObserver" in window)) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          playCaseSliderVideo(entry.target);
+        });
+      },
+      { rootMargin: "80px 0px", threshold: 0.15 },
+    );
+
+    videos.forEach((video) => io.observe(video));
+  };
+
   const initMoviesBlockLazy = () => {
     const video = document.querySelector(
       ".internet-magazina-movies-block-section video[data-lazy-video='1']",
@@ -77,6 +118,7 @@
   const init = () => {
     initMoviesBlockLazy();
     initTrioLazy();
+    initCaseSliderVideos();
   };
 
   if (document.readyState === "loading") {

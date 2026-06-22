@@ -89,6 +89,8 @@
       fullBleedMedia = null,
       /** Только вылет вправо (margin-right −gutter); слева margin 0 — как .services-unified на /kontekstnaya_reklama «Пакеты». */
       fullBleedRightOnly = false,
+      /** true: левый гаттер трека фиксированный (как «Клиенты»), без «плавающей» подложки при скролле. */
+      fixedBleedPad = false,
       sidePadGetter = getServicesSidePad,
     } = options;
     if (!host || !track) return;
@@ -198,7 +200,9 @@
       host.style.marginRight = fullBleedRightOnly ? "0" : `-${rightExpose}px`;
       host.style.boxSizing = "border-box";
       track.style.boxSizing = "border-box";
-      track.style.paddingLeft = `${Math.max(0, sidePad - current)}px`;
+      track.style.paddingLeft = fixedBleedPad
+        ? `${sidePad}px`
+        : `${Math.max(0, sidePad - current)}px`;
       syncEndGutterSpacer(rightExpose);
       track.style.setProperty("padding-right", "0", "important");
 
@@ -1473,6 +1477,14 @@
     return Number.isFinite(n) ? n : 36;
   };
 
+  const getPageInlineStartPx = () => {
+    const cs = getComputedStyle(document.documentElement);
+    const raw =
+      cs.getPropertyValue("--page-inline-start").trim() || cs.getPropertyValue("--page-gutter-x").trim();
+    const n = parseFloat(raw);
+    return Number.isFinite(n) ? n : getServicesSidePad();
+  };
+
   const MOR_CASES_NATIVE_ROW_MQ = "(max-width: 1024px)";
 
   const morCasesUsesNativeRow = () => {
@@ -1567,7 +1579,8 @@
           slideSelector: ".mor-cases-slide, .swiper-slide",
           desktopArrowsOnly: true,
           fullBleed: true,
-          sidePadGetter: getServicesSidePad,
+          fixedBleedPad: true,
+          sidePadGetter: getPageInlineStartPx,
         });
         container.dataset.morCasesNativeRow = "1";
       }

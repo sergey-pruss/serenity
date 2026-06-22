@@ -126,6 +126,7 @@
 }
 
 @media screen and (max-width: 719px) {
+  /* На мобилке — тот же landscape-ролик, что на десктопе (mobile-src — вертикальные скринкасты). */
   .page-constructor.internet-magazina-page
     .internet-magazina-case-slider-section
     .cases-block__swiper-slide-contant
@@ -136,7 +137,7 @@
     .cases-block__swiper-slide-contant
     .old
     video.internet-magazina-case-video--desktop {
-    display: none !important;
+    display: block !important;
   }
 
   .page-constructor.internet-magazina-page
@@ -149,7 +150,7 @@
     .cases-block__swiper-slide-contant
     .old
     video.internet-magazina-case-video--mobile {
-    display: block !important;
+    display: none !important;
   }
 }
 
