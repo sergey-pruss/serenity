@@ -29,6 +29,8 @@
     min-height: 460px !important;
     width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
     max-width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    width: calc(100dvw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    max-width: calc(100dvw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
     flex-shrink: 0 !important;
     box-sizing: border-box;
     background-size: cover !important;
@@ -41,6 +43,8 @@
     min-height: 460px !important;
     width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
     max-width: calc(100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    width: calc(100dvw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
+    max-width: calc(100dvw - var(--page-inline-start, var(--page-gutter-x, 36px)) - 84px) !important;
     flex-shrink: 0 !important;
     box-sizing: border-box;
   }

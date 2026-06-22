@@ -1492,7 +1492,13 @@
 
   const MOR_CASES_NATIVE_ROW_MQ = "(max-width: 1024px)";
 
-  const morCasesUsesNativeRow = () => {
+  const isHomeHeroMorCases = (container) =>
+    document.body?.classList.contains("sa-home-page") === true &&
+    Boolean(container?.closest(".more-case-wr")?.querySelector(".cases-block__header.home-ledge"));
+
+  const morCasesUsesNativeRow = (container) => {
+    /* Главная: Swiper стабильнее на iOS/Android внутри .page__container (prod-геометрия без native-row). */
+    if (container && isHomeHeroMorCases(container)) return false;
     try {
       return window.matchMedia(MOR_CASES_NATIVE_ROW_MQ).matches;
     } catch {
@@ -1553,7 +1559,7 @@
     track.scrollLeft = 0;
   };
 
-  const morCasesSwiperOpts = () => {
+  const morCasesSwiperOpts = (container) => {
     const opts = {
       direction: "horizontal",
       slidesPerView: "auto",
@@ -1563,6 +1569,9 @@
       simulateTouch: true,
       threshold: 6,
       passiveListeners: false,
+      observer: true,
+      observeParents: true,
+      watchOverflow: true,
     };
     if (window.matchMedia("(max-width: 768px)").matches) {
       opts.slidesOffsetAfter = getPageInlineGutterPx();
@@ -1574,19 +1583,20 @@
     const track = container.querySelector(".swiper-wrapper");
     if (!track) return;
 
-    if (morCasesUsesNativeRow()) {
+    if (morCasesUsesNativeRow(container)) {
       teardownMorCasesSwiper(container);
       if (container.__saNativeRow !== "1") {
         clearMorCasesNativeRow(container);
         prepareMorCasesTrack(track);
+        const homeHero = isHomeHeroMorCases(container);
         initRow({
           host: container,
           track,
           slideSelector: ".mor-cases-slide, .swiper-slide",
           desktopArrowsOnly: true,
           fullBleed: true,
-          fixedBleedPad: true,
-          sidePadGetter: getPageInlineStartPx,
+          fixedBleedPad: !homeHero,
+          sidePadGetter: homeHero ? getServicesSidePad : getPageInlineStartPx,
         });
         container.dataset.morCasesNativeRow = "1";
       } else {
@@ -1600,7 +1610,7 @@
     if (isLiveSwiper(container)) return;
     teardownMorCasesSwiper(container);
     container.dataset.morCasesInit = "1";
-    const swiper = new window.Swiper(container, morCasesSwiperOpts());
+    const swiper = new window.Swiper(container, morCasesSwiperOpts(container));
     container._saMorCasesSwiper = swiper;
   };
 
@@ -1745,9 +1755,10 @@
   };
 
   const initMorCasesSlider = () => {
-    const needsSwiper = !morCasesUsesNativeRow();
+    const sliders = document.querySelectorAll(".mor-cases-slider");
+    const needsSwiper = Array.from(sliders).some((el) => !morCasesUsesNativeRow(el));
     if (needsSwiper && typeof window.Swiper === "undefined") return false;
-    document.querySelectorAll(".mor-cases-slider").forEach(initOneMorCasesSlider);
+    sliders.forEach(initOneMorCasesSlider);
     return true;
   };
 

@@ -583,3 +583,54 @@
     padding-right: var(--page-inline-end, var(--page-gutter-x, 36px));
   }
 }
+
+/* Главная ≤1024px: Swiper внутри .page__container — overflow visible на предках (iOS). */
+@media screen and (max-width: 1024px) {
+  body.sa-home-page .page-container.nuxt[data-v-6f8a040c]:has(.more-case-wr.more-case-wr__main),
+  body.sa-home-page .page-container.nuxt > div[data-v-6f8a040c]:has(.more-case-wr.more-case-wr__main),
+  body.sa-home-page .more-case-wr.more-case-wr__main,
+  body.sa-home-page .more-case-wr .mor-cases-slider-wrapper,
+  body.sa-home-page .more-case-wr .mor-cases-slider.swiper-container {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+}
+
+/*
+ * «Кейсы» на услугах ≤1024px: full-bleed как kontekstnaya — host −start/−end, track padding-left = гаттер.
+ * Главная (.sa-home-page) — без этих правил: шапка по центру и геометрия как на prod (см. блок выше).
+ */
+@media screen and (max-width: 1024px) {
+  body:not(.sa-home-page) .page-constructor,
+  body:not(.sa-home-page) .page-constructor > .page-constructor__section,
+  body:not(.sa-home-page) .page-constructor__section:has(> .more-case-wr.more-case-wr__main),
+  body:not(.sa-home-page) .page-constructor__section:has(.more-case-wr.more-case-wr__main),
+  body:not(.sa-home-page) .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .more-case-wr.more-case-wr__main[data-v-27a87df0],
+  body:not(.sa-home-page) .more-case-wr.more-case-wr__main .page__container[data-v-27a87df0],
+  body:not(.sa-home-page) .more-case-wr .mor-cases-slider-wrapper,
+  body:not(.sa-home-page) .more-case-wr .mor-cases-slider.swiper-container {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  body:not(.sa-home-page) .more-case-wr .mor-cases-slider.swiper-container[data-native-row="1"] {
+    width: calc(
+      100% + var(--page-inline-start, var(--page-gutter-x, 36px)) +
+        var(--page-inline-end, var(--page-gutter-x, 36px))
+    ) !important;
+    max-width: none !important;
+    margin-left: calc(-1 * var(--page-inline-start, var(--page-gutter-x, 36px))) !important;
+    margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  body:not(.sa-home-page) .more-case-wr .mor-cases-slider .swiper-wrapper[data-native-row="1"] {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: 0 !important;
+    scroll-padding-inline-start: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px);
+  }
+}
