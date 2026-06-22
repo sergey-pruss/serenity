@@ -1,0 +1,116 @@
+/** «Результат» (contentDie / .stay) — parity legacy /sozdanie-internet-magazina. */
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay {
+  display: block;
+  width: 100%;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #1d1d1f;
+  border-radius: 30px;
+  padding: 73px 92px 68px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__header {
+  display: block;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__title {
+  margin: 0;
+  color: #fff;
+  font-size: 32px;
+  line-height: 1.26;
+  font-weight: 400;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__subtitle:empty {
+  display: none;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 42px 0 41px;
+  border: 0;
+  padding: 0;
+  background: linear-gradient(90deg, #00f0ff, #ff00b5);
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__subsections {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .subsection {
+  flex: 0 1 410px;
+  max-width: 410px;
+  min-width: 0;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .subsection__text {
+  margin: 0 0 24px;
+  color: #969696;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .subsection:last-child .subsection__text {
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card {
+    padding: 120px 55px 98px;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .subsection {
+    flex-basis: calc(50% - 16px);
+    max-width: calc(50% - 16px);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-top: 0;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card {
+    border-radius: 0;
+    padding: 98px 41px 74px;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__title {
+    font-size: 28px;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__divider {
+    margin: 40px 0;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .card__subsections {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .subsection {
+    flex: 1 1 auto;
+    max-width: none;
+    width: 100%;
+  }
+
+  .page-constructor.internet-magazina-page .stay.internet-magazina-result-stay .subsection:first-child .subsection__text {
+    margin-bottom: 24px;
+  }
+}

@@ -1,0 +1,224 @@
+/* Hero: типографика/отступы как у эталона /korporativnyj_sajt, но видео — размер как на legacy интернет-магазине. */
+
+/* Убираем дефолтный ::before у первой секции (иначе дублирующий фон). */
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  overflow: visible !important;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block {
+  overflow: visible !important;
+}
+
+/* Заголовочный блок: отступы/гапы как на эталоне (korporativnyj-hero.css). */
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding-top: var(--service-hero-mid-header-padding-top, 150px);
+  gap: 40px;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px));
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px));
+  margin-top: 0;
+  margin-bottom: 62px;
+  text-wrap: balance;
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__title {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: min(1108px, 100%) !important;
+  width: 100%;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+  text-align: left !important;
+  margin: 0 !important;
+  max-width: min(590px, 100%) !important;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: 90px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: 70px;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    align-items: center;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Отступы hero — parity с korporativnyj-hero.css */
+@media screen and (min-width: 1025px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: calc(var(--service-hero-desktop-header-padding-top, calc(50vh - 124px)) - 6px) !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: var(--service-hero-tablet-header-padding-top, calc(50vh - 154px)) !important;
+    margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-header-to-collage, calc(1lh + 10px)) !important;
+    gap: var(--service-hero-tablet-title-gap, 40px) !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora {
+    margin-top: 0 !important;
+    margin-bottom: var(--service-hero-tablet-collage-bottom, 52px) !important;
+    padding-top: 0 !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__header.video-header {
+    padding-top: var(--service-hero-mobile-top, 222px) !important;
+    margin-top: 0 !important;
+    gap: var(--service-hero-mobile-title-gap, 40px) !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    margin-bottom: var(--service-hero-collage-gap-after-lead, calc(1lh + 20px)) !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .c-title-block.modern .c-title-block__subtitle {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Видео: контейнер и ширина как у эталона, но пропорции 906×625 (как на legacy странице интернет-магазина). */
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto !important;
+  padding-top: 0 !important;
+  overflow: visible !important;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora .container {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora__video,
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video {
+  width: 100% !important;
+  max-width: 906px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border-radius: 13px;
+  box-shadow: 0 4px 60px rgba(0, 0, 0, 0.25);
+  position: static !important;
+}
+
+/*
+ * Desktop/tablet: видео от верха blok без margin-top 110px.
+ * На legacy Nuxt offset 110px был вместе с заголовком внутри jumbotron;
+ * при .video-header снаружи — как korporativnyj-sajt-static-stack (gap 62px до видео).
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--desktop {
+    display: block !important;
+    width: 100% !important;
+    max-width: 906px !important;
+    height: auto !important;
+    aspect-ratio: 906 / 515;
+    object-fit: cover !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Два <video>: переключение desktop/mobile. */
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--desktop {
+  display: block !important;
+}
+
+.page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora .container {
+    max-width: 100% !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok {
+    max-height: 588px !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--desktop {
+    display: none !important;
+  }
+
+  /* Mobile-видео: как на prod Nuxt — 515px высота, cover (не aspect-ratio 906/625). */
+  .page-constructor.internet-magazina-page > .page-constructor__section:first-of-type .jumbotron-video-aurora_blok video.internet-magazina-hero-video--mobile {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 515px !important;
+    aspect-ratio: auto !important;
+    object-fit: cover !important;
+  }
+}
+

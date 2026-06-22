@@ -1,0 +1,128 @@
+/**
+ * /sozdanie-internet-magazina — статика без Nuxt-обёртки.
+ * Контент берём с legacy, верстку/стили — только из текущего static-окружения.
+ */
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-facts-block.css");
+@import url("sections/sozdanie-internet-magazina-hero.css");
+@import url("sections/sozdanie-internet-magazina-result-card.css");
+
+/* Facts под hero-видео — как /targeting (без Nuxt .facts { padding-top: 165px }). */
+.page-constructor.internet-magazina-page > .page-constructor__section > .facts {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts {
+    padding-top: 48px !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .page__container.desktop,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .facts-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 24px;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .facts-header .col-6.page__title,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .facts-header .description-item {
+    flex: 0 0 auto !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .facts-header .title,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .facts .facts-header .lead {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Фактоиды: текст по центру относительно номера; ряд — по верхнему краю. */
+.page-constructor.internet-magazina-page .facts .facts__items {
+  align-items: start;
+}
+
+.page-constructor.internet-magazina-page .facts .facts__item {
+  align-items: center;
+  margin-top: 64px;
+}
+
+.page-constructor.internet-magazina-page .facts .facts__number {
+  margin-top: 0;
+  line-height: 1;
+}
+
+.page-constructor.internet-magazina-page .facts .facts__text {
+  margin-top: 0;
+  align-self: center;
+}
+
+/* content-block: отступы и desc/tablet parity как у /korporativnyj_sajt. */
+.page-constructor.internet-magazina-page > .page-constructor__section > .modern.content-block,
+.page-constructor.internet-magazina-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.internet-magazina-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.internet-magazina-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 721px) {
+  .page-constructor.internet-magazina-page .modern.content-block > .page__container,
+  .page-constructor.internet-magazina-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.internet-magazina-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+  }
+}
+
