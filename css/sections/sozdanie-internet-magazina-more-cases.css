@@ -1,5 +1,6 @@
-/* Блок «Кейсы» (mor-cases-slider): full-bleed горизонтальный скролл как «Наши клиенты» / «Награды». */
+/* Блок «Кейсы»: full-bleed до краёв экрана (как «Наши клиенты»), первая плитка в ритме заголовка. */
 @media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page,
   .page-constructor.internet-magazina-page > .page-constructor__section:has(> .more-case-wr.more-case-wr__main),
   .page-constructor.internet-magazina-page .more-case-wr.more-case-wr__main,
   .page-constructor.internet-magazina-page .more-case-wr.more-case-wr__main .page__container,
@@ -9,48 +10,49 @@
     overflow-y: visible !important;
   }
 
-  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider.swiper-container {
+  .page-constructor.internet-magazina-page .more-case-wr.more-case-wr__main .page__container {
+    padding-right: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider-wrapper {
+    overflow: visible !important;
+    min-width: 0;
+  }
+
+  .page-constructor.internet-magazina-page
+    .more-case-wr
+    .mor-cases-slider.swiper-container[data-native-row="1"] {
     width: calc(
       100% + var(--page-inline-start, var(--page-gutter-x, 36px)) +
         var(--page-inline-end, var(--page-gutter-x, 36px))
     ) !important;
     max-width: none !important;
+    min-width: 0;
     margin-left: calc(-1 * var(--page-inline-start, var(--page-gutter-x, 36px))) !important;
     margin-right: calc(-1 * var(--page-inline-end, var(--page-gutter-x, 36px))) !important;
+    padding: 0 !important;
+    overflow: visible !important;
     box-sizing: border-box !important;
   }
 
-  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider .swiper-wrapper {
+  .page-constructor.internet-magazina-page
+    .more-case-wr
+    .mor-cases-slider
+    .swiper-wrapper[data-native-row="1"] {
     display: flex !important;
     flex-wrap: nowrap !important;
     gap: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
     transform: none !important;
     padding-left: var(--page-inline-start, var(--page-gutter-x, 36px)) !important;
     padding-right: 0 !important;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .page-constructor.internet-magazina-page .more-case-wr .mor-cases-slider .swiper-wrapper::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  .page-constructor.internet-magazina-page .mor-cases-slider-wrapper .mor-cases-slide,
-  .page-constructor.internet-magazina-page .mor-cases-slider-wrapper .mor-cases-slide_link {
-    width: calc(
-      100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) -
-        var(--page-inline-end, var(--page-gutter-x, 36px)) - 48px
-    ) !important;
-    max-width: calc(
-      100vw - var(--page-inline-start, var(--page-gutter-x, 36px)) -
-        var(--page-inline-end, var(--page-gutter-x, 36px)) - 48px
-    ) !important;
-    margin-right: 0 !important;
-    flex-shrink: 0 !important;
+    scroll-padding-left: var(--page-inline-start, var(--page-gutter-x, 36px));
   }
 }

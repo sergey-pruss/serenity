@@ -193,16 +193,19 @@
       const rightExpose = sidePad;
       /* fullBleedRightOnly: не расширяем хост вправо (margin −gutter), иначе концевой spacer
          оказывается за физическим краем экрана; гаттер — .native-row-end-gutter на треке. */
-      const hostExtraWidth = fullBleedRightOnly ? leftExpose : leftExpose + rightExpose;
+      const hostExtraWidth = fullBleedRightOnly ? 0 : leftExpose + rightExpose;
       host.style.width = `calc(100% + ${hostExtraWidth}px)`;
       host.style.maxWidth = "none";
       host.style.marginLeft = fullBleedRightOnly ? "0" : `-${leftExpose}px`;
       host.style.marginRight = fullBleedRightOnly ? "0" : `-${rightExpose}px`;
       host.style.boxSizing = "border-box";
       track.style.boxSizing = "border-box";
-      track.style.paddingLeft = fixedBleedPad
-        ? `${sidePad}px`
-        : `${Math.max(0, sidePad - current)}px`;
+      const trackPadLeft = fullBleedRightOnly
+        ? 0
+        : fixedBleedPad
+          ? sidePad
+          : Math.max(0, sidePad - current);
+      track.style.setProperty("padding-left", `${trackPadLeft}px`, "important");
       syncEndGutterSpacer(rightExpose);
       track.style.setProperty("padding-right", "0", "important");
 
@@ -445,6 +448,8 @@
     };
     track.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", relayout);
+    window.visualViewport?.addEventListener("resize", relayout);
+    window.visualViewport?.addEventListener("scroll", relayout);
     if (desktopArrowsOnly) {
       if (typeof desktopArrowsMedia.addEventListener === "function") {
         desktopArrowsMedia.addEventListener("change", relayout);
@@ -1545,6 +1550,7 @@
     track.style.transform = "";
     track.style.removeProperty("transform");
     track.style.transition = "none";
+    track.scrollLeft = 0;
   };
 
   const morCasesSwiperOpts = () => {
@@ -1583,6 +1589,8 @@
           sidePadGetter: getPageInlineStartPx,
         });
         container.dataset.morCasesNativeRow = "1";
+      } else {
+        track.scrollLeft = 0;
       }
       container.dataset.morCasesInit = "1";
       return;
