@@ -1,0 +1,159 @@
+/* «Этапы создания…» после слайдера кейса. */
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-case-slider-section
+  + .page-constructor__section.internet-magazina-stages-heading-section
+  > .modern.content-block,
+.page-constructor.internet-magazina-page
+  > .page-constructor__section:has(> .cases-block)
+  + .page-constructor__section.internet-magazina-stages-heading-section
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-case-slider-section
+    + .page-constructor__section.internet-magazina-stages-heading-section
+    > .modern.content-block,
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section.internet-magazina-stages-heading-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-case-slider-section
+    + .page-constructor__section.internet-magazina-stages-heading-section
+    > .modern.content-block,
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section:has(> .cases-block)
+    + .page-constructor__section.internet-magazina-stages-heading-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-stages-heading-section
+  > .modern.content-block
+  .page__container {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+/* Заголовок этапов → нумерованный блок «Маркетинговое проектирование». */
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-stages-heading-section
+  + .page-constructor__section.internet-magazina-marketing-stage-section
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-stages-heading-section
+    + .page-constructor__section.internet-magazina-marketing-stage-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-stages-heading-section
+    + .page-constructor__section.internet-magazina-marketing-stage-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* movies-block → «Особенности разработки». */
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-movies-block-section
+  + .page-constructor__section.internet-magazina-features-section
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-movies-block-section
+    + .page-constructor__section.internet-magazina-features-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-movies-block-section
+    + .page-constructor__section.internet-magazina-features-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* «Особенности разработки» → этап «Дизайн» (2). */
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-features-section
+  + .page-constructor__section.internet-magazina-design-stage-section
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-features-section
+    + .page-constructor__section.internet-magazina-design-stage-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-features-section
+    + .page-constructor__section.internet-magazina-design-stage-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* trio-video → этап «Разработка» (3). */
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-trio-video-section
+  + .page-constructor__section.internet-magazina-development-stage-section
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-trio-video-section
+    + .page-constructor__section.internet-magazina-development-stage-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-trio-video-section
+    + .page-constructor__section.internet-magazina-development-stage-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}

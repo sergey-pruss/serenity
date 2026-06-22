@@ -6,6 +6,10 @@
 @import url("sections/service-facts-block.css");
 @import url("sections/sozdanie-internet-magazina-hero.css");
 @import url("sections/sozdanie-internet-magazina-result-card.css");
+@import url("sections/sozdanie-internet-magazina-case-slider.css");
+@import url("sections/sozdanie-internet-magazina-stages.css");
+@import url("sections/sozdanie-internet-magazina-movies-block.css");
+@import url("sections/sozdanie-internet-magazina-trio-video.css");
 
 /* Facts под hero-видео — как /targeting (без Nuxt .facts { padding-top: 165px }). */
 .page-constructor.internet-magazina-page > .page-constructor__section > .facts {
@@ -100,29 +104,14 @@
   }
 }
 
-@media screen and (max-width: 720px) {
-  .page-constructor.internet-magazina-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
-    display: none !important;
-  }
-}
+/* desc/tablet parity и numbered-header — в korporativnyj-sajt-static-stack (.internet-magazina-page). */
 
+/* «Особенности разработки»: без цифры — сетка по левому краю h2, не +78px number-container. */
 @media screen and (min-width: 721px) {
-  .page-constructor.internet-magazina-page .modern.content-block > .page__container,
-  .page-constructor.internet-magazina-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
-    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
-    box-sizing: border-box !important;
-  }
-
-  .page-constructor.internet-magazina-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
-    display: flex !important;
+  .page-constructor.internet-magazina-page
+    .internet-magazina-features-section
+    .internet-magazina-features-grid.content-block__number-container.content-block__grid--desc-custom.blocks {
+    padding-left: 0 !important;
   }
 }
 

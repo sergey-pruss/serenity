@@ -1,0 +1,45 @@
+/* movies-block после «Маркетинговое проектирование» — parity /korporativnyj_sajt + prod movie-block. */
+.page-constructor.internet-magazina-page
+  .internet-magazina-movies-block-section
+  .movies-block
+  .swiper
+  > div
+  > div {
+  position: relative;
+  display: flex;
+  max-height: 512px;
+  height: 37.5vw;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-movies-block-section .movies-block video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 13px;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor.internet-magazina-page
+    .internet-magazina-movies-block-section
+    .movies-block
+    .swiper
+    > div
+    > div {
+    height: 41vw;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.internet-magazina-page
+    .internet-magazina-movies-block-section
+    .movies-block
+    .swiper
+    > div
+    > div {
+    height: 49vw;
+  }
+}

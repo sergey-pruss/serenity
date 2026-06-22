@@ -1,0 +1,188 @@
+/* Тройное видео (trio-video-block) после этапа «Дизайн» — parity prod Nuxt mocks. */
+.page-constructor.internet-magazina-page .internet-magazina-trio-video-section .section-container__wrapper {
+  padding-top: var(--home-between, 112px);
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page .internet-magazina-trio-video-section .section-container__wrapper {
+    padding-top: var(--home-between, 97px);
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page .internet-magazina-trio-video-section .section-container__wrapper {
+    padding-top: var(--home-between, 60px);
+  }
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks {
+  position: relative;
+  height: 720px;
+  max-width: 100%;
+  margin-top: 57px;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__ipad,
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__iphone,
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__macbook {
+  position: absolute;
+  max-width: 100%;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__ipad {
+  top: 201px;
+  z-index: 2;
+  left: 6%;
+  width: 42% !important;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__iphone {
+  left: 80.7857%;
+  top: 250px;
+  z-index: 3;
+  width: 12.9167% !important;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__macbook {
+  left: 30%;
+  z-index: 1;
+  width: 62.4167% !important;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-trio-mocks video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.page-constructor.internet-magazina-page .ipad__wrapper {
+  width: 100%;
+}
+
+.page-constructor.internet-magazina-page .ipad {
+  display: block;
+  position: relative;
+  padding-top: 72.9167%;
+}
+
+.page-constructor.internet-magazina-page .ipad__mock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.page-constructor.internet-magazina-page .ipad__screen {
+  position: absolute;
+  overflow: hidden;
+  inset: 6.14453% 4.21268% 5.83789% 4.43521%;
+  border-radius: 1.54178% / 2.21902%;
+  background-color: #fff;
+}
+
+.page-constructor.internet-magazina-page .macbook {
+  display: block;
+  position: relative;
+  padding-top: 56.4019%;
+}
+
+.page-constructor.internet-magazina-page .macbook__wrapper {
+  width: 100%;
+}
+
+.page-constructor.internet-magazina-page .macbook__mock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.page-constructor.internet-magazina-page .macbook__screen {
+  position: absolute;
+  overflow: hidden;
+  inset: 5.80483% 12.251% 10.0252%;
+  border-radius: 1px;
+  background-color: #fff;
+}
+
+.page-constructor.internet-magazina-page .iphone__wrapper {
+  width: 20%;
+}
+
+.page-constructor.internet-magazina-page .iphone {
+  display: block;
+  position: relative;
+  padding-top: 204.918%;
+}
+
+.page-constructor.internet-magazina-page .iphone__mock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.page-constructor.internet-magazina-page .iphone__screen {
+  position: absolute;
+  overflow: hidden;
+  inset: 2.2135% 5.20265%;
+  mask-image: url("../../img/services/sozdanie-internet-magazina/mock/iphone-12-screen-mask.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  background-color: #fff;
+}
+
+@media screen and (max-width: 1023px) {
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__macbook {
+    top: 0;
+    left: 6%;
+    width: 100% !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__ipad {
+    top: 182px;
+    left: 4%;
+    width: 59% !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__iphone {
+    left: 89%;
+    right: 0;
+    top: 212px;
+    z-index: 3;
+    width: 18% !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks {
+    width: 100vw;
+    max-width: none;
+    height: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__macbook {
+    top: 0;
+    max-width: none;
+    left: 35px;
+    width: 97vw !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__ipad {
+    top: 40vw;
+    left: 48px;
+    width: 68vw !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-trio-mocks .mocks__iphone {
+    left: 78vw;
+    right: auto;
+    top: 52vw;
+    width: 21vw !important;
+  }
+}
