@@ -504,10 +504,42 @@
    * инерция тача из браузера, без transform/touchmove с preventDefault. Автодрейф scrollLeft,
    * пауза автоплея при :hover только на хосте ленты.
    */
+  const tripleClientsStripSlidesFromTrack = (track) => {
+    if (!track || track.dataset.clientsStripTripled === "1" || track.dataset.awardsStripTripled === "1") {
+      return;
+    }
+    const originals = [...track.querySelectorAll(".clients-new__slide")];
+    if (originals.length < 2) return;
+    const at0 = originals.filter((el) => el.getAttribute("data-swiper-slide-index") === "0");
+    if (at0.length >= 2) {
+      track.dataset.clientsStripTripled = "1";
+      return;
+    }
+    const n = originals.length;
+    originals.forEach((el, i) => {
+      if (!el.hasAttribute("data-swiper-slide-index")) {
+        el.setAttribute("data-swiper-slide-index", String(i));
+      }
+    });
+    /* Три полных цикла в DOM: measureLoopWidth() ищет два слайда с index «0». */
+    for (let r = 0; r < 2; r += 1) {
+      for (let i = 0; i < n; i += 1) {
+        track.appendChild(originals[i].cloneNode(true));
+      }
+    }
+    track.dataset.clientsStripTripled = "1";
+  };
+
+  const tripleClientsStripSlides = (mountRoot) => {
+    const track = mountRoot?.querySelector?.(".clients-new__context-wrapper");
+    if (track) tripleClientsStripSlidesFromTrack(track);
+  };
+
   const initOneClientsStrip = (host) => {
     const track = host ? host.querySelector(".clients-new__context-wrapper") : null;
     if (!host || !track) return;
     if (host.dataset.clientsStripInit === "1") return;
+    tripleClientsStripSlidesFromTrack(track);
     host.dataset.clientsStripInit = "1";
     host.dataset.clientsStrip = "1";
     host.classList.add("clients-strip");
@@ -1710,20 +1742,7 @@
   }
 
   const tripleHomeAwardsStripSlides = (mountRoot) => {
-    const track = mountRoot.querySelector(".clients-new__context-wrapper");
-    if (!track || track.dataset.awardsStripTripled === "1") return;
-    const originals = [...track.querySelectorAll(".clients-new__slide")];
-    if (originals.length < 2) return;
-    const n = originals.length;
-    originals.forEach((el, i) => el.setAttribute("data-swiper-slide-index", String(i)));
-    /* Три полных цикла в DOM: measureLoopWidth() ищет два слайда с index «0».
-       Ветка «>= 13 без клонов» давала loopW=0 и отключала автодрейф при длинном списке наград. */
-    for (let r = 0; r < 2; r += 1) {
-      for (let i = 0; i < n; i += 1) {
-        track.appendChild(originals[i].cloneNode(true));
-      }
-    }
-    track.dataset.awardsStripTripled = "1";
+    tripleClientsStripSlides(mountRoot);
   };
 
   /** «Награды»: без гейта по хосту — только главная (шаблон в разметке). */
