@@ -9,6 +9,7 @@
  */
 @import url("sections/service-hero-header.css");
 @import url("sections/service-more-cases.css");
+@import url("sections/service-content-block-desc-by-row.css");
 
 /* Виды рекламы: видимая ссылка на заголовке «Геомедийная контекстная реклама». */
 .page-constructor .modern.content-block .block__name a {
@@ -1481,42 +1482,6 @@ body:not(.order-popup-open) .overlay-new {
     max-width: 100% !important;
     flex: 0 0 auto !important;
     margin-bottom: 0 !important;
-  }
-}
-
-/*
- * «Виды контекстной рекламы»: только заголовки карточек — desc-сетка по рядам (3×2),
- * иначе при колоночном стеке второй ряд съезжает по вертикали.
- */
-@media screen and (min-width: 721px) {
-  body .modern.content-block .content-block__grid.content-block__grid--desc-by-row.blocks {
-    display: flex !important;
-    flex-direction: column !important;
-    flex-wrap: nowrap !important;
-    row-gap: 57px;
-    column-gap: 0;
-    width: 100%;
-  }
-
-  body .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    column-gap: 75px;
-    width: 100%;
-  }
-
-  body .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper > .col-4 {
-    flex: 1 1 0;
-    max-width: calc((100% - 150px) / 3);
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  body .modern.content-block .content-block__grid.content-block__grid--desc-by-row.blocks {
-    display: none !important;
   }
 }
 

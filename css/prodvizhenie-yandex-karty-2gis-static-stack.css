@@ -1,5 +1,6 @@
 @import url("./korporativnyj-sajt-static-stack.css");
 @import url("sections/service-hero-header.css");
+@import url("sections/service-content-block-desc-by-row.css");
 @import url("sections/ymaps-pricing-tables.css");
 
 .page-constructor.prodvizhenie-yandex-karty-2gis-page {

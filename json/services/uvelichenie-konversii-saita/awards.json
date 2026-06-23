@@ -1,0 +1,54 @@
+{
+  "headingId": "uks-awards-heading",
+  "mountId": "sa-home-awards-mounted",
+  "awards": [
+    {
+      "rating": "Workspace Digital",
+      "year": "2024",
+      "description": "1 место за комплексные услуги для eCom бренда Darkrain",
+      "href": "https://workspace.ru/awards/cases/kompleksnaya-usluga-dlya-peterburgskogo-brenda-ukrasheniy-darkrain/"
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "4 место в России по SEO-аудиту сайтов",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "4 место в СПб по комплексному продвижению в интернете",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "16 место в России по комплексному продвижению корпоративных сайтов",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "44 место по России в рейтинге разработчиков сайтов",
+      "href": "https://api.cabinet.cmsmagazine.ru/diplom/show/a8e587222488d8c01db74777375e8bf9"
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "13 место в Санкт-Петербурге по разработке корпоративных цифровых решений",
+      "href": null
+    },
+    {
+      "rating": "Ruward",
+      "year": "2021",
+      "description": "14 место в России по цифровой трансформации бизнеса",
+      "href": null
+    },
+    {
+      "rating": "Золотой<br>сайт",
+      "year": "2016",
+      "description": "1 место в номинации «Сайт магазина розничной торговли»",
+      "href": null
+    }
+  ]
+}

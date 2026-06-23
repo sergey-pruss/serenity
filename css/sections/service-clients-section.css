@@ -5,7 +5,8 @@
 
 /* targeting-static-stack скрывает legacy .clients-wrapper; parity-секция — видима */
 .page-constructor > .page-constructor__section.kontekst-clients-section:has(.clients-mainstr),
-.page-constructor > .page-constructor__section.seo-clients-section:has(.clients-mainstr) {
+.page-constructor > .page-constructor__section.seo-clients-section:has(.clients-mainstr),
+.page-constructor > .page-constructor__section.uks-clients-section:has(.clients-mainstr) {
   display: block !important;
 }
 

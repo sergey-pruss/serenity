@@ -1,0 +1,612 @@
+/**
+ * /uvelichenie-konversii-saita — hero с фоновой картинкой (jumbotron), как на prod.
+ */
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-facts-block.css");
+@import url("sections/service-hero-header.css");
+@import url("sections/service-content-block-desc-by-row.css");
+@import url("sections/uvelichenie-konversii-saita-case-slider.css");
+@import url("sections/service-clients-section.css");
+
+.page-constructor.uvelichenie-konversii-saita-page {
+  position: relative;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .page-constructor__bg {
+  z-index: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .page-constructor__section {
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type::before {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .header-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .header-background.mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .header-background.desctop {
+    display: none !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .header-background.mobile {
+    display: block !important;
+  }
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title,
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__title-small {
+  margin-bottom: 42px !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .jumbotron-img-aurora__subtitle {
+  margin-top: 0 !important;
+}
+
+/*
+ * Зазор подзаголовок → контент как на /seo (~260px в hero на 1440×900).
+ */
+@media screen and (min-width: 720px) {
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section:first-of-type
+    .header-background
+    .jumbotron {
+    justify-content: flex-end !important;
+    padding-bottom: 260px !important;
+    padding-top: 0 !important;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section:first-of-type .jumbotron {
+    gap: 42px !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-img-aurora__title,
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-img-aurora__title-small {
+    margin-bottom: 42px !important;
+  }
+}
+
+.page-constructor.uvelichenie-konversii-saita-page ~ .footer-modern {
+  position: relative;
+  z-index: 3;
+  background: transparent !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block,
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+@media screen and (min-width: 721px) {
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block > .page__container,
+  .page-constructor.uvelichenie-konversii-saita-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 120px !important;
+    grid-row-gap: 120px !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    row-gap: 45px;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    order: 2;
+    box-sizing: border-box !important;
+    align-items: flex-start !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row) > .col-4 {
+    flex: 1 1 0;
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row) .col-4 .col-4 {
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .numbered-header {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block > .page__container > .numbered-header .row,
+  .page-constructor.uvelichenie-konversii-saita-page .content-block[data-v-4ed7dc78] .numbered-header .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .numbered-header__title-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .numbered-header__subtitle-column {
+    flex: 1 1 280px !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .numbered-header__subtitle-column .content-block__desc {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .page__container.desktop {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .uks-cycle-diagram-section .movies-block .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks:not(.content-block__grid--desc-by-row) > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block > .page__container,
+  .page-constructor.uvelichenie-konversii-saita-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 45px !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    column-gap: 0;
+    row-gap: 45px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Facts — как /strategy (без Nuxt .facts { padding-top: 165px }). */
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (min-width: 720px) and (max-width: 1024px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts {
+    padding-top: 48px !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .page__container.desktop,
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .page__container {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .facts-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 24px;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .facts-header .col-6.page__title,
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .facts-header .description-item {
+    flex: 0 0 auto !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .facts-header .title,
+  .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .facts .facts-header .lead {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Иллюстрация цикла — статичная картинка в .movies-block (как kompleksnoye diagram). */
+.page-constructor.uvelichenie-konversii-saita-page .uks-cycle-diagram-section .movies-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-cycle-diagram-section .movies-block img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-cycle-diagram-section .movies-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-cycle-diagram-section .movies-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-business-result-section .facts-header--title-only .page__title {
+  max-width: 100%;
+  flex: 1 1 100%;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-team-section {
+  background: transparent !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-team-section .team__member-card h4,
+.page-constructor.uvelichenie-konversii-saita-page .uks-team-section .team__member-card h4[data-v-c03ce8dc],
+.page-constructor.uvelichenie-konversii-saita-page .uks-team-section .team h4[data-v-c03ce8dc] {
+  margin-bottom: 20px !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section.uks-clients-section:has(.clients-wrapper),
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section.uks-clients-section:has(.clients-mainstr) {
+  display: block !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .swiper-container-clients-new,
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .swiper-container-clients-new[data-v-08586076] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section,
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section[data-v-6f8a040c] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-wrapper.clients-mainstr,
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-wrapper.clients-mainstr[data-v-08586076] {
+  justify-content: flex-start !important;
+  padding-left: var(--page-gutter-x) !important;
+  padding-right: var(--page-gutter-x) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-mainstr .clients-new-section,
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-mainstr .clients-new-section[data-v-08586076] {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-new-section.home-between,
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-new-section.home-between[data-v-08586076] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-new.home-ledge,
+.page-constructor.uvelichenie-konversii-saita-page .uks-clients-section .clients-new.home-ledge[data-v-08586076] {
+  margin-bottom: var(--kontekst-heading-gap, 80px) !important;
+  padding-top: 0 !important;
+}
+
+/* Блог — как /seo: padding на .blog-block-mainstr, не на .blog-block__swiper-container */
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between,
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent .services__text.home-ledge.home-between[data-v-56f85d51] {
+  margin-top: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__text.home-ledge,
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__text.home-ledge[data-v-56f85d51] {
+  padding-top: 0 !important;
+  padding-bottom: var(--kontekst-heading-gap, 80px) !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block__swiper-container,
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block__swiper-container[data-v-25bf775d] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent,
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr .services__text,
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr .services__text[data-v-56f85d51] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__title,
+.page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__title[data-v-56f85d51] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 1025px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d] {
+    padding-left: var(--page-inline-start, 55px) !important;
+    padding-right: var(--page-inline-end, 55px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .blog-block-mainstr.isNewContent[data-v-25bf775d] {
+    padding-left: var(--page-inline-start, 36px) !important;
+    padding-right: var(--page-inline-end, 36px) !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__title,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__title[data-v-56f85d51] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__title,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-blog-section .services__title[data-v-56f85d51] {
+    font-size: 26px !important;
+  }
+}
+
+/* Кейсы */
+.page-constructor.uvelichenie-konversii-saita-page .uks-cases-section,
+.page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section.uks-cases-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-cases-section .more-case-wr.more-case-wr__main,
+.page-constructor.uvelichenie-konversii-saita-page .uks-cases-section .more-case-wr[data-v-27a87df0] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+/* Награды → синергия: один шаг --home-between между блоками (как /strategy). */
+.page-constructor.uvelichenie-konversii-saita-page .uks-awards-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-section {
+  padding-top: 0 !important;
+}
+
+body:not(.sa-home-page) .page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards,
+.page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards__header,
+.page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .awards__header {
+  margin-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__text,
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__text[data-v-627ccbce] {
+  margin-bottom: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__context-slider,
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__context-slider[data-v-627ccbce] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__title,
+.page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__title[data-v-627ccbce] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 1025px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__text,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__context-slider,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 55px) !important;
+    padding-right: var(--page-inline-end, 55px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-cases-section .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__text,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__context-slider,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 36px) !important;
+    padding-right: var(--page-inline-end, 36px) !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__title,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section .synergy__title[data-v-627ccbce] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.uvelichenie-konversii-saita-page .uks-cases-section .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards,
+  .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}

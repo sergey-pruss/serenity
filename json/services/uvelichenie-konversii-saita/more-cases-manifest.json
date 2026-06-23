@@ -1,0 +1,15 @@
+{
+  "builtAt": "2026-06-23T16:34:13.345Z",
+  "source": "8 curated UKS-topic cases (conversion, leads, traffic, e-commerce metrics)",
+  "expected": 8,
+  "hrefs": [
+    "/case/darkrain-store",
+    "/case/all/skladno-internet-magazin-mebeli",
+    "/case/evrostroj",
+    "/case/awm-trade",
+    "/case/sunseeker",
+    "/case/kaskad",
+    "/case/mosplitka",
+    "/case/gio-welness"
+  ]
+}

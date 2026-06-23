@@ -1,0 +1,61 @@
+/**
+ * content-block desc-by-row: несколько рядов карточек в 3 колонки.
+ *
+ * Разметка:
+ *   .content-block__grid.content-block__grid--desc.content-block__grid--desc-by-row
+ *     > .content-block__grid-wrapper
+ *       > .col-4 > .block-item …
+ *
+ * Иначе при колоночном стеке (col-4 → несколько block-item) второй ряд съезжает
+ * по вертикали при разной высоте текста.
+ *
+ * Эталон: html/partials/services/prodvizhenie-yandex-karty-2gis-content-blocks.html
+ */
+@media screen and (min-width: 721px) {
+  .page-constructor .modern.content-block .content-block__grid.content-block__grid--desc-by-row.blocks {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    row-gap: 57px;
+    column-gap: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    order: 2;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    column-gap: 75px;
+    width: 100%;
+    align-items: flex-start !important;
+  }
+
+  .page-constructor .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper > .col-4 {
+    flex: 1 1 0;
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 900px) {
+  .page-constructor .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper > .col-4 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .page-constructor .modern.content-block .content-block__grid--desc-by-row .content-block__grid-wrapper {
+    flex-direction: column !important;
+    row-gap: 45px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor .modern.content-block .content-block__grid.content-block__grid--desc-by-row.blocks {
+    display: none !important;
+  }
+}

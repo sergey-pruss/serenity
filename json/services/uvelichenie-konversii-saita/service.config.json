@@ -1,0 +1,47 @@
+{
+  "slug": "uvelichenie-konversii-saita",
+  "urlPath": "/uvelichenie-konversii-saita",
+  "seo": {
+    "breadcrumbLabel": "Увеличение конверсии сайта",
+    "pageTitle": "Увеличение конверсии сайта — Serenity",
+    "metaTitle": "Увеличение конверсии сайта — Serenity",
+    "description": "Увеличение конверсии сайта под ключ — анализ, гипотезы, UX и внедрение изменений. Повышаем продажи и заявки на основе данных.",
+    "ogDescription": "Увеличение конверсии сайта под ключ — анализ, гипотезы, UX и внедрение изменений. Повышаем продажи и заявки на основе данных."
+  },
+  "hero": {
+    "variant": "title-video"
+  },
+  "sections": {
+    "packages": false,
+    "facts": false,
+    "advantages": false
+  },
+  "assemble": {
+    "layoutSourceEnv": "UKS_LAYOUT_SOURCE",
+    "tmpFull": "uvelichenie-konversii-saita-prod-full.html",
+    "tmpParity": "uvelichenie-konversii-saita-parity-prod-layout.html",
+    "pageDir": "uvelichenie-konversii-saita",
+    "cssStack": "uvelichenie-konversii-saita-static-stack.css",
+    "partials": {
+      "faq": "faq-uvelichenie-konversii-saita.html",
+      "inlineLead": "service-inline-lead-uvelichenie-konversii-saita.html",
+      "clients": "clients-uvelichenie-konversii-saita.html",
+      "blog": "blog-uvelichenie-konversii-saita.html",
+      "moreCases": "more-cases-uvelichenie-konversii-saita.html",
+      "awards": "awards-uvelichenie-konversii-saita.html",
+      "synergy": "synergy-uvelichenie-konversii-saita.html"
+    },
+    "markers": {
+      "mainStart": "UKS-MAIN-START",
+      "mainEnd": "UKS-MAIN-END",
+      "cssBundleStart": "UKS-CSS-BUNDLE-START",
+      "cssBundleEnd": "UKS-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "uks-faq-mounted",
+      "sectionClass": "uks-faq-section",
+      "rootClass": "uks-faq-root uks-faq-root--always-visible"
+    },
+    "phase2": false
+  }
+}
