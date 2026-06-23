@@ -49,3 +49,17 @@
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
 }
+
+/* Мобилка: зазор заголовок → лента = 45px (как /korporativnyj_sajt), не 20px из --kontekst-heading-gap. */
+@media screen and (max-width: 719px) {
+  .page-constructor .kontekst-clients-section .clients-new.home-ledge,
+  .page-constructor .kontekst-clients-section .clients-new.home-ledge[data-v-08586076],
+  .page-constructor .seo-clients-section .clients-new.home-ledge,
+  .page-constructor .seo-clients-section .clients-new.home-ledge[data-v-08586076],
+  .page-constructor .uks-clients-section .clients-new.home-ledge,
+  .page-constructor .uks-clients-section .clients-new.home-ledge[data-v-08586076],
+  .page-constructor .strategy-clients-section .clients-new.home-ledge,
+  .page-constructor .strategy-clients-section .clients-new.home-ledge[data-v-08586076] {
+    margin-bottom: 45px !important;
+  }
+}

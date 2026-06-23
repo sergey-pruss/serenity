@@ -740,7 +740,7 @@ body:not(.order-popup-open) .overlay-new {
   .page-constructor .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading,
   .home-awards-block h3.home-clients-awards__title.kontekstnaya-page__section-heading {
     font-size: 26px !important;
-    margin-bottom: var(--kontekst-heading-gap, 20px) !important;
+    margin-bottom: 45px !important;
   }
 }
 
@@ -1748,7 +1748,7 @@ body .page-constructor .team-block .team__member-card {
 
 /*
  * Хвост страницы (форма → «Команда» → … → «Синергия»): ритм как /targeting.
- * Между секциями — --home-between; заголовок → контент — --kontekst-heading-gap (80 / 45 / 20).
+ * Между секциями — --home-between; заголовок → контент — --kontekst-heading-gap (80 / 45).
  */
 :root {
   --kontekst-heading-gap: 80px;
@@ -1757,12 +1757,6 @@ body .page-constructor .team-block .team__member-card {
 @media screen and (max-width: 768px) {
   :root {
     --kontekst-heading-gap: 45px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  :root {
-    --kontekst-heading-gap: 20px;
   }
 }
 
@@ -1903,7 +1897,7 @@ body .page-constructor .team-block .team__member-card {
   .more-case-wr.more-case-wr__main .more-cases h3.kontekstnaya-page__section-heading,
   .more-case-wr.more-case-wr__main h3.kontekstnaya-page__section-heading {
     font-size: 26px !important;
-    margin-bottom: var(--kontekst-heading-gap, 20px) !important;
+    margin-bottom: 45px !important;
   }
 }
 
@@ -2079,16 +2073,23 @@ body .page-constructor .team-block .team__member-card {
     margin-bottom: 45px !important;
   }
 
+  .page-constructor .kontekst-clients-section .clients-new.home-ledge,
+  .page-constructor .kontekst-clients-section .clients-new.home-ledge[data-v-08586076] {
+    margin-bottom: 45px !important;
+  }
+
   .kontekst-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
-  .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
-    margin-bottom: var(--kontekst-heading-gap, 45px) !important;
+  .targeting-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+  .korporativnyj-faq-root .questions .questions__title.kontekstnaya-page__section-heading,
+  .uks-faq-root .questions .questions__title.kontekstnaya-page__section-heading {
+    margin-bottom: 45px !important;
   }
 
   .page-constructor .kontekst-synergy-root .services__text.home-ledge,
   .page-constructor .kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51],
   .kontekst-synergy-root .services__text.home-ledge,
   .kontekst-synergy-root .services__text.home-ledge[data-v-56f85d51] {
-    padding-bottom: var(--kontekst-heading-gap, 45px) !important;
+    padding-bottom: 45px !important;
   }
 
   .page-constructor .kontekst-synergy-root .services__context-slider.swiper-container[data-native-row="1"],
@@ -2142,7 +2143,7 @@ body .page-constructor .team-block .team__member-card {
   }
 
   .page-constructor .team-block .team__head {
-    margin-bottom: var(--kontekst-heading-gap, 45px) !important;
+    margin-bottom: 45px !important;
   }
 }
 
