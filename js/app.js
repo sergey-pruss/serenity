@@ -1366,6 +1366,26 @@
     videos.forEach((video) => io.observe(video));
   };
 
+  const CASES_BLOCK_MOBILE_MQ = "(max-width: 720px)";
+
+  const casesBlockUsesMobileAutoHeight = () => {
+    try {
+      return window.matchMedia(CASES_BLOCK_MOBILE_MQ).matches;
+    } catch {
+      return window.innerWidth <= 720;
+    }
+  };
+
+  const bumpCasesSwiperHeight = (swiperInstance) => {
+    if (!swiperInstance) return;
+    if (typeof swiperInstance.updateAutoHeight === "function" && swiperInstance.params?.autoHeight) {
+      swiperInstance.updateAutoHeight();
+    }
+    if (typeof swiperInstance.update === "function") {
+      swiperInstance.update();
+    }
+  };
+
   const cleanupCasesBlockDumpStyles = (container) => {
     container.querySelectorAll(".swiper-slide").forEach((slide) => {
       slide.style.width = "";
@@ -1457,10 +1477,10 @@
       }
       container.dataset.saCasesSwiperInit = "1";
       cleanupCasesBlockDumpStyles(container);
+      const useCasesMobileAutoHeight = casesBlockUsesMobileAutoHeight();
       const swiper = new window.Swiper(container, {
-        /* autoHeight даёт высоту обёртки по «короткому» слайду до загрузки картинок (SSR 720px) —
-           контент с min-height:100vh обрезается и визуально прилипает к низу. Слайды кейсов одной высоты. */
-        autoHeight: false,
+        /* На мобилке — высота по активному слайду; на десктопе фиксированная геометрия из CSS. */
+        autoHeight: useCasesMobileAutoHeight,
         slidesPerView: 1,
         spaceBetween: 0,
         speed: 550,
@@ -1503,11 +1523,11 @@
         on: {
           init(swiperInstance) {
             swiperInstance.navigation.update();
-            swiperInstance.update();
+            bumpCasesSwiperHeight(swiperInstance);
           },
           slideChangeTransitionEnd(swiperInstance) {
             swiperInstance.navigation.update();
-            swiperInstance.update();
+            bumpCasesSwiperHeight(swiperInstance);
           },
         },
       });
@@ -1520,7 +1540,7 @@
       container._saCasesSwiper = swiper;
       const bumpCasesSwiper = () => {
         requestAnimationFrame(() => {
-          swiper.update();
+          bumpCasesSwiperHeight(swiper);
         });
       };
       bumpCasesSwiper();

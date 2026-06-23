@@ -11,10 +11,10 @@ deploy_ssh_target() {
   printf '%s' "${DEPLOY_SSH_TARGET:-root@168.222.142.141}"
 }
 
-deploy_ssh_run() {
-  local -a opts=(-i "$(deploy_ssh_identity_file)" -o BatchMode=yes)
+deploy_ssh_opts_array() {
+  DEPLOY_SSH_OPTS=(-i "$(deploy_ssh_identity_file)" -o BatchMode=yes)
   if [[ -n "${DEPLOY_SSH_KNOWN_HOSTS:-}" ]]; then
-    opts+=(-o "UserKnownHostsFile=${DEPLOY_SSH_KNOWN_HOSTS}")
+    DEPLOY_SSH_OPTS+=(-o "UserKnownHostsFile=${DEPLOY_SSH_KNOWN_HOSTS}")
   fi
   case "$(uname -s 2>/dev/null)" in
     MINGW* | MSYS*)
@@ -22,13 +22,22 @@ deploy_ssh_run() {
         local kh
         kh="$(cygpath -u "${USERPROFILE}/.ssh/known_hosts" 2>/dev/null || true)"
         if [[ -n "$kh" ]]; then
-          opts+=(-o "UserKnownHostsFile=${kh}")
+          DEPLOY_SSH_OPTS+=(-o "UserKnownHostsFile=${kh}")
         fi
       fi
-      opts+=(-o StrictHostKeyChecking=accept-new)
+      DEPLOY_SSH_OPTS+=(-o StrictHostKeyChecking=accept-new)
       ;;
   esac
-  ssh "${opts[@]}" "$(deploy_ssh_target)" "$@"
+}
+
+deploy_ssh_run() {
+  deploy_ssh_opts_array
+  ssh "${DEPLOY_SSH_OPTS[@]}" "$(deploy_ssh_target)" "$@"
+}
+
+deploy_scp_run() {
+  deploy_ssh_opts_array
+  scp "${DEPLOY_SSH_OPTS[@]}" "$@"
 }
 
 deploy_use_tar_ssh_transport() {

@@ -49,7 +49,7 @@
     justify-content: flex-start !important;
     align-self: flex-start !important;
     box-sizing: border-box !important;
-    padding: 32px 36px 16px !important;
+    padding: 40px 36px 40px !important;
   }
 
   .page-constructor.uvelichenie-konversii-saita-page
@@ -149,7 +149,7 @@
     .uks-case-section
     .cases-block
     .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 28px 36px 12px !important;
+    padding: 36px 36px 36px !important;
   }
 
   .page-constructor.uvelichenie-konversii-saita-page

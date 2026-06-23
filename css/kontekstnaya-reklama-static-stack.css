@@ -543,8 +543,15 @@ body:not(.order-popup-open) .overlay-new {
 
 @media screen and (max-width: 720px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    /* Контент сверху; низ слайда — запас до полосы точек (точки вне swiper-container). */
-    padding: 72px 36px 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    /* Равные поля: картинка↔верх = кнопка↔низ слайда (точки — вне container). */
+    padding: 40px 36px 40px !important;
   }
 
   /* Пружины ::before/::after центрируют блок; при длинном тексте (DarkRain) кнопка уезжает вниз к точкам. */
@@ -557,7 +564,7 @@ body:not(.order-popup-open) .overlay-new {
 
 @media screen and (max-width: 450px) {
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 64px 36px 28px !important;
+    padding: 36px 36px 36px !important;
   }
 }
 
@@ -2001,18 +2008,19 @@ body .page-constructor .team-block .team__member-card {
   }
 
   .cases-block .cases-block__swiper-slide[data-v-bd2e570a] {
-    min-height: max(640px, calc(min(100vh, 100dvh, 100svh) - 48px)) !important;
-    height: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   /*
-   * Одна высота на все слайды: иначе короткий Orange сжимает swiper-container,
-   * точки и низ секции «прыгают» относительно DarkRain и заезжают под «Почему работать…».
+   * Высота слайда = контент (текст/кнопка не обрезаются). Swiper autoHeight на мобилке
+   * подстраивает обёртку под активный слайд; фиксированный 100vh давал пустоту снизу.
    */
   .cases-block .cases-block__slider .cases-block__slider-swiper-container.swiper-container,
   .cases-block .cases-block__slider .cases-block__slider-swiper-container .swiper-wrapper {
-    height: max(640px, calc(min(100vh, 100dvh, 100svh) - 48px)) !important;
-    min-height: max(640px, calc(min(100vh, 100dvh, 100svh) - 48px)) !important;
+    height: auto !important;
+    min-height: auto !important;
   }
 
   /* Полоса под слайдом: точки не на фото и не под следующей секцией. */

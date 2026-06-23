@@ -12,6 +12,11 @@ SERVER_SSH_KEY="${SERVER_SSH_KEY:-$HOME/.ssh/id_ed25519}"
 REMOTE_ROUTING_PATH="${REMOTE_ROUTING_PATH:-/etc/nginx/conf.d/serenity-routing.conf}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# shellcheck disable=SC1091
+source "${ROOT_DIR}/scripts/deploy-lib.sh"
+export DEPLOY_SSH_TARGET="${SERVER_USER}@${SERVER_HOST}"
+export DEPLOY_SSH_IDENTITY="${SERVER_SSH_KEY}"
+
 LOCAL_ROUTING_FILE="${ROOT_DIR}/nginx/routing.conf"
 
 if [[ ! -f "${LOCAL_ROUTING_FILE}" ]]; then
@@ -19,16 +24,13 @@ if [[ ! -f "${LOCAL_ROUTING_FILE}" ]]; then
   exit 1
 fi
 
-SSH_CMD=(ssh -i "${SERVER_SSH_KEY}" "${SERVER_USER}@${SERVER_HOST}")
-SCP_CMD=(scp -i "${SERVER_SSH_KEY}")
-
 TMP_REMOTE="$(mktemp -u /tmp/serenity-routing.XXXXXX.conf)"
 
 echo "Uploading routing file to ${SERVER_HOST}:${TMP_REMOTE}"
-"${SCP_CMD[@]}" "${LOCAL_ROUTING_FILE}" "${SERVER_USER}@${SERVER_HOST}:${TMP_REMOTE}"
+deploy_scp_run "${LOCAL_ROUTING_FILE}" "${DEPLOY_SSH_TARGET}:${TMP_REMOTE}"
 
 echo "Validating and applying routing config on server"
-"${SSH_CMD[@]}" "cp '${TMP_REMOTE}' '${REMOTE_ROUTING_PATH}' && nginx -t && systemctl reload nginx && rm -f '${TMP_REMOTE}'"
+deploy_ssh_run "cp '${TMP_REMOTE}' '${REMOTE_ROUTING_PATH}' && nginx -t && systemctl reload nginx && rm -f '${TMP_REMOTE}'"
 
 echo "Routing config applied successfully."
 echo "Если /docs/… всё ещё даёт 500 или Nuxt: bash scripts/deploy-prod.sh и bash scripts/deploy-serenity-router-vhost.sh (см. AGENTS.md)."

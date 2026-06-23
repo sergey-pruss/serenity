@@ -212,7 +212,7 @@
     .uks-case-section
     .cases-block
     .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 48px 36px 32px !important;
+    padding: 40px 36px 40px !important;
   }
 }
 
@@ -221,6 +221,6 @@
     .uks-case-section
     .cases-block
     .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 40px 36px 28px !important;
+    padding: 36px 36px 36px !important;
   }
 }
