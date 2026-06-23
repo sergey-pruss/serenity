@@ -1363,10 +1363,21 @@
       const paginationEl = root.querySelector(".swiper-pagination");
       /* /seo и др.: один слайд без .swiper__navigation — всё равно снимаем инлайн height/width с prod-дампа. */
       if (!nextEl || !prevEl) {
-        cleanupCasesBlockDumpStyles(container);
+        const bumpSingleCaseLayout = () => cleanupCasesBlockDumpStyles(container);
+        bumpSingleCaseLayout();
         container.querySelectorAll(".swiper-slide").forEach((slide, index) => {
           slide.classList.toggle("swiper-slide-active", index === 0);
         });
+        container.querySelectorAll("video").forEach((video) => {
+          video.addEventListener("loadedmetadata", bumpSingleCaseLayout, { once: true });
+          video.addEventListener("loadeddata", bumpSingleCaseLayout, { once: true });
+        });
+        container.querySelectorAll("img").forEach((img) => {
+          if (img.complete) return;
+          img.addEventListener("load", bumpSingleCaseLayout, { once: true });
+          img.addEventListener("error", bumpSingleCaseLayout, { once: true });
+        });
+        window.addEventListener("load", bumpSingleCaseLayout, { once: true });
         container.dataset.saCasesSwiperInit = "1";
         return;
       }

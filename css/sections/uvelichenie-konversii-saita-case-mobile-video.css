@@ -1,0 +1,51 @@
+/* Мобилка: видео в кейсах UKS — рамка 906×515, contain (как /sozdanie-internet-magazina). */
+@media screen and (max-width: 719px) {
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant
+    .old[data-v-bd2e570a],
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant
+    .old {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 906px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    aspect-ratio: 906 / 515 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    line-height: 0 !important;
+    background: #0d0d0e;
+    border-radius: 13px;
+    flex: none !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant
+    .old
+    video.uks-case-video {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: transparent !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant[data-v-bd2e570a] {
+    width: 100% !important;
+    max-width: 906px !important;
+    flex: none !important;
+  }
+}

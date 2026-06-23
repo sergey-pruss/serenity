@@ -12,7 +12,7 @@ const cfg = loadServiceConfig(slug);
 const srcPath = path.join(root, "strategy", "index.html");
 const outPath = path.join(root, cfg.assemble.pageDir, "index.html");
 const ogImage = `/_sa/img/services/${slug}/og.webp`;
-const cacheBust = "20260622uksAwardsSynergyGap1";
+const cacheBust = "20260622uksCaseMobileClipFix1";
 
 function readPartial(name) {
   return fs.readFileSync(path.join(root, "html", "partials", "services", name), "utf8").trim();
