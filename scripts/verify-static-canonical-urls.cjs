@@ -60,6 +60,7 @@ const htmlFiles = [
   "korporativnyj_sajt/index.html",
   "sozdanie-internet-magazina/index.html",
   "kontekstnaya_reklama/index.html",
+  "uvelichenie-konversii-saita/index.html",
   ...walk("blog", []),
   ...walk("case/all", []),
 ];
