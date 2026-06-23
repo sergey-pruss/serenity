@@ -3,7 +3,13 @@
  * Статика — на nginx (serenity.agency / static.serenity.agency), не в ASSETS.
  */
 import { handleAmoFieldMapRequest, handleLeadRequest } from "./lead-api.mjs";
+import { handleAmoSiteFunnelRequest } from "./amo-site-funnel.mjs";
 import { handleLlmChatCompletions } from "./llm-proxy.mjs";
+import { handleRankDashboardNotify } from "./rank-dashboard-notify.mjs";
+import {
+  handleSenqTelegramSend,
+  handleSenqTelegramWebhook,
+} from "./senq-telegram-proxy.mjs";
 
 export default {
   async fetch(request, env) {
@@ -22,6 +28,18 @@ export default {
     }
     if (url.pathname === "/api/internal/llm-chat-completions") {
       return handleLlmChatCompletions(request, env);
+    }
+    if (url.pathname === "/api/internal/rank-dashboard-notify") {
+      return handleRankDashboardNotify(request, env);
+    }
+    if (url.pathname === "/api/internal/amo-site-funnel") {
+      return handleAmoSiteFunnelRequest(request, env);
+    }
+    if (url.pathname === "/api/internal/senq-telegram-send") {
+      return handleSenqTelegramSend(request, env);
+    }
+    if (url.pathname === "/api/internal/senq-telegram-webhook") {
+      return handleSenqTelegramWebhook(request, env);
     }
 
     if (url.pathname === "/" || url.pathname === "/index.html") {

@@ -1,5 +1,7 @@
 import { handleAmoFieldMapRequest, handleLeadRequest } from "./lead-api.mjs";
+import { handleAmoSiteFunnelRequest } from "./amo-site-funnel.mjs";
 import { handleLlmChatCompletions } from "./llm-proxy.mjs";
+import { handleRankDashboardNotify } from "./rank-dashboard-notify.mjs";
 
 /** Совпадает с nginx `/_sa/` → файлы из корня репозитория (css/, img/, …). Без префикса не перехватываем пути legacy. */
 const SNAPSHOT_PREFIX = "/_sa";
@@ -35,6 +37,12 @@ export default {
     }
     if (url.pathname === "/api/internal/llm-chat-completions") {
       return handleLlmChatCompletions(request, env);
+    }
+    if (url.pathname === "/api/internal/rank-dashboard-notify") {
+      return handleRankDashboardNotify(request, env);
+    }
+    if (url.pathname === "/api/internal/amo-site-funnel") {
+      return handleAmoSiteFunnelRequest(request, env);
     }
 
     /** Как nginx `location = /robots.txt` → `robots.production.txt` (канон продакшена). */
