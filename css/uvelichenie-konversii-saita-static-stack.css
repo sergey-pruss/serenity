@@ -102,6 +102,28 @@
   .page-constructor.uvelichenie-konversii-saita-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
     padding-top: var(--home-between, 97px) !important;
   }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section.uks-darkrain-case-section
+    + .page-constructor__section.uks-service-includes-section
+    > .modern.content-block,
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section.uks-darkrain-case-section
+    + .page-constructor__section.uks-service-includes-section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: 32px !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section.uks-skladno-case-section
+    + .page-constructor__section.uks-trust-section
+    > .modern.content-block,
+  .page-constructor.uvelichenie-konversii-saita-page
+    > .page-constructor__section.uks-skladno-case-section
+    + .page-constructor__section.uks-trust-section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: var(--home-between, 45px) !important;
+  }
 }
 
 @media screen and (max-width: 425px) {
@@ -609,5 +631,21 @@ body:not(.sa-home-page) .page-constructor.uvelichenie-konversii-saita-page .uks-
   .page-constructor.uvelichenie-konversii-saita-page .uks-awards-section .home-awards-block .awards,
   .page-constructor.uvelichenie-konversii-saita-page .uks-synergy-section {
     padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/*
+ * Кейсы (один слайд): без точек — не 56px из kontekst; лёгкий нижний отступ внутри слайдера.
+ */
+@media screen and (max-width: 720px) {
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    > .cases-block__slider,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block[data-v-bd2e570a]
+    > .cases-block__slider[data-v-bd2e570a] {
+    padding-bottom: 20px !important;
   }
 }

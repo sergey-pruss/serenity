@@ -30,8 +30,7 @@
   };
 
   /** Текстовая подпись до загрузки логотипа; alt без «function String()»; eager + fetchPriority. */
-  const initClientsLogoFallbacks = () => {
-    const host = document.querySelector(".clients-mainstr .swiper-container-clients-new");
+  const initClientsLogoFallbacksForHost = (host) => {
     if (!host || host.dataset.clientLogoFallback === "1") return;
     host.dataset.clientLogoFallback = "1";
     const labelFromSrc = (src) => {
@@ -40,25 +39,33 @@
       if (src.includes("bR5c6wK4")) return "Orange";
       return "Партнёр Serenity";
     };
+    const markSlideLogoLoaded = (slide, img) => {
+      if (!slide || !img || img.naturalWidth <= 0) return;
+      img.classList.add("is-loaded");
+      slide.classList.add("clients-new__slide--logo-loaded");
+    };
     for (const slide of host.querySelectorAll(".clients-new__slide")) {
       const img = slide.querySelector("img");
-      if (!img || slide.querySelector(".clients-new__label")) continue;
-      const name = labelFromSrc(img.getAttribute("src") || "");
-      img.alt = `Логотип: ${name}`;
-      img.loading = "eager";
-      if ("fetchPriority" in img) img.fetchPriority = "high";
-      const span = document.createElement("span");
-      span.className = "clients-new__label";
-      span.setAttribute("aria-hidden", "true");
-      span.textContent = name;
-      slide.insertBefore(span, img);
-      const markLoaded = () => {
-        if (img.naturalWidth > 0) img.classList.add("is-loaded");
-      };
-      if (img.complete && img.naturalWidth > 0) markLoaded();
-      else {
-        img.addEventListener("load", markLoaded, { once: true });
+      if (!img) continue;
+      if (!slide.querySelector(".clients-new__label")) {
+        const name = labelFromSrc(img.getAttribute("src") || "");
+        img.alt = `Логотип: ${name}`;
+        img.loading = "eager";
+        if ("fetchPriority" in img) img.fetchPriority = "high";
+        const span = document.createElement("span");
+        span.className = "clients-new__label";
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = name;
+        slide.insertBefore(span, img);
       }
+      if (img.dataset.clientLogoListen === "1") {
+        markSlideLogoLoaded(slide, img);
+        continue;
+      }
+      img.dataset.clientLogoListen = "1";
+      const onReady = () => markSlideLogoLoaded(slide, img);
+      if (img.complete) onReady();
+      else img.addEventListener("load", onReady, { once: true });
     }
   };
 
@@ -547,8 +554,14 @@
   const initOneClientsStrip = (host) => {
     const track = host ? host.querySelector(".clients-new__context-wrapper") : null;
     if (!host || !track) return;
-    if (host.dataset.clientsStripInit === "1") return;
+    if (host.dataset.clientsStripInit === "1") {
+      host.__saClientsStripRefresh?.();
+      return;
+    }
     tripleClientsStripSlidesFromTrack(track);
+    if (!host.closest("#sa-home-awards-mounted")) {
+      initClientsLogoFallbacksForHost(host);
+    }
     host.dataset.clientsStripInit = "1";
     host.dataset.clientsStrip = "1";
     host.classList.add("clients-strip");
@@ -695,6 +708,12 @@
       requestAnimationFrame(() => normalizeLoop());
     });
 
+    host.__saClientsStripRefresh = () => {
+      refresh();
+      snapStripInitialPosition();
+      normalizeLoop();
+    };
+
     let scrollRaf = 0;
     const onTrackScroll = () => {
       const now = performance.now();
@@ -815,9 +834,39 @@
   };
 
   /** Лента наград: home-awards.css подключается асинхронно — инициализация после load, иначе loopW=0. */
+  const runClientsStripAfterPaint = (fn) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(fn);
+    });
+  };
+
+  const whenHomeAwardsCssReady = (cb) => {
+    const link = document.querySelector('link[href*="home-awards.css"]');
+    const run = () => runClientsStripAfterPaint(cb);
+    if (!link) {
+      run();
+      return;
+    }
+    if (link.rel === "stylesheet" || link.sheet) {
+      run();
+      return;
+    }
+    link.addEventListener("load", run, { once: true });
+    link.addEventListener("error", run, { once: true });
+  };
+
   const initHomeAwardsClientsStrip = () => {
     const host = document.querySelector("#sa-home-awards-mounted .swiper-container-clients-new");
     if (host) initOneClientsStrip(host);
+  };
+
+  const initServicePageAwardsStrip = () => {
+    const awardsMount = document.getElementById("sa-home-awards-mounted");
+    if (!awardsMount) return;
+    whenHomeAwardsCssReady(() => {
+      tripleHomeAwardsStripSlides(awardsMount);
+      initHomeAwardsClientsStrip();
+    });
   };
 
   const initHeaderBurgerOnScroll = () => {
@@ -1323,16 +1372,38 @@
       slide.style.removeProperty("width");
       slide.style.height = "";
       slide.style.removeProperty("height");
+      slide.style.minHeight = "";
+      slide.style.removeProperty("min-height");
     });
     container.style.height = "";
     container.style.removeProperty("height");
+    container.style.minHeight = "";
+    container.style.removeProperty("min-height");
     const wrap = container.querySelector(".swiper-wrapper");
     if (wrap) {
       wrap.style.transform = "";
       wrap.style.removeProperty("transform");
       wrap.style.height = "";
       wrap.style.removeProperty("height");
+      wrap.style.minHeight = "";
+      wrap.style.removeProperty("min-height");
     }
+  };
+
+  const bumpUksSingleCaseLayout = (container) => {
+    cleanupCasesBlockDumpStyles(container);
+    if (!container.closest(".uks-case-section")) return;
+    container.style.setProperty("height", "auto", "important");
+    container.style.setProperty("min-height", "0", "important");
+    const wrap = container.querySelector(".swiper-wrapper");
+    if (wrap) {
+      wrap.style.setProperty("height", "auto", "important");
+      wrap.style.setProperty("min-height", "0", "important");
+    }
+    container.querySelectorAll(".swiper-slide").forEach((slide) => {
+      slide.style.setProperty("height", "auto", "important");
+      slide.style.setProperty("min-height", "0", "important");
+    });
   };
 
   const initCasesBlockSwipers = () => {
@@ -1363,7 +1434,10 @@
       const paginationEl = root.querySelector(".swiper-pagination");
       /* /seo и др.: один слайд без .swiper__navigation — всё равно снимаем инлайн height/width с prod-дампа. */
       if (!nextEl || !prevEl) {
-        const bumpSingleCaseLayout = () => cleanupCasesBlockDumpStyles(container);
+        const bumpSingleCaseLayout = () => {
+          if (container.closest(".uks-case-section")) bumpUksSingleCaseLayout(container);
+          else cleanupCasesBlockDumpStyles(container);
+        };
         bumpSingleCaseLayout();
         container.querySelectorAll(".swiper-slide").forEach((slide, index) => {
           slide.classList.toggle("swiper-slide-active", index === 0);
@@ -1808,10 +1882,8 @@
     link.rel = "stylesheet";
     link.href = "/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell";
     const runAwardsStripAfterPaint = () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          initHomeAwardsClientsStrip();
-        });
+      runClientsStripAfterPaint(() => {
+        initHomeAwardsClientsStrip();
       });
     };
     link.addEventListener("load", runAwardsStripAfterPaint, { once: true });
@@ -1836,7 +1908,6 @@
   initFooterPhoneSwitch();
   initHeroVideoLoading();
   initDeferredCaseVideos();
-  initClientsLogoFallbacks();
   initClientsStrip();
   initCasesBlockSwipers();
   initSynergyContextSwiper();
@@ -1847,13 +1918,9 @@
   }
 
   /* Страницы не-главная (услуги и т.п.): блок наград уже в DOM, но mountHomeAwardsTemplate
-     не запускается (нет sa-home-page). Инициализируем ленту и тройной loop вручную. */
+     не запускается (нет sa-home-page). Ждём home-awards.css, затем loop + native scroll. */
   if (!document.body?.classList.contains("sa-home-page")) {
-    const awardsMount = document.getElementById("sa-home-awards-mounted");
-    if (awardsMount) {
-      tripleHomeAwardsStripSlides(awardsMount);
-      initHomeAwardsClientsStrip();
-    }
+    initServicePageAwardsStrip();
   }
 
   /** /services: в TEXT-карточках при 4+ строках описания скрываем текст — остаются заголовок и цена. */

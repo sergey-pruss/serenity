@@ -2022,7 +2022,7 @@ body .page-constructor .team-block .team__member-card {
   }
 
   /* Полоса под слайдом: точки не на фото и не под следующей секцией. */
-  .cases-block .cases-block__slider {
+  .cases-block .cases-block__slider:has(.swiper-pagination) {
     padding-bottom: 56px !important;
     box-sizing: border-box;
   }

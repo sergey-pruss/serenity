@@ -515,6 +515,20 @@
   overflow-y: visible !important;
 }
 
+/* Часть правил дублируется из home-awards.css (async preload) — без них трек клипается до load. */
+#sa-home-awards-mounted,
+.home-awards-block .awards:has(.swiper-container-clients-new[data-clients-strip="1"]),
+.page-constructor__section:has(#sa-home-awards-mounted .swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+#sa-home-awards-mounted .swiper-container-clients-new[data-clients-strip="1"] .awards__card-wraper {
+  flex: 0 0 auto !important;
+  width: 148px !important;
+  min-width: 148px !important;
+}
+
 /* «Кейсы» (more-case-wr / mor-cases-slider): на адаптиве — нативный scroll, full-bleed как «Клиенты». */
 .mor-cases-slider.swiper-container[data-native-row="1"] {
   overflow-x: visible !important;

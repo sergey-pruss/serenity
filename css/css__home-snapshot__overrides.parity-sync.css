@@ -483,8 +483,10 @@
   pointer-events: none;
   transition: opacity 0.2s ease;
 }
+.swiper-container-clients-new .clients-new__slide.clients-new__slide--logo-loaded .clients-new__label,
 .swiper-container-clients-new .clients-new__slide:has(img.is-loaded) .clients-new__label {
   opacity: 0;
+  visibility: hidden;
 }
 
 @media screen and (max-width: 550px) {

@@ -1,5 +1,98 @@
-/* Мобилка: видео в кейсах UKS — рамка 906×515, contain (как /sozdanie-internet-magazina). */
-@media screen and (max-width: 719px) {
+/* Мобилка: слайд по высоте контента — видео, текст и кнопка без обрезки. */
+@media screen and (max-width: 720px) {
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block[data-v-bd2e570a],
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__slider,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__slider
+    .cases-block__slider-swiper-container.swiper-container,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__slider
+    .cases-block__slider-swiper-container
+    .swiper-wrapper,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block[data-v-bd2e570a] {
+    padding-bottom: 0 !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__slider
+    .cases-block__slider-swiper-container
+    .swiper-wrapper {
+    align-items: flex-start !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    align-self: flex-start !important;
+    box-sizing: border-box !important;
+    padding: 32px 36px 16px !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a]::before,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a]::after {
+    display: none !important;
+    content: none !important;
+    flex: none !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    .cases-block__slider {
+    padding-bottom: 0 !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant[data-v-bd2e570a],
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-text-contant[data-v-bd2e570a],
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-button-wrapper[data-v-bd2e570a] {
+    width: 100% !important;
+    max-width: 906px !important;
+    flex: none !important;
+    overflow: visible !important;
+  }
+
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant[data-v-bd2e570a] {
+    margin-bottom: 24px !important;
+  }
+
   .page-constructor.uvelichenie-konversii-saita-page
     .uks-case-section
     .cases-block__swiper-slide-contant
@@ -14,7 +107,6 @@
     max-width: 906px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    aspect-ratio: 906 / 515 !important;
     height: auto !important;
     overflow: hidden !important;
     line-height: 0 !important;
@@ -27,25 +119,42 @@
     .uks-case-section
     .cases-block__swiper-slide-contant
     .old
-    video.uks-case-video {
-    position: absolute !important;
-    inset: 0 !important;
+    video.uks-case-video,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant
+    .old
+    img.cases-block__swiper-slide-contant-image,
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block__swiper-slide-contant-image[data-v-bd2e570a] {
+    position: static !important;
+    inset: auto !important;
     display: block !important;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
     max-width: none !important;
     max-height: none !important;
-    aspect-ratio: auto !important;
-    object-fit: contain !important;
+    aspect-ratio: 906 / 515 !important;
+    object-fit: cover !important;
     object-position: center center !important;
     background: transparent !important;
+    border-radius: 13px !important;
+    vertical-align: top !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.uvelichenie-konversii-saita-page
+    .uks-case-section
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    padding: 28px 36px 12px !important;
   }
 
   .page-constructor.uvelichenie-konversii-saita-page
     .uks-case-section
     .cases-block__swiper-slide-contant[data-v-bd2e570a] {
-    width: 100% !important;
-    max-width: 906px !important;
-    flex: none !important;
+    margin-bottom: 20px !important;
   }
 }

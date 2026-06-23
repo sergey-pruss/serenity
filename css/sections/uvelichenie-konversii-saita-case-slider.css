@@ -48,7 +48,7 @@
   .uks-case-section
   .cases-block__slider
   .cases-block__slider-swiper-container.swiper-container {
-  overflow: hidden !important;
+  overflow: visible !important;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -212,14 +212,7 @@
     .uks-case-section
     .cases-block
     .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 72px 36px 48px !important;
-  }
-
-  .page-constructor.uvelichenie-konversii-saita-page
-    .uks-case-section
-    .cases-block
-    .cases-block__swiper-slide-contant[data-v-bd2e570a] {
-    margin-bottom: 32px !important;
+    padding: 48px 36px 32px !important;
   }
 }
 
@@ -228,6 +221,6 @@
     .uks-case-section
     .cases-block
     .cases-block__swiper-slide[data-v-bd2e570a] {
-    padding: 64px 36px 40px !important;
+    padding: 40px 36px 28px !important;
   }
 }
