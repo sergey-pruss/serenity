@@ -12,7 +12,23 @@ deploy_ssh_target() {
 }
 
 deploy_ssh_run() {
-  ssh -i "$(deploy_ssh_identity_file)" -o BatchMode=yes "$(deploy_ssh_target)" "$@"
+  local -a opts=(-i "$(deploy_ssh_identity_file)" -o BatchMode=yes)
+  if [[ -n "${DEPLOY_SSH_KNOWN_HOSTS:-}" ]]; then
+    opts+=(-o "UserKnownHostsFile=${DEPLOY_SSH_KNOWN_HOSTS}")
+  fi
+  case "$(uname -s 2>/dev/null)" in
+    MINGW* | MSYS*)
+      if [[ -z "${DEPLOY_SSH_KNOWN_HOSTS:-}" && -n "${USERPROFILE:-}" ]]; then
+        local kh
+        kh="$(cygpath -u "${USERPROFILE}/.ssh/known_hosts" 2>/dev/null || true)"
+        if [[ -n "$kh" ]]; then
+          opts+=(-o "UserKnownHostsFile=${kh}")
+        fi
+      fi
+      opts+=(-o StrictHostKeyChecking=accept-new)
+      ;;
+  esac
+  ssh "${opts[@]}" "$(deploy_ssh_target)" "$@"
 }
 
 deploy_use_tar_ssh_transport() {
