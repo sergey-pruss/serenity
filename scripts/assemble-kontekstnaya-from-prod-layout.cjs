@@ -58,9 +58,9 @@ const manifestPath = path.join(root, "kontekstnaya_reklama", "nuxt-css-manifest.
 
 /** SEO meta после среза prod (не перетирать при refresh capture). */
 const KONTEKST_META = {
-  title: "Контекстная реклама — настройка и ведение Яндекс Директа — Serenity",
+  title: "Контекстная реклама — настройка и ведение Яндекс Директа | Serenity",
   description:
-    "Настройка и ведение контекстной рекламы в Яндекс Директе и Google Ads. Москва, Санкт-Петербург, регионы России и зарубеж. Бесплатный аудит и медиаплан. Любые ниши — от медицины до e-commerce.",
+    "Настройка и ведение контекстной рекламы в Яндекс Директе: Москва и Санкт-Петербург. Пакеты, кейсы, SLA — агентство Serenity. Заявка на аудит →",
 };
 
 const KONTEKST_FAQ_MOUNT_ID = "kontekst-faq-mounted";
@@ -846,7 +846,7 @@ function run() {
     "    <!-- FAQ, награды, Swiper и стрелки — preload+onload (не блокируют FCP); остальное — для первого кадра. -->",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__snapshot.bundle.css?v=20260424\" />",
     "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__overrides.parity-sync.css?v=20260615blogCardBlurFix\" />",
-    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260603morCasesFullBleed\" />",
+    "    <link rel=\"stylesheet\" href=\"/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260622morCasesKontekst1\" />",
     buildCssLinks(v),
     deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260522kontekstFaqExpanded"),
     deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),

@@ -59,21 +59,21 @@ async function run() {
   );
 
   assert(
-    /<title>[^<]*Контекстная реклама[^<]*настройка и ведение[^<]*Serenity[^<]*<\/title>/i.test(html),
-    "<title>: Контекстная реклама + настройка и ведение + Serenity",
+    /<title>[^<]*Контекстная реклама[^<]*настройка и ведение Яндекс Директа[^<]*\| Serenity[^<]*<\/title>/i.test(html),
+    "<title>: Контекстная реклама — настройка и ведение Яндекс Директа | Serenity",
   );
 
   assert(
     html.includes(
-      'meta name="description" content="Настройка и ведение контекстной рекламы в Яндекс Директе и Google Ads.',
+      'meta name="description" content="Настройка и ведение контекстной рекламы в Яндекс Директе: Москва и Санкт-Петербург. Пакеты, кейсы, SLA — агентство Serenity. Заявка на аудит →"',
     ),
-    "SEO: description — Яндекс Директ, Google Ads, гео и бесплатный аудит",
+    "SEO: description — Директ, гео, пакеты/кейсы/SLA, CTA на аудит",
   );
   assert(
     html.includes("Санкт-Петербург") &&
-      html.includes("Бесплатный аудит и медиаплан") &&
+      !/meta name="description"[^>]*Google Ads/.test(html) &&
       !/meta name="description"[^>]*\bСПб\b/.test(html),
-    "SEO: description — Санкт-Петербург полностью, аудит и медиаплан",
+    "SEO: description — Санкт-Петербург полностью, без Google Ads и СПб",
   );
 
   {
