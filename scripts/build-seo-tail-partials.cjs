@@ -19,11 +19,13 @@ const BLOG_TEMPLATE = path.join(root, "html", "partials", "section-blog.html");
 
 const SEO_TOPIC_RE = /\bseo\b|seo-|\bпоисков|оптимизац/i;
 const CURATED_BLOG_SLUGS = [
-  "seo-ili-kontekstnaya-reklama-chto-vybrat",
-  "kak-uvelichit-trafik-sajta",
-  "chto-takoe-lidogeneraciya",
+  "etapy-seo-prodvizheniya-sajta",
+  "kompleksnyj-seo-audit-sajta-zachem-kogda-i-iz-chego-sostoit",
+  "seo-optimizatsiya-internet-magazina",
+  "kak-pravilno-pisat-seo-teksty",
+  "seo-meditsinskih-sajtov",
 ];
-const SLIDE_COUNT_MAX = 10;
+const SLIDE_COUNT_MAX = 5;
 const MIN_PUBLISH_YEAR = 2020;
 
 function extractSectionContaining(html, needle) {
@@ -280,8 +282,14 @@ function buildBlogPartial(posts) {
   const tailStart = template.lastIndexOf("<div", lastBox);
   const slides = posts.map((p, i) => renderBlogSlide(p, i)).join("\n");
   const inner = `${template.slice(0, contentStart)}\n${slides}\n${template.slice(tailStart)}`;
+  const blogLead =
+    "Материалы про&nbsp;<a href=\"/seo\" class=\"seo-text-link\">SEO-продвижение сайта</a>: этапы работ, аудит, оптимизация интернет-магазинов и&nbsp;медицинских проектов.";
+  const withLead = inner.replace(
+    /<p data-v-56f85d51="" class="services__description">[\s\S]*?<\/p>/,
+    `<p data-v-56f85d51="" class="services__description">\n                    ${blogLead}\n                  </p>`,
+  );
   return `<section class="page-constructor__section seo-blog-section">
-${inner.trim()}
+${withLead.trim()}
 </section>`;
 }
 

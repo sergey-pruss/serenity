@@ -80,6 +80,68 @@ function rewriteSeoSlice(html) {
 
 const WS = "(?:&nbsp;|\\s)";
 
+function escapeMetaAttr(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;");
+}
+
+function applySeoHeadMeta(html) {
+  const { pageTitle, metaTitle, description } = config.seo;
+  if (!pageTitle) return html;
+  const title = escapeMetaAttr(pageTitle);
+  const ogTitle = escapeMetaAttr(metaTitle || pageTitle);
+  const desc = escapeMetaAttr(description || "");
+  let out = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+  out = out.replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${desc}"`);
+  out = out.replace(/<meta name="title" content="[^"]*"/, `<meta name="title" content="${ogTitle}"`);
+  out = out.replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${ogTitle}"`);
+  out = out.replace(
+    /<meta property="og:description" content="[^"]*"/,
+    `<meta property="og:description" content="${desc}"`,
+  );
+  out = out.replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${ogTitle}"`);
+  out = out.replace(
+    /<meta name="twitter:description" content="[^"]*"/,
+    `<meta name="twitter:description" content="${desc}"`,
+  );
+  const ogImage = "https://serenity.agency/_sa/img/services/seo/hero/hero.webp";
+  if (!out.includes('property="og:image:secure_url"')) {
+    out = out.replace(
+      /<meta property="og:image" content="[^"]*"\s*\/>/,
+      `<meta property="og:image" content="${ogImage}" />\n    <meta property="og:image:secure_url" content="${ogImage}" />\n    <meta property="og:image:type" content="image/webp" />`,
+    );
+  }
+  return out;
+}
+
+function patchSeoHeroSubtitle(html) {
+  const raw = config.seo.heroSubtitle;
+  if (!raw) return html;
+  const sub = processTypographyHtml(raw, { force: true }).html;
+  return html.replace(
+    /(<h4 class="jumbotron-img-aurora__subtitle"[^>]*>)[^<]*(<\/h4>)/g,
+    `$1${sub}$2`,
+  );
+}
+
+function patchSeoInternalLinks(html) {
+  let s = html;
+  s = s.replace(
+    /Мы за&nbsp;комплексность в&nbsp;маркетинге\. Поэтому в&nbsp;рамках SEO-продвижения улучшаем сайт так, чтобы это&nbsp;позитивно сказывалось и&nbsp;на&nbsp;других каналах продаж\./g,
+    'Мы за&nbsp;комплексность в&nbsp;маркетинге. Сочетаем SEO с&nbsp;<a href="/kompleksnoye-prodvizheniye" class="seo-text-link">комплексным продвижением</a> и&nbsp;<a href="/kontekstnaya_reklama" class="seo-text-link">контекстной рекламой</a>, чтобы улучшения на&nbsp;сайте позитивно сказывались и&nbsp;на&nbsp;других каналах продаж.',
+  );
+  s = s.replace(
+    /отделами аналитики, разработки, контента, дизайна и&nbsp;(?:<a href="\/kontekstnaya_reklama" class="seo-text-link">)?контекстной рекламы(?:<\/a>)?, чтобы совместно/g,
+    'отделами аналитики, разработки, контента и&nbsp;дизайна, чтобы совместно',
+  );
+  s = s.replace(
+    /в&nbsp;то&nbsp;время как&nbsp;контекстная реклама — это&nbsp;платные объявления/g,
+    'в&nbsp;то&nbsp;время как&nbsp;<a href="/kontekstnaya_reklama" class="seo-text-link">контекстная реклама</a> — это&nbsp;платные объявления',
+  );
+  return s;
+}
+
 /** Facts: переносы в левой колонке, чтобы заголовок не заезжал на .description-item. */
 function patchSeoFactsTitleLineBreak(html) {
   let s = html;
@@ -381,6 +443,8 @@ function run() {
   main = ensureSeoOuterClosesAfterTeam(main);
   main = repairSeoMainStrayCloses(main);
   main = ensureSeoMainTagBalance(main);
+  main = patchSeoHeroSubtitle(main);
+  main = patchSeoInternalLinks(main);
 
   const index = fs.readFileSync(shellPath, "utf8");
   const v = "20260523korporativnyjBundle1";
@@ -398,7 +462,7 @@ function run() {
     '    <link rel="stylesheet" href="/_sa/css/sections/footer-burger-chrome.css?v=20260516footerSocialIconsGridAlign" />',
     '    <link rel="stylesheet" href="/_sa/css/sections/service-inline-lead-form.css?v=20260601inlineLeadThankYou" />',
     '    <link rel="stylesheet" href="/_sa/css/sections/header.css?v=20260517desktopNavLogoAlign" />',
-    '    <link rel="stylesheet" href="/_sa/css/seo-static-stack.css?v=20260603seoFactsTitleLines" />',
+    '    <link rel="stylesheet" href="/_sa/css/seo-static-stack.css?v=20260622seoTz1" />',
     `    <!-- ${a.markers.cssBundleEnd} -->`,
   ].join("\n");
 
@@ -418,6 +482,7 @@ function run() {
     process.exit(1);
   }
   out = `${out.slice(0, iStart + MAIN_START.length)}\n${main}\n${out.slice(iEnd)}`;
+  out = applySeoHeadMeta(out);
   out = ensureBurgerMenuGlavnaya(out);
   out = ensureSeoHeroPreload(out);
   out = ensureSeoScripts(out);

@@ -1,6 +1,25 @@
 @import url("./korporativnyj-sajt-static-stack.css");
 @import url("sections/service-hero-header.css");
 
+/* Внутренние ссылки без визуального выделения (SEO-перелинковка, как kompleksnoye). */
+.page-constructor.seo-page a.seo-text-link,
+.page-constructor.seo-page a.seo-text-link:visited,
+.page-constructor.seo-page a.seo-text-link:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-constructor.seo-page a.seo-text-link:hover {
+  color: #9cc9ff;
+  text-decoration: none;
+}
+
+.page-constructor.seo-page .content-block__desc a.seo-text-link,
+.page-constructor.seo-page .block__content a.seo-text-link,
+.page-constructor.seo-page .services__description a.seo-text-link {
+  font: inherit;
+}
+
 /* Страница /seo — static shell без #__nuxt (как kompleksnoye-prodvizheniye) */
 .page-constructor.seo-page {
   position: relative;
