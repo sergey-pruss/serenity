@@ -559,7 +559,7 @@
       return;
     }
     tripleClientsStripSlidesFromTrack(track);
-    if (!host.closest("#sa-home-awards-mounted")) {
+    if (!host.closest("#sa-home-awards-mounted") && !host.closest(".targeting-platforms-section")) {
       initClientsLogoFallbacksForHost(host);
     }
     host.dataset.clientsStripInit = "1";
@@ -619,13 +619,26 @@
     let blockLinkFromGesture = false;
     let gestureStartX = 0;
 
-    const isPointerOverLogoStrip = () => {
+    /* Пауза при наведении: в tick — :hover (надёжнее mouseenter на full-bleed host).
+       pointerleave на track сбрасывает user-idle, чтобы лента сразу ехала после ухода курсора. */
+    const pauseTrack = track;
+    const syncStripPointerInside = () => {
       try {
-        return host.matches(":hover");
+        return host.matches(":hover") || pauseTrack.matches(":hover");
       } catch {
         return false;
       }
     };
+    const onStripPointerLeave = (e) => {
+      const rel = e.relatedTarget;
+      if (rel && (host.contains(rel) || pauseTrack.contains(rel))) return;
+      lastUserScroll = 0;
+    };
+    for (const pauseEl of [host, pauseTrack]) {
+      pauseEl.addEventListener("pointerleave", onStripPointerLeave, { passive: true });
+    }
+
+    const isPointerOverLogoStrip = () => syncStripPointerInside();
 
     const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
 
@@ -1929,6 +1942,9 @@
   initHeroVideoLoading();
   initDeferredCaseVideos();
   initClientsStrip();
+  window.addEventListener("load", () => {
+    initClientsStrip();
+  }, { once: true });
   initCasesBlockSwipers();
   initSynergyContextSwiper();
   bootMarketingCmWideSlider();

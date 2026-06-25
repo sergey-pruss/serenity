@@ -334,7 +334,7 @@
   }
 }
 
-.page-constructor > .page-constructor__section:has(.clients-wrapper) {
+.page-constructor > .page-constructor__section:has(.clients-wrapper):not(.targeting-platforms-section):not(.targeting-clients-section) {
   display: none !important;
 }
 

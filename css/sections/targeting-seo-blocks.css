@@ -1,0 +1,355 @@
+/**
+ * SEO-блоки /targeting: KPI, таблицы тарифов, карусель площадок.
+ * KPI — паритет с kontekst-mini; [data-v-1aed48bd] перебивает Nuxt width:100% на .content-item.
+ */
+@import url("kontekstnaya-packages-compare.css");
+@import url("service-packages-cards.css");
+
+.page-constructor > .page-constructor__section > .advantages > .page__container,
+.page-constructor > .page-constructor__section > .advantages > .page__container.desktop {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.targeting-page .advantages-card.advantages-card--targeting-mini,
+.page-constructor .advantages-card.advantages-card--targeting-mini,
+.page-constructor .advantages-card.advantages-card--targeting-mini[data-v-1aed48bd] {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+  padding: 88px 0 !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+  background-color: #1d1d1f !important;
+  border-radius: 30px !important;
+  box-shadow: 0 0 85px rgba(116, 11, 160, 0.34) !important;
+  overflow-x: hidden;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content[data-v-1aed48bd] {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 100%;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-list,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-list[data-v-1aed48bd] {
+  display: flex !important;
+  grid-template-columns: none !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px !important;
+  width: 100%;
+  margin: 0;
+  padding: 0 40px;
+  box-sizing: border-box;
+  list-style: none;
+  overflow-x: hidden;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-list > li,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-item,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-item[data-v-1aed48bd] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 36px;
+  flex: 1 1 0 !important;
+  width: auto !important;
+  min-width: 0;
+  max-width: calc(33.333% - 16px);
+  margin: 0 !important;
+  justify-content: flex-start;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-item:last-child,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-item:last-child[data-v-1aed48bd] {
+  margin-top: 0 !important;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-image,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-image[data-v-1aed48bd] {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-image img,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-image img[data-v-1aed48bd] {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-info,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-info[data-v-1aed48bd] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+  gap: 5px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title[data-v-1aed48bd] {
+  margin: 0;
+  font-size: 64px;
+  line-height: 126%;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-text,
+.page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-text[data-v-1aed48bd] {
+  max-width: none;
+  font-size: 16px;
+  line-height: 140%;
+  font-weight: 300;
+  color: #afafaf;
+  text-align: left !important;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Desktop: широкая колонка — описание ровно в 2 строки, блоки одной высоты */
+@media screen and (min-width: 1025px) {
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-info,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-info[data-v-1aed48bd] {
+    max-width: none;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-text,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-text[data-v-1aed48bd] {
+    width: 100%;
+    max-width: none !important;
+    min-height: calc(16px * 1.4 * 2);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .page-constructor .advantages-card.advantages-card--targeting-mini,
+  .page-constructor .advantages-card.advantages-card--targeting-mini[data-v-1aed48bd] {
+    padding: 69px 55px !important;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-list,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-list[data-v-1aed48bd] {
+    flex-direction: column !important;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 40px !important;
+    padding: 0;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-item,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content .advantages-card__content-item[data-v-1aed48bd] {
+    gap: 35px;
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-info,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-info[data-v-1aed48bd],
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-text,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-text[data-v-1aed48bd] {
+    max-width: none !important;
+    min-height: 0;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title[data-v-1aed48bd] {
+    font-size: 50px;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor > .page-constructor__section > .advantages > .page__container,
+  .page-constructor > .page-constructor__section > .advantages > .page__container.desktop {
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 36px)), 16px) !important;
+    padding-right: max(var(--page-inline-end, var(--page-gutter-x, 36px)), 16px) !important;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title[data-v-1aed48bd] {
+    font-size: 32px;
+    line-height: 1.12;
+    white-space: normal;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor .advantages-card.advantages-card--targeting-mini,
+  .page-constructor .advantages-card.advantages-card--targeting-mini[data-v-1aed48bd] {
+    padding: 57px 40px !important;
+    overflow: hidden;
+  }
+
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title,
+  .page-constructor .advantages-card.advantages-card--targeting-mini .advantages-card__content-title[data-v-1aed48bd] {
+    white-space: normal;
+    font-size: 28px;
+  }
+}
+
+.page-constructor.targeting-page .targeting-packages-channels-note {
+  margin: 24px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #afafaf;
+}
+
+.page-constructor.targeting-page .targeting-packages-communities-heading {
+  margin: 48px 0 20px;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Второй блок (сообщества): на мобилке карточек нет — оставляем compare со скроллом */
+@media screen and (max-width: 1024px) {
+  .page-constructor.targeting-page
+    .dies
+    .prices
+    .kontekst-packages-compare.targeting-packages-communities-compare {
+    display: block !important;
+  }
+}
+
+/* Десктоп: ширина блока пакетов как у content-block */
+@media screen and (min-width: 1025px) {
+  .page-constructor.targeting-page .targeting-packages-dies-section .dies.modern > .page__container {
+    box-sizing: border-box !important;
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  }
+}
+
+/* Рекламные площадки — как «Наши клиенты» (карточки 248×150, clients-strip в app.js) */
+.page-constructor.targeting-page > .page-constructor__section.targeting-platforms-section {
+  display: block !important;
+}
+
+.page-constructor.targeting-page .targeting-platforms-section .clients-new.home-ledge,
+.page-constructor.targeting-page .targeting-platforms-section .clients-new.home-ledge[data-v-08586076] {
+  margin-bottom: 24px !important;
+}
+
+.page-constructor.targeting-page .targeting-platforms-section .home-clients-awards__title,
+.page-constructor.targeting-page .targeting-platforms-section .home-clients-awards__title[data-v-08586076] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.targeting-page .targeting-platforms-section .home-clients-awards__title,
+  .page-constructor.targeting-page .targeting-platforms-section .home-clients-awards__title[data-v-08586076] {
+    font-size: 28px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .page-constructor.targeting-page .targeting-platforms-section .home-clients-awards__title,
+  .page-constructor.targeting-page .targeting-platforms-section .home-clients-awards__title[data-v-08586076] {
+    font-size: 26px !important;
+  }
+}
+
+.targeting-platforms-section__lead {
+  margin: 0 0 var(--kontekst-heading-gap, 80px);
+  max-width: 720px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #afafaf;
+  text-align: left;
+}
+
+.page-constructor.targeting-page .targeting-platforms-section .swiper-container-clients-new,
+.page-constructor.targeting-page .targeting-platforms-section .swiper-container-clients-new[data-v-08586076] {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* full-bleed ленты: overflow:visible на .clients-wrapper (между section и wrapper — лишний div из partial) */
+.page-constructor.targeting-page
+  .targeting-platforms-section:has(.swiper-container-clients-new[data-clients-strip="1"])
+  .clients-wrapper:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow: visible !important;
+}
+
+.page-constructor.targeting-page
+  .targeting-platforms-section:has(.swiper-container-clients-new[data-clients-strip="1"])
+  .clients-new-section:has(.swiper-container-clients-new[data-clients-strip="1"]) {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+.page-constructor.targeting-page .targeting-platforms-section .clients-new__slide,
+.page-constructor.targeting-page .targeting-platforms-section .clients-new__slide[data-v-08586076] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-constructor.targeting-page .targeting-platforms-section .clients-new__slide img,
+.page-constructor.targeting-page .targeting-platforms-section .clients-new__slide img[data-v-08586076] {
+  display: block;
+  margin: 0 auto;
+  max-height: 50px;
+  max-width: min(200px, calc(100% - 32px));
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 500px) {
+  .page-constructor.targeting-page .targeting-platforms-section .clients-new__slide img,
+  .page-constructor.targeting-page .targeting-platforms-section .clients-new__slide img[data-v-08586076] {
+    max-width: min(200px, calc(100% - 24px));
+  }
+}
+
+/* Toofli: размытый cover-фон; картинка — стандартный cases-block (906×515, object-fit: cover) */
+.page-constructor .targeting-case-slider-section--toofli .cases-block .targeting-case-toofli[data-v-bd2e570a] {
+  isolation: isolate;
+}
+
+.page-constructor .targeting-case-slider-section--toofli .cases-block .targeting-case-toofli .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  z-index: 0 !important;
+}
+
+.page-constructor .targeting-case-slider-section--toofli .cases-block .targeting-case-toofli.swiper-slide-active .background[data-v-bd2e570a] {
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1 !important;
+}
+
+.page-constructor .targeting-case-slider-section--toofli .cases-block .targeting-case-toofli.swiper-slide-active .cases-block__swiper-slide-contant[data-v-bd2e570a],
+.page-constructor .targeting-case-slider-section--toofli .cases-block .targeting-case-toofli.swiper-slide-active .cases-block__swiper-slide-text-contant[data-v-bd2e570a] {
+  position: relative;
+  z-index: 2 !important;
+}

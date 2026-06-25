@@ -114,7 +114,9 @@ async function run() {
     ) && read("css/targeting-static-stack.css").includes("display: none !important"),
     "без фонового фото kontekst ::before в герое",
   );
-  assert(!html.includes("service-packages-slider.js"), "без packages slider");
+  assert(html.includes("service-packages-slider.js"), "packages: service-packages-slider.js");
+  assert(html.includes("kontekst-packages-compare-rows.js"), "packages: kontekst-packages-compare-rows.js");
+  assert(html.includes("targeting-packages-compare-mounted"), "packages: compare-таблица");
   assert(
     html.includes("team__members-slider") || html.includes("team-block"),
     "команда: слайдер или сетка team-block",
@@ -147,6 +149,14 @@ async function run() {
   assert(
     fileExists("html/partials/services/faq-targeting.html"),
     "partial faq-targeting.html",
+  );
+  assert(
+    fileExists("html/partials/services/blog-targeting.html"),
+    "partial blog-targeting.html",
+  );
+  assert(
+    fileExists("html/partials/services/clients-targeting.html"),
+    "partial clients-targeting.html",
   );
   assert(
     fileExists("json/services/targeting/faq.json"),
@@ -207,7 +217,10 @@ async function run() {
   const phase2 = !captureBaseline && process.env.TARGETING_VERIFY_PHASE2 === "1";
   if (phase2) {
     assert(html.includes('class="facts"') || html.includes("Наш подход"), "phase2: факты/подход");
-    assert(!html.includes("Наши клиенты"), "phase2: без отдельной секции клиентов (как kontekst)");
+    assert(html.includes("targeting-blog-section"), "phase2: блок блога после FAQ");
+    assert(html.includes("targeting-clients-section"), "phase2: блок «Наши клиенты» после FAQ");
+    assert(html.includes("Наши клиенты"), "phase2: секция клиентов");
+    assert(!html.includes("<!-- TARGETING-BLOG-CLIENTS-START -->"), "HTML: без маркеров TARGETING-BLOG-CLIENTS");
     assert(!html.includes("TARGETING-PHASE2:middle"), "phase2: нет маркера middle");
     assert(!html.includes("https://serenity.agency/storage/"), "phase2: пути storage переписаны в /_sa/img/");
     assert(html.includes('class="cases-block"'), "phase2: слайдер cases-block в середине страницы");

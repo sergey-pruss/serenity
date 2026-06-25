@@ -13,11 +13,26 @@ const { stripContentBlockSliders } = require("./lib/strip-content-block-slider.c
 const { repairContentBlockMotionDivTags } = require("./lib/repair-content-block-motion-div-tags.cjs");
 const { repairNumberedHeaderExtraCloses } = require("./lib/repair-numbered-header-extra-closes.cjs");
 const { patchServiceBreadcrumbForSlug } = require("./lib/service-breadcrumb-jsonld.cjs");
+const { injectTargetingBlogClientsAfterFaq } = require("./lib/inject-targeting-blog-clients.cjs");
 
 const root = path.resolve(__dirname, "..");
 
+function patchTargetingHeroSubtitle(mainHtml) {
+  const subtitle =
+    "Настраиваем и&nbsp;ведём таргетированную рекламу в&nbsp;социальных сетях в&nbsp;Москве, Санкт-Петербурге, по&nbsp;всей России и&nbsp;за&nbsp;рубежом — привлекаем целевую аудиторию, заявки и&nbsp;продажи.";
+  return mainHtml.replace(
+    /(<h4 class="c-title-block__subtitle"[^>]*>)[\s\S]*?(<\/h4>)/,
+    `$1${subtitle}$2`,
+  );
+}
+
 function buildServicePartials() {
   if (process.env.SKIP_SERVICE_PARTIALS_BUILD === "1") return;
+  if (process.env.TARGETING_INCLUDE_PHASE2 === "1" || process.env.TARGETING_INCLUDE_PHASE2 === "true") {
+    execSync("node scripts/build-targeting-seo-middle.cjs", { cwd: root, stdio: "inherit" });
+    execSync("node scripts/update-targeting-faq-tz.cjs", { cwd: root, stdio: "inherit" });
+  }
+  execSync("node scripts/build-targeting-blog-clients-partials.cjs", { cwd: root, stdio: "inherit" });
   execSync("npm run build:service-partials", { cwd: root, stdio: "inherit" });
 }
 
@@ -464,6 +479,40 @@ function ensureTargetingTeamSliderScript(html) {
   return html.replace(appJs, insert);
 }
 
+function ensureTargetingPackagesSliderScript(html) {
+  const needle = 'src="/_sa/js/service-packages-slider.js';
+  if (html.includes(needle)) return html;
+  const teamNeedle = 'src="/_sa/js/service-team-slider.js';
+  const tag =
+    '    <script defer src="/_sa/js/service-packages-slider.js?v=20260516kontekstPackagesGutter"></script>\n';
+  if (html.includes(teamNeedle)) {
+    return html.replace(
+      /(<script defer src="\/_sa\/js\/service-team-slider\.js[^"]*"><\/script>\s*)/,
+      `$1${tag}`,
+    );
+  }
+  const appJs = '<script defer src="/_sa/js/app.js?v=20260517morCasesTablet"></script>';
+  if (html.includes(appJs)) {
+    return html.replace(appJs, `${appJs}\n${tag.trim()}`);
+  }
+  return html;
+}
+
+function ensureTargetingPackagesCompareRowsScript(html) {
+  const needle = 'src="/_sa/js/kontekst-packages-compare-rows.js';
+  if (html.includes(needle)) return html;
+  const sliderNeedle = 'src="/_sa/js/service-packages-slider.js';
+  const tag =
+    '    <script defer src="/_sa/js/kontekst-packages-compare-rows.js?v=20260603kontekstPackagesCompareScrollEnd"></script>\n';
+  if (html.includes(sliderNeedle)) {
+    return html.replace(
+      /(<script defer src="\/_sa\/js\/service-packages-slider\.js[^"]*"><\/script>\s*)/,
+      `$1${tag}`,
+    );
+  }
+  return html;
+}
+
 function ensureBurgerMenuGlavnaya(html) {
   if (/<ul class="navigation-new__list"[^>]*>[\s\S]*?<a\s+href="\/"[^>]*>\s*Главная\s*<\/a>/i.test(html)) {
     return html;
@@ -585,6 +634,7 @@ function run() {
 
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
   main = sanitizeProductJsonLd(main);
+  main = patchTargetingHeroSubtitle(main);
 
   const captureOnly =
     process.env.TARGETING_ASSEMBLE_CAPTURE_ONLY === "1" ||
@@ -611,6 +661,7 @@ function run() {
   main = injectTargetingSynergy(main);
   main = moveTargetingInlineLeadBeforeTeam(main);
   main = moveTargetingFaqSectionBeforeCases(main);
+  main = injectTargetingBlogClientsAfterFaq(main);
   main = ensureTargetingMoreCasesMainClass(main);
   main = injectContentBlockSubtitles(main);
   main = repairMisplacedSubtitles(main);
@@ -652,6 +703,8 @@ function run() {
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__native-row-scroll.css?v=20260516kontekstTeamDesktopRestore" />',
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523targetingFaqExpanded"),
+        deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260609packagesMobileSlider"),
+        deferNonBlockingCss("/_sa/css/sections/targeting-seo-blocks.css?v=20260625targetingPlatformsGapFix"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
         '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
@@ -680,6 +733,8 @@ function run() {
   if (!captureOnly) {
     out = ensureTargetingFaqScript(out);
     out = ensureTargetingTeamSliderScript(out);
+    out = ensureTargetingPackagesSliderScript(out);
+    out = ensureTargetingPackagesCompareRowsScript(out);
   }
   fs.writeFileSync(indexPath, out, "utf8");
   const typo = processTypographyHtml(fs.readFileSync(indexPath, "utf8"), { force: true });

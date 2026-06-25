@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 40" fill="none" role="img" aria-label="Hybrid">
+  <rect x="4" y="10" width="20" height="20" rx="6" fill="#7B61FF"/>
+  <path d="M10 20h8M14 16v8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <text x="32" y="26" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Hybrid</text>
+</svg>
