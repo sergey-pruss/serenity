@@ -207,8 +207,9 @@
       host.style.marginRight = fullBleedRightOnly ? "0" : `-${rightExpose}px`;
       host.style.boxSizing = "border-box";
       track.style.boxSizing = "border-box";
+      /* fullBleedRightOnly: хост без вылета влево; гаттер — padding-left на треке (первая карточка по заголовку). */
       const trackPadLeft = fullBleedRightOnly
-        ? 0
+        ? sidePad
         : fixedBleedPad
           ? sidePad
           : Math.max(0, sidePad - current);

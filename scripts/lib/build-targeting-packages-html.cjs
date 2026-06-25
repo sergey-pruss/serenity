@@ -14,6 +14,25 @@ function formatPriceRub(n) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0");
 }
 
+/** «Рекламный бюджет» / «от 100 000 ₽» — две строки, сумма не рвётся. */
+function formatTermLineHtml(termLine) {
+  if (cardHasSplitTerm(termLine)) {
+    const { label, amount } = splitTermLine(termLine);
+    return `<p data-v-1444f1fb="" class="price-card__term"><i><span class="price-card__term-label">${label}</span><span class="price-card__term-amount">${amount}</span></i></p>`;
+  }
+  return `<p data-v-1444f1fb=""><i>${termLine}</i></p>`;
+}
+
+function cardHasSplitTerm(termLine) {
+  return /\s+от(?:&nbsp;|\s)/i.test(termLine);
+}
+
+function splitTermLine(termLine) {
+  const m = termLine.match(/^(.+?)\s+(от(?:&nbsp;|\s).+)$/i);
+  if (!m) return { label: termLine, amount: "" };
+  return { label: m[1].trim(), amount: m[2].trim() };
+}
+
 function compareCell(kind) {
   if (kind === "yes") {
     return '<td class="kontekst-packages-compare__cell kontekst-packages-compare__cell--yes" aria-label="Входит"><span aria-hidden="true">✓</span></td>';
@@ -124,8 +143,10 @@ function buildPriceCardSlide(card, ruleIndex) {
     },
   });
 
+  const termHtml = formatTermLineHtml(card.termLine);
+
   return `<div class="prices__packages-slide swiper-slide" style="margin-right:30px"><div data-v-1444f1fb="" data-v-1505791e="" class="price-card__wrapper"><div data-v-1444f1fb="" class="price-card noImg"><h3 data-v-1444f1fb="">${card.name}</h3><div class="price-card__title-rule price-card__title-rule--${ruleIndex}" aria-hidden="true"></div> <p data-v-1444f1fb="">${card.description}</p> <div data-v-1444f1fb="" class="price-card__details"><span data-v-1444f1fb="" class="price-card__price">
-				От&nbsp;${priceDisplay} <span data-v-1444f1fb="">¤</span></span> <p data-v-1444f1fb=""><i>${card.termLine}</i></p> <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">${jsonLd}</script></div></div>`;
+				От&nbsp;${priceDisplay} <span data-v-1444f1fb="">¤</span></span> ${termHtml} <!----> <!----></div> <!----></div> <script data-v-1444f1fb="" type="application/ld+json">${jsonLd}</script></div></div>`;
 }
 
 function buildTargetingPackagesBlockHtml(rootDir) {
@@ -159,6 +180,14 @@ function buildTargetingPackagesBlockHtml(rootDir) {
     },
   );
 
+  const communitySlides = (data.communitiesCards || [])
+    .map((card, i) => buildPriceCardSlide(card, (i % 3) + 1))
+    .join("");
+
+  const communitiesCardsHtml = communitySlides
+    ? `<div data-v-1505791e="" class="prices__cards row prices__cards--packages prices__cards--communities-packages"><div data-v-1505791e="" class="prices__packages-slider swiper-container swiper-container-horizontal swiper-container-free-mode"><div data-v-1505791e="" class="prices__packages-track swiper-wrapper">${communitySlides}</div></div></div>`
+    : "";
+
   return (
     `<!-- TARGETING-PACKAGES-START -->
 <section class="page-constructor__section targeting-packages-heading"><div data-v-4ed7dc78="" class="modern content-block"><div data-v-4ed7dc78="" class="page__container"><div data-v-490c7534="" data-v-4ed7dc78="" class="numbered-header number-header__empty"><div data-v-490c7534="" class="row"><div data-v-490c7534="" class="col-6 col-md-12 numbered-header__title-column"><div data-v-490c7534="" class="numbered-header__bullet"></div> <div data-v-490c7534="" class="numbered-header__title"><h2 data-v-490c7534="">${data.heading}</h2> <!----> <h4 data-v-490c7534="" style="display: none;"></h4></div></div> <!----></div></div> <!----> <!----> <!----> <!----></div></div></section>
@@ -166,6 +195,7 @@ function buildTargetingPackagesBlockHtml(rootDir) {
 ${mainCompare}
 <p class="targeting-packages-channels-note">${data.channelsNote}</p>
 <h3 class="targeting-packages-communities-heading">${data.communitiesHeading}</h3>
+${communitiesCardsHtml}
 ${communitiesCompare}
 </section></div></div></section>
 <!-- TARGETING-PACKAGES-END -->`

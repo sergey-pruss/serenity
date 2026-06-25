@@ -704,7 +704,7 @@ function run() {
         buildCssLinks(v),
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523targetingFaqExpanded"),
         deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260609packagesMobileSlider"),
-        deferNonBlockingCss("/_sa/css/sections/targeting-seo-blocks.css?v=20260625targetingPlatformsGapFix"),
+        deferNonBlockingCss("/_sa/css/sections/targeting-seo-blocks.css?v=20260625packagesSliderGutter"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
         '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260523serviceHeroTop" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),

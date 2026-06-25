@@ -1334,6 +1334,8 @@ body:not(.order-popup-open) .overlay-new {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 55px)), 16px) !important;
+    scroll-padding-inline-start: max(var(--page-inline-start, var(--page-gutter-x, 55px)), 16px) !important;
     scroll-padding-inline-end: var(--page-inline-end, var(--page-gutter-x, 55px));
     padding-top: 20px !important;
     margin-top: 0 !important;

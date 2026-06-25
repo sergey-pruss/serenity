@@ -92,8 +92,14 @@
   }
 }
 
-.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] {
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb],
+.page-constructor .dies .prices .price-card.noImg {
+  /* Nuxt .price-card[data-v-1444f1fb] — в targeting-nuxt.bundle нет компонента, задаём явно. */
+  background: rgba(29, 29, 31, 0.8) !important;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 30px !important;
   padding: calc((50px * 0.8 + 15px) / 2 + 5px) calc((50px * 0.8) / 2 + 5px) !important;
+  box-sizing: border-box !important;
 }
 
 @media screen and (min-width: 1024px) {
@@ -118,9 +124,32 @@
   }
 }
 
-.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__price[data-v-1444f1fb] {
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__price[data-v-1444f1fb],
+.page-constructor .dies .prices .price-card.noImg .price-card__price {
   font-size: calc(32px * 0.7) !important;
   margin-top: 30px !important;
+  white-space: nowrap !important;
+}
+
+.page-constructor .dies .prices .price-card__term {
+  margin-top: 10px !important;
+}
+
+.page-constructor .dies .prices .price-card__term i {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.page-constructor .dies .prices .price-card__term-label,
+.page-constructor .dies .prices .price-card__term-amount {
+  display: block;
+  line-height: 1.35;
+}
+
+.page-constructor .dies .prices .price-card__term-amount {
+  white-space: nowrap !important;
 }
 
 /* Бюджет под ценой — <p><i>…</i></p>; зазор от цены */
@@ -132,6 +161,87 @@
 /* «Подходит для…» и строка бюджета в разметке в <i> — без курсива */
 .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] i {
   font-style: normal !important;
+}
+
+/* Мобилка/планшет: текст в карточках по центру (Nuxt .price-card { text-align:center } на /kontekstnaya_reklama). */
+@media screen and (max-width: 1024px) {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] h3[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg h3 {
+    width: 100%;
+    text-align: center !important;
+    text-wrap: balance;
+  }
+
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] p[data-v-1444f1fb]:not(.price-card__term),
+  .page-constructor .dies .prices .price-card.noImg p:not(.price-card__term) {
+    max-width: 300px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__details[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg .price-card__details {
+    margin-top: 0 !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__price[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg .price-card__price {
+    display: block !important;
+    width: 100%;
+    text-align: center !important;
+  }
+
+  .page-constructor .dies .prices .price-card__details[data-v-1444f1fb] > p[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card__details > p,
+  .page-constructor .dies .prices .price-card__term {
+    text-align: center !important;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__price[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg .price-card__price {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .page-constructor .dies .prices .price-card__term-amount {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__price[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg .price-card__price {
+    font-size: calc(28px * 0.7) !important;
+  }
+
+  .page-constructor .dies .prices .price-card__term-label,
+  .page-constructor .dies .prices .price-card__term-amount {
+    font-size: 14px;
+  }
 }
 
 /*
@@ -267,6 +377,8 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
+    padding-left: max(var(--page-inline-start, var(--page-gutter-x, 55px)), 16px) !important;
+    scroll-padding-inline-start: max(var(--page-inline-start, var(--page-gutter-x, 55px)), 16px) !important;
     scroll-padding-inline-end: var(--page-inline-end, var(--page-gutter-x, 55px));
     padding-top: 20px !important;
     margin-top: 0 !important;
