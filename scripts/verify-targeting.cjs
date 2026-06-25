@@ -30,14 +30,14 @@ async function run() {
 
   assert(html.includes("Таргетированная реклама"), "title/контент: Таргетированная реклама");
   assert(
-    /<title>Таргетированная реклама — Serenity<\/title>/.test(html),
-    "<title> как на проде: Таргетированная реклама — Serenity",
+    /<title>Таргетированная реклама — настройка и ведение в VK и Telegram \| Serenity<\/title>/.test(html),
+    "<title>: таргет — настройка и ведение в VK и Telegram",
   );
   assert(
     html.includes(
-      'meta name="description" content="Услуги по таргетированной рекламе во всех социальных сетях. Заказать настройку таргетированной рекламы в instagram, vk, фейсбуке',
+      'meta name="description" content="Настройка и ведение таргетированной рекламы в VK, Telegram Ads и MyTarget: Москва и Санкт-Петербург. Пакеты от 107 000 ₽, кейсы, аналитика — Serenity. Заявка на расчёт →"',
     ),
-    "description как на проде",
+    "description: VK, Telegram, гео, пакеты",
   );
   assert(html.includes('property="og:lowPrice" content="107000.00"'), "og:lowPrice как на проде");
   assert(
