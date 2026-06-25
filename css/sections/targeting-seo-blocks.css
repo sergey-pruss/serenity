@@ -3,7 +3,16 @@
  * KPI — паритет с kontekst-mini; [data-v-1aed48bd] перебивает Nuxt width:100% на .content-item.
  */
 @import url("kontekstnaya-packages-compare.css");
-@import url("service-packages-cards.css");
+@import url("service-packages-cards.css?v=20260625packagesCardBg");
+
+/* Фон карточек: дублируем здесь (файл с ?v=), т.к. @import без версии ловит immutable-кэш старого service-packages-cards. */
+.page-constructor.targeting-page .dies .prices .price-card.noImg[data-v-1444f1fb],
+.page-constructor.targeting-page .dies .prices .price-card.noImg {
+  background: rgba(29, 29, 31, 0.8) !important;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 30px !important;
+  box-sizing: border-box !important;
+}
 
 .page-constructor > .page-constructor__section > .advantages > .page__container,
 .page-constructor > .page-constructor__section > .advantages > .page__container.desktop {

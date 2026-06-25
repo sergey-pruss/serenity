@@ -103,7 +103,8 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] {
+  .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb],
+  .page-constructor .dies .prices .price-card.noImg {
     padding: calc(((50px * 0.8 + 15px) / 2 + 5px) * 1.2) calc(((50px * 0.8) / 2 + 5px) * 1.2) !important;
   }
 }
