@@ -1,0 +1,15 @@
+{
+  "builtAt": "2026-06-29T17:56:02.049Z",
+  "source": "8 curated tehpod-topic cases (support, site dev, e-commerce)",
+  "expected": 8,
+  "hrefs": [
+    "/case/darkrain-store",
+    "/case/all/skladno-internet-magazin-mebeli",
+    "/case/all/sytnie-ugodia",
+    "/case/volvo-penta",
+    "/case/cromi",
+    "/case/riderra",
+    "/case/evrostroj",
+    "/case/gio-welness"
+  ]
+}

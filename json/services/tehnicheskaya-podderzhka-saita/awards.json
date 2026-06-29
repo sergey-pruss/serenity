@@ -1,0 +1,66 @@
+{
+  "headingId": "tehpod-awards-heading",
+  "mountId": "sa-home-awards-mounted",
+  "awards": [
+    {
+      "rating": "Workspace Digital",
+      "year": "2025",
+      "description": "16 место в списке самых награждаемых маркетинговых агентств",
+      "href": null
+    },
+    {
+      "rating": "Ruward",
+      "year": "2025",
+      "description": "17 место в рейтинге России по технической поддержке веб-проектов",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "13 место в Санкт-Петербурге по разработке корпоративных цифровых решений",
+      "href": null
+    },
+    {
+      "rating": "Ruward",
+      "year": "2022",
+      "description": "2 место в России по performance-маркетингу для IT-услуг и сервисов",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг АКАР",
+      "year": "2022",
+      "description": "ТОП-85 по России в Digital Non-Media Rating",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "44 место по России в рейтинге разработчиков сайтов",
+      "href": "https://api.cabinet.cmsmagazine.ru/diplom/show/a8e587222488d8c01db74777375e8bf9"
+    },
+    {
+      "rating": "Золотой<br>сайт",
+      "year": "2016",
+      "description": "1 место в номинации «Сайт магазина розничной торговли»",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "19 место в России в рейтинге разработчиков сайта типа «Лендинг»",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "30 место в рейтинге ведущих веб-студий СПб",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "29 место по России в рейтинге разработчиков сайтов на Tilda",
+      "href": null
+    }
+  ]
+}

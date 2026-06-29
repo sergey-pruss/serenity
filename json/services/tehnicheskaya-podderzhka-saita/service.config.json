@@ -1,0 +1,54 @@
+{
+  "slug": "tehnicheskaya-podderzhka-saita",
+  "urlPath": "/tehnicheskaya-podderzhka-saita",
+  "seo": {
+    "breadcrumbLabel": "Техническая поддержка сайта",
+    "pageTitle": "Техническая поддержка сайта — Serenity",
+    "metaTitle": "Техническая поддержка сайта — Serenity",
+    "description": "Поддерживаем бесперебойную работу сайта и помогаем ему развиваться: от технических задач и безопасности до UX-улучшений, аналитики и роста конверсии."
+  },
+  "hero": {
+    "variant": "title-image"
+  },
+  "sections": {
+    "packages": false,
+    "facts": false,
+    "advantages": false
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "TEHPOD_LAYOUT_SOURCE",
+    "tmpFull": "tehnicheskaya-podderzhka-saita-prod-full.html",
+    "tmpParity": "tehnicheskaya-podderzhka-saita-parity-prod-layout.html",
+    "pageDir": "tehnicheskaya-podderzhka-saita",
+    "cssStack": "tehnicheskaya-podderzhka-saita-static-stack.css",
+    "partials": {
+      "faq": "faq-tehnicheskaya-podderzhka-saita.html",
+      "inlineLead": "service-inline-lead-tehnicheskaya-podderzhka-saita.html",
+      "clients": "clients-tehnicheskaya-podderzhka-saita.html",
+      "team": "tehnicheskaya-podderzhka-saita-team-block.html",
+      "blog": "blog-tehnicheskaya-podderzhka-saita.html",
+      "moreCases": "more-cases-tehnicheskaya-podderzhka-saita.html",
+      "awards": "awards-tehnicheskaya-podderzhka-saita.html",
+      "synergy": "synergy-tehnicheskaya-podderzhka-saita.html"
+    },
+    "markers": {
+      "mainStart": "TEHPOD-MAIN-START",
+      "mainEnd": "TEHPOD-MAIN-END",
+      "cssBundleStart": "TEHPOD-CSS-BUNDLE-START",
+      "cssBundleEnd": "TEHPOD-CSS-BUNDLE-END"
+    },
+    "faq": {
+      "mountId": "tehpod-faq-mounted",
+      "sectionClass": "tehpod-faq-section",
+      "rootClass": "tehpod-faq-root tehpod-faq-root--always-visible"
+    },
+    "phase2": false
+  }
+}

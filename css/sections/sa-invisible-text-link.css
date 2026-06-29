@@ -47,6 +47,20 @@ body.sa-home-page .services__card-description a.sa-invisible-text-link,
   text-decoration: none;
 }
 
+.page-constructor.tehnicheskaya-podderzhka-saita-page a.tehpod-text-link,
+.page-constructor.tehnicheskaya-podderzhka-saita-page a.tehpod-text-link:visited,
+.page-constructor.tehnicheskaya-podderzhka-saita-page a.tehpod-text-link:focus {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.page-constructor.tehnicheskaya-podderzhka-saita-page a.tehpod-text-link:hover {
+  color: #9cc9ff;
+  text-decoration: none;
+}
+
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link:visited,
 .blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link:focus,

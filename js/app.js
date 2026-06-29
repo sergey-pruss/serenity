@@ -1426,7 +1426,7 @@
 
   const bumpUksSingleCaseLayout = (container) => {
     cleanupCasesBlockDumpStyles(container);
-    if (!container.closest(".uks-case-section")) return;
+    if (!container.closest(".uks-case-section, .tehpod-darkrain-case-section")) return;
     container.style.setProperty("height", "auto", "important");
     container.style.setProperty("min-height", "0", "important");
     const wrap = container.querySelector(".swiper-wrapper");
@@ -1469,7 +1469,7 @@
       /* /seo и др.: один слайд без .swiper__navigation — всё равно снимаем инлайн height/width с prod-дампа. */
       if (!nextEl || !prevEl) {
         const bumpSingleCaseLayout = () => {
-          if (container.closest(".uks-case-section")) bumpUksSingleCaseLayout(container);
+          if (container.closest(".uks-case-section, .tehpod-darkrain-case-section")) bumpUksSingleCaseLayout(container);
           else cleanupCasesBlockDumpStyles(container);
         };
         bumpSingleCaseLayout();

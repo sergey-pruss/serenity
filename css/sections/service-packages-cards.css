@@ -86,6 +86,10 @@
   background: linear-gradient(90deg, #00f0ff -254.33%, #ff00b5 100.08%);
 }
 
+.page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule--4 {
+  background: linear-gradient(90deg, #00f0ff -381.33%, #ff00b5 -24.92%);
+}
+
 @media screen and (max-width: 1024px) {
   .page-constructor .dies .prices .price-card.noImg[data-v-1444f1fb] .price-card__title-rule {
     margin-bottom: 23px;

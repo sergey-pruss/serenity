@@ -83,6 +83,15 @@ const SERVICES = [
     comment:
       "<!-- FAQ prodvizhenie-statey-v-dzene-i-promostranitsah: json/services/prodvizhenie-statey-v-dzene-i-promostranitsah/faq.json + service-faq.css. -->\n",
   },
+  {
+    slug: "tehnicheskaya-podderzhka-saita",
+    partial: "faq-tehnicheskaya-podderzhka-saita.html",
+    mountId: "tehpod-faq-mounted",
+    sectionClass: "tehpod-faq-section",
+    rootClass: "tehpod-faq-root tehpod-faq-root--always-visible",
+    comment:
+      "<!-- FAQ tehnicheskaya-podderzhka-saita: json/services/tehnicheskaya-podderzhka-saita/faq.json + service-faq.css. -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {
