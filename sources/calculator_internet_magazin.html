@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Калькулятор стоимости интернет-магазина — Serenity</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --surface-2: #1a1a1a;
+  --surface-sel: rgba(201,169,110,0.06);
+  --border: #252525;
+  --border-soft: #1e1e1e;
+  --border-sel: #c9a96e;
+  --text: #f0ede8;
+  --text-soft: #9e9790;
+  --text-dim: #5e5e5e;
+  --accent: #c9a96e;
+  --accent-dim: rgba(201,169,110,0.12);
+  --green: #4fb878;
+  --radius: 10px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px 60px;
+}
+
+.calc { width: 100%; max-width: 680px; }
+.calc-head { margin-bottom: 32px; }
+
+.calc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.calc-tag::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.calc-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin-bottom: 4px;
+}
+
+.calc-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 22px;
+}
+
+.progress-wrap { display: flex; align-items: center; gap: 12px; }
+.progress-track {
+  flex: 1;
+  height: 1.5px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+.progress-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  font-weight: 500;
+  min-width: 52px;
+  text-align: right;
+}
+
+#calc-content { opacity: 1; transform: translateX(0); }
+
+.step-num {
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.step-num em { color: var(--accent); font-style: normal; }
+
+.step-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  letter-spacing: -.01em;
+}
+.step-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 22px;
+  min-height: 16px;
+}
+
+.options { display: grid; gap: 9px; margin-bottom: 22px; }
+.cols-2 { grid-template-columns: 1fr 1fr; }
+.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.opt {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 14px 14px;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, transform .12s ease;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.opt:hover { border-color: #383838; background: var(--surface-2); }
+.opt.sel { border-color: var(--border-sel); background: var(--surface-sel); }
+
+.opt-check {
+  position: absolute;
+  top: 13px; right: 12px;
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  color: transparent;
+  transition: all .18s ease;
+}
+.opt.sel .opt-check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0d0d0d;
+}
+.opt-label {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.3;
+  padding-right: 22px;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+.opt-sub {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.opt-pain {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.opt.sel .opt-pain { color: var(--text-soft); }
+
+.opt-price-row {
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.toggle-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.tgroup {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.tgroup.answered { border-color: #2e2e2e; }
+.tgroup-label {
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 700;
+  margin-bottom: 11px;
+}
+.tgroup-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.topt {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 12px 13px;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.topt:hover { border-color: #383838; }
+.topt.sel { border-color: var(--border-sel); background: var(--surface-sel); }
+.topt-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.topt.sel .topt-label { color: var(--accent); }
+.topt-pain { font-size: 11px; color: var(--text-dim); line-height: 1.55; }
+.topt.sel .topt-pain { color: var(--text-soft); }
+.topt-price-row {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+.price-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.price-tag.included {
+  color: var(--green);
+  background: rgba(79,184,120,.1);
+  border: 1px solid rgba(79,184,120,.3);
+}
+.price-tag.extra {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(201,169,110,.3);
+}
+.price-tag.saving {
+  color: var(--green);
+  background: rgba(79,184,120,.05);
+  border: 1px dashed rgba(79,184,120,.45);
+}
+.price-tag.info {
+  color: var(--text-soft);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.step-actions { display: flex; gap: 10px; }
+.step-actions .btn-next { flex: 1; }
+
+.btn-next {
+  width: 100%;
+  background: var(--accent);
+  color: #0d0d0d;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 24px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity .2s ease, transform .12s ease;
+}
+.btn-next:disabled { opacity: .28; cursor: default; }
+.btn-next:not(:disabled):hover { opacity: .88; }
+.btn-next:not(:disabled):active { transform: scale(.99); }
+
+.btn-back {
+  background: var(--surface);
+  color: var(--text-soft);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 15px 18px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease, transform .12s ease;
+}
+.btn-back:hover { border-color: var(--accent); color: var(--text); }
+
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--green);
+  border: 1px solid rgba(79,184,120,.25);
+  background: rgba(79,184,120,.07);
+  padding: 5px 12px;
+  border-radius: 30px;
+  margin-bottom: 14px;
+}
+.result-badge::before { content: '✓'; font-size: 11px; }
+
+.result-params {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+.result-params strong { color: var(--text-soft); font-weight: 500; }
+
+.included-works {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.included-works-title {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.included-works-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.included-works-list li {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.55;
+  position: relative;
+  padding-left: 18px;
+}
+.included-works-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+
+.breakdown {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.breakdown-head {
+  padding: 12px 18px;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--surface);
+}
+.brow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--surface);
+}
+.brow:last-child { border-bottom: none; }
+.brow-label { font-size: 13px; color: var(--text-soft); }
+.brow-val { font-size: 13px; font-weight: 600; color: var(--text); }
+.brow-val.saving { color: var(--green); }
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 22px 0 14px;
+}
+.total-lbl {
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 700;
+  padding-bottom: 6px;
+}
+.total-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 46px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.support-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-soft);
+  background: var(--accent-dim);
+  border: 1px solid rgba(201,169,110,.2);
+  border-radius: 6px;
+  padding: 7px 12px;
+  margin-bottom: 20px;
+}
+.support-chip strong { color: var(--accent); }
+
+.result-note {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.7;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+}
+
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.cta-card {
+  border-radius: var(--radius);
+  padding: 20px 18px;
+  cursor: pointer;
+  transition: transform .18s ease, opacity .18s ease, border-color .18s ease;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+.cta-card:hover { transform: translateY(-2px); }
+.cta-card.gold { background: var(--accent); border: 1.5px solid var(--accent); }
+.cta-card.outline { background: var(--surface); border: 1.5px solid var(--border); }
+.cta-card.outline:hover { border-color: var(--accent); }
+.cta-free {
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;
+}
+.cta-card.gold .cta-free { color: rgba(13,13,13,.45); }
+.cta-card.outline .cta-free { color: var(--text-dim); }
+.cta-title { font-size: 14px; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
+.cta-card.gold .cta-title { color: #0d0d0d; }
+.cta-card.outline .cta-title { color: var(--text); }
+.cta-desc { font-size: 12px; line-height: 1.55; }
+.cta-card.gold .cta-desc { color: rgba(13,13,13,.5); }
+.cta-card.outline .cta-desc { color: var(--text-dim); }
+
+.reset-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px;
+  cursor: pointer;
+  padding: 6px 0;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 520px) {
+  body { padding: 24px 16px 48px; }
+  .calc-title { font-size: 28px; }
+  .step-q { font-size: 23px; }
+  .cols-3, .cols-2, .cta-grid, .tgroup-opts { grid-template-columns: 1fr; }
+  .total-num { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<div class="calc">
+  <div class="calc-head">
+    <div class="calc-tag">Калькулятор</div>
+    <h2 class="calc-title">Сколько стоит<br>интернет-магазин?</h2>
+    <p class="calc-sub">Ориентировочный расчёт за 2 минуты</p>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+      <div class="progress-label" id="plabel">Шаг 1 из 6</div>
+    </div>
+  </div>
+  <div id="calc-content"></div>
+</div>
+
+<script>
+/* ---------- ШАГИ ---------- */
+
+const ALL_STEPS = {
+  start: {
+    id: 'start',
+    q: 'С чего начнём?',
+    hint: 'Выберите вариант — следующий шаг откроется автоматически',
+    type: 'single',
+    cols: 3,
+    opts: [
+      { v: 'new', label: 'Новый магазин', sub: 'С нуля', pain: 'Без ограничений старой архитектуры и технического долга' },
+      { v: 'redesign', label: 'Редизайн', sub: 'Текущий магазин', pain: 'Обновим интерфейс и логику, сохранив рабочие сценарии' },
+      { v: 'func', label: 'Доработка', sub: 'Точечные улучшения', pain: 'Доработаем нужные модули без переработки магазина' }
+    ]
+  },
+  site_type: {
+    id: 'site_type',
+    q: 'Какой формат магазина?',
+    hint: 'Выберите вариант — следующий шаг откроется автоматически',
+    type: 'single',
+    cols: 3,
+    opts: [
+      { v: 'retail', label: 'Розница', sub: 'B2C, конечный покупатель', pain: 'Конверсия и средний чек растут от удобства покупки' },
+      { v: 'opt', label: 'Опт', sub: 'B2B, дилеры', pain: 'Личные цены, минимальные заказы, быстрые повторные закупки' },
+      { v: 'marketplace', label: 'Маркетплейс', sub: 'Несколько продавцов', pain: 'Гибкие комиссии, выгрузки, аналитика по продавцам' }
+    ]
+  },
+  scale: {
+    id: 'scale',
+    q: 'Объём каталога?',
+    hint: 'Выберите вариант — следующий шаг откроется автоматически',
+    type: 'single',
+    cols: 3,
+    opts: [
+      { v: 'sm', label: 'До 500 товаров', sub: 'Бутик, нишевой магазин', pain: 'Быстрый старт для лимитированной линейки или премиум-сегмента' },
+      { v: 'md', label: 'До 5 000 товаров', sub: 'Стандартный магазин', pain: 'Подходит для большинства специализированных магазинов' },
+      { v: 'lg', label: 'Без ограничений', sub: 'Крупный магазин', pain: 'Архитектура под нагрузку и постоянное пополнение каталога' }
+    ]
+  },
+  design: {
+    id: 'design',
+    q: 'Уровень дизайна?',
+    hint: 'Выберите вариант — следующий шаг откроется автоматически',
+    type: 'single',
+    cols: 3,
+    opts: [
+      { v: 'basic', label: 'Базовый', sub: 'Шаблонный', pain: 'Быстрый старт. Подходит для проверки гипотезы или нишевого магазина' },
+      { v: 'unique', label: 'Оптимальный', sub: 'Уникальный под бренд', pain: 'Конверсия выше на 30–40% против шаблонных решений' },
+      { v: 'premium', label: 'Премиум', sub: 'Полностью индивидуальный', pain: 'Анимации, WOW-эффект, обязателен в премиум-сегменте' }
+    ]
+  },
+  integ: {
+    id: 'integ',
+    q: 'Что нужно подключить?',
+    hint: '',
+    type: 'multi',
+    cols: 2,
+    opts: [
+      { v: '1c', label: '1С / ERP', sub: 'Учётная система', pain: 'Остатки, цены, заказы в реальном времени без ручной работы' },
+      { v: 'crm', label: 'CRM', sub: 'amoCRM, Bitrix24', pain: 'Заявки сразу попадают в воронку менеджеру' },
+      { v: 'pay', label: 'Онлайн-оплата', sub: 'ЮKassa, СберPay, СБП', pain: 'Карты, СБП, рассрочки, фискализация по 54-ФЗ' },
+      { v: 'delivery', label: 'Доставка', sub: 'СДЭК, Boxberry, Почта', pain: 'Расчёт в корзине, автоматическая передача заказов в службу' }
+    ]
+  },
+  mods: {
+    id: 'mods',
+    q: 'Что нужно доработать?',
+    hint: 'Можно выбрать несколько. Минимум один пункт',
+    type: 'multi',
+    cols: 2,
+    opts: [
+      { v: 'pay', label: 'Доп. способы оплаты', sub: 'Рассрочки, СБП, новые шлюзы', pain: 'Меньше отказов на чек-ауте, шире охват аудитории' },
+      { v: 'speed', label: 'Оптимизация скорости загрузки', sub: 'Ускорение страниц и каталога', pain: 'Быстрая загрузка повышает конверсию и ранжирование' },
+      { v: 'filters', label: 'Доработка фильтров каталога', sub: 'Сложные фильтры по характеристикам', pain: 'Покупатель быстрее находит товар — растёт конверсия' },
+      { v: 'cart', label: 'Корзина и оформление', sub: 'Быстрый заказ, чек-аут в один шаг', pain: 'Сокращаем шаги от выбора до оплаты — меньше брошенных корзин' },
+      { v: 'account', label: 'Личный кабинет', sub: 'История заказов, избранное, отслеживание', pain: 'Удобство покупки и поддержка повторных продаж' },
+      { v: 'card', label: 'Улучшение карточки товара', sub: 'Галерея, отзывы, рекомендации', pain: 'Полная информация снимает сомнения и подталкивает к покупке' },
+      { v: 'mobile', label: 'Адаптив / мобильная версия', sub: 'Переделка мобильной вёрстки', pain: 'Более 70% покупок идёт с мобильных — адаптив обязателен' },
+      { v: 'loyalty', label: 'Система лояльности', sub: 'Бонусы, промокоды, дисконты', pain: 'Повышаем средний чек и стимулируем повторные покупки' },
+      { v: 'crm', label: 'Интеграция CRM/ERP', sub: 'amoCRM, Bitrix24, 1С', pain: 'Заявки в воронке, остатки и цены в реальном времени' },
+      { v: 'cms', label: 'Миграция на другую CMS', sub: 'Перенос данных и перенастройка', pain: 'Уходим со старой платформы без потери данных и SEO-позиций' }
+    ]
+  },
+  seo_support: {
+    id: 'seo_support',
+    q: 'Что нужно после запуска?',
+    hint: 'Выберите оба параметра, чтобы продолжить',
+    type: 'toggle',
+    groups: [
+      {
+        id: 'seo',
+        label: 'Расширенная SEO-подготовка',
+        opts: [
+          { v: 'yes', label: 'Да, нужна', pain: 'Семантическое ядро, разметка Schema, ТЗ для копирайтеров' },
+          { v: 'no', label: 'Достаточно базовой', pain: 'Базовая SEO (мета, ЧПУ, sitemap) входит в любой тариф' }
+        ]
+      },
+      {
+        id: 'support',
+        label: 'Техническая поддержка',
+        opts: [
+          { v: 'yes', label: 'Да, нужна', pain: 'Мониторинг, обновления, контентные правки и развитие магазина' },
+          { v: 'no', label: 'Пока нет', pain: '60% магазинов теряют в скорости и безопасности через 6 месяцев' }
+        ]
+      }
+    ]
+  }
+};
+
+const FLOWS = {
+  new:      ['start', 'site_type', 'scale', 'design', 'integ', 'seo_support'],
+  redesign: ['start', 'site_type', 'scale', 'design', 'integ', 'seo_support'],
+  func:     ['start', 'site_type', 'mods', 'seo_support']
+};
+
+/* ---------- ТАРИФЫ / ЦЕНЫ ---------- */
+
+const TARIFFS = {
+  basic: {
+    name: 'Базовый',
+    timeline: '1,5–2 мес',
+    worksIncluded: [
+      'Базовое SEO (мета-теги, ЧПУ, sitemap, robots.txt)',
+      'Сбор требований и бриф',
+      'Структура каталога и категорий',
+      'Шаблонный дизайн с адаптацией под бренд',
+      'Стандартная карточка товара',
+      'Каталог с базовыми фильтрами',
+      'Корзина и оформление заказа в один шаг',
+      'Личный кабинет покупателя',
+      '1 интеграция в базе тарифа (онлайн-оплата)',
+      'Адаптив для мобильных устройств',
+      'Тестирование основных сценариев покупки',
+      'Установка на сервер клиента, настройка домена',
+      '1 месяц поддержки после запуска'
+    ]
+  },
+  unique: {
+    name: 'Оптимальный',
+    timeline: '3–4 мес',
+    worksIncluded: [
+      'Расширенная SEO-подготовка с семантическим ядром',
+      'Анализ конкурентов и аудитории',
+      'UX-проектирование в Figma',
+      'Уникальный дизайн (главная, каталог, карточка товара)',
+      'Расширенная карточка: галерея, отзывы, рекомендации',
+      'Каталог с расширенными фильтрами по характеристикам',
+      'Корзина и оформление в несколько шагов с расчётом доставки',
+      'Личный кабинет с историей заказов и избранным',
+      '3 интеграции в базе тарифа (1С / CRM / оплата)',
+      'Микроразметка Schema.org',
+      'Адаптив для мобильных и планшетов',
+      'Полное тестирование сценариев и интеграций',
+      'Установка на сервер, настройка аналитики',
+      '3 месяца поддержки после запуска'
+    ]
+  },
+  premium: {
+    name: 'Премиум',
+    timeline: '5–7 мес',
+    worksIncluded: [
+      'Углублённое исследование рынка, конкурентов и аудитории',
+      'Подробное ТЗ по ГОСТ',
+      'Глубокая SEO-подготовка с ТЗ для копирайтеров',
+      'UX-проектирование с пользовательскими сценариями',
+      'Полностью индивидуальный дизайн под бренд',
+      'Анимации и интерактивные элементы интерфейса',
+      'Индивидуальные шаблоны карточки под категории товаров',
+      'Каталог с персонализированными фильтрами',
+      'Корзина и оформление с авторизацией, бонусами, промокодами',
+      'Личный кабинет с программой лояльности',
+      'Все интеграции в базе тарифа (1С / CRM / оплата / доставка)',
+      'Микроразметка Schema.org',
+      'Адаптив под каждое устройство',
+      'Полное тестирование, нагрузочное тестирование',
+      'Установка, настройка резервных копий, аналитики, мониторинга',
+      '6 месяцев поддержки после запуска'
+    ]
+  }
+};
+
+const PRICE_RULES = {
+  basic: {
+    sm: { base: 600000,  includeSeo: false },
+    md: { base: 750000,  includeSeo: false },
+    lg: { base: 950000,  includeSeo: false }
+  },
+  unique: {
+    sm: { base: 1200000, includeSeo: false },
+    md: { base: 1400000, includeSeo: false },
+    lg: { base: 1700000, includeSeo: false }
+  },
+  premium: {
+    sm: { base: 2500000, includeSeo: true },
+    md: { base: 2900000, includeSeo: true },
+    lg: { base: 3500000, includeSeo: true }
+  }
+};
+
+/* Какие интеграции по умолчанию входят в тариф (пред-выбираются на шаге) */
+const TARIFF_DEFAULT_INTEGRATIONS = {
+  basic:   ['pay'],
+  unique:  ['pay', '1c', 'crm'],
+  premium: ['pay', '1c', 'crm', 'delivery']
+};
+
+/* Размер скидки за каждое снятое из-под умолчания (140k / N включённых).
+   Округлено до удобных чисел; суммарный максимум близок к 140 000 ₽. */
+const PER_REMOVAL_DISCOUNT = {
+  basic:   140000, // 1 интеграция → 140k
+  unique:  45000,  // 3 интеграции → 3 × 45k = 135k
+  premium: 35000   // 4 интеграции → 4 × 35k = 140k
+};
+
+const INTEGRATION_PRICES = { '1c': 120000, crm: 75000, pay: 55000, delivery: 65000 };
+const INTEGRATION_LABELS = { '1c': '1С / ERP', crm: 'CRM', pay: 'Онлайн-оплата', delivery: 'Доставка' };
+
+const SEO_PRICE = 95000;
+const SUPPORT_PRICE = 45000;
+
+/* ---------- ДОРАБОТКА ---------- */
+
+/* Уровень доработки определяется выбранным форматом магазина:
+   Розница → ×1 (до 400k), Опт → ×2 (до 800k), Маркетплейс → ×3 (до 1.2M) */
+const MOD_TIERS = {
+  retail:      { name: 'Базовая',    multiplier: 1, cap: 400000,  timeline: '2–4 недели' },
+  opt:         { name: 'Стандартная', multiplier: 2, cap: 800000,  timeline: '1–2 месяца' },
+  marketplace: { name: 'Углублённая', multiplier: 3, cap: 1200000, timeline: '2–4 месяца' }
+};
+
+/* Названия CTA-кнопок в человеко-читаемом виде (для CRM-комментария) */
+const CTA_LABELS = {
+  audit: 'Аудит интернет-магазина',
+  consultation: 'Консультация по проекту'
+};
+
+/* Базовые цены опций доработки (сумма всех = 400 000 ₽).
+   На стандарт умножаются ×2, на углублённую ×3. */
+const MOD_BASE_PRICES = {
+  pay: 30000, speed: 30000, filters: 35000, cart: 40000, account: 35000,
+  card: 40000, mobile: 35000, loyalty: 50000, crm: 55000, cms: 50000
+};
+
+const MOD_LABELS = {
+  pay: 'Доп. способы оплаты',
+  speed: 'Оптимизация скорости загрузки',
+  filters: 'Доработка фильтров каталога',
+  cart: 'Корзина и оформление',
+  account: 'Личный кабинет',
+  card: 'Улучшение карточки товара',
+  mobile: 'Адаптив / мобильная версия',
+  loyalty: 'Система лояльности',
+  crm: 'Интеграция CRM/ERP',
+  cms: 'Миграция на другую CMS'
+};
+
+/* ---------- СОСТОЯНИЕ ---------- */
+
+let step = 0;
+let ans = {
+  start: null,
+  site_type: null,
+  scale: null,
+  design: null,
+  integ: [],
+  mods: [],
+  seo: null,
+  support: null
+};
+let activeCtaType = null;
+let calcPayloadCache = null;
+let lastDesignForInteg = null; // отслеживает первое посещение integ-шага для текущего тарифа
+
+/* ---------- ВСПОМОГАТЕЛЬНЫЕ ---------- */
+
+function rub(n) { return n.toLocaleString('ru-RU') + '\u00a0₽'; }
+
+function flowList() { return FLOWS[ans.start] || FLOWS.new; }
+function currentStepCfg() { return ALL_STEPS[flowList()[step]]; }
+function flowTotal() { return flowList().length; }
+
+function currentRule() {
+  const design = ans.design || 'basic';
+  const scale = ans.scale || 'sm';
+  return (PRICE_RULES[design] && PRICE_RULES[design][scale]) || PRICE_RULES.basic.sm;
+}
+
+function defaultIntegrationsForTariff() {
+  return TARIFF_DEFAULT_INTEGRATIONS[ans.design || 'basic'] || [];
+}
+
+function perRemovalDiscount() {
+  return PER_REMOVAL_DISCOUNT[ans.design || 'basic'] || 0;
+}
+
+/* Инициализация чекбоксов интеграций по тарифу — только при первом заходе или смене тарифа */
+function maybeInitIntegrations() {
+  if (lastDesignForInteg !== ans.design) {
+    ans.integ = [...defaultIntegrationsForTariff()];
+    lastDesignForInteg = ans.design;
+  }
+}
+
+/* Анализ выбора интеграций → доплаты и скидки */
+function integrationsBreakdown() {
+  const defaults = defaultIntegrationsForTariff();
+  const selected = (ans.integ || []);
+  const perDisc = perRemovalDiscount();
+
+  const paid = [];     // не в тарифе, но выбрано — доплата
+  const saved = [];    // в тарифе, но снято — скидка
+  let extra = 0;
+  let discount = 0;
+
+  defaults.forEach(v => {
+    if (!selected.includes(v)) { discount += perDisc; saved.push(v); }
+  });
+  selected.forEach(v => {
+    if (!defaults.includes(v)) { extra += INTEGRATION_PRICES[v]; paid.push(v); }
+  });
+
+  return { paid, saved, extra, discount };
+}
+
+function integrationBadge(v) {
+  const defaults = defaultIntegrationsForTariff();
+  const selected = ans.integ.includes(v);
+  const isDefault = defaults.includes(v);
+  if (isDefault && selected) return { cls: 'included', text: 'В тариф' };
+  if (isDefault && !selected) return { cls: 'saving',  text: '− ' + rub(perRemovalDiscount()) };
+  return { cls: 'extra', text: '+ ' + rub(INTEGRATION_PRICES[v]) };
+}
+
+function modPrice(v) {
+  const tier = MOD_TIERS[ans.site_type] || MOD_TIERS.retail;
+  return (MOD_BASE_PRICES[v] || 0) * tier.multiplier;
+}
+
+/* ---------- РАСЧЁТ ---------- */
+
+function calcPrice() {
+  if (ans.start === 'func') return calcModScenario();
+  return calcNewScenario();
+}
+
+function calcNewScenario() {
+  const design = ans.design || 'basic';
+  const rule = currentRule();
+  const tariff = TARIFFS[design] || TARIFFS.basic;
+
+  const { paid, saved, extra, discount } = integrationsBreakdown();
+
+  const seoSelected = ans.seo === 'yes';
+  const seoExtra = seoSelected && !rule.includeSeo ? SEO_PRICE : 0;
+
+  const total = Math.max(0, rule.base + extra - discount + seoExtra);
+  const supAmt = ans.support === 'yes' ? SUPPORT_PRICE : 0;
+
+  return {
+    type: 'new',
+    total, supAmt, tariff, rule,
+    seoSelected, seoExtra, seoIncluded: rule.includeSeo,
+    paidIntegrations: paid,
+    savedIntegrations: saved,
+    integrationsExtra: extra,
+    integrationsDiscount: discount,
+    perDiscount: perRemovalDiscount(),
+    selectedIntegrations: [...ans.integ]
+  };
+}
+
+function calcModScenario() {
+  const tier = MOD_TIERS[ans.site_type] || MOD_TIERS.retail;
+  const selected = ans.mods || [];
+
+  const modTotal = selected.reduce((s, v) => s + modPrice(v), 0);
+
+  const seoSelected = ans.seo === 'yes';
+  const seoExtra = seoSelected ? SEO_PRICE : 0;
+
+  const total = modTotal + seoExtra;
+  const supAmt = ans.support === 'yes' ? SUPPORT_PRICE : 0;
+
+  return {
+    type: 'mod',
+    total, supAmt, tier,
+    selectedMods: selected,
+    modTotal,
+    seoSelected, seoExtra,
+    timeline: tier.timeline
+  };
+}
+
+/* ---------- ПРОГРЕСС / ПЕРЕХОДЫ ---------- */
+
+function updateProgress(idx) {
+  const total = flowTotal();
+  const pct = ((idx + 1) / (total + 1)) * 100;
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('plabel').textContent = idx < total ? 'Шаг ' + (idx + 1) + ' из ' + total : 'Готово';
+}
+
+function transit(renderFn, first = false) {
+  const el = document.getElementById('calc-content');
+  if (first) { renderFn(); return; }
+  el.style.transition = 'opacity .2s ease, transform .2s ease';
+  el.style.opacity = '0';
+  el.style.transform = 'translateX(14px)';
+  setTimeout(() => {
+    renderFn();
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.transition = 'opacity .32s ease, transform .32s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateX(0)';
+    }));
+  }, 215);
+}
+
+function goTo(idx) {
+  const flow = flowList();
+  if (idx >= flow.length) return showResults();
+  step = Math.max(0, idx);
+  updateProgress(step);
+  renderStep(currentStepCfg(), false);
+}
+
+/* ---------- РЕНДЕР ---------- */
+
+function buildStepActions(nextLabel, nextDisabled) {
+  const backBtn = step > 0 ? '<button class="btn-back" id="btn-back">← Назад</button>' : '';
+  const nextBtn = '<button class="btn-next" id="btn-next" ' + (nextDisabled ? 'disabled' : '') + '>' + nextLabel + '</button>';
+  return '<div class="step-actions">' + backBtn + nextBtn + '</div>';
+}
+
+function getDisplayHint(s) {
+  if (s.id === 'integ') {
+    const design = ans.design || 'basic';
+    const hintMap = {
+      basic:   'В тариф «Базовый» включена 1 интеграция (онлайн-оплата). Снять — скидка 140 000 ₽. Дополнительные — по своей цене',
+      unique:  'В тариф «Оптимальный» включены 3 интеграции (1С, CRM, оплата). Снять каждую — −45 000 ₽. Доставка сверху — по цене',
+      premium: 'В тариф «Премиум» включены все 4 интеграции. Снять каждую — −35 000 ₽'
+    };
+    return hintMap[design] || s.hint;
+  }
+  return s.hint;
+}
+
+function buildCards(s) {
+  const optsHTML = s.opts.map((o, i) => {
+    let sel;
+    if (s.id === 'integ') sel = ans.integ.includes(o.v);
+    else if (s.id === 'mods') sel = ans.mods.includes(o.v);
+    else sel = ans[s.id] === o.v;
+
+    let priceRow = '';
+    if (s.id === 'integ') {
+      const b = integrationBadge(o.v);
+      priceRow = '<div class="opt-price-row"><span class="price-tag ' + b.cls + '">' + b.text + '</span></div>';
+    } else if (s.id === 'mods') {
+      priceRow = '<div class="opt-price-row"><span class="price-tag extra">+ ' + rub(modPrice(o.v)) + '</span></div>';
+    }
+
+    return '<div class="opt' + (sel ? ' sel' : '') + '" data-sid="' + s.id + '" data-val="' + o.v + '" data-type="' + s.type + '" style="animation:fadeUp .35s ' + (i * .05 + .04) + 's both">' +
+      '<div class="opt-check">✓</div>' +
+      '<div class="opt-label">' + o.label + '</div>' +
+      (o.sub ? '<div class="opt-sub">' + o.sub + '</div>' : '') +
+      '<div class="opt-pain">' + o.pain + '</div>' +
+      priceRow +
+    '</div>';
+  }).join('');
+
+  let actionsHTML;
+  if (s.type === 'multi') {
+    // integ: всегда можно дальше (даже с пустым выбором — все default-ы сняты)
+    // mods: минимум 1 опция
+    const disabled = s.id === 'mods' ? ans.mods.length === 0 : false;
+    actionsHTML = buildStepActions('Продолжить →', disabled);
+  } else {
+    actionsHTML = step > 0 ? '<div class="step-actions"><button class="btn-back" id="btn-back">← Назад</button></div>' : '';
+  }
+
+  return '<div class="step-num">Шаг <em>' + (step + 1) + '</em> из ' + flowTotal() + '</div>' +
+    '<div class="step-q">' + s.q + '</div>' +
+    '<div class="step-hint">' + getDisplayHint(s) + '</div>' +
+    '<div class="options cols-' + s.cols + '">' + optsHTML + '</div>' +
+    actionsHTML;
+}
+
+function buildToggle(s) {
+  const rule = currentRule();
+  const isModScenario = ans.start === 'func';
+
+  const groupsHTML = s.groups.map(g => {
+    const hasAns = ans[g.id] !== null;
+    const optsHTML = g.opts.map(o => {
+      const sel = ans[g.id] === o.v;
+      let priceRow = '';
+
+      if (g.id === 'seo' && o.v === 'yes') {
+        // В сценарии доработки тарифа нет — SEO всегда +95k
+        if (!isModScenario && rule.includeSeo) {
+          priceRow = '<div class="topt-price-row"><span class="price-tag included">В тариф</span></div>';
+        } else {
+          priceRow = '<div class="topt-price-row"><span class="price-tag extra">+ ' + rub(SEO_PRICE) + '</span></div>';
+        }
+      }
+      if (g.id === 'support' && o.v === 'yes') {
+        priceRow = '<div class="topt-price-row"><span class="price-tag info">1 мес бесплатно, далее от ' + rub(SUPPORT_PRICE) + ' / мес</span></div>';
+      }
+
+      return '<div class="topt' + (sel ? ' sel' : '') + '" data-gid="' + g.id + '" data-val="' + o.v + '">' +
+        '<div class="topt-label">' + o.label + '</div>' +
+        '<div class="topt-pain">' + o.pain + '</div>' +
+        priceRow +
+      '</div>';
+    }).join('');
+    return '<div class="tgroup' + (hasAns ? ' answered' : '') + '">' +
+      '<div class="tgroup-label">' + g.label + '</div>' +
+      '<div class="tgroup-opts">' + optsHTML + '</div>' +
+    '</div>';
+  }).join('');
+
+  const canGo = ans.seo !== null && ans.support !== null;
+
+  return '<div class="step-num">Шаг <em>' + (step + 1) + '</em> из ' + flowTotal() + '</div>' +
+    '<div class="step-q">' + s.q + '</div>' +
+    '<div class="step-hint">' + s.hint + '</div>' +
+    '<div class="toggle-groups" style="animation:fadeUp .35s .04s both">' + groupsHTML + '</div>' +
+    buildStepActions('Рассчитать стоимость →', !canGo);
+}
+
+function renderStep(s, first) {
+  // Инициализация дефолтов перед рендером integ
+  if (s.id === 'integ') maybeInitIntegrations();
+
+  const el = document.getElementById('calc-content');
+  transit(() => {
+    el.innerHTML = s.type === 'toggle' ? buildToggle(s) : buildCards(s);
+    attachHandlers(s);
+  }, first);
+}
+
+function refreshIntegrationBadges() {
+  document.querySelectorAll('.opt[data-sid="integ"]').forEach(o => {
+    const v = o.dataset.val;
+    const tag = o.querySelector('.price-tag');
+    if (!tag) return;
+    const b = integrationBadge(v);
+    tag.textContent = b.text;
+    tag.classList.remove('included', 'extra', 'saving');
+    tag.classList.add(b.cls);
+  });
+}
+
+function attachHandlers(s) {
+  const backBtn = document.getElementById('btn-back');
+  if (backBtn) backBtn.addEventListener('click', () => goTo(step - 1));
+
+  document.querySelectorAll('.opt').forEach(el => {
+    el.addEventListener('click', () => {
+      const val = el.dataset.val;
+      const type = el.dataset.type;
+      const sid = el.dataset.sid;
+
+      if (type === 'single') {
+        // Если меняется start — сбрасываем шаги после него и progress
+        if (sid === 'start' && ans.start !== val) {
+          // сохраняем общие ответы, чтобы не терять site_type/seo/support
+          ans.start = val;
+        } else {
+          ans[sid] = val;
+        }
+        // Сброс инициализации интеграций, если поменялся тариф
+        if (sid === 'design') lastDesignForInteg = null;
+        goTo(step + 1);
+        return;
+      }
+
+      // multi: integ или mods
+      if (sid === 'integ') {
+        const idx = ans.integ.indexOf(val);
+        idx === -1 ? ans.integ.push(val) : ans.integ.splice(idx, 1);
+        document.querySelectorAll('.opt[data-sid="integ"]').forEach(o => {
+          o.classList.toggle('sel', ans.integ.includes(o.dataset.val));
+        });
+        refreshIntegrationBadges();
+      } else if (sid === 'mods') {
+        const idx = ans.mods.indexOf(val);
+        idx === -1 ? ans.mods.push(val) : ans.mods.splice(idx, 1);
+        document.querySelectorAll('.opt[data-sid="mods"]').forEach(o => {
+          o.classList.toggle('sel', ans.mods.includes(o.dataset.val));
+        });
+        const btn = document.getElementById('btn-next');
+        if (btn) btn.disabled = ans.mods.length === 0;
+      }
+    });
+  });
+
+  document.querySelectorAll('.topt').forEach(el => {
+    el.addEventListener('click', () => {
+      const gid = el.dataset.gid;
+      const val = el.dataset.val;
+      ans[gid] = val;
+
+      document.querySelectorAll('[data-gid="' + gid + '"]').forEach(o => {
+        o.classList.toggle('sel', o.dataset.val === val);
+      });
+      document.querySelectorAll('.tgroup').forEach((g, i) => {
+        const gid2 = s.groups[i] && s.groups[i].id;
+        if (gid2) g.classList.toggle('answered', ans[gid2] !== null);
+      });
+
+      const btn = document.getElementById('btn-next');
+      if (btn) btn.disabled = !(ans.seo !== null && ans.support !== null);
+    });
+  });
+
+  const btn = document.getElementById('btn-next');
+  if (btn) btn.addEventListener('click', () => {
+    if (!btn.disabled) goTo(step + 1);
+  });
+}
+
+/* ---------- РЕЗУЛЬТАТ ---------- */
+
+function showResults() {
+  updateProgress(flowTotal());
+  const calc = calcPrice();
+  if (calc.type === 'mod') return showModResults(calc);
+  return showNewResults(calc);
+}
+
+function showNewResults(calc) {
+  const { total, supAmt, tariff, rule, seoSelected, seoIncluded, paidIntegrations, savedIntegrations, perDiscount } = calc;
+
+  const startMap = { new: 'Новый магазин', redesign: 'Редизайн' };
+  const siteTypeMap = { retail: 'розница', opt: 'опт', marketplace: 'маркетплейс' };
+  const scaleMap = { sm: 'до 500 товаров', md: 'до 5 000 товаров', lg: 'каталог без ограничений' };
+  const designMap = { basic: 'базовый дизайн', unique: 'оптимальный дизайн', premium: 'премиум-дизайн' };
+
+  const params = [startMap[ans.start], siteTypeMap[ans.site_type], scaleMap[ans.scale], designMap[ans.design]]
+    .filter(Boolean).map(p => '<strong>' + p + '</strong>').join(' · ');
+
+  const worksHTML = tariff.worksIncluded.map(w => '<li>' + w + '</li>').join('');
+
+  const extraRows = [];
+  paidIntegrations.forEach(v => {
+    extraRows.push(
+      '<div class="brow"><span class="brow-label">' + INTEGRATION_LABELS[v] + ' (сверх тарифа)</span>' +
+      '<span class="brow-val">+ ' + rub(INTEGRATION_PRICES[v]) + '</span></div>'
+    );
+  });
+  if (seoSelected && !seoIncluded) {
+    extraRows.push(
+      '<div class="brow"><span class="brow-label">SEO-подготовка (расширенная)</span>' +
+      '<span class="brow-val">+ ' + rub(SEO_PRICE) + '</span></div>'
+    );
+  }
+  if (savedIntegrations.length) {
+    const savedNames = savedIntegrations.map(v => INTEGRATION_LABELS[v]).join(', ');
+    const totalDisc = savedIntegrations.length * perDiscount;
+    extraRows.push(
+      '<div class="brow"><span class="brow-label">Скидка за отключённые интеграции (' + savedNames + ')</span>' +
+      '<span class="brow-val saving">− ' + rub(totalDisc) + '</span></div>'
+    );
+  }
+
+  calcPayloadCache = buildPayloadNew(total, tariff, calc);
+  window.SerenityCalcPayload = calcPayloadCache;
+
+  const el = document.getElementById('calc-content');
+  transit(() => {
+    el.innerHTML =
+      '<div class="result-badge" style="animation:fadeUp .4s .05s both">Расчёт готов</div>' +
+      '<div class="result-params" style="animation:fadeUp .4s .1s both">' + params + '</div>' +
+      '<div class="included-works" style="animation:fadeUp .4s .15s both">' +
+      '<div class="included-works-title">Что входит в тариф «' + tariff.name + '»</div>' +
+      '<ul class="included-works-list">' + worksHTML + '</ul>' +
+      '</div>' +
+      (extraRows.length
+        ? '<div class="breakdown" style="animation:fadeUp .4s .18s both"><div class="breakdown-head">Корректировки и доплаты</div>' + extraRows.join('') + '</div>'
+        : '') +
+      '<div class="total-row" style="animation:fadeUp .4s .2s both">' +
+      '<div><div class="total-lbl">Итого от</div><div class="step-hint" style="margin:6px 0 0;color:var(--text-soft)">Срок реализации: <strong>' + tariff.timeline + '</strong></div></div>' +
+      '<div class="total-num" id="tcnt">0&nbsp;₽</div>' +
+      '</div>' +
+      (supAmt ? '<div style="animation:fadeUp .4s .22s both"><div class="support-chip">+ поддержка: <strong>первый месяц бесплатно, далее от ' + rub(supAmt) + ' / мес</strong></div></div>' : '') +
+      resultNoteHTML() + ctaGridHTML() +
+      '<button class="reset-btn" onclick="reset()">← Рассчитать заново</button>';
+
+    bindCtaHandlers();
+    setTimeout(() => animCounter(document.getElementById('tcnt'), total), 250);
+  }, false);
+}
+
+function showModResults(calc) {
+  const { total, supAmt, tier, selectedMods, seoSelected, modTotal } = calc;
+
+  const siteTypeMap = { retail: 'розница', opt: 'опт', marketplace: 'маркетплейс' };
+
+  const params = ['Доработка', siteTypeMap[ans.site_type], tier.name.toLowerCase() + ' доработка']
+    .filter(Boolean).map(p => '<strong>' + p + '</strong>').join(' · ');
+
+  const modsRows = selectedMods.map(v =>
+    '<div class="brow"><span class="brow-label">' + MOD_LABELS[v] + '</span>' +
+    '<span class="brow-val">+ ' + rub(modPrice(v)) + '</span></div>'
+  ).join('');
+
+  const extraRows = [];
+  if (seoSelected) {
+    extraRows.push(
+      '<div class="brow"><span class="brow-label">SEO-подготовка (расширенная)</span>' +
+      '<span class="brow-val">+ ' + rub(SEO_PRICE) + '</span></div>'
+    );
+  }
+
+  calcPayloadCache = buildPayloadMod(total, tier, calc);
+  window.SerenityCalcPayload = calcPayloadCache;
+
+  const el = document.getElementById('calc-content');
+  transit(() => {
+    el.innerHTML =
+      '<div class="result-badge" style="animation:fadeUp .4s .05s both">Расчёт готов</div>' +
+      '<div class="result-params" style="animation:fadeUp .4s .1s both">' + params + '</div>' +
+      '<div class="breakdown" style="animation:fadeUp .4s .15s both">' +
+      '<div class="breakdown-head">Выбранные доработки (' + tier.name + ')</div>' + modsRows + '</div>' +
+      (extraRows.length
+        ? '<div class="breakdown" style="animation:fadeUp .4s .18s both"><div class="breakdown-head">Дополнительно</div>' + extraRows.join('') + '</div>'
+        : '') +
+      '<div class="total-row" style="animation:fadeUp .4s .2s both">' +
+      '<div><div class="total-lbl">Итого от</div><div class="step-hint" style="margin:6px 0 0;color:var(--text-soft)">Срок реализации: <strong>' + tier.timeline + '</strong></div></div>' +
+      '<div class="total-num" id="tcnt">0&nbsp;₽</div>' +
+      '</div>' +
+      (supAmt ? '<div style="animation:fadeUp .4s .22s both"><div class="support-chip">+ поддержка: <strong>первый месяц бесплатно, далее от ' + rub(supAmt) + ' / мес</strong></div></div>' : '') +
+      resultNoteHTML() + ctaGridHTML() +
+      '<button class="reset-btn" onclick="reset()">← Рассчитать заново</button>';
+
+    bindCtaHandlers();
+    setTimeout(() => animCounter(document.getElementById('tcnt'), total), 250);
+  }, false);
+}
+
+function resultNoteHTML() {
+  return '<div class="result-note" style="animation:fadeUp .4s .25s both">Это ориентир. Реальная стоимость может отличаться и быть ниже или выше — цена оптимизируется за счёт выбора CMS, объёма работ и поэтапного запуска. Детали разберём на бесплатной консультации.</div>';
+}
+
+function ctaGridHTML() {
+  return '<div class="cta-grid" style="animation:fadeUp .4s .3s both">' +
+    '<button class="cta-card gold" data-cta="audit" type="button"><div class="cta-free">Бесплатно</div><div class="cta-title">Аудит интернет-магазина</div><div class="cta-desc">Разберём, что работает, а что мешает продажам</div></button>' +
+    '<button class="cta-card outline" data-cta="consultation" type="button"><div class="cta-free">Бесплатно</div><div class="cta-title">Консультация по проекту</div><div class="cta-desc">Подберём оптимальное решение по срокам и бюджету</div></button>' +
+    '</div>';
+}
+
+function bindCtaHandlers() {
+  document.querySelectorAll('[data-cta]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCtaType = btn.getAttribute('data-cta');
+      calcPayloadCache = { ...calcPayloadCache, ctaType: activeCtaType };
+      window.SerenityCalcPayload = calcPayloadCache;
+      openSitePopup();
+    });
+  });
+}
+
+/* ---------- ПЕЙЛОАДЫ ДЛЯ ФОРМЫ ---------- */
+
+function buildPayloadNew(total, tariff, calc) {
+  const startMap = { new: 'Новый магазин', redesign: 'Редизайн' };
+  const siteTypeMap = { retail: 'Розница (B2C)', opt: 'Опт (B2B)', marketplace: 'Маркетплейс' };
+  const scaleMap = { sm: 'до 500 товаров', md: 'до 5 000 товаров', lg: 'без ограничений' };
+  const designMap = { basic: 'Базовый', unique: 'Оптимальный', premium: 'Премиум' };
+
+  return {
+    scenario: 'new_or_redesign',
+    ctaType: activeCtaType || '',
+    startLabel: startMap[ans.start] || '',
+    siteTypeLabel: siteTypeMap[ans.site_type] || '',
+    scaleLabel: scaleMap[ans.scale] || '',
+    designLabel: designMap[ans.design] || '',
+    selectedIntegrations: calc.selectedIntegrations.map(v => INTEGRATION_LABELS[v]),
+    paidIntegrations: calc.paidIntegrations.map(v => INTEGRATION_LABELS[v]),
+    savedIntegrations: calc.savedIntegrations.map(v => INTEGRATION_LABELS[v]),
+    discountTotal: calc.integrationsDiscount,
+    seoLabel: ans.seo === 'yes' ? 'Расширенная' : 'Базовая (в тарифе)',
+    supportLabel: ans.support === 'yes' ? 'Да (1 мес бесплатно, далее от ' + rub(SUPPORT_PRICE) + ' / мес)' : 'Нет',
+    totalLabel: rub(total),
+    timeline: tariff.timeline,
+    worksIncluded: tariff.worksIncluded,
+    ctaTypeLabel: CTA_LABELS[activeCtaType] || ''
+  };
+}
+
+function buildPayloadMod(total, tier, calc) {
+  const siteTypeMap = { retail: 'Розница (B2C)', opt: 'Опт (B2B)', marketplace: 'Маркетплейс' };
+
+  return {
+    scenario: 'modification',
+    ctaType: activeCtaType || '',
+    startLabel: 'Доработка',
+    siteTypeLabel: siteTypeMap[ans.site_type] || '',
+    tierLabel: tier.name + ' доработка (до ' + rub(tier.cap) + ')',
+    selectedMods: calc.selectedMods.map(v => MOD_LABELS[v] + ' — ' + rub(modPrice(v))),
+    seoLabel: ans.seo === 'yes' ? 'Расширенная (+' + rub(SEO_PRICE) + ')' : 'Не нужна',
+    supportLabel: ans.support === 'yes' ? 'Да (1 мес бесплатно, далее от ' + rub(SUPPORT_PRICE) + ' / мес)' : 'Нет',
+    totalLabel: rub(total),
+    timeline: tier.timeline,
+    ctaTypeLabel: CTA_LABELS[activeCtaType] || ''
+  };
+}
+
+function buildCalculatorCommentMask(p) {
+  if (p.scenario === 'modification') {
+    return [
+      'Детализация калькулятора (доработка интернет-магазина):',
+      'Тип работ: ' + p.startLabel,
+      'Формат магазина: ' + p.siteTypeLabel,
+      'Уровень доработки (по формату): ' + p.tierLabel,
+      'Выбранные доработки:',
+      ...p.selectedMods.map(m => '  • ' + m),
+      'SEO: ' + p.seoLabel,
+      'Техподдержка: ' + p.supportLabel,
+      'Стоимость от: ' + p.totalLabel,
+      'Срок: ' + p.timeline,
+      'Нажата кнопка: ' + (p.ctaTypeLabel || '—')
+    ].join('\n');
+  }
+  return [
+    'Детализация калькулятора (интернет-магазин):',
+    'Тип работ: ' + p.startLabel,
+    'Формат магазина: ' + p.siteTypeLabel,
+    'Объём каталога: ' + p.scaleLabel,
+    'Тариф: ' + p.designLabel,
+    'Все выбранные интеграции: ' + (p.selectedIntegrations.length ? p.selectedIntegrations.join(', ') : 'не выбраны'),
+    'Сверх тарифа (доплата): ' + (p.paidIntegrations.length ? p.paidIntegrations.join(', ') : '—'),
+    'Снято из тарифа (скидка ' + rub(p.discountTotal) + '): ' + (p.savedIntegrations.length ? p.savedIntegrations.join(', ') : '—'),
+    'SEO: ' + p.seoLabel,
+    'Техподдержка: ' + p.supportLabel,
+    'Стоимость от: ' + p.totalLabel,
+    'Срок: ' + p.timeline,
+    'Состав работ: ' + p.worksIncluded.join('; '),
+    'Нажата кнопка: ' + (p.ctaTypeLabel || '—')
+  ].join('\n');
+}
+
+function bindPopupFormAugment() {
+  if (window.__serenityCalcFormBound) return;
+  window.__serenityCalcFormBound = true;
+
+  document.addEventListener('submit', (e) => {
+    const form = e.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    if (!calcPayloadCache) return;
+
+    const commentField = form.querySelector(
+      'textarea[name*="comment" i],input[name*="comment" i],textarea[placeholder*="Комментар" i],input[placeholder*="Комментар" i]'
+    );
+    if (!commentField) return;
+
+    const marker = 'Детализация калькулятора';
+    const current = (commentField.value || '').trim();
+    const pureUserText = current.includes(marker) ? current.split(marker)[0].trim() : current;
+
+    const calcMask = buildCalculatorCommentMask(calcPayloadCache);
+    commentField.value = pureUserText ? (pureUserText + '\n\n' + calcMask) : calcMask;
+  }, true);
+}
+
+function openSitePopup() {
+  const trigger = document.querySelector(
+    '[data-open-popup], [data-popup-open], .js-open-popup, .open-popup, [href*="#popup"], [href*="modal"]'
+  );
+  if (trigger) {
+    trigger.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    return;
+  }
+  window.location.href = 'https://serenity.agency/contacts';
+}
+
+function animCounter(el, target) {
+  const dur = 1100;
+  const t0 = Date.now();
+  function tick() {
+    const prog = Math.min((Date.now() - t0) / dur, 1);
+    const eased = 1 - Math.pow(1 - prog, 3);
+    el.textContent = rub(Math.round(eased * target));
+    if (prog < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function reset() {
+  step = 0;
+  ans = {
+    start: null, site_type: null, scale: null, design: null, integ: [],
+    mods: [], seo: null, support: null
+  };
+  calcPayloadCache = null;
+  activeCtaType = null;
+  lastDesignForInteg = null;
+  window.SerenityCalcPayload = null;
+  updateProgress(0);
+  renderStep(ALL_STEPS.start, false);
+}
+
+bindPopupFormAugment();
+updateProgress(0);
+renderStep(ALL_STEPS.start, true);
+</script>
+</body>
+</html>
