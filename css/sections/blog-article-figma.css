@@ -1488,3 +1488,26 @@ html:has(.blog-article-page-top) .blog-read-more.isNewContent .services__title {
   margin-right: auto;
 }
 
+/* Перелинковка в теле статьи — после .article-section a, иначе перебивается синим цветом ссылок. */
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link:visited,
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link:focus,
+.blog-article-page-top .blog-article-page-top__lead a.blog-text-link,
+.blog-article-page-top .blog-article-page-top__lead a.blog-text-link:visited,
+.blog-article-page-top .blog-article-page-top__lead a.blog-text-link:focus,
+.article-section__info a.blog-text-link,
+.article-section__info a.blog-text-link:visited,
+.article-section__info a.blog-text-link:focus {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.blog-article-page-top ~ section.lighttheme.article_section_l .article-section a.blog-text-link:hover,
+.blog-article-page-top .blog-article-page-top__lead a.blog-text-link:hover,
+.article-section__info a.blog-text-link:hover {
+  color: #9cc9ff;
+  text-decoration: none;
+}
+

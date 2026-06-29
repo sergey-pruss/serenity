@@ -121,3 +121,18 @@
   }
 }
 
+/* Перелинковка «SEO для магазина» — после Nuxt/kontekst stack, иначе перебивается общими стилями ссылок. */
+.page-constructor.internet-magazina-page .modern.content-block .block__description a.internet-magazina-text-link,
+.page-constructor.internet-magazina-page .modern.content-block .block__description a.internet-magazina-text-link:visited,
+.page-constructor.internet-magazina-page .modern.content-block .block__description a.internet-magazina-text-link:focus {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.page-constructor.internet-magazina-page .modern.content-block .block__description a.internet-magazina-text-link:hover {
+  color: #9cc9ff;
+  text-decoration: none;
+}
+

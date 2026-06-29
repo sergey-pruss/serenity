@@ -112,7 +112,7 @@ function linkContextualAdsPhrasesInLead(plain) {
 }
 
 /** Листинг блога без этих файлов; для страниц статей вставляем после parity-sync. */
-const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260616authorCenterContract1" />
+const BLOG_ARTICLE_SHELL_STYLES = `    <link rel="stylesheet" href="/_sa/css/sections/blog-article-figma.css?v=20260629blogInterlink4" />
     <link rel="stylesheet" href="/_sa/css/sections/blog-article-prose.css?v=20260615blogFunnelFix" />
 `;
 
@@ -1179,6 +1179,8 @@ function renderTypedBlogArticlePage(data, ctx, articleFeed, fullFeed, prefixArti
 }
 
 (async () => {
+  require("./apply-blog-interlinks-sozdanie-internet-magazina.cjs").run();
+
   if (!fs.existsSync(listingPath)) throw new Error(`Нет ${listingPath}`);
 
   let articleSlugs = [];
