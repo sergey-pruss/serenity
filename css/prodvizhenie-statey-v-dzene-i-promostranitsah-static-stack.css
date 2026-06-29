@@ -725,3 +725,65 @@
     padding-top: var(--home-between, 97px) !important;
   }
 }
+
+/* Синергия с услугами — карточки как на /seo (synergy-seo.html). */
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__text,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__text[data-v-627ccbce] {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__context-slider,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__context-slider[data-v-627ccbce] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__title,
+.page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__title[data-v-627ccbce] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 1025px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__text,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__context-slider,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 55px) !important;
+    padding-right: var(--page-inline-end, 55px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__text,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__context-slider,
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 36px) !important;
+    padding-right: var(--page-inline-end, 36px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.prodvizhenie-statey-v-dzene-i-promostranitsah-page .seo-synergy-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}

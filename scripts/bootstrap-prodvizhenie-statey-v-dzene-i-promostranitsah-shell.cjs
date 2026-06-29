@@ -14,7 +14,7 @@ const outPath = path.join(root, cfg.assemble.pageDir, "index.html");
 const heroBase = `/_sa/img/services/${slug}/hero`;
 const heroDeskUrl = `${heroBase}/hero.webp`;
 const heroMobUrl = `${heroBase}/hero__m.webp`;
-const CSS_V = "20260610dzenBlogSpacing";
+const CSS_V = "20260629dzenSynergy1";
 
 function readDzenTailBlocks() {
   return [
@@ -25,6 +25,7 @@ function readDzenTailBlocks() {
     readPartial("clients-kontekstnaya-reklama.html"),
     readPartial("more-cases-kontekstnaya-from-services.html"),
     readPartial("awards-kontekstnaya-reklama.html"),
+    readPartial("synergy-seo.html"),
   ];
 }
 
