@@ -36,7 +36,7 @@ for (let i = 0; i < SLIDE_COUNT; i++) {
   );
   const img = posts[i].media?.image;
   if (img && img.startsWith("/_sa/")) {
-    const rel = img.replace(/^\/_sa\//, "");
+    const rel = img.replace(/^\/_sa\//, "").split(/[?#]/)[0];
     assert(fs.existsSync(path.join(root, rel)), `Нет файла превью: ${rel}`);
   }
 }

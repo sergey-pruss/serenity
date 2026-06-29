@@ -49,6 +49,10 @@ assert(/~\^\/strategy\/\?\$\s+1;/.test(content), "Missing /strategy listing rule
 assert(/~\^\/strategy\/index\\\.html\$\s+1;/.test(content), "Missing /strategy/index.html rule.");
 assert(/~\^\/uvelichenie-konversii-saita\/\?\$\s+1;/.test(content), "Missing /uvelichenie-konversii-saita listing rule.");
 assert(/~\^\/uvelichenie-konversii-saita\/index\\\.html\$\s+1;/.test(content), "Missing /uvelichenie-konversii-saita/index.html rule.");
+assert(/~\^\/seo\/\?\$\s+1;/.test(content), "Missing /seo listing rule.");
+assert(/~\^\/seo\/index\\\.html\$\s+1;/.test(content), "Missing /seo/index.html rule.");
+assert(/~\^\/prodvizhenie-statey-v-dzene-i-promostranitsah\/\?\$\s+1;/.test(content), "Missing /prodvizhenie-statey-v-dzene-i-promostranitsah listing rule.");
+assert(/~\^\/prodvizhenie-statey-v-dzene-i-promostranitsah\/index\\\.html\$\s+1;/.test(content), "Missing /prodvizhenie-statey-v-dzene-i-promostranitsah/index.html rule.");
 assert(!/~\^\/case\/all\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case/all($|/) catches detail pages.");
 assert(!/~\^\/case\(\$\|\/\)\s+1;/.test(content), "Forbidden broad rule found: /case($|/) must stay on legacy.");
 
@@ -97,6 +101,22 @@ assert(
 assert(
   /\blocation\s*=\s*\/uvelichenie-konversii-saita\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/uvelichenie-konversii-saita\$is_args\$args\s*;/.test(routerVhost),
   "serenity-router.live.conf: missing location = /uvelichenie-konversii-saita/ → 301 без слэша."
+);
+assert(
+  /\blocation\s*=\s*\/seo\s*\{[\s\S]*?try_files\s+\/seo\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /seo → try_files (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/seo\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/seo\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /seo/ → 301 /seo."
+);
+assert(
+  /\blocation\s*=\s*\/prodvizhenie-statey-v-dzene-i-promostranitsah\s*\{[\s\S]*?try_files\s+\/prodvizhenie-statey-v-dzene-i-promostranitsah\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /prodvizhenie-statey-v-dzene-i-promostranitsah → try_files (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/prodvizhenie-statey-v-dzene-i-promostranitsah\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/prodvizhenie-statey-v-dzene-i-promostranitsah\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /prodvizhenie-statey-v-dzene-i-promostranitsah/ → 301 без слэша."
 );
 assert(
   /\blocation\s*=\s*\/services\s*\{[\s\S]*?try_files\s+\/services\/index\.html\s+=404\s*;/.test(routerVhost),

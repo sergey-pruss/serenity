@@ -37,6 +37,30 @@ function main() {
   assert(html.includes(SEO_HERO_MOBILE), "hero mobile path");
   assert(fs.existsSync(path.join(root, "img/services/seo/hero/hero.webp")), "hero.webp на диске");
   assert(fs.existsSync(path.join(root, "img/services/seo/hero/hero__m.webp")), "hero__m.webp на диске");
+
+  const jsonLdBlocks = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  assert(jsonLdBlocks.length > 0, "JSON-LD: есть structured data");
+  const jsonLdTypes = [];
+  jsonLdBlocks.forEach((m, idx) => {
+    const raw = m[1].trim();
+    assert(raw.length > 0, `JSON-LD #${idx + 1}: не пустой`);
+    assert(!/&(?:nbsp|amp|quot|lt|gt|apos|#\d+|#x[a-f0-9]+);/i.test(raw), `JSON-LD #${idx + 1}: без HTML-сущностей`);
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (e) {
+      throw new Error(`JSON-LD #${idx + 1}: не парсится (${e.message})`);
+    }
+    if (Array.isArray(parsed["@graph"])) {
+      jsonLdTypes.push(...parsed["@graph"].map((node) => node && node["@type"]).filter(Boolean));
+    } else if (parsed["@type"]) {
+      jsonLdTypes.push(parsed["@type"]);
+    }
+  });
+  assert(jsonLdTypes.includes("BreadcrumbList"), "JSON-LD: BreadcrumbList");
+  assert(jsonLdTypes.includes("FAQPage"), "JSON-LD: FAQPage");
+  assert(jsonLdTypes.includes("Product"), "JSON-LD: Product");
+
   assert(stack.includes("margin-bottom: 42px"), "hero: отступ h1 → подзаголовок");
   assert(stack.includes("service-hero-header.css"), "hero: service-hero-header");
   assert(

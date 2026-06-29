@@ -7,8 +7,18 @@ function stripNuxtScopedAttrs(html) {
   return String(html ?? "").replace(/\s+data-v-[a-f0-9]+=""/gi, "");
 }
 
+function decodeBasicHtmlEntities(text) {
+  return String(text ?? "")
+    .replace(/&nbsp;|&#160;|&#xA0;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">");
+}
+
 function stripHtmlToPlainText(html) {
-  return String(html ?? "")
+  return decodeBasicHtmlEntities(html)
     .replace(/<br\s*\/?>/gi, " ")
     .replace(/<[^>]+>/g, "")
     .replace(/\s+/g, " ")
@@ -22,7 +32,7 @@ function extractFaqPairsFromHtml(html) {
     /<div[^>]*class="spoiler block"[^>]*>[\s\S]*?<h3[^>]*class="block__question"[^>]*>([^<]*)<\/h3>[\s\S]*?<div[^>]*class="block__content"[^>]*>([\s\S]*?)<\/div>/g;
   let m;
   while ((m = re.exec(html)) !== null) {
-    const question = m[1].trim();
+    const question = stripHtmlToPlainText(m[1]);
     const answer = stripHtmlToPlainText(m[2]);
     if (question && answer) pairs.push({ question, answer });
   }
