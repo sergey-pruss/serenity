@@ -1,0 +1,40 @@
+---
+description: Деплой из Cursor на Windows — без зависаний shell/SSH
+alwaysApply: true
+---
+
+# Деплой из Cursor (Windows)
+
+## Команды (только так)
+
+| Поверхность | Команда агента (одна, foreground) |
+|-------------|-----------------------------------|
+| DEV | `.\deploy-dev.cmd` |
+| PROD | `.\deploy-prod.cmd` |
+
+Не вызывать `bash scripts/deploy-*.sh` через длинный `bash.exe -lc "..."` из PowerShell, если есть `.cmd`.
+
+`block_until_ms`: **300000** (5 мин) — rsync инкрементальный; полный tar+ssh только при `DEPLOY_TRANSPORT=tar` (~600 MB).
+
+## Запрещено
+
+- Цепочки `git commit && git push && deploy` в **одной** PowerShell-команде (heredoc ломается).
+- `curl` / проверки `127.0.0.1` в фоне.
+- Второй деплой, пока первый не завершился (exit code).
+- Параллельные SSH/rsync/tar.
+
+## Git + деплой
+
+1. `git add` / `git commit` — отдельная команда (простой `-m "..."`, без heredoc в PowerShell).
+2. `git push` — отдельная команда.
+3. `.\deploy-dev.cmd` или `.\deploy-prod.cmd` — отдельная команда.
+
+## Если деплой упал
+
+Сообщить ошибку из терминала. Не запускать 10 диагностических команд подряд — максимум `git status` и повторный один deploy.
+
+## SSH / транспорт
+
+- По умолчанию **rsync** (инкрементально, быстро при мелких правках).
+- Полный архив: `set DEPLOY_TRANSPORT=tar` перед `.\deploy-dev.cmd` (~600 MB, 5–15 мин).
+- SSH: Git `/usr/bin/ssh` + Windows-пути к ключу; `~/.ssh/config` — хост `168.222.142.141`.

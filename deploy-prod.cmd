@@ -7,4 +7,4 @@ if not exist "%GIT_BASH%" (
 )
 set "DEPLOY_SSH_BIN=C:/Windows/System32/OpenSSH/ssh.exe"
 set "DEPLOY_SCP_BIN=C:/Windows/System32/OpenSSH/scp.exe"
-"%GIT_BASH%" -lc "cd \"$(cygpath -u '%~dp0')\" && bash scripts/deploy-dev.sh %*"
+"%GIT_BASH%" -lc "cd \"$(cygpath -u '%~dp0')\" && bash scripts/deploy-prod.sh %*"
