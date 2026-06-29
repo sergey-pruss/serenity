@@ -3,6 +3,7 @@
  * Контент берём с legacy, верстку/стили — только из текущего static-окружения.
  */
 @import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/sa-invisible-text-link.css");
 @import url("sections/service-facts-block.css");
 @import url("sections/sozdanie-internet-magazina-hero.css");
 @import url("sections/sozdanie-internet-magazina-result-card.css");
@@ -12,6 +13,8 @@
 @import url("sections/sozdanie-internet-magazina-trio-video.css");
 @import url("sections/sozdanie-internet-magazina-mobile-video.css");
 @import url("sections/sozdanie-internet-magazina-packages.css");
+@import url("sections/sozdanie-internet-magazina-integrations.css");
+@import url("sections/internet-magazina-site-calc.css");
 @import url("sections/sozdanie-internet-magazina-tail.css");
 
 /* Facts под hero-видео — как /targeting (без Nuxt .facts { padding-top: 165px }). */

@@ -35,6 +35,7 @@
  * Импорт «одним куском» HTML: обернуть контент в .sa-blog-prose внутри .article-section__info;
  * расширенная типографика — css/sections/blog-article-prose.css.
  */
+@import url("sa-invisible-text-link.css");
 
 /*
  * Единый тёмный фон страницы статьи (#121212 как у тела и «Читайте ещё»).

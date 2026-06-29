@@ -1,0 +1,106 @@
+/**
+ * Калькулятор интернет-магазина — визуал как korporativnyj-site-calc + отступы страницы.
+ * Генерация: node scripts/build-internet-magazina-site-calc.cjs
+ */
+@import url("korporativnyj-site-calc.css");
+
+.sa-site-calc-section.internet-magazina-site-calc-section {
+  position: relative;
+  z-index: 2;
+}
+
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-packages-dies
+  + .page-constructor__section.internet-magazina-site-calc-section
+  .sa-site-calc-section__container {
+  padding-top: var(--home-between, 112px);
+}
+
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-site-calc-section
+  + .page-constructor__section.internet-magazina-lead-section {
+  margin-top: 0 !important;
+}
+
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-site-calc-section:has(+ .page-constructor__section.internet-magazina-lead-section)
+  .sa-site-calc-section__container {
+  padding-bottom: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-packages-dies
+    + .page-constructor__section.internet-magazina-site-calc-section
+    .sa-site-calc-section__container {
+    padding-top: var(--home-between, 97px);
+  }
+
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-site-calc-section:has(+ .page-constructor__section.internet-magazina-lead-section)
+    .sa-site-calc-section__container {
+    padding-bottom: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-packages-dies
+    + .page-constructor__section.internet-magazina-site-calc-section
+    .sa-site-calc-section__container {
+    padding-top: var(--home-between, 60px);
+  }
+
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-site-calc-section:has(+ .page-constructor__section.internet-magazina-lead-section)
+    .sa-site-calc-section__container {
+    padding-bottom: var(--home-between, 60px) !important;
+  }
+}
+
+#internet-magazina-site-calc-root.sa-site-calc {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__opt-price-row,
+#internet-magazina-site-calc-root .sa-site-calc__topt-price-row {
+  margin-top: 8px;
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__price-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  line-height: 1.3;
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__price-tag.included {
+  color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.1);
+  border: 1px solid rgba(110, 231, 160, 0.25);
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__price-tag.extra {
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__price-tag.saving {
+  color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.08);
+  border: 1px solid rgba(110, 231, 160, 0.2);
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__price-tag.info {
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#internet-magazina-site-calc-root .sa-site-calc__brow-val.saving {
+  color: #6ee7a0;
+}

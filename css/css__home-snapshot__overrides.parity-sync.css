@@ -1,4 +1,6 @@
 /* Стабильный hero-glow и отключение анимаций точек — ближе к прод и к parity-скриншотам */
+@import url("sections/sa-invisible-text-link.css");
+
 @font-face {
   font-family: MuseoSansCyrl;
   src: url("../img/MuseoSansCyrl-100.woff") format("woff");

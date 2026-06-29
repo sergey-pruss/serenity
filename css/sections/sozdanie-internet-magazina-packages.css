@@ -26,31 +26,13 @@
 
 .page-constructor.internet-magazina-page
   > .page-constructor__section.internet-magazina-packages-dies
-  + .page-constructor__section.internet-magazina-lead-section {
+  + .page-constructor__section.internet-magazina-site-calc-section {
   margin-top: 0 !important;
 }
 
 .page-constructor.internet-magazina-page
-  > .page-constructor__section.internet-magazina-packages-dies
+  > .page-constructor__section.internet-magazina-site-calc-section
   + .page-constructor__section.internet-magazina-lead-section
   .sa-service-lead-section__container {
-  padding-top: var(--home-between, 112px) !important;
-}
-
-@media screen and (max-width: 800px) {
-  .page-constructor.internet-magazina-page
-    > .page-constructor__section.internet-magazina-packages-dies
-    + .page-constructor__section.internet-magazina-lead-section
-    .sa-service-lead-section__container {
-    padding-top: var(--home-between, 97px) !important;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .page-constructor.internet-magazina-page
-    > .page-constructor__section.internet-magazina-packages-dies
-    + .page-constructor__section.internet-magazina-lead-section
-    .sa-service-lead-section__container {
-    padding-top: var(--home-between, 60px) !important;
-  }
+  padding-top: 0 !important;
 }

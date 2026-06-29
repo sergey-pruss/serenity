@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" fill="none" role="img" aria-hidden="true">
+  <rect x="88" y="48" width="144" height="92" rx="16" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+  <rect x="108" y="68" width="104" height="16" rx="8" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+  <rect x="108" y="92" width="72" height="8" rx="4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+  <rect x="108" y="108" width="88" height="8" rx="4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+  <rect x="56" y="156" width="72" height="44" rx="10" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+  <rect x="68" y="170" width="48" height="6" rx="3" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+  <rect x="68" y="182" width="32" height="6" rx="3" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+  <rect x="192" y="156" width="72" height="44" rx="10" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+  <path d="M128 178H192" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="160" cy="132" r="18" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+  <path d="M154 132H166M160 126V138" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

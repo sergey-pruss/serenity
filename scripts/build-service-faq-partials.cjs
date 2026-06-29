@@ -48,6 +48,15 @@ const SERVICES = [
     comment: "<!-- FAQ korporativnyj_sajt: json/services/korporativnyj_sajt/faq.json + service-faq.css. -->\n",
   },
   {
+    slug: "sozdanie-internet-magazina",
+    partial: "faq-sozdanie-internet-magazina.html",
+    mountId: "korporativnyj-faq-mounted",
+    sectionClass: "korporativnyj-faq-section",
+    rootClass: "korporativnyj-faq-root korporativnyj-faq-root--always-visible",
+    comment:
+      "<!-- FAQ sozdanie-internet-magazina: json/services/sozdanie-internet-magazina/faq.json + service-faq.css. -->\n",
+  },
+  {
     slug: "seo",
     partial: "faq-seo.html",
     mountId: "korporativnyj-faq-mounted",

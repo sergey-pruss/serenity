@@ -1,0 +1,117 @@
+/**
+ * Блок «Интеграции для интернет-магазина под ключ» — 3+1 колонки, типографика как content-block.
+ */
+
+.page-constructor.internet-magazina-page
+  > .page-constructor__section.internet-magazina-quarta-case-slider-section
+  + .page-constructor__section.internet-magazina-integrations-section
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-quarta-case-slider-section
+    + .page-constructor__section.internet-magazina-integrations-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.internet-magazina-page
+    > .page-constructor__section.internet-magazina-quarta-case-slider-section
+    + .page-constructor__section.internet-magazina-integrations-section
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Nuxt: numbered-header 120px + title-column 20px — обнуляем внутренние хвосты, зазор даёт margin шапки 57px (korporativnyj-sajt-static-stack :has). */
+@media screen and (min-width: 721px) {
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .modern.content-block[data-v-4ed7dc78] .numbered-header[data-v-490c7534],
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .modern.content-block > .page__container:has(> .internet-magazina-integrations-grid) > .numbered-header[data-v-490c7534] {
+    margin-bottom: 57px !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .content-block[data-v-4ed7dc78] .numbered-header .row .numbered-header__title-column,
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .numbered-header .row .col-6[data-v-490c7534],
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .numbered-header .row .col-6,
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .numbered-header .row [class*="col-"] {
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page
+    .internet-magazina-integrations-section
+    .numbered-header.number-header__empty
+    + .internet-magazina-integrations-grid {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page
+    .internet-magazina-integrations-section
+    .numbered-header.number-header__empty
+    .numbered-header__title-column
+    .numbered-header__title {
+    padding: 0 !important;
+  }
+
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 75px;
+    row-gap: 57px;
+    align-items: start;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+    align-items: start;
+  }
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-integrations-card {
+  min-width: 0;
+  width: 100%;
+}
+
+/* Типографика как в content-block: wrapper блочный, не inline. */
+.page-constructor.internet-magazina-page .internet-magazina-integrations-section .block__name-wrapper {
+  display: block !important;
+  position: relative;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-integrations-section .block__name {
+  display: block !important;
+  font-size: 26px;
+  line-height: 130%;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 20px;
+}
+
+.page-constructor.internet-magazina-page .internet-magazina-integrations-section .block__description {
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 400;
+  margin: 0;
+  color: #969696;
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.internet-magazina-page .internet-magazina-integrations-section .block__name {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+}

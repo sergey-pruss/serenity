@@ -6,6 +6,7 @@
 @import url("sections/kontekstnaya-packages-compare.css");
 @import url("sections/service-packages-cards.css?v=20260625packagesCardBg");
 @import url("sections/korporativnyj-site-calc.css");
+@import url("sections/sa-invisible-text-link.css");
 
 /* Заголовки/текст колонок — ссылки на услуги без визуального «подчёркивания» (как /services/marketing). */
 .page-constructor.korporativnyj-page .block__name a,
@@ -432,13 +433,15 @@
   }
 
   .page-constructor.korporativnyj-page .modern.content-block > .page__container:has(> .content-block__number-container),
-  .page-constructor.internet-magazina-page .modern.content-block > .page__container:has(> .content-block__number-container) {
+  .page-constructor.internet-magazina-page .modern.content-block > .page__container:has(> .content-block__number-container),
+  .page-constructor.internet-magazina-page .modern.content-block > .page__container:has(> .internet-magazina-integrations-grid) {
     row-gap: 0 !important;
     grid-row-gap: 0 !important;
   }
 
   .page-constructor.korporativnyj-page .modern.content-block > .page__container:has(> .content-block__number-container) > .numbered-header,
-  .page-constructor.internet-magazina-page .modern.content-block > .page__container:has(> .content-block__number-container) > .numbered-header {
+  .page-constructor.internet-magazina-page .modern.content-block > .page__container:has(> .content-block__number-container) > .numbered-header,
+  .page-constructor.internet-magazina-page .modern.content-block > .page__container:has(> .internet-magazina-integrations-grid) > .numbered-header {
     margin-bottom: 57px !important;
   }
 }

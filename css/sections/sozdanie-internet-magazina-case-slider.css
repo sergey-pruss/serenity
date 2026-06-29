@@ -77,7 +77,7 @@
   max-width: 906px;
 }
 
-/* Слайдеры кейсов (Darkrain, Quarta Hunt): видео в мокапе 906×515, не картинка. */
+/* Слайдеры кейсов: мокап 906×515 (видео или картинка). */
 .page-constructor.internet-magazina-page
   .internet-magazina-case-slider-section
   .cases-block__swiper-slide-contant
@@ -87,7 +87,12 @@
   .internet-magazina-quarta-case-slider-section
   .cases-block__swiper-slide-contant
   .old
-  video.internet-magazina-case-video {
+  video.internet-magazina-case-video,
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide-contant
+  .old
+  img.cases-block__swiper-slide-contant-image {
   display: block;
   width: 100%;
   max-width: 906px;
@@ -182,6 +187,14 @@
 .page-constructor.internet-magazina-page
   .internet-magazina-quarta-case-slider-section
   .cases-block__swiper-slide--quarta-hunt
+  .background[data-v-bd2e570a],
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--big-buyer
+  .background[data-v-bd2e570a],
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--schaefer-fliesen
   .background[data-v-bd2e570a] {
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -191,6 +204,10 @@
 .page-constructor.internet-magazina-page
   .internet-magazina-quarta-case-slider-section
   .cases-block__swiper-slide--quarta-hunt.swiper-slide-active
+  .background[data-v-bd2e570a],
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--schaefer-fliesen.swiper-slide-active
   .background[data-v-bd2e570a] {
   filter: blur(28px) !important;
   -webkit-filter: blur(28px) !important;
@@ -198,9 +215,33 @@
   -webkit-transform: translateZ(0) scale(1.18) !important;
 }
 
+/* Big Buyer: фон без blur — по центру, пропорционально до cover. */
 .page-constructor.internet-magazina-page
   .internet-magazina-quarta-case-slider-section
-  .cases-block__swiper-slide--quarta-hunt.swiper-slide-active::after {
+  .cases-block__swiper-slide--big-buyer.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--big-buyer.swiper-slide-active::after {
+  display: none !important;
+  content: none !important;
+}
+
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--quarta-hunt.swiper-slide-active::after,
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--schaefer-fliesen.swiper-slide-active::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -214,6 +255,82 @@
   .cases-block__swiper-slide--quarta-hunt
   .cases-block__swiper-slide-contant
   .old
+  video.internet-magazina-case-video,
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--big-buyer
+  .cases-block__swiper-slide-contant
+  .old
+  img.cases-block__swiper-slide-contant-image,
+.page-constructor.internet-magazina-page
+  .internet-magazina-quarta-case-slider-section
+  .cases-block__swiper-slide--schaefer-fliesen
+  .cases-block__swiper-slide-contant
+  .old
+  img.cases-block__swiper-slide-contant-image {
+  object-position: center center !important;
+}
+
+/* MIE / La vivion: размытый постер из скринкаста + затемнение. */
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--mie
+  .background[data-v-bd2e570a],
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--lavivion
+  .background[data-v-bd2e570a] {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--mie.swiper-slide-active
+  .background[data-v-bd2e570a],
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--lavivion.swiper-slide-active
+  .background[data-v-bd2e570a] {
+  filter: blur(28px) brightness(0.62) !important;
+  -webkit-filter: blur(28px) brightness(0.62) !important;
+  transform: translateZ(0) scale(1.18) !important;
+  -webkit-transform: translateZ(0) scale(1.18) !important;
+}
+
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--mie.swiper-slide-active::after,
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--lavivion.swiper-slide-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--mie
+  .cases-block__swiper-slide-contant
+  .old
+  video.internet-magazina-case-video,
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide--lavivion
+  .cases-block__swiper-slide-contant
+  .old
   video.internet-magazina-case-video {
   object-position: center center !important;
+}
+
+.page-constructor.internet-magazina-page
+  .internet-magazina-case-slider-section
+  .cases-block__swiper-slide-button-wrapper--no-button
+  .cases-block__swiper-slide-description {
+  margin-bottom: 0;
 }
