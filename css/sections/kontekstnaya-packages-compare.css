@@ -78,11 +78,25 @@
 .kontekst-packages-compare__table tbody th,
 .kontekst-packages-compare__table tbody td {
   border: 0;
-  border-bottom: 1px solid var(--kontekst-compare-line);
+  border-bottom: none;
+  position: relative;
+}
+
+.kontekst-packages-compare__table thead th::after,
+.kontekst-packages-compare__table tbody th::after,
+.kontekst-packages-compare__table tbody td::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--kontekst-compare-line);
+  pointer-events: none;
 }
 
 .kontekst-packages-compare__table thead th {
-  border-bottom: 1px solid var(--kontekst-compare-line);
+  border-bottom: none;
 }
 
 .kontekst-packages-compare__row-sep {
@@ -98,8 +112,11 @@
   vertical-align: top;
   overflow: hidden;
   border: 0;
-  border-bottom: 1px solid var(--kontekst-compare-line);
   background: none;
+}
+
+.kontekst-packages-compare__row-sep td::after {
+  content: none;
 }
 
 .kontekst-packages-compare__row-sep + tr > th,
@@ -159,11 +176,12 @@
 .kontekst-packages-compare__table tbody td {
   padding: 14px 12px;
   vertical-align: middle;
+  box-sizing: border-box;
 }
 
-.kontekst-packages-compare__table tbody tr:last-child th,
-.kontekst-packages-compare__table tbody tr:last-child td {
-  border-bottom: none;
+.kontekst-packages-compare__table tbody tr:last-child th::after,
+.kontekst-packages-compare__table tbody tr:last-child td::after {
+  content: none;
 }
 
 .kontekst-packages-compare__row-label {
@@ -174,10 +192,24 @@
 }
 
 /* Иконка слева, текст переносится в своей колонке (не под иконку). */
-.kontekst-packages-compare__row-label:has(.kontekst-packages-compare__icon) {
+.kontekst-packages-compare__row-label-inner {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.kontekst-packages-compare__row-label:has(.kontekst-packages-compare__icon):not(
+    :has(.kontekst-packages-compare__row-label-inner)
+  ) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kontekst-packages-compare__row-label:has(.kontekst-packages-compare__row-label-inner) {
+  vertical-align: middle;
 }
 
 .kontekst-packages-compare__icon {
@@ -185,7 +217,7 @@
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  margin-top: 1px;
+  margin-top: 0;
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -211,6 +243,7 @@
   font-size: 18px;
   line-height: 1;
   text-align: center;
+  vertical-align: middle;
 }
 
 .kontekst-packages-compare__cell--no {
@@ -218,6 +251,7 @@
   font-size: 18px;
   line-height: 1;
   text-align: center;
+  vertical-align: middle;
 }
 
 .kontekst-packages-compare__cell--text {
@@ -279,7 +313,13 @@
   .kontekst-packages-compare__table--pinned thead th,
   .kontekst-packages-compare__table--pinned tbody th,
   .kontekst-packages-compare__table--pinned tbody td {
-    border-bottom-color: var(--kontekst-compare-pinned-line);
+    border-bottom-color: transparent;
+  }
+
+  .kontekst-packages-compare__table--pinned thead th::after,
+  .kontekst-packages-compare__table--pinned tbody th::after,
+  .kontekst-packages-compare__table--pinned tbody td::after {
+    background: var(--kontekst-compare-pinned-line);
   }
 
   .kontekst-packages-compare__scroll {
