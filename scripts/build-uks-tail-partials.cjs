@@ -295,12 +295,27 @@ function buildAwardsPartial() {
 }
 
 function buildSynergyPartial() {
-  if (!fs.existsSync(SYNERGY_SRC)) {
-    throw new Error(`Нет ${SYNERGY_SRC} — сначала соберите synergy-seo.html`);
+  const seoSynergyPath = fs.existsSync(SYNERGY_SRC)
+    ? SYNERGY_SRC
+    : path.join(ROOT, "seo", "index.html");
+  if (!fs.existsSync(seoSynergyPath)) {
+    throw new Error(`Нет ${SYNERGY_SRC} и seo/index.html — сначала соберите synergy-seo.html`);
   }
-  let html = fs.readFileSync(SYNERGY_SRC, "utf8");
+  let html = fs.readFileSync(seoSynergyPath, "utf8");
+  if (seoSynergyPath.endsWith("index.html")) {
+    const secStart = html.indexOf('<section class="page-constructor__section seo-synergy-section">');
+    if (secStart < 0) throw new Error("seo-synergy-section не найден в seo/index.html");
+    const secEnd = html.indexOf("</section>", secStart);
+    html = html.slice(secStart, secEnd + "</section>".length);
+  }
   html = html.replace(/^<!--[\s\S]*?-->\s*/, "");
   html = html.replace("seo-synergy-section", "uks-synergy-section");
+  const tehpodSeoSlide =
+    '<div data-v-627ccbce="" class="synergy__slide swiper-slide" style="margin-right: 30px;"><div data-v-627ccbce=""><div data-v-627ccbce="" class="synergy__card"><!----> <div data-v-627ccbce="" class="synergy__card-ccccc"><a data-v-627ccbce="" href="/tehnicheskaya-podderzhka-saita" target="_blank" class="synergy__card-container synergy__card-container-text" style="-webkit-tap-highlight-color: transparent; cursor: pointer;"><h3 data-v-627ccbce="">Техническая поддержка сайта</h3> <!----> <p data-v-627ccbce="" class="synergy__card-description">Внедряем UX-правки и&nbsp;технические доработки после аудита.</p> <!----></a></div></div></div><div data-v-627ccbce=""><div data-v-627ccbce="" class="synergy__card"><!----> <div data-v-627ccbce="" class="synergy__card-ccccc"><a data-v-627ccbce="" href="/seo" target="_blank" class="synergy__card-container synergy__card-container-text" style="-webkit-tap-highlight-color: transparent; cursor: pointer;"><h3 data-v-627ccbce="">SEO</h3> <!----> <p data-v-627ccbce="" class="synergy__card-description">Оптимизируем сайт и&nbsp;выводим его в&nbsp;топ по&nbsp;релевантным запросам.</p> <!----></a></div></div></div></div>';
+  html = html.replace(
+    /(<div data-v-627ccbce="" class="synergy__slide swiper-slide[^>]*>[\s\S]*?synergy__card-img_mobile"><\/div><\/a> <!----><\/div><\/div><\/div>)(<div data-v-627ccbce="" class="synergy__slide)/,
+    `$1${tehpodSeoSlide}$2`,
+  );
   return `<!-- Синергия /uvelichenie-konversii-saita: как /seo (связанные услуги для роста конверсии). -->\n${html.trim()}\n`;
 }
 
