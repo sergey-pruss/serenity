@@ -41,8 +41,8 @@ async function run() {
   );
   assert(html.includes('property="og:lowPrice" content="107000.00"'), "og:lowPrice как на проде");
   assert(
-    /<h1[^>]*>\s*Таргетированная реклама/.test(html),
-    "<h1>: Таргетированная реклама",
+    /<h1[^>]*>\s*Настройка и(?:&nbsp;|\u00a0| )ведение таргетированной рекламы/.test(html),
+    "<h1>: Настройка и ведение таргетированной рекламы",
   );
   assert(html.includes("targeting-nuxt.bundle.css"), "CSS: targeting-nuxt.bundle.css");
   assert(fileExists("css/targeting-nuxt.bundle.css"), "файл на диске: css/targeting-nuxt.bundle.css");
@@ -105,6 +105,10 @@ async function run() {
     const teamIdx = main.indexOf("team-block");
     const faqIdx = main.indexOf("targeting-faq-mounted");
     const casesIdx = main.indexOf('class="more-case-wr');
+    const geoIdx = main.indexOf("Таргетированная реклама в&nbsp;Москве и&nbsp;Санкт-Петербурге");
+    const pkgIdx = main.indexOf("<!-- TARGETING-PACKAGES-START -->");
+    assert(geoIdx >= 0 && pkgIdx > geoIdx, "порядок: пакеты после гео-блока");
+    assert(pkgIdx >= 0 && leadIdx > pkgIdx, "порядок: форма после пакетов");
     assert(leadIdx >= 0 && teamIdx > leadIdx, "порядок: форма до команды (как kontekst)");
     assert(faqIdx >= 0 && casesIdx > faqIdx, "порядок: FAQ до кейсов (как kontekst)");
   }

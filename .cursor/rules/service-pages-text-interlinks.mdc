@@ -1,0 +1,43 @@
+---
+description: Перелинковки в SEO-тексте страниц услуг — где хранить, чтобы assemble не затирал
+globs: scripts/lib/*-seo-sections.cjs,scripts/assemble-*-from-prod-layout.cjs,scripts/build-*-seo-middle.cjs,scripts/build-*-faq.cjs,html/partials/services/kompleksnoye-*.html,html/partials/services/korporativnyj-*.html,json/services/**/faq.json
+alwaysApply: true
+---
+
+# Перелинковки на страницах услуг
+
+**Полный регламент:** [`AGENTS.md`](AGENTS.md) → «Перелинковки на страницах услуг».
+
+## Главное правило
+
+**Никогда не добавлять/менять текстовые ссылки в `<slug>/index.html`.** Index пересобирается `assemble-*-from-prod-layout.cjs` и затирает ручные правки.
+
+## Куда писать ссылки
+
+| Slug | Источник |
+|------|----------|
+| `targeting` | `scripts/lib/targeting-seo-sections.cjs` + `npm run build:targeting-seo-middle` |
+| `kontekstnaya_reklama` | `scripts/lib/kontekstnaya-seo-sections.cjs` |
+| `kompleksnoye-prodvizheniye` | `html/partials/services/kompleksnoye-*.html` |
+| `korporativnyj_sajt` | partials (`korporativnyj-cms-block.html` и т.д.) |
+| `seo` | `scripts/assemble-seo-from-prod-layout.cjs` |
+| FAQ | `json/services/<slug>/faq.json` или `build-*-faq.cjs` |
+
+Разметка: `<a class="<slug>-text-link" href="/path">анкор</a>` в полях `text`, `description`, `titleHtml` генератора.
+
+## Видимые ссылки (страница услуги 3-го уровня)
+
+Заголовок карточки на другую услугу (не статья блога) — **видимая** ссылка: отдельный класс (`targeting-visible-text-link` и аналоги), голубой + underline в покое. Невидимый `*-text-link` для таких заголовков не использовать.
+
+## После правок (агент)
+
+1. Build зоны (для targeting: `npm run build:targeting-seo-middle`).
+2. `npm run assemble:service:<slug>` (targeting: `TARGETING_INCLUDE_PHASE2=1`).
+3. Assert ключевых `href` в `verify-<slug>.cjs` (MAIN, без synergy/blog/кейсов — по контексту задачи).
+4. CSS ссылок: stack страницы + `?v=` при изменении.
+
+## Антипаттерны
+
+- Правка только `targeting-phase2-middle.html` без `targeting-seo-sections.cjs`.
+- `refresh:*-from-prod` без ссылок в seo-sections — prod-срез без перелинковок.
+- Underline на hover у невидимых `*-text-link` (см. `invisible-text-link-hover.mdc`).

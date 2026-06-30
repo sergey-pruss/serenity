@@ -226,6 +226,59 @@
   color: #fff;
 }
 
+/*
+ * Гео-блок → «Стоимость и пакеты»: один шаг --home-between (как korporativnyj / internet-magazina),
+ * не суммировать 172px padding-top заголовка пакетов с низом предыдущего content-block.
+ */
+.page-constructor.targeting-page > .page-constructor__section:has(+ .targeting-packages-heading) > .modern.content-block[data-v-4ed7dc78],
+.page-constructor.targeting-page > .page-constructor__section:has(+ .targeting-packages-heading) > .modern.content-block {
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.targeting-page
+  > .page-constructor__section
+  + .page-constructor__section.targeting-packages-heading
+  > .modern.content-block[data-v-4ed7dc78],
+.page-constructor.targeting-page
+  > .page-constructor__section
+  + .page-constructor__section.targeting-packages-heading
+  > .modern.content-block {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.targeting-page
+  > .page-constructor__section:has(+ .targeting-packages-heading)
+  .content-block__grid--desc-by-row
+  .block-item[aria-hidden="true"] {
+  display: none !important;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.targeting-page
+    > .page-constructor__section
+    + .page-constructor__section.targeting-packages-heading
+    > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor.targeting-page
+    > .page-constructor__section
+    + .page-constructor__section.targeting-packages-heading
+    > .modern.content-block {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.targeting-page
+    > .page-constructor__section
+    + .page-constructor__section.targeting-packages-heading
+    > .modern.content-block[data-v-4ed7dc78],
+  .page-constructor.targeting-page
+    > .page-constructor__section
+    + .page-constructor__section.targeting-packages-heading
+    > .modern.content-block {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
 /* Мобилка/планшет: карточные слайдеры вместо таблиц (parity /kontekstnaya_reklama). */
 @media screen and (max-width: 1024px) {
   .page-constructor.targeting-page .dies .prices .kontekst-packages-compare,

@@ -243,6 +243,42 @@
 
 ---
 
+## Перелинковки на страницах услуг
+
+**`<slug>/index.html` — артефакт сборки, не источник правды.** Ссылки в SEO-тексте (`content-block__desc`, `block__description`, заголовки карточек) правятся только в **генераторах** ниже; ручные правки в index или в сгенерированных partial без исходника **затираются** при `assemble:service:*` или `refresh:*-from-prod`.
+
+### Куда класть ссылки (источник правды)
+
+| Страница / зона | Файл |
+|-----------------|------|
+| `/targeting` — SEO-блоки | `scripts/lib/targeting-seo-sections.cjs` → `npm run build:targeting-seo-middle` |
+| `/kontekstnaya_reklama` — SEO-блоки | `scripts/lib/kontekstnaya-seo-sections.cjs` (через `kontekstnaya-main-middle.cjs`) |
+| `/kompleksnoye-prodvizheniye` | `html/partials/services/kompleksnoye-*.html` |
+| `/korporativnyj_sajt` | partials (`korporativnyj-cms-block.html` и др.), не index |
+| `/seo` | `scripts/assemble-seo-from-prod-layout.cjs` |
+| FAQ услуги | `json/services/<slug>/faq.json` или `build-*-faq.cjs` |
+| `/services/marketing` | partials + `assemble-marketing-from-prod-layout.cjs` |
+
+Конфиг страницы: `json/services/<slug>/service.config.json` (assemble, partials, phase2).
+
+### Классы и видимость
+
+- **Невидимая** перелинковка в тексте: `<slug>-text-link` (например `targeting-text-link`, `seo-text-link`) — в покое как текст, при hover `#9cc9ff`, без подчёркивания. Общие правила: [`.cursor/rules/invisible-text-link-hover.mdc`](.cursor/rules/invisible-text-link-hover.mdc), `css/sections/sa-invisible-text-link.css` + stack страницы.
+- **Видимая** ссылка на **страницу услуги 3-го уровня** в заголовке карточки (как «Геомедийная…» на контексте, «Продвижение контента в Дзене» на targeting): отдельный класс (`targeting-visible-text-link` и аналоги) — голубой + подчёркивание всегда.
+
+### Порядок после правки ссылок
+
+1. Правка **только** в источнике из таблицы (для targeting — ещё `npm run build:targeting-seo-middle`).
+2. Сборка страницы: `npm run assemble:service:<slug>` с нужными флагами (для targeting — `TARGETING_INCLUDE_PHASE2=1`).
+3. При изменении CSS ссылок — поднять `?v=` в stack страницы.
+4. Добавить или обновить assert в `scripts/verify-<slug>.cjs` на ключевые `href` в MAIN (без synergy, блога, кейсов, FAQ — по задаче).
+
+**Не править вручную:** `<slug>/index.html`, `html/partials/services/*-phase2-middle.html` (если генерируется build-скриптом), `tmp/*-prod-full.html`.
+
+Подробности для агента: [`.cursor/rules/service-pages-text-interlinks.mdc`](.cursor/rules/service-pages-text-interlinks.mdc).
+
+---
+
 ## Добавление новой статьи
 
 Регламент для **новых** материалов, которые ведутся **вручную в репозитории** (не через админку). Старые посты из API по-прежнему подтягиваются скриптом; новые — через **`json/blog-posts-manual.json`** и **`json/blog-articles/<slug>.json`**. Не плодить новые CMS, генераторы контента и лишние зависимости; повторять формат существующих статей и карточек.

@@ -154,11 +154,18 @@ function injectTargetingServiceInlineLead(mainHtml) {
       break;
     }
   }
-  if (i0 < 0) return mainHtml;
-  const iClose = mainHtml.indexOf("</form>", i0);
-  if (iClose < 0) return mainHtml;
-  const iEnd = mainHtml.indexOf("</section>", iClose) + "</section>".length;
-  return `${mainHtml.slice(0, i0)}${partial}\n${mainHtml.slice(iEnd)}`;
+  if (i0 >= 0) {
+    const iClose = mainHtml.indexOf("</form>", i0);
+    if (iClose >= 0) {
+      const iEnd = mainHtml.indexOf("</section>", iClose) + "</section>".length;
+      return `${mainHtml.slice(0, i0)}${partial}\n${mainHtml.slice(iEnd)}`;
+    }
+  }
+  const teamIdx = mainHtml.indexOf("team-block");
+  if (teamIdx < 0) return mainHtml;
+  const teamSec = mainHtml.lastIndexOf(SECTION_OPEN, teamIdx);
+  if (teamSec < 0) return mainHtml;
+  return `${mainHtml.slice(0, teamSec)}\n${partial}\n${mainHtml.slice(teamSec)}`;
 }
 
 function extractMoreCasesSectionBounds(mainHtml) {
@@ -297,6 +304,37 @@ function moveTargetingFaqSectionBeforeCases(mainHtml) {
   const iInsert2 = without.lastIndexOf(SECTION_OPEN, iCases2);
   if (iInsert2 < 0) return mainHtml;
   return `${without.slice(0, iInsert2)}\n${block}\n${without.slice(iInsert2)}`;
+}
+
+/** «Стоимость и пакеты» — сразу после блока про Москву и СПб, до формы и команды. */
+function moveTargetingPackagesAfterGeo(mainHtml) {
+  const pkgStart = mainHtml.indexOf("<!-- TARGETING-PACKAGES-START -->");
+  if (pkgStart < 0) return mainHtml;
+  const geoTitle = "Таргетированная реклама в&nbsp;Москве и&nbsp;Санкт-Петербурге";
+  const geoIdx = mainHtml.indexOf(geoTitle);
+  const teamIdx = mainHtml.indexOf("team-block");
+  if (geoIdx < 0 || teamIdx < 0) return mainHtml;
+
+  let pkgEnd = mainHtml.indexOf("<!-- TARGETING-PACKAGES-END -->", pkgStart);
+  if (pkgEnd < 0) return mainHtml;
+  pkgEnd += "<!-- TARGETING-PACKAGES-END -->".length;
+  while (mainHtml.slice(pkgEnd).trimStart().startsWith("<!-- TARGETING-PACKAGES-END -->")) {
+    const next = mainHtml.indexOf("<!-- TARGETING-PACKAGES-END -->", pkgEnd);
+    if (next < 0) break;
+    pkgEnd = next + "<!-- TARGETING-PACKAGES-END -->".length;
+  }
+
+  const geoSecEnd = mainHtml.indexOf("</section>", geoIdx) + "</section>".length;
+  if (pkgStart > geoIdx && pkgStart < teamIdx && pkgStart >= geoSecEnd - 20) {
+    return mainHtml;
+  }
+
+  let block = mainHtml.slice(pkgStart, pkgEnd);
+  block = block.replace(/(<!-- TARGETING-PACKAGES-END -->\s*)+$/g, "<!-- TARGETING-PACKAGES-END -->");
+  const without = mainHtml.slice(0, pkgStart) + mainHtml.slice(pkgEnd);
+  const geoIdx2 = without.indexOf(geoTitle);
+  const geoSecEnd2 = without.indexOf("</section>", geoIdx2) + "</section>".length;
+  return `${without.slice(0, geoSecEnd2)}\n${block}\n${without.slice(geoSecEnd2)}`;
 }
 
 /** Порядок как на /kontekstnaya_reklama: инлайн-форма сразу после контента, до «Команда». */
@@ -659,6 +697,7 @@ function run() {
   main = injectTargetingMoreCases(main);
   main = injectTargetingAwards(main);
   main = injectTargetingSynergy(main);
+  main = moveTargetingPackagesAfterGeo(main);
   main = moveTargetingInlineLeadBeforeTeam(main);
   main = moveTargetingFaqSectionBeforeCases(main);
   main = injectTargetingBlogClientsAfterFaq(main);
@@ -705,9 +744,9 @@ function run() {
         deferNonBlockingCss("/_sa/css/sections/service-faq.css?v=20260523targetingFaqExpanded"),
         deferNonBlockingCss("/_sa/css/sections/kontekstnaya-packages-compare.css?v=20260609packagesMobileSlider"),
         deferNonBlockingCss("/_sa/css/sections/service-packages-cards.css?v=20260625packagesCardBg"),
-        deferNonBlockingCss("/_sa/css/sections/targeting-seo-blocks.css?v=20260625packagesCardBg"),
+        deferNonBlockingCss("/_sa/css/sections/targeting-seo-blocks.css?v=20260630targetingGeoPackagesGap1"),
         deferNonBlockingCss("/_sa/css/sections/home-awards.css?v=20260514kontekstAwardsShell"),
-        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260523serviceHeroTop" />',
+        '    <link rel="stylesheet" href="/_sa/css/targeting-static-stack.css?v=20260630targetingVisibleDzen1" />',
         deferNonBlockingCss("https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css"),
         deferNonBlockingCss("/_sa/css/css__home-snapshot__slider-arrows.css?v=20260515asyncCssSwiper"),
         '    <link rel="stylesheet" href="/_sa/css/css__home-snapshot__overrides.mobile.css?v=20260517morCasesTablet" />',

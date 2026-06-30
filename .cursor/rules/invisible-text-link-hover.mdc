@@ -6,13 +6,15 @@ alwaysApply: true
 
 # Невидимые текстовые ссылки (перелинковка)
 
-Классы: `blog-text-link`, `sa-invisible-text-link`, `internet-magazina-text-link`, `korporativnyj-text-link`, `seo-text-link`, `kompleksnoye-text-link` и аналоги в `css/sections/sa-invisible-text-link.css`.
+Классы: `blog-text-link`, `sa-invisible-text-link`, `internet-magazina-text-link`, `korporativnyj-text-link`, `seo-text-link`, `kompleksnoye-text-link`, `targeting-text-link` и аналоги в `css/sections/sa-invisible-text-link.css`.
 
 ## Поведение
 
 - **В покое:** как обычный текст (`color: inherit`, `text-decoration: none`).
 - **При hover:** только цвет **`#9cc9ff`**, **без подчёркивания** (`text-decoration: none`).
 - `cursor: pointer` — допустимо.
+
+**Исключение:** видимые ссылки на страницу услуги 3-го уровня в заголовке карточки (`targeting-visible-text-link` и аналоги) — голубой + подчёркивание в покое; см. [`AGENTS.md`](AGENTS.md) → «Перелинковки на страницах услуг».
 
 ## Антипаттерн
 

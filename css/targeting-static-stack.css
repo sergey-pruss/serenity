@@ -8,6 +8,57 @@
 @import url("sections/service-clients-section.css");
 @import url("sections/targeting-hero.css");
 @import url("sections/service-hero-header.css");
+@import url("sections/sa-invisible-text-link.css");
+
+/* Перелинковка в SEO-тексте: невидимая ссылка (override kontekst .block__name a). */
+.page-constructor.targeting-page a.targeting-text-link,
+.page-constructor.targeting-page a.targeting-text-link:visited,
+.page-constructor.targeting-page a.targeting-text-link:focus {
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.page-constructor.targeting-page a.targeting-text-link:hover {
+  color: #9cc9ff;
+  text-decoration: none;
+}
+
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-text-link,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-text-link:visited,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-text-link:focus,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-text-link:any-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-text-link:hover,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-text-link:any-link:hover {
+  color: #9cc9ff;
+  text-decoration: none;
+}
+
+.page-constructor.targeting-page .modern.content-block .content-block__desc a.targeting-text-link,
+.page-constructor.targeting-page .modern.content-block .block__description a.targeting-text-link {
+  font: inherit;
+}
+
+/* Страница услуги 3-го уровня в заголовке карточки — видимая ссылка (как геомедийная на /kontekstnaya_reklama). */
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-visible-text-link,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-visible-text-link:visited,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-visible-text-link:focus,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-visible-text-link:any-link {
+  color: #6eb3ff;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-visible-text-link:hover,
+.page-constructor.targeting-page .modern.content-block .block__name a.targeting-visible-text-link:any-link:hover {
+  color: #9cc9ff;
+  text-decoration: underline;
+}
 
 /* Телефон: без Nuxt-скоупа десктопная сетка desc остаётся в потоке — дубль с tablet. */
 @media screen and (max-width: 720px) {
