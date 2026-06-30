@@ -269,6 +269,13 @@ function patchKorporativnyjHeroH1(html) {
   );
 }
 
+function patchKorporativnyjInternalLinks(html) {
+  return html.replace(
+    /эффективный с&nbsp;точки зрения UX\/UI дизайн/g,
+    '<a href="/uvelichenie-konversii-saita" class="korporativnyj-text-link">эффективный с&nbsp;точки зрения UX/UI дизайн</a>',
+  );
+}
+
 function escapeMetaAttr(value) {
   return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 }
@@ -1060,6 +1067,7 @@ function run() {
 
   let main = rewriteProdSlice(layout.slice(iPc, iFm));
   main = patchKorporativnyjHeroH1(main);
+  main = patchKorporativnyjInternalLinks(main);
   main = sanitizeProductJsonLd(main);
 
   const captureOnly =

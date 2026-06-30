@@ -133,11 +133,27 @@ function patchSeoInternalLinks(html) {
   );
   s = s.replace(
     /отделами аналитики, разработки, контента, дизайна и&nbsp;(?:<a href="\/kontekstnaya_reklama" class="seo-text-link">)?контекстной рекламы(?:<\/a>)?, чтобы совместно/g,
-    'отделами аналитики, разработки, контента и&nbsp;дизайна, чтобы совместно',
+    'отделами аналитики, разработки, контента, дизайна и&nbsp;<a href="/kontekstnaya_reklama" class="seo-text-link">контекстной рекламы</a>, чтобы совместно',
   );
   s = s.replace(
     /в&nbsp;то&nbsp;время как&nbsp;контекстная реклама — это&nbsp;платные объявления/g,
     'в&nbsp;то&nbsp;время как&nbsp;<a href="/kontekstnaya_reklama" class="seo-text-link">контекстная реклама</a> — это&nbsp;платные объявления',
+  );
+  s = s.replace(
+    /на&nbsp;конверсию в&nbsp;целом\./g,
+    'на&nbsp;<a href="/uvelichenie-konversii-saita" class="seo-text-link">конверсию в&nbsp;целом</a>.',
+  );
+  s = s.replace(
+    /А&nbsp;если сайт делается с&nbsp;нуля/g,
+    'А&nbsp;если <a href="/korporativnyj_sajt" class="seo-text-link">сайт</a> делается <a href="/sozdanie-internet-magazina" class="seo-text-link">с&nbsp;нуля</a>',
+  );
+  s = s.replace(
+    /с&nbsp;первых дней после релиза/g,
+    'с&nbsp;первых дней <a href="/tehnicheskaya-podderzhka-saita" class="seo-text-link">после релиза</a>',
+  );
+  s = s.replace(
+    /формируем промостраницу/g,
+    'формируем <a href="/prodvizhenie-statey-v-dzene-i-promostranitsah" class="seo-text-link">промостраницу</a>',
   );
   return s;
 }

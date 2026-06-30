@@ -691,7 +691,7 @@ function patchMarketingSeo(html) {
   s = s.replace(/content="https:\/\/serenity\.agency\/targeting"/g, 'content="https://serenity.agency/services/marketing"');
   s = s.replace(
     /targeting-static-stack\.css\?v=[^"]+/g,
-    "targeting-static-stack.css?v=20260522marketingSectionLinks",
+    "targeting-static-stack.css?v=20260630hubInterlinks",
   );
   s = s.replace(
     /sections\/home-awards\.css\?v=[^"]+/g,
