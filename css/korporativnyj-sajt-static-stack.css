@@ -353,10 +353,33 @@
   }
 
   /*
-   * content-block__number-container: строки карточек в одну линию по горизонтали
-   * (как /strategy — иначе flex-колонки с разной высотой ломают второй ряд).
+   * internet-magazina: CSS-grid для выравнивания второго ряда (как /strategy).
+   * korporativnyj: три независимые flex-колонки — «Прототип» и иллюстрация сразу под своей колонкой,
+   * а не на общей линии после высокой «Оптимизации».
    */
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks,
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks {
+    row-gap: 0 !important;
+    padding-left: 78px !important;
+    padding-right: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page
+    .modern.content-block
+    > .page__container
+    > .numbered-header.number-header__empty
+    + .content-block__number-container {
+    padding-left: 0 !important;
+  }
+
+  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4 {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 0 !important;
+    max-width: calc((100% - 150px) / 3) !important;
+    min-width: 0 !important;
+    gap: 57px;
+  }
+
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -368,11 +391,6 @@
   }
 
   /* Без цифры в шапке — сетка по левому краю h2 (как /strategy). */
-  .page-constructor.korporativnyj-page
-    .modern.content-block
-    > .page__container
-    > .numbered-header.number-header__empty
-    + .content-block__number-container,
   .page-constructor.internet-magazina-page
     .modern.content-block
     > .page__container
@@ -381,7 +399,6 @@
     padding-left: 0 !important;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4,
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4 {
     display: contents !important;
     flex: unset !important;
@@ -389,44 +406,37 @@
     gap: unset !important;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks .block-item,
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks .block-item {
     width: 100%;
     max-width: none;
     min-width: 0;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(1) .block-item:nth-child(1),
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(1) .block-item:nth-child(1) {
     grid-column: 1;
     grid-row: 1;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(1) .block-item:nth-child(2),
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(1) .block-item:nth-child(2) {
     grid-column: 1;
     grid-row: 2;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(2) .block-item:nth-child(1),
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(2) .block-item:nth-child(1) {
     grid-column: 2;
     grid-row: 1;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(2) .block-item:nth-child(2),
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(2) .block-item:nth-child(2) {
     grid-column: 2;
     grid-row: 2;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(3) .block-item:nth-child(1),
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(3) .block-item:nth-child(1) {
     grid-column: 3;
     grid-row: 1;
   }
 
-  .page-constructor.korporativnyj-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(3) .block-item:nth-child(2),
   .page-constructor.internet-magazina-page .modern.content-block .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:nth-child(3) .block-item:nth-child(2) {
     grid-column: 3;
     grid-row: 2;
