@@ -61,6 +61,7 @@ const htmlFiles = [
   "sozdanie-internet-magazina/index.html",
   "kontekstnaya_reklama/index.html",
   "uvelichenie-konversii-saita/index.html",
+  "tehnicheskaya-podderzhka-saita/index.html",
   ...walk("blog", []),
   ...walk("case/all", []),
 ];

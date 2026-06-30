@@ -49,6 +49,8 @@ assert(/~\^\/strategy\/\?\$\s+1;/.test(content), "Missing /strategy listing rule
 assert(/~\^\/strategy\/index\\\.html\$\s+1;/.test(content), "Missing /strategy/index.html rule.");
 assert(/~\^\/uvelichenie-konversii-saita\/\?\$\s+1;/.test(content), "Missing /uvelichenie-konversii-saita listing rule.");
 assert(/~\^\/uvelichenie-konversii-saita\/index\\\.html\$\s+1;/.test(content), "Missing /uvelichenie-konversii-saita/index.html rule.");
+assert(/~\^\/tehnicheskaya-podderzhka-saita\/\?\$\s+1;/.test(content), "Missing /tehnicheskaya-podderzhka-saita listing rule.");
+assert(/~\^\/tehnicheskaya-podderzhka-saita\/index\\\.html\$\s+1;/.test(content), "Missing /tehnicheskaya-podderzhka-saita/index.html rule.");
 assert(/~\^\/seo\/\?\$\s+1;/.test(content), "Missing /seo listing rule.");
 assert(/~\^\/seo\/index\\\.html\$\s+1;/.test(content), "Missing /seo/index.html rule.");
 assert(/~\^\/prodvizhenie-statey-v-dzene-i-promostranitsah\/\?\$\s+1;/.test(content), "Missing /prodvizhenie-statey-v-dzene-i-promostranitsah listing rule.");
@@ -101,6 +103,14 @@ assert(
 assert(
   /\blocation\s*=\s*\/uvelichenie-konversii-saita\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/uvelichenie-konversii-saita\$is_args\$args\s*;/.test(routerVhost),
   "serenity-router.live.conf: missing location = /uvelichenie-konversii-saita/ → 301 без слэша."
+);
+assert(
+  /\blocation\s*=\s*\/tehnicheskaya-podderzhka-saita\s*\{[\s\S]*?try_files\s+\/tehnicheskaya-podderzhka-saita\/index\.html\s+=404\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /tehnicheskaya-podderzhka-saita → try_files (канон без слэша)."
+);
+assert(
+  /\blocation\s*=\s*\/tehnicheskaya-podderzhka-saita\/\s*\{[\s\S]*?return\s+301\s+https:\/\/serenity\.agency\/tehnicheskaya-podderzhka-saita\$is_args\$args\s*;/.test(routerVhost),
+  "serenity-router.live.conf: missing location = /tehnicheskaya-podderzhka-saita/ → 301 без слэша."
 );
 assert(
   /\blocation\s*=\s*\/seo\s*\{[\s\S]*?try_files\s+\/seo\/index\.html\s+=404\s*;/.test(routerVhost),

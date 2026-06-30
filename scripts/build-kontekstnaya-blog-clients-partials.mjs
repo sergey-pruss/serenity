@@ -2,7 +2,8 @@
 /**
  * Partial «Блог» и «Наши клиенты» для страниц услуг:
  * - /kontekstnaya_reklama — blog-kontekstnaya-reklama.html
- * - /kompleksnoye-prodvizheniye — blog-kompleksnoye-prodvizheniye.html (тот же подбор)
+ * - /kompleksnoye-prodvizheniye — blog-kompleksnoye-prodvizheniye.html (кураторский partial,
+ *   не перезаписывается этим скриптом; только при KOMPLEKS_BLOG_REGENERATE=1)
  * - /prodvizhenie-yandex-karty-2gis — blog-prodvizhenie-yandex-karty-2gis.html (кураторский)
  * Подбор kontekst/kompleks: тема «контекстная реклама» + CURATED_EXTRA_SLUGS; ≥2020; до 10 карточек.
  * clients: копия html/partials/section-clients.html с главной (kontekstnaya).
@@ -322,25 +323,34 @@ if (!ymapsTop.length) {
 }
 const blogTemplate = fs.readFileSync(BLOG_TEMPLATE, "utf8");
 const blogInner = buildBlogPartial(blogTemplate, top);
-const kompleksBlogInner = buildBlogPartial(blogTemplate, top);
 const ymapsBlogInner = buildBlogPartial(blogTemplate, ymapsTop);
 const clientsInner = fs.readFileSync(CLIENTS_SOURCE, "utf8");
 
 const kontekstBlogPartial = wrapBlogPartial(blogInner);
-const kompleksBlogPartial = wrapBlogPartial(kompleksBlogInner, "kompleksnoye-blog-section");
 
 fs.writeFileSync(BLOG_OUT, `${kontekstBlogPartial}\n`, "utf8");
-fs.writeFileSync(KOMPLEKS_BLOG_OUT, `${kompleksBlogPartial}\n`, "utf8");
 fs.writeFileSync(YMAPS_BLOG_OUT, `${wrapBlogPartial(ymapsBlogInner, "ymaps-blog-section")}\n`, "utf8");
 fs.writeFileSync(CLIENTS_OUT, `${wrapClientsPartial(clientsInner)}\n`, "utf8");
-patchKompleksnoyeBlogSection(kompleksBlogPartial);
+
+if (process.env.KOMPLEKS_BLOG_REGENERATE === "1") {
+  const kompleksBlogInner = buildBlogPartial(blogTemplate, top);
+  const kompleksBlogPartial = wrapBlogPartial(kompleksBlogInner, "kompleksnoye-blog-section");
+  fs.writeFileSync(KOMPLEKS_BLOG_OUT, `${kompleksBlogPartial}\n`, "utf8");
+  patchKompleksnoyeBlogSection(kompleksBlogPartial);
+  console.log("OK:", path.relative(ROOT, KOMPLEKS_BLOG_OUT), "—", top.length, "карточек (как kontekstnaya)");
+  console.log("OK:", path.relative(ROOT, KOMPLEKS_PAGE), "— блок блога обновлён по маркерам");
+} else {
+  console.log(
+    "SKIP:",
+    path.relative(ROOT, KOMPLEKS_BLOG_OUT),
+    "— кураторский partial; KOMPLEKS_BLOG_REGENERATE=1 для пересборки",
+  );
+}
 
 console.log("OK:", path.relative(ROOT, BLOG_OUT), "—", top.length, "карточек (новые первыми):");
 top.forEach((p) =>
   console.log(" ", p.publishDate?.slice(0, 10) || "????-??-??", hrefForPage(p.href), "—", p.description?.slice(0, 60)),
 );
-console.log("OK:", path.relative(ROOT, KOMPLEKS_BLOG_OUT), "—", top.length, "карточек (как kontekstnaya)");
-console.log("OK:", path.relative(ROOT, KOMPLEKS_PAGE), "— блок блога обновлён по маркерам");
 console.log(
   "OK:",
   path.relative(ROOT, YMAPS_BLOG_OUT),
