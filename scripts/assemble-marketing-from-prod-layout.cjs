@@ -76,9 +76,7 @@ const MARKETING_META = {
 };
 
 const MARKETING_HERO_SUBTITLE =
-  "Агентство комплексного маркетинга: синергия маркетинговых инструментов многократно увеличивает их&nbsp;эффективность для&nbsp;бизнеса.";
-const MARKETING_HERO_LEAD =
-  '<p class="marketing-hero-lead content-block__desc" data-v-04503aeb="">Услуги комплексного маркетинга объединяют стратегию, бренд и&nbsp;измеримое продвижение — выстраиваем систему, которая приносит заявки и&nbsp;продажи.</p>';
+  "Синергия маркетинговых инструментов многократно увеличивает их&nbsp;эффективность для&nbsp;бизнеса.";
 
 function readPartialKeepScoped(rel) {
   const p = path.join(root, rel);
@@ -136,11 +134,6 @@ function patchHeroTexts(main, h1Text, subtitleHtml) {
     `$1${subtitleHtml}$2`,
   );
   return out;
-}
-
-function injectHeroLead(main) {
-  if (main.includes("marketing-hero-lead")) return main;
-  return main.replace(/(<\/header>)/, `$1 ${MARKETING_HERO_LEAD}`);
 }
 
 /** Коллаж case-slider под заголовком — только на /targeting, на marketing не нужен. */
@@ -701,7 +694,7 @@ function patchMarketingSeo(html) {
   s = s.replace(/content="https:\/\/serenity\.agency\/targeting"/g, 'content="https://serenity.agency/services/marketing"');
   s = s.replace(
     /targeting-static-stack\.css\?v=[^"]+/g,
-    "targeting-static-stack.css?v=20260630hubInterlinks",
+    "targeting-static-stack.css?v=20260630marketingHeroRevert",
   );
   s = s.replace(
     /sections\/home-awards\.css\?v=[^"]+/g,
@@ -736,7 +729,6 @@ function run() {
 
   let main = targetingHtml.slice(iMainStart + SRC_MAIN_START.length, iMainEnd).trim();
   main = patchHeroTexts(main, "Комплексный маркетинг", MARKETING_HERO_SUBTITLE);
-  main = injectHeroLead(main);
   main = stripHeroCaseSlider(main);
   main = injectInlineLead(main);
   main = stripClientsSection(main);

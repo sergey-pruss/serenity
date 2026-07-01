@@ -72,13 +72,12 @@ async function run() {
     "герой H1: Комплексный маркетинг",
   );
   assert(
-    /Агентство комплексного маркетинга: синергия маркетинговых инструментов/.test(main),
-    "hero subtitle: агентство комплексного маркетинга",
+    /Синергия маркетинговых инструментов многократно увеличивает/.test(main),
+    "hero subtitle: синергия маркетинговых инструментов",
   );
-  assert(main.includes("marketing-hero-lead"), "hero lead: услуги комплексного маркетинга");
   assert(
-    /Агентство комплексного маркетинга выстраивает работу со&nbsp;стратегии/.test(main),
-    "первый коммерческий абзац: агентство комплексного маркетинга",
+    /<a href="\/strategy" class="sa-invisible-text-link">Маркетинговая стратегия<\/a> выявляет ваши конкурентные преимущества/.test(main),
+    "блок стратегии: абзац с маркетинговой стратегией",
   );
   assert(html.includes("targeting-nuxt.bundle.css"), "CSS: targeting-nuxt.bundle.css");
   assert(fileExists("css/targeting-nuxt.bundle.css"), "файл targeting-nuxt.bundle.css");
