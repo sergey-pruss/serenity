@@ -1,0 +1,99 @@
+{
+
+  "slug": "pr",
+
+  "urlPath": "/pr",
+
+  "seo": {
+
+    "breadcrumbLabel": "PR-продвижение",
+
+    "pageTitle": "PR-продвижение — Serenity",
+
+    "metaTitle": "PR-продвижение — Serenity",
+
+    "description": "Услуги PR сопровождения и продвижения бренда, компании, бизнеса, товара. Заказать PR работу со СМИ, PR маркетинг, ознакомиться с кейсами, этапами и стоимостью услуги на сайте маркетингового агентства Serenity."
+
+  },
+
+  "hero": {
+
+    "variant": "image"
+
+  },
+
+  "sections": {
+
+    "packages": false,
+
+    "facts": true,
+
+    "advantages": true
+
+  },
+
+  "content": {
+
+    "inlineLead": "inline-lead.json",
+
+    "faq": "faq.json",
+
+    "moreCases": "more-cases.json",
+
+    "awards": "awards.json",
+
+    "synergy": "synergy.json"
+
+  },
+
+  "assemble": {
+
+    "layoutSourceEnv": "PR_LAYOUT_SOURCE",
+
+    "tmpFull": "pr-prod-full.html",
+
+    "tmpParity": "pr-parity-prod-layout.html",
+
+    "pageDir": "pr",
+
+    "cssStack": "pr-static-stack.css",
+
+    "partials": {
+
+      "inlineLead": "service-inline-lead-pr.html",
+
+      "team": "pr-team-block.html",
+
+      "clients": "clients-pr.html",
+
+      "faq": "faq-pr.html",
+
+      "blog": "blog-pr.html",
+
+      "moreCases": "more-cases-pr.html",
+
+      "awards": "awards-pr.html",
+
+      "synergy": "synergy-pr.html"
+
+    },
+
+    "markers": {
+
+      "mainStart": "PR-MAIN-START",
+
+      "mainEnd": "PR-MAIN-END",
+
+      "cssBundleStart": "PR-CSS-BUNDLE-START",
+
+      "cssBundleEnd": "PR-CSS-BUNDLE-END"
+
+    },
+
+    "phase2": false
+
+  }
+
+}
+
+

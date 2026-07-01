@@ -1,0 +1,898 @@
+{
+  "content": [
+    {
+      "component": "title-block",
+      "name": "Титульный блок",
+      "data": {
+        "title": "PR-продвижение",
+        "type": "full_screen_picture",
+        "movie": "",
+        "mobile_movie": "",
+        "poster": "",
+        "pictures": [],
+        "mobile_pictures": [],
+        "full_screen_picture": "m2SZFXF6C6LyUVrjR2n67q9f0clD57TKaxdzkocs.webp",
+        "mobile_full_screen_picture": "RUOogYb5Cbah2HtMhbo41DZkYmiHOEI0hrfYe600.webp",
+        "subtitle": " Комплекс действий, направленных на формирование позитивного образа бренда и создание доверия к его продуктам."
+      }
+    },
+    {
+      "component": "facts-block",
+      "name": "Блок с фактами",
+      "data": {
+        "title": "Основная миссия PR – выстраивание долгосрочной доверительной коммуникации  с целевой аудиторией",
+        "titleLarge": false,
+        "description": {
+          "main": "Мы умеем выстраивать доверительные отношения между брендом и его аудиторией, транслировать ценности компании и подтверждать ее экспертность. Понимаем, как важно формировать потребность в продуктах компании у потенциальных потребителей и как правильно закреплять ее у текущих клиентов. Мы поможем рассказать о новых продуктах, донести важные посылы и расширить вашу аудиторию. ",
+          "descriptions": []
+        },
+        "facts": {
+          "desktop": {
+            "columns": [
+              {
+                "items": [
+                  {
+                    "isImage": false,
+                    "number": "1",
+                    "text": "Повышаем узнаваемость бренда.",
+                    "uid": "69fe2d89-65d3-4154-851b-d15b9fa1bec0"
+                  },
+                  {
+                    "isImage": false,
+                    "number": "2",
+                    "text": "Создаем потребность в продукте или услуге.",
+                    "uid": "e8b4cd66-a6e1-41fe-a025-2b0f86c2560d"
+                  },
+                  {
+                    "isImage": false,
+                    "number": "3",
+                    "text": "Выстраиваем коммуникацию с клиентами, партнерами, спонсорами.",
+                    "uid": "2e8c9682-05d0-42d3-849b-842c80f5d0c5"
+                  },
+                  {
+                    "isImage": false,
+                    "number": "4",
+                    "text": "Продвигаем ваших экспертов.",
+                    "uid": "4078b75d-6b1c-4e03-8183-da9b889825cb"
+                  },
+                  {
+                    "isImage": false,
+                    "number": "5",
+                    "text": "Формируем доверие и лояльность аудитории.",
+                    "uid": "45e29deb-537b-4091-b69a-e73718331246"
+                  }
+                ],
+                "uid": "9557c95d-d57d-4f59-8f97-62040ee5de74"
+              }
+            ]
+          },
+          "tablet": {
+            "columns": [],
+            "bottomImage": {
+              "isActive": false
+            }
+          },
+          "mobile": {
+            "columns": []
+          }
+        }
+      }
+    },
+    {
+      "component": "content-block",
+      "name": "Блок контента",
+      "data": {
+        "title": {
+          "content": "Наш подход",
+          "large": true
+        },
+        "counter": false,
+        "description": "",
+        "blocks": [
+          [
+            {
+              "title": "От стратегии к тактике",
+              "description": "Начинаем с разработки PR-стратегии, чтобы достигнуть поставленных клиентом целей. Выбираем оптимальные виды маркетинговых коммуникаций среди инструментов PR  и делаем прозрачную оценку эффективности PR-кампаний.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "ac57ffc8-d6a7-4cf9-9e38-e3c6bbde8d7c"
+            }
+          ],
+          [
+            {
+              "title": "Синергия инструментов",
+              "description": "Действуем эффективно, используя комплекс инструментов. Привлекаем дизайнеров, работаем вместе со специалистами по продвижению, усиливая маркетинг клиента в целом. ",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "4a3ca083-9418-401f-b252-fa2e0be73c13"
+            }
+          ],
+          [
+            {
+              "title": "Маркетинговое мышление",
+              "description": "Мы оцениваем рынок, изучаем бизнес, анализируем конкурентов и создаем долгосрочные маркетинговые коммуникации с аудиторией, основанные на доверии, что усиливает продуктивность продвижения.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "dddbaf33-cc49-4dfe-aa4f-8edc6cc809fd"
+            }
+          ]
+        ],
+        "contentDie": [],
+        "media": ""
+      }
+    },
+    {
+      "component": "cases-block",
+      "name": "Кейсы",
+      "data": [
+        {
+          "id": 22,
+          "name": "ИдетШоу",
+          "background_image": "W2rBdB0u3wfhjujueHqXBODzhtASP2xQCF6QzsSZ.webp",
+          "poster": null,
+          "description": "Разработали стратегию продвижения YouTube-канала и внесли пункт с антикризисными мерами, проработали взаимодействие каналов продвижения и коммуникации с аудиторией, оптимизировали медиакит и предложения для спонсоров. Сопровождали выход первого выпуска шоу.",
+          "video": null,
+          "subtitle": "Стратегия продвижения и сопровождение проекта стилиста Андрея Ромашова о жизни бьюти-индустрии.",
+          "button_text": null,
+          "button_link": null,
+          "background_small": "cKTx3BR2gqe32SWkJcy9SDttRSICwP2y238nUGLV.webp",
+          "white_colors": 0,
+          "created_at": "2023-08-18T09:29:18.000000Z",
+          "updated_at": "2025-11-06T12:31:50.000000Z",
+          "categories": "[]",
+          "tags": "[]",
+          "big_font": 0,
+          "mobile_picture": null,
+          "tablet_picture": null,
+          "mobile_video": "",
+          "hidename": "ИдетШоу (pr)",
+          "is_resource": 0
+        },
+        {
+          "id": 57,
+          "name": "Digitale",
+          "background_image": "QrqPlrztGzMBMMzw1Af9avVzmkh0Cpfkfv4u0ZQX.webp",
+          "poster": null,
+          "description": "Организовали конференцию с 1700 участниками. Получили охват 60,5 млн. Реализовали 500 партнерских интеграций.",
+          "video": null,
+          "subtitle": "Организация деловых мероприятий.",
+          "button_text": "Смотреть кейс",
+          "button_link": "https://serenity.agency/case/digitale",
+          "background_small": "gOpPt2ZRVXbQ0JrhyHY8H89V0psYbZVmPfjo0AqO.webp",
+          "white_colors": 0,
+          "created_at": "2023-10-10T13:50:33.000000Z",
+          "updated_at": "2025-11-06T12:32:37.000000Z",
+          "categories": "[]",
+          "tags": "[]",
+          "big_font": 1,
+          "mobile_picture": null,
+          "tablet_picture": null,
+          "mobile_video": "",
+          "hidename": "Digitale (pr)",
+          "is_resource": 0
+        },
+        {
+          "id": 23,
+          "name": "Urban Boris",
+          "background_image": "fHePCBwbc2bmKVfxwPvUNOBHCBw1Xs0NutAQgx2C.webp",
+          "poster": null,
+          "description": "Разработали PR-стратегию, которая включила в себя коммуникационную платформу, концепцию проведения показов коллекций и создания коллабораций. Помогли привлечь на техническое открытие СМИ и блогеров.",
+          "video": null,
+          "subtitle": "Бренд мужской одежды люкс-сегмента выходит на рынок России.",
+          "button_text": null,
+          "button_link": null,
+          "background_small": "m30JrnHIPA61MjlvZqclOgSVlyBYCZnIXAPlYxU5.webp",
+          "white_colors": 0,
+          "created_at": "2023-08-18T09:31:24.000000Z",
+          "updated_at": "2025-11-06T12:34:06.000000Z",
+          "categories": "[]",
+          "tags": "[]",
+          "big_font": 0,
+          "mobile_picture": null,
+          "tablet_picture": null,
+          "mobile_video": "",
+          "hidename": "Urban Boris (pr)",
+          "is_resource": 0
+        }
+      ]
+    },
+    {
+      "component": "content-block",
+      "name": "Блок контента",
+      "data": {
+        "title": {
+          "content": "Этапы PR-продвижения",
+          "large": false
+        },
+        "counter": false,
+        "description": "Проводим исследования инфополя и целевой аудитории. Анализируем коммуникации конкурентов. Вырабатываем оптимальные решения, подбираем действенные инструменты и формируем четкий план.\n<br>\n<br>\nОпределяем KPI и просчитываем эффективность. Подбираем медиа и пишем экспертные материалы. Проводим переговоры с журналистами и партнерами. Организуем конференции, презентации и специальные мероприятия для продвижения бренда. Размещаем рекламу у блогеров и в сообществах.",
+        "blocks": [],
+        "contentDie": [],
+        "media": ""
+      }
+    },
+    {
+      "component": "content-block",
+      "name": "Блок контента",
+      "data": {
+        "title": {
+          "content": "Разработка PR-стратегии",
+          "large": false
+        },
+        "counter": true,
+        "description": "",
+        "blocks": [
+          [
+            {
+              "title": "Изучение конкурентов, рынка и инфополя",
+              "description": "Проводим качественные и количественные исследования. Детально анализируем каждый сегмент, используя открытые и закрытые источники.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "3d7ef111-bf08-489e-a4a0-0154b6b0c65f"
+            },
+            {
+              "title": "Формулировка ключевых сообщений в PR",
+              "description": "Определяем потребности аудитории. Формируем аргументы. Решаем, какой посыл представит бренд с позитивной стороны перед целевой аудиторией.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "0afa2a23-11f9-4106-8fc0-3252d314203f"
+            }
+          ],
+          [
+            {
+              "title": "Анализ репутации компании-клиента",
+              "description": "Делаем всесторонний репутационный аудит. SWOT-анализ, подробное изучение контента и оценка его тональности. Присутствие компании в инфополе и ее Share of Voice.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "0512b5b5-e4b0-48f9-bb71-c470ee2a354f"
+            },
+            {
+              "title": "Подбор инструментов, каналов и инфоповодов",
+              "description": "Анализируем аудиторию бренда и медиа-площадок, находим совпадения целевой аудитории. Выделяем информационные тренды и разрабатываем инфоповоды.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "9f80d870-f330-42c0-a116-a1418326b3f7"
+            }
+          ],
+          [
+            {
+              "title": "Исследование отношения аудитории",
+              "description": "Анализируем обратную связь от аудитории: отзывы и упоминания бренда. Проводим качественное исследование. Даем оценку удовлетворенности аудитории.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "e7739142-ff1b-4e5a-907f-0089808387c3"
+            },
+            {
+              "title": "Календарный план и KPI",
+              "description": "Составляем план действий и мероприятий. Определяем тайминг PR-кампании и прописываем дедлайны и точки контроля.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "3e399b53-8a00-49ae-893d-f28f2a1f7c27"
+            }
+          ]
+        ],
+        "contentDie": [],
+        "media": ""
+      }
+    },
+    {
+      "component": "content-block",
+      "name": "Блок контента",
+      "data": {
+        "title": {
+          "content": "Внедрение PR-стратегии",
+          "large": false
+        },
+        "counter": true,
+        "description": "",
+        "blocks": [
+          [
+            {
+              "title": "Проведение PR-кампании",
+              "description": "Подбираем маркетинговые инструменты и формируем список задач для PR продвижения. Контролируем результат.\n<br>\n<br>\nПроводим работы с digital-медиа и лидерами мнений, общественными организациями и GR, мероприятиями и событийным PR.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "4de12023-cf79-4585-8014-4a5cc9615f1a"
+            },
+            {
+              "title": "Корректировка PR-стратегии",
+              "description": "Анализируем инфополе и коммуникации конкурентов. Рассчитываем риски и точки роста. Контролируем продвижение PR-кампании.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "bda65087-3c95-4a84-a402-d69e4dd0bcbe"
+            }
+          ],
+          [
+            {
+              "title": "Расчет и оценка эффективности",
+              "description": "Определяем параметры оценки эффективности PR-кампании. Рассчитываем количество упоминаний, смотрим тональность и индекс цитируемости, считаем охват, анализируем ежемесячно  и ежеквартально.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "b7ce2c92-53ec-4f2c-b5d7-6d8955f14b05"
+            },
+            {
+              "title": "Спецпроекты и антикризисный PR",
+              "description": "Создаем уникальные проекты: со СМИ, партнерами, блогерами, экспертами и НКО, усиливающими основную PR-кампанию. Помогаем быстро выйти из кризисных ситуаций и восстановить позитивный имидж.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "07b849a4-d975-45c4-a4ac-4a16b281fcf1"
+            }
+          ],
+          [
+            {
+              "title": "",
+              "description": "",
+              "media": "R4hEcrEhw2nVVsDO9gz7xE6JAAOU3TiehbkEk3JU.png",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "6b19b6f1-ed75-4716-a533-ca0c4e878e94"
+            }
+          ]
+        ],
+        "contentDie": []
+      }
+    },
+    {
+      "component": "cases-block",
+      "name": "Кейсы",
+      "data": [
+        {
+          "id": 24,
+          "name": "Хэлп-центр",
+          "background_image": "EEAspDu5sORTqmjWPRJmxT23FtdkztYRvW6bfN5G.webp",
+          "poster": null,
+          "description": "В рамках маркетинговой стратегии провели анализ PR-активностей конкурентов компании и разработали стратегию. Она включила в себя подбор и методы работы с наиболее эффективными инструментами PR для этой сферы бизнеса. Помогли выстроить партнеринг.",
+          "video": null,
+          "subtitle": "Компания по кастомизации и создания тем для хэлп-центров на рынке США.",
+          "button_text": null,
+          "button_link": null,
+          "background_small": "7bZ4LOhQKIb40DNSwEh00D0Tb81aCDWFkkV29mcJ.webp",
+          "white_colors": 0,
+          "created_at": "2023-08-18T09:32:35.000000Z",
+          "updated_at": "2025-11-06T12:37:38.000000Z",
+          "categories": "[]",
+          "tags": "[]",
+          "big_font": 0,
+          "mobile_picture": null,
+          "tablet_picture": null,
+          "mobile_video": "",
+          "hidename": "Хэлп-центр (pr)",
+          "is_resource": 0
+        },
+        {
+          "id": 53,
+          "name": "Gio Wellness",
+          "background_image": "Z917QVGBMHrOdTrfNpieYhwtcZX356qH9Mcwv4zq.webp",
+          "poster": null,
+          "description": "Организовали первый в Петербурге фитнес-форум с участием блогеров и известных спортсменов. Формат события привлек потенциальных клиентов клуба.",
+          "video": "JKMTtmjaf42B1wMbnGim3g0FpeIgeyuHIf2tbAn7.mp4",
+          "subtitle": "Организация мероприятия для фитнес-клуба.",
+          "button_text": "Смотреть кейс",
+          "button_link": "https://serenity.agency/case/gio-welness",
+          "background_small": null,
+          "white_colors": 0,
+          "created_at": "2023-09-15T14:44:38.000000Z",
+          "updated_at": "2025-11-06T12:38:28.000000Z",
+          "categories": "[]",
+          "tags": "[]",
+          "big_font": 0,
+          "mobile_picture": null,
+          "tablet_picture": null,
+          "mobile_video": "",
+          "hidename": "Gio Wellness (pr)",
+          "is_resource": 0
+        },
+        {
+          "id": 26,
+          "name": "Osnova",
+          "background_image": "Zg38DO5GnZMfdnkgRfm6ubd4Y0FOVVPXgZqH3Dmi.webp",
+          "poster": null,
+          "description": "Разработали PR-стратегию продвижения бренда уходовой косметики для лица и тела. Проработали  3 социальные активности для повышения узнаваемости и 3 концепции инфоповодов.",
+          "video": null,
+          "subtitle": "Стратегия PR продвижения бренда уходовой косметики.",
+          "button_text": null,
+          "button_link": null,
+          "background_small": "ovGZaJ3gHGhPu58H68QZBzb9ZKjcMlOYBDg10RuH.webp",
+          "white_colors": 0,
+          "created_at": "2023-08-18T09:39:29.000000Z",
+          "updated_at": "2025-11-06T12:35:11.000000Z",
+          "categories": "[]",
+          "tags": "[]",
+          "big_font": 0,
+          "mobile_picture": null,
+          "tablet_picture": null,
+          "mobile_video": "",
+          "hidename": "Osnova (pr)",
+          "is_resource": 0
+        }
+      ]
+    },
+    {
+      "component": "content-block",
+      "name": "Блок контента",
+      "data": {
+        "title": {
+          "content": "Когда PR необходим",
+          "large": false
+        },
+        "counter": false,
+        "description": "",
+        "blocks": [
+          [
+            {
+              "title": "Повысить узнаваемость бренда",
+              "description": "Постоянное развитие — залог успеха любого бизнеса. Узнаваемый бренд помогает компании расти быстрее, завоевывая новые рынки и сегменты целевой аудитории, а также повышает ценность компании и ее продуктов.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "3d28d8e6-a3ee-49fb-b8cf-0690290f6eff"
+            }
+          ],
+          [
+            {
+              "title": "Создать потребность в продукте или услуге",
+              "description": "PR-кампания поможет покупателям осознать потребность в вашем продукте и переключить внимание аудитории с товара конкурентов на новое предложение.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "192c2eea-0b9f-47a9-9627-362d929c988a"
+            }
+          ],
+          [
+            {
+              "title": "Привлечь новую аудиторию",
+              "description": "Целевая аудитория бренда подвижна и может меняться в зависимости от социальных и экономических трендов. Контакт с новыми сегментами потенциальных покупателей создаст стабильный трафик клиентов и резерв увеличения продаж.",
+              "media": "",
+              "tooltip": {
+                "visible": false,
+                "content": ""
+              },
+              "uid": "ed1aa2c7-959d-484b-a2b6-843dbd2e533f"
+            }
+          ]
+        ],
+        "contentDie": []
+      }
+    },
+    {
+      "component": "advantages-block",
+      "name": "Преимущества работы с нами",
+      "data": {
+        "description": "Ваша компания станет узнаваемым игроком на рынке и будет иметь лояльную аудиторию.",
+        "advantages": [
+          {
+            "title": "20",
+            "description": "Лет делаем PR",
+            "icon": "OO6VEyHovXKbTRuf4hcBkIk42ofN8T3qXufqg2RB.png",
+            "uid": "10ebd9e2-747d-4e66-a681-befc6bfd8b31"
+          },
+          {
+            "title": "120",
+            "description": "Довольных клиентов",
+            "icon": "T3ZhwskUfMFRrkHEFVpcgLJ4Ebxy4FzGrCUsOq8C.png",
+            "uid": "f6cdf90f-8bff-4941-b852-cc7162c25a26"
+          },
+          {
+            "title": "16",
+            "description": "Место в рейтинге PR-агентств России",
+            "icon": "q7ObvVlp1kguuWXF2OxWogGA48alazPdRDZqMSPK.png",
+            "uid": "e1b0c6e9-0972-49fd-bbaa-91b489cffd66"
+          }
+        ],
+        "spacings": false
+      }
+    },
+    {
+      "component": "team-block",
+      "name": "Команда",
+      "data": {
+        "title": "Команда",
+        "description": "",
+        "team_members": [
+          {
+            "title": "Маркетолог проекта",
+            "description": "Отвечает за организацию прозрачных коммуникаций между клиентом и участниками проекта. Выстраивает эффективную работу всех специалистов, контролирует сроки и презентует каждый этап работы.",
+            "movie": "NO2ApogyXILOcyoK4X7BZBOmJgdrPH5N07L7kcWV.png",
+            "uid": "527d6178-6a7a-4e3a-a2df-bb7ee1033b3c"
+          },
+          {
+            "title": "Проджект-менеджер",
+            "description": "Знакомится с бизнесом клиента и составляет ТЗ на PR-кампании для каждого специалиста, занятого в проекте. Управляет командой и осуществляет промежуточный контроль результатов. Отвечает за эффективность PR-продвижения.",
+            "movie": "lAUqfNrVDCerOVjNDDIo9rO2dKxppgACBvOSOKC7.png",
+            "uid": "99d67c3a-fd69-402e-982a-d0816be9a57c"
+          },
+          {
+            "title": "Стратег",
+            "description": "Отвечает за разработку стратегии PR-кампании. Формулирует ключевые сообщения для медиа, создает спецпроекты, планирует развитие направления PR и его результат в рамках бизнес-задач.",
+            "movie": "4M6erOidPr77djLpxISP1WkrXstnxmTSNRzpIxtf.png",
+            "uid": "35a57e13-42ce-4027-8227-1e1ac9a7cfc0"
+          },
+          {
+            "title": "PR-менеджер",
+            "description": "Разрабатывает PR-кампании. Проводит переговоры с партнерами, добивается лучших условий публикации. Проводит интервьюирование клиента, собирает информацию о компании и ее продуктах из открытых источников. Создает контент для PR-кампаний.",
+            "movie": "e3aU9vJISKph8aboLDjMi53fWxme9YMUhPNQOw6k.png",
+            "uid": "245b09bb-dc1f-4532-8a01-67c4b3790a86"
+          },
+          {
+            "title": "Копирайтер",
+            "description": "Профессионально пишет статьи в СМИ, пресс- и пост-релизы. Готовит материалы для рекламы в сообществах и у блогеров. Проверяет достоверность фактов и информации.",
+            "movie": "BoKBOHbWBHNwmgZCprOnl0v0YBT4SXZHAcLbXhoo.png",
+            "uid": "e501c876-6e81-4d82-b6de-955d96bc2e7f"
+          },
+          {
+            "title": "Лидер",
+            "description": "Подбирает самого подходящего специалиста на проект. Участвует в проекте в качестве консультанта, инициирует креативы и брейнштормы по проекту при необходимости.",
+            "movie": "11iWUPE8YjbzkfiJEbgKftlCaUJ3yOMuAH2i7yvM.png",
+            "uid": "97f62c37-019e-4e64-b874-b1888147793e"
+          }
+        ]
+      }
+    },
+    {
+      "component": "forms-block",
+      "name": "Форма",
+      "data": {
+        "title": "PR-продвижение",
+        "price": "От 262 000 ₽",
+        "link": "",
+        "description": "Оставьте заявку, и мы в скором времени свяжемся с вами, чтобы обсудить задачи."
+      }
+    },
+    {
+      "component": "faq-block",
+      "name": "Вопрос ответ",
+      "data": {
+        "questions": [
+          {
+            "question": "В чем отличие PR от рекламы?",
+            "answer": "Некоторые инструменты схожи. Главное отличие: PR ориентирован на долгосрочное взаимодействие с аудиторией. Он формирует имидж и экспертность компании за счет комплексных и длительных коммуникаций. Транслирует это через большее количество каналов как в интернете, так и за его пределами.",
+            "uid": "c3ad4edc-49c7-4580-be31-debfb90ef410"
+          },
+          {
+            "question": "Как измерить эффективность PR-кампании?",
+            "answer": "Так же как и любой маркетинговый инструмент, PR имеет свои метрики и KPI для измерения эффективности. Они позволяют отслеживать, как меняется отношение аудитории к бренду, как повышается узнаваемость, имидж и т.д.",
+            "uid": "b8d4eed2-909e-4ce9-afc3-563b0ff38340"
+          },
+          {
+            "question": "PR нужен только большим компаниям?",
+            "answer": "Нет, PR может быть полезен бизнесу разного размера. В каждом конкретном случае необходимо подбирать свои инструменты PR. В зависимости от сферы, направленности и размеров бизнеса эффективно будут работать одни инструменты, а другие совершенно не подойдут.",
+            "uid": "59c15ca3-805c-49c6-bfc7-af576b1d5381"
+          }
+        ]
+      }
+    },
+    {
+      "component": "more-cases-block",
+      "name": "Больше кейсов",
+      "data": {
+        "casepages": [
+          {
+            "id": 32,
+            "categories": "[{\"id\":5,\"name\":\"Брендинг\",\"code\":\"brending\"},{\"id\":4,\"name\":\"Продвижение\",\"code\":\"pr\"},{\"id\":6,\"name\":\"Сайт\",\"code\":\"sites\"}]",
+            "description": "Снизили стоимость заявки в 2,5 раза для Gio Wellness",
+            "is_text_white": 1,
+            "link": "https://serenity.agency/case/gio-welness",
+            "animation_type": null,
+            "animation_content": "[{\"component\":\"VideoSection\",\"data\":{\"media\":{\"frontImage\":\"HbC4EO97JZt8OalYGsRHcFczrSySJNPMRpLfahDJ.jpg\",\"video\":\"unWqAVcgtLnSshOUoI4DVOvaRefe63px7bSslaO5.mp4\"}}}]",
+            "created_at": "2023-09-19T11:27:29.000000Z",
+            "updated_at": "2024-12-04T09:41:07.000000Z",
+            "foreign_resource": 0,
+            "name": "Gio Wellness",
+            "priority": 59,
+            "meta_tags": null,
+            "public": 1
+          },
+          {
+            "id": 58,
+            "categories": "[{\"id\":4,\"name\":\"Продвижение\",\"code\":\"pr\"},{\"id\":6,\"name\":\"Сайт\",\"code\":\"sites\"},{\"id\":5,\"name\":\"Брендинг\",\"code\":\"brending\"},{\"id\":7,\"name\":\"Стратегия\",\"code\":\"strategiya\"}]",
+            "description": "Создали и успешно запустили образовательный проект «Школа Serenity»",
+            "is_text_white": 0,
+            "link": "https://serenity.agency/case/school",
+            "animation_type": null,
+            "animation_content": "[{\"component\":\"PictureSection\",\"data\":{\"media\":{\"frontImage\":\"zS0axnE1HreJkpRJU1TN3vbalWhnJKR47xxsgaWc.jpg\"}}}]",
+            "created_at": "2023-09-19T13:21:15.000000Z",
+            "updated_at": "2024-12-04T09:43:26.000000Z",
+            "foreign_resource": 0,
+            "name": "Школа Serenity",
+            "priority": 55,
+            "meta_tags": null,
+            "public": 1
+          },
+          {
+            "id": 24,
+            "categories": "[{\"id\":4,\"name\":\"Продвижение\",\"code\":\"pr\"},{\"id\":6,\"name\":\"Сайт\",\"code\":\"sites\"},{\"id\":8,\"name\":\"Видеопрадакшен\",\"code\":\"Видеопрадакшен\"}]",
+            "description": "С 2018 развиваем интернет-магазин и реализуем комплексное продвижение бренда украшений Darkrain",
+            "is_text_white": 1,
+            "link": "https://serenity.agency/case/darkrain-store",
+            "animation_type": null,
+            "animation_content": "[{\"component\":\"PictureSection\",\"data\":{\"media\":{\"frontImage\":\"WLXF5HzKVQUYRIDLQ7zOSRVDwZw17ziScjgTQABI.jpg\"}}}]",
+            "created_at": "2023-09-06T09:59:23.000000Z",
+            "updated_at": "2025-10-24T09:47:15.000000Z",
+            "foreign_resource": 0,
+            "name": "Darkrain",
+            "priority": 110,
+            "meta_tags": "[{\"name\":\"robots\",\"content\":\"noyaca\"}]",
+            "public": 1
+          },
+          {
+            "id": 25,
+            "categories": "[{\"id\":4,\"name\":\"Продвижение\",\"code\":\"pr\"},{\"id\":5,\"name\":\"Брендинг\",\"code\":\"brending\"}]",
+            "description": "Привлекли 10 000 подписчиков в Instagram для бренда Toofli",
+            "is_text_white": 0,
+            "link": "https://serenity.agency/case/toofli",
+            "animation_type": null,
+            "animation_content": "[{\"component\":\"PictureSection\",\"data\":{\"media\":{\"frontImage\":\"5J2OiJoXlgzbSyYrW0PxCN9xvymrgsIcjDs7Nu9z.jpg\"}}}]",
+            "created_at": "2023-09-06T10:01:14.000000Z",
+            "updated_at": "2024-12-04T09:14:48.000000Z",
+            "foreign_resource": 0,
+            "name": "Toofli",
+            "priority": 89,
+            "meta_tags": null,
+            "public": 1
+          },
+          {
+            "id": 22,
+            "categories": "[{\"id\":5,\"name\":\"Брендинг\",\"code\":\"brending\"},{\"id\":6,\"name\":\"Сайт\",\"code\":\"sites\"},{\"id\":7,\"name\":\"Стратегия\",\"code\":\"strategiya\"}]",
+            "description": "Бренд-стратегия для производителя резиновых сапог KAURY",
+            "is_text_white": 1,
+            "link": "https://serenity.agency/case/kaury",
+            "animation_type": null,
+            "animation_content": "[{\"component\":\"PictureSection\",\"data\":{\"media\":{\"frontImage\":\"ZgG9T2kx4Ytdec3tzZ9WNRL05ejKctQORIImpms8.jpg\"}}}]",
+            "created_at": "2023-09-06T09:56:12.000000Z",
+            "updated_at": "2024-12-04T08:57:03.000000Z",
+            "foreign_resource": 0,
+            "name": "Kaury",
+            "priority": 92,
+            "meta_tags": null,
+            "public": 1
+          },
+          {
+            "id": 21,
+            "categories": "[{\"id\":4,\"name\":\"Продвижение\",\"code\":\"pr\"},{\"id\":5,\"name\":\"Брендинг\",\"code\":\"brending\"},{\"id\":6,\"name\":\"Сайт\",\"code\":\"sites\"}]",
+            "description": "Обновили образ бренда и привлекли покупателей для дистрибьютера «Во!Молоко»",
+            "is_text_white": 0,
+            "link": "https://serenity.agency/case/vomoloko",
+            "animation_type": null,
+            "animation_content": "[{\"component\":\"PictureSection\",\"data\":{\"media\":{\"frontImage\":\"ixkjBrB1pCELGeNMCtA8BgK78AYiofKaJhJch2zK.jpg\"}}}]",
+            "created_at": "2023-09-06T09:53:15.000000Z",
+            "updated_at": "2026-04-16T06:40:13.000000Z",
+            "foreign_resource": 1,
+            "name": "«Во!Молоко»",
+            "priority": 103,
+            "meta_tags": "[{\"name\":\"robots\",\"content\":\"noyaca\"}]",
+            "public": 1
+          }
+        ],
+        "butcheck": true
+      }
+    },
+    {
+      "component": "awards-block",
+      "name": "Награды",
+      "data": {
+        "awards": [
+          {
+            "id": 121,
+            "title": "Рейтинг Рунета",
+            "date": "2025",
+            "link": null,
+            "description": "1 место по России в инфлюенсер-маркетинге в сфере отдыха и досуга",
+            "created_at": "2025-08-29T15:08:38.000000Z",
+            "updated_at": "2025-09-16T12:50:27.000000Z",
+            "sortblock": 112
+          },
+          {
+            "id": 128,
+            "title": "Рейтинг Рунета",
+            "date": "2025",
+            "link": null,
+            "description": "5 место в Санкт-Петербурге в PR",
+            "created_at": "2025-08-29T15:13:42.000000Z",
+            "updated_at": "2026-03-20T10:09:28.000000Z",
+            "sortblock": 106
+          },
+          {
+            "id": 99,
+            "title": "Рейтинг Рунета",
+            "date": "2024",
+            "link": null,
+            "description": "2 место в СПб по PR-продвижению",
+            "created_at": "2024-11-01T15:10:24.000000Z",
+            "updated_at": "2024-11-01T15:14:05.000000Z",
+            "sortblock": 99
+          },
+          {
+            "id": 152,
+            "title": "Рейтинг Рунета",
+            "date": "2024",
+            "link": null,
+            "description": "23 место по России в рейтинге PR-агентств",
+            "created_at": "2025-09-23T12:54:14.000000Z",
+            "updated_at": "2025-09-23T12:54:14.000000Z",
+            "sortblock": 95
+          },
+          {
+            "id": 150,
+            "title": "Рейтинг Рунета",
+            "date": "2023",
+            "link": null,
+            "description": "23 место по России в рейтинге PR-агентств",
+            "created_at": "2025-09-23T12:53:08.000000Z",
+            "updated_at": "2025-09-23T12:53:08.000000Z",
+            "sortblock": 80
+          },
+          {
+            "id": 149,
+            "title": "Рейтинг Рунета",
+            "date": "2023",
+            "link": null,
+            "description": "3 место в СПб в рейтинге PR-агентств",
+            "created_at": "2025-09-23T12:52:52.000000Z",
+            "updated_at": "2025-09-23T12:52:52.000000Z",
+            "sortblock": 79
+          },
+          {
+            "id": 117,
+            "title": "Рейтинг Рунета",
+            "date": "2021",
+            "link": null,
+            "description": "9 место по России в рейтинге брендинговых агентств",
+            "created_at": "2024-11-01T15:40:40.000000Z",
+            "updated_at": "2024-11-01T15:40:40.000000Z",
+            "sortblock": 50
+          },
+          {
+            "id": 31,
+            "title": "Рейтинг Рунета",
+            "date": "2022",
+            "link": "https://api.cabinet.cmsmagazine.ru/diplom/show/bbadf318e3c67bf3c18ed2dbb02c3d59",
+            "description": "16 место по России  в рейтинге PR-агентств",
+            "created_at": "2023-03-07T11:34:44.000000Z",
+            "updated_at": "2023-03-07T11:34:44.000000Z",
+            "sortblock": 1
+          },
+          {
+            "id": 41,
+            "title": "Рейтинг Рунета",
+            "date": "2021",
+            "link": "https://ratingruneta.ru/pr/2021/",
+            "description": "13 место по России в рейтинге PR-агентств",
+            "created_at": "2023-03-07T12:13:55.000000Z",
+            "updated_at": "2023-03-07T12:13:55.000000Z",
+            "sortblock": 1
+          },
+          {
+            "id": 137,
+            "title": "Рейтинг Рунета",
+            "date": "2021",
+            "link": null,
+            "description": "2 место в СПб в рейтинге брендинговых агентств",
+            "created_at": "2025-09-23T12:47:50.000000Z",
+            "updated_at": "2025-09-23T12:47:50.000000Z",
+            "sortblock": 1
+          },
+          {
+            "id": 138,
+            "title": "Рейтинг Рунета",
+            "date": "2021",
+            "link": null,
+            "description": "2 место в СПб в рейтинге PR-агентств",
+            "created_at": "2025-09-23T12:48:08.000000Z",
+            "updated_at": "2025-09-23T12:48:08.000000Z",
+            "sortblock": 1
+          },
+          {
+            "id": 142,
+            "title": "Рейтинг Рунета",
+            "date": "2022",
+            "link": null,
+            "description": "2 место в СПб в рейтинге PR-агентств",
+            "created_at": "2025-09-23T12:49:32.000000Z",
+            "updated_at": "2025-09-23T12:49:32.000000Z",
+            "sortblock": 1
+          }
+        ]
+      }
+    },
+    {
+      "component": "synergy-block",
+      "name": "Блок синергия",
+      "data": {
+        "blocks": [
+          [
+            {
+              "title": "Контент-маркетинг",
+              "description": "Исследуем нишу компании и формируем вокруг бренда аудиторию, которая рекомендует вас другим.",
+              "picture": "W4rGTPQCrD1ma0xtOnhvmKGSJPytWTLhy394z4B6.png",
+              "tabletpicture": "LyenrN60o407eA92b6oqKKsGuUa4bKNosSIclRwL.png",
+              "mobilepicture": "TwxujPPcAVrXC8IFAATCj4CsPW50ttq1OIrQQ6YA.png",
+              "url": "https://serenity.agency/services/content",
+              "uid": "218bd508-1610-4b98-84cb-b5258f61b29a"
+            }
+          ],
+          [
+            {
+              "title": "Комплексный SMM",
+              "description": "Создаем сильный бренд, регулярно общаемся с аудиторией и отслеживаем ее путь от поста до покупки.",
+              "url": "https://serenity.agency/smm_marketing",
+              "uid": "708e1175-e604-4fb6-9ce8-52bf41046529"
+            },
+            {
+              "title": "SEO",
+              "description": "Оптимизируем сайт и выводим его в топ  по релевантным запросам.",
+              "url": "https://serenity.agency/services/seo",
+              "uid": "708e1175-e604-4fb6-9ce8-52bf41046529"
+            }
+          ],
+          [
+            {
+              "title": "Фото и видео",
+              "description": "Создаем цепляющие видео и фото для решения маркетинговых задач. Улучшаем репутацию бренда.",
+              "url": "https://serenity.agency/services/video",
+              "uid": "f256896c-61c0-42b5-bce5-115c66b696d3"
+            },
+            {
+              "title": "Контекстная реклама",
+              "description": "Увеличиваем трафик на сайт и доводим аудиторию до покупки.",
+              "url": "https://serenity.agency/services/context",
+              "uid": "f256896c-61c0-42b5-bce5-115c66b696d3"
+            }
+          ],
+          [
+            {
+              "title": "Таргетированная реклама",
+              "description": "Увеличиваем продажи с помощью соцсетей.",
+              "url": "https://serenity.agency/services/targeting",
+              "uid": "2b1bfaad-5e04-410b-bef1-1f9fc06d5215"
+            }
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "builtAt": "2026-07-01T17:35:56.959Z",
+  "source": "legacy more-cases-block + PR-topic supplement",
+  "expected": 8,
+  "hrefs": [
+    "/case/gio-welness",
+    "/case/school",
+    "/case/darkrain-store",
+    "/case/toofli",
+    "/case/kaury",
+    "/case/vomoloko",
+    "/case/all/minisklad",
+    "/case/all/boca"
+  ]
+}

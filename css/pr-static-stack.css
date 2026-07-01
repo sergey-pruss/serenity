@@ -1,0 +1,329 @@
+/**
+ * /pr — image hero (отступы как /prodvizhenie-yandex-karty-2gis) + facts, content-block, cases, advantages.
+ */
+@import url("./prodvizhenie-yandex-karty-2gis-static-stack.css");
+@import url("sections/service-facts-block.css");
+@import url("sections/pr-case-slider.css");
+
+.page-constructor.pr-page {
+  position: relative;
+}
+
+/* Facts: 5 пунктов — 3+2, стандартная сетка service-facts-block (3 колонки). */
+.page-constructor.pr-page > .page-constructor__section.pr-mission-facts-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.pr-page > .page-constructor__section.pr-mission-facts-section > .facts {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+/* 5 пунктов: 3 в первом ряду, 4–5 под 1 и 2 (не центрировать). Держим 3 колонки до мобилки. */
+@media screen and (min-width: 751px) {
+  .page-constructor.pr-page .pr-mission-facts__items.facts__items--desktop {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .page-constructor.pr-page .pr-mission-facts__items .facts__item:nth-child(4) {
+    grid-column: 1;
+  }
+
+  .page-constructor.pr-page .pr-mission-facts__items .facts__item:nth-child(5) {
+    grid-column: 2;
+  }
+}
+
+/* content-block: шапка → колонки — 57/45/40px. */
+@media screen and (min-width: 721px) {
+  .page-constructor.pr-page .modern.content-block > .page__container,
+  .page-constructor.pr-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 57px !important;
+    grid-row-gap: 57px !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.pr-page .modern.content-block > .page__container > .numbered-header,
+  .page-constructor.pr-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.pr-page .modern.content-block .content-block__slider {
+    display: none !important;
+  }
+
+  .page-constructor.pr-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px;
+    row-gap: 45px;
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .page-constructor.pr-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks > .col-4 {
+    flex: 1 1 0;
+    max-width: calc((100% - 150px) / 3);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-constructor.pr-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.pr-page .modern.content-block > .page__container,
+  .page-constructor.pr-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    row-gap: 45px !important;
+    grid-row-gap: 45px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.pr-page .modern.content-block > .page__container,
+  .page-constructor.pr-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    row-gap: 40px !important;
+    grid-row-gap: 40px !important;
+  }
+
+  .page-constructor.pr-page .modern.content-block .content-block__grid.content-block__grid--desc.blocks {
+    display: none !important;
+  }
+
+  .page-constructor.pr-page .modern.content-block .content-block__grid.content-block__grid--tablet.blocks {
+    display: block !important;
+  }
+}
+
+.page-constructor.pr-page > .page-constructor__section > .modern.content-block,
+.page-constructor.pr-page > .page-constructor__section > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.pr-page > .page-constructor__section.pr-advantages-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Один шаг --home-between: без дубля с Nuxt .advantage { padding-top: 172px } и margin-top у формы. */
+.page-constructor.pr-page > .page-constructor__section.pr-advantages-section > .advantage,
+.page-constructor.pr-page > .page-constructor__section.pr-advantages-section > .advantage[data-v-1e31df85] {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: var(--home-between, 112px) !important;
+}
+
+.page-constructor.pr-page
+  > .page-constructor__section.pr-advantages-section
+  + .page-constructor__section.sa-service-lead-section {
+  margin-top: 0 !important;
+}
+
+/* Перебить compact min-height:auto из prodvizhenie-yandex-karty-2gis-static-stack. */
+@media screen and (min-width: 721px) {
+  .page-constructor.pr-page.prodvizhenie-yandex-karty-2gis-page
+    > .page-constructor__section.pr-cases-section.uks-case-section:has(> .cases-block)
+    .cases-block
+    .cases-block__swiper-slide[data-v-bd2e570a] {
+    min-height: 100vh !important;
+    max-height: none !important;
+  }
+}
+
+/* «Разработка / Внедрение PR-стратегии»: desc-custom — колонки × карточки. */
+@media screen and (min-width: 721px) {
+  .page-constructor.pr-page .pr-strategy-development-section .content-block__number-container.content-block__grid--desc-custom.blocks,
+  .page-constructor.pr-page .pr-strategy-implementation-section .content-block__number-container.content-block__grid--desc-custom.blocks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 75px !important;
+    row-gap: 45px !important;
+    width: 100% !important;
+    padding-left: 78px !important;
+    padding-right: 78px !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.pr-page .pr-strategy-development-section .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4,
+  .page-constructor.pr-page .pr-strategy-implementation-section .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4 {
+    flex: 1 1 0 !important;
+    max-width: calc((100% - 150px) / 3) !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    row-gap: 57px !important;
+    align-items: stretch !important;
+  }
+
+  .page-constructor.pr-page .pr-strategy-implementation-section .content-block__number-container.content-block__grid--desc-custom.blocks > .col-4:has(.pr-strategy-illustration-item) {
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .page-constructor.pr-page .pr-strategy-implementation-section .pr-strategy-illustration-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .page-constructor.pr-page .pr-strategy-implementation-section .pr-strategy-illustration-item .block-item__figure {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 496px !important;
+  }
+
+  .page-constructor.pr-page .pr-strategy-implementation-section .pr-strategy-illustration-item .block-item__figure-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+.page-constructor.pr-page .pr-strategy-illustration-item .block-item__figure-img {
+  width: 100%;
+  height: auto;
+  max-width: 496px;
+  display: block;
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.pr-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.pr-page > .page-constructor__section.pr-mission-facts-section > .facts,
+  .page-constructor.pr-page > .page-constructor__section.pr-advantages-section > .advantage,
+  .page-constructor.pr-page > .page-constructor__section.pr-advantages-section > .advantage[data-v-1e31df85] {
+    padding-top: var(--home-between, 97px) !important;
+    padding-bottom: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.pr-page > .page-constructor__section > .modern.content-block,
+  .page-constructor.pr-page > .page-constructor__section.pr-mission-facts-section > .facts,
+  .page-constructor.pr-page > .page-constructor__section.pr-advantages-section > .advantage,
+  .page-constructor.pr-page > .page-constructor__section.pr-advantages-section > .advantage[data-v-1e31df85] {
+    padding-top: var(--home-between, 60px) !important;
+    padding-bottom: var(--home-between, 60px) !important;
+  }
+}
+
+/* Хвост: кейсы → награды → синергия — шаг --home-between. */
+.page-constructor.pr-page .pr-more-cases-section .more-case-wr.more-case-wr__main,
+.page-constructor.pr-page .pr-more-cases-section .more-case-wr[data-v-27a87df0] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.pr-page .pr-awards-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.pr-page .pr-awards-section .home-awards-section {
+  padding-top: 0 !important;
+}
+
+body:not(.sa-home-page) .page-constructor.pr-page .pr-awards-section .home-awards-block .awards,
+.page-constructor.pr-page .pr-awards-section .home-awards-block .awards {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.pr-page .pr-awards-section .home-awards-block .awards__header,
+.page-constructor.pr-page .pr-awards-section .awards__header {
+  margin-bottom: 0 !important;
+}
+
+.page-constructor.pr-page .pr-synergy-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.pr-page .pr-synergy-section .synergy__text,
+.page-constructor.pr-page .pr-synergy-section .synergy__text[data-v-627ccbce] {
+  margin-bottom: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.pr-page .pr-synergy-section .synergy__context-slider,
+.page-constructor.pr-page .pr-synergy-section .synergy__context-slider[data-v-627ccbce] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.pr-page .pr-synergy-section .synergy__title,
+.page-constructor.pr-page .pr-synergy-section .synergy__title[data-v-627ccbce] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 1025px) {
+  .page-constructor.pr-page .pr-synergy-section .synergy__text,
+  .page-constructor.pr-page .pr-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.pr-page .pr-synergy-section .synergy__context-slider,
+  .page-constructor.pr-page .pr-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 55px) !important;
+    padding-right: var(--page-inline-end, 55px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.pr-page .pr-more-cases-section .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .page-constructor.pr-page .pr-awards-section .home-awards-block .awards,
+  .page-constructor.pr-page .pr-awards-section .home-awards-block .awards,
+  .page-constructor.pr-page .pr-synergy-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.pr-page .pr-synergy-section .synergy__text,
+  .page-constructor.pr-page .pr-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.pr-page .pr-synergy-section .synergy__context-slider,
+  .page-constructor.pr-page .pr-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 36px) !important;
+    padding-right: var(--page-inline-end, 36px) !important;
+  }
+
+  .page-constructor.pr-page .pr-synergy-section .synergy__title,
+  .page-constructor.pr-page .pr-synergy-section .synergy__title[data-v-627ccbce] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.pr-page .pr-more-cases-section .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .page-constructor.pr-page .pr-awards-section .home-awards-block .awards,
+  .page-constructor.pr-page .pr-awards-section .home-awards-block .awards,
+  .page-constructor.pr-page .pr-synergy-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}

@@ -1440,12 +1440,13 @@
     });
   };
 
-  /* /lending_na_tilda: один слайд без навигации — на десктопе 100vh из CSS (как /korporativnyj_sajt), не compact UKS. */
+  /* /lending_na_tilda, /pr: на десктопе 100vh из CSS (как /korporativnyj_sajt), не compact UKS. */
   const bumpSingleCaseLayoutForContainer = (container) => {
-    const lendingFullHeight =
-      container.closest(".lending-na-tilda-page .lending-tilda-case-section") &&
+    const fullHeightCaseSection =
+      (container.closest(".lending-na-tilda-page .lending-tilda-case-section") ||
+        container.closest(".pr-page .pr-cases-section.uks-case-section")) &&
       !casesBlockUsesMobileAutoHeight();
-    if (lendingFullHeight) {
+    if (fullHeightCaseSection) {
       cleanupCasesBlockDumpStyles(container);
       return;
     }

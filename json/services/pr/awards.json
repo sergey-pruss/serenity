@@ -1,0 +1,78 @@
+{
+  "headingId": "pr-awards-heading",
+  "mountId": "sa-home-awards-mounted",
+  "awards": [
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2025",
+      "description": "1 место по России в инфлюенсер-маркетинге в сфере отдыха и досуга",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2025",
+      "description": "5 место в Санкт-Петербурге в PR",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "2 место в СПб по PR-продвижению",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2024",
+      "description": "23 место по России в рейтинге PR-агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "23 место по России в рейтинге PR-агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2023",
+      "description": "3 место в СПб в рейтинге PR-агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "9 место по России в рейтинге брендинговых агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "16 место по России  в рейтинге PR-агентств",
+      "href": "https://api.cabinet.cmsmagazine.ru/diplom/show/bbadf318e3c67bf3c18ed2dbb02c3d59"
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "13 место по России в рейтинге PR-агентств",
+      "href": "https://ratingruneta.ru/pr/2021/"
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "2 место в СПб в рейтинге брендинговых агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2021",
+      "description": "2 место в СПб в рейтинге PR-агентств",
+      "href": null
+    },
+    {
+      "rating": "Рейтинг Рунета",
+      "year": "2022",
+      "description": "2 место в СПб в рейтинге PR-агентств",
+      "href": null
+    }
+  ]
+}

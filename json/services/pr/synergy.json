@@ -1,0 +1,52 @@
+{
+  "cards": [
+    {
+      "title": "Контент-маркетинг",
+      "href": "/services/content",
+      "description": "Исследуем нишу компании&nbsp;и формируем вокруг бренда аудиторию, которая рекомендует вас другим.",
+      "imgDesc": "/_sa/img/services/pr/synergy/content-desc.png",
+      "imgTablet": "/_sa/img/services/pr/synergy/content-tablet.png",
+      "imgMobile": "/_sa/img/services/pr/synergy/content-mobile.png"
+    },
+    {
+      "title": "Комплексный SMM",
+      "href": "/smm_marketing",
+      "description": "Создаем сильный бренд, регулярно общаемся с аудиторией&nbsp;и отслеживаем ее путь от поста до покупки.",
+      "imgDesc": "/_sa/img/services/strategy/synergy/smm-desc.png",
+      "imgTablet": "/_sa/img/services/strategy/synergy/smm-tablet.png",
+      "imgMobile": "/_sa/img/services/strategy/synergy/smm-mobile.png"
+    },
+    {
+      "title": "SEO",
+      "href": "/services/seo",
+      "description": "Оптимизируем сайт&nbsp;и выводим его в топ  по релевантным запросам.",
+      "imgDesc": "/_sa/img/storage__kZKCokdVJJ0juenyabbgnTAfJvjyUXr0GriQDRh3.png",
+      "imgTablet": "/_sa/img/storage__sozdTTaoL9Xw2e0d9LYoExd9T2AUbzQZQ78Clv9J.png",
+      "imgMobile": "/_sa/img/storage__2ESWMTivkoyLXgkBdkyU8Pqp0faZFOIdZrVwzOmg.png"
+    },
+    {
+      "title": "Фото и видео",
+      "href": "/services/video",
+      "description": "Создаем цепляющие видео&nbsp;и фото для решения маркетинговых задач. Улучшаем репутацию бренда.",
+      "imgDesc": "/_sa/img/storage__1Yt1GYgHbovF9gOFZok055VJhROOXSp6GgOvev9m.png",
+      "imgTablet": "/_sa/img/storage__QYEKkKmG5Sc15apUCJImHJBQMfTgajkp1wbT4f8J.png",
+      "imgMobile": "/_sa/img/storage__jVQhfjAvEkF30CcGHZn12CjIfXAf1VSYSms2tRl2.png"
+    },
+    {
+      "title": "Контекстная реклама",
+      "href": "/services/context",
+      "description": "Увеличиваем трафик на сайт&nbsp;и доводим аудиторию до покупки.",
+      "imgDesc": "/_sa/img/storage__1Yt1GYgHbovF9gOFZok055VJhROOXSp6GgOvev9m.png",
+      "imgTablet": "/_sa/img/storage__QYEKkKmG5Sc15apUCJImHJBQMfTgajkp1wbT4f8J.png",
+      "imgMobile": "/_sa/img/storage__jVQhfjAvEkF30CcGHZn12CjIfXAf1VSYSms2tRl2.png"
+    },
+    {
+      "title": "Таргетированная реклама",
+      "href": "/services/targeting",
+      "description": "Увеличиваем продажи с помощью соцсетей.",
+      "imgDesc": "/_sa/img/storage__2MRra5DUPNo2hTBZKN6FwTih3CENW6iwFPPhefjx.png",
+      "imgTablet": "/_sa/img/storage__22coyPtNpva5LAxcC6rng1WJa7laye9yojsNE8uQ.png",
+      "imgMobile": "/_sa/img/storage__IQrET6dOZ5lBMvXXLrxjGEJaUVN5FGyWgbi7sV2k.png"
+    }
+  ]
+}
