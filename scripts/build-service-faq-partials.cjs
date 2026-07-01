@@ -92,6 +92,15 @@ const SERVICES = [
     comment:
       "<!-- FAQ tehnicheskaya-podderzhka-saita: json/services/tehnicheskaya-podderzhka-saita/faq.json + service-faq.css. -->\n",
   },
+  {
+    slug: "lending_na_tilda",
+    partial: "faq-lending-na-tilda.html",
+    mountId: "lending-tilda-faq-mounted",
+    sectionClass: "lending-tilda-faq-section korporativnyj-faq-section",
+    rootClass: "lending-tilda-faq-root korporativnyj-faq-root korporativnyj-faq-root--always-visible",
+    comment:
+      "<!-- FAQ lending_na_tilda: json/services/lending_na_tilda/faq.json + service-faq.css. -->\n",
+  },
 ];
 
 function extractBodyFromPartial(html, mountId) {

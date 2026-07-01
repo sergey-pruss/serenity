@@ -1,0 +1,408 @@
+/**
+ * /lending_na_tilda — video hero (korporativnyj-page) + facts, approach, cases, stages.
+ */
+@import url("./korporativnyj-sajt-static-stack.css");
+@import url("sections/service-facts-block.css");
+@import url("sections/service-content-block-desc-by-row.css");
+@import url("sections/lending-na-tilda-case-slider.css");
+
+.page-constructor.lending-na-tilda-page {
+  position: relative;
+}
+
+/* Facts: один --home-between, без двойного section + .facts padding. */
+.page-constructor.lending-na-tilda-page > .page-constructor__section.lending-tilda-facts-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.lending-na-tilda-page > .page-constructor__section.lending-tilda-facts-section > .facts {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+/* content-block: шапка → колонки — 57px, не Nuxt 120px. */
+@media screen and (min-width: 721px) {
+  .page-constructor.lending-na-tilda-page .modern.content-block > .page__container,
+  .page-constructor.lending-na-tilda-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    row-gap: 57px !important;
+    grid-row-gap: 57px !important;
+    padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+    padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-constructor.lending-na-tilda-page .modern.content-block > .page__container > .numbered-header,
+  .page-constructor.lending-na-tilda-page .content-block[data-v-4ed7dc78] > .page__container > .numbered-header[data-v-490c7534] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.lending-na-tilda-page .modern.content-block > .page__container > .numbered-header + .content-block__grid,
+  .page-constructor.lending-na-tilda-page
+    .content-block[data-v-4ed7dc78]
+    > .page__container
+    > .numbered-header
+    + .content-block__grid.content-block__grid--desc.blocks {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.lending-na-tilda-page .modern.content-block > .page__container,
+  .page-constructor.lending-na-tilda-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    row-gap: 45px !important;
+    grid-row-gap: 45px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.lending-na-tilda-page .modern.content-block > .page__container,
+  .page-constructor.lending-na-tilda-page .content-block[data-v-4ed7dc78] > .page__container[data-v-4ed7dc78] {
+    row-gap: 40px !important;
+    grid-row-gap: 40px !important;
+  }
+}
+
+/* «Этапы»: заголовок секции → «1 Исследование» — 57px, не 112px и не 0. */
+.page-constructor.lending-na-tilda-page
+  > .page-constructor__section.lending-tilda-stages-heading-section
+  > .modern.content-block,
+.page-constructor.lending-na-tilda-page
+  > .page-constructor__section.lending-tilda-stages-heading-section
+  > .modern.content-block[data-v-4ed7dc78] {
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.lending-na-tilda-page
+  > .page-constructor__section.lending-tilda-stages-heading-section
+  > .modern.content-block
+  .page__container,
+.page-constructor.lending-na-tilda-page
+  > .page-constructor__section.lending-tilda-stages-heading-section
+  > .modern.content-block[data-v-4ed7dc78]
+  .page__container[data-v-4ed7dc78] {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.lending-na-tilda-page
+  > .page-constructor__section.lending-tilda-stages-heading-section
+  + .page-constructor__section.lending-tilda-stage-research-section
+  > .modern.content-block,
+.page-constructor.lending-na-tilda-page
+  > .page-constructor__section.lending-tilda-stages-heading-section
+  + .page-constructor__section.lending-tilda-stage-research-section
+  > .modern.content-block[data-v-4ed7dc78] {
+  padding-top: 57px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.lending-na-tilda-page
+    > .page-constructor__section.lending-tilda-stages-heading-section
+    + .page-constructor__section.lending-tilda-stage-research-section
+    > .modern.content-block,
+  .page-constructor.lending-na-tilda-page
+    > .page-constructor__section.lending-tilda-stages-heading-section
+    + .page-constructor__section.lending-tilda-stage-research-section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: 45px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.lending-na-tilda-page
+    > .page-constructor__section.lending-tilda-stages-heading-section
+    + .page-constructor__section.lending-tilda-stage-research-section
+    > .modern.content-block,
+  .page-constructor.lending-na-tilda-page
+    > .page-constructor__section.lending-tilda-stages-heading-section
+    + .page-constructor__section.lending-tilda-stage-research-section
+    > .modern.content-block[data-v-4ed7dc78] {
+    padding-top: 40px !important;
+  }
+}
+
+/* Нумерованные этапы: шапка → сетка карточек — 57px (как /strategy). */
+@media screen and (min-width: 721px) {
+  .page-constructor.lending-na-tilda-page
+    .modern.content-block
+    > .page__container:has(> .content-block__number-container),
+  .page-constructor.lending-na-tilda-page
+    .content-block[data-v-4ed7dc78]
+    > .page__container[data-v-4ed7dc78]:has(> .content-block__number-container) {
+    row-gap: 0 !important;
+    grid-row-gap: 0 !important;
+  }
+
+  .page-constructor.lending-na-tilda-page
+    .modern.content-block
+    > .page__container:has(> .content-block__number-container)
+    > .numbered-header,
+  .page-constructor.lending-na-tilda-page
+    .content-block[data-v-4ed7dc78]
+    > .page__container[data-v-4ed7dc78]:has(> .content-block__number-container)
+    > .numbered-header[data-v-490c7534] {
+    margin-bottom: 57px !important;
+  }
+
+  .page-constructor.lending-na-tilda-page
+    .modern.content-block
+    > .page__container
+    > .numbered-header
+    + .content-block__grid.content-block__grid--desc.blocks,
+  .page-constructor.lending-na-tilda-page
+    .modern.content-block
+    > .page__container
+    > .numbered-header
+    + .content-block__grid.content-block__grid--desc-custom.blocks {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* «Наш подход»: 2 колонки текста + иллюстрация справа. */
+@media screen and (min-width: 721px) {
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid.content-block__grid--desc {
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+    column-gap: 75px;
+    width: 100% !important;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid.content-block__grid--desc > .content-block__grid-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: calc((100% - 150px) / 3);
+    display: flex;
+    flex-direction: column;
+    row-gap: 57px;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid__illustration {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid__figure-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid__figure-item .block-item__figure {
+    margin: 0;
+    width: 100%;
+    max-width: 496px;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid__figure-item .block-item__figure-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 496px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid.content-block__grid--desc {
+    display: none !important;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-approach-grid--tablet {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* Hero: два <video> — переключение desktop/mobile (селектор сильнее korporativnyj-sajt-static-stack). */
+.page-constructor.lending-na-tilda-page.korporativnyj-page
+  > .page-constructor__section:first-of-type
+  .jumbotron-video-aurora_blok
+  video.lending-tilda-hero-video--desktop {
+  display: block !important;
+}
+
+.page-constructor.lending-na-tilda-page.korporativnyj-page
+  > .page-constructor__section:first-of-type
+  .jumbotron-video-aurora_blok
+  video.lending-tilda-hero-video--mobile {
+  display: none !important;
+}
+
+@media screen and (min-width: 720px) {
+  .page-constructor.lending-na-tilda-page.korporativnyj-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-video-aurora_blok
+    video.lending-tilda-hero-video--desktop {
+    display: block !important;
+    width: 100% !important;
+    max-width: 906px !important;
+    height: auto !important;
+    aspect-ratio: 906 / 515;
+    object-fit: cover !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .page-constructor.lending-na-tilda-page.korporativnyj-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-video-aurora_blok
+    video.lending-tilda-hero-video--mobile {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 719px) {
+  .page-constructor.lending-na-tilda-page.korporativnyj-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-video-aurora_blok
+    video.lending-tilda-hero-video--desktop {
+    display: none !important;
+  }
+
+  .page-constructor.lending-na-tilda-page.korporativnyj-page
+    > .page-constructor__section:first-of-type
+    .jumbotron-video-aurora_blok
+    video.lending-tilda-hero-video--mobile {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 906 / 515;
+    object-fit: cover !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.lending-na-tilda-page > .page-constructor__section.lending-tilda-facts-section > .facts {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.lending-na-tilda-page > .page-constructor__section.lending-tilda-facts-section > .facts {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}
+
+/* Кейсы → награды → синергия: шаг --home-between между блоками (как /tehnicheskaya-podderzhka-saita). */
+.page-constructor.lending-na-tilda-page .lending-tilda-cases-section .more-case-wr.more-case-wr__main,
+.page-constructor.lending-na-tilda-page .lending-tilda-cases-section .more-case-wr[data-v-27a87df0] {
+  padding-top: var(--home-between, 112px) !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-awards-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-section {
+  padding-top: 0 !important;
+}
+
+body:not(.sa-home-page) .page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards,
+.page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards__header,
+.page-constructor.lending-na-tilda-page .lending-tilda-awards-section .awards__header {
+  margin-bottom: 0 !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section {
+  padding-top: var(--home-between, 112px) !important;
+  padding-bottom: 0 !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__text,
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__text[data-v-627ccbce] {
+  margin-bottom: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__context-slider,
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__context-slider[data-v-627ccbce] {
+  padding-left: var(--page-inline-start, var(--page-gutter-x, 78px)) !important;
+  padding-right: var(--page-inline-end, var(--page-gutter-x, 78px)) !important;
+  box-sizing: border-box !important;
+}
+
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__title,
+.page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__title[data-v-627ccbce] {
+  font-size: 46px !important;
+  line-height: 126% !important;
+  font-weight: 400 !important;
+  color: #f6f6f6;
+}
+
+@media screen and (max-width: 1025px) {
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__text,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__context-slider,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 55px) !important;
+    padding-right: var(--page-inline-end, 55px) !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .page-constructor.lending-na-tilda-page .lending-tilda-cases-section .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards,
+  .page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section {
+    padding-top: var(--home-between, 97px) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__text,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__text[data-v-627ccbce],
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__context-slider,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__context-slider[data-v-627ccbce] {
+    padding-left: var(--page-inline-start, 36px) !important;
+    padding-right: var(--page-inline-end, 36px) !important;
+  }
+
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__title,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section .synergy__title[data-v-627ccbce] {
+    font-size: 28px !important;
+    line-height: 126% !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .page-constructor.lending-na-tilda-page .lending-tilda-cases-section .more-case-wr.more-case-wr__main,
+  body:not(.sa-home-page) .page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards,
+  .page-constructor.lending-na-tilda-page .lending-tilda-awards-section .home-awards-block .awards,
+  .page-constructor.lending-na-tilda-page .lending-tilda-synergy-section {
+    padding-top: var(--home-between, 60px) !important;
+  }
+}

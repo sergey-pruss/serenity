@@ -15,6 +15,7 @@ const SERVICES = [
   { slug: "targeting", partial: "service-inline-lead-targeting.html" },
   { slug: "marketing", partial: "service-inline-lead-marketing.html" },
   { slug: "korporativnyj_sajt", partial: "service-inline-lead-korporativnyj-sajt.html" },
+  { slug: "lending_na_tilda", partial: "service-inline-lead-lending-na-tilda.html" },
   { slug: "seo", partial: "service-inline-lead-seo.html" },
   { slug: "strategy", partial: "service-inline-lead-strategy.html" },
   {

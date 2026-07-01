@@ -1440,6 +1440,22 @@
     });
   };
 
+  /* /lending_na_tilda: один слайд без навигации — на десктопе 100vh из CSS (как /korporativnyj_sajt), не compact UKS. */
+  const bumpSingleCaseLayoutForContainer = (container) => {
+    const lendingFullHeight =
+      container.closest(".lending-na-tilda-page .lending-tilda-case-section") &&
+      !casesBlockUsesMobileAutoHeight();
+    if (lendingFullHeight) {
+      cleanupCasesBlockDumpStyles(container);
+      return;
+    }
+    if (container.closest(".uks-case-section, .tehpod-darkrain-case-section")) {
+      bumpUksSingleCaseLayout(container);
+    } else {
+      cleanupCasesBlockDumpStyles(container);
+    }
+  };
+
   const initCasesBlockSwipers = () => {
     if (typeof window.Swiper === "undefined") return;
     if (!window.__saCasesBlockResizeHooked) {
@@ -1453,6 +1469,8 @@
             .forEach((el) => {
               if (el._saCasesSwiper && typeof el._saCasesSwiper.update === "function") {
                 el._saCasesSwiper.update();
+              } else if (el.dataset.saCasesSwiperInit === "1") {
+                bumpSingleCaseLayoutForContainer(el);
               }
             });
         }, 120);
@@ -1468,10 +1486,7 @@
       const paginationEl = root.querySelector(".swiper-pagination");
       /* /seo и др.: один слайд без .swiper__navigation — всё равно снимаем инлайн height/width с prod-дампа. */
       if (!nextEl || !prevEl) {
-        const bumpSingleCaseLayout = () => {
-          if (container.closest(".uks-case-section, .tehpod-darkrain-case-section")) bumpUksSingleCaseLayout(container);
-          else cleanupCasesBlockDumpStyles(container);
-        };
+        const bumpSingleCaseLayout = () => bumpSingleCaseLayoutForContainer(container);
         bumpSingleCaseLayout();
         container.querySelectorAll(".swiper-slide").forEach((slide, index) => {
           slide.classList.toggle("swiper-slide-active", index === 0);

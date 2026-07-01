@@ -1,0 +1,52 @@
+{
+  "cards": [
+    {
+      "title": "Корпоративный сайт",
+      "href": "/korporativnyj_sajt",
+      "description": "Создаём сайты, которые раскрывают бренд и&nbsp;налаживают контакт с&nbsp;покупателями.",
+      "imgDesc": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/korporativnyj-desc.webp",
+      "imgTablet": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/korporativnyj-tablet.webp",
+      "imgMobile": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/korporativnyj-mobile.webp"
+    },
+    {
+      "title": "Интернет-магазин",
+      "href": "/sozdanie-internet-magazina",
+      "description": "Разрабатываем большие каталоги с&nbsp;глубокой аналитикой и&nbsp;простой оплатой.",
+      "imgDesc": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/internet-magazin-desc.webp",
+      "imgTablet": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/internet-magazin-tablet.webp",
+      "imgMobile": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/internet-magazin-mobile.webp"
+    },
+    {
+      "title": "SEO",
+      "href": "/seo",
+      "description": "Продвигаем сайт в&nbsp;поиске и&nbsp;увеличиваем органический трафик на&nbsp;лендинг.",
+      "imgDesc": "/_sa/img/storage__kZKCokdVJJ0juenyabbgnTAfJvjyUXr0GriQDRh3.png",
+      "imgTablet": "/_sa/img/storage__sozdTTaoL9Xw2e0d9LYoExd9T2AUbzQZQ78Clv9J.png",
+      "imgMobile": "/_sa/img/storage__2ESWMTivkoyLXgkBdkyU8Pqp0faZFOIdZrVwzOmg.png"
+    },
+    {
+      "title": "Контекстная реклама",
+      "href": "/kontekstnaya_reklama",
+      "description": "Приводим целевой трафик на&nbsp;посадочную и&nbsp;масштабируем заявки.",
+      "imgDesc": "/_sa/img/storage__1Yt1GYgHbovF9gOFZok055VJhROOXSp6GgOvev9m.png",
+      "imgTablet": "/_sa/img/storage__QYEKkKmG5Sc15apUCJImHJBQMfTgajkp1wbT4f8J.png",
+      "imgMobile": "/_sa/img/storage__jVQhfjAvEkF30CcGHZn12CjIfXAf1VSYSms2tRl2.png"
+    },
+    {
+      "title": "Увеличение конверсии",
+      "href": "/uvelichenie-konversii-saita",
+      "description": "Улучшаем конверсию лендинга через UX, аналитику и&nbsp;тестирование гипотез.",
+      "imgDesc": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/korporativnyj-desc.webp",
+      "imgTablet": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/korporativnyj-tablet.webp",
+      "imgMobile": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/korporativnyj-mobile.webp"
+    },
+    {
+      "title": "Техническая поддержка",
+      "href": "/tehnicheskaya-podderzhka-saita",
+      "description": "Поддерживаем лендинг после запуска: правки, интеграции, скорость и&nbsp;стабильность.",
+      "imgDesc": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/internet-magazin-desc.webp",
+      "imgTablet": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/internet-magazin-tablet.webp",
+      "imgMobile": "/_sa/img/services/tehnicheskaya-podderzhka-saita/synergy/internet-magazin-mobile.webp"
+    }
+  ]
+}

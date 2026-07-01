@@ -1,0 +1,49 @@
+{
+  "slug": "lending_na_tilda",
+  "urlPath": "/lending_na_tilda",
+  "seo": {
+    "breadcrumbLabel": "Лендинг на Tilda",
+    "pageTitle": "Заказать лендинг на Тильде, стоимость TILDA page в Москве и СПб — Serenity",
+    "metaTitle": "Заказать лендинг на Тильде, стоимость TILDA page в Москве и СПб — Serenity",
+    "description": "Услуги по созданию лендинга на Тильде, лучший дизайн и разработка TILDA landing page. Заказать красивый лендинг, уточнить цену, ознакомиться с кейсами на сайте агенства Serenity."
+  },
+  "hero": {
+    "variant": "video"
+  },
+  "sections": {
+    "packages": false,
+    "facts": false,
+    "advantages": true
+  },
+  "content": {
+    "inlineLead": "inline-lead.json",
+    "faq": "faq.json",
+    "moreCases": "more-cases.json",
+    "awards": "awards.json",
+    "synergy": "synergy.json"
+  },
+  "assemble": {
+    "layoutSourceEnv": "LENDING_TILDA_LAYOUT_SOURCE",
+    "tmpFull": "lending-na-tilda-prod-full.html",
+    "tmpParity": "lending-na-tilda-parity-prod-layout.html",
+    "pageDir": "lending_na_tilda",
+    "cssStack": "lending-na-tilda-static-stack.css",
+    "partials": {
+      "faq": "faq-lending-na-tilda.html",
+      "inlineLead": "service-inline-lead-lending-na-tilda.html",
+      "clients": "clients-lending-na-tilda.html",
+      "team": "lending-na-tilda-team-block.html",
+      "blog": "blog-lending-na-tilda.html",
+      "moreCases": "more-cases-lending-na-tilda.html",
+      "awards": "awards-lending-na-tilda.html",
+      "synergy": "synergy-lending-na-tilda.html"
+    },
+    "markers": {
+      "mainStart": "LENDING-TILDA-MAIN-START",
+      "mainEnd": "LENDING-TILDA-MAIN-END",
+      "cssBundleStart": "LENDING-TILDA-CSS-BUNDLE-START",
+      "cssBundleEnd": "LENDING-TILDA-CSS-BUNDLE-END"
+    },
+    "phase2": false
+  }
+}
