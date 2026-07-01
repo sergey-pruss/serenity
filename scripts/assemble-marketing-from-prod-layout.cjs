@@ -66,14 +66,19 @@ const SECTION_OPEN = '<section class="page-constructor__section';
 
 /** SEO /services/marketing (prod). */
 const MARKETING_META = {
-  title: "Комплексный маркетинг в Москве и Петербурге для бизнеса — Услуги — Serenity",
+  title: "Агентство комплексного маркетинга — услуги в Москве и СПб | Serenity",
   description:
-    "Заказать услуги комплексного маркетинга в СПБ и Москве, профессиональный веб и digital маркетинг. Уточнить стоимость и ознакомиться с кейсами на сайте агентства Serenity.",
-  ogTitle: "Комплексный маркетинг",
+    "Услуги комплексного маркетинга для бизнеса: стратегия, контекст, таргет, SEO. Кейсы и стоимость — агентство Serenity, Москва и Санкт-Петербург. Оставить заявку →",
+  ogTitle: "Агентство комплексного маркетинга — услуги в Москве и СПб | Serenity",
   ogDescription:
-    "Синергия маркетинговых инструментов многократно увеличивает их эффективность для бизнеса.<br /> ",
-  ogImage: "https://serenity.agency/admin/wp-content/uploads/2018/10/10-1.jpg",
+    "Услуги комплексного маркетинга для бизнеса: стратегия, контекст, таргет, SEO. Кейсы и стоимость — агентство Serenity, Москва и Санкт-Петербург. Оставить заявку →",
+  ogImage: "https://serenity.agency/_sa/img/services/marketing/hero/10-1-1600x900.jpg",
 };
+
+const MARKETING_HERO_SUBTITLE =
+  "Агентство комплексного маркетинга: синергия маркетинговых инструментов многократно увеличивает их&nbsp;эффективность для&nbsp;бизнеса.";
+const MARKETING_HERO_LEAD =
+  '<p class="marketing-hero-lead content-block__desc" data-v-04503aeb="">Услуги комплексного маркетинга объединяют стратегию, бренд и&nbsp;измеримое продвижение — выстраиваем систему, которая приносит заявки и&nbsp;продажи.</p>';
 
 function readPartialKeepScoped(rel) {
   const p = path.join(root, rel);
@@ -131,6 +136,11 @@ function patchHeroTexts(main, h1Text, subtitleHtml) {
     `$1${subtitleHtml}$2`,
   );
   return out;
+}
+
+function injectHeroLead(main) {
+  if (main.includes("marketing-hero-lead")) return main;
+  return main.replace(/(<\/header>)/, `$1 ${MARKETING_HERO_LEAD}`);
 }
 
 /** Коллаж case-slider под заголовком — только на /targeting, на marketing не нужен. */
@@ -725,11 +735,8 @@ function run() {
   }
 
   let main = targetingHtml.slice(iMainStart + SRC_MAIN_START.length, iMainEnd).trim();
-  main = patchHeroTexts(
-    main,
-    "Комплексный маркетинг",
-    "Синергия маркетинговых инструментов многократно увеличивает их&nbsp;эффективность для&nbsp;бизнеса.",
-  );
+  main = patchHeroTexts(main, "Комплексный маркетинг", MARKETING_HERO_SUBTITLE);
+  main = injectHeroLead(main);
   main = stripHeroCaseSlider(main);
   main = injectInlineLead(main);
   main = stripClientsSection(main);

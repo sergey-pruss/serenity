@@ -28,23 +28,25 @@ async function run() {
   assert(html.includes("Комплексный маркетинг"), "H1: Комплексный маркетинг");
   assert(
     html.includes(
-      "<title>Комплексный маркетинг в Москве и Петербурге для бизнеса — Услуги — Serenity</title>",
+      "<title>Агентство комплексного маркетинга — услуги в Москве и СПб | Serenity</title>",
     ),
     "<title> marketing SEO",
   );
   assert(
     html.includes(
-      'meta name="description" content="Заказать услуги комплексного маркетинга в СПБ и Москве',
+      'meta name="description" content="Услуги комплексного маркетинга для бизнеса: стратегия, контекст, таргет, SEO.',
     ),
     "description marketing",
   );
   assert(
-    html.includes('property="og:title" content="Комплексный маркетинг"'),
+    html.includes(
+      'property="og:title" content="Агентство комплексного маркетинга — услуги в Москве и СПб | Serenity"',
+    ),
     "og:title marketing",
   );
   assert(
     html.includes(
-      'property="og:description" content="Синергия маркетинговых инструментов многократно увеличивает их эффективность для бизнеса.<br /> "',
+      'property="og:description" content="Услуги комплексного маркетинга для бизнеса: стратегия, контекст, таргет, SEO.',
     ),
     "og:description marketing",
   );
@@ -68,6 +70,15 @@ async function run() {
   assert(
     /<h1 class="c-title-block__title"[^>]*>[^<]*Комплексный маркетинг/.test(main),
     "герой H1: Комплексный маркетинг",
+  );
+  assert(
+    /Агентство комплексного маркетинга: синергия маркетинговых инструментов/.test(main),
+    "hero subtitle: агентство комплексного маркетинга",
+  );
+  assert(main.includes("marketing-hero-lead"), "hero lead: услуги комплексного маркетинга");
+  assert(
+    /Агентство комплексного маркетинга выстраивает работу со&nbsp;стратегии/.test(main),
+    "первый коммерческий абзац: агентство комплексного маркетинга",
   );
   assert(html.includes("targeting-nuxt.bundle.css"), "CSS: targeting-nuxt.bundle.css");
   assert(fileExists("css/targeting-nuxt.bundle.css"), "файл targeting-nuxt.bundle.css");
