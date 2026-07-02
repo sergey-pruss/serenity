@@ -415,6 +415,18 @@
   pointer-events: none !important;
 }
 
+/* Скрываем неактивные стрелки Swiper:
+   иначе базовые правила выше (opacity:1 !important) держат левую стрелку видимой на первом слайде. */
+.services__context-slider .swiper-button-disabled,
+.blog-block__swiper-container .swiper-button-disabled,
+.clients-mainstr .swiper-buttons .swiper-button-disabled,
+.synergy__context-slider .swiper-button-disabled,
+.cases-block__slider .swiper__navigation .swiper-button-disabled {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* «Наши клиенты»: нативный горизонтальный scroll на треке (как блог/услуги) — инерция тача без JS-transform.
    Лента на всю ширину вьюпорта: компенсируем padding .clients-wrapper (--page-gutter-x), max-width бандла снимаем,
    padding хоста — 0. Иначе на широком экране полоса 1366px по центру + зазоры; при overflow-y:hidden у предка

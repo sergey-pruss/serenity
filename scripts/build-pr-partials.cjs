@@ -388,12 +388,16 @@ function main() {
   write("pr-cases-slider-1.html", casesSlider("PR-CASES-1", "pr-cases-slider-1-section", "pr-cases-1", cases1));
 
   const stages = content.find((b) => b.data?.title?.content === "Этапы PR-продвижения");
+  const stagesTitle = String(stages.data.title.content || "").replace(
+    /^Этапы\s+PR-продвижения$/i,
+    "Этапы<br>PR-продвижения",
+  );
   write(
     "pr-stages-block.html",
     contentBlockSection({
       marker: "PR-STAGES",
       sectionClass: "pr-stages-section",
-      title: stages.data.title.content,
+      title: stagesTitle,
       description: stages.data.description,
       items: [],
     }),
